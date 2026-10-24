@@ -42,13 +42,35 @@
 - 归零 → `permaInsane` 状态 + keeper 提示（SRD：退场或转 NPC）
 - NPC 第一版不做恐怖等级字段，公式 keeper 填
 
-## 疯狂状态机（M3）
+## 疯狂状态机与承接交互（M3）
 
-- `tempInsane`：触发 = `dailyLoss ≥ tis` → 代码侧 d6 表现（自写六文案）+ d8 时长
-  （5min/1h/2h/12h/1d/2d/1w/2w），落 ActiveEffect，keeper 可改判/提前解除
+### 状态
+
+- `tempInsane`：触发 = `dailyLoss ≥ tis` → 疯狂发作（见下）
 - `permaInsane`：SAN=0 即挂，不可恢复（SRD：仅重大剧情干预）
-- 表现掷出「恐惧症」档位时：提示 keeper 建对立面 persTrait 物品挂角色
+- 表现掷出「恐惧症」档位时：卡上提示 keeper 建对立面 persTrait 物品挂角色
   （与六件套 #6 恐惧症/躁狂的咬合点，v1 只做提示不自动建）
+
+### 承接交互（已定稿 2026-10-24）：OPCard 式同卡追加段
+
+沿用系统自家 `module/cards/opposed-card.mjs` 的「flags 存态 + 就地更新」惯例，
+不发明新模式、不开对话框、不做宿主面板：
+
+1. SAN 检定卡结算时检测 `dailyLoss ≥ tis` → **同一张卡**的 flags（`flags.brp.madness`）
+   追加疯狂发作段，**d6 表现 + d8 时长已掷好**——keeper 打开卡即可念结果；
+2. 可见性分层：**表现结果公开**（玩家表演素材）；**时长数值与操作按钮 keeper-only**；
+3. keeper 按钮组（均为 OPCard 式 static 方法改 flags 重渲染）：
+   `重掷表现` / `重掷时长` / `手填时长` / `提前结束`（撤销 effect）；
+4. d6 落「恐惧症」档 → 卡上浮现「为其建恐惧症特质」提示钮（v1 仅提示）；
+5. `permaInsane` 不走交互——无操作公告卡（终局时刻）。
+
+**逻辑层与卡面解耦（工程铁律）**：结算核心为纯函数
+`resolveMadness(actor) → {manifestation, duration, effectData}`，不碰 DOM；
+聊天卡按钮只是驱动面之一。若宿主 VTT 聊天面对系统卡按钮绑定不灵（待验证项），
+降级为 keeper 小对话框（ApplicationV2），逻辑层零改动。
+
+**验收补条**：M2 收尾在本地浏览器栈（serve.mjs + sandbox/play 页）人工点一次
+卡上按钮确认真机链路；无头验收走纯函数 + flags 断言（无头不测点击）。
 
 系统当前 0 个状态效果——本特性引入前两个，注册形态对齐
 `module/apps/active-effect.mjs` 既有结构。
