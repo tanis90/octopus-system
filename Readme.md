@@ -63,13 +63,16 @@ Six subsystems layered onto the BRP d100 skeleton (integration-point analysis
 in the `mt-foundry-compat` repo, branch `research/rules-brp`,
 `docs/rules-integration/brp-report.md` §10):
 
-1. Full Sanity chain (actor derived stats + check family: loss / temporary /
-   indefinite insanity)
-2. Luck spending and rerolls
-3. Occupation creation (profession skill quotas + credit rating)
-4. Skill advancement (reworked dev-phase gain semantics)
-5. Keeper tooling (batch checks / party panel)
-6. Phobias & manias (reusing the persTrait opposed-pair structure)
+1. [x] Full Sanity chain (POW×5 snapshot / TIS threshold / paired-loss checks /
+   temporary madness with in-card d6 manifestation + d8 duration / permanent insanity)
+2. [x] Luck points (POW×5 snapshot, spend-to-lower on check cards; no reroll by design)
+3. [ ] Occupation creation (profession skill quotas + credit rating)
+4. [ ] Skill advancement (reworked dev-phase gain semantics)
+5. [ ] Keeper tooling (batch checks / party panel)
+6. [x] Phobias & manias (persTrait traitType; madness-card pre-filled creation entry)
+
+Localization: Simplified Chinese ships complete (1057/1057 keys, terminology aligned
+with authoritative CoC zh conventions); see lang/zh-CN.json.
 
 ## Development
 
