@@ -11,6 +11,7 @@ import { BRPCombatTracker } from "../combat/combat-tracker.mjs";
 import { BRPActiveEffect } from "../apps/active-effect.mjs";
 import { BRPCheck } from '../apps/check.mjs';
 import { BRPMadness } from '../apps/madness.mjs';
+import { BRPLuck } from '../apps/luck.mjs';
 
 export default function Init() {
   //Add classes to global game object
@@ -19,6 +20,7 @@ export default function Init() {
     BRPItem,
     BRPCheck,
     BRPMadness,
+    BRPLuck,
     rollItemMacro,
     rollCharMacro,
     rollSanMacro,

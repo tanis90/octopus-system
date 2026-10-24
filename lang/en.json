@@ -525,6 +525,22 @@
     "sanLossPresets": {
       "custom": "Custom"
     },
+    "luck": {
+      "label": "Luck",
+      "max": "Luck Max",
+      "statHint": "Creation snapshot of POW x 5. Spend it from d100 check cards to lower a roll; the keeper restores it here by hand.",
+      "spendHint": "Spend Luck to lower this die result and re-rate the success level",
+      "custom": "Other",
+      "customTitle": "Spend Luck",
+      "customHint": "Enter the amount of Luck to spend on lowering this die result.",
+      "customAmount": "Amount",
+      "adjusted": "Luck adjusted (rolled {original})",
+      "originalScore": "Original Die Result",
+      "remaining": "Luck {value} / {max}",
+      "spentCard": "Spent {spent} Luck: die result lowered to {roll}",
+      "noneLeft": "No Luck left to spend.",
+      "notOwner": "You can only spend Luck for a character you own."
+    },
     "madness": {
       "title": "Madness Episode",
       "tempInsane": "Temporary Insanity",

@@ -115,6 +115,10 @@
           "tis": null,
           "dailyLoss": 0
         },
+        "luck": {
+          "value": 0,
+          "max": null
+        },
         "res5": {
           "value": 0,
           "max": 0

@@ -250,6 +250,8 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
 
     //First stat roll completes "creation" for SAN purposes - snapshot starting/tis once
     await this.actor.initSanity()
+    //Same creation moment fixes the Luck budget (POW x 5, spend-only)
+    await this.actor.initLuck()
 
     //If using HPL set location Current HP to Max HP
     await BRPActorSheetV2._resetHPL(this.actor)
@@ -312,6 +314,8 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
 
     //First stat roll completes "creation" for SAN purposes - snapshot starting/tis once
     await this.actor.initSanity()
+    //Same creation moment fixes the Luck budget (POW x 5, spend-only)
+    await this.actor.initLuck()
     return
   }
 

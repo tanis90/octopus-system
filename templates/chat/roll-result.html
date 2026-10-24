@@ -61,6 +61,9 @@
             <div class="owner-only" data-partic-id="{{c.particId}}" data-partic-type="{{c.particType}}">
               <div class="rollHidden">{{localize 'BRP.targetScore'}}: {{c.targetScore}}</div>
               <div class="rollHidden">{{localize 'BRP.rawScore'}}: {{c.rawScore}}</div>
+              {{#if c.originalRawScore}}
+                <div class="rollHidden">{{localize 'BRP.luck.originalScore'}}: {{c.originalRawScore}}</div>
+              {{/if}}
               {{#isOr (eq ../cardType 'RE') (eq ../cardType 'PP')}}
                 <div class="rollHidden">{{localize 'BRP.resistVal'}}: {{c.resistance}}</div>
       {{else}}
@@ -87,6 +90,25 @@
               {{/if}}
             </div>
           </div>
+          {{!-- Luck spend row: owners of the rolling actor only (GM anyone) --}}
+          {{#if c.luck}}
+            <div class="owner-only luck-controls" data-partic-id="{{c.particId}}" data-partic-type="{{c.particType}}">
+              {{#if c.originalRawScore}}
+                <span class="pending bold">{{localize 'BRP.luck.adjusted' original=c.originalRawScore}}</span>
+              {{/if}}
+              {{#unless c.permaInsane}}
+                {{#if (gt c.luck.value 0)}}
+                  <span class="pending">{{localize 'BRP.luck.remaining' value=c.luck.value max=c.luck.max}}</span>
+                  <div class="flexrow" data-tooltip="{{localize 'BRP.luck.spendHint'}}">
+                    <button type="button" class="cardbutton" data-preset="luck-spend-1" data-index="{{key}}">-1</button>
+                    <button type="button" class="cardbutton" data-preset="luck-spend-5" data-index="{{key}}">-5</button>
+                    <button type="button" class="cardbutton" data-preset="luck-spend-10" data-index="{{key}}">-10</button>
+                    <button type="button" class="cardbutton" data-preset="luck-spend-custom" data-index="{{key}}">{{localize 'BRP.luck.custom'}}</button>
+                  </div>
+                {{/if}}
+              {{/unless}}
+            </div>
+          {{/if}}
         </div>
       {{/each}}
     </ol>

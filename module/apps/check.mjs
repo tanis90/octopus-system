@@ -7,6 +7,7 @@ import { OPCard } from "../cards/opposed-card.mjs"
 import { COCard } from "../cards/cooperative-card.mjs"
 import { CBCard } from "../cards/combat-card.mjs"
 import { BRPMadness } from "./madness.mjs"
+import { BRPLuck } from "./luck.mjs"
 import BRPDialog from '../setup/brp-dialog.mjs';
 
 export class BRPCheck {
@@ -444,7 +445,9 @@ export class BRPCheck {
         sanLossFormulaUsed: config.sanLossFormulaUsed,
         sanLoss: config.sanLoss,
         sanAfter: config.sanAfter,
-        permaInsane: config.permaInsane
+        permaInsane: config.permaInsane,
+        luck: BRPLuck.cardLuck(actor, config.chatTemplate),
+        luckSpent: 0
       }],
       madness: config.madness
     }
@@ -885,6 +888,14 @@ export class BRPCheck {
         break
       case "madness-end":
         await BRPMadness.endMadness(data)
+        break
+      case "luck-spend-1":
+      case "luck-spend-5":
+      case "luck-spend-10":
+        await BRPLuck.spendFromCard({ ...data, amount: Number(presetType.split('-').pop()) })
+        break
+      case "luck-spend-custom":
+        await BRPLuck.spendCustom(data)
         break
       case "madness-phobia-hint":
         await BRPMadness.phobiaHint()

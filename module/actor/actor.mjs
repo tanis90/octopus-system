@@ -308,6 +308,8 @@ export class BRPActor extends Actor {
 
     //Sanity chain derives last, once all skill scores exist (lore clamp)
     this._prepSanity(actorData)
+    //Luck budget only needs the POW snapshot to exist - clamps after SAN
+    this._prepLuck(actorData)
 
   }
 
@@ -353,6 +355,8 @@ export class BRPActor extends Actor {
 
     //Sanity chain derives last, once all skill scores exist (lore clamp)
     this._prepSanity(actorData)
+    //Luck budget only needs the POW snapshot to exist - clamps after SAN
+    this._prepLuck(actorData)
   }
 
 
@@ -592,6 +596,45 @@ export class BRPActor extends Actor {
     }
   }
 
+  //Prepare the Luck budget. max is a creation snapshot (POW x 5) - it is never
+  //re-derived, so later POW changes don't move it. Invariant: 0 <= value <= max
+  //once the snapshot exists (keeper restores by hand, clamped at max).
+  //Before the snapshot the budget simply reads as-is (default 0 - no budget).
+  _prepLuck(actorData) {
+    const luck = actorData.system.luck
+    if (!luck) { return }
+    const max = Math.floor(Number(luck.max))
+    if (Number.isFinite(max) && max > 0) {
+      luck.max = max
+      luck.value = Math.min(Math.max(Math.floor(Number(luck.value) || 0), 0), max)
+    }
+  }
+
+  //Create-time Luck snapshot: max = POW x 5, value filled to max. Luck only
+  //spends down from there (check-card buttons); restoration is a keeper hand
+  //edit. Idempotent - once max is persisted it is never taken again.
+  async initLuck() {
+    if (this._luckSnapshotted()) { return false }
+    const pow = this.system.stats.pow.total
+    if (!(pow > 0)) { return false }
+    const max = pow * 5
+    await this.update({
+      'system.luck.max': max,
+      'system.luck.value': max
+    })
+    return true
+  }
+
+  //Has the Luck creation snapshot been persisted? (raw source, not derived)
+  _luckSnapshotted() {
+    try {
+      const raw = this.toObject(false)?.system?.luck ?? {}
+      return (raw.max != null && Number.isFinite(Number(raw.max)) && Number(raw.max) > 0)
+    } catch {
+      return false
+    }
+  }
+
   //Used for Rolling NPCs when token dropped
   get hasRollableCharacteristics() {
     for (const [, value] of Object.entries(this.system.baseStats)) {
@@ -618,6 +661,8 @@ export class BRPActor extends Actor {
     await this.update(stats)
     //First stat roll completes "creation" for SAN purposes - snapshot starting/tis once
     await this.initSanity()
+    //Same creation moment fixes the Luck budget (POW x 5, spend-only)
+    await this.initLuck()
     await this.updateVitals()
   }
 
@@ -638,6 +683,8 @@ export class BRPActor extends Actor {
     await this.update(stats)
     //First stat roll completes "creation" for SAN purposes - snapshot starting/tis once
     await this.initSanity()
+    //Same creation moment fixes the Luck budget (POW x 5, spend-only)
+    await this.initLuck()
     await this.updateVitals()
   }
 
@@ -697,6 +744,8 @@ export class BRPActor extends Actor {
     //If the actor arrives with stats (e.g. compendium import) take the SAN creation snapshot now;
     //blank actors snapshot later on their first stat roll (initSanity is idempotent)
     await actor.initSanity()
+    //Luck snapshots at the same creation moment (initLuck is idempotent too)
+    await actor.initLuck()
 
     //Add BRPID based on actor name if the game setting is flagged.
     if (game.settings.get('brp', "actorBRPID")) {

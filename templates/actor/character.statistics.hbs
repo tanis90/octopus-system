@@ -66,6 +66,11 @@
         <div class="centre"><input class="attrib-inp centre" type="number" name="system.fatigue.mod" value="{{system.fatigue.mod}}"/></div>
         <div></div>
       {{/if}}
+      <div class="new-row bold" data-tooltip="{{localize 'BRP.luck.statHint'}}">{{localize 'BRP.luck.label'}}</div>
+      <div class="centre"><input class="attrib-inp centre" type="number" name="system.luck.value" value="{{system.luck.value}}"
+          data-dtype="Number" data-tooltip="{{localize 'BRP.luck.statHint'}}" /></div>
+      <div class="bold">{{localize 'BRP.luck.max'}}</div>
+      <div class="attrib-disp centre" data-tooltip="{{localize 'BRP.luck.statHint'}}">{{system.luck.max}}</div>
       <div class="bold">{{localize 'BRP.totalENC'}}</div>
       <div class="attrib-disp centre"> {{actor.system.enc}}</div>
     </div>
