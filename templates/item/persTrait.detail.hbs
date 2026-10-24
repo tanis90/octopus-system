@@ -1,5 +1,12 @@
 <section class='item tab details {{tab.cssClass}}' data-group='primary' data-tab='details'>
   <div class="armour-scores">
+    <div class="skill-display">{{localize 'BRP.traitType'}}</div>
+    <div class="stat-input"><select name="system.traitType" data-dtype="String">
+      {{selectOptions traitTypes selected=item.system.traitType}}
+    </select></div>
+  </div>
+  <br>
+  <div class="armour-scores">
     <div class="skill-display">{{localize 'BRP.opposedTrait'}}</div>
     <div class="stat-input"><input name="system.oppName" type="text" value="{{item.system.oppName}}" /></div>
   </div>

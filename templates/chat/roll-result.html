@@ -130,11 +130,11 @@
               <button type="button" class="cardbutton" data-preset="madness-end">{{localize 'BRP.madness.endMadness'}}</button>
             </div>
           {{/if}}
-          {{#if (eq madness.manifestation.key 'phobia')}}
+          {{#isOr (eq madness.manifestation.key 'phobia') (eq madness.manifestation.key 'mania')}}
             <div class="flexrow">
-              <button type="button" class="cardbutton" data-preset="madness-phobia-hint">{{localize 'BRP.madness.phobiaHint'}}</button>
+              <button type="button" class="cardbutton" data-preset="madness-add-trait">{{localize 'BRP.madness.addTrait' type=(localize (concat 'BRP.traitTypes.' madness.manifestation.key))}}</button>
             </div>
-          {{/if}}
+          {{/isOr}}
         </div>
       </div>
     {{/if}}

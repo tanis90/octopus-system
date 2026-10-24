@@ -555,24 +555,28 @@
       "setDuration": "Set Duration",
       "endMadness": "End Early",
       "ended": "This madness episode has ended.",
-      "phobiaHint": "Add a Phobia Trait",
-      "phobiaHintText": "Consider adding an opposing persTrait item to this character to represent the new phobia (not created automatically).",
+      "addTrait": "Create {type} Trait",
+      "addTraitTitle": "Create Phobia or Mania Trait",
+      "addTraitFor": "Create a lasting trait for {name}. Nothing is saved until you confirm.",
+      "traitName": "Trait Name",
+      "createTrait": "Create Trait",
+      "traitCreated": "Created a {type} trait on {name}.",
       "loreSkill": "Forbidden Lore",
       "manifestations": {
-        "paralysis": "Frozen Stare",
-        "flight": "Headlong Flight",
-        "hysteria": "Shrill Laughter",
-        "violence": "Wild Lashing",
-        "phobia": "Root of Fear",
-        "fugue": "Hollow Absence"
+        "paralysis": "Locked Muscles",
+        "flight": "Blind Sprint",
+        "hysteria": "Flood of Tears",
+        "violence": "Sudden Fury",
+        "phobia": "Budding Phobia",
+        "mania": "Rising Mania"
       },
       "manifestationsDesc": {
-        "paralysis": "They lock rigid, eyes fixed on nothing, unable to move or speak.",
-        "flight": "Overwhelmed by the need to escape, they bolt from the scene regardless of the danger.",
-        "hysteria": "Giggles swell into howls; they babble, weep and shriek without control.",
-        "violence": "Panic turns outward: they strike, shove and claw at anything within reach.",
-        "phobia": "A lasting fear takes seed around the thing they saw. The keeper may add an opposing persTrait to represent it.",
-        "fugue": "The light goes out behind their eyes; they wander or stand mute, remembering nothing afterwards."
+        "paralysis": "Every muscle seizes at once. They stand like a statue, able only to stare, until the wave passes.",
+        "flight": "The only thought left is away. They run headlong from the scene, blind to obstacles, allies and danger.",
+        "hysteria": "Laughter and sobbing arrive in the same breath. They shake, wail and cannot finish a sentence.",
+        "violence": "Terror boils over into rage. They lash out at whatever is nearest, friend or furniture alike.",
+        "phobia": "The fear finds a hook and sets. A lasting phobia now grips this character around what they witnessed.",
+        "mania": "A pressure valve bursts into obsession. They fixate, talk fast and act on a compulsion they cannot explain."
       },
       "durations": {
         "5m": "5 Minutes",
@@ -655,6 +659,12 @@
     "totalENC": "Total ENC",
     "totalXP": "Total XP",
     "trait": "Trait",
+    "traitType": "Trait Type",
+    "traitTypes": {
+      "trait": "Personality Trait",
+      "phobia": "Phobia",
+      "mania": "Mania"
+    },
     "treated": "Treated",
     "treatWound": "Treat Wound",
     "tricky": "Tricky",

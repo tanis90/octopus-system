@@ -1,0 +1,26 @@
+<form class="brp" id="madness-trait-form">
+  <div class="diff-label">{{localize 'BRP.madness.addTraitTitle'}}</div>
+  <div>{{localize 'BRP.madness.addTraitFor' name=particName}}</div>
+  <br>
+  <div class="flexrow">
+    <label class="resource-label-diff">{{localize 'BRP.traitType'}}</label>
+    <select data-handle-change name="traitType">
+      {{selectOptions traitTypes selected=traitType}}
+    </select>
+  </div>
+  <br>
+  <div class="flexrow">
+    <label class="resource-label-diff">{{localize 'BRP.madness.traitName'}}</label>
+    <input data-handle-change class="stat-input" name="name" type="text" value="{{traitName}}" />
+  </div>
+  <br>
+  <div class="flexrow">
+    <label class="resource-label-diff">{{localize 'BRP.base'}}</label>
+    <input data-handle-change class="diff-number-input" name="base" type="text" value="0" data-dtype="Number" />
+  </div>
+  <br>
+  <div class="flexrow">
+    <label class="resource-label-diff">{{localize 'BRP.opposedTrait'}}</label>
+    <input data-handle-change class="stat-input" name="oppName" type="text" value="" />
+  </div>
+</form>

@@ -7,9 +7,13 @@ import BRPDialog from '../setup/brp-dialog.mjs'
 //driving surface for the same logic (OPCard-style: mutate message flags, re-render).
 export class BRPMadness {
 
-  //Six self-written manifestation tiers (d6); "phobia" is the hook for the
-  //keeper hint to add an opposing persTrait item (no auto-creation in v1)
-  static MANIFESTATION_KEYS = ['paralysis', 'flight', 'hysteria', 'violence', 'phobia', 'fugue']
+  //Six self-written manifestation tiers (d6); index 5 (phobia) and index 6
+  // (mania) offer the keeper a prefilled persTrait creation window on the
+  // episode card - nothing is created automatically
+  static MANIFESTATION_KEYS = ['paralysis', 'flight', 'hysteria', 'violence', 'phobia', 'mania']
+
+  //The manifestation tiers that can seed a lasting trait
+  static get TRAIT_TIERS() { return ['phobia', 'mania'] }
 
   //Eight duration tiers (d8): key, label i18n key suffix and duration in seconds
   static DURATION_TIERS = [
@@ -203,9 +207,68 @@ export class BRPMadness {
     await BRPMadness._updateMadnessFlag(msg, madness)
   }
 
-  //Phobia tier hint: remind the keeper to create an opposing persTrait (v1 - notification only)
-  static phobiaHint() {
-    ui.notifications.info(game.i18n.localize('BRP.madness.phobiaHintText'))
+  //Phobia/mania tier entry point: open the prefilled persTrait creation window
+  //for the character that suffered the episode (keeper confirms - no auto-create)
+  static async addTrait(data) {
+    const msg = await BRPMadness._getMadnessMessage(data.targetChatId)
+    if (!msg || msg.flags.brp.madness.ended) { return }
+    const madness = msg.flags.brp.madness
+    if (!BRPMadness.TRAIT_TIERS.includes(madness.manifestation.key)) { return }
+    const actor = game.actors.get(madness.actorId)
+    if (!actor) { return }
+    const traitTypes = {}
+    for (const t of ['trait', 'phobia', 'mania']) {
+      traitTypes[t] = game.i18n.localize(`BRP.traitTypes.${t}`)
+    }
+    const html = await foundry.applications.handlebars.renderTemplate(
+      'systems/brp/templates/dialog/madnessTrait.hbs',
+      {
+        traitTypes,
+        traitType: madness.manifestation.key,
+        traitName: madness.manifestation.name,
+        particName: madness.particName
+      }
+    )
+    const usage = await BRPDialog.input({
+      window: { title: game.i18n.localize('BRP.madness.addTraitTitle') },
+      content: html,
+      ok: { label: game.i18n.localize('BRP.madness.createTrait') }
+    })
+    if (!usage) { return }
+    await BRPMadness.createMadnessTrait(actor, {
+      name: String(usage.name ?? '').trim() || madness.manifestation.name,
+      traitType: usage.traitType ?? madness.manifestation.key,
+      base: usage.base,
+      oppName: usage.oppName ?? ''
+    })
+  }
+
+  //Create the persTrait the keeper confirmed from the madness card
+  static async createMadnessTrait(actor, usage = {}) {
+    const traitType = BRPMadness.TRAIT_TIERS.includes(usage.traitType) ? usage.traitType : 'trait'
+    const [item] = await Item.createDocuments([{
+      name: usage.name || game.i18n.localize(`BRP.traitTypes.${traitType}`),
+      type: 'persTrait',
+      system: {
+        traitType,
+        base: Math.max(0, Math.min(100, Math.floor(Number(usage.base) || 0))),
+        oppName: String(usage.oppName ?? '')
+      }
+    }], { parent: actor })
+    //Follow the actor-sheet creation flow: tag the item with a BRPID flag
+    if (item && game.system?.api?.brpid) {
+      const key = await game.system.api.brpid.guessId(item)
+      await item.update({
+        'flags.brp.brpidFlag.id': key,
+        'flags.brp.brpidFlag.lang': game.i18n.lang,
+        'flags.brp.brpidFlag.priority': 0
+      })
+    }
+    ui.notifications.info(game.i18n.format('BRP.madness.traitCreated', {
+      type: game.i18n.localize(`BRP.traitTypes.${traitType}`),
+      name: actor.name
+    }))
+    return item
   }
 
   //Keep the applied ActiveEffect duration in step with keeper adjudications

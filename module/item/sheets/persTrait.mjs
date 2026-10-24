@@ -28,6 +28,11 @@ export class BRPPersTraitSheet extends BRPItemSheetV2 {
   async _prepareContext(options) {
     let context = await super._prepareContext(options)
     context.tabs = this._getTabs(options.parts);
+    //Trait type list (personality trait / phobia / mania) for the details dropdown
+    context.traitTypes = {}
+    for (const t of ['trait', 'phobia', 'mania']) {
+      context.traitTypes[t] = game.i18n.localize(`BRP.traitTypes.${t}`)
+    }
     return context
   }
 

@@ -563,6 +563,7 @@
       "templates": [
         "base"
       ],
+      "traitType": "trait",
       "oppName": "",
       "base": 0,
       "improve": false,

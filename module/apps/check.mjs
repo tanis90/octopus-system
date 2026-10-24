@@ -897,8 +897,8 @@ export class BRPCheck {
       case "luck-spend-custom":
         await BRPLuck.spendCustom(data)
         break
-      case "madness-phobia-hint":
-        await BRPMadness.phobiaHint()
+      case "madness-add-trait":
+        await BRPMadness.addTrait(data)
         break
       default:
         return
