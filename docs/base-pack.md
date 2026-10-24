@@ -84,7 +84,7 @@ v0.3.0：tag + release zip + compat 仓 vendor 台账 hash 更新（brp-hash.mjs
 |---|---|---|
 | 方案 v1 | 本 commit | — |
 | BP-M2 提取管线（en canonical） | （本 commit） | 技能 57（base 数值化 43/原文口径 14 如 As per weapon specialty）/职业 44（wealth+skills 零缺失——原文两种冒号位置混用已兼容）；引用交叉检查的碎片为自由文本建议清单（UGE 语义），不做硬外键；源 pin brpugesrd@42f6bffee9dc 入 provenance.json |
-| BP-M3 中译 | | |
+| BP-M3 中译 | （本 commit） | slug 序/数全等（57/44）；红区词扫描零命中；职业引用⊆技能名集（未命中 9 词均白名单）；财富档对齐仓内 wealthLevel 文案（一贫如洗/贫穷/中等/殷实/富有）；分歧裁定：Ride=骑乘、POW=意志、Pilot=载具驾驶；术语表 69 条入 content/terminology.json |
 | BP-M4 build 双格式 + 注册 + notice | | |
 | BP-M5 验证 + v0.3.0 发布 | | |
 
