@@ -6,6 +6,7 @@ export class BRPRollType {
   //Roll Types
   //CH = Characteristic
   //SK = Skill
+  //SN = Sanity
   //DM = Damage
   //CM = Combat
   //AR = Armour (Random)
@@ -68,6 +69,23 @@ export class BRPRollType {
       rollType: 'SK',
       cardType,
       skillId,
+      shiftKey: shiftKey,
+      actor: actor,
+      token: actor.token
+    })
+  }
+
+  //Start Sanity Roll
+  static async _onSanityRoll(event, detail, actor) {
+    //Sanity checks only exist when the optional Sanity system is enabled
+    if (!game.settings.get('brp', 'useSAN')) { return }
+    let shiftKey = event.shiftKey
+    if (game.settings.get('brp', 'switchShift')) {
+      shiftKey = !shiftKey
+    }
+    BRPCheck._trigger({
+      rollType: 'SN',
+      cardType: 'NO',
       shiftKey: shiftKey,
       actor: actor,
       token: actor.token

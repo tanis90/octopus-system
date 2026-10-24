@@ -516,6 +516,59 @@
     "sanDesc": "SAN Notes",
     "sanity": "Sanity Points",
     "sanLoss": "SAN loss",
+    "sanityRollHint": "Click to make a Sanity check",
+    "sanLossPreset": "Loss Preset",
+    "sanLossPresetHint": "Paired loss formulas (success/failure), no table text attached",
+    "sanLossPair": "SAN Loss (Success/Fail)",
+    "sanLossPairHint": "Loss applied on success / on failure, e.g. 1/1D6",
+    "sanLossCard": "SAN -{loss} ({formula}) -> {after}",
+    "sanLossPresets": {
+      "custom": "Custom"
+    },
+    "madness": {
+      "title": "Madness Episode",
+      "tempInsane": "Temporary Insanity",
+      "permaInsane": "Permanent Insanity",
+      "permaInsaneDesc": "Sanity reached zero. Only major story intervention can restore this mind.",
+      "permaAnnounce": "sanity has fallen to zero",
+      "permaAdvice": "The keeper may retire this character or take them over as an NPC.",
+      "manifestation": "Manifestation",
+      "duration": "Duration",
+      "rerollManifestation": "Reroll Manifestation",
+      "rerollDuration": "Reroll Duration",
+      "setDuration": "Set Duration",
+      "endMadness": "End Early",
+      "ended": "This madness episode has ended.",
+      "phobiaHint": "Add a Phobia Trait",
+      "phobiaHintText": "Consider adding an opposing persTrait item to this character to represent the new phobia (not created automatically).",
+      "loreSkill": "Forbidden Lore",
+      "manifestations": {
+        "paralysis": "Frozen Stare",
+        "flight": "Headlong Flight",
+        "hysteria": "Shrill Laughter",
+        "violence": "Wild Lashing",
+        "phobia": "Root of Fear",
+        "fugue": "Hollow Absence"
+      },
+      "manifestationsDesc": {
+        "paralysis": "They lock rigid, eyes fixed on nothing, unable to move or speak.",
+        "flight": "Overwhelmed by the need to escape, they bolt from the scene regardless of the danger.",
+        "hysteria": "Giggles swell into howls; they babble, weep and shriek without control.",
+        "violence": "Panic turns outward: they strike, shove and claw at anything within reach.",
+        "phobia": "A lasting fear takes seed around the thing they saw. The keeper may add an opposing persTrait to represent it.",
+        "fugue": "The light goes out behind their eyes; they wander or stand mute, remembering nothing afterwards."
+      },
+      "durations": {
+        "5m": "5 Minutes",
+        "1h": "1 Hour",
+        "2h": "2 Hours",
+        "12h": "12 Hours",
+        "1d": "1 Day",
+        "2d": "2 Days",
+        "1w": "1 Week",
+        "2w": "2 Weeks"
+      }
+    },
     "sceneSettings": "Scene Settings",
     "scores": "Scores",
     "scoreExcHint": "This percentage excludes the category bonus",
@@ -833,7 +886,11 @@
       "xpOptions": "XP Options",
       "xpOptionsHint": "Configure XP options",
       "xpRollDice": "Show Improvement Dice Rolls",
-      "xpRollDiceHint": "Show XP & POW improvement dice rolls if you have Dice So Nice"
+      "xpRollDiceHint": "Show XP & POW improvement dice rolls if you have Dice So Nice",
+      "sanityTisPow": "Commoner Threshold (TIS = POW)",
+      "sanityTisPowHint": "Temporary insanity threshold equals the POW score instead of half the starting Sanity (applies to newly created characters)",
+      "sanityLoreSkill": "Forbidden Lore Skill ID",
+      "sanityLoreSkillHint": "Item id of the skill that erodes maximum Sanity as it grows. Leave blank to auto-find a skill named \"Forbidden Lore\""
     },
     "BRPIDFlag": {
       "documents-in-world": "{count} documents in the world",

@@ -6,6 +6,7 @@ import { GRCard } from "../cards/combined-card.mjs"
 import { OPCard } from "../cards/opposed-card.mjs"
 import { COCard } from "../cards/cooperative-card.mjs"
 import { CBCard } from "../cards/combat-card.mjs"
+import { BRPMadness } from "./madness.mjs"
 import BRPDialog from '../setup/brp-dialog.mjs';
 
 export class BRPCheck {
@@ -13,6 +14,7 @@ export class BRPCheck {
   //Roll Types
   //CH = Characteristic
   //SK = Skill
+  //SN = Sanity
   //DM = Damage
   //CM = Combat
   //AR = Armour (Random)
@@ -104,8 +106,18 @@ export class BRPCheck {
       woundList: {},
       woundTreated: "",
       healing: 0,
-      healingLabel: ""
+      healingLabel: "",
+      sanLossSuccess: options.sanLossSuccess ?? "1",
+      sanLossFail: options.sanLossFail ?? "1D6",
+      sanLossFormulaUsed: "",
+      sanLoss: 0,
+      sanAfter: null,
+      permaInsane: false,
+      madness: null
     }
+
+    //A Sanity check is always a plain roll card
+    if (options.rollType === 'SN') { options.cardType = 'NO' }
 
     //Adjust Config based on roll type
     switch (options.rollType) {
@@ -153,6 +165,14 @@ export class BRPCheck {
           config.targetScore = skill.system.opptotal
         }
         break;
+      case 'SN':
+        //Sanity check: target is the current SAN value itself (characteristic-style
+        //channel, not a skill). Lazy creation snapshot for actors built by raw updates.
+        await particActor.initSanity()
+        config.label = particActor.system.sanity.label ?? game.i18n.localize('BRP.sanity')
+        config.rawScore = particActor.system.sanity.value
+        config.targetScore = particActor.system.sanity.value
+        break
       case 'DM':
       case 'IM':
         weapon = particActor.items.get(config.itemId)
@@ -279,6 +299,17 @@ export class BRPCheck {
         if (config.firstAid) {
           config.woundTreated = usage.wound
         }
+        if (config.rollType === 'SN') {
+          //Loss pair: a pure-formula preset wins unless the keeper customised it
+          if (usage.sanLossPreset && usage.sanLossPreset !== 'custom') {
+            const pair = String(usage.sanLossPreset).split('/')
+            config.sanLossSuccess = pair[0] ?? '0'
+            config.sanLossFail = pair[1] ?? '0'
+          } else {
+            config.sanLossSuccess = usage.sanLossSuccess ?? config.sanLossSuccess
+            config.sanLossFail = usage.sanLossFail ?? config.sanLossFail
+          }
+        }
 
       } else {
         return
@@ -345,6 +376,13 @@ export class BRPCheck {
       await BRPCheck.makeRoll(config)
     }
 
+    //Sanity check settlement: write the paired loss back (success = small value,
+    //failure = large value), accumulate the daily loss and drive the madness
+    //state machine (tempInsane at TIS, permaInsane at zero)
+    if (config.rollType === 'SN') {
+      await BRPCheck._settleSanity(config, actor)
+    }
+
     //Format the data so it's in the same format as will be held in the Chat Message when saved
     let diffLabel = game.i18n.localize('BRP.' + config.diff)
     if (!config.diff) { diffLabel = config.diffVal }
@@ -400,8 +438,15 @@ export class BRPCheck {
         dmgSpecForm: config.dmgSpecForm,
         dmgNormForm: config.dmgNormForm,
         healing: config.healing,
-        healingLabel: config.healingLabel
-      }]
+        healingLabel: config.healingLabel,
+        sanLossSuccess: config.sanLossSuccess,
+        sanLossFail: config.sanLossFail,
+        sanLossFormulaUsed: config.sanLossFormulaUsed,
+        sanLoss: config.sanLoss,
+        sanAfter: config.sanAfter,
+        permaInsane: config.permaInsane
+      }],
+      madness: config.madness
     }
 
 
@@ -452,6 +497,14 @@ export class BRPCheck {
     //Get the level of Success
     config.resultLevel = await BRPCheck.successLevel(config)
 
+    //If a Sanity Roll then roll the paired loss formula (small on success, large on failure)
+    if (config.rollType === 'SN') {
+      const formula = (config.resultLevel >= 2) ? String(config.sanLossSuccess) : String(config.sanLossFail)
+      config.sanLossFormulaUsed = formula
+      const loss = await BRPCheck._rollSanLoss(formula)
+      config.sanLoss = loss
+    }
+
     //If a Combat Roll and with a malfunction chance > 0 then make the check
     if (config.rollType === 'CM' && config.malfunction > 0 && config.rollVal >= config.malfunction) {
       config.malfunction = -config.malfunction
@@ -496,6 +549,56 @@ export class BRPCheck {
   }
 
 
+
+  //Evaluate one side of a sanity loss formula; invalid/empty formulas cost nothing
+  static async _rollSanLoss(formula) {
+    if (!formula || Number(formula) === 0) { return 0 }
+    try {
+      const roll = new Roll(formula)
+      await roll.evaluate()
+      return Math.max(0, Math.floor(Number(roll.total) || 0))
+    } catch {
+      return 0
+    }
+  }
+
+  //Apply a sanity loss to the actor: clamp at zero, never below, accumulate the
+  //daily loss and return the resulting state
+  static async _applySanLoss(actor, loss) {
+    const san = actor.system.sanity
+    const applied = Math.max(0, Math.min(Math.floor(Number(loss) || 0), san.value))
+    const value = san.value - applied
+    const dailyLoss = (Number(san.dailyLoss) || 0) + applied
+    await actor.update({
+      'system.sanity.value': value,
+      'system.sanity.dailyLoss': dailyLoss
+    })
+    return { loss: applied, value, dailyLoss, tis: actor.system.sanity.tis }
+  }
+
+  //SN settlement after the roll: write the loss back, then check the two
+  //madness thresholds (TIS reached -> episode on this card; zero -> permaInsane)
+  static async _settleSanity(config, actor) {
+    if (!game.settings.get('brp', 'useSAN')) { return }
+    const result = await BRPCheck._applySanLoss(actor, config.sanLoss)
+    config.sanLoss = result.loss
+    config.sanAfter = result.value
+
+    //SAN reached zero - permanent insanity, no interaction beyond the announcement
+    if (result.value <= 0) {
+      config.permaInsane = true
+      await BRPMadness.applyPermaInsane(actor)
+      return
+    }
+
+    //Daily loss reached the TIS threshold - a madness episode joins this card
+    if (result.dailyLoss >= result.tis) {
+      const madness = await BRPMadness.resolveMadness(actor)
+      await BRPMadness.applyTempInsane(actor, madness)
+      config.madness = BRPMadness.madnessFlag(actor, madness)
+    }
+    return
+  }
 
   //Function to call the Difficulty & Modifier Dialog box
   static async RollDialog(options) {
@@ -548,6 +651,21 @@ export class BRPCheck {
           handOptions: options.handOptions,
         }
         break
+      case 'SN':
+        data = {
+          type: options.rollType,
+          diffVal: options.diffVal,
+          cardType: options.cardType,
+          needDiff: options.needDiff,
+          useDiffValue: options.useDiffValue,
+          label: options.label,
+          diff: options.diff,
+          difficultyOptions: difficultyOptions,
+          sanLossPresets: BRPCheck.sanLossPresets(),
+          sanLossSuccess: options.sanLossSuccess,
+          sanLossFail: options.sanLossFail
+        }
+        break
 
       default:
 
@@ -576,6 +694,15 @@ export class BRPCheck {
       }
     })
     return dlg
+  }
+
+  //Paired sanity loss formula presets - pure formulas only, the keeper pairs
+  //them with the source of horror at the table (no table text is bundled)
+  static sanLossPresets() {
+    const pairs = ['0/1', '0/1D4', '1/1D4', '1/1D6', '1D3/1D10', '1D4/1D20']
+    const presets = { custom: game.i18n.localize('BRP.sanLossPresets.custom') }
+    for (const p of pairs) { presets[p] = p }
+    return presets
   }
 
   // Calculate Success Level
@@ -633,6 +760,7 @@ export class BRPCheck {
           successLevel: chatMsgData.successLevel,
           chatCard: chatMsgData.chatCard,
           opp: chatMsgData.opp,
+          madness: chatMsgData.madness,
         }
       },
       speaker: {
@@ -674,7 +802,7 @@ export class BRPCheck {
       case "CB":
       case "CO":
         //Allow checks for Normal,Combined and Oppossed cards, unless it's a Characteristic or Allegiance Check or a Damage Roll or an Impact Roll
-        if (['CH', 'AL', 'DM', 'IM'].includes(msg.rollType)) { return }
+        if (['CH', 'SN', 'AL', 'DM', 'IM'].includes(msg.rollType)) { return }
         for (let i of msg.chatCard) {
           if (i.diff === 'easy' || i.diffVal > 1) { continue }
           if (autoXP === '1' && i.resultLevel < 2) { continue }
@@ -745,6 +873,21 @@ export class BRPCheck {
         break
       case "resolve-co-card":
         await COCard.COResolve(data)
+        break
+      case "madness-reroll-manifestation":
+        await BRPMadness.rerollManifestation(data)
+        break
+      case "madness-reroll-duration":
+        await BRPMadness.rerollDuration(data)
+        break
+      case "madness-set-duration":
+        await BRPMadness.setDuration(data)
+        break
+      case "madness-end":
+        await BRPMadness.endMadness(data)
+        break
+      case "madness-phobia-hint":
+        await BRPMadness.phobiaHint()
         break
       default:
         return

@@ -68,6 +68,23 @@
       <br>
     {{/if}}
 
+    {{#if (eq type 'SN')}}
+      <div class="flexrow">
+        <label class="resource-label-diff" data-tooltip="{{ localize 'BRP.sanLossPresetHint' }}">{{localize 'BRP.sanLossPreset'}}</label>
+        <select data-handle-change name="sanLossPreset">
+          {{selectOptions sanLossPresets selected='custom'}}
+        </select>
+      </div>
+      <br>
+      <div class="flexrow">
+        <label class="resource-label-diff" data-tooltip="{{ localize 'BRP.sanLossPairHint' }}">{{localize 'BRP.sanLossPair'}}</label>
+        <input data-handle-change class="diff-number-input" type="text" value="{{sanLossSuccess}}" name="sanLossSuccess">
+        <span class="centre">/</span>
+        <input data-handle-change class="diff-number-input" type="text" value="{{sanLossFail}}" name="sanLossFail">
+      </div>
+      <br>
+    {{/if}}
+
   </div>
 
 </form>

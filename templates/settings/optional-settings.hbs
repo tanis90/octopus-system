@@ -26,6 +26,22 @@
   </div>
 
   <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.sanityTisPow'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.sanityTisPow.value}} name="sanityTisPow">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.sanityTisPowHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.sanityLoreSkill'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="text" value="{{optSet.sanityLoreSkill.value}}" name="sanityLoreSkill">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.sanityLoreSkillHint'}}</p>
+  </div>
+
+  <div class="form-group">
     <label class="bold">{{localize 'BRP.Settings.useFP'}}</label>
     <div class="form-fields" style="flex: 1;">
       <input type="checkbox" {{checked optSet.useFP.value}} name="useFP">

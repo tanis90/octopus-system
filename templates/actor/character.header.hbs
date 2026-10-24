@@ -264,7 +264,7 @@
 
         {{#if useSAN}}
           <div class="each-resource centre">
-            <label for="system.sanity.value" class="resource-label">{{system.sanity.label}}</label>
+            <label for="system.sanity.value" class="resource-label rollable" data-tooltip="{{localize 'BRP.sanityRollHint'}}" data-action="sanityRoll">{{system.sanity.label}}</label>
             <div class="resource-grid">
               <div></div>
               <input class="attrib-inp centre" type="text" name="system.sanity.value" value="{{system.sanity.value}}"

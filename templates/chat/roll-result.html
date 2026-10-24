@@ -46,6 +46,12 @@
               {{#if (lt c.malfunction 0)}}
                 <span class="bold result-fail"> {{localize 'BRP.malfunction'}}</span>
               {{/if}}
+              {{#if (eq ../rollType 'SN')}}
+                <span class="pending">{{localize 'BRP.sanLossCard' formula=c.sanLossFormulaUsed loss=c.sanLoss after=c.sanAfter}}</span>
+              {{/if}}
+              {{#if c.permaInsane}}
+                <span class="bold result-fail"> {{localize 'BRP.madness.permaInsane'}}</span>
+              {{/if}}
               </span>
             </div>
 
@@ -76,10 +82,39 @@
                 <div class="rollHidden">{{localize 'BRP.diceRoll'}}: {{c.diceRolled}}</div>
                 <div class="rollHidden bottom-line"> {{localize 'BRP.description'}}: {{c.description}}</div>
               {{/if}}
+              {{#if (eq ../rollType 'SN')}}
+                <div class="rollHidden">{{localize 'BRP.sanLossPair'}}: {{c.sanLossSuccess}} / {{c.sanLossFail}}</div>
+              {{/if}}
             </div>
           </div>
         </div>
       {{/each}}
     </ol>
+
+    {{#if madness}}
+      <div class="madness-section">
+        <div class="bold">{{localize 'BRP.madness.title'}} — {{madness.particName}}</div>
+        <div>{{localize 'BRP.madness.manifestation'}}: {{madness.manifestation.name}}</div>
+        <div class="bottom-line">{{madness.manifestation.description}}</div>
+        <div class="gm-visible-only">
+          <div>{{localize 'BRP.madness.duration'}}: {{madness.duration.label}}</div>
+          {{#if madness.ended}}
+            <div class="bold">{{localize 'BRP.madness.ended'}}</div>
+          {{else}}
+            <div class="flexrow">
+              <button type="button" class="cardbutton" data-preset="madness-reroll-manifestation">{{localize 'BRP.madness.rerollManifestation'}}</button>
+              <button type="button" class="cardbutton" data-preset="madness-reroll-duration">{{localize 'BRP.madness.rerollDuration'}}</button>
+              <button type="button" class="cardbutton" data-preset="madness-set-duration">{{localize 'BRP.madness.setDuration'}}</button>
+              <button type="button" class="cardbutton" data-preset="madness-end">{{localize 'BRP.madness.endMadness'}}</button>
+            </div>
+          {{/if}}
+          {{#if (eq madness.manifestation.key 'phobia')}}
+            <div class="flexrow">
+              <button type="button" class="cardbutton" data-preset="madness-phobia-hint">{{localize 'BRP.madness.phobiaHint'}}</button>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    {{/if}}
   </div>
 </form>

@@ -27,6 +27,24 @@ const SETTINGS = {
     type: Boolean
   },
 
+  sanityTisPow: {
+    name: 'BRP.Settings.sanityTisPow',
+    hint: 'BRP.Settings.sanityTisPowHint',
+    scope: 'world',
+    config: false,
+    default: false,
+    type: Boolean
+  },
+
+  sanityLoreSkill: {
+    name: 'BRP.Settings.sanityLoreSkill',
+    hint: 'BRP.Settings.sanityLoreSkillHint',
+    scope: 'world',
+    config: false,
+    default: "",
+    type: String
+  },
+
   useFP: {
     name: 'BRP.Settings.useFP',
     hint: 'BRP.Settings.useFPHint',

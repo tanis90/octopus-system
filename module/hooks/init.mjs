@@ -10,14 +10,18 @@ import { BRPCombat } from "../combat/combat.mjs";
 import { BRPCombatTracker } from "../combat/combat-tracker.mjs";
 import { BRPActiveEffect } from "../apps/active-effect.mjs";
 import { BRPCheck } from '../apps/check.mjs';
+import { BRPMadness } from '../apps/madness.mjs';
 
 export default function Init() {
   //Add classes to global game object
   game.brp = {
     BRPActor,
     BRPItem,
+    BRPCheck,
+    BRPMadness,
     rollItemMacro,
     rollCharMacro,
+    rollSanMacro,
     ClickRegionLeftUuid: ChaosiumCanvasInterfaceInit.ClickRegionLeftUuid,
     ClickRegionRightUuid: ChaosiumCanvasInterfaceInit.ClickRegionRightUuid
   };
@@ -34,6 +38,13 @@ export default function Init() {
   CONFIG.Combat.documentClass = BRPCombat;
   CONFIG.ui.combat = BRPCombatTracker;
   CONFIG.ActiveEffect.documentClass = BRPActiveEffect;
+
+  //Sanity chain: the system's first two status effects (temporary and
+  //permanent insanity) - applied as ActiveEffect statuses by BRPMadness
+  CONFIG.statusEffects.push(
+    { id: BRPMadness.TEMP_INSANE_ID, name: game.i18n.localize('BRP.madness.tempInsane'), icon: 'systems/brp/assets/Icons/drama-masks.svg' },
+    { id: BRPMadness.PERMA_INSANE_ID, name: game.i18n.localize('BRP.madness.permaInsane'), icon: 'systems/brp/assets/Icons/inner-self.svg' }
+  )
 
 
   ChaosiumCanvasInterfaceInit.initSelf()
@@ -73,6 +84,17 @@ function rollCharMacro(actor, characteristic) {
     rollType: 'CH',
     cardType: 'NO',
     characteristic,
+    shiftKey: 'false',
+    actor: actor,
+    token: ""
+  })
+}
+
+//Roll a Sanity check for an actor from the hotbar (default loss pair 1/1D6)
+function rollSanMacro(actor) {
+  BRPCheck._trigger({
+    rollType: 'SN',
+    cardType: 'NO',
     shiftKey: 'false',
     actor: actor,
     token: ""

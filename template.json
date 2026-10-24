@@ -110,7 +110,10 @@
         },
         "sanity": {
           "value": 5,
-          "max": 5
+          "max": 5,
+          "starting": null,
+          "tis": null,
+          "dailyLoss": 0
         },
         "res5": {
           "value": 0,

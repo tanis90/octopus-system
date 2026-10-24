@@ -40,6 +40,7 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       rollCharStats: this._onRollCharStats,
       skillRoll: this._onSkillRoll,
       statRoll: this._onStatRoll,
+      sanityRoll: this._onSanityRoll,
       weaponRoll: this._onWeaponRoll,
       damageRoll: this._onDamageRoll,
       armourRoll: this._onArmourRoll,
@@ -237,15 +238,18 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
         checkProp = { [`system.stats.${key}.base`]: newVal }
       }
       await this.actor.update(checkProp)
-      //Update Current HP etc to max
+      //Update Current HP etc to max - Sanity is not reset: it only fills at
+      //creation (initSanity), rerolling stats must not restore lost SAN
       checkProp = {
         'system.health.value': this.actor.system.health.max,
         'system.power.value': this.actor.system.power.max,
-        'system.fatigue.value': this.actor.system.fatigue.max,
-        'system.sanity.value': this.actor.system.sanity.max
+        'system.fatigue.value': this.actor.system.fatigue.max
       }
       await this.actor.update(checkProp)
     }
+
+    //First stat roll completes "creation" for SAN purposes - snapshot starting/tis once
+    await this.actor.initSanity()
 
     //If using HPL set location Current HP to Max HP
     await BRPActorSheetV2._resetHPL(this.actor)
@@ -305,12 +309,20 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       },
     }
     let msg = await ChatMessage.create(chatData);
+
+    //First stat roll completes "creation" for SAN purposes - snapshot starting/tis once
+    await this.actor.initSanity()
     return
   }
 
   //Stat Roll
   static _onStatRoll(event, target) {
     BRPRollType._onStatRoll(event, target.dataset, this.document)
+  }
+
+  //Sanity Roll
+  static _onSanityRoll(event, target) {
+    BRPRollType._onSanityRoll(event, target.dataset, this.document)
   }
 
   //Skill Roll

@@ -44,7 +44,7 @@
         {{/isOr}}
 
         {{#isOr useSAN useBeastiary}}
-        <div class="charname" data-tooltip="{{system.sanity.label}}">{{system.sanity.labelAbbr}}</div>
+        <div class="charname rollable" data-tooltip="{{system.sanity.label}} — {{localize 'BRP.sanityRollHint'}}" data-action="sanityRoll">{{system.sanity.labelAbbr}}</div>
         <div class=" centre"><input class="centre npcpersonal-inp" name="system.sanity.value" type="text"
             value="{{system.sanity.value}}" data-dtype="Number" /></div>
         <div class=" centre"> / </div>

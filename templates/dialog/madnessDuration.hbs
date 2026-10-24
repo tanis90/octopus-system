@@ -1,0 +1,9 @@
+<form class="brp" id="madness-duration-form">
+  <div class="diff-label">{{localize 'BRP.madness.setDuration'}}</div>
+  <div class="flexrow">
+    <label class="resource-label-diff">{{localize 'BRP.madness.duration'}}</label>
+    <select data-handle-change name="duration">
+      {{selectOptions durationOptions selected=current}}
+    </select>
+  </div>
+</form>

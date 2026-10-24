@@ -306,7 +306,8 @@ export class BRPActor extends Actor {
       systemData.unconscious = true;
     }
 
-
+    //Sanity chain derives last, once all skill scores exist (lore clamp)
+    this._prepSanity(actorData)
 
   }
 
@@ -349,6 +350,9 @@ export class BRPActor extends Actor {
     if (game.settings.get('brp', 'useHPL') || game.settings.get('brp', 'beastiary')) {
       systemData.health.value = systemData.health.max - damage
     }
+
+    //Sanity chain derives last, once all skill scores exist (lore clamp)
+    this._prepSanity(actorData)
   }
 
 
@@ -506,6 +510,88 @@ export class BRPActor extends Actor {
     }
   }
 
+  //Prepare the Sanity (SAN) chain - only when the optional Sanity system is enabled.
+  //Runs LAST in the prepare chain, after item scores exist (lore skill percent).
+  //Fields persisted on the actor: starting/tis (creation snapshot), dailyLoss.
+  //Everything else (max, lore clamp, value bounds) is derived here each pass.
+  _prepSanity(actorData) {
+    if (!game.settings.get('brp', 'useSAN')) { return }
+    const systemData = actorData.system
+    const san = systemData.sanity
+    const pow = systemData.stats.pow.total
+
+    //Until the creation snapshot (initSanity) is persisted, derive from current POW
+    const starting = Number.isFinite(Number(san.starting)) ? Number(san.starting) : Math.max(pow * 5, 0)
+    san.starting = starting
+
+    //TIS - temporary insanity threshold; snapshot at creation, derived until then
+    if (!Number.isFinite(Number(san.tis))) {
+      san.tis = game.settings.get('brp', 'sanityTisPow') ? pow : Math.floor(starting / 2)
+    }
+
+    //max = min(starting, 100 - lore skill percent); no lore skill found = no clamp
+    san.loreSkillPercent = this._sanityLorePercent()
+    san.max = this._sanityMax(starting, san.loreSkillPercent)
+
+    //Invariant: 0 <= value <= max
+    san.dailyLoss = Math.max(Number(san.dailyLoss) || 0, 0)
+    san.value = Math.min(Math.max(Number(san.value) || 0, 0), san.max)
+  }
+
+  //Find the "forbidden lore" style skill and return its percent (null = not found, no clamp)
+  _sanityLorePercent() {
+    let skill = null
+    const loreId = game.settings.get('brp', 'sanityLoreSkill')
+    if (loreId) { skill = this.items.get(loreId) }
+    if (!skill) {
+      const defaultName = game.i18n.localize('BRP.madness.loreSkill').toLowerCase()
+      skill = this.items.find(itm => itm.type === 'skill' && (
+        itm.flags.brp?.brpidFlag?.id === 'i.skill.forbidden-lore' ||
+        itm.name.toLowerCase() === defaultName
+      ))
+    }
+    if (!skill || !['skill', 'magic', 'psychic'].includes(skill.type)) { return null }
+    const total = skill.system.total + (this.system.skillcategory?.[skill.system.category] ?? 0)
+    if (!Number.isFinite(total)) { return null }
+    return Math.max(0, Math.min(100, total))
+  }
+
+  //SAN maximum: the starting score, permanently eroded by lore skill growth
+  _sanityMax(starting, lorePercent) {
+    const cap = (lorePercent != null) ? (100 - lorePercent) : starting
+    return Math.max(Math.min(starting, cap), 0)
+  }
+
+  //Create-time SAN snapshot: starting = POW x 5, TIS threshold, current filled to max.
+  //Idempotent - once the snapshot exists it is never taken again (later POW changes don't move it).
+  async initSanity() {
+    if (!game.settings.get('brp', 'useSAN')) { return false }
+    if (this._sanitySnapshotted()) { return false }
+    const pow = this.system.stats.pow.total
+    if (!(pow > 0)) { return false }
+    const starting = pow * 5
+    const tis = game.settings.get('brp', 'sanityTisPow') ? pow : Math.floor(starting / 2)
+    const max = this._sanityMax(starting, this._sanityLorePercent())
+    await this.update({
+      'system.sanity.starting': starting,
+      'system.sanity.tis': tis,
+      'system.sanity.dailyLoss': 0,
+      'system.sanity.max': max,
+      'system.sanity.value': max
+    })
+    return true
+  }
+
+  //Is there a persisted creation snapshot? (reads raw source data, not the derived values)
+  _sanitySnapshotted() {
+    try {
+      const raw = this.toObject(false)?.system?.sanity ?? {}
+      return (raw.starting != null && Number.isFinite(Number(raw.starting)))
+    } catch {
+      return false
+    }
+  }
+
   //Used for Rolling NPCs when token dropped
   get hasRollableCharacteristics() {
     for (const [, value] of Object.entries(this.system.baseStats)) {
@@ -530,6 +616,8 @@ export class BRPActor extends Actor {
       }
     }
     await this.update(stats)
+    //First stat roll completes "creation" for SAN purposes - snapshot starting/tis once
+    await this.initSanity()
     await this.updateVitals()
   }
 
@@ -548,16 +636,19 @@ export class BRPActor extends Actor {
       }
     }
     await this.update(stats)
+    //First stat roll completes "creation" for SAN purposes - snapshot starting/tis once
+    await this.initSanity()
     await this.updateVitals()
   }
 
   //Update Current HP, FP etc and HPL when Rolled or Average Roll
+  //Sanity is deliberately NOT reset here: SAN only fills at creation (initSanity),
+  //rerolling characteristics must not restore lost Sanity.
   async updateVitals() {
     let checkProp = {
       'system.health.value': this.system.health.max,
       'system.power.value': this.system.power.max,
-      'system.fatigue.value': this.system.fatigue.max,
-      'system.sanity.value': this.system.sanity.max
+      'system.fatigue.value': this.system.fatigue.max
     }
     await this.update(checkProp)
     if (game.settings.get('brp', 'useHPL')) {
@@ -602,6 +693,10 @@ export class BRPActor extends Actor {
     }
 
     let actor = await super.create(data, options)
+
+    //If the actor arrives with stats (e.g. compendium import) take the SAN creation snapshot now;
+    //blank actors snapshot later on their first stat roll (initSanity is idempotent)
+    await actor.initSanity()
 
     //Add BRPID based on actor name if the game setting is flagged.
     if (game.settings.get('brp', "actorBRPID")) {
