@@ -1,0 +1,34 @@
+{
+ "_id": "jZ0hFJMq4AVVQNDk",
+ "name": "地位",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.status",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Status"
+  }
+ },
+ "system": {
+  "base": 15,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.communication",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 15
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "地位衡量名声、专业资历、社会阶层、富足程度、声望乃至个人荣誉；用于仗势施压以影响他人，如说动银行放出现金贷款或勾销债务、威吓 NPC 以得其方便、让店家收下欠条，或施压当局将事情压下不提。大失败是登峰造极的失礼，招致羞耻、引来不该有的注意，效果恰与所求相反；成功及以上则如愿以偿，甚至额外获益。但地位并非财富：二者常相关联，却并无必然绑定。"
+ }
+}

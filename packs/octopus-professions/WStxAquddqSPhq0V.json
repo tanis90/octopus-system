@@ -1,0 +1,88 @@
+{
+ "_id": "WStxAquddqSPhq0V",
+ "name": "萨满",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.shaman",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Shaman"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.art",
+    "uuid": "ylSmeqLRVm9fAZ7j"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "1sFYpts5g8NvuloI"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "1LX84E9JLKyVLuyq"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "KtSn8Qa44o22ZdCR"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "bngy9QRmEawh0rxI"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "ZlbfYaq3eywubWF5"
+   },
+   {
+    "brpid": "i.skill.perform",
+    "uuid": "skcJscxKSoxaWdEh"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "CBacRoFeuf3ccCAH"
+   },
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "revoVSjLwrvOnq7h"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "Bn0mBbEz27GWvYUK"
+   },
+   {
+    "brpid": "i.skill.first-aid",
+    "uuid": "HYrtOT0HlTqNf1Zd"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "fBvH0Gx43GhfiVEl"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "xpRttnTqf0JEOA1u"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "CeNQYF51yYpEKwGM"
+   },
+   {
+    "brpid": "i.skill.medicine",
+    "uuid": "e2hS00wpnC3fqYcG"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "cQkcZhnVkBfOqoNl"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 2,
+  "description": "你是部落的巫者，精于沟通灵界，为首领与族人出谋划策、施以援手；你握有师徒相承的秘密知识，或许还拥有施用魔法的能力。多数萨满属于较原始的文化，但也有现代的实践者。\n\n财富（UGE 口径）：贫穷或中等，处于部落水准的生活。\n技能建议：艺术（任意）、洞察、知识（历史）、神秘学知识、语言（母语）、聆听、表演（仪式）、说服，以及视设定与角色概念从下列技能中任选两项作为专长：手艺（任意）、话术、急救、躲藏、知识（人类学）、语言（其他）、医学、科学（药学）或地位。"
+ }
+}

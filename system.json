@@ -81,5 +81,21 @@
   "socket": true,
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md",
-  "url": "https://github.com/tanis90/octopus-system"
+  "url": "https://github.com/tanis90/octopus-system",
+  "packs": [
+    {
+      "name": "octopus-skills",
+      "label": "章鱼料理 · 技能（UGE）",
+      "path": "packs/octopus-skills",
+      "type": "Item",
+      "system": "brp"
+    },
+    {
+      "name": "octopus-professions",
+      "label": "章鱼料理 · 职业（UGE）",
+      "path": "packs/octopus-professions",
+      "type": "Item",
+      "system": "brp"
+    }
+  ]
 }

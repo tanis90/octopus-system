@@ -1,0 +1,19 @@
+{
+ "_id": "znFbzM2E5qaSAS5h",
+ "name": "魔法类",
+ "type": "skillcat",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skillcat.magic",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Magic Skills Category"
+  }
+ },
+ "system": {
+  "basic": false,
+  "description": "Magic 类技能分类（UGE）"
+ }
+}

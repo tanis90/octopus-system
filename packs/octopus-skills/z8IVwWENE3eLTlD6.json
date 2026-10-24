@@ -1,0 +1,34 @@
+{
+ "_id": "z8IVwWENE3eLTlD6",
+ "name": "潜行",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.stealth",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Stealth"
+  }
+ },
+ "system": {
+  "base": 10,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 10
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于悄无声息地穿过一片区域而不引人注意；无须掩体，但须脚下轻、有自信且守纪律。静止不动时避免被看见请用躲藏。大失败会引来不该有的注意，失败意味着寸步未进、任何看上一眼的人都轻易察觉，成功则提供层层递进的隐蔽。"
+ }
+}

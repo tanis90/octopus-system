@@ -1,0 +1,110 @@
+{
+ "_id": "zlCebr0VuvTahGl1",
+ "name": "部落民",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.tribesperson",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Tribesperson"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "7u60hyUQsTMuynMD"
+   },
+   {
+    "brpid": "i.skill.dodge",
+    "uuid": "RYNMZ54mkM6h4hqW"
+   },
+   {
+    "brpid": "i.skill.grapple",
+    "uuid": "PygpN1xVl8qG0exQ"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "mYAvBipqRgTn3FpI"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "veL7nZcM20WGMkop"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "myca4o1CksaABekr"
+   },
+   {
+    "brpid": "i.skill.throw",
+    "uuid": "tLdg8dTGx6S94NCP"
+   },
+   {
+    "brpid": "i.skill.track",
+    "uuid": "aEciMtHbaI57rVZf"
+   }
+  ],
+  "groups": [
+   {
+    "options": 2,
+    "skills": [
+     {
+      "brpid": "i.skill.brawl",
+      "uuid": "7Oan1FLfLyxYlM14"
+     },
+     {
+      "brpid": "i.skill.climb",
+      "uuid": "YgMUJrXYrRxxlVvC"
+     },
+     {
+      "brpid": "i.skill.first-aid",
+      "uuid": "YiNEBxK5YVa2rQTY"
+     },
+     {
+      "brpid": "i.skill.listen",
+      "uuid": "sPePYyaILOUNeO74"
+     },
+     {
+      "brpid": "i.skill.jump",
+      "uuid": "ym5PnOwOd6EnqzML"
+     },
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "mG4DVHnn5LGq57To"
+     },
+     {
+      "brpid": "i.skill.melee-weapon",
+      "uuid": "XZHNOOrfEhIUT09g"
+     },
+     {
+      "brpid": "i.skill.missile-weapon",
+      "uuid": "6cZjWib52xzEB8HQ"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "Zwo3PUwDHJF5wJwG"
+     },
+     {
+      "brpid": "i.skill.ride",
+      "uuid": "4RakoENajPwlTYg7"
+     },
+     {
+      "brpid": "i.skill.stealth",
+      "uuid": "Rnh1E3ZgEGUME6ZE"
+     },
+     {
+      "brpid": "i.skill.swim",
+      "uuid": "EwrOTUZyULu2Es5x"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 1,
+  "description": "你来自原始文化，是部落中受认可的一员，对文明的种种要素大多陌生；你靠狩猎或采集过活，你的世界很小：你的村庄与周遭的环境。\n\n财富（UGE 口径）：一贫如洗至贫穷，处于部落水准的生活；或者你是部落的贵族，依地位而定拥有更高的财富等级。\n技能建议：手艺（任意）、闪避、擒抱、躲藏、知识（博物学）、侦查、投掷、追踪，以及视设定从下列技能中任选两项：斗殴、攀爬、急救、聆听、跳跃、神秘学知识、近战武器（通常为长矛或棍棒）、射击武器（弓）、语言（其他）、骑乘、潜行、游泳。"
+ }
+}

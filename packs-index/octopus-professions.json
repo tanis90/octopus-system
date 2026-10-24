@@ -1,0 +1,706 @@
+[
+ {
+  "_id": "dntQLU5JsFedTqsv",
+  "name": "艺术家",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.artist",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "4caxaSc5DQLXcpuE",
+  "name": "刺客",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.assassin",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "gW7Exds3Rablpd0b",
+  "name": "运动员",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.athlete",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "VhwvjtJnaM4p9y5Q",
+  "name": "乞丐",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.beggar",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "8PhhKXm4Xr6ev9no",
+  "name": "职员",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.clerk",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "bYZl1BFyBRIwiljx",
+  "name": "电脑技术员",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.computer-tech",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "iO0vhJVMipDQOCos",
+  "name": "工匠",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.crafter",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "qOpPbJY7KVlhYe1b",
+  "name": "罪犯",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.criminal",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "mIY6pCN3EOlRedHa",
+  "name": "侦探",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.detective",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ASr4Ke8QdgTCQ9VQ",
+  "name": "医生",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.doctor",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "vnMs7lsIAoEpeaW5",
+  "name": "工程师",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.engineer",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "WOYFvssU7nR0sf7X",
+  "name": "艺人",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.entertainer",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "gCBcbIMrJy73kGZO",
+  "name": "探险家",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.explorer",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "qJvsEd6OG93j0ZWK",
+  "name": "农夫",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.farmer",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Ph44sy8CLBktaByo",
+  "name": "赌徒",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.gambler",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "fNO77YJHawMnBnTt",
+  "name": "牧人",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.herder",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ZHzAGKvZ9NXgbVaX",
+  "name": "猎人",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.hunter",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "d1pHHVLFDDNCqk96",
+  "name": "记者",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.journalist",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "TZ1XgGgYqMsAwGKN",
+  "name": "劳力者",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.laborer",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Tv8edWRdKuaNXcQ1",
+  "name": "执法者",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.lawkeeper",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "WpL4RNjtWdVtdP8Z",
+  "name": "律师",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.lawyer",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "z4Hpcv710Fy20Ps4",
+  "name": "机械师",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.mechanic",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "iLxuazbVyNDjwaci",
+  "name": "商人",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.merchant",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "kuqmiOPTm2mhDqfq",
+  "name": "贵族",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.noble",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "qdbzCWj2FVjph9bV",
+  "name": "神秘学者",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.occultist",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "eUzqbU6RAb3tmeuK",
+  "name": "飞行员",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.pilot",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "plzeouwBesvAeqdE",
+  "name": "政客",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.politician",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "1Ts3NpLO58jca23v",
+  "name": "祭司",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.priest",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Bzd73mFjhRTwWc8j",
+  "name": "水手",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.sailor",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "bJ701VoNaJ5qCSFA",
+  "name": "学者",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.scholar",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ydEWnWwAs9HD36Gh",
+  "name": "科学家",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.scientist",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "A3fxYTHeqyZA9H5j",
+  "name": "仆役",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.servant",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "WStxAquddqSPhq0V",
+  "name": "萨满",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.shaman",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "JSRjxzsur5xm41cf",
+  "name": "奴隶",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.slave",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "jrIZnhd9HZQ5k1JR",
+  "name": "士兵",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.soldier",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "HcRkrgkHdk24He4h",
+  "name": "间谍",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.spy",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "qyHfRkEdJWHA5Byb",
+  "name": "学生",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.student",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "IAsrePyROqe858cV",
+  "name": "教师",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.teacher",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "33xJY5fXrDwaDVbw",
+  "name": "技师",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.technician",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "vGQ8rm2obrvCKxmY",
+  "name": "窃贼",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.thief",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "zlCebr0VuvTahGl1",
+  "name": "部落民",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.tribesperson",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "H77mYXXh3QPTHwcJ",
+  "name": "战士",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.warrior",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "RMGRmZ8tIrQbBGZc",
+  "name": "法师",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.wizard",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "a3ABJERgwGeots8p",
+  "name": "作家",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.writer",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ }
+]

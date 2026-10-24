@@ -1,0 +1,76 @@
+{
+ "_id": "plzeouwBesvAeqdE",
+ "name": "政客",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.politician",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Politician"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "N8BRSd20UsGQ2eBC"
+   },
+   {
+    "brpid": "i.skill.etiquette",
+    "uuid": "yzmNvaIwCblzA0jB"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "VZayolEZhbiOeYh7"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "HwZb46LUJm7aRBbq"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "ldiwtydnwgCdMsoZ"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "r9kRcZLRaRP9NwcE"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "KY5jkUed71QG3RsR"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "sfb8hi9YhUzhaZXh"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "HuDgPL2KBWjHKSMV"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "ryU3NV17fma39e7f"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "fwDB0TooUJlLTTO5"
+   },
+   {
+    "brpid": "i.skill.perform",
+    "uuid": "fD0CVHSzH9s4Vdml"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "X10SyTKO9ZYQn2IW"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 3,
+  "maxWealth": 4,
+  "description": "你经选举或任命而身居权位，以参与或主持政务为生，无论治下一城还是更广；视设定而定，你可能是中世纪的地方治安官，也可能是银河参议员。\n\n财富（UGE 口径）：殷实至富有，通常为殷实。\n技能建议：议价、礼仪、话术、洞察、知识（法律）、说服、地位，另视设定任选三项其他技能，通常从下列之中：知识（会计、群体、历史或地区）、聆听、语言（其他）、语言（母语）、表演（演说）、研究。"
+ }
+}

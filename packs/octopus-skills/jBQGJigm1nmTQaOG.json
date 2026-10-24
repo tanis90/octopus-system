@@ -1,0 +1,34 @@
+{
+ "_id": "jBQGJigm1nmTQaOG",
+ "name": "盾牌",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.shield",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Shield"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": true,
+  "category": "i.skillcat.combat",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用盾牌或其他合适器物格挡来袭攻击；一切盾牌格挡均遵循与招架相同的规则，参见第六章“战斗”中的“盾牌”与“招架”。也可持盾攻击，此时将此技能视同近战武器技能，武器列表给出了盾牌的伤害评级；盾牌造成钝击特殊效果，可引发击退，并可用于瞄准攻击。（基础值口径：As per shield type）"
+ }
+}

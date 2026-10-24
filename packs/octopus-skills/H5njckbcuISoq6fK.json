@@ -1,0 +1,34 @@
+{
+ "_id": "H5njckbcuISoq6fK",
+ "name": "近战武器（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.melee-weapon",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Melee Weapon (various)"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": true,
+  "category": "i.skillcat.combat",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于在肉搏战中使用某一特定类型的武器，无论攻击还是招架。（基础值口径：As per weapon specialty）"
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "_id": "CNXCEd7WLEGnhLRa",
+ "name": "感知",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.sense",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Sense"
+  }
+ },
+ "system": {
+  "base": 10,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.perception",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 10
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "主要统辖味觉、触觉与嗅觉，也可延伸至一些较冷门的其他感官（体位感、重力、压力与平衡、温度等）；用于察觉或辨认既非视觉（侦查）亦非听觉（聆听）的特定刺激，如黑暗中凭触觉找到物品、辨认怪异的气味或淡淡的滋味、摸出发丝般的裂纹，经守秘人裁量甚至可涵盖“第六感”或直觉。大失败或是严重误导，或对刺激一无所知，失败只是未曾注意，不同程度的成功则带来更准确的感知。"
+ }
+}

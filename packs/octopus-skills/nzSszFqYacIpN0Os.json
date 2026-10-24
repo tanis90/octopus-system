@@ -1,0 +1,19 @@
+{
+ "_id": "nzSszFqYacIpN0Os",
+ "name": "沟通类",
+ "type": "skillcat",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skillcat.communication",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Communication Skills Category"
+  }
+ },
+ "system": {
+  "basic": false,
+  "description": "Communication 类技能分类（UGE）"
+ }
+}

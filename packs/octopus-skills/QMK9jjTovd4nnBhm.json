@@ -1,0 +1,34 @@
+{
+ "_id": "QMK9jjTovd4nnBhm",
+ "name": "礼仪（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.etiquette",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Etiquette (various)"
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.communication",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "多数文化、阶层或团体都有各自的社交规则与行为守则：得体的衣着、言谈方式、特定举止、肢体语言乃至决斗裁决，都可归入其礼仪。出席维多利亚式晚宴、重要的求职面试，或加入有组织犯罪家族时，都用得上此技能。礼仪检定可以为你赢得晋见重要 NPC 的机会，或以谙熟对方礼数令人折服；大失败是灾难性的失礼，失败无法令人印象深刻，成功及以上则效果更佳、更受礼遇。"
+ }
+}

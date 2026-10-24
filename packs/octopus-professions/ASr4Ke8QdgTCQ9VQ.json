@@ -1,0 +1,74 @@
+{
+ "_id": "ASr4Ke8QdgTCQ9VQ",
+ "name": "医生",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.doctor",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Doctor"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.first-aid",
+    "uuid": "hcMgQHsd1YEmiyid"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "EScHIihmbZtJ9ZqT"
+   },
+   {
+    "brpid": "i.skill.medicine",
+    "uuid": "p0ezSLEXrjDvgZdO"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "amNldu321QdgBaYb"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "6ZQ2O8d4xYL6BFdq"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "EyrI2xIpXEAUaC60"
+   }
+  ],
+  "groups": [
+   {
+    "options": 4,
+    "skills": [
+     {
+      "brpid": "i.skill.insight",
+      "uuid": "im8OFo5jp3gDu5HK"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "spwOF3uG2vPjN12z"
+     },
+     {
+      "brpid": "i.skill.psychotherapy",
+      "uuid": "bo59WQbPMvNbNC3D"
+     },
+     {
+      "brpid": "i.skill.science",
+      "uuid": "NHwxmP5JxCCAMVIL"
+     },
+     {
+      "brpid": "i.skill.status",
+      "uuid": "M7nhYPIaiXYrUHVY"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "救治伤患、病弱与一切失去健康之人是你毕生的志业，你运用长期训练与研习所得的诊断本领与医疗手段行医；你可能立过誓言，救助任何需要之人，无论其所作所为、是何身份。\n\n财富（UGE 口径）：中等至殷实。\n技能建议：急救、语言（母语）、医学、说服、研究、侦查，并视设定从下列技能中任选四项：洞察、语言（其他）、心理治疗、科学（任意）、地位。"
+ }
+}

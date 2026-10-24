@@ -1,0 +1,96 @@
+{
+ "_id": "H77mYXXh3QPTHwcJ",
+ "name": "战士",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.warrior",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Warrior"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.brawl",
+    "uuid": "XlblTwautT1VkW2s"
+   },
+   {
+    "brpid": "i.skill.dodge",
+    "uuid": "cvNxgSedYyNZkvMm"
+   },
+   {
+    "brpid": "i.skill.grapple",
+    "uuid": "ug9h6BbxiJ9hYyhe"
+   },
+   {
+    "brpid": "i.skill.melee-weapon",
+    "uuid": "QQ057Sl72qsOsUQH"
+   },
+   {
+    "brpid": "i.skill.missile-weapon",
+    "uuid": "laYjUDH3f7UVcNct"
+   },
+   {
+    "brpid": "i.skill.climb",
+    "uuid": "DWUJjwzHnMofY99v"
+   },
+   {
+    "brpid": "i.skill.firearm",
+    "uuid": "XS8gK9MTrUBoS9aN"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "UW38dmUXANRs1Sfu"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "OXm0grNwspAPkqUe"
+   },
+   {
+    "brpid": "i.skill.jump",
+    "uuid": "d7fKWX0TqDhWNfYd"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "wVaZRqrriEHTIN3m"
+   },
+   {
+    "brpid": "i.skill.martial-arts",
+    "uuid": "I5Fk8ywtOra5sdVD"
+   },
+   {
+    "brpid": "i.skill.ride",
+    "uuid": "1qiHDZ07NaxY2JT4"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "FHcE5RYdMtFrCqB7"
+   },
+   {
+    "brpid": "i.skill.stealth",
+    "uuid": "4emf5a63cg4PoMzf"
+   },
+   {
+    "brpid": "i.skill.swim",
+    "uuid": "Jy5guMi168GuoqEJ"
+   },
+   {
+    "brpid": "i.skill.throw",
+    "uuid": "MzNRfdxeTtiLVFEc"
+   },
+   {
+    "brpid": "i.skill.track",
+    "uuid": "bbc8QlNFIgfZ6lSp"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 2,
+  "description": "你专精单人搏杀，凭反应与武艺谋生；或许你恪守骑士精神或武士道一类的荣誉准则，又或许你是佣兵或蛮荒冒险者。士兵结伍而战，战士只凭自身的武勇。\n\n财富（UGE 口径）：一贫如洗至中等，通常为贫穷。\n技能建议：斗殴、闪避、擒抱、近战武器（任意）、射击武器（任意），以及视设定与角色概念从下列清单中另选五项技能作为专长：攀爬、枪械（任意）、躲藏、聆听、跳跃、语言（其他）、武术、骑乘、侦查、潜行、游泳、投掷、追踪。"
+ }
+}

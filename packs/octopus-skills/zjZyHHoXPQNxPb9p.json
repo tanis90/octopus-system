@@ -1,0 +1,34 @@
+{
+ "_id": "zjZyHHoXPQNxPb9p",
+ "name": "议价",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.bargain",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Bargain"
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.communication",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于讨价还价，以及双方意见相左、需要谈判与妥协的场合：重要交易用对抗检定决定，琐碎的尝试（如省下装备或住宿的开支）用普通检定即可。议价讲究妥协，非赢即输的争论应改用话术或说服解决。大失败可能把商人变成仇敌，成功意味着谈成买卖，更高的成功等级则带来更大的折扣或对己方更有利的条件。"
+ }
+}

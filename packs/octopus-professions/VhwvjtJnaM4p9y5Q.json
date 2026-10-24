@@ -1,0 +1,64 @@
+{
+ "_id": "VhwvjtJnaM4p9y5Q",
+ "name": "乞丐",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.beggar",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Beggar"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "bI36HnbBYxB7Avtb"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "ypdK5KRBF9z3915c"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "xY3q3MIakbweG6Iu"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "hIqdf4ClDNAH2HGC"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "m3lGL6gYjUH9cIc1"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "6tXTtkKl9pW5ubW4"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "qobgpdGbmgl1qtgF"
+   },
+   {
+    "brpid": "i.skill.sleight-of-hand",
+    "uuid": "masNjIQh8nluzksp"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "oB7Lhcg1Fpz2idh3"
+   },
+   {
+    "brpid": "i.skill.stealth",
+    "uuid": "Z8HJXenm1jzFlehA"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 1,
+  "description": "你靠乞讨钱粮与生活必需品度日；你可以自称流浪汉、无家可归者或四处漂泊的游民。也许你时运不济，也许你属于受歧视的群体，也许你有难以洗脱的犯罪过往，又或许是精神失常或药物滥用把你逼到这步田地。\n\n财富（UGE 口径）：一贫如洗，不过有些乞丐实为贫穷，只是装得更惨。\n技能建议：议价、话术、躲藏、洞察、知识（地区：当地）、聆听、说服、巧手、侦查、潜行。"
+ }
+}

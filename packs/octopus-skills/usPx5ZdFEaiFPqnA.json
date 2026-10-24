@@ -1,0 +1,34 @@
+{
+ "_id": "usPx5ZdFEaiFPqnA",
+ "name": "技术（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.technical-skill",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Technical Skill (various)"
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于操作并维护先进的技术设备，如计算机系统、机器人或其他高科技装置，也可改装设备以提升性能，或令其承担设计参数之外的新用途。大失败可能损坏设备或使之卡死，成功及以上则令机械如设计般运转，甚至超出预期。"
+ }
+}

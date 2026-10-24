@@ -1,0 +1,90 @@
+{
+ "_id": "qJvsEd6OG93j0ZWK",
+ "name": "农夫",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.farmer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Farmer"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "YIgkB1wk1z8ek7rJ"
+   },
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "NmgXhCoaGybPCiTQ"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "Tkv5qiHUkT3OOWCp"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "eoVqSnOBfhVQfkkA"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "OlmwOWJ18eiFKrXe"
+   }
+  ],
+  "groups": [
+   {
+    "options": 5,
+    "skills": [
+     {
+      "brpid": "i.skill.brawl",
+      "uuid": "KaioxLlw1SrGATA8"
+     },
+     {
+      "brpid": "i.skill.drive",
+      "uuid": "SfxxXyifkTEz0SFl"
+     },
+     {
+      "brpid": "i.skill.firearm",
+      "uuid": "33eKrExTfTxeP54n"
+     },
+     {
+      "brpid": "i.skill.first-aid",
+      "uuid": "fXSl4FDYHDTIYSkm"
+     },
+     {
+      "brpid": "i.skill.heavy-machine",
+      "uuid": "AkHHnWp2MCNHe9FU"
+     },
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "cprh4fzBormNKW5N"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "SBcI3yMcY1eF15PK"
+     },
+     {
+      "brpid": "i.skill.ride",
+      "uuid": "IJeT4fcSvcpdhgvm"
+     },
+     {
+      "brpid": "i.skill.science",
+      "uuid": "QhwnW1tBZBWX8NpS"
+     },
+     {
+      "brpid": "i.skill.track",
+      "uuid": "o8Ef11VOL82faWjd"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 3,
+  "description": "身为农夫，你栖身乡野或尚未开化的边地，靠种庄稼或放牧牲畜从土地里刨出生计；这是终日劳作、辛苦备至的营生，却也自有其满足。\n\n财富（UGE 口径）：贫穷至殷实，通常为中等。\n技能建议：议价、手艺（任意）、知识（博物学）、聆听、侦查，以及视设定与角色概念从下列技能中任选五项：斗殴、驾驶、枪械（步枪或霰弹枪）、急救、重型机械、知识（自然）、维修（机械）、骑乘、科学（生物学、植物学或地质学）、追踪。"
+ }
+}

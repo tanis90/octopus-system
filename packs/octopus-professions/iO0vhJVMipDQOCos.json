@@ -1,0 +1,78 @@
+{
+ "_id": "iO0vhJVMipDQOCos",
+ "name": "工匠",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.crafter",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Crafter"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.appraise",
+    "uuid": "VDucyhpPrVvuN4iC"
+   },
+   {
+    "brpid": "i.skill.art",
+    "uuid": "AcEUBIDhIm3R8AJ7"
+   },
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "5UKHQq4tQ8wiWJff"
+   },
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "1NjZusaXjrGe5Sy3"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "nT9RfgmjslPkrJ4z"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "LykgoUM3A4ZX8pkN"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "mcdhNYopcuQgIiKk"
+   }
+  ],
+  "groups": [
+   {
+    "options": 2,
+    "skills": [
+     {
+      "brpid": "i.skill.fine-manipulation",
+      "uuid": "K66VZzYwrQ0ItsfJ"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "OBrZPIie2z8nqTIU"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "dWwLwGyvfbRTkSGe"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "RHE33lJge9nucj7t"
+     },
+     {
+      "brpid": "i.skill.heavy-machine",
+      "uuid": "aapsOoB3Q7xLwII7"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 3,
+  "description": "无论是乡村铁匠、玻璃匠还是精工钟表匠，你都亲手制作货物，售予有意购买之人；你通常在店铺中劳作，无论铺子是自有还是受雇于此。\n\n财富（UGE 口径）：贫穷至殷实，通常为中等。\n技能建议：估价、任意一项艺术、议价、任意两项手艺、侦查、研究、地位，并视设定与行当从下列技能中任选两项：精细操作、维修（电气）、维修（电子）、维修（机械）、重型机械。"
+ }
+}

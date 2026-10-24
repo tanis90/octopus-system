@@ -1,0 +1,34 @@
+{
+ "_id": "5gn3x27Xlvx5iaAI",
+ "name": "火炮（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.artillery",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Artillery (various)"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": true,
+  "category": "i.skillcat.combat",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于操作巨型野战武器与重型载具武器，即任何大得无法由单人移动或操纵的武器，例如加农炮、投石机或弩炮。（基础值口径：As per weapon specialty）"
+ }
+}

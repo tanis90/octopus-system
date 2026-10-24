@@ -1,0 +1,64 @@
+{
+ "_id": "WOYFvssU7nR0sf7X",
+ "name": "艺人",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.entertainer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Entertainer"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.art",
+    "uuid": "tEjZSTgfptpR7G4k"
+   },
+   {
+    "brpid": "i.skill.disguise",
+    "uuid": "TazUMy47JjO9OSLy"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "ddYjeb823ZmRDzRq"
+   },
+   {
+    "brpid": "i.skill.fine-manipulation",
+    "uuid": "QRhK82XitiPa38Rx"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "5oHIoHZoHyNbUSc6"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "LYGvJgBuhkG5hU5H"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "LD60djCsoaPhUE5F"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "qRBVoGLT5c1O3wfb"
+   },
+   {
+    "brpid": "i.skill.perform",
+    "uuid": "ARKbghsIqOS8IT6b"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "yNbTXQwBcmyjfdBv"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 4,
+  "description": "你以表演才华娱悦大小观众，无论即兴还是照本宣科，无论现场演出、广播电视传送还是预录发行。\n\n财富（UGE 口径）：一贫如洗至富有，通常为中等。\n技能建议：艺术（任意）、乔装、话术、精细操作、洞察、语言（其他）、语言（母语）、聆听、表演（任意）、说服。"
+ }
+}

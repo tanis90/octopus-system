@@ -1,0 +1,94 @@
+{
+ "_id": "gCBcbIMrJy73kGZO",
+ "name": "探险家",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.explorer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Explorer"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.climb",
+    "uuid": "Xcq9WXHQ9ezcgzkB"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "weaG2reGcerf1eWR"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "2SaA52j4wk0D3DLa"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "vlicJZX3oQLBpERl"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "xZWF6o2zj0EyR8L0"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "drRgMOf7lzGkzxqn"
+   }
+  ],
+  "groups": [
+   {
+    "options": 4,
+    "skills": [
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "SkroA4bfjzbkGv6L"
+     },
+     {
+      "brpid": "i.skill.drive",
+      "uuid": "69uOudsidblerLdq"
+     },
+     {
+      "brpid": "i.skill.fast-talk",
+      "uuid": "ySxochNv0fwVIt3K"
+     },
+     {
+      "brpid": "i.skill.firearm",
+      "uuid": "mFHUrHzVVP2IExsR"
+     },
+     {
+      "brpid": "i.skill.navigate",
+      "uuid": "O06SD0Uqthle19dl"
+     },
+     {
+      "brpid": "i.skill.pilot",
+      "uuid": "AJCdgmdgXzDasNGh"
+     },
+     {
+      "brpid": "i.skill.ride",
+      "uuid": "x465JgVIjF1GpmAC"
+     },
+     {
+      "brpid": "i.skill.science",
+      "uuid": "wFThZG5bHWrn3iVJ"
+     },
+     {
+      "brpid": "i.skill.swim",
+      "uuid": "IzAMBF0rUZPWe4Bz"
+     },
+     {
+      "brpid": "i.skill.track",
+      "uuid": "JWyND41DQ00b3Ids"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 3,
+  "maxWealth": 4,
+  "description": "你以踏访世界的未知角落、去往无人之境为己任，并将所见所闻带回来——或为荣耀，或以发现之名。\n\n财富（UGE 口径）：殷实或富有。\n技能建议：攀爬、语言（其他）、语言（母语）、说服、研究、侦查，以及视设定从下列技能中任选四项：知识（人类学、群体、历史、自然或地区）、驾驶、话术、枪械（手枪、左轮枪或步枪）、导航、载具驾驶（飞行器或船只）、骑乘、科学（地质学）、游泳、追踪。"
+ }
+}

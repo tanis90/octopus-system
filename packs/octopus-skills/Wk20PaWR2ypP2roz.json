@@ -1,0 +1,34 @@
+{
+ "_id": "Wk20PaWR2ypP2roz",
+ "name": "教导",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.teach",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Teach"
+  }
+ },
+ "system": {
+  "base": 10,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.communication",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 10
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "当你的角色尝试以授课、练习或实战对练向他人传授知识或技艺时使用。大失败是开倒车：若学生未能通过灵感检定察觉教学之劣，或许会损失 1D2 点技能；成功即按正常训练规则传授，特殊成功与大成功分别将技能训练提升至 1D6 与 1D6+2。"
+ }
+}

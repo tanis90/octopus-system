@@ -1,0 +1,100 @@
+{
+ "_id": "IAsrePyROqe858cV",
+ "name": "教师",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.teacher",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Teacher"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.language",
+    "uuid": "zfOekfiJbBir8h6H"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "MB82pqXkzyfsjxET"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "18EQXZO8FpvBnOTk"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "PbcOzusuGvKz6AGn"
+   },
+   {
+    "brpid": "i.skill.teach",
+    "uuid": "OCITreiYPbWlOxmg"
+   },
+   {
+    "brpid": "i.skill.art",
+    "uuid": "sasZpiWaPiJHt0EL"
+   },
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "AmT8qy749Pp4YUhf"
+   },
+   {
+    "brpid": "i.skill.first-aid",
+    "uuid": "iQ1GjjaAGrjwMFcH"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "3s3dKboYrDZsR1IB"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "JC3REuhSbzmbAHvG"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "6QLIsrsgwjbCfwMK"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "7fAfxfhdATCNF4rP"
+   },
+   {
+    "brpid": "i.skill.medicine",
+    "uuid": "7EIMu5cd69xQXc8m"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "CgcvoNI2A4TVG2hN"
+   },
+   {
+    "brpid": "i.skill.perform",
+    "uuid": "z1n22pwfdPaUsPXY"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "UA18zSkk9rTn3K6d"
+   },
+   {
+    "brpid": "i.skill.psychotherapy",
+    "uuid": "hlr3xcmg3kuLIhDe"
+   },
+   {
+    "brpid": "i.skill.science",
+    "uuid": "Ld1SzfE5VcNCVGvp"
+   },
+   {
+    "brpid": "i.skill.technical-skill",
+    "uuid": "7rD6DDGk2nkQKD92"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "你是一门或多门学科的教员，或执教班级，或单独辅导一名学生；无论受聘于大学、中学还是其他教育机构，你都在学术环境中引导学生奔向某种成就标准。\n\n财富（UGE 口径）：中等或殷实，通常为中等。\n技能建议：语言（母语）、说服、研究、地位、教导，并视设定与角色概念另选五项技能作为专长领域，常见选择出自下列清单：艺术（任意）、手艺（任意）、急救、洞察、知识（任意）、语言（其他）、聆听、医学、维修（任意）、表演、说服、心理治疗、科学（任意）、技术（计算机使用）。"
+ }
+}

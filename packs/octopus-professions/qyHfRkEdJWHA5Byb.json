@@ -1,0 +1,88 @@
+{
+ "_id": "qyHfRkEdJWHA5Byb",
+ "name": "学生",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.student",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Student"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.language",
+    "uuid": "0h28HMM3uGrNTw8s"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "vBapsGi37798Sw7H"
+   },
+   {
+    "brpid": "i.skill.art",
+    "uuid": "v4O1728aQNhlD58w"
+   },
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "dUJSyH3nIN9UD3VX"
+   },
+   {
+    "brpid": "i.skill.first-aid",
+    "uuid": "SrZGbQmBsI5rrQeO"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "qMr4x6OrssbYoO6M"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "6R0Qd48uHd40sLTA"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "EsGjmVDacJA2I7FT"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "p6TXHE2LTCkMmYTH"
+   },
+   {
+    "brpid": "i.skill.medicine",
+    "uuid": "tFXxy7EIn97dYwKO"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "CCdu5Tb6LMmD1Zms"
+   },
+   {
+    "brpid": "i.skill.perform",
+    "uuid": "YthE1SHL8qAHiRBk"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "VEz5QBGUqwRSbR7P"
+   },
+   {
+    "brpid": "i.skill.psychotherapy",
+    "uuid": "4tethNLyNfWgdLAf"
+   },
+   {
+    "brpid": "i.skill.science",
+    "uuid": "raif1OZWNbYj6zUA"
+   },
+   {
+    "brpid": "i.skill.technical-skill",
+    "uuid": "rA6yIBvmVX9PVB7g"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 4,
+  "description": "你以读书为业，无论是综合学子还是某位大师的门徒；你的课业可能在名牌大学、武术学校、法师学园，或某家私塾名门。\n\n财富（UGE 口径）：贫穷至富有，通常为中等。\n技能建议：语言（母语）、研究，并视设定与角色概念另选八项技能作为修习课业，常见选择出自下列清单：艺术（任意）、手艺（任意）、急救、洞察、知识（任意）、语言（其他）、聆听、医学、维修（任意）、表演、说服、心理治疗、科学（任意）、技术（计算机使用），以及（若参与体育运动）一项身体类技能。"
+ }
+}

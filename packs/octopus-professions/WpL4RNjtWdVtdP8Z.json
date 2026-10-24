@@ -1,0 +1,64 @@
+{
+ "_id": "WpL4RNjtWdVtdP8Z",
+ "name": "律师",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.lawyer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Lawyer"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "wu2x67agQ0XUA8cR"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "0dkkpteGeODckd4x"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "qmKZrE1AZp2hdjRU"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "uUT1tbQ33gtJNlft"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "zuq4gutP0Y25hC9E"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "xebMngIa76adJCCD"
+   },
+   {
+    "brpid": "i.skill.perform",
+    "uuid": "Q7ILLV40axiEW5bb"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "9ZRqgsHh163ZI5kI"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "dpmcgHtQmXFi8SUh"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "4QCH7LzoWhBPuxXi"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 4,
+  "description": "你受过法律训练，运用司法体系提起公诉或进行辩护，或代表个人、组织或政府的法律权益；你虽无高于普通公民的权力，但对司法体系的内行知识令你在其中握有可观的能量。\n\n财富（UGE 口径）：一贫如洗、贫穷、中等、殷实、富有。\n技能建议：议价、话术、洞察、知识（法律）、另一门知识、语言（母语）、表演（演说）、说服、研究、地位。"
+ }
+}

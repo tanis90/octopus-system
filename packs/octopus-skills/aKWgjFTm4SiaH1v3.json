@@ -1,0 +1,34 @@
+{
+ "_id": "aKWgjFTm4SiaH1v3",
+ "name": "骑乘（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.ride",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Ride (various)"
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.communication",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于骑乘、照料并驾驭某一特定种类的活物：策骑穿过复杂地形或完成特殊动作、催促坐骑全速疾驰，或在人立或踉跄之际保持控制。大失败会失去对坐骑的控制，或许被甩落在地受到 1D6 点生命值伤害（总体或随机部位），此时成功的跳跃检定可将伤害总额减去 1D6；失败使牲口却步不前，成功及以上则令其如命而行甚至超乎预期，特殊成功还可能在骑乘战斗中带来加值。"
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "_id": "DBb4AG7NkdHzy4zB",
+ "name": "手艺（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.craft",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Craft (various)"
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.manipulation",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于制作或建造各种东西，从一把椅子到一餐饭再到一栋房子，通常需要专用工具、时间与原材料；也可用于鉴别物品的制法，乃至辨认其制作者。大失败会毁掉材料且一无所获，成功即告完成，更高的成功等级能造出更精良、更坚固或更有价值的成品，或许还附带 +10% 或 +20% 的使用效能、更多生命值等额外特质。此技能关乎功能与实用，纯粹为美观而制物属于艺术。"
+ }
+}

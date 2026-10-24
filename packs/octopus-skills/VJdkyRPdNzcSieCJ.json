@@ -1,0 +1,19 @@
+{
+ "_id": "VJdkyRPdNzcSieCJ",
+ "name": "操作类",
+ "type": "skillcat",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skillcat.manipulation",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Manipulation Skills Category"
+  }
+ },
+ "system": {
+  "basic": false,
+  "description": "Manipulation 类技能分类（UGE）"
+ }
+}

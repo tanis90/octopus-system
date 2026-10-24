@@ -1,0 +1,68 @@
+{
+ "_id": "33xJY5fXrDwaDVbw",
+ "name": "技师",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.technician",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Technician"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.fine-manipulation",
+    "uuid": "fjXLSRIzbqRdGZOr"
+   },
+   {
+    "brpid": "i.skill.heavy-machine",
+    "uuid": "qEvDY329iRgUJMzY"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "geWVEuaycSqPgGjE"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "WTUMDNdSC8p3bOig"
+   },
+   {
+    "brpid": "i.skill.science",
+    "uuid": "H49h3PLucqifDWIE"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "KlMaCR6pfL1Vo2Je"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "5vA7J0YKWwhKHZRT"
+   },
+   {
+    "brpid": "i.skill.technical-skill",
+    "uuid": "3NvKN12FodKSMpQr"
+   },
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "X47SbuvOYTEBuz13"
+   },
+   {
+    "brpid": "i.skill.drive",
+    "uuid": "ByJ6DfFWQpZAacYr"
+   },
+   {
+    "brpid": "i.skill.pilot",
+    "uuid": "7W284YclbIwkDM2G"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "你专精于维护、修理与运用复杂机械、计算机或其他电子设备，应付工程系统得心应手；你不设计这些机器，但或许比它们的创造者还了解它们。\n\n财富（UGE 口径）：中等或殷实。\n技能建议：精细操作、重型机械、聆听、维修（任意）、科学（物理）、研究、侦查、技术（计算机使用），以及视设定与角色概念从下列清单中另选两项技能作为专长：手艺（任意）、驾驶、载具驾驶（任意）。"
+ }
+}

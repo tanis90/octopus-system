@@ -1,0 +1,82 @@
+{
+ "_id": "vnMs7lsIAoEpeaW5",
+ "name": "工程师",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.engineer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Engineer"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "BunCrf8kTcuwSOZa"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "5S1wRUBJB7uFgstm"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "qbIFQXmCYwx3vive"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "K4mRgGSl3dv1ELbo"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "HlweEJgqfPBSiJZe"
+   }
+  ],
+  "groups": [
+   {
+    "options": 5,
+    "skills": [
+     {
+      "brpid": "i.skill.art",
+      "uuid": "VchLZb0U34QBoB9e"
+     },
+     {
+      "brpid": "i.skill.drive",
+      "uuid": "id1oua4SZuWHdqEs"
+     },
+     {
+      "brpid": "i.skill.heavy-machine",
+      "uuid": "UBCRomLwdfjsftcJ"
+     },
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "zogvWgZvqr0Tvynl"
+     },
+     {
+      "brpid": "i.skill.pilot",
+      "uuid": "u4Tg0BatYyPgqeF0"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "5yP2ud5obgjafsI5"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "VDmMlirX3xk76p7E"
+     },
+     {
+      "brpid": "i.skill.science",
+      "uuid": "J6LZf84bJcuCNpU4"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 3,
+  "description": "你建造、修理或维护机器、从事营造，或是与所处时代和设定相称的技术打交道的机械师——从简朴的石构建筑到高度先进的飞船推进系统。有些工程师维护并操作某型庞大复杂的载具，从帆船到太空巡洋舰；另一些则受雇建造并维护攻城器械或建筑结构。\n\n财富（UGE 口径）：贫穷至殷实，通常为中等。\n技能建议：手艺（任意）、维修（机械）、维修（建筑）、侦查、地位，以及视设定与角色概念从下列技能中任选五项：艺术（通常为制图）、驾驶、重型机械、知识（任意）、载具驾驶（任意）、维修（电气）、维修（电子）、科学（任意）或技术（计算机使用）。"
+ }
+}

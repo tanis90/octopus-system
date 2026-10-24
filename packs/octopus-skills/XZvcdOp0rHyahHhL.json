@@ -1,0 +1,34 @@
+{
+ "_id": "XZvcdOp0rHyahHhL",
+ "name": "知识（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.knowledge",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Knowledge (various)"
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "此技能代表对某一知识领域的经验或学术钻研，用于回忆相关事实、分析或鉴别线索、作出合乎逻辑的推断，并展示渊博的杂学；更偏科学的领域参见科学技能。大失败得出误导而不实的假信息，成功等级越高，获得的信息越翔实有用。"
+ }
+}

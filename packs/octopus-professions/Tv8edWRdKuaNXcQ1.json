@@ -1,0 +1,114 @@
+{
+ "_id": "Tv8edWRdKuaNXcQ1",
+ "name": "执法者",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.lawkeeper",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Lawkeeper"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.brawl",
+    "uuid": "5WwYDdz5lpqJlhwv"
+   },
+   {
+    "brpid": "i.skill.dodge",
+    "uuid": "chKnv5QbpvH2HuFW"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "HrpTkHep8eZje9Lv"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "3PFBImPrG6s2d9EM"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "174NcYd7uezIoVVn"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "v2AwZ5ay3kMQjtZp"
+   }
+  ],
+  "groups": [
+   {
+    "options": 4,
+    "skills": [
+     {
+      "brpid": "i.skill.drive",
+      "uuid": "fL8h5MFxWzNYkxOo"
+     },
+     {
+      "brpid": "i.skill.firearm",
+      "uuid": "VBfa3uyx8UOGwQSl"
+     },
+     {
+      "brpid": "i.skill.first-aid",
+      "uuid": "7boyp7YdnI3ufxks"
+     },
+     {
+      "brpid": "i.skill.grapple",
+      "uuid": "JZ7CbSDOcEazE8dT"
+     },
+     {
+      "brpid": "i.skill.insight",
+      "uuid": "ZXOPkmABc8K8mwYk"
+     },
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "TtDioHK2M85F8597"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "KbdRP2Mho0IedvGL"
+     },
+     {
+      "brpid": "i.skill.martial-arts",
+      "uuid": "mckl8iir4nttZBO2"
+     },
+     {
+      "brpid": "i.skill.melee-weapon",
+      "uuid": "uhsVaAymdo8HqLl0"
+     },
+     {
+      "brpid": "i.skill.missile-weapon",
+      "uuid": "Q085GJ2cfSmKRRR4"
+     },
+     {
+      "brpid": "i.skill.pilot",
+      "uuid": "mtbgS9YOutLBLOdH"
+     },
+     {
+      "brpid": "i.skill.ride",
+      "uuid": "t4Takc2kWL3QkFtf"
+     },
+     {
+      "brpid": "i.skill.status",
+      "uuid": "hgBwZkY0QKHA1qfi"
+     },
+     {
+      "brpid": "i.skill.technical-skill",
+      "uuid": "rZsEJrXysoXPwEPk"
+     },
+     {
+      "brpid": "i.skill.track",
+      "uuid": "9gLDLIAccB2pYw2K"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "你握有维护与捍卫法律的职权与管辖权，理想情况下是为了保护平民；你对法律与法典的执行，得到所在社区权力结构的支持。\n\n财富（UGE 口径）：通常为中等；贪腐的执法者有时殷实。\n技能建议：斗殴、闪避、话术、知识（法律）、聆听、侦查，以及视设定与角色概念从下列技能中任选四项：驾驶、枪械（任意）、急救、擒抱、洞察、知识（地区或群体）、语言（其他）、武术、近战武器（任意）、射击武器（任意）、载具驾驶（任意）、骑乘、地位、技术（计算机使用）、追踪。"
+ }
+}

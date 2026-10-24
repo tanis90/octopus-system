@@ -1,0 +1,34 @@
+{
+ "_id": "PGQ53rUk5iA0DIZd",
+ "name": "精细操作",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.fine-manipulation",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Fine Manipulation"
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.manipulation",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "衡量手稳与手眼协调，涵盖双手与手指的一切精细操作，如开锁、拆除陷阱、系解绳结与拆解机械装置。大失败会把事情弄糟，或许损毁或卡死所操纵之物；特殊成功及以上耗时更短、日后更易上手、不留篡改痕迹，或带来其他类似益处。"
+ }
+}

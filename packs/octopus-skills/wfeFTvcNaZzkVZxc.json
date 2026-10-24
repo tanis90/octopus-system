@@ -1,0 +1,34 @@
+{
+ "_id": "wfeFTvcNaZzkVZxc",
+ "name": "驾驶（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.drive",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Drive (various)"
+  }
+ },
+ "system": {
+  "base": 20,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.manipulation",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 20
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于驾驶、操纵与控制地面载具，无论畜力还是引擎驱动；常见载具的基础值为 20%，陌生或罕见载具为 01%。大失败通常意味着车辆无法启动，或发生碰撞与车祸；成功表示顺利抵达目的地，或纠正打滑等险况，特殊成功及以上则能用更短时间行进更远、更省燃料，或带来其他益处。"
+ }
+}

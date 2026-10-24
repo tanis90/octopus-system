@@ -1,0 +1,64 @@
+{
+ "_id": "z4Hpcv710Fy20Ps4",
+ "name": "机械师",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.mechanic",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Mechanic"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "6KePeYYWaDPfasoZ"
+   },
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "Gt8VOxwKqpzSghFZ"
+   },
+   {
+    "brpid": "i.skill.drive",
+    "uuid": "eaD7pvWy7Zq7SXy6"
+   },
+   {
+    "brpid": "i.skill.fine-manipulation",
+    "uuid": "j0Zb6Qvg212axKx8"
+   },
+   {
+    "brpid": "i.skill.heavy-machine",
+    "uuid": "jVztb9zVd2ccmVlS"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "huSn9hfchiha6kAi"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "kJYKQIaBRNh0FaLO"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "tqsrGHBUXfxIbJoN"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "LZSzuTBFk9lkjGUQ"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "1mFCKwfdfykQFuZ7"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 2,
+  "description": "你是个满手机油的技工，整日维护、修理乃至建造机器、载具或更复杂的构造物；你擅长摆弄工具，能轻松理清技术问题。\n\n财富（UGE 口径）：贫穷至中等，通常为中等。\n技能建议：议价、手艺（金属加工）、驾驶、精细操作、重型机械、维修（电气）、维修（电子）、维修（机械）、维修（建筑）、侦查。"
+ }
+}

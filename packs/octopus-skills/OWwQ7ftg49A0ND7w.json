@@ -1,0 +1,34 @@
+{
+ "_id": "OWwQ7ftg49A0ND7w",
+ "name": "重型武器（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.heavy-weapon",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Heavy Weapon (various)"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": true,
+  "category": "i.skillcat.combat",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于操作逼近便携极限的爆炸武器或大型直射武器，如火箭筒、火箭发射器、重机枪、三脚架激光炮等；加农炮、攻城器械或载具与枪架固定的更重型火器，请使用火炮技能。（基础值口径：As per weapon specialty）"
+ }
+}

@@ -1,0 +1,86 @@
+{
+ "_id": "gW7Exds3Rablpd0b",
+ "name": "运动员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.athlete",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Athlete"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.climb",
+    "uuid": "gF5Qyx2x8S05cvWc"
+   },
+   {
+    "brpid": "i.skill.dodge",
+    "uuid": "REE0v0ltFFkU3nmO"
+   },
+   {
+    "brpid": "i.skill.jump",
+    "uuid": "3iR6bxb3QZu0tWpZ"
+   },
+   {
+    "brpid": "i.skill.stealth",
+    "uuid": "rFwGXd2HuVyB7aN3"
+   },
+   {
+    "brpid": "i.skill.throw",
+    "uuid": "qeMd051EoBhqbvf1"
+   }
+  ],
+  "groups": [
+   {
+    "options": 5,
+    "skills": [
+     {
+      "brpid": "i.skill.brawl",
+      "uuid": "hl521p3Uqn8tFiHD"
+     },
+     {
+      "brpid": "i.skill.first-aid",
+      "uuid": "KU6DyysAT37LDUY5"
+     },
+     {
+      "brpid": "i.skill.grapple",
+      "uuid": "h7V3rmHz4hR12mJ6"
+     },
+     {
+      "brpid": "i.skill.insight",
+      "uuid": "gO1iLSDVXOCbfzdy"
+     },
+     {
+      "brpid": "i.skill.listen",
+      "uuid": "sb0sRctHMpDhbhFF"
+     },
+     {
+      "brpid": "i.skill.martial-arts",
+      "uuid": "HVSufNFlGz0TDIrG"
+     },
+     {
+      "brpid": "i.skill.spot",
+      "uuid": "11U2Yh3qi1oISKfm"
+     },
+     {
+      "brpid": "i.skill.ride",
+      "uuid": "95SPeD5RejvlfW78"
+     },
+     {
+      "brpid": "i.skill.swim",
+      "uuid": "kkgkN2DFEGxsYezg"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 4,
+  "description": "无论职业还是业余，受国家资助还是仍在求学，你都精于某一样式的运动或锻炼，为单人或团体竞技磨砺身体与意志。\n\n财富（UGE 口径）：贫穷至富有，通常为中等或殷实。\n技能建议：攀爬、闪避、跳跃、潜行、投掷，并视设定与运动项目从下列技能中任选五项：斗殴、急救、擒抱、洞察、聆听、武术、侦查、骑乘、游泳。"
+ }
+}

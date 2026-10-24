@@ -1,0 +1,34 @@
+{
+ "_id": "dfvm3OdvEb3Yzg7d",
+ "name": "读写（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.literacy",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Literacy (various)"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "读写能力在现代被视为理所当然，而在往昔世代，它既是精英教育的产物，也是身份与地位的标志；现代社会中，读写的基础值等于角色母语或其他语言的基础值，除非另有意愿。大失败意味着灾难性的误解，失败则文意尽失，成功及以上能读出关键信息或细微差别，甚至因写出的作品而声名远播。（基础值口径：00% or equal to Language (Own/Other) (see below)）"
+ }
+}

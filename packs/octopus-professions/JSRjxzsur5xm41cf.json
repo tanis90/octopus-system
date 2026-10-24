@@ -1,0 +1,60 @@
+{
+ "_id": "JSRjxzsur5xm41cf",
+ "name": "奴隶",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.slave",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Slave"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "NOUTLxZfeE5ig7mx"
+   },
+   {
+    "brpid": "i.skill.dodge",
+    "uuid": "YkIgw2vnwXInKXML"
+   },
+   {
+    "brpid": "i.skill.etiquette",
+    "uuid": "OEcjXMUR52C7gMiD"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "Wiu4AauHFbhTzdBD"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "nneeD2g7NWtIxlen"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "CFwlLNceTBSPhiM7"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "AzZudagcYREty1Ju"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "FDoxafdqZuqJ933b"
+   },
+   {
+    "brpid": "i.skill.stealth",
+    "uuid": "cicJ9Ou81knekrLS"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 4,
+  "description": "或被掳为奴，或生而为奴，你是个别主人、组织或宗教的奴隶或契约仆役；你可能被善待——身为一家仆役之长——也可能挨打受罚、活在恐惧之中。归入奴隶的前提，是假定你大半生都身为奴隶；若你不久前才被掳为奴，请改用你先前的职业。\n\n财富（UGE 口径）：一贫如洗至贫穷；不过经守秘人许可，奴隶有时也能有限度地沾及主人殷实或富有的生活。\n技能建议：手艺（任意）、闪避、礼仪、话术、躲藏、洞察、语言（其他）、聆听、潜行，以及另一项技能作为职业专长。"
+ }
+}

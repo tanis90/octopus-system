@@ -1,0 +1,76 @@
+{
+ "_id": "qdbzCWj2FVjph9bV",
+ "name": "神秘学者",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.occultist",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Occultist"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "IWJ8gbeuCnyuzCBb"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "pu9eM0HaLhULvEhX"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "uc8eNQ0XaVebe26h"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "EEiBnHunaVedUBDa"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "hzHkenpvmsilizBI"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "fSYiTh84hsCffveR"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "1HDI1WOFnzLlbeLg"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "N4sGmecogvzPb4X7"
+   },
+   {
+    "brpid": "i.skill.art",
+    "uuid": "GwapLXk6xOmvF2r1"
+   },
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "AtPTOiHUplJKazoL"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "6kMh4HELnOvXq6RB"
+   },
+   {
+    "brpid": "i.skill.medicine",
+    "uuid": "0pGAx8iparZQb1YH"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "lhVqKId5PHJM6fvp"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 4,
+  "description": "你研习隐秘的奥义、失落的传说与魔法之力，笃信超自然力量的影响与主宰地位；若设定合适，守秘人可允许你使用异能（多半是魔法或巫术），或许是在某个神秘学组织或秘密结社中研习所得。\n\n财富（UGE 口径）：贫穷至富有，通常为殷实。\n技能建议：话术、洞察、知识（人类学）、知识（历史）、神秘学知识、语言（其他）、语言（母语）、研究，以及视设定任选另外两项技能，通常从下列之中：艺术（任意）、手艺（任意）、知识（考古学）、医学、科学（任意）或地位。"
+ }
+}

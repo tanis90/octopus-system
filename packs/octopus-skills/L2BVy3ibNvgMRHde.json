@@ -1,0 +1,34 @@
+{
+ "_id": "L2BVy3ibNvgMRHde",
+ "name": "擒抱",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.grapple",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Grapple"
+  }
+ },
+ "system": {
+  "base": 25,
+  "basic": true,
+  "combat": true,
+  "category": "i.skillcat.combat",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 25
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于摔跤，或任何以不加伤害地制伏对手为目标的搏斗；通常非致命，但也可用以造成真正的伤害。"
+ }
+}

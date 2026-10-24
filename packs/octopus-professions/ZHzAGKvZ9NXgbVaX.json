@@ -1,0 +1,82 @@
+{
+ "_id": "ZHzAGKvZ9NXgbVaX",
+ "name": "猎人",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.hunter",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Hunter"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.climb",
+    "uuid": "PRtraKhOraXCl8S4"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "fE2RTssnSY5m7LbY"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "iA5pU9bLDCrkVXEH"
+   },
+   {
+    "brpid": "i.skill.navigate",
+    "uuid": "LDbiPWn5yJhbeeme"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "gZbfJQP5fX4sgXGH"
+   },
+   {
+    "brpid": "i.skill.stealth",
+    "uuid": "TwlYTpV2vs0tLZjR"
+   },
+   {
+    "brpid": "i.skill.track",
+    "uuid": "d4p0H63E61kcd3J5"
+   }
+  ],
+  "groups": [
+   {
+    "options": 3,
+    "skills": [
+     {
+      "brpid": "i.skill.firearm",
+      "uuid": "2yAaXgIh19opjdJy"
+     },
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "jWz00ZAYjH0mq4Iw"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "kL0bSUPCckmN2sYF"
+     },
+     {
+      "brpid": "i.skill.melee-weapon",
+      "uuid": "BNZphNFu7KGrC7ox"
+     },
+     {
+      "brpid": "i.skill.missile-weapon",
+      "uuid": "a1HyOz6X23HXZOet"
+     },
+     {
+      "brpid": "i.skill.ride",
+      "uuid": "eIxYJcRoX9FWMYjX"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 4,
+  "description": "无论为了生存还是为了狩猎的刺激，你都专于追踪野兽或其他生灵，将其设陷或猎杀。\n\n财富（UGE 口径）：贫穷或中等；若为猎取大型猎物或运动狩猎者，则为富有。\n技能建议：攀爬、躲藏、聆听、导航、侦查、潜行、追踪，以及视设定与角色概念从下列技能中任选三项：枪械（步枪或霰弹枪）、知识（自然或地区）、语言（其他）、近战武器（通常为长矛）、射击武器（任意）、骑乘。"
+ }
+}

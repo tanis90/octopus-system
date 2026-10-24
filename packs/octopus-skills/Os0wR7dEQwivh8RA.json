@@ -1,0 +1,34 @@
+{
+ "_id": "Os0wR7dEQwivh8RA",
+ "name": "艺术（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.art",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Art (various)"
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.manipulation",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于创作绘画、雕塑等艺术作品，或编写故事、诗歌与音乐。大成功或特殊成功可造就价值与名望远超寻常的不朽名作，失败只是平庸的应景之作，大失败更可能损害创作者的名誉。演戏、舞蹈、歌唱或演奏乐器请使用表演技能。"
+ }
+}

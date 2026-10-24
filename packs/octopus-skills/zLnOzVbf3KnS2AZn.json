@@ -1,0 +1,34 @@
+{
+ "_id": "zLnOzVbf3KnS2AZn",
+ "name": "博弈",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.gaming",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Gaming"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于进行各类游戏，从国际象棋、西洋双陆棋，到涉及纸牌、骰子或其他随机与策略要素的赌博竞赛；赌徒以此谋生，对多数人则只是消遣。大失败输得精光甚至欠债，失败输掉本局，成功小有斩获，特殊成功及以上收获更丰，或许还能提升地位。（基础值口径：INT+POW%）"
+ }
+}

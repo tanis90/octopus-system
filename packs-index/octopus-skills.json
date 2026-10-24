@@ -1,0 +1,1010 @@
+[
+ {
+  "_id": "wb0DAgbZdbbuDGfd",
+  "name": "心智类",
+  "type": "skillcat",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.mental",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "jhmZB2akZJu3VHVf",
+  "name": "感知类",
+  "type": "skillcat",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.perception",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "2q1Ot1K98d57jJ5V",
+  "name": "战斗类",
+  "type": "skillcat",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.combat",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "nzSszFqYacIpN0Os",
+  "name": "沟通类",
+  "type": "skillcat",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.communication",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "VJdkyRPdNzcSieCJ",
+  "name": "操作类",
+  "type": "skillcat",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.manipulation",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "znFbzM2E5qaSAS5h",
+  "name": "魔法类",
+  "type": "skillcat",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.magic",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "7ZDNby3wkO5yKR6R",
+  "name": "估价",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.appraise",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Os0wR7dEQwivh8RA",
+  "name": "艺术（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.art",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "5gn3x27Xlvx5iaAI",
+  "name": "火炮（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.artillery",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "zjZyHHoXPQNxPb9p",
+  "name": "议价",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.bargain",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "X0i5jzwDUO0CT3d9",
+  "name": "斗殴",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.brawl",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ooObKRoryCyhMJPb",
+  "name": "攀爬",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.climb",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "spwG1UO8hC12YbcM",
+  "name": "指挥",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.command",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "DBb4AG7NkdHzy4zB",
+  "name": "手艺（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.craft",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "XluO5TIU8uRx52kE",
+  "name": "爆破",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.demolition",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "gzwMY2dgCQ1AXgsR",
+  "name": "乔装",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.disguise",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Ygos5rt8yBB4Ohiy",
+  "name": "闪避",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.dodge",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "wfeFTvcNaZzkVZxc",
+  "name": "驾驶（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.drive",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "PanZJ6GDboYhZ8im",
+  "name": "能量武器（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.energy-weapon",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "QMK9jjTovd4nnBhm",
+  "name": "礼仪（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.etiquette",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "827zLN8mPev2Kcq8",
+  "name": "话术",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.fast-talk",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "PGQ53rUk5iA0DIZd",
+  "name": "精细操作",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.fine-manipulation",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "pCkheGcmSFDtEBhi",
+  "name": "枪械（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.firearm",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "bFdrpvv4KaFc0hqs",
+  "name": "急救",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.first-aid",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "DO4jgWKB72CasutE",
+  "name": "飞行",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.fly",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "zLnOzVbf3KnS2AZn",
+  "name": "博弈",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.gaming",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "L2BVy3ibNvgMRHde",
+  "name": "擒抱",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.grapple",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ma5cQiSJFhGjW340",
+  "name": "重型机械（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.heavy-machine",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "OWwQ7ftg49A0ND7w",
+  "name": "重型武器（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.heavy-weapon",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "icl9ofpKjGaSAblF",
+  "name": "躲藏",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.hide",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "uYOcdWjNOcRrpRdG",
+  "name": "洞察",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.insight",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "gMRG6rfAE3SuVgWB",
+  "name": "跳跃",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.jump",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "XZvcdOp0rHyahHhL",
+  "name": "知识（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.knowledge",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "xFQazkArcacRM5Do",
+  "name": "语言（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.language",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "pdhi907RD2WcWlos",
+  "name": "聆听",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.listen",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "dfvm3OdvEb3Yzg7d",
+  "name": "读写（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.literacy",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "lep9W3b5Ha0y3DOw",
+  "name": "武术",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.martial-arts",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "jhv6AiGBbrwgzKJz",
+  "name": "医学",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.medicine",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "H5njckbcuISoq6fK",
+  "name": "近战武器（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.melee-weapon",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "xklP6U1fItSyLz9d",
+  "name": "射击武器（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.missile-weapon",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "iegheOHVnHsGxfNT",
+  "name": "导航",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.navigate",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "o63pE9cOlgCGQjsI",
+  "name": "招架",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.parry",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "y6IZaCP3pEnfJ2wT",
+  "name": "表演（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.perform",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "0Sxq52N3I5ZeYj9U",
+  "name": "说服",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.persuade",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "W3BJlFzStPknruLi",
+  "name": "载具驾驶（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.pilot",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "6jquq5bDSJjUXVyv",
+  "name": "异能投射",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.projection",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ws5xUwxhxvaHt2r7",
+  "name": "心理治疗",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.psychotherapy",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "MjoXd2IifE8GGzKc",
+  "name": "维修（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.repair",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "rgJrzBODyZ8VEJOy",
+  "name": "研究",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.research",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "aKWgjFTm4SiaH1v3",
+  "name": "骑乘（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.ride",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "XVNRYwY6zlDt3dVL",
+  "name": "科学（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.science",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "CNXCEd7WLEGnhLRa",
+  "name": "感知",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.sense",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "jBQGJigm1nmTQaOG",
+  "name": "盾牌",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.shield",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "o39whzL9pTHYSGde",
+  "name": "巧手",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.sleight-of-hand",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "08isdXxNUiZpzPwB",
+  "name": "侦查",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.spot",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "jZ0hFJMq4AVVQNDk",
+  "name": "地位",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.status",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "z8IVwWENE3eLTlD6",
+  "name": "潜行",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.stealth",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "5PSLQFjWJeqdLnG6",
+  "name": "战略",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.strategy",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "uotZzGlQ3yzLgBwJ",
+  "name": "游泳",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.swim",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Wk20PaWR2ypP2roz",
+  "name": "教导",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.teach",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "usPx5ZdFEaiFPqnA",
+  "name": "技术（各类）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.technical-skill",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "1Z9MxPotMCGDnzDF",
+  "name": "投掷",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.throw",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "qiJYqyiZag1BIqmE",
+  "name": "追踪",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.track",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ }
+]

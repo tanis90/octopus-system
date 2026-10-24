@@ -1,0 +1,34 @@
+{
+ "_id": "o63pE9cOlgCGQjsI",
+ "name": "招架",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.parry",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Parry"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": true,
+  "category": "i.skillcat.combat",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于在无法以其他技能应对时拨开来袭攻击，详见“招架”与攻防对照表；守秘人可裁定特定攻击无法招架，例如攻击者体型远大于防御者（如防御者体型的两倍以上），或攻击者正在使用范围或横扫攻击。（基础值口径：As per weapon specialty）"
+ }
+}

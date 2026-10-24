@@ -1,0 +1,86 @@
+{
+ "_id": "Bzd73mFjhRTwWc8j",
+ "name": "水手",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.sailor",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Sailor"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.climb",
+    "uuid": "NEGYa3PSFzY4OBF7"
+   },
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "5ZBb1KmxjGV47CrZ"
+   },
+   {
+    "brpid": "i.skill.dodge",
+    "uuid": "ho6J4oEkwXrMplem"
+   },
+   {
+    "brpid": "i.skill.grapple",
+    "uuid": "gcJGYbaGR9DYfzMn"
+   },
+   {
+    "brpid": "i.skill.navigate",
+    "uuid": "5HWu2AcHgP5ehLj5"
+   },
+   {
+    "brpid": "i.skill.pilot",
+    "uuid": "kR4CTOelhEDADJEr"
+   },
+   {
+    "brpid": "i.skill.swim",
+    "uuid": "MkHpPKGIk7YGGcKK"
+   }
+  ],
+  "groups": [
+   {
+    "options": 3,
+    "skills": [
+     {
+      "brpid": "i.skill.artillery",
+      "uuid": "rZwqL77pg2RKCAdM"
+     },
+     {
+      "brpid": "i.skill.command",
+      "uuid": "3vT1GcAWzVd1NqKj"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "Ke6fZxAgOzGSKjRc"
+     },
+     {
+      "brpid": "i.skill.listen",
+      "uuid": "X7YVuUCVwjQDkiip"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "j0r2STgamy7fn4bN"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "Zj5aoCGBA6x9dzA4"
+     },
+     {
+      "brpid": "i.skill.spot",
+      "uuid": "eBadAtL0YKcayopv"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 2,
+  "description": "你纵横波涛，无论是海盗、海军军官还是古代世界的商贾，都卖力维持船只的完好。\n\n财富（UGE 口径）：贫穷或中等，通常为中等。\n技能建议：攀爬、手艺（任意）、闪避、擒抱、导航、载具驾驶（船只）、游泳，以及从下列技能中任选三项：火炮（任意，通常为舰载）、指挥、语言（其他）、聆听、维修（机械）、维修（建筑）、侦查。"
+ }
+}

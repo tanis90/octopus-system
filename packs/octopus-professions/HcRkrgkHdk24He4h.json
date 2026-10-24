@@ -1,0 +1,134 @@
+{
+ "_id": "HcRkrgkHdk24He4h",
+ "name": "间谍",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.spy",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Spy"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.dodge",
+    "uuid": "gBBNaZFFdgX9FkWP"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "RHptt1DaKDLrRgQg"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "I8GR4Llt41Haa8Zc"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "Zn0096MUS1XnBtv6"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "UchjiSHaoQ8A70gh"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "jyOpfchgX8xal8J8"
+   },
+   {
+    "brpid": "i.skill.stealth",
+    "uuid": "rpJAx4Oocves4x1f"
+   }
+  ],
+  "groups": [
+   {
+    "options": 3,
+    "skills": [
+     {
+      "brpid": "i.skill.art",
+      "uuid": "OQ7DERphS87D7HpA"
+     },
+     {
+      "brpid": "i.skill.brawl",
+      "uuid": "NIGFLUOy5NY1I1WT"
+     },
+     {
+      "brpid": "i.skill.disguise",
+      "uuid": "djroIZ94vkJaKaF9"
+     },
+     {
+      "brpid": "i.skill.etiquette",
+      "uuid": "rKHjqlfwvNmWcd1U"
+     },
+     {
+      "brpid": "i.skill.firearm",
+      "uuid": "4eGNqHO0CyfXfnZc"
+     },
+     {
+      "brpid": "i.skill.grapple",
+      "uuid": "iYa4fx5nGirCfPRI"
+     },
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "dHzCqj4GjFhnsB58"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "E9vmhocYYEsgZnlM"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "aLr0BqgyVWlqGImb"
+     },
+     {
+      "brpid": "i.skill.martial-arts",
+      "uuid": "0EpkfgUMZSYWJs7d"
+     },
+     {
+      "brpid": "i.skill.navigate",
+      "uuid": "reZpHu2PLag3SPny"
+     },
+     {
+      "brpid": "i.skill.pilot",
+      "uuid": "VrnD8balJ6zuQnKU"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "sfEo6lh8irx2IfJh"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "aYuJKePFOmxtYo16"
+     },
+     {
+      "brpid": "i.skill.ride",
+      "uuid": "LXgBGK5dphVlt2iJ"
+     },
+     {
+      "brpid": "i.skill.swim",
+      "uuid": "HF1fwbi0gpYO8ixI"
+     },
+     {
+      "brpid": "i.skill.technical-skill",
+      "uuid": "zhbCQeYMtdqqPWfJ"
+     },
+     {
+      "brpid": "i.skill.throw",
+      "uuid": "RxT4VwoQV3dxbJHo"
+     },
+     {
+      "brpid": "i.skill.track",
+      "uuid": "PQsaStfxFyZGnTDQ"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "你精于诡道与渗透，以掩护或秘密身份潜入国家或组织，刺探其秘密，并回报给敌方或利害相关方。\n\n财富（UGE 口径）：中等或殷实，视设定而定。\n技能建议：闪避、话术、躲藏、聆听、研究、侦查、潜行，以及视设定从下列技能中任选三项：艺术（摄影）、斗殴、乔装、礼仪、枪械（任意）、擒抱、知识（任意）、语言（其他）、语言（母语）、武术、导航、载具驾驶（任意）、心理学、维修（电子）、维修（机械）、骑乘、游泳、技术（计算机使用）、投掷、追踪。"
+ }
+}

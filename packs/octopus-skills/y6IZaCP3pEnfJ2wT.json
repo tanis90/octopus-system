@@ -1,0 +1,34 @@
+{
+ "_id": "y6IZaCP3pEnfJ2wT",
+ "name": "表演（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.perform",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Perform (various)"
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.communication",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于登台献艺，无论演戏、舞蹈、演奏乐器、歌唱，或其他以演出呈现的艺术表达。大失败是一场羞辱，失败平淡无奇，成功及以上则赢得瞩目与喝彩，或许还有评论界的赞誉与金钱回报；若被录制并传播，甚至可能在演出之后长久地激励人心并带来收益。"
+ }
+}

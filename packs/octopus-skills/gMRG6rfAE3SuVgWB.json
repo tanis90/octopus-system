@@ -1,0 +1,34 @@
+{
+ "_id": "gMRG6rfAE3SuVgWB",
+ "name": "跳跃",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.jump",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Jump"
+  }
+ },
+ "system": {
+  "base": 25,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 25
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于向高度或距离跃出、越过障碍。正常情况下，体格健全的人类立定跳远约为自身身高，立定跳高约为身高之半，助跑可跳出约三米远。大失败导致跌落（1D6 点总体生命值伤害或单一部位伤害），成功即完成上述跳跃，特殊成功将幅度提高 50%，大成功则翻倍；跳跃还可按成功等级减少坠落伤害（普通成功 -1D6，特殊成功 -2D6，大成功 -3D6）。"
+ }
+}

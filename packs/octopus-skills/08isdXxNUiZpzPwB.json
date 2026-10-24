@@ -1,0 +1,34 @@
+{
+ "_id": "08isdXxNUiZpzPwB",
+ "name": "侦查",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.spot",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Spot"
+  }
+ },
+ "system": {
+  "base": 25,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.perception",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 25
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于搜索房间中潜在的重要细节、找到暗格、留意稍纵即逝的细节、认出乔装的仇敌，或发现设伏之敌。大失败是令人分心的重大误知觉或错误印象，不同程度的成功则带来更有用、更切题的信息。"
+ }
+}

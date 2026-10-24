@@ -1,0 +1,76 @@
+{
+ "_id": "A3fxYTHeqyZA9H5j",
+ "name": "仆役",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.servant",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Servant"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "24RzkYItEh7K4a3P"
+   },
+   {
+    "brpid": "i.skill.etiquette",
+    "uuid": "uDz0juGb0vvS6v3k"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "6U5lz5eKiiJops70"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "rXKQRQEladkn5puq"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "0M7nqFgdZsKvYqrA"
+   },
+   {
+    "brpid": "i.skill.stealth",
+    "uuid": "XQzR575RIYz0iXwO"
+   },
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "ajhpaP8unjLXTLM7"
+   },
+   {
+    "brpid": "i.skill.drive",
+    "uuid": "7IU9aSlLkyuu1bdf"
+   },
+   {
+    "brpid": "i.skill.first-aid",
+    "uuid": "5lU3pobvapPvenxc"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "rs7XJCrgNMTypJyv"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "yHtf0pbYD9MaSobO"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "KNkezzbnTRrOqQuk"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "E5ewe1fLMFYY3v28"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 4,
+  "description": "你受雇为帮佣或仆役，照料富裕雇主的家中事务与日常起居；你可能是绅士的贴身男仆、将军的副官，也可能是宏伟城堡中的帮厨女仆。\n\n财富（UGE 口径）：贫穷至中等；不过经守秘人许可，仆役有时也能有限度地沾及雇主殷实或富有的生活。\n技能建议：手艺（任意）、礼仪、躲藏、语言（母语）、聆听、潜行，并视设定与角色概念从下列技能中任选四项作为个人专长：议价、驾驶、急救、洞察、知识（会计）、语言（其他）、说服。"
+ }
+}

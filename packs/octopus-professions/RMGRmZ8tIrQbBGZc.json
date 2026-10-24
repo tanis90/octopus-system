@@ -1,0 +1,60 @@
+{
+ "_id": "RMGRmZ8tIrQbBGZc",
+ "name": "法师",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.wizard",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Wizard"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "zJOzxKjcm9iXZORl"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "NEGpT0b7TdyAE8YE"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "uU3V1pD0wKmkhbot"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "rZBXZnvueDpZUk3u"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "aVOvCKwe6pJdomQM"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "mavIU4q3fUdB9MgD"
+   },
+   {
+    "brpid": "i.skill.perform",
+    "uuid": "re3ULwdfN3nqxfYF"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "oPMg6RkaL4iOMlBQ"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "A49zlzicQenMWGdL"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 4,
+  "description": "你理解并能施用魔法或巫术；凭吟诵与手势，你能引出魔法效应，并致力于不断扩充自己的法术库藏与自身的魔法点。\n\n财富（UGE 口径）：贫穷至富有，通常为殷实。\n技能建议：手艺（任意）、洞察、神秘学知识、另外两门知识（任意）技能、语言（其他）、聆听、表演（仪式）、说服、研究。"
+ }
+}

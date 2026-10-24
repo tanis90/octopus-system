@@ -1,0 +1,34 @@
+{
+ "_id": "xklP6U1fItSyLz9d",
+ "name": "射击武器（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.missile-weapon",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Missile Weapon (various)"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": true,
+  "category": "i.skillcat.combat",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于使用各类手持自推进投射武器，如弓、弩、飞斧、投矛、飞镖、标枪、吹箭、鱼叉枪乃至回旋镖；手榴弹请使用投掷。（基础值口径：As per weapon specialty）"
+ }
+}

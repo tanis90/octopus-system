@@ -1,0 +1,48 @@
+{
+ "_id": "ydEWnWwAs9HD36Gh",
+ "name": "科学家",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.scientist",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Scientist"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "m0QPU3uraReYVOUV"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "sf7xewO5EJToifV2"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "6sLIqUrApDzPoo4t"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "IE9fmrwuqhzF5ci1"
+   },
+   {
+    "brpid": "i.skill.heavy-machine",
+    "uuid": "eQvKN9EtQfUhj8nC"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "lpGg1JW2tz9jzd7b"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "无论受雇于企业、教育机构、政府还是单打独斗，你都通过严谨的猜想、实验与观察探索某一科学领域，反复这一过程，不断夯实知识的根基。\n\n财富（UGE 口径）：中等或殷实，通常为殷实。\n技能建议：手艺（任意）、说服、研究、地位、技术（计算机使用）或重型机械，以及视设定与所学领域任选五项知识或科学技能。"
+ }
+}

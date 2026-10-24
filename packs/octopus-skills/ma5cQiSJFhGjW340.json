@@ -1,0 +1,34 @@
+{
+ "_id": "ma5cQiSJFhGjW340",
+ "name": "重型机械（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.heavy-machine",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Heavy Machine (various)"
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.manipulation",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于操作任何比人还大的机器，以及比厢式货车更重的轮式车辆，如叉车、坦克、推土机、起重机、机车，或大型远洋船舶的轮机，亦涵盖基础保养与预防性维护；机器一旦故障须以维修技能修理，飞行器请使用载具驾驶技能。大失败导致撞击、引擎故障或财产损失，失败意味着机器无法完成既定任务，成功及以上则效能更佳。"
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "_id": "Ygos5rt8yBB4Ohiy",
+ "name": "闪避",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.dodge",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Dodge"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "任何战斗者都明白，最好的防御就是不在原地。闪避让你的角色躲开来袭攻击，以敏捷避免或减轻伤害。（基础值口径：DEX×2）"
+ }
+}

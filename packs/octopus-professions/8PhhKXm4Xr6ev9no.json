@@ -1,0 +1,64 @@
+{
+ "_id": "8PhhKXm4Xr6ev9no",
+ "name": "职员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.clerk",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Clerk"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "Z5aENZpA6TRE4RLd"
+   },
+   {
+    "brpid": "i.skill.etiquette",
+    "uuid": "nCpwcjpMvVOgB2gk"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "udbfjLWgUt2uHGuA"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "3jiDCjuh1fHbcsct"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "gKcNUsSPmFSKvi2Z"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "XOcycOf4CZDvNxZd"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "vWSpvQfgWwl3LVCZ"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "psZONAvthwdqcqty"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "0bdkhg8TVxSfjuXz"
+   },
+   {
+    "brpid": "i.skill.literacy",
+    "uuid": "Uxs1vCnDi58yWe7Q"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 2,
+  "description": "你整日伏案工作，通常供职于某个金融领域；这份职业可能需要与客户打交道，比如当会计，或是公司、政府或其他组织中的受薪职员。\n\n财富（UGE 口径）：中等。\n技能建议：议价、礼仪、知识（会计）、知识（法律）、另一门知识、语言（母语）、说服、研究、地位，以及视时代选用技术（计算机使用）或读写。"
+ }
+}

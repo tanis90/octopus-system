@@ -1,0 +1,68 @@
+{
+ "_id": "bYZl1BFyBRIwiljx",
+ "name": "电脑技术员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.computer-tech",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Computer Tech"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "8EIxtYkjRXNzx3Sd"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "AZYZn8tUn9coggY5"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "bBEG2Llhp7cnQ6S0"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "rTB759azlf57wrSn"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "2UvllK3TfdTnaygi"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "waRhbu8XGpT66TGW"
+   },
+   {
+    "brpid": "i.skill.science",
+    "uuid": "1Vgp4e1RfCWrjLTN"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "vjvmw87KTiwm2JEb"
+   },
+   {
+    "brpid": "i.skill.technical-skill",
+    "uuid": "O3fs37kPKAnEIuvL"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "ERSc1F6QLJYPcqIi"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "oGoUA5c54lfjQ0Ba"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "你可能是企业的软件工程师，也可能是非法的黑客，或在软件开发的众多领域中从事其一。你大部分人生都与计算机为伴，常常接入世界的信息网络；一行行代码、数据与其他虚拟资产，对你而言与其他工匠的工具材料一般真实。\n\n财富（UGE 口径）：中等至殷实。\n技能建议：手艺（计算机硬件或编程）、一门知识技能、语言（其他）（一门编程语言）、维修（电气）、维修（电子）、研究、科学（数学）、地位、技术（计算机使用），并视设定从下列技能中选一项作为专长：会计、躲藏、知识（法律）。"
+ }
+}

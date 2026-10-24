@@ -1,0 +1,94 @@
+{
+ "_id": "1Ts3NpLO58jca23v",
+ "name": "祭司",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.priest",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Priest"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "aRHqStkLPVyghxZG"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "Hx0WiG8hTWJ51jq1"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "hYWY1ECS4F99Hdd5"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "uNHRbTeMa7NgrUTw"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "nnm32EyZU3uVHCVX"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "ewJTkUEhUJaTq02D"
+   },
+   {
+    "brpid": "i.skill.perform",
+    "uuid": "4tPT2fEktrdmut0R"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "PoRyr1XgA0N5NfCC"
+   }
+  ],
+  "groups": [
+   {
+    "options": 2,
+    "skills": [
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "6DIe68GsI6zFnMOP"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "CURCSQIw1LhuBDS2"
+     },
+     {
+      "brpid": "i.skill.listen",
+      "uuid": "LY8K4tiXnntqb9bL"
+     },
+     {
+      "brpid": "i.skill.literacy",
+      "uuid": "FXqTwvFh1oJ2BjU2"
+     },
+     {
+      "brpid": "i.skill.perform",
+      "uuid": "y2LB6hU78STj077W"
+     },
+     {
+      "brpid": "i.skill.research",
+      "uuid": "wJfsmVPOiLvKihBV"
+     },
+     {
+      "brpid": "i.skill.status",
+      "uuid": "glF1mPd9gayhYWmR"
+     },
+     {
+      "brpid": "i.skill.teach",
+      "uuid": "FfGsRr1Tcd5RNBan"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 4,
+  "description": "对神圣的信仰与虔敬引领你走上祭司之途，你以布道或事奉神祇（众神）的举动度过时光；视设定而定，你可能是苦修的僧侣，也可能是电视布道者。\n\n财富（UGE 口径）：贫穷至殷实，通常为中等；若你是一大群信众的宗教领袖，经守秘人裁量亦可为富有。\n技能建议：话术、洞察、知识（历史）、知识（哲学）、知识（宗教）、语言（母语）、表演（仪式）、说服，以及从下列技能中任选两项：神秘学知识、语言（其他）、聆听、读写、表演（演说）、研究、地位、教导。"
+ }
+}

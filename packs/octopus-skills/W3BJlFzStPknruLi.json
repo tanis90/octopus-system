@@ -1,0 +1,34 @@
+{
+ "_id": "W3BJlFzStPknruLi",
+ "name": "载具驾驶（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.pilot",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Pilot (various)"
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于驾驶、操纵与控制空中、水面、水下乃至太空中的载具；大型载具可能需要多名驾驶员，非战斗状态下每四小时检定一次，战斗中或执行载具机动时每轮一次。"
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "_id": "0Sxq52N3I5ZeYj9U",
+ "name": "说服",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.persuade",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Persuade"
+  }
+ },
+ "system": {
+  "base": 15,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.communication",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 15
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于让他人相信某一观点或信念是正确的、合理的或可接受的，无论其原本立场如何，途径可以是苏格拉底式的逻辑、缜密的辩论、激昂的演说、共情，或赤裸的威吓；听众或被说动而行动，或应允所求。与话术一样，说服无关真假；但与话术不同，成功说服的效果可无限延续，直到另一次说服检定或重大变故改变对方的看法。大失败可能令对方转趋敌对、恰恰拥抱与你相反的立场，失败无从服人，成功足以扭转其观点，特殊成功及以上效果更佳。"
+ }
+}

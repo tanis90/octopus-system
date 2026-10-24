@@ -1,0 +1,68 @@
+{
+ "_id": "a3ABJERgwGeots8p",
+ "name": "作家",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.writer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Writer"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.art",
+    "uuid": "kpXwajeMeljIO4UK"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "EuIVGIOGdDGsDDZR"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "LFcHALTVbEdaxe2Z"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "zoQT8QXH3yJKm1lg"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "E5ZPxdvDCZXuihKD"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "jli1r5ahbRrrdwgs"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "rRXa83fcC42oaRcn"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "fwT4wpJ7gxDaIeMk"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "YtTqa5A9knpsnAal"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "89mJ3Un0FQSVzGKq"
+   },
+   {
+    "brpid": "i.skill.technical-skill",
+    "uuid": "vCpHe1NrIwTHsPvs"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 4,
+  "description": "你写散文、诗歌、剧本或其他文体；你最习惯以笔墨沟通，你的文字拥有娱人、授人或服人的力量。\n\n财富（UGE 口径）：贫穷至富有，通常为中等。\n技能建议：艺术（写作）、洞察、语言（母语）、说服、研究，以及视情况从下列清单中另选五项技能作为专长：话术、知识（任意）、语言（其他）、聆听、地位、技术（计算机使用）。"
+ }
+}

@@ -1,0 +1,64 @@
+{
+ "_id": "Ph44sy8CLBktaByo",
+ "name": "赌徒",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.gambler",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Gambler"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "gyKliJjzmf3PouqQ"
+   },
+   {
+    "brpid": "i.skill.brawl",
+    "uuid": "JjbZE1qbVJNIWJV4"
+   },
+   {
+    "brpid": "i.skill.dodge",
+    "uuid": "tcsxnQ0y8KPrx3ll"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "UHr64dh4Xdh97gHn"
+   },
+   {
+    "brpid": "i.skill.gaming",
+    "uuid": "ul9sgCo0bKNztM8G"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "zpebsZeeobetcknL"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "0eCtgAeX52eq2V3w"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "aeCkxYJZdhE1C8c3"
+   },
+   {
+    "brpid": "i.skill.sleight-of-hand",
+    "uuid": "xOdCywNiJtAsqTAk"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "MlA3n3c53e4GgN4j"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 3,
+  "description": "你靠运气的垂青度日，或在运气与技艺的博弈中欺骗命运；你难免四处漂泊，从一处赌场流连到另一处，有时比追兵快一步，只盼好运不至枯竭。\n\n财富（UGE 口径）：贫穷至殷实，通常为中等。\n技能建议：议价、斗殴、闪避、话术、博弈、洞察、知识（会计）、说服、巧手、侦查。"
+ }
+}

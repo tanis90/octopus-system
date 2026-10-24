@@ -85,7 +85,7 @@ v0.3.0：tag + release zip + compat 仓 vendor 台账 hash 更新（brp-hash.mjs
 | 方案 v1 | 本 commit | — |
 | BP-M2 提取管线（en canonical） | （本 commit） | 技能 57（base 数值化 43/原文口径 14 如 As per weapon specialty）/职业 44（wealth+skills 零缺失——原文两种冒号位置混用已兼容）；引用交叉检查的碎片为自由文本建议清单（UGE 语义），不做硬外键；源 pin brpugesrd@42f6bffee9dc 入 provenance.json |
 | BP-M3 中译 | （本 commit） | slug 序/数全等（57/44）；红区词扫描零命中；职业引用⊆技能名集（未命中 9 词均白名单）；财富档对齐仓内 wealthLevel 文案（一贫如洗/贫穷/中等/殷实/富有）；分歧裁定：Ride=骑乘、POW=意志、Pilot=载具驾驶；术语表 69 条入 content/terminology.json |
-| BP-M4 build 双格式 + 注册 + notice | | |
+| BP-M4 build 双格式 + 注册 + notice | （本 commit） | 技能包 63 文档（57 技能+6 分类，category→skillcat brpid 引用，combat 标记）；职业包 44（固定技能 brpid 引用+18 个任选组 {options,skills}，财富档数值化 0-4 对齐系统 wealthLevel）；侦探抽检=固定 6+任选 4/19 与 UGE 原文精确对齐；未解析 15 条均专细残片（留描述文本，设计内）；重名碰撞修复（分类加"类"后缀）；双格式产物+system.json packs 两席幂等注册；ORC-NOTICE.md 三件套（Licensed Content 章节+provenance+署名） |
 | BP-M5 验证 + v0.3.0 发布 | | |
 
 ## 9. 变更记录（偏离申报）

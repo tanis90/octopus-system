@@ -1,0 +1,130 @@
+{
+ "_id": "mIY6pCN3EOlRedHa",
+ "name": "侦探",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.detective",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Detective"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.firearm",
+    "uuid": "NnqRMFfebVhnYuhb"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "eE979HzKbwEKvs4h"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "xzacYDv21walu4h2"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "U8Ie6RkJN84r4rFl"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "dN0MrwLEagjnNRg0"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "gqDzEN2VgvEeRNy6"
+   }
+  ],
+  "groups": [
+   {
+    "options": 4,
+    "skills": [
+     {
+      "brpid": "i.skill.art",
+      "uuid": "39kCQCDXlNUGhDiV"
+     },
+     {
+      "brpid": "i.skill.brawl",
+      "uuid": "bwMBwKv3hlp7CuWF"
+     },
+     {
+      "brpid": "i.skill.disguise",
+      "uuid": "MD1SmDwTry9YT7rS"
+     },
+     {
+      "brpid": "i.skill.dodge",
+      "uuid": "ul6R9QIg7Ut9flLr"
+     },
+     {
+      "brpid": "i.skill.drive",
+      "uuid": "r7f9ev7JTBV6UlHU"
+     },
+     {
+      "brpid": "i.skill.fast-talk",
+      "uuid": "dmVWMuAhLPJUKBsK"
+     },
+     {
+      "brpid": "i.skill.firearm",
+      "uuid": "H6AzNpFqfqef9gXq"
+     },
+     {
+      "brpid": "i.skill.grapple",
+      "uuid": "llJibrTkUMaT29nC"
+     },
+     {
+      "brpid": "i.skill.hide",
+      "uuid": "fEruzyiSV0JwDJp6"
+     },
+     {
+      "brpid": "i.skill.insight",
+      "uuid": "NYg9vnT97WDj56kj"
+     },
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "49xFC4SZSI2b5TP0"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "Y1ANJBLDSFe2qRtA"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "yX5tTmFg7oC1WJiN"
+     },
+     {
+      "brpid": "i.skill.medicine",
+      "uuid": "RtQPTYZ8cpzYTF4m"
+     },
+     {
+      "brpid": "i.skill.ride",
+      "uuid": "eZO1hqn7dvNYD9Hh"
+     },
+     {
+      "brpid": "i.skill.science",
+      "uuid": "kEjAdEVSWj6nBBk4"
+     },
+     {
+      "brpid": "i.skill.technical-skill",
+      "uuid": "LjRRZzxzjAB8oM0B"
+     },
+     {
+      "brpid": "i.skill.stealth",
+      "uuid": "PgaReIRocDFZihOk"
+     },
+     {
+      "brpid": "i.skill.track",
+      "uuid": "1radUQebCh83dwz5"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "无论受雇于警方还是私家执业，你都运用观察、演绎与犯罪学的本领查明真凶；你可能身怀五花八门的法医与科学技能，也可能全凭直觉行事。\n\n财富（UGE 口径）：中等或殷实。\n技能建议：枪械（手枪）、知识（法律）、聆听、说服、侦查、研究，并视设定与角色概念从下列技能中任选四项：艺术、斗殴、乔装、闪避、驾驶、话术、枪械（任意）、擒抱、躲藏、洞察、知识（任意）、语言（其他）、语言（母语）、医学、骑乘、科学（任意）、技术（计算机使用）、潜行、追踪。"
+ }
+}

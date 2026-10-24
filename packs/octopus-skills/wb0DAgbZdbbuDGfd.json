@@ -1,0 +1,19 @@
+{
+ "_id": "wb0DAgbZdbbuDGfd",
+ "name": "心智类",
+ "type": "skillcat",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skillcat.mental",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Mental Skills Category"
+  }
+ },
+ "system": {
+  "basic": false,
+  "description": "Mental 类技能分类（UGE）"
+ }
+}

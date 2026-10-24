@@ -1,0 +1,3594 @@
+[
+ {
+  "_id": "dntQLU5JsFedTqsv",
+  "name": "艺术家",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.artist",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Artist"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.art",
+     "uuid": "fFDHBDZO2jBUKfri"
+    },
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "BokO2Arm80GksVYx"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "qp80ot43ayldkyvt"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "eInNbsxE5ifo1uuQ"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "u65Af05ieSVJMyFE"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "76dNIpBRa7QOb59r"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "X86AuWXTxRpnhxLs"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "STDHv1gC3Mz5cCQs"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "hgccQeftq3lGYWDy"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 2,
+   "description": "你以创作艺术为生，无论素描、油画、雕塑、设计、摄影、电影摄制，还是以实体或数字媒介进行创造性表达的任何其他方式。表演者请参阅艺人职业。\n\n财富（UGE 口径）：任意，但通常为贫穷或中等。\n技能建议：任意两项艺术技能、任意一项手艺、洞察、一项合适的知识技能、语言（其他）、语言（母语）、聆听、研究、侦查"
+  }
+ },
+ {
+  "_id": "4caxaSc5DQLXcpuE",
+  "name": "刺客",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.assassin",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Assassin"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.dodge",
+     "uuid": "tgWst9WvqBFNx1cX"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "V3ONYV7mmmSefEeG"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "dgVxAmQqsGR6kbqo"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "m2Gb5BMO2f6hGcOO"
+    },
+    {
+     "brpid": "i.skill.stealth",
+     "uuid": "SYlNvHAEACMsCmvE"
+    }
+   ],
+   "groups": [
+    {
+     "options": 5,
+     "skills": [
+      {
+       "brpid": "i.skill.brawl",
+       "uuid": "skSCbTISF9tDh5WD"
+      },
+      {
+       "brpid": "i.skill.disguise",
+       "uuid": "PWsI1DVnQF1uO1kE"
+      },
+      {
+       "brpid": "i.skill.drive",
+       "uuid": "J5MRzr2BUkYNd9J1"
+      },
+      {
+       "brpid": "i.skill.grapple",
+       "uuid": "bMAUBeFl2i3MkyHB"
+      },
+      {
+       "brpid": "i.skill.firearm",
+       "uuid": "5DX76FdoMX3aexZH"
+      },
+      {
+       "brpid": "i.skill.fine-manipulation",
+       "uuid": "RkefZ7td9fvN3AeC"
+      },
+      {
+       "brpid": "i.skill.martial-arts",
+       "uuid": "Qu8qIGzuJj7Ggnhw"
+      },
+      {
+       "brpid": "i.skill.melee-weapon",
+       "uuid": "jJdCHPwnQmK2fDHY"
+      },
+      {
+       "brpid": "i.skill.missile-weapon",
+       "uuid": "kXQxeke7OqVhzzMB"
+      },
+      {
+       "brpid": "i.skill.ride",
+       "uuid": "ijXozoI3fGzSU6H8"
+      },
+      {
+       "brpid": "i.skill.throw",
+       "uuid": "7Gzx82wF3VF8kheu"
+      },
+      {
+       "brpid": "i.skill.track",
+       "uuid": "5NDZmsoELkLlvmKM"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "身为冷血的执业刺客，死亡就是你的营生。无论为钱还是为别的缘由杀人，你都精于了结其他生灵，通常做得悄无声息。\n\n财富（UGE 口径）：中等或殷实。视设定而定，你还可能拥有各式武器与虚假身份。\n技能建议：闪避、躲藏、聆听、侦查、潜行，以及视设定从下列技能中任选五项：斗殴、乔装、驾驶、电子学、擒抱、枪械（任意）、精细操作、武术、近战武器（任意）、射击武器（任意）、骑乘、投掷、追踪"
+  }
+ },
+ {
+  "_id": "gW7Exds3Rablpd0b",
+  "name": "运动员",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.athlete",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Athlete"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.climb",
+     "uuid": "gF5Qyx2x8S05cvWc"
+    },
+    {
+     "brpid": "i.skill.dodge",
+     "uuid": "REE0v0ltFFkU3nmO"
+    },
+    {
+     "brpid": "i.skill.jump",
+     "uuid": "3iR6bxb3QZu0tWpZ"
+    },
+    {
+     "brpid": "i.skill.stealth",
+     "uuid": "rFwGXd2HuVyB7aN3"
+    },
+    {
+     "brpid": "i.skill.throw",
+     "uuid": "qeMd051EoBhqbvf1"
+    }
+   ],
+   "groups": [
+    {
+     "options": 5,
+     "skills": [
+      {
+       "brpid": "i.skill.brawl",
+       "uuid": "hl521p3Uqn8tFiHD"
+      },
+      {
+       "brpid": "i.skill.first-aid",
+       "uuid": "KU6DyysAT37LDUY5"
+      },
+      {
+       "brpid": "i.skill.grapple",
+       "uuid": "h7V3rmHz4hR12mJ6"
+      },
+      {
+       "brpid": "i.skill.insight",
+       "uuid": "gO1iLSDVXOCbfzdy"
+      },
+      {
+       "brpid": "i.skill.listen",
+       "uuid": "sb0sRctHMpDhbhFF"
+      },
+      {
+       "brpid": "i.skill.martial-arts",
+       "uuid": "HVSufNFlGz0TDIrG"
+      },
+      {
+       "brpid": "i.skill.spot",
+       "uuid": "11U2Yh3qi1oISKfm"
+      },
+      {
+       "brpid": "i.skill.ride",
+       "uuid": "95SPeD5RejvlfW78"
+      },
+      {
+       "brpid": "i.skill.swim",
+       "uuid": "kkgkN2DFEGxsYezg"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 4,
+   "description": "无论职业还是业余，受国家资助还是仍在求学，你都精于某一样式的运动或锻炼，为单人或团体竞技磨砺身体与意志。\n\n财富（UGE 口径）：贫穷至富有，通常为中等或殷实。\n技能建议：攀爬、闪避、跳跃、潜行、投掷，并视设定与运动项目从下列技能中任选五项：斗殴、急救、擒抱、洞察、聆听、武术、侦查、骑乘、游泳。"
+  }
+ },
+ {
+  "_id": "VhwvjtJnaM4p9y5Q",
+  "name": "乞丐",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.beggar",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Beggar"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "bI36HnbBYxB7Avtb"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "ypdK5KRBF9z3915c"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "xY3q3MIakbweG6Iu"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "hIqdf4ClDNAH2HGC"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "m3lGL6gYjUH9cIc1"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "6tXTtkKl9pW5ubW4"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "qobgpdGbmgl1qtgF"
+    },
+    {
+     "brpid": "i.skill.sleight-of-hand",
+     "uuid": "masNjIQh8nluzksp"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "oB7Lhcg1Fpz2idh3"
+    },
+    {
+     "brpid": "i.skill.stealth",
+     "uuid": "Z8HJXenm1jzFlehA"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 1,
+   "description": "你靠乞讨钱粮与生活必需品度日；你可以自称流浪汉、无家可归者或四处漂泊的游民。也许你时运不济，也许你属于受歧视的群体，也许你有难以洗脱的犯罪过往，又或许是精神失常或药物滥用把你逼到这步田地。\n\n财富（UGE 口径）：一贫如洗，不过有些乞丐实为贫穷，只是装得更惨。\n技能建议：议价、话术、躲藏、洞察、知识（地区：当地）、聆听、说服、巧手、侦查、潜行。"
+  }
+ },
+ {
+  "_id": "8PhhKXm4Xr6ev9no",
+  "name": "职员",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.clerk",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Clerk"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "Z5aENZpA6TRE4RLd"
+    },
+    {
+     "brpid": "i.skill.etiquette",
+     "uuid": "nCpwcjpMvVOgB2gk"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "udbfjLWgUt2uHGuA"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "3jiDCjuh1fHbcsct"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "gKcNUsSPmFSKvi2Z"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "XOcycOf4CZDvNxZd"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "vWSpvQfgWwl3LVCZ"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "psZONAvthwdqcqty"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "0bdkhg8TVxSfjuXz"
+    },
+    {
+     "brpid": "i.skill.literacy",
+     "uuid": "Uxs1vCnDi58yWe7Q"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 2,
+   "description": "你整日伏案工作，通常供职于某个金融领域；这份职业可能需要与客户打交道，比如当会计，或是公司、政府或其他组织中的受薪职员。\n\n财富（UGE 口径）：中等。\n技能建议：议价、礼仪、知识（会计）、知识（法律）、另一门知识、语言（母语）、说服、研究、地位，以及视时代选用技术（计算机使用）或读写。"
+  }
+ },
+ {
+  "_id": "bYZl1BFyBRIwiljx",
+  "name": "电脑技术员",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.computer-tech",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Computer Tech"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "8EIxtYkjRXNzx3Sd"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "AZYZn8tUn9coggY5"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "bBEG2Llhp7cnQ6S0"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "rTB759azlf57wrSn"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "2UvllK3TfdTnaygi"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "waRhbu8XGpT66TGW"
+    },
+    {
+     "brpid": "i.skill.science",
+     "uuid": "1Vgp4e1RfCWrjLTN"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "vjvmw87KTiwm2JEb"
+    },
+    {
+     "brpid": "i.skill.technical-skill",
+     "uuid": "O3fs37kPKAnEIuvL"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "ERSc1F6QLJYPcqIi"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "oGoUA5c54lfjQ0Ba"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "你可能是企业的软件工程师，也可能是非法的黑客，或在软件开发的众多领域中从事其一。你大部分人生都与计算机为伴，常常接入世界的信息网络；一行行代码、数据与其他虚拟资产，对你而言与其他工匠的工具材料一般真实。\n\n财富（UGE 口径）：中等至殷实。\n技能建议：手艺（计算机硬件或编程）、一门知识技能、语言（其他）（一门编程语言）、维修（电气）、维修（电子）、研究、科学（数学）、地位、技术（计算机使用），并视设定从下列技能中选一项作为专长：会计、躲藏、知识（法律）。"
+  }
+ },
+ {
+  "_id": "iO0vhJVMipDQOCos",
+  "name": "工匠",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.crafter",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Crafter"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.appraise",
+     "uuid": "VDucyhpPrVvuN4iC"
+    },
+    {
+     "brpid": "i.skill.art",
+     "uuid": "AcEUBIDhIm3R8AJ7"
+    },
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "5UKHQq4tQ8wiWJff"
+    },
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "1NjZusaXjrGe5Sy3"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "nT9RfgmjslPkrJ4z"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "LykgoUM3A4ZX8pkN"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "mcdhNYopcuQgIiKk"
+    }
+   ],
+   "groups": [
+    {
+     "options": 2,
+     "skills": [
+      {
+       "brpid": "i.skill.fine-manipulation",
+       "uuid": "K66VZzYwrQ0ItsfJ"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "OBrZPIie2z8nqTIU"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "dWwLwGyvfbRTkSGe"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "RHE33lJge9nucj7t"
+      },
+      {
+       "brpid": "i.skill.heavy-machine",
+       "uuid": "aapsOoB3Q7xLwII7"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 3,
+   "description": "无论是乡村铁匠、玻璃匠还是精工钟表匠，你都亲手制作货物，售予有意购买之人；你通常在店铺中劳作，无论铺子是自有还是受雇于此。\n\n财富（UGE 口径）：贫穷至殷实，通常为中等。\n技能建议：估价、任意一项艺术、议价、任意两项手艺、侦查、研究、地位，并视设定与行当从下列技能中任选两项：精细操作、维修（电气）、维修（电子）、维修（机械）、重型机械。"
+  }
+ },
+ {
+  "_id": "qOpPbJY7KVlhYe1b",
+  "name": "罪犯",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.criminal",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Criminal"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "Ze6qZ1nw4fzy081C"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "kmFkxrXlc14xlJED"
+    },
+    {
+     "brpid": "i.skill.stealth",
+     "uuid": "jkEVMIGoTkbkvGVD"
+    },
+    {
+     "brpid": "i.skill.drive",
+     "uuid": "LeRMQogeOdMnXc05"
+    }
+   ],
+   "groups": [
+    {
+     "options": 6,
+     "skills": [
+      {
+       "brpid": "i.skill.appraise",
+       "uuid": "7ZFnFaxuo4FoEXsq"
+      },
+      {
+       "brpid": "i.skill.brawl",
+       "uuid": "NGdFmvjrwWFZohdL"
+      },
+      {
+       "brpid": "i.skill.climb",
+       "uuid": "MCfhEYIL1ItEHO0b"
+      },
+      {
+       "brpid": "i.skill.fast-talk",
+       "uuid": "dpArEHLnkZjAqQO4"
+      },
+      {
+       "brpid": "i.skill.fine-manipulation",
+       "uuid": "VVRmB6yegBxdRsWf"
+      },
+      {
+       "brpid": "i.skill.firearm",
+       "uuid": "J3OaLaFMiJ5MIgUX"
+      },
+      {
+       "brpid": "i.skill.gaming",
+       "uuid": "0nOxrH6ETX8088sR"
+      },
+      {
+       "brpid": "i.skill.grapple",
+       "uuid": "u1hhQ9jH2wmC8oPA"
+      },
+      {
+       "brpid": "i.skill.insight",
+       "uuid": "Kthb7USQ1jNrVWcy"
+      },
+      {
+       "brpid": "i.skill.jump",
+       "uuid": "3bkTCuINNTTCBYtk"
+      },
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "JmpWK12RFmrL8Ze8"
+      },
+      {
+       "brpid": "i.skill.listen",
+       "uuid": "NchFqjdf72SdSwX0"
+      },
+      {
+       "brpid": "i.skill.martial-arts",
+       "uuid": "bdicgHzQUoR2ehBl"
+      },
+      {
+       "brpid": "i.skill.melee-weapon",
+       "uuid": "WZVYkt7uHcNhSqOn"
+      },
+      {
+       "brpid": "i.skill.persuade",
+       "uuid": "8wcpLTGSipfgEhiz"
+      },
+      {
+       "brpid": "i.skill.spot",
+       "uuid": "Q7ZWshCoC3HtRERb"
+      },
+      {
+       "brpid": "i.skill.throw",
+       "uuid": "dDd2boaNoEgG0b0Z"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 4,
+   "description": "你靠触犯法律行走世间，无论是持械劫掠、有组织犯罪、扒窃，还是其他非法攫取财物或金钱的手段。\n\n财富（UGE 口径）：贫穷至殷实，偶有富有，通常为中等。\n技能建议：议价、躲藏、潜行、驾驶或骑乘，并视设定与营生从下列技能中任选六项：估价、斗殴、攀爬、话术、精细操作、枪械（任意）、博弈、擒抱、洞察、跳跃、知识（法律）、聆听、武术、近战武器（任意，通常为刀或棍棒）、说服、侦查、投掷。"
+  }
+ },
+ {
+  "_id": "mIY6pCN3EOlRedHa",
+  "name": "侦探",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.detective",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Detective"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.firearm",
+     "uuid": "NnqRMFfebVhnYuhb"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "eE979HzKbwEKvs4h"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "xzacYDv21walu4h2"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "U8Ie6RkJN84r4rFl"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "dN0MrwLEagjnNRg0"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "gqDzEN2VgvEeRNy6"
+    }
+   ],
+   "groups": [
+    {
+     "options": 4,
+     "skills": [
+      {
+       "brpid": "i.skill.art",
+       "uuid": "39kCQCDXlNUGhDiV"
+      },
+      {
+       "brpid": "i.skill.brawl",
+       "uuid": "bwMBwKv3hlp7CuWF"
+      },
+      {
+       "brpid": "i.skill.disguise",
+       "uuid": "MD1SmDwTry9YT7rS"
+      },
+      {
+       "brpid": "i.skill.dodge",
+       "uuid": "ul6R9QIg7Ut9flLr"
+      },
+      {
+       "brpid": "i.skill.drive",
+       "uuid": "r7f9ev7JTBV6UlHU"
+      },
+      {
+       "brpid": "i.skill.fast-talk",
+       "uuid": "dmVWMuAhLPJUKBsK"
+      },
+      {
+       "brpid": "i.skill.firearm",
+       "uuid": "H6AzNpFqfqef9gXq"
+      },
+      {
+       "brpid": "i.skill.grapple",
+       "uuid": "llJibrTkUMaT29nC"
+      },
+      {
+       "brpid": "i.skill.hide",
+       "uuid": "fEruzyiSV0JwDJp6"
+      },
+      {
+       "brpid": "i.skill.insight",
+       "uuid": "NYg9vnT97WDj56kj"
+      },
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "49xFC4SZSI2b5TP0"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "Y1ANJBLDSFe2qRtA"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "yX5tTmFg7oC1WJiN"
+      },
+      {
+       "brpid": "i.skill.medicine",
+       "uuid": "RtQPTYZ8cpzYTF4m"
+      },
+      {
+       "brpid": "i.skill.ride",
+       "uuid": "eZO1hqn7dvNYD9Hh"
+      },
+      {
+       "brpid": "i.skill.science",
+       "uuid": "kEjAdEVSWj6nBBk4"
+      },
+      {
+       "brpid": "i.skill.technical-skill",
+       "uuid": "LjRRZzxzjAB8oM0B"
+      },
+      {
+       "brpid": "i.skill.stealth",
+       "uuid": "PgaReIRocDFZihOk"
+      },
+      {
+       "brpid": "i.skill.track",
+       "uuid": "1radUQebCh83dwz5"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "无论受雇于警方还是私家执业，你都运用观察、演绎与犯罪学的本领查明真凶；你可能身怀五花八门的法医与科学技能，也可能全凭直觉行事。\n\n财富（UGE 口径）：中等或殷实。\n技能建议：枪械（手枪）、知识（法律）、聆听、说服、侦查、研究，并视设定与角色概念从下列技能中任选四项：艺术、斗殴、乔装、闪避、驾驶、话术、枪械（任意）、擒抱、躲藏、洞察、知识（任意）、语言（其他）、语言（母语）、医学、骑乘、科学（任意）、技术（计算机使用）、潜行、追踪。"
+  }
+ },
+ {
+  "_id": "ASr4Ke8QdgTCQ9VQ",
+  "name": "医生",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.doctor",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Doctor"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.first-aid",
+     "uuid": "hcMgQHsd1YEmiyid"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "EScHIihmbZtJ9ZqT"
+    },
+    {
+     "brpid": "i.skill.medicine",
+     "uuid": "p0ezSLEXrjDvgZdO"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "amNldu321QdgBaYb"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "6ZQ2O8d4xYL6BFdq"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "EyrI2xIpXEAUaC60"
+    }
+   ],
+   "groups": [
+    {
+     "options": 4,
+     "skills": [
+      {
+       "brpid": "i.skill.insight",
+       "uuid": "im8OFo5jp3gDu5HK"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "spwOF3uG2vPjN12z"
+      },
+      {
+       "brpid": "i.skill.psychotherapy",
+       "uuid": "bo59WQbPMvNbNC3D"
+      },
+      {
+       "brpid": "i.skill.science",
+       "uuid": "NHwxmP5JxCCAMVIL"
+      },
+      {
+       "brpid": "i.skill.status",
+       "uuid": "M7nhYPIaiXYrUHVY"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "救治伤患、病弱与一切失去健康之人是你毕生的志业，你运用长期训练与研习所得的诊断本领与医疗手段行医；你可能立过誓言，救助任何需要之人，无论其所作所为、是何身份。\n\n财富（UGE 口径）：中等至殷实。\n技能建议：急救、语言（母语）、医学、说服、研究、侦查，并视设定从下列技能中任选四项：洞察、语言（其他）、心理治疗、科学（任意）、地位。"
+  }
+ },
+ {
+  "_id": "vnMs7lsIAoEpeaW5",
+  "name": "工程师",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.engineer",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Engineer"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "BunCrf8kTcuwSOZa"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "5S1wRUBJB7uFgstm"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "qbIFQXmCYwx3vive"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "K4mRgGSl3dv1ELbo"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "HlweEJgqfPBSiJZe"
+    }
+   ],
+   "groups": [
+    {
+     "options": 5,
+     "skills": [
+      {
+       "brpid": "i.skill.art",
+       "uuid": "VchLZb0U34QBoB9e"
+      },
+      {
+       "brpid": "i.skill.drive",
+       "uuid": "id1oua4SZuWHdqEs"
+      },
+      {
+       "brpid": "i.skill.heavy-machine",
+       "uuid": "UBCRomLwdfjsftcJ"
+      },
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "zogvWgZvqr0Tvynl"
+      },
+      {
+       "brpid": "i.skill.pilot",
+       "uuid": "u4Tg0BatYyPgqeF0"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "5yP2ud5obgjafsI5"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "VDmMlirX3xk76p7E"
+      },
+      {
+       "brpid": "i.skill.science",
+       "uuid": "J6LZf84bJcuCNpU4"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 3,
+   "description": "你建造、修理或维护机器、从事营造，或是与所处时代和设定相称的技术打交道的机械师——从简朴的石构建筑到高度先进的飞船推进系统。有些工程师维护并操作某型庞大复杂的载具，从帆船到太空巡洋舰；另一些则受雇建造并维护攻城器械或建筑结构。\n\n财富（UGE 口径）：贫穷至殷实，通常为中等。\n技能建议：手艺（任意）、维修（机械）、维修（建筑）、侦查、地位，以及视设定与角色概念从下列技能中任选五项：艺术（通常为制图）、驾驶、重型机械、知识（任意）、载具驾驶（任意）、维修（电气）、维修（电子）、科学（任意）或技术（计算机使用）。"
+  }
+ },
+ {
+  "_id": "WOYFvssU7nR0sf7X",
+  "name": "艺人",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.entertainer",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Entertainer"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.art",
+     "uuid": "tEjZSTgfptpR7G4k"
+    },
+    {
+     "brpid": "i.skill.disguise",
+     "uuid": "TazUMy47JjO9OSLy"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "ddYjeb823ZmRDzRq"
+    },
+    {
+     "brpid": "i.skill.fine-manipulation",
+     "uuid": "QRhK82XitiPa38Rx"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "5oHIoHZoHyNbUSc6"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "LYGvJgBuhkG5hU5H"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "LD60djCsoaPhUE5F"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "qRBVoGLT5c1O3wfb"
+    },
+    {
+     "brpid": "i.skill.perform",
+     "uuid": "ARKbghsIqOS8IT6b"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "yNbTXQwBcmyjfdBv"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 4,
+   "description": "你以表演才华娱悦大小观众，无论即兴还是照本宣科，无论现场演出、广播电视传送还是预录发行。\n\n财富（UGE 口径）：一贫如洗至富有，通常为中等。\n技能建议：艺术（任意）、乔装、话术、精细操作、洞察、语言（其他）、语言（母语）、聆听、表演（任意）、说服。"
+  }
+ },
+ {
+  "_id": "gCBcbIMrJy73kGZO",
+  "name": "探险家",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.explorer",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Explorer"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.climb",
+     "uuid": "Xcq9WXHQ9ezcgzkB"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "weaG2reGcerf1eWR"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "2SaA52j4wk0D3DLa"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "vlicJZX3oQLBpERl"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "xZWF6o2zj0EyR8L0"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "drRgMOf7lzGkzxqn"
+    }
+   ],
+   "groups": [
+    {
+     "options": 4,
+     "skills": [
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "SkroA4bfjzbkGv6L"
+      },
+      {
+       "brpid": "i.skill.drive",
+       "uuid": "69uOudsidblerLdq"
+      },
+      {
+       "brpid": "i.skill.fast-talk",
+       "uuid": "ySxochNv0fwVIt3K"
+      },
+      {
+       "brpid": "i.skill.firearm",
+       "uuid": "mFHUrHzVVP2IExsR"
+      },
+      {
+       "brpid": "i.skill.navigate",
+       "uuid": "O06SD0Uqthle19dl"
+      },
+      {
+       "brpid": "i.skill.pilot",
+       "uuid": "AJCdgmdgXzDasNGh"
+      },
+      {
+       "brpid": "i.skill.ride",
+       "uuid": "x465JgVIjF1GpmAC"
+      },
+      {
+       "brpid": "i.skill.science",
+       "uuid": "wFThZG5bHWrn3iVJ"
+      },
+      {
+       "brpid": "i.skill.swim",
+       "uuid": "IzAMBF0rUZPWe4Bz"
+      },
+      {
+       "brpid": "i.skill.track",
+       "uuid": "JWyND41DQ00b3Ids"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 3,
+   "maxWealth": 4,
+   "description": "你以踏访世界的未知角落、去往无人之境为己任，并将所见所闻带回来——或为荣耀，或以发现之名。\n\n财富（UGE 口径）：殷实或富有。\n技能建议：攀爬、语言（其他）、语言（母语）、说服、研究、侦查，以及视设定从下列技能中任选四项：知识（人类学、群体、历史、自然或地区）、驾驶、话术、枪械（手枪、左轮枪或步枪）、导航、载具驾驶（飞行器或船只）、骑乘、科学（地质学）、游泳、追踪。"
+  }
+ },
+ {
+  "_id": "qJvsEd6OG93j0ZWK",
+  "name": "农夫",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.farmer",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Farmer"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "YIgkB1wk1z8ek7rJ"
+    },
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "NmgXhCoaGybPCiTQ"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "Tkv5qiHUkT3OOWCp"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "eoVqSnOBfhVQfkkA"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "OlmwOWJ18eiFKrXe"
+    }
+   ],
+   "groups": [
+    {
+     "options": 5,
+     "skills": [
+      {
+       "brpid": "i.skill.brawl",
+       "uuid": "KaioxLlw1SrGATA8"
+      },
+      {
+       "brpid": "i.skill.drive",
+       "uuid": "SfxxXyifkTEz0SFl"
+      },
+      {
+       "brpid": "i.skill.firearm",
+       "uuid": "33eKrExTfTxeP54n"
+      },
+      {
+       "brpid": "i.skill.first-aid",
+       "uuid": "fXSl4FDYHDTIYSkm"
+      },
+      {
+       "brpid": "i.skill.heavy-machine",
+       "uuid": "AkHHnWp2MCNHe9FU"
+      },
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "cprh4fzBormNKW5N"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "SBcI3yMcY1eF15PK"
+      },
+      {
+       "brpid": "i.skill.ride",
+       "uuid": "IJeT4fcSvcpdhgvm"
+      },
+      {
+       "brpid": "i.skill.science",
+       "uuid": "QhwnW1tBZBWX8NpS"
+      },
+      {
+       "brpid": "i.skill.track",
+       "uuid": "o8Ef11VOL82faWjd"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 3,
+   "description": "身为农夫，你栖身乡野或尚未开化的边地，靠种庄稼或放牧牲畜从土地里刨出生计；这是终日劳作、辛苦备至的营生，却也自有其满足。\n\n财富（UGE 口径）：贫穷至殷实，通常为中等。\n技能建议：议价、手艺（任意）、知识（博物学）、聆听、侦查，以及视设定与角色概念从下列技能中任选五项：斗殴、驾驶、枪械（步枪或霰弹枪）、急救、重型机械、知识（自然）、维修（机械）、骑乘、科学（生物学、植物学或地质学）、追踪。"
+  }
+ },
+ {
+  "_id": "Ph44sy8CLBktaByo",
+  "name": "赌徒",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.gambler",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Gambler"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "gyKliJjzmf3PouqQ"
+    },
+    {
+     "brpid": "i.skill.brawl",
+     "uuid": "JjbZE1qbVJNIWJV4"
+    },
+    {
+     "brpid": "i.skill.dodge",
+     "uuid": "tcsxnQ0y8KPrx3ll"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "UHr64dh4Xdh97gHn"
+    },
+    {
+     "brpid": "i.skill.gaming",
+     "uuid": "ul9sgCo0bKNztM8G"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "zpebsZeeobetcknL"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "0eCtgAeX52eq2V3w"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "aeCkxYJZdhE1C8c3"
+    },
+    {
+     "brpid": "i.skill.sleight-of-hand",
+     "uuid": "xOdCywNiJtAsqTAk"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "MlA3n3c53e4GgN4j"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 3,
+   "description": "你靠运气的垂青度日，或在运气与技艺的博弈中欺骗命运；你难免四处漂泊，从一处赌场流连到另一处，有时比追兵快一步，只盼好运不至枯竭。\n\n财富（UGE 口径）：贫穷至殷实，通常为中等。\n技能建议：议价、斗殴、闪避、话术、博弈、洞察、知识（会计）、说服、巧手、侦查。"
+  }
+ },
+ {
+  "_id": "fNO77YJHawMnBnTt",
+  "name": "牧人",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.herder",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Herder"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "EbqMSrAZ6UPiPQbU"
+    },
+    {
+     "brpid": "i.skill.firearm",
+     "uuid": "cWCJaDqou7uRS957"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "Xc0PwlPNdQt4Agqa"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "Ik3VcoAdcplPEer1"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "I9cx5HQbZHSxTUle"
+    },
+    {
+     "brpid": "i.skill.navigate",
+     "uuid": "Vdom62ZVcI2PYwtT"
+    },
+    {
+     "brpid": "i.skill.ride",
+     "uuid": "vKSZA3Ua5SJVZt0b"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "o4U3BsHuCHVyKUdo"
+    },
+    {
+     "brpid": "i.skill.throw",
+     "uuid": "PjLCWs3GmJojxj5a"
+    },
+    {
+     "brpid": "i.skill.track",
+     "uuid": "DmB2DDDELwYi0kaR"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 3,
+   "description": "你以放牧为生，驰骋于开阔的牧场，照看畜群、寻回走失的牲口，待到售卖时节把它们赶往市集。\n\n财富（UGE 口径）：贫穷至中等，偶尔殷实。\n技能建议：手艺（通常为绳结）、枪械（步枪）、知识（自然）、知识（地区：牧场）、聆听、导航、骑乘、侦查、投掷、追踪。"
+  }
+ },
+ {
+  "_id": "ZHzAGKvZ9NXgbVaX",
+  "name": "猎人",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.hunter",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Hunter"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.climb",
+     "uuid": "PRtraKhOraXCl8S4"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "fE2RTssnSY5m7LbY"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "iA5pU9bLDCrkVXEH"
+    },
+    {
+     "brpid": "i.skill.navigate",
+     "uuid": "LDbiPWn5yJhbeeme"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "gZbfJQP5fX4sgXGH"
+    },
+    {
+     "brpid": "i.skill.stealth",
+     "uuid": "TwlYTpV2vs0tLZjR"
+    },
+    {
+     "brpid": "i.skill.track",
+     "uuid": "d4p0H63E61kcd3J5"
+    }
+   ],
+   "groups": [
+    {
+     "options": 3,
+     "skills": [
+      {
+       "brpid": "i.skill.firearm",
+       "uuid": "2yAaXgIh19opjdJy"
+      },
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "jWz00ZAYjH0mq4Iw"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "kL0bSUPCckmN2sYF"
+      },
+      {
+       "brpid": "i.skill.melee-weapon",
+       "uuid": "BNZphNFu7KGrC7ox"
+      },
+      {
+       "brpid": "i.skill.missile-weapon",
+       "uuid": "a1HyOz6X23HXZOet"
+      },
+      {
+       "brpid": "i.skill.ride",
+       "uuid": "eIxYJcRoX9FWMYjX"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 4,
+   "description": "无论为了生存还是为了狩猎的刺激，你都专于追踪野兽或其他生灵，将其设陷或猎杀。\n\n财富（UGE 口径）：贫穷或中等；若为猎取大型猎物或运动狩猎者，则为富有。\n技能建议：攀爬、躲藏、聆听、导航、侦查、潜行、追踪，以及视设定与角色概念从下列技能中任选三项：枪械（步枪或霰弹枪）、知识（自然或地区）、语言（其他）、近战武器（通常为长矛）、射击武器（任意）、骑乘。"
+  }
+ },
+ {
+  "_id": "d1pHHVLFDDNCqk96",
+  "name": "记者",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.journalist",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Journalist"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "qGNFYUIscggWfhJf"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "wB3QBEd18gFRnAh5"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "ezwCfDicqLBEIQxt"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "SCpz7NHanQIpFYwG"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "9oDrJzkzVMu2qKUY"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "l1RntbSJTW93qKh0"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "CnJlmVUg4g0k2dGy"
+    }
+   ],
+   "groups": [
+    {
+     "options": 3,
+     "skills": [
+      {
+       "brpid": "i.skill.art",
+       "uuid": "FKrwzatzBcasbHF0"
+      },
+      {
+       "brpid": "i.skill.craft",
+       "uuid": "XcMsTNNDeGUlTKFg"
+      },
+      {
+       "brpid": "i.skill.disguise",
+       "uuid": "Ijv8zRJIUqALJHrg"
+      },
+      {
+       "brpid": "i.skill.hide",
+       "uuid": "2HFyOcEZuBtc3qHf"
+      },
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "s9IQXo1OnKh1IBuC"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "ba2xQCbVnleg6Rfy"
+      },
+      {
+       "brpid": "i.skill.status",
+       "uuid": "Leu5FPgxIO3r7ONp"
+      },
+      {
+       "brpid": "i.skill.stealth",
+       "uuid": "utn6afGYRZO0GNIG"
+      },
+      {
+       "brpid": "i.skill.technical-skill",
+       "uuid": "3cTgY1wpXYuJfRAK"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "无论是周刊的专栏作家、网络记者、摄影记者、电视主播还是 Gonzo 评论员，你都靠报道与剖析事件为生，以广播或其他媒介形式传播；这或许会带来几分名气，或许还有恶名。\n\n财富（UGE 口径）：中等至殷实。\n技能建议：话术、洞察、语言（母语）、聆听、说服、研究、侦查，以及视设定与角色概念从下列技能中任选三项：艺术（摄影）、手艺（摄影）、乔装、躲藏、知识（任意）、语言（其他）、地位、潜行、技术（计算机使用）。"
+  }
+ },
+ {
+  "_id": "TZ1XgGgYqMsAwGKN",
+  "name": "劳力者",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.laborer",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Laborer"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.climb",
+     "uuid": "lPNtJa4nYkdpRsVi"
+    },
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "l7pN3IpgCsXKm1oa"
+    },
+    {
+     "brpid": "i.skill.drive",
+     "uuid": "W0X7CQuUBWcGybXS"
+    },
+    {
+     "brpid": "i.skill.brawl",
+     "uuid": "Dqqva5zbYtkMMumv"
+    },
+    {
+     "brpid": "i.skill.grapple",
+     "uuid": "aOYcSqLt4FRbWdny"
+    },
+    {
+     "brpid": "i.skill.heavy-machine",
+     "uuid": "nhRzax84jM7w1HYb"
+    },
+    {
+     "brpid": "i.skill.appraise",
+     "uuid": "ZrELgy2OSLJLTqBc"
+    },
+    {
+     "brpid": "i.skill.fine-manipulation",
+     "uuid": "Ek5Ou9sLu22kW4wJ"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "e2IOtgO9yjotRmuk"
+    },
+    {
+     "brpid": "i.skill.literacy",
+     "uuid": "iqlOYyjaLQ7acEzU"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "clmZX4cFxExjQHyS"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "IdsK903A2324uSyK"
+    },
+    {
+     "brpid": "i.skill.technical-skill",
+     "uuid": "zFp4zcA7DLWB02IZ"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 2,
+   "description": "你是蓝领工人，无论在工厂流水线、仓库，还是干纯重体力活；你的肌肉与重复劳作的能力，比你能调动的一切脑力都更重要。\n\n财富（UGE 口径）：贫穷或中等。\n技能建议：攀爬、手艺（任意）、驾驶、斗殴、擒抱、重型机械，以及视设定从下列技能中另选四项：估价、精细操作、语言（其他）、读写、维修（机械）、维修（建筑）、技术（计算机使用）。"
+  }
+ },
+ {
+  "_id": "Tv8edWRdKuaNXcQ1",
+  "name": "执法者",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.lawkeeper",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Lawkeeper"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.brawl",
+     "uuid": "5WwYDdz5lpqJlhwv"
+    },
+    {
+     "brpid": "i.skill.dodge",
+     "uuid": "chKnv5QbpvH2HuFW"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "HrpTkHep8eZje9Lv"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "3PFBImPrG6s2d9EM"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "174NcYd7uezIoVVn"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "v2AwZ5ay3kMQjtZp"
+    }
+   ],
+   "groups": [
+    {
+     "options": 4,
+     "skills": [
+      {
+       "brpid": "i.skill.drive",
+       "uuid": "fL8h5MFxWzNYkxOo"
+      },
+      {
+       "brpid": "i.skill.firearm",
+       "uuid": "VBfa3uyx8UOGwQSl"
+      },
+      {
+       "brpid": "i.skill.first-aid",
+       "uuid": "7boyp7YdnI3ufxks"
+      },
+      {
+       "brpid": "i.skill.grapple",
+       "uuid": "JZ7CbSDOcEazE8dT"
+      },
+      {
+       "brpid": "i.skill.insight",
+       "uuid": "ZXOPkmABc8K8mwYk"
+      },
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "TtDioHK2M85F8597"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "KbdRP2Mho0IedvGL"
+      },
+      {
+       "brpid": "i.skill.martial-arts",
+       "uuid": "mckl8iir4nttZBO2"
+      },
+      {
+       "brpid": "i.skill.melee-weapon",
+       "uuid": "uhsVaAymdo8HqLl0"
+      },
+      {
+       "brpid": "i.skill.missile-weapon",
+       "uuid": "Q085GJ2cfSmKRRR4"
+      },
+      {
+       "brpid": "i.skill.pilot",
+       "uuid": "mtbgS9YOutLBLOdH"
+      },
+      {
+       "brpid": "i.skill.ride",
+       "uuid": "t4Takc2kWL3QkFtf"
+      },
+      {
+       "brpid": "i.skill.status",
+       "uuid": "hgBwZkY0QKHA1qfi"
+      },
+      {
+       "brpid": "i.skill.technical-skill",
+       "uuid": "rZsEJrXysoXPwEPk"
+      },
+      {
+       "brpid": "i.skill.track",
+       "uuid": "9gLDLIAccB2pYw2K"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "你握有维护与捍卫法律的职权与管辖权，理想情况下是为了保护平民；你对法律与法典的执行，得到所在社区权力结构的支持。\n\n财富（UGE 口径）：通常为中等；贪腐的执法者有时殷实。\n技能建议：斗殴、闪避、话术、知识（法律）、聆听、侦查，以及视设定与角色概念从下列技能中任选四项：驾驶、枪械（任意）、急救、擒抱、洞察、知识（地区或群体）、语言（其他）、武术、近战武器（任意）、射击武器（任意）、载具驾驶（任意）、骑乘、地位、技术（计算机使用）、追踪。"
+  }
+ },
+ {
+  "_id": "WpL4RNjtWdVtdP8Z",
+  "name": "律师",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.lawyer",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Lawyer"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "wu2x67agQ0XUA8cR"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "0dkkpteGeODckd4x"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "qmKZrE1AZp2hdjRU"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "uUT1tbQ33gtJNlft"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "zuq4gutP0Y25hC9E"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "xebMngIa76adJCCD"
+    },
+    {
+     "brpid": "i.skill.perform",
+     "uuid": "Q7ILLV40axiEW5bb"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "9ZRqgsHh163ZI5kI"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "dpmcgHtQmXFi8SUh"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "4QCH7LzoWhBPuxXi"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 4,
+   "description": "你受过法律训练，运用司法体系提起公诉或进行辩护，或代表个人、组织或政府的法律权益；你虽无高于普通公民的权力，但对司法体系的内行知识令你在其中握有可观的能量。\n\n财富（UGE 口径）：一贫如洗、贫穷、中等、殷实、富有。\n技能建议：议价、话术、洞察、知识（法律）、另一门知识、语言（母语）、表演（演说）、说服、研究、地位。"
+  }
+ },
+ {
+  "_id": "z4Hpcv710Fy20Ps4",
+  "name": "机械师",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.mechanic",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Mechanic"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "6KePeYYWaDPfasoZ"
+    },
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "Gt8VOxwKqpzSghFZ"
+    },
+    {
+     "brpid": "i.skill.drive",
+     "uuid": "eaD7pvWy7Zq7SXy6"
+    },
+    {
+     "brpid": "i.skill.fine-manipulation",
+     "uuid": "j0Zb6Qvg212axKx8"
+    },
+    {
+     "brpid": "i.skill.heavy-machine",
+     "uuid": "jVztb9zVd2ccmVlS"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "huSn9hfchiha6kAi"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "kJYKQIaBRNh0FaLO"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "tqsrGHBUXfxIbJoN"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "LZSzuTBFk9lkjGUQ"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "1mFCKwfdfykQFuZ7"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 2,
+   "description": "你是个满手机油的技工，整日维护、修理乃至建造机器、载具或更复杂的构造物；你擅长摆弄工具，能轻松理清技术问题。\n\n财富（UGE 口径）：贫穷至中等，通常为中等。\n技能建议：议价、手艺（金属加工）、驾驶、精细操作、重型机械、维修（电气）、维修（电子）、维修（机械）、维修（建筑）、侦查。"
+  }
+ },
+ {
+  "_id": "iLxuazbVyNDjwaci",
+  "name": "商人",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.merchant",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Merchant"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.appraise",
+     "uuid": "U31EwCk1ZTKaqeNO"
+    },
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "aJnSWyAoldZelUqI"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "BwRnArf6TwjgTJsb"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "hywIxiMhdzff6pth"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "mGobEZfprl3OCJUG"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "Fj1532QNwNnXID42"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "rzlu3SXzNbdneAwJ"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "d6vU9HTe0z6HnXs8"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 4,
+   "description": "你以零售或批发为生，低进高出；你可能受雇或自营店铺，也可能四处流动：旅行推销员、游方补锅匠、闯荡四方的香料商，或国际销售代表。\n\n财富（UGE 口径）：中等至富有，通常为殷实。守秘人与玩家应商定角色是否拥有自己的店铺或商船。\n技能建议：估价、议价、话术、知识（会计）、知识（商业）、说服、研究、地位，以及视设定与角色概念任选另外两项技能作为专长。"
+  }
+ },
+ {
+  "_id": "kuqmiOPTm2mhDqfq",
+  "name": "贵族",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.noble",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Noble"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "lQheQ0euxKT4mbqr"
+    },
+    {
+     "brpid": "i.skill.drive",
+     "uuid": "cvuTaJFEP21kx0B8"
+    },
+    {
+     "brpid": "i.skill.etiquette",
+     "uuid": "2QqJT5gV4wXTcpS5"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "0shrTFnyKVLehH13"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "VXwu5TmifxmWl6mw"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "tK4ORviNUuF09ano"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 3,
+   "maxWealth": 4,
+   "description": "你生于富贵，出身统治阶层；在承认这类社会区分的社会中，你的地位常与爵衔官职相连，但即便头衔形同虚设，你也轻易被认作精英之列。你习惯了优雅奢靡的生活方式，与豪富显贵相识，也为其所知。\n\n财富（UGE 口径）：殷实至富有，通常为富有。\n技能建议：议价、驾驶、礼仪、语言（母语）、语言（其他）、读写与地位，另以任意三项其他技能作为爱好或兴趣领域。"
+  }
+ },
+ {
+  "_id": "qdbzCWj2FVjph9bV",
+  "name": "神秘学者",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.occultist",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Occultist"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "IWJ8gbeuCnyuzCBb"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "pu9eM0HaLhULvEhX"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "uc8eNQ0XaVebe26h"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "EEiBnHunaVedUBDa"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "hzHkenpvmsilizBI"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "fSYiTh84hsCffveR"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "1HDI1WOFnzLlbeLg"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "N4sGmecogvzPb4X7"
+    },
+    {
+     "brpid": "i.skill.art",
+     "uuid": "GwapLXk6xOmvF2r1"
+    },
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "AtPTOiHUplJKazoL"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "6kMh4HELnOvXq6RB"
+    },
+    {
+     "brpid": "i.skill.medicine",
+     "uuid": "0pGAx8iparZQb1YH"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "lhVqKId5PHJM6fvp"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 4,
+   "description": "你研习隐秘的奥义、失落的传说与魔法之力，笃信超自然力量的影响与主宰地位；若设定合适，守秘人可允许你使用异能（多半是魔法或巫术），或许是在某个神秘学组织或秘密结社中研习所得。\n\n财富（UGE 口径）：贫穷至富有，通常为殷实。\n技能建议：话术、洞察、知识（人类学）、知识（历史）、神秘学知识、语言（其他）、语言（母语）、研究，以及视设定任选另外两项技能，通常从下列之中：艺术（任意）、手艺（任意）、知识（考古学）、医学、科学（任意）或地位。"
+  }
+ },
+ {
+  "_id": "eUzqbU6RAb3tmeuK",
+  "name": "飞行员",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.pilot",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Pilot"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.drive",
+     "uuid": "ODBG9hLgXqrPd0EL"
+    },
+    {
+     "brpid": "i.skill.heavy-machine",
+     "uuid": "M2q2DElhqYMNQHk0"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "WMi1N79aPGEiXh0L"
+    },
+    {
+     "brpid": "i.skill.navigate",
+     "uuid": "cBCQaDHO4gyHSh0c"
+    },
+    {
+     "brpid": "i.skill.pilot",
+     "uuid": "slnm9EJRiu4Pq6vQ"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "jS3nafec3ZAhho6u"
+    }
+   ],
+   "groups": [
+    {
+     "options": 4,
+     "skills": [
+      {
+       "brpid": "i.skill.bargain",
+       "uuid": "vco9nH3nmRNU9o5S"
+      },
+      {
+       "brpid": "i.skill.climb",
+       "uuid": "JefSce6c1HHZ3ege"
+      },
+      {
+       "brpid": "i.skill.command",
+       "uuid": "C6Bqe9xr9vaRBLyf"
+      },
+      {
+       "brpid": "i.skill.craft",
+       "uuid": "EdmvJ19inI7uFyAa"
+      },
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "LXCwe4MN4fxbqxWP"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "SM6bTsQUZLGB9vVL"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "bcgIp9ElUiCPSfqG"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "Cer8iLlJyx2amuDX"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "t9i0093jkExQciOf"
+      },
+      {
+       "brpid": "i.skill.persuade",
+       "uuid": "vZtlgRuLM5feAZJ2"
+      },
+      {
+       "brpid": "i.skill.science",
+       "uuid": "JFvch8fgxyPeehjl"
+      },
+      {
+       "brpid": "i.skill.science",
+       "uuid": "nmXUtf0mc9cMlBUr"
+      },
+      {
+       "brpid": "i.skill.technical-skill",
+       "uuid": "nhP1dOvlcKl0rSCl"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "无论在陆地、水上水下、天空还是深空，你都受过引导与驾驶某种载具的训练，为商用、公务或军事目的操舵；视设定而定，你的差事从太空战机飞行员到不定期货轮船长不等。\n\n财富（UGE 口径）：中等至殷实；若拥有自己的载具，则为殷实。\n技能建议：驾驶、重型机械、聆听、导航、载具驾驶（任意）、侦查，以及视设定从下列技能中任选四项：议价、攀爬、指挥、手艺（任意）、知识（地区）、维修（电气）、维修（电子）、维修（机械）、语言（其他）、说服、科学（物理）、科学（天文学）、技术（计算机使用）。"
+  }
+ },
+ {
+  "_id": "plzeouwBesvAeqdE",
+  "name": "政客",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.politician",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Politician"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "N8BRSd20UsGQ2eBC"
+    },
+    {
+     "brpid": "i.skill.etiquette",
+     "uuid": "yzmNvaIwCblzA0jB"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "VZayolEZhbiOeYh7"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "HwZb46LUJm7aRBbq"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "ldiwtydnwgCdMsoZ"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "r9kRcZLRaRP9NwcE"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "KY5jkUed71QG3RsR"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "sfb8hi9YhUzhaZXh"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "HuDgPL2KBWjHKSMV"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "ryU3NV17fma39e7f"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "fwDB0TooUJlLTTO5"
+    },
+    {
+     "brpid": "i.skill.perform",
+     "uuid": "fD0CVHSzH9s4Vdml"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "X10SyTKO9ZYQn2IW"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 3,
+   "maxWealth": 4,
+   "description": "你经选举或任命而身居权位，以参与或主持政务为生，无论治下一城还是更广；视设定而定，你可能是中世纪的地方治安官，也可能是银河参议员。\n\n财富（UGE 口径）：殷实至富有，通常为殷实。\n技能建议：议价、礼仪、话术、洞察、知识（法律）、说服、地位，另视设定任选三项其他技能，通常从下列之中：知识（会计、群体、历史或地区）、聆听、语言（其他）、语言（母语）、表演（演说）、研究。"
+  }
+ },
+ {
+  "_id": "1Ts3NpLO58jca23v",
+  "name": "祭司",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.priest",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Priest"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "aRHqStkLPVyghxZG"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "Hx0WiG8hTWJ51jq1"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "hYWY1ECS4F99Hdd5"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "uNHRbTeMa7NgrUTw"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "nnm32EyZU3uVHCVX"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "ewJTkUEhUJaTq02D"
+    },
+    {
+     "brpid": "i.skill.perform",
+     "uuid": "4tPT2fEktrdmut0R"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "PoRyr1XgA0N5NfCC"
+    }
+   ],
+   "groups": [
+    {
+     "options": 2,
+     "skills": [
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "6DIe68GsI6zFnMOP"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "CURCSQIw1LhuBDS2"
+      },
+      {
+       "brpid": "i.skill.listen",
+       "uuid": "LY8K4tiXnntqb9bL"
+      },
+      {
+       "brpid": "i.skill.literacy",
+       "uuid": "FXqTwvFh1oJ2BjU2"
+      },
+      {
+       "brpid": "i.skill.perform",
+       "uuid": "y2LB6hU78STj077W"
+      },
+      {
+       "brpid": "i.skill.research",
+       "uuid": "wJfsmVPOiLvKihBV"
+      },
+      {
+       "brpid": "i.skill.status",
+       "uuid": "glF1mPd9gayhYWmR"
+      },
+      {
+       "brpid": "i.skill.teach",
+       "uuid": "FfGsRr1Tcd5RNBan"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 4,
+   "description": "对神圣的信仰与虔敬引领你走上祭司之途，你以布道或事奉神祇（众神）的举动度过时光；视设定而定，你可能是苦修的僧侣，也可能是电视布道者。\n\n财富（UGE 口径）：贫穷至殷实，通常为中等；若你是一大群信众的宗教领袖，经守秘人裁量亦可为富有。\n技能建议：话术、洞察、知识（历史）、知识（哲学）、知识（宗教）、语言（母语）、表演（仪式）、说服，以及从下列技能中任选两项：神秘学知识、语言（其他）、聆听、读写、表演（演说）、研究、地位、教导。"
+  }
+ },
+ {
+  "_id": "Bzd73mFjhRTwWc8j",
+  "name": "水手",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.sailor",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Sailor"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.climb",
+     "uuid": "NEGYa3PSFzY4OBF7"
+    },
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "5ZBb1KmxjGV47CrZ"
+    },
+    {
+     "brpid": "i.skill.dodge",
+     "uuid": "ho6J4oEkwXrMplem"
+    },
+    {
+     "brpid": "i.skill.grapple",
+     "uuid": "gcJGYbaGR9DYfzMn"
+    },
+    {
+     "brpid": "i.skill.navigate",
+     "uuid": "5HWu2AcHgP5ehLj5"
+    },
+    {
+     "brpid": "i.skill.pilot",
+     "uuid": "kR4CTOelhEDADJEr"
+    },
+    {
+     "brpid": "i.skill.swim",
+     "uuid": "MkHpPKGIk7YGGcKK"
+    }
+   ],
+   "groups": [
+    {
+     "options": 3,
+     "skills": [
+      {
+       "brpid": "i.skill.artillery",
+       "uuid": "rZwqL77pg2RKCAdM"
+      },
+      {
+       "brpid": "i.skill.command",
+       "uuid": "3vT1GcAWzVd1NqKj"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "Ke6fZxAgOzGSKjRc"
+      },
+      {
+       "brpid": "i.skill.listen",
+       "uuid": "X7YVuUCVwjQDkiip"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "j0r2STgamy7fn4bN"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "Zj5aoCGBA6x9dzA4"
+      },
+      {
+       "brpid": "i.skill.spot",
+       "uuid": "eBadAtL0YKcayopv"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 2,
+   "description": "你纵横波涛，无论是海盗、海军军官还是古代世界的商贾，都卖力维持船只的完好。\n\n财富（UGE 口径）：贫穷或中等，通常为中等。\n技能建议：攀爬、手艺（任意）、闪避、擒抱、导航、载具驾驶（船只）、游泳，以及从下列技能中任选三项：火炮（任意，通常为舰载）、指挥、语言（其他）、聆听、维修（机械）、维修（建筑）、侦查。"
+  }
+ },
+ {
+  "_id": "bJ701VoNaJ5qCSFA",
+  "name": "学者",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.scholar",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Scholar"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.language",
+     "uuid": "S1XDAoqQfcv9QjV5"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "sd1opeER8sXbXx7p"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "IOKBSMDhyLJQva8q"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "Zh5V86xoLWqLbvCM"
+    },
+    {
+     "brpid": "i.skill.teach",
+     "uuid": "ku3dwSIivXIgRAgn"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "eUAd8ShsgaHKxZMG"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "治学与求知定义了你的人生：你专精一个或多个知识领域，热切搜罗智识疆域内的一切；你可能把这些知识传授给学生，也可能囤积自用。\n\n财富（UGE 口径）：中等或殷实，通常为中等。\n技能建议：语言（其他）、语言（母语）、说服、研究、教导，并视设定与所学领域另选五项合适的知识或科学技能。"
+  }
+ },
+ {
+  "_id": "ydEWnWwAs9HD36Gh",
+  "name": "科学家",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.scientist",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Scientist"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "m0QPU3uraReYVOUV"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "sf7xewO5EJToifV2"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "6sLIqUrApDzPoo4t"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "IE9fmrwuqhzF5ci1"
+    },
+    {
+     "brpid": "i.skill.heavy-machine",
+     "uuid": "eQvKN9EtQfUhj8nC"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "lpGg1JW2tz9jzd7b"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "无论受雇于企业、教育机构、政府还是单打独斗，你都通过严谨的猜想、实验与观察探索某一科学领域，反复这一过程，不断夯实知识的根基。\n\n财富（UGE 口径）：中等或殷实，通常为殷实。\n技能建议：手艺（任意）、说服、研究、地位、技术（计算机使用）或重型机械，以及视设定与所学领域任选五项知识或科学技能。"
+  }
+ },
+ {
+  "_id": "A3fxYTHeqyZA9H5j",
+  "name": "仆役",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.servant",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Servant"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "24RzkYItEh7K4a3P"
+    },
+    {
+     "brpid": "i.skill.etiquette",
+     "uuid": "uDz0juGb0vvS6v3k"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "6U5lz5eKiiJops70"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "rXKQRQEladkn5puq"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "0M7nqFgdZsKvYqrA"
+    },
+    {
+     "brpid": "i.skill.stealth",
+     "uuid": "XQzR575RIYz0iXwO"
+    },
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "ajhpaP8unjLXTLM7"
+    },
+    {
+     "brpid": "i.skill.drive",
+     "uuid": "7IU9aSlLkyuu1bdf"
+    },
+    {
+     "brpid": "i.skill.first-aid",
+     "uuid": "5lU3pobvapPvenxc"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "rs7XJCrgNMTypJyv"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "yHtf0pbYD9MaSobO"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "KNkezzbnTRrOqQuk"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "E5ewe1fLMFYY3v28"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 4,
+   "description": "你受雇为帮佣或仆役，照料富裕雇主的家中事务与日常起居；你可能是绅士的贴身男仆、将军的副官，也可能是宏伟城堡中的帮厨女仆。\n\n财富（UGE 口径）：贫穷至中等；不过经守秘人许可，仆役有时也能有限度地沾及雇主殷实或富有的生活。\n技能建议：手艺（任意）、礼仪、躲藏、语言（母语）、聆听、潜行，并视设定与角色概念从下列技能中任选四项作为个人专长：议价、驾驶、急救、洞察、知识（会计）、语言（其他）、说服。"
+  }
+ },
+ {
+  "_id": "WStxAquddqSPhq0V",
+  "name": "萨满",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.shaman",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Shaman"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.art",
+     "uuid": "ylSmeqLRVm9fAZ7j"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "1sFYpts5g8NvuloI"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "1LX84E9JLKyVLuyq"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "KtSn8Qa44o22ZdCR"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "bngy9QRmEawh0rxI"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "ZlbfYaq3eywubWF5"
+    },
+    {
+     "brpid": "i.skill.perform",
+     "uuid": "skcJscxKSoxaWdEh"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "CBacRoFeuf3ccCAH"
+    },
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "revoVSjLwrvOnq7h"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "Bn0mBbEz27GWvYUK"
+    },
+    {
+     "brpid": "i.skill.first-aid",
+     "uuid": "HYrtOT0HlTqNf1Zd"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "fBvH0Gx43GhfiVEl"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "xpRttnTqf0JEOA1u"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "CeNQYF51yYpEKwGM"
+    },
+    {
+     "brpid": "i.skill.medicine",
+     "uuid": "e2hS00wpnC3fqYcG"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "cQkcZhnVkBfOqoNl"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 2,
+   "description": "你是部落的巫者，精于沟通灵界，为首领与族人出谋划策、施以援手；你握有师徒相承的秘密知识，或许还拥有施用魔法的能力。多数萨满属于较原始的文化，但也有现代的实践者。\n\n财富（UGE 口径）：贫穷或中等，处于部落水准的生活。\n技能建议：艺术（任意）、洞察、知识（历史）、神秘学知识、语言（母语）、聆听、表演（仪式）、说服，以及视设定与角色概念从下列技能中任选两项作为专长：手艺（任意）、话术、急救、躲藏、知识（人类学）、语言（其他）、医学、科学（药学）或地位。"
+  }
+ },
+ {
+  "_id": "JSRjxzsur5xm41cf",
+  "name": "奴隶",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.slave",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Slave"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "NOUTLxZfeE5ig7mx"
+    },
+    {
+     "brpid": "i.skill.dodge",
+     "uuid": "YkIgw2vnwXInKXML"
+    },
+    {
+     "brpid": "i.skill.etiquette",
+     "uuid": "OEcjXMUR52C7gMiD"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "Wiu4AauHFbhTzdBD"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "nneeD2g7NWtIxlen"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "CFwlLNceTBSPhiM7"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "AzZudagcYREty1Ju"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "FDoxafdqZuqJ933b"
+    },
+    {
+     "brpid": "i.skill.stealth",
+     "uuid": "cicJ9Ou81knekrLS"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 4,
+   "description": "或被掳为奴，或生而为奴，你是个别主人、组织或宗教的奴隶或契约仆役；你可能被善待——身为一家仆役之长——也可能挨打受罚、活在恐惧之中。归入奴隶的前提，是假定你大半生都身为奴隶；若你不久前才被掳为奴，请改用你先前的职业。\n\n财富（UGE 口径）：一贫如洗至贫穷；不过经守秘人许可，奴隶有时也能有限度地沾及主人殷实或富有的生活。\n技能建议：手艺（任意）、闪避、礼仪、话术、躲藏、洞察、语言（其他）、聆听、潜行，以及另一项技能作为职业专长。"
+  }
+ },
+ {
+  "_id": "jrIZnhd9HZQ5k1JR",
+  "name": "士兵",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.soldier",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Soldier"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.brawl",
+     "uuid": "K7dSNedkz0WPEbW9"
+    },
+    {
+     "brpid": "i.skill.climb",
+     "uuid": "SaVjdT8BHi6DkcL4"
+    },
+    {
+     "brpid": "i.skill.dodge",
+     "uuid": "UvsqJCy0CS2QZrCM"
+    },
+    {
+     "brpid": "i.skill.first-aid",
+     "uuid": "BTwoWkwqZDuNeTIO"
+    }
+   ],
+   "groups": [
+    {
+     "options": 6,
+     "skills": [
+      {
+       "brpid": "i.skill.artillery",
+       "uuid": "abeAFnN6VGsqySlz"
+      },
+      {
+       "brpid": "i.skill.command",
+       "uuid": "11bPgCVfHScZgxV8"
+      },
+      {
+       "brpid": "i.skill.drive",
+       "uuid": "tUcHgMCxZqOLWBP2"
+      },
+      {
+       "brpid": "i.skill.firearm",
+       "uuid": "NVl5wfzndL4cazIa"
+      },
+      {
+       "brpid": "i.skill.grapple",
+       "uuid": "wLm6iUI8LF7zTttt"
+      },
+      {
+       "brpid": "i.skill.heavy-weapon",
+       "uuid": "iCJTEySg7lFxJaWT"
+      },
+      {
+       "brpid": "i.skill.hide",
+       "uuid": "AXKAtEDzcjnfXKlH"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "dX1IPnap09JQkDxL"
+      },
+      {
+       "brpid": "i.skill.listen",
+       "uuid": "UyQbWSPrvWRYh97H"
+      },
+      {
+       "brpid": "i.skill.jump",
+       "uuid": "ePbMhL1iq4yOXnJW"
+      },
+      {
+       "brpid": "i.skill.medicine",
+       "uuid": "ujdwAEvKa5RAejQ5"
+      },
+      {
+       "brpid": "i.skill.melee-weapon",
+       "uuid": "t4aBwIhluNHX1xdc"
+      },
+      {
+       "brpid": "i.skill.missile-weapon",
+       "uuid": "Nnue4BH8RPww9cce"
+      },
+      {
+       "brpid": "i.skill.navigate",
+       "uuid": "k6FDp0dnazQOQ1eK"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "kB8hxmvTsk35gBSK"
+      },
+      {
+       "brpid": "i.skill.ride",
+       "uuid": "D8NP9Q2kOSNJ7T8Y"
+      },
+      {
+       "brpid": "i.skill.spot",
+       "uuid": "qSwbm28wmgz8dWmw"
+      },
+      {
+       "brpid": "i.skill.stealth",
+       "uuid": "h1BznhA2PQqiU7kR"
+      },
+      {
+       "brpid": "i.skill.throw",
+       "uuid": "ccWsg5X3bGrP8FIh"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 2,
+   "description": "无论应募还是被征召，你都是职业军人，肩负保卫国家或组织的职责；你可能是佣兵或受雇的剑客，也可能真心信奉自己为之而战的事业。无论如何，你受过军事训练，与其他士兵编组行动，听令行事。\n\n财富（UGE 口径）：贫穷或中等，但常能获准使用昂贵或通常受管制的装备。\n技能建议：斗殴、攀爬、闪避、急救，以及视设定从下列技能中任选六项：火炮、指挥、驾驶、枪械（通常为步枪，任意亦可）、擒抱、重型武器（任意）、躲藏、语言（其他）、聆听、跳跃、医学、近战武器（任意）、射击武器（任意）、导航、维修（机械）、骑乘、侦查、潜行、投掷。"
+  }
+ },
+ {
+  "_id": "HcRkrgkHdk24He4h",
+  "name": "间谍",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.spy",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Spy"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.dodge",
+     "uuid": "gBBNaZFFdgX9FkWP"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "RHptt1DaKDLrRgQg"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "I8GR4Llt41Haa8Zc"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "Zn0096MUS1XnBtv6"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "UchjiSHaoQ8A70gh"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "jyOpfchgX8xal8J8"
+    },
+    {
+     "brpid": "i.skill.stealth",
+     "uuid": "rpJAx4Oocves4x1f"
+    }
+   ],
+   "groups": [
+    {
+     "options": 3,
+     "skills": [
+      {
+       "brpid": "i.skill.art",
+       "uuid": "OQ7DERphS87D7HpA"
+      },
+      {
+       "brpid": "i.skill.brawl",
+       "uuid": "NIGFLUOy5NY1I1WT"
+      },
+      {
+       "brpid": "i.skill.disguise",
+       "uuid": "djroIZ94vkJaKaF9"
+      },
+      {
+       "brpid": "i.skill.etiquette",
+       "uuid": "rKHjqlfwvNmWcd1U"
+      },
+      {
+       "brpid": "i.skill.firearm",
+       "uuid": "4eGNqHO0CyfXfnZc"
+      },
+      {
+       "brpid": "i.skill.grapple",
+       "uuid": "iYa4fx5nGirCfPRI"
+      },
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "dHzCqj4GjFhnsB58"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "E9vmhocYYEsgZnlM"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "aLr0BqgyVWlqGImb"
+      },
+      {
+       "brpid": "i.skill.martial-arts",
+       "uuid": "0EpkfgUMZSYWJs7d"
+      },
+      {
+       "brpid": "i.skill.navigate",
+       "uuid": "reZpHu2PLag3SPny"
+      },
+      {
+       "brpid": "i.skill.pilot",
+       "uuid": "VrnD8balJ6zuQnKU"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "sfEo6lh8irx2IfJh"
+      },
+      {
+       "brpid": "i.skill.repair",
+       "uuid": "aYuJKePFOmxtYo16"
+      },
+      {
+       "brpid": "i.skill.ride",
+       "uuid": "LXgBGK5dphVlt2iJ"
+      },
+      {
+       "brpid": "i.skill.swim",
+       "uuid": "HF1fwbi0gpYO8ixI"
+      },
+      {
+       "brpid": "i.skill.technical-skill",
+       "uuid": "zhbCQeYMtdqqPWfJ"
+      },
+      {
+       "brpid": "i.skill.throw",
+       "uuid": "RxT4VwoQV3dxbJHo"
+      },
+      {
+       "brpid": "i.skill.track",
+       "uuid": "PQsaStfxFyZGnTDQ"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "你精于诡道与渗透，以掩护或秘密身份潜入国家或组织，刺探其秘密，并回报给敌方或利害相关方。\n\n财富（UGE 口径）：中等或殷实，视设定而定。\n技能建议：闪避、话术、躲藏、聆听、研究、侦查、潜行，以及视设定从下列技能中任选三项：艺术（摄影）、斗殴、乔装、礼仪、枪械（任意）、擒抱、知识（任意）、语言（其他）、语言（母语）、武术、导航、载具驾驶（任意）、心理学、维修（电子）、维修（机械）、骑乘、游泳、技术（计算机使用）、投掷、追踪。"
+  }
+ },
+ {
+  "_id": "qyHfRkEdJWHA5Byb",
+  "name": "学生",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.student",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Student"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.language",
+     "uuid": "0h28HMM3uGrNTw8s"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "vBapsGi37798Sw7H"
+    },
+    {
+     "brpid": "i.skill.art",
+     "uuid": "v4O1728aQNhlD58w"
+    },
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "dUJSyH3nIN9UD3VX"
+    },
+    {
+     "brpid": "i.skill.first-aid",
+     "uuid": "SrZGbQmBsI5rrQeO"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "qMr4x6OrssbYoO6M"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "6R0Qd48uHd40sLTA"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "EsGjmVDacJA2I7FT"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "p6TXHE2LTCkMmYTH"
+    },
+    {
+     "brpid": "i.skill.medicine",
+     "uuid": "tFXxy7EIn97dYwKO"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "CCdu5Tb6LMmD1Zms"
+    },
+    {
+     "brpid": "i.skill.perform",
+     "uuid": "YthE1SHL8qAHiRBk"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "VEz5QBGUqwRSbR7P"
+    },
+    {
+     "brpid": "i.skill.psychotherapy",
+     "uuid": "4tethNLyNfWgdLAf"
+    },
+    {
+     "brpid": "i.skill.science",
+     "uuid": "raif1OZWNbYj6zUA"
+    },
+    {
+     "brpid": "i.skill.technical-skill",
+     "uuid": "rA6yIBvmVX9PVB7g"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 4,
+   "description": "你以读书为业，无论是综合学子还是某位大师的门徒；你的课业可能在名牌大学、武术学校、法师学园，或某家私塾名门。\n\n财富（UGE 口径）：贫穷至富有，通常为中等。\n技能建议：语言（母语）、研究，并视设定与角色概念另选八项技能作为修习课业，常见选择出自下列清单：艺术（任意）、手艺（任意）、急救、洞察、知识（任意）、语言（其他）、聆听、医学、维修（任意）、表演、说服、心理治疗、科学（任意）、技术（计算机使用），以及（若参与体育运动）一项身体类技能。"
+  }
+ },
+ {
+  "_id": "IAsrePyROqe858cV",
+  "name": "教师",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.teacher",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Teacher"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.language",
+     "uuid": "zfOekfiJbBir8h6H"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "MB82pqXkzyfsjxET"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "18EQXZO8FpvBnOTk"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "PbcOzusuGvKz6AGn"
+    },
+    {
+     "brpid": "i.skill.teach",
+     "uuid": "OCITreiYPbWlOxmg"
+    },
+    {
+     "brpid": "i.skill.art",
+     "uuid": "sasZpiWaPiJHt0EL"
+    },
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "AmT8qy749Pp4YUhf"
+    },
+    {
+     "brpid": "i.skill.first-aid",
+     "uuid": "iQ1GjjaAGrjwMFcH"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "3s3dKboYrDZsR1IB"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "JC3REuhSbzmbAHvG"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "6QLIsrsgwjbCfwMK"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "7fAfxfhdATCNF4rP"
+    },
+    {
+     "brpid": "i.skill.medicine",
+     "uuid": "7EIMu5cd69xQXc8m"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "CgcvoNI2A4TVG2hN"
+    },
+    {
+     "brpid": "i.skill.perform",
+     "uuid": "z1n22pwfdPaUsPXY"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "UA18zSkk9rTn3K6d"
+    },
+    {
+     "brpid": "i.skill.psychotherapy",
+     "uuid": "hlr3xcmg3kuLIhDe"
+    },
+    {
+     "brpid": "i.skill.science",
+     "uuid": "Ld1SzfE5VcNCVGvp"
+    },
+    {
+     "brpid": "i.skill.technical-skill",
+     "uuid": "7rD6DDGk2nkQKD92"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "你是一门或多门学科的教员，或执教班级，或单独辅导一名学生；无论受聘于大学、中学还是其他教育机构，你都在学术环境中引导学生奔向某种成就标准。\n\n财富（UGE 口径）：中等或殷实，通常为中等。\n技能建议：语言（母语）、说服、研究、地位、教导，并视设定与角色概念另选五项技能作为专长领域，常见选择出自下列清单：艺术（任意）、手艺（任意）、急救、洞察、知识（任意）、语言（其他）、聆听、医学、维修（任意）、表演、说服、心理治疗、科学（任意）、技术（计算机使用）。"
+  }
+ },
+ {
+  "_id": "33xJY5fXrDwaDVbw",
+  "name": "技师",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.technician",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Technician"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.fine-manipulation",
+     "uuid": "fjXLSRIzbqRdGZOr"
+    },
+    {
+     "brpid": "i.skill.heavy-machine",
+     "uuid": "qEvDY329iRgUJMzY"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "geWVEuaycSqPgGjE"
+    },
+    {
+     "brpid": "i.skill.repair",
+     "uuid": "WTUMDNdSC8p3bOig"
+    },
+    {
+     "brpid": "i.skill.science",
+     "uuid": "H49h3PLucqifDWIE"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "KlMaCR6pfL1Vo2Je"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "5vA7J0YKWwhKHZRT"
+    },
+    {
+     "brpid": "i.skill.technical-skill",
+     "uuid": "3NvKN12FodKSMpQr"
+    },
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "X47SbuvOYTEBuz13"
+    },
+    {
+     "brpid": "i.skill.drive",
+     "uuid": "ByJ6DfFWQpZAacYr"
+    },
+    {
+     "brpid": "i.skill.pilot",
+     "uuid": "7W284YclbIwkDM2G"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 2,
+   "maxWealth": 3,
+   "description": "你专精于维护、修理与运用复杂机械、计算机或其他电子设备，应付工程系统得心应手；你不设计这些机器，但或许比它们的创造者还了解它们。\n\n财富（UGE 口径）：中等或殷实。\n技能建议：精细操作、重型机械、聆听、维修（任意）、科学（物理）、研究、侦查、技术（计算机使用），以及视设定与角色概念从下列清单中另选两项技能作为专长：手艺（任意）、驾驶、载具驾驶（任意）。"
+  }
+ },
+ {
+  "_id": "vGQ8rm2obrvCKxmY",
+  "name": "窃贼",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.thief",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Thief"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.appraise",
+     "uuid": "C3GKLGT5EEPO6i0k"
+    },
+    {
+     "brpid": "i.skill.dodge",
+     "uuid": "ejpf83LgyXEHyCLX"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "5eGsyrhVmdg5TeDO"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "3ymjwUjlYc5a3kbC"
+    },
+    {
+     "brpid": "i.skill.stealth",
+     "uuid": "2bhmERGnRCZ7tYuf"
+    },
+    {
+     "brpid": "i.skill.bargain",
+     "uuid": "xg9aHXiX2ib6nQ73"
+    },
+    {
+     "brpid": "i.skill.brawl",
+     "uuid": "fXvYOMAgVKCHNUYm"
+    },
+    {
+     "brpid": "i.skill.climb",
+     "uuid": "Y4Sbndec78CCQbaE"
+    },
+    {
+     "brpid": "i.skill.disguise",
+     "uuid": "gBhxncwwlfzqWvqp"
+    },
+    {
+     "brpid": "i.skill.fine-manipulation",
+     "uuid": "K1WrDMHWAQv9ihcP"
+    },
+    {
+     "brpid": "i.skill.firearm",
+     "uuid": "JWcL0khujr9ESDwa"
+    },
+    {
+     "brpid": "i.skill.grapple",
+     "uuid": "iDjmB04O7Md93vXS"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "GscfFX8G0iz8Oruh"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "prpXpSesqys5gIle"
+    },
+    {
+     "brpid": "i.skill.jump",
+     "uuid": "NY59bYWOTC7vaBYu"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "zChglgQ8Qpm2xcLx"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "di115ulaJqS5dKfr"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "q9hL2bfYJdWsXPvD"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 4,
+   "description": "你取走想要之物，或为生存，或出于嗜好；你可能是卑贱的扒手、恶名昭著的路匪，也可能是光彩照人的国际珠宝大盗。你无视法律行窃，或恃武力，或凭巧骗，或仗潜行，或兼三者之长。\n\n财富（UGE 口径）：任意，须经守秘人认可。\n技能建议：估价、闪避、话术、躲藏、潜行，以及视设定与角色概念从下列清单中另选五项技能：议价、斗殴、攀爬、乔装、精细操作、枪械（手枪、左轮枪或霰弹枪）、擒抱、洞察、聆听、跳跃、知识（法律）、说服、维修（机械）或侦查。"
+  }
+ },
+ {
+  "_id": "zlCebr0VuvTahGl1",
+  "name": "部落民",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.tribesperson",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Tribesperson"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "7u60hyUQsTMuynMD"
+    },
+    {
+     "brpid": "i.skill.dodge",
+     "uuid": "RYNMZ54mkM6h4hqW"
+    },
+    {
+     "brpid": "i.skill.grapple",
+     "uuid": "PygpN1xVl8qG0exQ"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "mYAvBipqRgTn3FpI"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "veL7nZcM20WGMkop"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "myca4o1CksaABekr"
+    },
+    {
+     "brpid": "i.skill.throw",
+     "uuid": "tLdg8dTGx6S94NCP"
+    },
+    {
+     "brpid": "i.skill.track",
+     "uuid": "aEciMtHbaI57rVZf"
+    }
+   ],
+   "groups": [
+    {
+     "options": 2,
+     "skills": [
+      {
+       "brpid": "i.skill.brawl",
+       "uuid": "7Oan1FLfLyxYlM14"
+      },
+      {
+       "brpid": "i.skill.climb",
+       "uuid": "YgMUJrXYrRxxlVvC"
+      },
+      {
+       "brpid": "i.skill.first-aid",
+       "uuid": "YiNEBxK5YVa2rQTY"
+      },
+      {
+       "brpid": "i.skill.listen",
+       "uuid": "sPePYyaILOUNeO74"
+      },
+      {
+       "brpid": "i.skill.jump",
+       "uuid": "ym5PnOwOd6EnqzML"
+      },
+      {
+       "brpid": "i.skill.knowledge",
+       "uuid": "mG4DVHnn5LGq57To"
+      },
+      {
+       "brpid": "i.skill.melee-weapon",
+       "uuid": "XZHNOOrfEhIUT09g"
+      },
+      {
+       "brpid": "i.skill.missile-weapon",
+       "uuid": "6cZjWib52xzEB8HQ"
+      },
+      {
+       "brpid": "i.skill.language",
+       "uuid": "Zwo3PUwDHJF5wJwG"
+      },
+      {
+       "brpid": "i.skill.ride",
+       "uuid": "4RakoENajPwlTYg7"
+      },
+      {
+       "brpid": "i.skill.stealth",
+       "uuid": "Rnh1E3ZgEGUME6ZE"
+      },
+      {
+       "brpid": "i.skill.swim",
+       "uuid": "EwrOTUZyULu2Es5x"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 1,
+   "description": "你来自原始文化，是部落中受认可的一员，对文明的种种要素大多陌生；你靠狩猎或采集过活，你的世界很小：你的村庄与周遭的环境。\n\n财富（UGE 口径）：一贫如洗至贫穷，处于部落水准的生活；或者你是部落的贵族，依地位而定拥有更高的财富等级。\n技能建议：手艺（任意）、闪避、擒抱、躲藏、知识（博物学）、侦查、投掷、追踪，以及视设定从下列技能中任选两项：斗殴、攀爬、急救、聆听、跳跃、神秘学知识、近战武器（通常为长矛或棍棒）、射击武器（弓）、语言（其他）、骑乘、潜行、游泳。"
+  }
+ },
+ {
+  "_id": "H77mYXXh3QPTHwcJ",
+  "name": "战士",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.warrior",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Warrior"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.brawl",
+     "uuid": "XlblTwautT1VkW2s"
+    },
+    {
+     "brpid": "i.skill.dodge",
+     "uuid": "cvNxgSedYyNZkvMm"
+    },
+    {
+     "brpid": "i.skill.grapple",
+     "uuid": "ug9h6BbxiJ9hYyhe"
+    },
+    {
+     "brpid": "i.skill.melee-weapon",
+     "uuid": "QQ057Sl72qsOsUQH"
+    },
+    {
+     "brpid": "i.skill.missile-weapon",
+     "uuid": "laYjUDH3f7UVcNct"
+    },
+    {
+     "brpid": "i.skill.climb",
+     "uuid": "DWUJjwzHnMofY99v"
+    },
+    {
+     "brpid": "i.skill.firearm",
+     "uuid": "XS8gK9MTrUBoS9aN"
+    },
+    {
+     "brpid": "i.skill.hide",
+     "uuid": "UW38dmUXANRs1Sfu"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "OXm0grNwspAPkqUe"
+    },
+    {
+     "brpid": "i.skill.jump",
+     "uuid": "d7fKWX0TqDhWNfYd"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "wVaZRqrriEHTIN3m"
+    },
+    {
+     "brpid": "i.skill.martial-arts",
+     "uuid": "I5Fk8ywtOra5sdVD"
+    },
+    {
+     "brpid": "i.skill.ride",
+     "uuid": "1qiHDZ07NaxY2JT4"
+    },
+    {
+     "brpid": "i.skill.spot",
+     "uuid": "FHcE5RYdMtFrCqB7"
+    },
+    {
+     "brpid": "i.skill.stealth",
+     "uuid": "4emf5a63cg4PoMzf"
+    },
+    {
+     "brpid": "i.skill.swim",
+     "uuid": "Jy5guMi168GuoqEJ"
+    },
+    {
+     "brpid": "i.skill.throw",
+     "uuid": "MzNRfdxeTtiLVFEc"
+    },
+    {
+     "brpid": "i.skill.track",
+     "uuid": "bbc8QlNFIgfZ6lSp"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 2,
+   "description": "你专精单人搏杀，凭反应与武艺谋生；或许你恪守骑士精神或武士道一类的荣誉准则，又或许你是佣兵或蛮荒冒险者。士兵结伍而战，战士只凭自身的武勇。\n\n财富（UGE 口径）：一贫如洗至中等，通常为贫穷。\n技能建议：斗殴、闪避、擒抱、近战武器（任意）、射击武器（任意），以及视设定与角色概念从下列清单中另选五项技能作为专长：攀爬、枪械（任意）、躲藏、聆听、跳跃、语言（其他）、武术、骑乘、侦查、潜行、游泳、投掷、追踪。"
+  }
+ },
+ {
+  "_id": "RMGRmZ8tIrQbBGZc",
+  "name": "法师",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.wizard",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Wizard"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.craft",
+     "uuid": "zJOzxKjcm9iXZORl"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "NEGpT0b7TdyAE8YE"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "uU3V1pD0wKmkhbot"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "rZBXZnvueDpZUk3u"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "aVOvCKwe6pJdomQM"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "mavIU4q3fUdB9MgD"
+    },
+    {
+     "brpid": "i.skill.perform",
+     "uuid": "re3ULwdfN3nqxfYF"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "oPMg6RkaL4iOMlBQ"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "A49zlzicQenMWGdL"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 4,
+   "description": "你理解并能施用魔法或巫术；凭吟诵与手势，你能引出魔法效应，并致力于不断扩充自己的法术库藏与自身的魔法点。\n\n财富（UGE 口径）：贫穷至富有，通常为殷实。\n技能建议：手艺（任意）、洞察、神秘学知识、另外两门知识（任意）技能、语言（其他）、聆听、表演（仪式）、说服、研究。"
+  }
+ },
+ {
+  "_id": "a3ABJERgwGeots8p",
+  "name": "作家",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.writer",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Writer"
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.art",
+     "uuid": "kpXwajeMeljIO4UK"
+    },
+    {
+     "brpid": "i.skill.insight",
+     "uuid": "EuIVGIOGdDGsDDZR"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "LFcHALTVbEdaxe2Z"
+    },
+    {
+     "brpid": "i.skill.persuade",
+     "uuid": "zoQT8QXH3yJKm1lg"
+    },
+    {
+     "brpid": "i.skill.research",
+     "uuid": "E5ZPxdvDCZXuihKD"
+    },
+    {
+     "brpid": "i.skill.fast-talk",
+     "uuid": "jli1r5ahbRrrdwgs"
+    },
+    {
+     "brpid": "i.skill.knowledge",
+     "uuid": "rRXa83fcC42oaRcn"
+    },
+    {
+     "brpid": "i.skill.language",
+     "uuid": "fwT4wpJ7gxDaIeMk"
+    },
+    {
+     "brpid": "i.skill.listen",
+     "uuid": "YtTqa5A9knpsnAal"
+    },
+    {
+     "brpid": "i.skill.status",
+     "uuid": "89mJ3Un0FQSVzGKq"
+    },
+    {
+     "brpid": "i.skill.technical-skill",
+     "uuid": "vCpHe1NrIwTHsPvs"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 1,
+   "maxWealth": 4,
+   "description": "你写散文、诗歌、剧本或其他文体；你最习惯以笔墨沟通，你的文字拥有娱人、授人或服人的力量。\n\n财富（UGE 口径）：贫穷至富有，通常为中等。\n技能建议：艺术（写作）、洞察、语言（母语）、说服、研究，以及视情况从下列清单中另选五项技能作为专长：话术、知识（任意）、语言（其他）、聆听、地位、技术（计算机使用）。"
+  }
+ }
+]

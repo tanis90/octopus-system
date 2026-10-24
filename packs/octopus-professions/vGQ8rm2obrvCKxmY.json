@@ -1,0 +1,96 @@
+{
+ "_id": "vGQ8rm2obrvCKxmY",
+ "name": "窃贼",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.thief",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Thief"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.appraise",
+    "uuid": "C3GKLGT5EEPO6i0k"
+   },
+   {
+    "brpid": "i.skill.dodge",
+    "uuid": "ejpf83LgyXEHyCLX"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "5eGsyrhVmdg5TeDO"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "3ymjwUjlYc5a3kbC"
+   },
+   {
+    "brpid": "i.skill.stealth",
+    "uuid": "2bhmERGnRCZ7tYuf"
+   },
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "xg9aHXiX2ib6nQ73"
+   },
+   {
+    "brpid": "i.skill.brawl",
+    "uuid": "fXvYOMAgVKCHNUYm"
+   },
+   {
+    "brpid": "i.skill.climb",
+    "uuid": "Y4Sbndec78CCQbaE"
+   },
+   {
+    "brpid": "i.skill.disguise",
+    "uuid": "gBhxncwwlfzqWvqp"
+   },
+   {
+    "brpid": "i.skill.fine-manipulation",
+    "uuid": "K1WrDMHWAQv9ihcP"
+   },
+   {
+    "brpid": "i.skill.firearm",
+    "uuid": "JWcL0khujr9ESDwa"
+   },
+   {
+    "brpid": "i.skill.grapple",
+    "uuid": "iDjmB04O7Md93vXS"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "GscfFX8G0iz8Oruh"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "prpXpSesqys5gIle"
+   },
+   {
+    "brpid": "i.skill.jump",
+    "uuid": "NY59bYWOTC7vaBYu"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "zChglgQ8Qpm2xcLx"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "di115ulaJqS5dKfr"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "q9hL2bfYJdWsXPvD"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 4,
+  "description": "你取走想要之物，或为生存，或出于嗜好；你可能是卑贱的扒手、恶名昭著的路匪，也可能是光彩照人的国际珠宝大盗。你无视法律行窃，或恃武力，或凭巧骗，或仗潜行，或兼三者之长。\n\n财富（UGE 口径）：任意，须经守秘人认可。\n技能建议：估价、闪避、话术、躲藏、潜行，以及视设定与角色概念从下列清单中另选五项技能：议价、斗殴、攀爬、乔装、精细操作、枪械（手枪、左轮枪或霰弹枪）、擒抱、洞察、聆听、跳跃、知识（法律）、说服、维修（机械）或侦查。"
+ }
+}

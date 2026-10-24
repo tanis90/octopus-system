@@ -1,0 +1,106 @@
+{
+ "_id": "eUzqbU6RAb3tmeuK",
+ "name": "飞行员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.pilot",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Pilot"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.drive",
+    "uuid": "ODBG9hLgXqrPd0EL"
+   },
+   {
+    "brpid": "i.skill.heavy-machine",
+    "uuid": "M2q2DElhqYMNQHk0"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "WMi1N79aPGEiXh0L"
+   },
+   {
+    "brpid": "i.skill.navigate",
+    "uuid": "cBCQaDHO4gyHSh0c"
+   },
+   {
+    "brpid": "i.skill.pilot",
+    "uuid": "slnm9EJRiu4Pq6vQ"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "jS3nafec3ZAhho6u"
+   }
+  ],
+  "groups": [
+   {
+    "options": 4,
+    "skills": [
+     {
+      "brpid": "i.skill.bargain",
+      "uuid": "vco9nH3nmRNU9o5S"
+     },
+     {
+      "brpid": "i.skill.climb",
+      "uuid": "JefSce6c1HHZ3ege"
+     },
+     {
+      "brpid": "i.skill.command",
+      "uuid": "C6Bqe9xr9vaRBLyf"
+     },
+     {
+      "brpid": "i.skill.craft",
+      "uuid": "EdmvJ19inI7uFyAa"
+     },
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "LXCwe4MN4fxbqxWP"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "SM6bTsQUZLGB9vVL"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "bcgIp9ElUiCPSfqG"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "Cer8iLlJyx2amuDX"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "t9i0093jkExQciOf"
+     },
+     {
+      "brpid": "i.skill.persuade",
+      "uuid": "vZtlgRuLM5feAZJ2"
+     },
+     {
+      "brpid": "i.skill.science",
+      "uuid": "JFvch8fgxyPeehjl"
+     },
+     {
+      "brpid": "i.skill.science",
+      "uuid": "nmXUtf0mc9cMlBUr"
+     },
+     {
+      "brpid": "i.skill.technical-skill",
+      "uuid": "nhP1dOvlcKl0rSCl"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "无论在陆地、水上水下、天空还是深空，你都受过引导与驾驶某种载具的训练，为商用、公务或军事目的操舵；视设定而定，你的差事从太空战机飞行员到不定期货轮船长不等。\n\n财富（UGE 口径）：中等至殷实；若拥有自己的载具，则为殷实。\n技能建议：驾驶、重型机械、聆听、导航、载具驾驶（任意）、侦查，以及视设定从下列技能中任选四项：议价、攀爬、指挥、手艺（任意）、知识（地区）、维修（电气）、维修（电子）、维修（机械）、语言（其他）、说服、科学（物理）、科学（天文学）、技术（计算机使用）。"
+ }
+}

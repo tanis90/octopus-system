@@ -1,0 +1,34 @@
+{
+ "_id": "5PSLQFjWJeqdLnG6",
+ "name": "战略",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.strategy",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Strategy"
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于在战场上统率大军——从一支小队到千军万马或整支舰队——组织协调后勤、筹划并执行大规模军事行动，乃至推断另一位统帅心中所想；此技能亦默认具备军事史与战术的基础知识，以及其中的重要人物。大失败是一场军事灾难，可能导致一败涂地；不同程度的成功则带来战略优势，或可提升士气与战斗力。"
+ }
+}

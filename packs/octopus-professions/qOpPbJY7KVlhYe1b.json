@@ -1,0 +1,114 @@
+{
+ "_id": "qOpPbJY7KVlhYe1b",
+ "name": "罪犯",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.criminal",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Criminal"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "Ze6qZ1nw4fzy081C"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "kmFkxrXlc14xlJED"
+   },
+   {
+    "brpid": "i.skill.stealth",
+    "uuid": "jkEVMIGoTkbkvGVD"
+   },
+   {
+    "brpid": "i.skill.drive",
+    "uuid": "LeRMQogeOdMnXc05"
+   }
+  ],
+  "groups": [
+   {
+    "options": 6,
+    "skills": [
+     {
+      "brpid": "i.skill.appraise",
+      "uuid": "7ZFnFaxuo4FoEXsq"
+     },
+     {
+      "brpid": "i.skill.brawl",
+      "uuid": "NGdFmvjrwWFZohdL"
+     },
+     {
+      "brpid": "i.skill.climb",
+      "uuid": "MCfhEYIL1ItEHO0b"
+     },
+     {
+      "brpid": "i.skill.fast-talk",
+      "uuid": "dpArEHLnkZjAqQO4"
+     },
+     {
+      "brpid": "i.skill.fine-manipulation",
+      "uuid": "VVRmB6yegBxdRsWf"
+     },
+     {
+      "brpid": "i.skill.firearm",
+      "uuid": "J3OaLaFMiJ5MIgUX"
+     },
+     {
+      "brpid": "i.skill.gaming",
+      "uuid": "0nOxrH6ETX8088sR"
+     },
+     {
+      "brpid": "i.skill.grapple",
+      "uuid": "u1hhQ9jH2wmC8oPA"
+     },
+     {
+      "brpid": "i.skill.insight",
+      "uuid": "Kthb7USQ1jNrVWcy"
+     },
+     {
+      "brpid": "i.skill.jump",
+      "uuid": "3bkTCuINNTTCBYtk"
+     },
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "JmpWK12RFmrL8Ze8"
+     },
+     {
+      "brpid": "i.skill.listen",
+      "uuid": "NchFqjdf72SdSwX0"
+     },
+     {
+      "brpid": "i.skill.martial-arts",
+      "uuid": "bdicgHzQUoR2ehBl"
+     },
+     {
+      "brpid": "i.skill.melee-weapon",
+      "uuid": "WZVYkt7uHcNhSqOn"
+     },
+     {
+      "brpid": "i.skill.persuade",
+      "uuid": "8wcpLTGSipfgEhiz"
+     },
+     {
+      "brpid": "i.skill.spot",
+      "uuid": "Q7ZWshCoC3HtRERb"
+     },
+     {
+      "brpid": "i.skill.throw",
+      "uuid": "dDd2boaNoEgG0b0Z"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 4,
+  "description": "你靠触犯法律行走世间，无论是持械劫掠、有组织犯罪、扒窃，还是其他非法攫取财物或金钱的手段。\n\n财富（UGE 口径）：贫穷至殷实，偶有富有，通常为中等。\n技能建议：议价、躲藏、潜行、驾驶或骑乘，并视设定与营生从下列技能中任选六项：估价、斗殴、攀爬、话术、精细操作、枪械（任意）、博弈、擒抱、洞察、跳跃、知识（法律）、聆听、武术、近战武器（任意，通常为刀或棍棒）、说服、侦查、投掷。"
+ }
+}

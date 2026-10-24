@@ -1,0 +1,98 @@
+{
+ "_id": "4caxaSc5DQLXcpuE",
+ "name": "刺客",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.assassin",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Assassin"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.dodge",
+    "uuid": "tgWst9WvqBFNx1cX"
+   },
+   {
+    "brpid": "i.skill.hide",
+    "uuid": "V3ONYV7mmmSefEeG"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "dgVxAmQqsGR6kbqo"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "m2Gb5BMO2f6hGcOO"
+   },
+   {
+    "brpid": "i.skill.stealth",
+    "uuid": "SYlNvHAEACMsCmvE"
+   }
+  ],
+  "groups": [
+   {
+    "options": 5,
+    "skills": [
+     {
+      "brpid": "i.skill.brawl",
+      "uuid": "skSCbTISF9tDh5WD"
+     },
+     {
+      "brpid": "i.skill.disguise",
+      "uuid": "PWsI1DVnQF1uO1kE"
+     },
+     {
+      "brpid": "i.skill.drive",
+      "uuid": "J5MRzr2BUkYNd9J1"
+     },
+     {
+      "brpid": "i.skill.grapple",
+      "uuid": "bMAUBeFl2i3MkyHB"
+     },
+     {
+      "brpid": "i.skill.firearm",
+      "uuid": "5DX76FdoMX3aexZH"
+     },
+     {
+      "brpid": "i.skill.fine-manipulation",
+      "uuid": "RkefZ7td9fvN3AeC"
+     },
+     {
+      "brpid": "i.skill.martial-arts",
+      "uuid": "Qu8qIGzuJj7Ggnhw"
+     },
+     {
+      "brpid": "i.skill.melee-weapon",
+      "uuid": "jJdCHPwnQmK2fDHY"
+     },
+     {
+      "brpid": "i.skill.missile-weapon",
+      "uuid": "kXQxeke7OqVhzzMB"
+     },
+     {
+      "brpid": "i.skill.ride",
+      "uuid": "ijXozoI3fGzSU6H8"
+     },
+     {
+      "brpid": "i.skill.throw",
+      "uuid": "7Gzx82wF3VF8kheu"
+     },
+     {
+      "brpid": "i.skill.track",
+      "uuid": "5NDZmsoELkLlvmKM"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "身为冷血的执业刺客，死亡就是你的营生。无论为钱还是为别的缘由杀人，你都精于了结其他生灵，通常做得悄无声息。\n\n财富（UGE 口径）：中等或殷实。视设定而定，你还可能拥有各式武器与虚假身份。\n技能建议：闪避、躲藏、聆听、侦查、潜行，以及视设定从下列技能中任选五项：斗殴、乔装、驾驶、电子学、擒抱、枪械（任意）、精细操作、武术、近战武器（任意）、射击武器（任意）、骑乘、投掷、追踪"
+ }
+}

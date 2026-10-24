@@ -1,0 +1,34 @@
+{
+ "_id": "pCkheGcmSFDtEBhi",
+ "name": "枪械（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.firearm",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Firearm (various)"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": true,
+  "category": "i.skillcat.combat",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "此技能衡量使用枪械的准头，并包含对枪械操作、保养与基础维修的熟稔。（基础值口径：As per weapon specialty）"
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "_id": "gzwMY2dgCQ1AXgsR",
+ "name": "乔装",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.disguise",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Disguise"
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.communication",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于借助姿态、装束、声音等手段伪装成另一个人或另一类人；昏暗光线、舞台化妆与显著的面部改动（剪发或戴假发、贴假须或匆匆刮脸）经守秘人裁量可带来最高 +20% 的加值。仔细打量你或与你交谈的旁观者，可对你的乔装掷骰进行侦查或洞察对抗检定以识破伪装；若你主动与其攀谈，也可改用话术对抗，令其无暇细察。大失败一望即知，失败瞒不过多看一眼的人，特殊成功及以上甚至能为针对受骗者的沟通类检定提供协作加值，或令识破更加困难。"
+ }
+}

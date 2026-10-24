@@ -1,0 +1,94 @@
+{
+ "_id": "d1pHHVLFDDNCqk96",
+ "name": "记者",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.journalist",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Journalist"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "qGNFYUIscggWfhJf"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "wB3QBEd18gFRnAh5"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "ezwCfDicqLBEIQxt"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "SCpz7NHanQIpFYwG"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "9oDrJzkzVMu2qKUY"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "l1RntbSJTW93qKh0"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "CnJlmVUg4g0k2dGy"
+   }
+  ],
+  "groups": [
+   {
+    "options": 3,
+    "skills": [
+     {
+      "brpid": "i.skill.art",
+      "uuid": "FKrwzatzBcasbHF0"
+     },
+     {
+      "brpid": "i.skill.craft",
+      "uuid": "XcMsTNNDeGUlTKFg"
+     },
+     {
+      "brpid": "i.skill.disguise",
+      "uuid": "Ijv8zRJIUqALJHrg"
+     },
+     {
+      "brpid": "i.skill.hide",
+      "uuid": "2HFyOcEZuBtc3qHf"
+     },
+     {
+      "brpid": "i.skill.knowledge",
+      "uuid": "s9IQXo1OnKh1IBuC"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "ba2xQCbVnleg6Rfy"
+     },
+     {
+      "brpid": "i.skill.status",
+      "uuid": "Leu5FPgxIO3r7ONp"
+     },
+     {
+      "brpid": "i.skill.stealth",
+      "uuid": "utn6afGYRZO0GNIG"
+     },
+     {
+      "brpid": "i.skill.technical-skill",
+      "uuid": "3cTgY1wpXYuJfRAK"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "无论是周刊的专栏作家、网络记者、摄影记者、电视主播还是 Gonzo 评论员，你都靠报道与剖析事件为生，以广播或其他媒介形式传播；这或许会带来几分名气，或许还有恶名。\n\n财富（UGE 口径）：中等至殷实。\n技能建议：话术、洞察、语言（母语）、聆听、说服、研究、侦查，以及视设定与角色概念从下列技能中任选三项：艺术（摄影）、手艺（摄影）、乔装、躲藏、知识（任意）、语言（其他）、地位、潜行、技术（计算机使用）。"
+ }
+}

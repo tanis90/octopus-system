@@ -1,0 +1,34 @@
+{
+ "_id": "uotZzGlQ3yzLgBwJ",
+ "name": "游泳",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.swim",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Swim"
+  }
+ },
+ "system": {
+  "base": 25,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 25
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于在水面或水下移动；一般仅在有危险或紧张的情境下才进行游泳检定，正常情况下的漂浮、狗刨与踩水视为自动成功。大失败意味着开始溺水（参见“哽塞、溺水与窒息”）——一旦溺水，只有困难的游泳检定或外人援助才能让其重新浮出水面呼吸。成功表示在水中正常行动，特殊成功及以上则速度与机动性更佳。"
+ }
+}

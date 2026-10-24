@@ -1,0 +1,34 @@
+{
+ "_id": "XVNRYwY6zlDt3dVL",
+ "name": "科学（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.science",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Science (various)"
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于掌握某一科学领域的知识与原理，观察现象并得出基于数据的结论；相关知识还包括该学科的历史、对设备与方法的熟稔，以及对重要人物与流派的了解。"
+ }
+}

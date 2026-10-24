@@ -1,0 +1,60 @@
+{
+ "_id": "dntQLU5JsFedTqsv",
+ "name": "艺术家",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.artist",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Artist"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.art",
+    "uuid": "fFDHBDZO2jBUKfri"
+   },
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "BokO2Arm80GksVYx"
+   },
+   {
+    "brpid": "i.skill.insight",
+    "uuid": "qp80ot43ayldkyvt"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "eInNbsxE5ifo1uuQ"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "u65Af05ieSVJMyFE"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "76dNIpBRa7QOb59r"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "X86AuWXTxRpnhxLs"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "STDHv1gC3Mz5cCQs"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "hgccQeftq3lGYWDy"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 2,
+  "description": "你以创作艺术为生，无论素描、油画、雕塑、设计、摄影、电影摄制，还是以实体或数字媒介进行创造性表达的任何其他方式。表演者请参阅艺人职业。\n\n财富（UGE 口径）：任意，但通常为贫穷或中等。\n技能建议：任意两项艺术技能、任意一项手艺、洞察、一项合适的知识技能、语言（其他）、语言（母语）、聆听、研究、侦查"
+ }
+}

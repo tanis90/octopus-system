@@ -1,0 +1,34 @@
+{
+ "_id": "xFQazkArcacRM5Do",
+ "name": "语言（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.language",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Language (various)"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.communication",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "以口头方式运用母语或其他语言沟通的能力；其他语言可在家中、学校、教堂、职场或街头习得，视文化与成长环境而定。多数角色的母语初始为智力×5，掌握双语者须在另一门语言技能上花费技能点。日常的母语对话视为自动成功，无须检定，只有在传达艰深概念或翻译等艰难非常的情形下才需检定；此技能只涵盖口头沟通，读写请使用读写技能。大失败意味着灾难性的误解，成功及以上则沟通顺畅，时而言辞动人。（基础值口径：INT×5 (or EDUx5) or 00% (see below)）"
+ }
+}

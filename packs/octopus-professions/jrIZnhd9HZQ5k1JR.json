@@ -1,0 +1,122 @@
+{
+ "_id": "jrIZnhd9HZQ5k1JR",
+ "name": "士兵",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.soldier",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Soldier"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.brawl",
+    "uuid": "K7dSNedkz0WPEbW9"
+   },
+   {
+    "brpid": "i.skill.climb",
+    "uuid": "SaVjdT8BHi6DkcL4"
+   },
+   {
+    "brpid": "i.skill.dodge",
+    "uuid": "UvsqJCy0CS2QZrCM"
+   },
+   {
+    "brpid": "i.skill.first-aid",
+    "uuid": "BTwoWkwqZDuNeTIO"
+   }
+  ],
+  "groups": [
+   {
+    "options": 6,
+    "skills": [
+     {
+      "brpid": "i.skill.artillery",
+      "uuid": "abeAFnN6VGsqySlz"
+     },
+     {
+      "brpid": "i.skill.command",
+      "uuid": "11bPgCVfHScZgxV8"
+     },
+     {
+      "brpid": "i.skill.drive",
+      "uuid": "tUcHgMCxZqOLWBP2"
+     },
+     {
+      "brpid": "i.skill.firearm",
+      "uuid": "NVl5wfzndL4cazIa"
+     },
+     {
+      "brpid": "i.skill.grapple",
+      "uuid": "wLm6iUI8LF7zTttt"
+     },
+     {
+      "brpid": "i.skill.heavy-weapon",
+      "uuid": "iCJTEySg7lFxJaWT"
+     },
+     {
+      "brpid": "i.skill.hide",
+      "uuid": "AXKAtEDzcjnfXKlH"
+     },
+     {
+      "brpid": "i.skill.language",
+      "uuid": "dX1IPnap09JQkDxL"
+     },
+     {
+      "brpid": "i.skill.listen",
+      "uuid": "UyQbWSPrvWRYh97H"
+     },
+     {
+      "brpid": "i.skill.jump",
+      "uuid": "ePbMhL1iq4yOXnJW"
+     },
+     {
+      "brpid": "i.skill.medicine",
+      "uuid": "ujdwAEvKa5RAejQ5"
+     },
+     {
+      "brpid": "i.skill.melee-weapon",
+      "uuid": "t4aBwIhluNHX1xdc"
+     },
+     {
+      "brpid": "i.skill.missile-weapon",
+      "uuid": "Nnue4BH8RPww9cce"
+     },
+     {
+      "brpid": "i.skill.navigate",
+      "uuid": "k6FDp0dnazQOQ1eK"
+     },
+     {
+      "brpid": "i.skill.repair",
+      "uuid": "kB8hxmvTsk35gBSK"
+     },
+     {
+      "brpid": "i.skill.ride",
+      "uuid": "D8NP9Q2kOSNJ7T8Y"
+     },
+     {
+      "brpid": "i.skill.spot",
+      "uuid": "qSwbm28wmgz8dWmw"
+     },
+     {
+      "brpid": "i.skill.stealth",
+      "uuid": "h1BznhA2PQqiU7kR"
+     },
+     {
+      "brpid": "i.skill.throw",
+      "uuid": "ccWsg5X3bGrP8FIh"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 2,
+  "description": "无论应募还是被征召，你都是职业军人，肩负保卫国家或组织的职责；你可能是佣兵或受雇的剑客，也可能真心信奉自己为之而战的事业。无论如何，你受过军事训练，与其他士兵编组行动，听令行事。\n\n财富（UGE 口径）：贫穷或中等，但常能获准使用昂贵或通常受管制的装备。\n技能建议：斗殴、攀爬、闪避、急救，以及视设定从下列技能中任选六项：火炮、指挥、驾驶、枪械（通常为步枪，任意亦可）、擒抱、重型武器（任意）、躲藏、语言（其他）、聆听、跳跃、医学、近战武器（任意）、射击武器（任意）、导航、维修（机械）、骑乘、侦查、潜行、投掷。"
+ }
+}

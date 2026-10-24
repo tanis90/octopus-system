@@ -1,0 +1,56 @@
+{
+ "_id": "iLxuazbVyNDjwaci",
+ "name": "商人",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.merchant",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Merchant"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.appraise",
+    "uuid": "U31EwCk1ZTKaqeNO"
+   },
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "aJnSWyAoldZelUqI"
+   },
+   {
+    "brpid": "i.skill.fast-talk",
+    "uuid": "BwRnArf6TwjgTJsb"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "hywIxiMhdzff6pth"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "mGobEZfprl3OCJUG"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "Fj1532QNwNnXID42"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "rzlu3SXzNbdneAwJ"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "d6vU9HTe0z6HnXs8"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 4,
+  "description": "你以零售或批发为生，低进高出；你可能受雇或自营店铺，也可能四处流动：旅行推销员、游方补锅匠、闯荡四方的香料商，或国际销售代表。\n\n财富（UGE 口径）：中等至富有，通常为殷实。守秘人与玩家应商定角色是否拥有自己的店铺或商船。\n技能建议：估价、议价、话术、知识（会计）、知识（商业）、说服、研究、地位，以及视设定与角色概念任选另外两项技能作为专长。"
+ }
+}

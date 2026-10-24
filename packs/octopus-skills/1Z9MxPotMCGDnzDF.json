@@ -1,0 +1,34 @@
+{
+ "_id": "1Z9MxPotMCGDnzDF",
+ "name": "投掷",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.throw",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Throw"
+  }
+ },
+ "system": {
+  "base": 25,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 25
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于以投掷物命中目标，或投出本不为投掷而设计的武器（如投掷巨剑或盾牌）；涵盖临时投掷物、手榴弹、炸药棒、通常不用于投掷的武器或非武器，套索与接住物品亦在其列。若武器本身为投掷而造，请使用射击武器。"
+ }
+}

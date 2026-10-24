@@ -1,0 +1,64 @@
+{
+ "_id": "fNO77YJHawMnBnTt",
+ "name": "牧人",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.herder",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Herder"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "EbqMSrAZ6UPiPQbU"
+   },
+   {
+    "brpid": "i.skill.firearm",
+    "uuid": "cWCJaDqou7uRS957"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "Xc0PwlPNdQt4Agqa"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "Ik3VcoAdcplPEer1"
+   },
+   {
+    "brpid": "i.skill.listen",
+    "uuid": "I9cx5HQbZHSxTUle"
+   },
+   {
+    "brpid": "i.skill.navigate",
+    "uuid": "Vdom62ZVcI2PYwtT"
+   },
+   {
+    "brpid": "i.skill.ride",
+    "uuid": "vKSZA3Ua5SJVZt0b"
+   },
+   {
+    "brpid": "i.skill.spot",
+    "uuid": "o4U3BsHuCHVyKUdo"
+   },
+   {
+    "brpid": "i.skill.throw",
+    "uuid": "PjLCWs3GmJojxj5a"
+   },
+   {
+    "brpid": "i.skill.track",
+    "uuid": "DmB2DDDELwYi0kaR"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 3,
+  "description": "你以放牧为生，驰骋于开阔的牧场，照看畜群、寻回走失的牲口，待到售卖时节把它们赶往市集。\n\n财富（UGE 口径）：贫穷至中等，偶尔殷实。\n技能建议：手艺（通常为绳结）、枪械（步枪）、知识（自然）、知识（地区：牧场）、聆听、导航、骑乘、侦查、投掷、追踪。"
+ }
+}

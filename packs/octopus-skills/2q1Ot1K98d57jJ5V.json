@@ -1,0 +1,19 @@
+{
+ "_id": "2q1Ot1K98d57jJ5V",
+ "name": "战斗类",
+ "type": "skillcat",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skillcat.combat",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Combat Skills Category"
+  }
+ },
+ "system": {
+  "basic": false,
+  "description": "Combat 类技能分类（UGE）"
+ }
+}

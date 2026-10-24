@@ -1,0 +1,34 @@
+{
+ "_id": "6jquq5bDSJjUXVyv",
+ "name": "异能投射",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.projection",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Projection"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "此可选技能供拥有异能的角色瞄准以异能发动的攻击之用，详见“第四章：异能”，仅在启用相应异能的游戏中使用。（基础值口径：DEX×2%）"
+ }
+}

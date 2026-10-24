@@ -1,0 +1,34 @@
+{
+ "_id": "spwG1UO8hC12YbcM",
+ "name": "指挥",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.command",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Command"
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.communication",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于激励、指挥与协调部下，引导他们完成复杂任务并提升团队效能；军官、贵族、政客与企业主管的成败皆系于管理与领导的能力，而个性、洪亮的声音与钢铁般的意志是指挥的宝贵工具。大失败会激起叛乱，失败则既无感召力又令人困惑；成功时，只要部下服从命令，你每指挥一轮，即可将自己指挥技能的 1/5 作为协作技能加值加到所有部下的检定上（战斗中每轮掷骰，大规模战斗中每回合掷骰）。"
+ }
+}

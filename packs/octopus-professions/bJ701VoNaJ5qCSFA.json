@@ -1,0 +1,48 @@
+{
+ "_id": "bJ701VoNaJ5qCSFA",
+ "name": "学者",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.scholar",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Scholar"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.language",
+    "uuid": "S1XDAoqQfcv9QjV5"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "sd1opeER8sXbXx7p"
+   },
+   {
+    "brpid": "i.skill.persuade",
+    "uuid": "IOKBSMDhyLJQva8q"
+   },
+   {
+    "brpid": "i.skill.research",
+    "uuid": "Zh5V86xoLWqLbvCM"
+   },
+   {
+    "brpid": "i.skill.teach",
+    "uuid": "ku3dwSIivXIgRAgn"
+   },
+   {
+    "brpid": "i.skill.knowledge",
+    "uuid": "eUAd8ShsgaHKxZMG"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 2,
+  "maxWealth": 3,
+  "description": "治学与求知定义了你的人生：你专精一个或多个知识领域，热切搜罗智识疆域内的一切；你可能把这些知识传授给学生，也可能囤积自用。\n\n财富（UGE 口径）：中等或殷实，通常为中等。\n技能建议：语言（其他）、语言（母语）、说服、研究、教导，并视设定与所学领域另选五项合适的知识或科学技能。"
+ }
+}

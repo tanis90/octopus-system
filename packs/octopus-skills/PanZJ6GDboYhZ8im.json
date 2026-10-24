@@ -1,0 +1,34 @@
+{
+ "_id": "PanZJ6GDboYhZ8im",
+ "name": "能量武器（各类）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.energy-weapon",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Energy Weapon (various)"
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": true,
+  "category": "i.skillcat.combat",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": true,
+  "description": "用于发射各类手持定向能量或光束武器（激光枪、爆能枪、瓦解枪等）。（基础值口径：As per weapon specialty）"
+ }
+}

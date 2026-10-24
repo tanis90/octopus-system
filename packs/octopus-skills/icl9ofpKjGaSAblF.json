@@ -1,0 +1,34 @@
+{
+ "_id": "icl9ofpKjGaSAblF",
+ "name": "躲藏",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.hide",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Hide"
+  }
+ },
+ "system": {
+  "base": 10,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.mental",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 10
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "将物体或自身藏于视线之外的艺术：在追捕中脱身、防止物件被轻易发现，或避开监视。大失败会立即引来注意，失败使寻找躲藏者的侦查检定变为容易，成功则须通过一次侦查检定方能找到，特殊成功及以上会让该侦查检定变为困难乃至不可能。"
+ }
+}

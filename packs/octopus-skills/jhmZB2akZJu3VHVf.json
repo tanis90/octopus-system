@@ -1,0 +1,19 @@
+{
+ "_id": "jhmZB2akZJu3VHVf",
+ "name": "感知类",
+ "type": "skillcat",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skillcat.perception",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Perception Skills Category"
+  }
+ },
+ "system": {
+  "basic": false,
+  "description": "Perception 类技能分类（UGE）"
+ }
+}

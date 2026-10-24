@@ -1,0 +1,2054 @@
+[
+ {
+  "_id": "wb0DAgbZdbbuDGfd",
+  "name": "心智类",
+  "type": "skillcat",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.mental",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Mental Skills Category"
+   }
+  },
+  "system": {
+   "basic": false,
+   "description": "Mental 类技能分类（UGE）"
+  }
+ },
+ {
+  "_id": "jhmZB2akZJu3VHVf",
+  "name": "感知类",
+  "type": "skillcat",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.perception",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Perception Skills Category"
+   }
+  },
+  "system": {
+   "basic": false,
+   "description": "Perception 类技能分类（UGE）"
+  }
+ },
+ {
+  "_id": "2q1Ot1K98d57jJ5V",
+  "name": "战斗类",
+  "type": "skillcat",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.combat",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Combat Skills Category"
+   }
+  },
+  "system": {
+   "basic": false,
+   "description": "Combat 类技能分类（UGE）"
+  }
+ },
+ {
+  "_id": "nzSszFqYacIpN0Os",
+  "name": "沟通类",
+  "type": "skillcat",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.communication",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Communication Skills Category"
+   }
+  },
+  "system": {
+   "basic": false,
+   "description": "Communication 类技能分类（UGE）"
+  }
+ },
+ {
+  "_id": "VJdkyRPdNzcSieCJ",
+  "name": "操作类",
+  "type": "skillcat",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.manipulation",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Manipulation Skills Category"
+   }
+  },
+  "system": {
+   "basic": false,
+   "description": "Manipulation 类技能分类（UGE）"
+  }
+ },
+ {
+  "_id": "znFbzM2E5qaSAS5h",
+  "name": "魔法类",
+  "type": "skillcat",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skillcat.magic",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Magic Skills Category"
+   }
+  },
+  "system": {
+   "basic": false,
+   "description": "Magic 类技能分类（UGE）"
+  }
+ },
+ {
+  "_id": "7ZDNby3wkO5yKR6R",
+  "name": "估价",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.appraise",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Appraise"
+   }
+  },
+  "system": {
+   "base": 15,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 15
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于估计一件物品的价值，无论旧画、宝石、武器还是坐骑。失败表示毫无头绪，大失败会得出错误信息，特殊成功或大成功则可获得额外信息。"
+  }
+ },
+ {
+  "_id": "Os0wR7dEQwivh8RA",
+  "name": "艺术（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.art",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Art (various)"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.manipulation",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于创作绘画、雕塑等艺术作品，或编写故事、诗歌与音乐。大成功或特殊成功可造就价值与名望远超寻常的不朽名作，失败只是平庸的应景之作，大失败更可能损害创作者的名誉。演戏、舞蹈、歌唱或演奏乐器请使用表演技能。"
+  }
+ },
+ {
+  "_id": "5gn3x27Xlvx5iaAI",
+  "name": "火炮（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.artillery",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Artillery (various)"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": true,
+   "category": "i.skillcat.combat",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于操作巨型野战武器与重型载具武器，即任何大得无法由单人移动或操纵的武器，例如加农炮、投石机或弩炮。（基础值口径：As per weapon specialty）"
+  }
+ },
+ {
+  "_id": "zjZyHHoXPQNxPb9p",
+  "name": "议价",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.bargain",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Bargain"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.communication",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于讨价还价，以及双方意见相左、需要谈判与妥协的场合：重要交易用对抗检定决定，琐碎的尝试（如省下装备或住宿的开支）用普通检定即可。议价讲究妥协，非赢即输的争论应改用话术或说服解决。大失败可能把商人变成仇敌，成功意味着谈成买卖，更高的成功等级则带来更大的折扣或对己方更有利的条件。"
+  }
+ },
+ {
+  "_id": "X0i5jzwDUO0CT3d9",
+  "name": "斗殴",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.brawl",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Brawl"
+   }
+  },
+  "system": {
+   "base": 25,
+   "basic": true,
+   "combat": true,
+   "category": "i.skillcat.combat",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 25
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于徒手战斗：拳打、脚踢、头槌等。"
+  }
+ },
+ {
+  "_id": "ooObKRoryCyhMJPb",
+  "name": "攀爬",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.climb",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Climb"
+   }
+  },
+  "system": {
+   "base": 40,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 40
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于攀上或爬下墙壁、树木、峭壁或任何其他表面，默认存在充足的把手与落脚点，可依状况或所攀表面调整难度。大失败意味着重重坠落（参见“坠落”），失败则是卡在原地或跌落（由守秘人依情况裁定），特殊成功及以上能爬得更快更远。"
+  }
+ },
+ {
+  "_id": "spwG1UO8hC12YbcM",
+  "name": "指挥",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.command",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Command"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.communication",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于激励、指挥与协调部下，引导他们完成复杂任务并提升团队效能；军官、贵族、政客与企业主管的成败皆系于管理与领导的能力，而个性、洪亮的声音与钢铁般的意志是指挥的宝贵工具。大失败会激起叛乱，失败则既无感召力又令人困惑；成功时，只要部下服从命令，你每指挥一轮，即可将自己指挥技能的 1/5 作为协作技能加值加到所有部下的检定上（战斗中每轮掷骰，大规模战斗中每回合掷骰）。"
+  }
+ },
+ {
+  "_id": "DBb4AG7NkdHzy4zB",
+  "name": "手艺（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.craft",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Craft (various)"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.manipulation",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于制作或建造各种东西，从一把椅子到一餐饭再到一栋房子，通常需要专用工具、时间与原材料；也可用于鉴别物品的制法，乃至辨认其制作者。大失败会毁掉材料且一无所获，成功即告完成，更高的成功等级能造出更精良、更坚固或更有价值的成品，或许还附带 +10% 或 +20% 的使用效能、更多生命值等额外特质。此技能关乎功能与实用，纯粹为美观而制物属于艺术。"
+  }
+ },
+ {
+  "_id": "XluO5TIU8uRx52kE",
+  "name": "爆破",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.demolition",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Demolition"
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.manipulation",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于储存、运输、布设与引爆炸药，从火药桶、炸药、燃烧瓶到先进塑胶炸药乃至反物质炸弹；任何人都能引爆炸弹，此技能旨在让爆炸达成特定效果——安全地炸塌建筑、摧毁桥梁，或不伤及内容物地炸开保险柜门。它还涵盖导爆索、引信与雷管等炸药配件的知识；制取炸药化合物用科学（化学），制作其他炸药用技术。大失败会让炸药在你眼前爆炸，失败意味着哑火或未能达成预期效果，特殊成功及以上则带来更可观的成果——更大的伤害、更小的附带损伤、击退等特殊效果或更大的作用范围。"
+  }
+ },
+ {
+  "_id": "gzwMY2dgCQ1AXgsR",
+  "name": "乔装",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.disguise",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Disguise"
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.communication",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于借助姿态、装束、声音等手段伪装成另一个人或另一类人；昏暗光线、舞台化妆与显著的面部改动（剪发或戴假发、贴假须或匆匆刮脸）经守秘人裁量可带来最高 +20% 的加值。仔细打量你或与你交谈的旁观者，可对你的乔装掷骰进行侦查或洞察对抗检定以识破伪装；若你主动与其攀谈，也可改用话术对抗，令其无暇细察。大失败一望即知，失败瞒不过多看一眼的人，特殊成功及以上甚至能为针对受骗者的沟通类检定提供协作加值，或令识破更加困难。"
+  }
+ },
+ {
+  "_id": "Ygos5rt8yBB4Ohiy",
+  "name": "闪避",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.dodge",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Dodge"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "任何战斗者都明白，最好的防御就是不在原地。闪避让你的角色躲开来袭攻击，以敏捷避免或减轻伤害。（基础值口径：DEX×2）"
+  }
+ },
+ {
+  "_id": "wfeFTvcNaZzkVZxc",
+  "name": "驾驶（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.drive",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Drive (various)"
+   }
+  },
+  "system": {
+   "base": 20,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.manipulation",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 20
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于驾驶、操纵与控制地面载具，无论畜力还是引擎驱动；常见载具的基础值为 20%，陌生或罕见载具为 01%。大失败通常意味着车辆无法启动，或发生碰撞与车祸；成功表示顺利抵达目的地，或纠正打滑等险况，特殊成功及以上则能用更短时间行进更远、更省燃料，或带来其他益处。"
+  }
+ },
+ {
+  "_id": "PanZJ6GDboYhZ8im",
+  "name": "能量武器（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.energy-weapon",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Energy Weapon (various)"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": true,
+   "category": "i.skillcat.combat",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于发射各类手持定向能量或光束武器（激光枪、爆能枪、瓦解枪等）。（基础值口径：As per weapon specialty）"
+  }
+ },
+ {
+  "_id": "QMK9jjTovd4nnBhm",
+  "name": "礼仪（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.etiquette",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Etiquette (various)"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.communication",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "多数文化、阶层或团体都有各自的社交规则与行为守则：得体的衣着、言谈方式、特定举止、肢体语言乃至决斗裁决，都可归入其礼仪。出席维多利亚式晚宴、重要的求职面试，或加入有组织犯罪家族时，都用得上此技能。礼仪检定可以为你赢得晋见重要 NPC 的机会，或以谙熟对方礼数令人折服；大失败是灾难性的失礼，失败无法令人印象深刻，成功及以上则效果更佳、更受礼遇。"
+  }
+ },
+ {
+  "_id": "827zLN8mPev2Kcq8",
+  "name": "话术",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.fast-talk",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Fast Talk"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.communication",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "推销员、间谍与骗子的首选武器，用于让目标迅速相信其未必相信之事，或促使其违背判断仓促决定，例如混过门卫或速成一次硬销。话术见效快而短暂：几分钟后，一次成功的灵感检定便可能令目标回过神来；要真正改变他人的想法，请改用议价或说服。大失败通常招致敌意，失败一无所获，成功及以上效果更佳，甚至令人永久接受你的立场。"
+  }
+ },
+ {
+  "_id": "PGQ53rUk5iA0DIZd",
+  "name": "精细操作",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.fine-manipulation",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Fine Manipulation"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.manipulation",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "衡量手稳与手眼协调，涵盖双手与手指的一切精细操作，如开锁、拆除陷阱、系解绳结与拆解机械装置。大失败会把事情弄糟，或许损毁或卡死所操纵之物；特殊成功及以上耗时更短、日后更易上手、不留篡改痕迹，或带来其他类似益处。"
+  }
+ },
+ {
+  "_id": "pCkheGcmSFDtEBhi",
+  "name": "枪械（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.firearm",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Firearm (various)"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": true,
+   "category": "i.skillcat.combat",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "此技能衡量使用枪械的准头，并包含对枪械操作、保养与基础维修的熟稔。（基础值口径：As per weapon specialty）"
+  }
+ },
+ {
+  "_id": "bFdrpvv4KaFc0hqs",
+  "name": "急救",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.first-aid",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "First Aid"
+   }
+  },
+  "system": {
+   "base": 30,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 30
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于止血、包扎伤口与处理轻度烧伤、固定骨折的肢体、救助溺水者或唤醒昏迷者，并延伸到分诊与基础护理，但对毒素、疾病或隐微身心疾患收效甚微——这些须以医学技能治疗，尽管守秘人可允许以困难检定进行紧急处理。急救需占用完整的一轮战斗，且通常无法在战斗中进行；若被打断，必须重新开始。"
+  }
+ },
+ {
+  "_id": "DO4jgWKB72CasutE",
+  "name": "飞行",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.fly",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Fly"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "生有双翼、配有相应装备（反重力腰带、火箭靴等）或拥有飞行异能者，用此技能在无载具的情况下于空中机动：完成空中机动或特技而不失控、在空战中压制对手，或在恶劣天气中飞行。有翼生物的基础值为敏捷×4，其余为敏捷的一半；喷气背包、悬挂滑翔翼等请使用载具驾驶技能。详见“空战”与“追逐”。（基础值口径：DEX×4 or 1/2 DEX (see below)）"
+  }
+ },
+ {
+  "_id": "zLnOzVbf3KnS2AZn",
+  "name": "博弈",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.gaming",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Gaming"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于进行各类游戏，从国际象棋、西洋双陆棋，到涉及纸牌、骰子或其他随机与策略要素的赌博竞赛；赌徒以此谋生，对多数人则只是消遣。大失败输得精光甚至欠债，失败输掉本局，成功小有斩获，特殊成功及以上收获更丰，或许还能提升地位。（基础值口径：INT+POW%）"
+  }
+ },
+ {
+  "_id": "L2BVy3ibNvgMRHde",
+  "name": "擒抱",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.grapple",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Grapple"
+   }
+  },
+  "system": {
+   "base": 25,
+   "basic": true,
+   "combat": true,
+   "category": "i.skillcat.combat",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 25
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于摔跤，或任何以不加伤害地制伏对手为目标的搏斗；通常非致命，但也可用以造成真正的伤害。"
+  }
+ },
+ {
+  "_id": "ma5cQiSJFhGjW340",
+  "name": "重型机械（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.heavy-machine",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Heavy Machine (various)"
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.manipulation",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于操作任何比人还大的机器，以及比厢式货车更重的轮式车辆，如叉车、坦克、推土机、起重机、机车，或大型远洋船舶的轮机，亦涵盖基础保养与预防性维护；机器一旦故障须以维修技能修理，飞行器请使用载具驾驶技能。大失败导致撞击、引擎故障或财产损失，失败意味着机器无法完成既定任务，成功及以上则效能更佳。"
+  }
+ },
+ {
+  "_id": "OWwQ7ftg49A0ND7w",
+  "name": "重型武器（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.heavy-weapon",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Heavy Weapon (various)"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": true,
+   "category": "i.skillcat.combat",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于操作逼近便携极限的爆炸武器或大型直射武器，如火箭筒、火箭发射器、重机枪、三脚架激光炮等；加农炮、攻城器械或载具与枪架固定的更重型火器，请使用火炮技能。（基础值口径：As per weapon specialty）"
+  }
+ },
+ {
+  "_id": "icl9ofpKjGaSAblF",
+  "name": "躲藏",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.hide",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Hide"
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "将物体或自身藏于视线之外的艺术：在追捕中脱身、防止物件被轻易发现，或避开监视。大失败会立即引来注意，失败使寻找躲藏者的侦查检定变为容易，成功则须通过一次侦查检定方能找到，特殊成功及以上会让该侦查检定变为困难乃至不可能。"
+  }
+ },
+ {
+  "_id": "uYOcdWjNOcRrpRdG",
+  "name": "洞察",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.insight",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Insight"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.perception",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于根据肢体语言、言语方式等无形因素评判他人的品性、情绪状态与动机；洞察让赌徒察觉虚张声势，让侦探嗅出谎言。大失败给出误导性信息，失败一无所获，成功让你得知目标可能在想什么，特殊成功及以上更能（在合理范围内）揭示其内心深处的念头。"
+  }
+ },
+ {
+  "_id": "gMRG6rfAE3SuVgWB",
+  "name": "跳跃",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.jump",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Jump"
+   }
+  },
+  "system": {
+   "base": 25,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 25
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于向高度或距离跃出、越过障碍。正常情况下，体格健全的人类立定跳远约为自身身高，立定跳高约为身高之半，助跑可跳出约三米远。大失败导致跌落（1D6 点总体生命值伤害或单一部位伤害），成功即完成上述跳跃，特殊成功将幅度提高 50%，大成功则翻倍；跳跃还可按成功等级减少坠落伤害（普通成功 -1D6，特殊成功 -2D6，大成功 -3D6）。"
+  }
+ },
+ {
+  "_id": "XZvcdOp0rHyahHhL",
+  "name": "知识（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.knowledge",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Knowledge (various)"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "此技能代表对某一知识领域的经验或学术钻研，用于回忆相关事实、分析或鉴别线索、作出合乎逻辑的推断，并展示渊博的杂学；更偏科学的领域参见科学技能。大失败得出误导而不实的假信息，成功等级越高，获得的信息越翔实有用。"
+  }
+ },
+ {
+  "_id": "xFQazkArcacRM5Do",
+  "name": "语言（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.language",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Language (various)"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.communication",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "以口头方式运用母语或其他语言沟通的能力；其他语言可在家中、学校、教堂、职场或街头习得，视文化与成长环境而定。多数角色的母语初始为智力×5，掌握双语者须在另一门语言技能上花费技能点。日常的母语对话视为自动成功，无须检定，只有在传达艰深概念或翻译等艰难非常的情形下才需检定；此技能只涵盖口头沟通，读写请使用读写技能。大失败意味着灾难性的误解，成功及以上则沟通顺畅，时而言辞动人。（基础值口径：INT×5 (or EDUx5) or 00% (see below)）"
+  }
+ },
+ {
+  "_id": "pdhi907RD2WcWlos",
+  "name": "聆听",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.listen",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Listen"
+   }
+  },
+  "system": {
+   "base": 25,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.perception",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 25
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于听见、判读并理解声响，无论门后的咕哝、隐秘的耳语、潜行的脚步声还是折断的细枝；也可用于判断声响能否惊醒熟睡者，或辨认特定的声音与嗓音。人类以寻常音量交谈的可闻范围约为 15 米——更大的声音传得更远，更轻的则更近。大失败意味着误解或全无所觉，成功及以上则带来对声源的察觉与信息。"
+  }
+ },
+ {
+  "_id": "dfvm3OdvEb3Yzg7d",
+  "name": "读写（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.literacy",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Literacy (various)"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "读写能力在现代被视为理所当然，而在往昔世代，它既是精英教育的产物，也是身份与地位的标志；现代社会中，读写的基础值等于角色母语或其他语言的基础值，除非另有意愿。大失败意味着灾难性的误解，失败则文意尽失，成功及以上能读出关键信息或细微差别，甚至因写出的作品而声名远播。（基础值口径：00% or equal to Language (Own/Other) (see below)）"
+  }
+ },
+ {
+  "_id": "lep9W3b5Ha0y3DOw",
+  "name": "武术",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.martial-arts",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Martial Arts"
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": true,
+   "category": "i.skillcat.combat",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "代表对某一特定格斗流派的研习与精通，用于施展能给目标造成最大伤害的特定招式与打击。武术总是与另一技能配合使用：视情形与斗殴、近战武器、射击武器或擒抱并用；它并非发起此类攻击所必需，而是代表更深的造诣，从而更为有效。"
+  }
+ },
+ {
+  "_id": "jhv6AiGBbrwgzKJz",
+  "name": "医学",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.medicine",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Medicine"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于诊断并治疗重伤、治疗疾病、解除中毒，并提出总体健康建议，亦可施行手术、为慢性健康问题提供长期护理方案。"
+  }
+ },
+ {
+  "_id": "H5njckbcuISoq6fK",
+  "name": "近战武器（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.melee-weapon",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Melee Weapon (various)"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": true,
+   "category": "i.skillcat.combat",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于在肉搏战中使用某一特定类型的武器，无论攻击还是招架。（基础值口径：As per weapon specialty）"
+  }
+ },
+ {
+  "_id": "xklP6U1fItSyLz9d",
+  "name": "射击武器（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.missile-weapon",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Missile Weapon (various)"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": true,
+   "category": "i.skillcat.combat",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于使用各类手持自推进投射武器，如弓、弩、飞斧、投矛、飞镖、标枪、吹箭、鱼叉枪乃至回旋镖；手榴弹请使用投掷。（基础值口径：As per weapon specialty）"
+  }
+ },
+ {
+  "_id": "iegheOHVnHsGxfNT",
+  "name": "导航",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.navigate",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Navigate"
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.perception",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于寻路抵达目的地，无论借助罗盘、海图、星辰，还是仅凭知觉、记忆与直觉。大失败意味着彻底迷失，此后任何人想摆脱迷路状态都须通过困难检定；失败导致耽搁与行程放缓，成功及以上则能有效寻路，甚至进展超出预期。"
+  }
+ },
+ {
+  "_id": "o63pE9cOlgCGQjsI",
+  "name": "招架",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.parry",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Parry"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": true,
+   "category": "i.skillcat.combat",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于在无法以其他技能应对时拨开来袭攻击，详见“招架”与攻防对照表；守秘人可裁定特定攻击无法招架，例如攻击者体型远大于防御者（如防御者体型的两倍以上），或攻击者正在使用范围或横扫攻击。（基础值口径：As per weapon specialty）"
+  }
+ },
+ {
+  "_id": "y6IZaCP3pEnfJ2wT",
+  "name": "表演（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.perform",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Perform (various)"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.communication",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于登台献艺，无论演戏、舞蹈、演奏乐器、歌唱，或其他以演出呈现的艺术表达。大失败是一场羞辱，失败平淡无奇，成功及以上则赢得瞩目与喝彩，或许还有评论界的赞誉与金钱回报；若被录制并传播，甚至可能在演出之后长久地激励人心并带来收益。"
+  }
+ },
+ {
+  "_id": "0Sxq52N3I5ZeYj9U",
+  "name": "说服",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.persuade",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Persuade"
+   }
+  },
+  "system": {
+   "base": 15,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.communication",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 15
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于让他人相信某一观点或信念是正确的、合理的或可接受的，无论其原本立场如何，途径可以是苏格拉底式的逻辑、缜密的辩论、激昂的演说、共情，或赤裸的威吓；听众或被说动而行动，或应允所求。与话术一样，说服无关真假；但与话术不同，成功说服的效果可无限延续，直到另一次说服检定或重大变故改变对方的看法。大失败可能令对方转趋敌对、恰恰拥抱与你相反的立场，失败无从服人，成功足以扭转其观点，特殊成功及以上效果更佳。"
+  }
+ },
+ {
+  "_id": "W3BJlFzStPknruLi",
+  "name": "载具驾驶（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.pilot",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Pilot (various)"
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于驾驶、操纵与控制空中、水面、水下乃至太空中的载具；大型载具可能需要多名驾驶员，非战斗状态下每四小时检定一次，战斗中或执行载具机动时每轮一次。"
+  }
+ },
+ {
+  "_id": "6jquq5bDSJjUXVyv",
+  "name": "异能投射",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.projection",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Projection"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "此可选技能供拥有异能的角色瞄准以异能发动的攻击之用，详见“第四章：异能”，仅在启用相应异能的游戏中使用。（基础值口径：DEX×2%）"
+  }
+ },
+ {
+  "_id": "ws5xUwxhxvaHt2r7",
+  "name": "心理治疗",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.psychotherapy",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Psychotherapy"
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于评估并治疗心理疾病或精神创伤，尤其是恢复损失的理智值；在实践中，心理治疗可用于开具药物处方，假以时日可缓解、治疗乃至逆转使人衰弱的精神病或心理疾病，药物与深入问诊能探入受损心灵的深处，从恐怖与绝望中带回希望。详见“理智值”。"
+  }
+ },
+ {
+  "_id": "MjoXd2IifE8GGzKc",
+  "name": "维修（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.repair",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Repair (various)"
+   }
+  },
+  "system": {
+   "base": 15,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.manipulation",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 15
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "装备与其他物件难免损坏或失灵，用维修技能加以修复，或进行小幅改装与调整。"
+  }
+ },
+ {
+  "_id": "rgJrzBODyZ8VEJOy",
+  "name": "研究",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.research",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Research"
+   }
+  },
+  "system": {
+   "base": 25,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.perception",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 25
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于在图书馆、档案馆或网络中查找并甄别潜在的信息来源；成功的检定可从书籍、文献、论文、数据库、档案或网站中取得所需信息，特殊成功及以上更带来额外或更具体的内容。尽管资源类型繁多，原理却一致：通常每次尝试耗时四小时，电子手段则快得多。大失败导致灾难性误解、得出错误信息；失败则浪费时间而一无所获，或在两倍耗时后仅得到最基本的信息。"
+  }
+ },
+ {
+  "_id": "aKWgjFTm4SiaH1v3",
+  "name": "骑乘（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.ride",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Ride (various)"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.communication",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于骑乘、照料并驾驭某一特定种类的活物：策骑穿过复杂地形或完成特殊动作、催促坐骑全速疾驰，或在人立或踉跄之际保持控制。大失败会失去对坐骑的控制，或许被甩落在地受到 1D6 点生命值伤害（总体或随机部位），此时成功的跳跃检定可将伤害总额减去 1D6；失败使牲口却步不前，成功及以上则令其如命而行甚至超乎预期，特殊成功还可能在骑乘战斗中带来加值。"
+  }
+ },
+ {
+  "_id": "XVNRYwY6zlDt3dVL",
+  "name": "科学（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.science",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Science (various)"
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于掌握某一科学领域的知识与原理，观察现象并得出基于数据的结论；相关知识还包括该学科的历史、对设备与方法的熟稔，以及对重要人物与流派的了解。"
+  }
+ },
+ {
+  "_id": "CNXCEd7WLEGnhLRa",
+  "name": "感知",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.sense",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Sense"
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.perception",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "主要统辖味觉、触觉与嗅觉，也可延伸至一些较冷门的其他感官（体位感、重力、压力与平衡、温度等）；用于察觉或辨认既非视觉（侦查）亦非听觉（聆听）的特定刺激，如黑暗中凭触觉找到物品、辨认怪异的气味或淡淡的滋味、摸出发丝般的裂纹，经守秘人裁量甚至可涵盖“第六感”或直觉。大失败或是严重误导，或对刺激一无所知，失败只是未曾注意，不同程度的成功则带来更准确的感知。"
+  }
+ },
+ {
+  "_id": "jBQGJigm1nmTQaOG",
+  "name": "盾牌",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.shield",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Shield"
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": true,
+   "category": "i.skillcat.combat",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用盾牌或其他合适器物格挡来袭攻击；一切盾牌格挡均遵循与招架相同的规则，参见第六章“战斗”中的“盾牌”与“招架”。也可持盾攻击，此时将此技能视同近战武器技能，武器列表给出了盾牌的伤害评级；盾牌造成钝击特殊效果，可引发击退，并可用于瞄准攻击。（基础值口径：As per shield type）"
+  }
+ },
+ {
+  "_id": "o39whzL9pTHYSGde",
+  "name": "巧手",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.sleight-of-hand",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Sleight of Hand"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.manipulation",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于以误导方式或不引人注意地摆弄小物件（骰子、纸牌、硬币、钱包、信件等），如扒窃、牌桌出千或舞台魔术。大失败欲盖弥彰——物件脱手，或“妙手”被当场抓个正着；失败一无所成，而毫无戒备的目标通过一次成功的灵感检定后，可能察觉自己受了骗。"
+  }
+ },
+ {
+  "_id": "08isdXxNUiZpzPwB",
+  "name": "侦查",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.spot",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Spot"
+   }
+  },
+  "system": {
+   "base": 25,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.perception",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 25
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于搜索房间中潜在的重要细节、找到暗格、留意稍纵即逝的细节、认出乔装的仇敌，或发现设伏之敌。大失败是令人分心的重大误知觉或错误印象，不同程度的成功则带来更有用、更切题的信息。"
+  }
+ },
+ {
+  "_id": "jZ0hFJMq4AVVQNDk",
+  "name": "地位",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.status",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Status"
+   }
+  },
+  "system": {
+   "base": 15,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.communication",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 15
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "地位衡量名声、专业资历、社会阶层、富足程度、声望乃至个人荣誉；用于仗势施压以影响他人，如说动银行放出现金贷款或勾销债务、威吓 NPC 以得其方便、让店家收下欠条，或施压当局将事情压下不提。大失败是登峰造极的失礼，招致羞耻、引来不该有的注意，效果恰与所求相反；成功及以上则如愿以偿，甚至额外获益。但地位并非财富：二者常相关联，却并无必然绑定。"
+  }
+ },
+ {
+  "_id": "z8IVwWENE3eLTlD6",
+  "name": "潜行",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.stealth",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Stealth"
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于悄无声息地穿过一片区域而不引人注意；无须掩体，但须脚下轻、有自信且守纪律。静止不动时避免被看见请用躲藏。大失败会引来不该有的注意，失败意味着寸步未进、任何看上一眼的人都轻易察觉，成功则提供层层递进的隐蔽。"
+  }
+ },
+ {
+  "_id": "5PSLQFjWJeqdLnG6",
+  "name": "战略",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.strategy",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Strategy"
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于在战场上统率大军——从一支小队到千军万马或整支舰队——组织协调后勤、筹划并执行大规模军事行动，乃至推断另一位统帅心中所想；此技能亦默认具备军事史与战术的基础知识，以及其中的重要人物。大失败是一场军事灾难，可能导致一败涂地；不同程度的成功则带来战略优势，或可提升士气与战斗力。"
+  }
+ },
+ {
+  "_id": "uotZzGlQ3yzLgBwJ",
+  "name": "游泳",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.swim",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Swim"
+   }
+  },
+  "system": {
+   "base": 25,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 25
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于在水面或水下移动；一般仅在有危险或紧张的情境下才进行游泳检定，正常情况下的漂浮、狗刨与踩水视为自动成功。大失败意味着开始溺水（参见“哽塞、溺水与窒息”）——一旦溺水，只有困难的游泳检定或外人援助才能让其重新浮出水面呼吸。成功表示在水中正常行动，特殊成功及以上则速度与机动性更佳。"
+  }
+ },
+ {
+  "_id": "Wk20PaWR2ypP2roz",
+  "name": "教导",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.teach",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Teach"
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.communication",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "当你的角色尝试以授课、练习或实战对练向他人传授知识或技艺时使用。大失败是开倒车：若学生未能通过灵感检定察觉教学之劣，或许会损失 1D2 点技能；成功即按正常训练规则传授，特殊成功与大成功分别将技能训练提升至 1D6 与 1D6+2。"
+  }
+ },
+ {
+  "_id": "usPx5ZdFEaiFPqnA",
+  "name": "技术（各类）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.technical-skill",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Technical Skill (various)"
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": true,
+   "description": "用于操作并维护先进的技术设备，如计算机系统、机器人或其他高科技装置，也可改装设备以提升性能，或令其承担设计参数之外的新用途。大失败可能损坏设备或使之卡死，成功及以上则令机械如设计般运转，甚至超出预期。"
+  }
+ },
+ {
+  "_id": "1Z9MxPotMCGDnzDF",
+  "name": "投掷",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.throw",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Throw"
+   }
+  },
+  "system": {
+   "base": 25,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.mental",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 25
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于以投掷物命中目标，或投出本不为投掷而设计的武器（如投掷巨剑或盾牌）；涵盖临时投掷物、手榴弹、炸药棒、通常不用于投掷的武器或非武器，套索与接住物品亦在其列。若武器本身为投掷而造，请使用射击武器。"
+  }
+ },
+ {
+  "_id": "qiJYqyiZag1BIqmE",
+  "name": "追踪",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.track",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Track"
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "i.skillcat.perception",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "specialism": false,
+   "description": "用于辨识或尾随踪迹——无论对象是人、载具还是动物——在地面、灌木丛、积雪与崎岖地形间穿行追索。大失败会跟丢踪迹，追踪者自己或许也会迷失；不同程度的成功带来更好的结果，包括估读被追踪者的信息，或准确预测其去向。"
+  }
+ }
+]

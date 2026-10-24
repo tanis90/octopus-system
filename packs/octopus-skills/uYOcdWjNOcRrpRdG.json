@@ -1,0 +1,34 @@
+{
+ "_id": "uYOcdWjNOcRrpRdG",
+ "name": "洞察",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.insight",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Insight"
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "i.skillcat.perception",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于根据肢体语言、言语方式等无形因素评判他人的品性、情绪状态与动机；洞察让赌徒察觉虚张声势，让侦探嗅出谎言。大失败给出误导性信息，失败一无所获，成功让你得知目标可能在想什么，特殊成功及以上更能（在合理范围内）揭示其内心深处的念头。"
+ }
+}

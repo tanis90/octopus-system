@@ -1,0 +1,34 @@
+{
+ "_id": "X0i5jzwDUO0CT3d9",
+ "name": "斗殴",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.brawl",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Brawl"
+  }
+ },
+ "system": {
+  "base": 25,
+  "basic": true,
+  "combat": true,
+  "category": "i.skillcat.combat",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 25
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "specialism": false,
+  "description": "用于徒手战斗：拳打、脚踢、头槌等。"
+ }
+}

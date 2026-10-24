@@ -1,0 +1,76 @@
+{
+ "_id": "TZ1XgGgYqMsAwGKN",
+ "name": "劳力者",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.laborer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Laborer"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.climb",
+    "uuid": "lPNtJa4nYkdpRsVi"
+   },
+   {
+    "brpid": "i.skill.craft",
+    "uuid": "l7pN3IpgCsXKm1oa"
+   },
+   {
+    "brpid": "i.skill.drive",
+    "uuid": "W0X7CQuUBWcGybXS"
+   },
+   {
+    "brpid": "i.skill.brawl",
+    "uuid": "Dqqva5zbYtkMMumv"
+   },
+   {
+    "brpid": "i.skill.grapple",
+    "uuid": "aOYcSqLt4FRbWdny"
+   },
+   {
+    "brpid": "i.skill.heavy-machine",
+    "uuid": "nhRzax84jM7w1HYb"
+   },
+   {
+    "brpid": "i.skill.appraise",
+    "uuid": "ZrELgy2OSLJLTqBc"
+   },
+   {
+    "brpid": "i.skill.fine-manipulation",
+    "uuid": "Ek5Ou9sLu22kW4wJ"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "e2IOtgO9yjotRmuk"
+   },
+   {
+    "brpid": "i.skill.literacy",
+    "uuid": "iqlOYyjaLQ7acEzU"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "clmZX4cFxExjQHyS"
+   },
+   {
+    "brpid": "i.skill.repair",
+    "uuid": "IdsK903A2324uSyK"
+   },
+   {
+    "brpid": "i.skill.technical-skill",
+    "uuid": "zFp4zcA7DLWB02IZ"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 1,
+  "maxWealth": 2,
+  "description": "你是蓝领工人，无论在工厂流水线、仓库，还是干纯重体力活；你的肌肉与重复劳作的能力，比你能调动的一切脑力都更重要。\n\n财富（UGE 口径）：贫穷或中等。\n技能建议：攀爬、手艺（任意）、驾驶、斗殴、擒抱、重型机械，以及视设定从下列技能中另选四项：估价、精细操作、语言（其他）、读写、维修（机械）、维修（建筑）、技术（计算机使用）。"
+ }
+}

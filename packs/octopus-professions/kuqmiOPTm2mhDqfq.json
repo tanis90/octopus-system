@@ -1,0 +1,48 @@
+{
+ "_id": "kuqmiOPTm2mhDqfq",
+ "name": "贵族",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.noble",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Noble"
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.bargain",
+    "uuid": "lQheQ0euxKT4mbqr"
+   },
+   {
+    "brpid": "i.skill.drive",
+    "uuid": "cvuTaJFEP21kx0B8"
+   },
+   {
+    "brpid": "i.skill.etiquette",
+    "uuid": "2QqJT5gV4wXTcpS5"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "0shrTFnyKVLehH13"
+   },
+   {
+    "brpid": "i.skill.language",
+    "uuid": "VXwu5TmifxmWl6mw"
+   },
+   {
+    "brpid": "i.skill.status",
+    "uuid": "tK4ORviNUuF09ano"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 3,
+  "maxWealth": 4,
+  "description": "你生于富贵，出身统治阶层；在承认这类社会区分的社会中，你的地位常与爵衔官职相连，但即便头衔形同虚设，你也轻易被认作精英之列。你习惯了优雅奢靡的生活方式，与豪富显贵相识，也为其所知。\n\n财富（UGE 口径）：殷实至富有，通常为富有。\n技能建议：议价、驾驶、礼仪、语言（母语）、语言（其他）、读写与地位，另以任意三项其他技能作为爱好或兴趣领域。"
+ }
+}
