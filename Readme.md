@@ -66,10 +66,12 @@ in the `mt-foundry-compat` repo, branch `research/rules-brp`,
 1. [x] Full Sanity chain (POW×5 snapshot / TIS threshold / paired-loss checks /
    temporary madness with in-card d6 manifestation + d8 duration / permanent insanity)
 2. [x] Luck points (POW×5 snapshot, spend-to-lower on check cards; no reroll by design)
-3. [ ] Occupation creation (profession skill quotas + credit rating)
+3. [x] Occupation base content (44 UGE professions, ORC-clean; quotas = power-level pools + INT×10 — point-budget validators land with the character builder)
 4. [ ] Skill advancement (reworked dev-phase gain semantics)
 5. [ ] Keeper tooling (batch checks / party panel)
 6. [x] Phobias & manias (persTrait traitType; madness-card pre-filled creation entry)
+
+Base content pack: UGE skills (57, zh) + professions (44, zh) + skill categories, dual-format (compat packs-json / real-Foundry folder packs), ORC notice included (ORC-NOTICE.md); starter auto-attach verified E2E.
 
 Localization: Simplified Chinese ships complete (1057/1057 keys, terminology aligned
 with authoritative CoC zh conventions); see lang/zh-CN.json.
