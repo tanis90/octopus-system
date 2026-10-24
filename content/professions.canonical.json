@@ -1,0 +1,486 @@
+[
+  {
+    "name": "Artist",
+    "slug": "artist",
+    "description": "You make your living through making art, whether drawing, painting, sculpture, design, photography, filmmaking, or any other means of creative expression in a physical or digital medium. Performers should refer to the Entertainer profession.",
+    "wealth": "Any, but usually Poor or Average.",
+    "skills": "Any two Art skills, any Craft, Insight, one appropriate Knowledge skill, Language (Other), Language (Own), Listen, Research, Spot",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 728
+    }
+  },
+  {
+    "name": "Assassin",
+    "slug": "assassin",
+    "description": "As a coldblooded professional assassin, death is your trade. Whether you kill for money or some other cause, you are skilled in the termination of other living beings, usually in secrecy.",
+    "wealth": "Average or Affluent. You may also have a wide range of weapons and false identities, as appropriate to setting.",
+    "skills": "Dodge, Hide, Listen, Spot, Stealth, and five of the following as appropriate to setting: Brawl, Disguise, Drive, Electronics, Grapple, Firearm (any), Fine Manipulation, Martial Arts, Melee Weapon (any), Missile Weapon (any), Ride, Throw, Track",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 736
+    }
+  },
+  {
+    "name": "Athlete",
+    "slug": "athlete",
+    "description": "Whether professional or amateur, state-sponsored or still in school, you excel in a style of sports or exercise, honing your body and resolve for solo or team athletic competition.",
+    "wealth": "Poor through Wealthy, usually Average or Affluent.",
+    "skills": "Climb, Dodge, Jump, Stealth, Throw and choose five of the following as appropriate to setting and sport: Brawl, First Aid, Grapple, Insight, Listen, Martial Arts, Spot, Ride, Swim.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 744
+    }
+  },
+  {
+    "name": "Beggar",
+    "slug": "beggar",
+    "description": "You survive by begging for money, food, and other necessities. You may call yourself a hobo, homeless, or a wandering vagabond. Perhaps you had a run of bad luck, are of a discriminated-against group, have a criminal past you cannot escape, or insanity or substance abuse drove you to this state.",
+    "wealth": "Destitute, though some beggars are actually Poor and only pretend to be worse off.",
+    "skills": "Bargain, Fast Talk, Hide, Insight, Knowledge (Region: local area), Listen, Persuade, Sleight of Hand, Spot, Stealth.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 752
+    }
+  },
+  {
+    "name": "Clerk",
+    "slug": "clerk",
+    "description": "You spend your days at a desk, usually working in some financial field. This profession could be one where you deal with customers, such as an accountant or salaried employee in a company, government, or other organization.",
+    "wealth": "Average.",
+    "skills": "Bargain, Etiquette, Knowledge (Accounting), Knowledge (Law), one other Knowledge, Language (Own), Persuade, Research, Status, and either Technical Skill (Computer Use) or Literacy, as appropriate by era.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 760
+    }
+  },
+  {
+    "name": "Computer Tech",
+    "slug": "computer-tech",
+    "description": "You could be a corporate software engineer or an illicit hacker. Alternately, you could be working in any of the many fields of software development. Much of your life is spent interfaced with a computer, often connected to the world’s information network. Lines of code, data, and other virtual assets are as real to you as the tools and materials of other craftsmen.",
+    "wealth": "Average to Affluent.",
+    "skills": "Craft (Computer Hardware or Code), one Knowledge skill, Language (Other) (a programming language), Repair (Electrical), Repair (Electronics), Research, Science (Mathematics), Status, Technical (Computer Use), and choose one of the following skills as specialties as appropriate to setting: Accounting, Hide, Knowledge (Law).",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 768
+    }
+  },
+  {
+    "name": "Crafter",
+    "slug": "crafter",
+    "description": "Whether a village blacksmith, a glassblower, or a maker of finely tuned watches, you make trade goods by hand and sell them to interested buyers. You usually work in a shop, whether you own it or are merely employed there.",
+    "wealth": "Poor to Affluent, usually Average.",
+    "skills": "Appraise, any one Art, Bargain, any two Craft skills, Spot, Research, Status, and choose two of the following as appropriate to setting and trade: Fine Manipulation, Repair (Electrical), Repair (Electronics), Repair (Mechanical), Heavy Machine.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 776
+    }
+  },
+  {
+    "name": "Criminal",
+    "slug": "criminal",
+    "description": "You make your way through the world by breaking the law, whether by strong-arm theft, organized crime, picking pockets, or some other means of gaining valuables or money illegally.",
+    "wealth": "Poor to Affluent, sometimes Wealthy, usually Average.",
+    "skills": "Bargain, Hide, Stealth, Drive or Ride, and choose any six of the following as appropriate to setting and racket: Appraise, Brawl, Climb, Fast Talk, Fine Manipulation, Firearm (any), Gaming, Grapple, Insight, Jump, Knowledge (Law), Listen, Martial Arts, Melee Weapon (any, usually knives or clubs), Persuade, Spot, Throw.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 784
+    }
+  },
+  {
+    "name": "Detective",
+    "slug": "detective",
+    "description": "Whether employed by the police or working privately, you use skills of observation, deduction, and criminology to determine who has committed crimes. You may have a wide range of forensic and scientific skills or operate on gut instincts.",
+    "wealth": "Average or Affluent.",
+    "skills": "Firearm (Handgun), Knowledge (Law), Listen, Persuade, Spot, Research, and choose four of the following as appropriate to setting and concept: Art, Brawl, Disguise, Dodge, Drive, Fast Talk, Firearm (any), Grapple, Hide, Insight, Knowledge (any), Language (Other), Language (Own), Medicine, Ride, Science (any), Technical (Computer Use), Stealth, Track.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 792
+    }
+  },
+  {
+    "name": "Doctor",
+    "slug": "doctor",
+    "description": "You have made it your calling to treat the injured, infirm, sick, and otherwise unhealthy, using diagnostic skills and medical practices gained through extensive training and study. You may have taken an oath to help any who need it, no matter what they have done or who they are.",
+    "wealth": "Average to Affluent.",
+    "skills": "First Aid, Language (Own), Medicine, Persuade, Research, Spot, and choose four of the following as appropriate to setting: Insight, Language (Other), Psychotherapy, Science (any), Status.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 800
+    }
+  },
+  {
+    "name": "Engineer",
+    "slug": "engineer",
+    "description": "You build, repair, or maintain machines, work in construction, or are a mechanic dealing with technology appropriate to your era and setting, from simple stone architecture to highly advanced spaceship drive systems. Some engineers maintain and operate a large and complex vehicle of some sort, from a sailing ship to a space cruiser, while others are employed in the creation and maintenance of siege engines or architectural structures.",
+    "wealth": "Poor to Affluent, usually Average.",
+    "skills": "Craft (any), Repair (Mechanical), Repair (Structural), Spot, Status, and five of the following, as appropriate to setting and concept: Art (usually Drafting), Drive, Heavy Machine, Knowledge (any), Pilot (any), Repair (Electrical), Repair (Electronics), Science (any), or Technical (Computer Use).",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 808
+    }
+  },
+  {
+    "name": "Entertainer",
+    "slug": "entertainer",
+    "description": "You use your performing talent to entertain audiences of all sizes, improvisational or scripted, in person or through broadcast transmission or prerecorded distribution.",
+    "wealth": "Destitute to Wealthy, usually Average.",
+    "skills": "Art (any), Disguise, Fast Talk, Fine Manipulation, Insight, Language (Other), Language (Own), Listen, Perform (any), Persuade.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 816
+    }
+  },
+  {
+    "name": "Explorer",
+    "slug": "explorer",
+    "description": "You have made it your life’s work to seek out the unknown corners of the world, go where none have gone before, and to bring back knowledge of what you have found, either for glory or in the name of discovery.",
+    "wealth": "Affluent or Wealthy.",
+    "skills": "Climb, Language (Other), Language (Own), Persuade, Research, Spot, and four of the following as appropriate to setting: Knowledge (Anthropology, Group, History, Natural World, or Region), Drive, Fast Talk, Firearm (Pistol, Revolver, or Rifle), Navigate, Pilot (Aircraft or Boat), Ride, Science (Geology), Swim, Track.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 824
+    }
+  },
+  {
+    "name": "Farmer",
+    "slug": "farmer",
+    "description": "As a farmer you dwell in a rural or barely tamed area, coaxing a living out of the land through growing crops or tending animal herds. It is a hard life with long days of backbreaking labor, but nonetheless satisfying.",
+    "wealth": "Poor to Affluent, usually Average.",
+    "skills": "Bargain, Craft (any), Knowledge (Natural History), Listen, Spot, and five of the following as appropriate to setting and concept: Brawl, Drive, Firearm (Rifle or Shotgun), First Aid, Heavy Machine, Knowledge (Natural World), Repair (Mechanical), Ride, Science (Biology, Botany, or Geology), Track.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 832
+    }
+  },
+  {
+    "name": "Gambler",
+    "slug": "gambler",
+    "description": "You survive by the whim of chance, or by cheating fate in games of luck and skill. Inevitably, you travel around; drifting from one gambling arena to another, sometimes one step ahead of the law, hoping your luck won’t dry up.",
+    "wealth": "Poor to Affluent, usually Average.",
+    "skills": "Bargain, Brawl, Dodge, Fast Talk, Gaming, Insight, Knowledge (Accounting), Persuade, Sleight of Hand, Spot.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 840
+    }
+  },
+  {
+    "name": "Herder",
+    "slug": "herder",
+    "description": "You make your living tending herd animals, riding the open range and taking care of the herds, finding strays and bringing them to market when it is time to sell.",
+    "wealth": "Poor to Average, occasionally Affluent.",
+    "skills": "Craft (usually knots), Firearm (Rifle), Knowledge (Natural World), Knowledge (Region: the Range), Listen, Navigate, Ride, Spot, Throw, Track.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 848
+    }
+  },
+  {
+    "name": "Hunter",
+    "slug": "hunter",
+    "description": "Whether for survival or for the thrill of the hunt, you specialize in tracking and either trapping or killing wild animals or other beings.",
+    "wealth": "Poor or Average, unless a big game or sport hunter, then Wealthy.",
+    "skills": "Climb, Hide, Listen, Navigate, Spot, Stealth, Track, and three of the following as appropriate to setting and concept: Firearm (Rifle or Shotgun), Knowledge (Natural World or Region), Language (Other), Melee Weapon (usually Spear), Missile Weapon (any), Ride.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 856
+    }
+  },
+  {
+    "name": "Journalist",
+    "slug": "journalist",
+    "description": "Whether a columnist for a weekly paper, a web journalist, a photojournalist, a television anchor, or a gonzo commentator, you make a living from the coverage and analysis of events, to be broadcast or distributed in some other medium. This may come with some measure of fame or notoriety.",
+    "wealth": "Average to Affluent.",
+    "skills": "Fast Talk, Insight, Language (Own), Listen, Persuade, Research, Spot, and three of the following as appropriate to setting and concept: Art (Photography), Craft (Photography), Disguise, Hide, Knowledge (any), Language (Other), Status, Stealth, Technical (Computer Use).",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 864
+    }
+  },
+  {
+    "name": "Laborer",
+    "slug": "laborer",
+    "description": "You are a blue-collar worker, whether on a factory line, in a warehouse, or simply heavy labor. Your muscle and ability to do repetitive tasks are more important than any brainpower you can muster.",
+    "wealth": "Poor or Average.",
+    "skills": "Climb, Craft (any), Drive, Brawl, Grapple, Heavy Machine, and four others, as appropriate to setting: Appraise, Fine Manipulation, Language (Other), Literacy, Repair (Mechanical), Repair (Structural), Technical (Computer Use).",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 872
+    }
+  },
+  {
+    "name": "Lawkeeper",
+    "slug": "lawkeeper",
+    "description": "You have the authority and the jurisdiction to uphold and defend the law, ideally in defense of the common folk. Your enforcement of the law and legal code is supported by the power structure in your community.",
+    "wealth": "Usually Average. Corrupt lawmen are sometimes Affluent.",
+    "skills": "Brawl, Dodge, Fast Talk, Knowledge (Law), Listen, Spot, and four of the following, as appropriate to setting and concept: Drive, Firearms (any), First Aid, Grapple, Insight, Knowledge (Region or Group), Language (Other), Martial Arts, Melee Weapon (any), Missile Weapon (any), Pilot (any), Ride, Status, Technical (Computer Use), Track.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 880
+    }
+  },
+  {
+    "name": "Lawyer",
+    "slug": "lawyer",
+    "description": "You are trained in law and use the legal system to prosecute or defend, or you represent the legal interests of individuals, organizations, or governments. Though you have no authority above or beyond that of the common citizen, your inside knowledge of the legal system gives you considerable power within the legal system.",
+    "wealth": "Destitute, Poor, Average, Affluent, Wealthy",
+    "skills": "Bargain, Fast Talk, Insight, Knowledge (Law), one other Knowledge skill, Language (Own), Perform (Oratory), Persuade, Research, Status.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 888
+    }
+  },
+  {
+    "name": "Mechanic",
+    "slug": "mechanic",
+    "description": "A grease-monkey, you spend your time maintaining, repairing, and sometimes building machines, vehicles, or more complex constructions. You are good with tools, and able to easily decipher technical problems or issues.",
+    "wealth": "Poor to Average, usually Average.",
+    "skills": "Bargain, Craft (Metalwork), Drive, Fine Manipulation, Heavy Machine, Repair (Electrical), Repair (Electronics), Repair (Mechanical), Repair (Structural), Spot.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 896
+    }
+  },
+  {
+    "name": "Merchant",
+    "slug": "merchant",
+    "description": "You make a living in retail or wholesale, purchasing resources for less and selling for more. You might work in or own a shop, or you might be mobile: a traveling salesman, a wandering tinker, an adventuresome spice merchant, or an international sales representative.",
+    "wealth": "Average to Wealthy, usually Affluent. Your gamemaster and player should determine whether the character owns their own shop or trade vessel.",
+    "skills": "Appraise, Bargain, Fast Talk, Knowledge (Accounting), Knowledge (Business), Persuade, Research, Status, and any two other skills as specialties, as appropriate to setting and concept.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 904
+    }
+  },
+  {
+    "name": "Noble",
+    "slug": "noble",
+    "description": "You were born into wealth and a ruling class. In a society that recognizes such social distinctions your status is often associated with ranks and titles, but even if such titles are meaningless you are still easily recognized as among the elite. You are accustomed to an elegant and extravagant lifestyle, and you know and are known to the wealthy and other highborn of society.",
+    "wealth": "Affluent to Wealthy, usually Wealthy.",
+    "skills": "Bargain, Drive, Etiquette, Language (Own), Language (Other), Literacy, and Status, plus any other three skills as hobbies or fields of interest.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 912
+    }
+  },
+  {
+    "name": "Occultist",
+    "slug": "occultist",
+    "description": "You are a student of obscure secrets, hidden lore, and magical power, believing in the influence and primacy of supernatural forces. If appropriate to the setting, your gamemaster may allow you to use powers (probably magic or sorcery) perhaps studied while a member of an occult organization or secret society.",
+    "wealth": "Poor to Wealthy, usually Affluent.",
+    "skills": "Fast Talk, Insight, Knowledge (Anthropology), Knowledge (History), Knowledge (Occult), Language (Other), Language (Own), Research, and any two other skills as appropriate to setting, usually from the following: Art (any), Craft (any), Knowledge (Archaeology), Medicine, Science (any), or Status.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 920
+    }
+  },
+  {
+    "name": "Pilot",
+    "slug": "pilot",
+    "description": "Whether on land, on or below the water, in the skies, or through the deeps of space, you are trained in guiding and piloting a vessel of some sort, steering it for commercial, official, or military ends. Your job ranges from space fighter pilot to tramp steamer captain, depending on the setting.",
+    "wealth": "Average to Affluent. If you own your own vessel, Affluent.",
+    "skills": "Drive, Heavy Machine, Listen, Navigate, Pilot (any), Spot, plus any four of the following skills, as appropriate to setting: Bargain, Climb, Command, Craft (any), Knowledge (Region), Repair (Electrical), Repair (Electronics), Repair (Mechanical), Language (Other), Persuade, Science (Physics), Science (Astronomy), Technical (Computer Use).",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 930
+    }
+  },
+  {
+    "name": "Politician",
+    "slug": "politician",
+    "description": "You have been elected or appointed to a position of authority and make your living taking part in or directing government activities, whether city-wide or greater. You could be a medieval magistrate or a galactic senator, depending on the setting.",
+    "wealth": "Affluent to Wealthy, usually Affluent.",
+    "skills": "Bargain, Etiquette, Fast Talk, Insight, Knowledge (Law), Persuade, Status, plus any three other skills as appropriate to the setting, usually from the following: Knowledge (Accounting, Group, History, or Region), Listen, Language (Other), Language (Own), Perform (Oratory), Research.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 938
+    }
+  },
+  {
+    "name": "Priest",
+    "slug": "priest",
+    "description": "Your faith and belief in the divine have led you to the calling of the priesthood, and you spend your time preaching or in activities befitting the worship of your deity (or deities). You could be an ascetic monk or a televangelist, depending on the setting.",
+    "wealth": "Poor to Affluent, usually Average, possibly Wealthy if you are the religious leader of a large group of worshipers, at your gamemaster’s discretion.",
+    "skills": "Fast Talk, Insight, Knowledge (History), Knowledge (Philosophy), Knowledge (Religion), Language (Own), Perform (Ritual), Persuade, and two of the following: Knowledge (Occult), Language (Other), Listen, Literacy, Perform (Oratory), Research, Status, Teach.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 946
+    }
+  },
+  {
+    "name": "Sailor",
+    "slug": "sailor",
+    "description": "You ply the ocean waves, working hard to maintain your vessel’s integrity, whether as a pirate, a naval officer, or an ancient world trader.",
+    "wealth": "Poor or Average, usually Average.",
+    "skills": "Climb, Craft (any), Dodge, Grapple, Navigate, Pilot (Boat), Swim, and any three of the following: Artillery (any, usually shipboard), Command, Language (Other), Listen, Repair (Mechanical), Repair (Structural), Spot.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 956
+    }
+  },
+  {
+    "name": "Scholar",
+    "slug": "scholar",
+    "description": "Study and learning define your life, and you specialize in one or more fields of knowledge, eagerly seeking out all there is to know within your intellectual domain. You might teach this knowledge to students or hoard it for your own use.",
+    "wealth": "Average or Affluent, usually Average.",
+    "skills": "Language (Other), Language (Own), Persuade, Research, Teach, and choose five Knowledge or Science skills appropriate to setting and related to your field of study.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 964
+    }
+  },
+  {
+    "name": "Scientist",
+    "slug": "scientist",
+    "description": "Whether employed by a corporation, educational institution, government, or working on your own, you explore a field of science through rigorous speculation, experimentation, and observation, repeating the process and refining the base of knowledge.",
+    "wealth": "Average or Affluent, usually Affluent.",
+    "skills": "Craft (any), Persuade, Research, Status, Technical (Computer Use) or Heavy Machine, and any five Knowledge or Science appropriate to setting and related to your field of study.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 972
+    }
+  },
+  {
+    "name": "Servant",
+    "slug": "servant",
+    "description": "You are employed as a helper or servant, tending to the household affairs and domestic needs of an affluent employer. You might be a gentleman’s manservant, the adjutant of a general, or you could be a scullery maid in a sprawling castle.",
+    "wealth": "Poor to Average, though sometimes servants have limited access to their employer’s lifestyle of Affluent or Wealthy, at your gamemaster’s approval.",
+    "skills": "Craft (any), Etiquette, Hide, Language (Own), Listen, Stealth, and choose four of the following as personal specialties, as appropriate to the setting and concept: Bargain, Drive, First Aid, Insight, Knowledge (Accounting), Language (Other), Persuade.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 980
+    }
+  },
+  {
+    "name": "Shaman",
+    "slug": "shaman",
+    "description": "You are a tribal magician, skilled in contacting the spirit world and lending advice and aid to your chieftain and the members of your tribe. You have secret knowledge, passed down from mentor to student, and you may have the ability to use magic. Most shamans are members of a more primitive culture, though there are some modern practitioners.",
+    "wealth": "Poor or Average, at a tribal-level existence.",
+    "skills": "Art (any), Insight, Knowledge (History), Knowledge (Occult), Language (Own), Listen, Perform (Rituals), Persuade, and two of the following as specialties, as appropriate to setting and concept: Craft (any), Fast Talk, First Aid, Hide, Knowledge (Anthropology), Language (Other), Medicine, Science (Pharmacy), or Status.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 988
+    }
+  },
+  {
+    "name": "Slave",
+    "slug": "slave",
+    "description": "Captured and enslaved or born into captivity, you are a slave or indentured servant to an individual master, or to an organization or religion. You might be treated well: the head of a household’s staff, or perhaps you are beaten and regularly punished and live in fear. To be classified as a slave, it is assumed that most of your life has been spent as a slave. If you were captured and enslaved recently, use your previous profession instead.",
+    "wealth": "Destitute to Poor, though sometimes slaves have limited access to their owner’s lifestyle of Affluent or Wealthy, at your gamemaster’s approval.",
+    "skills": "Craft (any), Dodge, Etiquette, Fast Talk, Hide, Insight, Language (Other), Listen, Stealth, and one other skill as an occupational specialty.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 998
+    }
+  },
+  {
+    "name": "Soldier",
+    "slug": "soldier",
+    "description": "Whether through enlistment or conscription, you are a professional soldier, charged with the defense of your country or organization. You might be a mercenary or sellsword, or you might actually believe in the cause you fight for. Either way, you’ve received martial training, and work in a squad of other soldiers, doing what you’re ordered to.",
+    "wealth": "Poor or Average, but frequently given access to expensive or otherwise-prohibited equipment.",
+    "skills": "Brawl, Climb, Dodge, First Aid, and six of the following, as appropriate to setting: Artillery, Command, Drive, Firearm (usually Rifle, but any), Grapple, Heavy Weapon (any), Hide, Language (Other), Listen, Jump, Medicine, Melee Weapon (any), Missile Weapon (any), Navigate, Repair (Mechanical), Ride, Spot, Stealth, Throw",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 1008
+    }
+  },
+  {
+    "name": "Spy",
+    "slug": "spy",
+    "description": "You are skilled in subterfuge and infiltration, entering countries or organizations under cover or in secret, finding out their secrets, and reporting them back to an enemy or interested party.",
+    "wealth": "Average or Affluent, depending on the setting.",
+    "skills": "Dodge, Fast Talk, Hide, Listen, Research, Spot, Stealth, and three of the following, as appropriate to setting: Art (Photography), Brawl, Disguise, Etiquette, Firearm (any), Grapple, Knowledge (any), Language (Other), Language (Own), Martial Arts, Navigate, Pilot (any), Psychology, Repair (Electronics), Repair (Mechanical), Ride, Swim, Technical (Computer Use), Throw, Track.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 1016
+    }
+  },
+  {
+    "name": "Student",
+    "slug": "student",
+    "description": "You spend your time studying, either as a general student or an apprentice to some master. Your curriculum may be at a prestigious university, a martial arts academy, a wizard’s school, or at some private and exclusive institution.",
+    "wealth": "Poor to Wealthy, usually Average.",
+    "skills": "Language (Own), Research, and choose eight other skills as courses of study, as appropriate to the setting and concept. Common choices are from the following list: Art (any), Craft (any), First Aid, Insight, Knowledge (any), Language (Other), Listen, Medicine, Repair (any), Perform, Persuade, Psychotherapy, Science (any), Technical (Computer Use), and one Physical skill (if involved in athletics).",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 1024
+    }
+  },
+  {
+    "name": "Teacher",
+    "slug": "teacher",
+    "description": "You are an instructor of one or more subjects, teaching groups or tutoring a single student. Whether employed by a university, a high school, or other educational institution, you instruct students in an academic setting towards some standard of achievement.",
+    "wealth": "Average or Affluent, usually Average.",
+    "skills": "Language (Own), Persuade, Research, Status, Teach, and choose five other skills as areas of expertise, as appropriate to the setting and concept. Common choices are from the following list: Art (any), Craft (any), First Aid, Insight, Knowledge (any), Language (Other), Listen, Medicine, Repair (any), Perform, Persuade, Psychotherapy, Science (any), Technical (Computer Use).",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 1034
+    }
+  },
+  {
+    "name": "Technician",
+    "slug": "technician",
+    "description": "Specialized in maintaining, repairing, and utilizing complex machinery, computers, or other electronics, you are highly capable at dealing with engineered systems. You do not design these machines, though you possibly know them better than their creators did.",
+    "wealth": "Average or Affluent.",
+    "skills": "Fine Manipulation, Heavy Machine, Listen, Repair (any), Science (Physics), Research, Spot, Technical (Computer Use), and two other skills from the following list as a specialty, as appropriate to setting and concept: Craft (any), Drive, Pilot (any).",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 1042
+    }
+  },
+  {
+    "name": "Thief",
+    "slug": "thief",
+    "description": "You take what you want, either to survive or because it appeals to you. You could be a lowly pickpocket, a infamous brigand, or a glamorous international jewel thief. You flaunt the law to steal, either armed, through clever deception, stealth, or some combination of all three.",
+    "wealth": "Any, subject to gamemaster’s approval.",
+    "skills": "Appraise, Dodge, Fast Talk, Hide, Stealth, and five other skills from the following list, as appropriate to setting and concept: Bargain, Brawl, Climb, Disguise, Fine Manipulation, Firearm (Pistol, Revolver, or Shotgun), Grapple, Insight, Listen, Jump, Knowledge (Law), Persuade, Repair (Mechanical), or Spot.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 1050
+    }
+  },
+  {
+    "name": "Tribesperson",
+    "slug": "tribesperson",
+    "description": "Hailing from a primitive culture, you are an accepted member of a tribe, and are unfamiliar with most of the elements of civilization. You survive through hunting or foraging, and your world is a small one: your village and the surrounding environment.",
+    "wealth": "Destitute to Poor, at a tribal-level existence. Or you may be a noble of the tribe, with a higher wealth level, depending on your Status.",
+    "skills": "Craft (any), Dodge, Grapple, Hide, Knowledge (Natural History), Spot, Throw, Track, and two of the following skills, as appropriate to setting: Brawl, Climb, First Aid, Listen, Jump, Knowledge (Occult), Melee Weapon (usually Spear or Club), Missile Weapon (Bow), Language (Other), Ride, Stealth, Swim.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 1058
+    }
+  },
+  {
+    "name": "Warrior",
+    "slug": "warrior",
+    "description": "You specialize in individual combat, surviving by your reflexes and your weapon skills. Perhaps you adhere to a code of honor like chivalry or bushido, or you are a mercenary or barbaric adventurer. Soldiers fight in groups or squads, while warriors look only to their own prowess.",
+    "wealth": "Destitute to Average, usually Poor.",
+    "skills": "Brawl, Dodge, Grapple, Melee Weapon (any), Missile Weapon (any), and five other skills from the following list as specialties, as appropriate to setting and concept: Climb, Firearm (any), Hide, Listen, Jump, Language (Other), Martial Arts, Ride, Spot, Stealth, Swim, Throw, Track.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 1066
+    }
+  },
+  {
+    "name": "Wizard",
+    "slug": "wizard",
+    "description": "You understand and can use magic or sorcery. Through chant and gesture, you can produce magical effects, and you dedicate yourself to improving and increasing your repertoire of spells and your personal access to power points.",
+    "wealth": "Poor to Wealthy, usually Affluent.",
+    "skills": "Craft (any), Insight, Knowledge (Occult), two other Knowledge (any) skills, Language (Other), Listen, Perform (Rituals), Persuade, Research.",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 1074
+    }
+  },
+  {
+    "name": "Writer",
+    "slug": "writer",
+    "description": "You write prose, poetry, scripts, or some other form. You are most comfortable communicating in writing, and your words have the power to entertain, inform, or persuade those who read them.",
+    "wealth": "Poor to Wealthy, usually Average.",
+    "skills": "Art (writing), Insight, Language (Own), Persuade, Research, and five other skills from the following list as specialties, as appropriate: Fast Talk, Knowledge (any), Language (Other), Listen, Status, Technical (Computer Use).",
+    "sourceLocator": {
+      "file": "rules/en/0200_Characters.md",
+      "line": 1084
+    }
+  }
+]

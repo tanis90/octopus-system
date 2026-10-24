@@ -1,0 +1,686 @@
+[
+  {
+    "name": "Appraise",
+    "slug": "appraise",
+    "base": 15,
+    "baseRaw": "15%",
+    "category": "Mental",
+    "description": "Use this skill to estimate an object’s worth, be it an old painting, a gemstone, a weapon, or a riding horse. Failure means they have no idea, while a fumble yields false information. A special or critical yields additional information.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 250
+    }
+  },
+  {
+    "name": "Art (various)",
+    "slug": "art",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Manipulation",
+    "description": "Use this skill to create a work of art in paint or sculpture, or to compose a story, poem, or musical work. A critical or special success yields a timeless classic of considerably more value and prestige, a failure is mediocre hackwork, and a fumble may harm the creator’s reputation. You would use Perform for acting, dancing, singing, or playing a musical instrument.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 258
+    }
+  },
+  {
+    "name": "Artillery (various)",
+    "slug": "artillery",
+    "base": null,
+    "baseRaw": "As per weapon specialty",
+    "category": "Combat",
+    "description": "Use this skill to fire massive field pieces and heavy vehicular weapons, essentially any weapon too large for a single person to move or maneuver, such as a cannon, trebuchet, or ballista.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 270
+    }
+  },
+  {
+    "name": "Bargain",
+    "slug": "bargain",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Communication",
+    "description": "Use this skill to haggle over prices, and whenever opposing opinions meet in negotiation and compromise. Use opposed skill rolls to decide important deals, and simple skill rolls for trivial attempts (saving money on equipment or lodgings, for example). Bargaining is about compromise: use Fast Talk or Persuade to resolve arguments that are absolutely won or lost. A fumble might mean turn a merchant into an enemy, success means you get a deal, and better results yield higher discounts or more favorable conditions for your side.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 286
+    }
+  },
+  {
+    "name": "Brawl",
+    "slug": "brawl",
+    "base": 25,
+    "baseRaw": "25%",
+    "category": "Combat",
+    "description": "Use this skill for unarmed combat: kicks, punches, head butts, etc.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 294
+    }
+  },
+  {
+    "name": "Climb",
+    "slug": "climb",
+    "base": 40,
+    "baseRaw": "40%",
+    "category": "Physical",
+    "description": "Use this skill to climb up or down walls, trees, cliffs, or any other surface. Ample hand and footholds are assumed to be present: modify the difficulty based on conditions or the surface being climbed. Fumbling means you fall hard (see **Falling**), failing means you’re stuck or you fall (gamemaster choice, based on circumstances), and superior successes let you climb faster and farther.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 306
+    }
+  },
+  {
+    "name": "Command",
+    "slug": "command",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Communication",
+    "description": "Use this skill to inspire, direct, and coordinate subordinates, guiding them in complex tasks and improving the effectiveness of the group. Military officers, noblemen, politicians, and business executives are made or broken based on their ability to manage and lead. Personality, a strong voice, and an iron will are invaluable tools of command. A fumble incites insurrection, failing is uninspiring and confusing, and success allows you to add 1/5 your Command skill as a complementary skill bonus to all your subordinates for each round you command them, so long as they follow your orders. Roll every round in combat, or every turn in mass combat.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 316
+    }
+  },
+  {
+    "name": "Craft (various)",
+    "slug": "craft",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Manipulation",
+    "description": "Use this skill to construct or make things, from a chair to a meal to a house. Specialized tools are often required for this skill, and it takes time and raw materials. This skill can also be used to identify how an object was made, and possibly identify the crafter who made it. A fumble destroys the material and yields nothing useful, success means it works, and a better quality of success yields a finer, sturdier, or more valuable version of the thing being made, perhaps with additional qualities like a \\+10% or \\+20% to its efficacy when used, higher hit points, etc. This is about with function and practicality: fashioning objects solely for aesthetically purposes falls under Art.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 326
+    }
+  },
+  {
+    "name": "Demolition",
+    "slug": "demolition",
+    "base": 1,
+    "baseRaw": "01%",
+    "category": "Manipulation",
+    "description": "Use this skill to store, transport, set, and detonate explosives, from kegs of gunpowder to dynamite, Molotov cocktails, advanced plastic explosives, and anti-matter bombs. Anyone can simply set off a bomb: this is to achieve a specific effect with the explosion; collapse a building safely, destroy a bridge, or blow the door of a safe without harming the contents. Demolition also covers knowledge of appropriate accessories for explosives, including primer cord, fuses, and detonators. Use Science (Chemistry) to produce explosive compounds or Technical Skill to fashion other explosives. A fumble blows things up in your face, a failure means the desired effect is not achieved (a misfire or dud), and superior successes yield more impressive results, whether more damage, less collateral damage, special effects like Knockback, additional area of effect, etc.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 338
+    }
+  },
+  {
+    "name": "Disguise",
+    "slug": "disguise",
+    "base": 1,
+    "baseRaw": "01%",
+    "category": "Communication",
+    "description": "Use this skill to employ posture, costume, voice, and other tricks to appear as a different person, or a different kind of person. Dim light, theatrical makeup, and significant facial alterations (a haircut or wig, false beards or a quick shave) can add up to a \\+20% bonus, at the gamemaster’s discretion. Onlookers who scrutinize your disguised character or engage them in conversation can make and opposed Spot or Insight skill check against your character’s Disguise roll to see through the ruse. Your disguised character can use their Fast Talk skill for the opposed check if they engage the onlooker in conversation, distracting them from close scrutiny. A fumble is blatantly obvious, a failure doesn’t fool anyone who gives a second look, and superior successes may even add a complementary bonus to Communication rolls against those being fooled, or makes detection more difficult.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 348
+    }
+  },
+  {
+    "name": "Dodge",
+    "slug": "dodge",
+    "base": null,
+    "baseRaw": "DEX×2",
+    "category": "Physical",
+    "description": "The best defense in combat, as any combatant knows, is to not be there. Dodge allows your character to evade incoming attacks, using agility to avoid or minimize injury.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 358
+    }
+  },
+  {
+    "name": "Drive (various)",
+    "slug": "drive",
+    "base": 20,
+    "baseRaw": "20% or 01% (see below)",
+    "category": "Manipulation",
+    "description": "Use Drive to steer, maneuver, and control a ground vehicle, whether pulled by animals or powered by an engine. For common vehicles, the base chance is 20%, for unknown/uncommon vehicles, it’s 01%. A fumble when driving normally means the vehicle may not start, or a collision or crash. Success means your character gets where they’re going, or is able to correct a bad condition (like a slide or spin), and superior successes mean more distance covered in less time, less fuel used, or some other benefit.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 370
+    }
+  },
+  {
+    "name": "Energy Weapon (various)",
+    "slug": "energy-weapon",
+    "base": null,
+    "baseRaw": "As per weapon specialty",
+    "category": "Combat",
+    "description": "Use this to fire any kind of hand-held directed energy or beam weapon (lasers, blasters, disruptors, etc.).",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 384
+    }
+  },
+  {
+    "name": "Etiquette (various)",
+    "slug": "etiquette",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Communication",
+    "description": "Most cultures, castes, or groups have social rules and codes of behavior. Proper dress, modes of speech, specific behaviors, body language, or even trials by combat can all play a part in a group’s etiquette. Use this skill whenever your character needs to behave appropriately, whether attending a Victorian dinner party, an important job interview, or joining an organized crime family. Etiquette rolls might gain an audience with an important nonplayer character or impress others with your knowledge of their social mores. A fumble represents a disastrous faux pas, a fail does not impress, and success or better yields superior results and improves one’s reception.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 400
+    }
+  },
+  {
+    "name": "Fast Talk",
+    "slug": "fast-talk",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Communication",
+    "description": "The preferred weapon of salesmen, spies, or confidence men, use this skill to convince a target quickly of something they may not believe, or convince them to make a rapid decision against their better judgment. Use this to bluff one’s way past a doorman or make a hard sell go quickly. Fast Talk is quick to use, and usually temporary: a few minutes and a successful Idea roll later, and the target may come to their senses. To truly change someone’s mind, use the Bargain or Persuade skills. A fumble usually draws hostility, failing gets you nowhere, and success or better has improved effectiveness, or even convinces someone permanently of your position.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 412
+    }
+  },
+  {
+    "name": "Fine Manipulation",
+    "slug": "fine-manipulation",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Manipulation",
+    "description": "A measure of steadiness and hand-eye coordination, this skill covers any careful use of the hands and fingers. Use it when picking locks, disarming a trap, tying or untying knots, and disassembling mechanical devices. A fumble bungles things, perhaps breaking or jamming the item being manipulated. Superior successes take less time, make it easy in the future, show no signs of tampering, or some other similar benefit.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 422
+    }
+  },
+  {
+    "name": "Firearm (various)",
+    "slug": "firearm",
+    "base": null,
+    "baseRaw": "As per weapon specialty",
+    "category": "Combat",
+    "description": "This skill measures accuracy with firearms, and provides familiarity with handling, maintenance, and basic repairs.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 432
+    }
+  },
+  {
+    "name": "First Aid",
+    "slug": "first-aid",
+    "base": 30,
+    "baseRaw": "30%",
+    "category": "Mental",
+    "description": "Use this skill to stop bleeding, bandage wounds and treat minor burns, set a broken limb, resuscitate someone who’s drowning, or revive an unconscious person. It extends to triage and rudimentary medical care but has little effect on poisons, diseases, or subtle physical ailments: these must be treated with the Medicine skill, though your gamemaster may allow a Difficult roll for emergency treatment of poison or disease. First Aid takes a full combat round and cannot normally be performed while in combat. If interrupted, the attempt must be restarted.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 448
+    }
+  },
+  {
+    "name": "Fly",
+    "slug": "fly",
+    "base": null,
+    "baseRaw": "DEX×4 or 1/2 DEX (see below)",
+    "category": "Physical",
+    "description": "For beings with wings, the appropriate gear (antigravity belt, rocket boots, etc.), or flight powers, use this skill to maneuver in the air without a vehicle. Use Fly to perform aerial maneuvers or acrobatics without losing control, outmaneuver a foe in aerial combat, or fly in poor weather conditions. Base chance is DEX×4 for winged creatures; 1/2 DEX for all others. For jet packs, hang-gliders, etc. use the Pilot skill. See **Aerial Combat** and **Chases** for more information.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 474
+    }
+  },
+  {
+    "name": "Gaming",
+    "slug": "gaming",
+    "base": null,
+    "baseRaw": "INT+POW%",
+    "category": "Mental",
+    "description": "Use this skill while playing games, from chess or backgammon to gambling contests involving cards, dice, or other random or strategic elements. Gamblers make their living using this skill, but to most others it is merely a source of entertainment. A fumble cleans you out and potentially puts you into debt, failure means you lose the round, success yields a minor win, and superior successes reap greater benefits and perhaps even improves one’s status.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 492
+    }
+  },
+  {
+    "name": "Grapple",
+    "slug": "grapple",
+    "base": 25,
+    "baseRaw": "25%",
+    "category": "Combat",
+    "description": "Use this skill for wrestling or any fighting where the goal is to subdue a target without causing harm. Usually this is non-lethal, but it can be used to deliver real harm.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 502
+    }
+  },
+  {
+    "name": "Heavy Machine (various)",
+    "slug": "heavy-machine",
+    "base": 1,
+    "baseRaw": "01%",
+    "category": "Manipulation",
+    "description": "Use this skill to operate any machine larger than a person and any wheeled vehicle heavier than a moving van, such as a forklift, tank, bulldozer, crane, locomotive, or operate the engines on a large seagoing vessel. Heavy Machine also covers basic care and preventative maintenance, though once a heavy machine fails, a Repair skill is required to fix it. For aircraft, use the Pilot skill. A fumble results in a crash, engine troubles, and/or property damage, while failure means the machine doesn’t do the desired task. Successes and superior successes indicate greater effectiveness.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 544
+    }
+  },
+  {
+    "name": "Heavy Weapon (various)",
+    "slug": "heavy-weapon",
+    "base": null,
+    "baseRaw": "As per weapon specialty",
+    "category": "Combat",
+    "description": "Use this skill to operate explosive weapons or large direct-fire weapons that push the limits of portability, such as includes bazookas, rocket launchers, heavy machine guns, tripod-mounted laser cannons, and others. Use the Artillery skill for heavier ordnance such as cannons, siege engines, or vehicle- or pintle-mounted weapons.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 556
+    }
+  },
+  {
+    "name": "Hide",
+    "slug": "hide",
+    "base": 10,
+    "baseRaw": "10%",
+    "category": "Physical",
+    "description": "The art of concealing an object or oneself from view. Your character should use this skill to escape during pursuit, keep an object from easy detection, or avoid surveillance. A fumble draws immediate attention, failure means that Spot roll to find the hider becomes *Easy*, a success requires a Spot roll to be found, and superior successes either make the Spot roll *Difficult* or *Impossible*.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 570
+    }
+  },
+  {
+    "name": "Insight",
+    "slug": "insight",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Perception",
+    "description": "Use this skill to evaluate another person’s character, emotional state, and motives based on body language, speech patterns, and other intangible factors. Insight allows a gambler to sense a bluff, or a detective to sniff out a lie. A fumble provides misleading information, failure yields nothing, success lets you know what the target might be thinking, and superior successes reveal to you their innermost thoughts (within reason).",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 580
+    }
+  },
+  {
+    "name": "Jump",
+    "slug": "jump",
+    "base": 25,
+    "baseRaw": "25%",
+    "category": "Physical",
+    "description": "Use this skill to leap for height or distance, jump over obstacles. Under normal circumstances, a reasonably fit Human can jump their height horizontally and half their height vertically from a standing position, and roughly three meters horizontally with a running start. A fumble results in a fall (1D6 general hit point damage or to a hit location), a success results in a jump as described above, a special success increases the amount by 50%, and a critical success doubles it. Jump can also reduce falling damage by 1D6 per level of success (normal success by –1D6, special by –2D6, critical by –3D6).",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 590
+    }
+  },
+  {
+    "name": "Knowledge (various)",
+    "slug": "knowledge",
+    "base": 5,
+    "baseRaw": "05% or 00% (see below)",
+    "category": "Mental",
+    "description": "This skill represents experience or academic study of a branch of knowledge. Use a Knowledge skill to remember pertinent facts, to analyze or identify clues, make logical suppositions, and recall impressive trivia. For more scientific ones, see Science. A fumble results in misleading and inaccurate falsehoods, and successes yield more useful and detailed information.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 600
+    }
+  },
+  {
+    "name": "Language (various)",
+    "slug": "language",
+    "base": null,
+    "baseRaw": "INT×5 (or EDUx5) or 00% (see below)",
+    "category": "Communication",
+    "description": "The ability to communicate verbally in a language, either one’s native language or another. Other languages can be learned at home, school, church, in the workplace, or on the streets, depending on culture and upbringing. Most characters begin knowing their own language at INT×5. Bilingual characters must have spent skill points on another language skill. Day-to-day conversation in one’s own Language is Automatic and does not require a skill roll. Skill rolls are only required when communicating difficult concepts or in difficult and unusual situations, such as translating. This skill covers verbal communication—reading and writing use Literacy. A fumble means disastrous misunderstanding, while successes yield smooth and sometimes eloquent communication.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 660
+    }
+  },
+  {
+    "name": "Listen",
+    "slug": "listen",
+    "base": 25,
+    "baseRaw": "25%",
+    "category": "Perception",
+    "description": "Use this skill to hear, interpret, and understand sounds, whether murmurs behind a closed door, furtive whispers, stealthy footfalls, and snapped twigs. Use this skill to see if a noise wakes a sleeping character, or to see if they can recognize a specific sound or voice. The normal range for hearing a Human voice speaking at a polite volume is 15 meters—louder voices carry farther, and quieter ones have a shorter range. A fumble means a misunderstanding or complete ignorance of a sound, while successes yield awareness and information about its source.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 682
+    }
+  },
+  {
+    "name": "Literacy (various)",
+    "slug": "literacy",
+    "base": null,
+    "baseRaw": "00% or equal to Language (Own/Other) (see below)",
+    "category": "Mental",
+    "description": "The ability to read and write is taken for granted in the modern era: in previous ages, reading and writing were products of elite education and signs of distinction or status. In modern societies, the base chance for Literacy is equal to a character’s base Language (Own) or (Other) unless otherwise desired. A fumble means a disastrous misunderstanding, failure means meaning is lost, successes yield critical information or nuances, even renown for work produced.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 692
+    }
+  },
+  {
+    "name": "Martial Arts",
+    "slug": "martial-arts",
+    "base": 1,
+    "baseRaw": "01%",
+    "category": "Combat",
+    "description": "This represents study and mastery of a specific fighting style. Use this skill to make specific moves and strikes that cause maximum damage to the target. Martial Arts is always used in combination with another skill: Brawl, Melee Weapon, Missile Weapon, or Grapple, as appropriate. This skill is not necessary to make those attacks—it represents a greater level of training that allows greater effectiveness.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 704
+    }
+  },
+  {
+    "name": "Medicine",
+    "slug": "medicine",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Mental",
+    "description": "Use this skill to diagnose and treat serious injuries, treat diseases, counter poisonings, and make general health recommendations, as well as perform surgery and advise long-term care for chronic health conditions.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 730
+    }
+  },
+  {
+    "name": "Melee Weapon (various)",
+    "slug": "melee-weapon",
+    "base": null,
+    "baseRaw": "As per weapon specialty",
+    "category": "Combat",
+    "description": "Use this skill to wield a particular type of weapon in hand-to-hand combat, whether attacking or parrying.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 760
+    }
+  },
+  {
+    "name": "Missile Weapon (various)",
+    "slug": "missile-weapon",
+    "base": null,
+    "baseRaw": "As per weapon specialty",
+    "category": "Combat",
+    "description": "Use this to wield any hand-held self-propelled missile weapon such as bows, crossbows, throwing axes, spears, throwing stars, javelins, blowguns, spear guns, or even boomerangs. For grenades, use Throw.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 774
+    }
+  },
+  {
+    "name": "Navigate",
+    "slug": "navigate",
+    "base": 10,
+    "baseRaw": "10%",
+    "category": "Perception",
+    "description": "Use this skill to find the way to a destination whether with a compass, sea charts, the stars, or simply using perception, memory, and intuition as a guide. A fumble means one is hopelessly lost and subsequent roll by anyone to become un-lost is *Difficult*. Failure means delays and a slowed rate of travel, while successes mean finding one’s way effectively and even making better-than-expected progress.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 788
+    }
+  },
+  {
+    "name": "Parry",
+    "slug": "parry",
+    "base": null,
+    "baseRaw": "As per weapon specialty",
+    "category": "Combat",
+    "description": "Use this skill to deflect an incoming attack if not addressed with another skill. This skill is covered in detail in Parry and the Attack and Defense Matrix. The gamemaster may rule that a particular attack cannot be parried, such as from a vastly larger attacker (double or more the defender’s SIZ, for example) or when the attacker is using an area or sweep attack.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 798
+    }
+  },
+  {
+    "name": "Perform (various)",
+    "slug": "perform",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Communication",
+    "description": "Use this skill to perform music, whether acting, dancing, playing an instrument, singing, or some other forms of artistic expression using performance. A fumble is a humiliation, failure is uninspiring, while successes yield positive attention, cheers, and perhaps critical acclaim and financial rewards. If recorded and distributed, it may continue to inspire and earn far after the original performance.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 812
+    }
+  },
+  {
+    "name": "Persuade",
+    "slug": "persuade",
+    "base": 15,
+    "baseRaw": "15%",
+    "category": "Communication",
+    "description": "Use this skill to convince someone that a particular idea or belief is right, correct, or otherwise acceptable , regardless of their original opinion (if any) whether through Socratic logic, structured debate, fiery oratory, empathy, or brute intimidation. Listeners may be convinced to take action or grant a request. Like Fast Talk, truth is irrelevant. Unlike Fast Talk, the effects of successful persuasion last indefinitely, until another Persuade roll or dramatic experience shifts the subject’s opinion. A fumble means the subject may become hostile, embracing the opposite of the desired opinion. Failure is unconvincing. Success sways their opinion, and superior successes yield even better results.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 824
+    }
+  },
+  {
+    "name": "Pilot (various)",
+    "slug": "pilot",
+    "base": 1,
+    "baseRaw": "01%",
+    "category": "Physical",
+    "description": "Use this skill to steer, maneuver, and control a vehicle through the air, on or under the water, or in space. Larger vehicles may require multiple pilots, and a roll should be made every four hours when not in combat, and once per round during combat or when performing vehicular maneuvers.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 834
+    }
+  },
+  {
+    "name": "Projection",
+    "slug": "projection",
+    "base": null,
+    "baseRaw": "DEX×2%",
+    "category": "Physical",
+    "description": "This optional skill is used by power-using characters to target power-based attacks. It is described in *Chapter Four: Powers* and only used in games with appropriate powers.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 846
+    }
+  },
+  {
+    "name": "Psychotherapy",
+    "slug": "psychotherapy",
+    "base": 1,
+    "baseRaw": "01%",
+    "category": "Mental",
+    "description": "Use this skill to evaluate and treat mental illness or trauma, particularly restoring lost points of Sanity. In practical terms, Psychotherapy can be used to prescribe drugs and medications, which over time can suspend, treat, and even reverse debilitating psychoses or mental illnesses. Medication and intensive questioning can probe the depths of a damaged psyche and bring back hope from terror and despair. See **Sanity** for more information.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 854
+    }
+  },
+  {
+    "name": "Repair (various)",
+    "slug": "repair",
+    "base": 15,
+    "baseRaw": "15%",
+    "category": "Manipulation",
+    "description": "Equipment and other objects get damaged or stop working. Use Repair to fix them or make slight modifications and adaptations.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 888
+    }
+  },
+  {
+    "name": "Research",
+    "slug": "research",
+    "base": 25,
+    "baseRaw": "25%",
+    "category": "Perception",
+    "description": "Use this skill to locate and identify potential sources of information in a library, archive, or network. Successful rolls yield the desired information from books, documents, articles, databanks, archives, or websites, with superior successes granting additional or more specific information. Despite the wide range of types of resources, the principles are the same. An attempt at this skill takes four hours normally, though electronic methods are much faster. A fumble leads to a disastrous misunderstanding and results in faulty information. Failure wastes time without any solid results or provides the barest minimum of information after twice the normal amount of time.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 900
+    }
+  },
+  {
+    "name": "Ride (various)",
+    "slug": "ride",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Communication",
+    "description": "Use this skill to ride, handling, and care for of a specific kind of living animal. With Ride your character can steer a mount through special maneuvers or rough terrain, coax it to top speed, or to keep control if it rears or stumbles. A fumble causes a loss of control of the mount, perhaps resulting in being thrown to the ground for 1D6 hit points of damage (general or to a random hit location). A successful Jump roll subtracts 1D6 from the damage total, while the mount gallops away at top speed. Failure causes the animal to balk, and successes yield it performing as desired or even exceeding expectations. Superior successes may yield bonuses to combat actions while mounted.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 910
+    }
+  },
+  {
+    "name": "Science (various)",
+    "slug": "science",
+    "base": 1,
+    "baseRaw": "01%",
+    "category": "Mental",
+    "description": "Use this skill to know scientific information and principles from a particular field, and to observe phenomena and draw data-based conclusions. Related information includes the history of the science, familiarity with the equipment and methodology, and an awareness of significant figures and schools of thought in that specialty.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 922
+    }
+  },
+  {
+    "name": "Sense",
+    "slug": "sense",
+    "base": 10,
+    "baseRaw": "10%",
+    "category": "Perception",
+    "description": "The skill primarily governs taste, touch, and smell; but can extend to some of the less commonly known other senses (physical orientation, gravity, pressure and balance, temperature, etc.). Use it to notice or identify a particular type of stimulus that is not sight (Spot) or sound (Listen), such as finding an item in the dark by touch, identifying a mysterious odor or faint taste, feeling a hairline fracture, etc. At the gamemaster’s discretion, this might even extend to a “sixth sense” or intuition. A fumble is disastrously misleading or reveals complete ignorance of the stimulus, failure is simple failure to notice, and various degrees of success yield more accurate perception.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 934
+    }
+  },
+  {
+    "name": "Shield",
+    "slug": "shield",
+    "base": null,
+    "baseRaw": "As per shield type",
+    "category": "Combat",
+    "description": "Use this skill to block incoming attacks with a shield or other appropriate implement. All shield blocks follow the same rules for parrying: see **Shields** and **Parry** in Chapter Six: Combat. One can attack with a shield, treating this skill as if it were a Melee Weapon skill. Damage ratings are given for shields in the weapons lists. Shields do crushing special results, can cause knockbacks, and can be used for aimed attacks.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 944
+    }
+  },
+  {
+    "name": "Sleight of Hand",
+    "slug": "sleight-of-hand",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Manipulation",
+    "description": "Use this skill to manipulate small objects (dice, cards, coins, wallets, letters, etc.) in a misleading manner or without attracting attention, such as when picking pockets, cheating at cards, or performing stage magic. A fumble is glaringly obvious: whether the item is dropped, or the would-be thief is caught with their hand in the target’s pocket. Failure means nothing is accomplished, and an unsuspecting target succeeding in an Idea roll may realize that they are being duped.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 956
+    }
+  },
+  {
+    "name": "Spot",
+    "slug": "spot",
+    "base": 25,
+    "baseRaw": "25%",
+    "category": "Perception",
+    "description": "Use this skill to search a room for potentially important details, find a hidden compartment, notice a fleeting detail, recognize a disguised foe, or spot enemies lying in ambush. A fumble is a hugely distracting misperception or mistaken impression, and different degrees of success yield more useful and pertinent information.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 966
+    }
+  },
+  {
+    "name": "Status",
+    "slug": "status",
+    "base": 15,
+    "baseRaw": "15%",
+    "category": "Communication",
+    "description": "Status is a measure of reputation, professional credentials, social class, prosperity, fame, and even personal honor. Use this skill to influence others by throwing weight around, such as convincing a bank to make a cash loan or forgive a debt, intimidating a nonplayer character to grant a favor, convincing a vendor to settle for an I.O.U., or pressuring authorities into keeping a matter quiet. A fumble is a faux pas of the greatest magnitude, causing shame, drawing unwanted attention, and has the absolute reverse of the desired effect. Successes yield the sought-after results or even additional favors and consideration. Status is not wealth, however, and while they are often connected, they are not intrinsically tied to one another.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 976
+    }
+  },
+  {
+    "name": "Stealth",
+    "slug": "stealth",
+    "base": 10,
+    "baseRaw": "10%",
+    "category": "Physical",
+    "description": "Use this skill to sneak through an area without drawing attention. No cover is required, but a light tread, confidence and discipline are both called for. To avoid being seen while immobile, use Hide. A fumble draws unwanted attention, a failure means that no progress is made, and the character is obvious to anyone who looks, while successes offer successive degrees of concealment.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 1025
+    }
+  },
+  {
+    "name": "Strategy",
+    "slug": "strategy",
+    "base": 1,
+    "baseRaw": "01%",
+    "category": "Mental",
+    "description": "Use this skill to guide forces in battle, from a small squad to a massive army or fleet, organize and coordinate logistics for an army, plan and execute a large scale military enterprise, and determine what another strategist might be thinking. This skill also assumes a basic knowledge of military history and tactics, and significant figures therein. A fumble represents a military disaster and might lead to utter defeat, while various degrees of success yield strategic advantages and may mean bonuses to morale and combat effectiveness.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 1035
+    }
+  },
+  {
+    "name": "Swim",
+    "slug": "swim",
+    "base": 25,
+    "baseRaw": "25%",
+    "category": "Physical",
+    "description": "Use this skill to move through or under water. Generally, Swim rolls should only be used for dangerous or stressful situations. Floating, dog paddling, and treading water under normal conditions are *Automatic*. A fumble means that you begin drowning (see *Choking, Drowning, and Asphyxiation*). Once your character begins to drown, only a *Difficult* Swim roll or outside assistance can get them back to the surface to breathe again. Success means normal maneuvering in the water, while superior successes mean additional speed and maneuverability.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 1045
+    }
+  },
+  {
+    "name": "Teach",
+    "slug": "teach",
+    "base": 10,
+    "baseRaw": "10%",
+    "category": "Communication",
+    "description": "Use this skill whenever your character attempts to train or teach information or technique to another, using lecture, exercise, or physical sparring. A fumble is retrograde and causes students to perhaps lose 1D2 skill points if they do not make an Idea roll to recognize the shoddy teaching, while success teaches as per the normal rules for training and superior successes improve skill training to 1D6 (special) and 1D6+2 (critical).",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 1057
+    }
+  },
+  {
+    "name": "Technical Skill (various)",
+    "slug": "technical-skill",
+    "base": 5,
+    "baseRaw": "05%",
+    "category": "Mental",
+    "description": "Use this skill to operate and maintain advanced technological devices such as computer systems, robots, or other high devices. It can also be used to modify devices to improve their performance or use them for a new purpose outside their parameters. A fumble potentially breaks the device or jams it in some way, while successes and superior successes causes the mechanism to perform as designed, or beyond expectations.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 1067
+    }
+  },
+  {
+    "name": "Throw",
+    "slug": "throw",
+    "base": 25,
+    "baseRaw": "25%",
+    "category": "Physical",
+    "description": "Use this skill to hit a target with a thrown object, or to throw a weapon otherwise not balanced for throwing (such as throwing a greatsword or shield). This covers improvised thrown objects, grenades, sticks of dynamite, weapons not usually thrown, or non-weapons. Lassos are also covered by this skill, as well as catching items. If the weapon is made to be thrown, use Missile Weapon.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 1079
+    }
+  },
+  {
+    "name": "Track",
+    "slug": "track",
+    "base": 10,
+    "baseRaw": "10%",
+    "category": "Perception",
+    "description": "Use this skill to identify tracks or follow a trail—whether person, vehicle, or animal—over the ground, through brush, snow, and across broken ground. A fumble loses the trail and perhaps the tracker themselves. Various degrees of success yield better results, including potentially being able to assess information about the subject being trailed or predict accurately where they are going.",
+    "sourceLocator": {
+      "file": "rules/en/0300_Skills.md",
+      "line": 1097
+    }
+  }
+]

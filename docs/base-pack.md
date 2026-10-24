@@ -83,7 +83,7 @@ v0.3.0：tag + release zip + compat 仓 vendor 台账 hash 更新（brp-hash.mjs
 | 工作项 | commit | 验证结果 |
 |---|---|---|
 | 方案 v1 | 本 commit | — |
-| BP-M2 提取管线（en canonical） | | |
+| BP-M2 提取管线（en canonical） | （本 commit） | 技能 57（base 数值化 43/原文口径 14 如 As per weapon specialty）/职业 44（wealth+skills 零缺失——原文两种冒号位置混用已兼容）；引用交叉检查的碎片为自由文本建议清单（UGE 语义），不做硬外键；源 pin brpugesrd@42f6bffee9dc 入 provenance.json |
 | BP-M3 中译 | | |
 | BP-M4 build 双格式 + 注册 + notice | | |
 | BP-M5 验证 + v0.3.0 发布 | | |
