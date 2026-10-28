@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## 0.3.1-dev (unreleased)
+Fork development snapshot on top of d5d4a22 / v0.3.0. Not tagged or released; do not ship as v0.3.0.
+- NPC/combat: resolving a CB card no longer throws when an entry has no `skillId` (NPC weapons); auto-XP off no longer ticks XP on card resolve.
+- NPC HP semantics documented and regression-locked: non-HPL NPC current HP is the native roll/average `updateVitals` fill or a keeper hand edit, not character-style wound derivation; wounds remain character/HPL-only.
+- Luck: concurrent spends on the same card are serialized; all chat-button clients route to Foundry's deterministic `activeGM` single writer (no backend endpoint); real card path re-renders adjusted result.
+- SAN: keeper "New Day" action clears `dailyLoss`; deleting, disabling or world-time-expiring the `tempInsane` effect marks the episode card ended and re-renders it.
+- Base pack: profession ref UUIDs are reproduced from the committed seed and have a deterministic fallback; consecutive builds are byte-identical without an ID migration.
+- Tests: `tools/tests/rules-regressions.mjs` (harness) and `tools/tests/base-pack-determinism.mjs` (Node).
+- Docs: Luck is spend-to-lower, not a re-roll; Chinese README wording aligned.
+
 ## 13.57
 - If using Random Armour and not using Hits per LOcation, you can now roll the Random Armour Values from the combat tab (bugfix)
 

@@ -48,6 +48,14 @@ export default function Init() {
     { id: BRPMadness.PERMA_INSANE_ID, name: game.i18n.localize('BRP.madness.permaInsane'), icon: 'systems/brp/assets/Icons/inner-self.svg' }
   )
 
+  //An episode effect can end outside its card (Times Up, effects-tab delete or
+  //disable). Mark the card ended too; world-time expiry is enforced below.
+  Hooks.on('deleteActiveEffect', (effect) => BRPMadness.syncEndedFromEffect(effect))
+  Hooks.on('updateActiveEffect', (effect, changed) => {
+    if (changed?.disabled === true) { BRPMadness.syncEndedFromEffect(effect) }
+  })
+  Hooks.on('updateWorldTime', () => BRPMadness.expireTempInsaneEffects())
+
 
   ChaosiumCanvasInterfaceInit.initSelf()
   BRPID.init()

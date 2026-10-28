@@ -61,7 +61,7 @@ export class BRPMadness {
       name: `${game.i18n.localize('BRP.madness.tempInsane')} (${manifestation.name})`,
       icon: 'systems/brp/assets/Icons/drama-masks.svg',
       statuses: [BRPMadness.TEMP_INSANE_ID],
-      duration: { seconds: tier.seconds },
+      duration: { seconds: tier.seconds, startTime: game.time?.worldTime ?? 0 },
       description: manifestation.description,
       disabled: false
     }
@@ -205,6 +205,64 @@ export class BRPMadness {
       if (effect) { await effect.delete() }
     }
     await BRPMadness._updateMadnessFlag(msg, madness)
+  }
+
+  //Mark every open madness card for an actor as ended and re-render it. This is
+  //the fallback for effects that disappear outside the card (Times Up expiry,
+  //effects-tab delete, disabling the effect): the card must not keep offering
+  //keeper buttons for an episode whose ActiveEffect is gone.
+  static async endOpenCards(actorId) {
+    if (!actorId) { return }
+    const messages = [...game.messages.values()].filter((msg) => {
+      const madness = msg.flags?.brp?.madness
+      return madness?.actorId === actorId && madness.ended !== true
+    })
+    for (const msg of messages) {
+      const madness = foundry.utils.deepClone(msg.flags.brp.madness)
+      madness.ended = true
+      const cardData = foundry.utils.deepClone(msg.flags.brp)
+      cardData.madness = madness
+      const html = await BRPCheck.startChat(cardData)
+      //One write: flags and content must not be observed out of step
+      await msg.update({ 'flags.brp.madness': madness, content: html })
+    }
+  }
+
+  //Hook body for deleteActiveEffect / updateActiveEffect(disabled)
+  static async syncEndedFromEffect(effect) {
+    try {
+      if (!effect?.statuses?.has?.(BRPMadness.TEMP_INSANE_ID)) { return }
+      await BRPMadness.endOpenCards(effect.parent?.id)
+    } catch (e) {
+      console.error('BRP madness effect sync failed', e)
+    }
+  }
+
+  //Core 13.351 only displays duration.remaining; the system owns the limited
+  //insanity rule, so retire temp effects whose seconds have elapsed.
+  static async expireTempInsaneEffects() {
+    if (!game.actors || !game.user.isGM) { return }
+    const writer = game.users.activeGM
+    if (writer && game.user.id !== writer.id) { return }
+    const actors = new Set([...game.actors])
+    const tokenActors = game.actors.tokens;
+    if (tokenActors) {
+      const list = typeof tokenActors.values === 'function' ? [...tokenActors.values()] : Object.values(tokenActors)
+      for (const tokenActor of list) {
+        if (tokenActor?.effects) { actors.add(tokenActor) }
+      }
+    }
+    for (const actor of actors) {
+      if (!actor?.effects) { continue }
+      for (const effect of actor.effects) {
+        if (!effect.statuses?.has?.(BRPMadness.TEMP_INSANE_ID)) { continue }
+        const duration = effect.duration ?? {}
+        if (!(Number(duration.seconds) > 0)) { continue }
+        if (!(Number(duration.remaining) <= 0)) { continue }
+        await BRPMadness.endOpenCards(actor.id)
+        await effect.delete()
+      }
+    }
   }
 
   //Phobia/mania tier entry point: open the prefilled persTrait creation window

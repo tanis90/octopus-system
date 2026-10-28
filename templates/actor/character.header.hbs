@@ -266,7 +266,7 @@
           <div class="each-resource centre">
             <label for="system.sanity.value" class="resource-label rollable" data-tooltip="{{localize 'BRP.sanityRollHint'}}" data-action="sanityRoll">{{system.sanity.label}}</label>
             <div class="resource-grid">
-              <div></div>
+              <div class="left rollable">{{#if isGM}}<a class="smallIcon" data-action="sanityResetDaily" data-tooltip="{{localize 'BRP.sanityResetDaily'}}"><i class="fas fa-sunrise"></i></a>{{/if}}</div>
               <input class="attrib-inp centre" type="text" name="system.sanity.value" value="{{system.sanity.value}}"
                 data-dtype="Number" />
               <div class="divider"> / </div>

@@ -785,8 +785,12 @@ export class BRPCheck {
     let item = ""
     let actor = ""
     let autoXP = game.settings.get('brp', 'autoXP')
+    //Auto-tick only exists for the two "on success"/"on failure" settings;
+    //card resolves call this unconditionally, so keep "off" truly off.
+    if (!['1', '2'].includes(String(autoXP))) { return }
     //Don't do XP check until card is closed
     if (msg.state != 'closed') { return }
+    if (!msg.chatCard?.length) { return }
     switch (msg.cardType) {
       case "RE":
         //No checks for a resist card
@@ -794,6 +798,8 @@ export class BRPCheck {
       case "PP":
         //If a POW v POW check target POW greater than current POW
         actor = await BRPactorDetails._getParticipant(msg.chatCard[0].particId, msg.chatCard[0].particType)
+        //Only characters get XP checks (NPCs have no development phase)
+        if (!actor || actor.type !== 'character') { return }
         if (msg.chatCard[0].resistance <= actor.system.stats.pow.total) { return }
         if (autoXP === '1' && msg.chatCard[0].resultLevel < 2) { return }
         if (autoXP === '2' && msg.chatCard[0].resultLevel > 1) { return }
@@ -811,7 +817,11 @@ export class BRPCheck {
           if (autoXP === '1' && i.resultLevel < 2) { continue }
           if (autoXP === '2' && i.resultLevel > 1) { continue }
           actor = await BRPactorDetails._getParticipant(i.particId, i.particType)
+          //Only characters get XP checks (NPCs have no development phase), and
+          //NPC weapon/combat entries carry no skillId - nothing to tick there
+          if (!actor || actor.type !== 'character') { continue }
           item = await actor.items.get(i.skillId)
+          if (!item) { continue }
           if (item.type != 'reputation') {
             if (item.type === 'persTrait' && i.opp === 'true') {
               await item.update({ 'system.oppimprove': true })
@@ -836,25 +846,34 @@ export class BRPCheck {
     let origin = game.user.id
     let originGM = game.user.isGM
 
-    if (game.user.isGM) {
-      BRPCheck.handleChatButton({ presetType, targetChatId, origin, originGM, event, dataset })
+    //Single writer: Foundry's activeGM is deterministic among active GMs
+    //(highest role, then lowest user id, core users.mjs). Every client routes
+    //chat-button work to it; that client's BRPLuck._spendChain serializes the
+    //read-modify-write, so two GMs cannot spend against the same stale budget.
+    const writer = game.users.activeGM
+    if (!writer) {
+      ui.notifications.warn(game.i18n.localize('BRP.noAvailableGM'))
+      return
+    }
+    if (game.user.id === writer.id) {
+      await BRPCheck.handleChatButton({ presetType, targetChatId, origin, originGM, event, dataset })
     } else {
-      const availableGM = game.users.find(d => d.active && d.isGM)?.id
-      if (availableGM) {
-        game.socket.emit('system.brp', {
-          type: 'chatUpdate',
-          to: availableGM,
-          value: { presetType, targetChatId, origin, originGM, event }
-        })
-      } else {
-        ui.notifications.warn(game.i18n.localize('BRP.noAvailableGM'))
-      }
+      game.socket.emit('system.brp', {
+        type: 'chatUpdate',
+        to: writer.id,
+        //DOM event is not serializable; the handler does not read it
+        value: { presetType, targetChatId, origin, originGM, dataset: { ...dataset } }
+      })
     }
   }
 
 
   //Handle changes to Cards based on the presetType value - will be carried out by a GM
   static async handleChatButton(data) {
+    //Defence in depth: only the designated GM acts, even if a client calls this
+    //directly instead of going through triggerChatButton.
+    const writer = game.users.activeGM
+    if (!writer || game.user.id !== writer.id) { return }
     const presetType = data.presetType
     let targetMsg = await game.messages.get(data.targetChatId)
 

@@ -85,6 +85,30 @@ into `mt-foundry-compat/web/packages/brp/` and run
 MT_SYSTEM_ID=brp node --experimental-vm-modules tools/run-headless.mjs
 ```
 
+### 0.3.1-dev (unreleased)
+
+This tree is an unreleased fix snapshot on top of `v0.3.0` (system version
+`0.3.1-dev`). Do not vendor it as the original `0.3.0`.
+
+- NPC/combat: CB cards resolve without the missing-`skillId` XP crash; auto-XP
+  off no longer ticks. Native NPC HP is the roll/average `updateVitals` fill or
+  a keeper hand edit (non-HPL); wounds are character/HPL-only, not an NPC HP
+  model. See `CHANGELOG.md` and the regression probe.
+- SAN: keeper "New Day" clears `dailyLoss`; deleting/disabling/expiring
+  `tempInsane` ends and re-renders the episode card.
+- Luck: check-card spends are serialized and all clients route chat actions to
+  Foundry's deterministic `activeGM` single writer.
+- Base pack: profession ref UUIDs are reproduced from the committed seed with a
+  deterministic fallback; consecutive builds are byte-identical.
+
+Regression checks:
+
+```bash
+node tools/tests/base-pack-determinism.mjs
+MT_SYSTEM_ID=brp MT_SPIKE_EVAL=tools/tests/rules-regressions.mjs \
+  node --experimental-vm-modules tools/run-headless.mjs
+```
+
 ---
 
 # 中文说明
@@ -123,7 +147,7 @@ MT_SYSTEM_ID=brp node --experimental-vm-modules tools/run-headless.mjs
 ## 路线图（克苏鲁D100 专属层）
 
 在 BRP d100 骨架上叠加六件套（挂点评估见 mt-foundry-compat 仓 `research/rules-brp`
-分支 `docs/rules-integration/brp-report.md` §10）：SAN 全链、Luck 消费重掷、职业创建、
+分支 `docs/rules-integration/brp-report.md` §10）：SAN 全链、Luck 消费降值（不重掷）、职业创建、
 技能成长改造、Keeper 工具、恐惧症/躁狂。
 
 ## 开发
@@ -133,4 +157,27 @@ MT_SYSTEM_ID=brp node --experimental-vm-modules tools/run-headless.mjs
 
 ```bash
 MT_SYSTEM_ID=brp node --experimental-vm-modules tools/run-headless.mjs
+```
+
+### 0.3.1-dev（未发布）
+
+本树是 `v0.3.0` 之上的未发布修复快照（system 版本 `0.3.1-dev`），集成时按
+dev 包处理，不要当成原版 `0.3.0` 交付。
+
+- NPC/战斗：战斗卡结算不再因 NPC 武器缺少 `skillId` 崩溃；autoXP 关闭时不再勾
+  XP。非 HPL 的 NPC 当前 HP 走原生“掷/平均属性 → updateVitals 置满”或 keeper
+  手改，wound 只属于 character/HPL 模型，不是 NPC 的 HP 模型。
+- SAN：keeper「新的一天」清零 `dailyLoss`；`tempInsane` 被删除、禁用或世界时间
+  到期时，发作卡同步结束并重渲染。
+- Luck：检定卡消费串行；所有客户端把聊天卡操作路由到 Foundry 确定性的
+  `activeGM` 单写者。
+- 基础包：职业引用 UUID 从已提交产物复用，并有确定性回退；连续两次构建
+  byte-identical，不制造 ID 迁移。
+
+回归检查：
+
+```bash
+node tools/tests/base-pack-determinism.mjs
+MT_SYSTEM_ID=brp MT_SPIKE_EVAL=tools/tests/rules-regressions.mjs \
+  node --experimental-vm-modules tools/run-headless.mjs
 ```

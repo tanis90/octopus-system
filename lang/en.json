@@ -517,6 +517,8 @@
     "sanity": "Sanity Points",
     "sanLoss": "SAN loss",
     "sanityRollHint": "Click to make a Sanity check",
+    "sanityResetDaily": "New Day: clear daily Sanity loss",
+    "sanityDailyReset": "Daily Sanity loss cleared for {name}",
     "sanLossPreset": "Loss Preset",
     "sanLossPresetHint": "Paired loss formulas (success/failure), no table text attached",
     "sanLossPair": "SAN Loss (Success/Fail)",

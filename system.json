@@ -2,7 +2,7 @@
   "id": "brp",
   "title": "章鱼料理研究会",
   "description": "克苏鲁式 d100 恐怖规则系统（fork of cragstone/brp 13.57）",
-  "version": "0.3.0",
+  "version": "0.3.1-dev",
   "compatibility": {
     "minimum": "13",
     "verified": "13.351",

@@ -41,6 +41,7 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       skillRoll: this._onSkillRoll,
       statRoll: this._onStatRoll,
       sanityRoll: this._onSanityRoll,
+      sanityResetDaily: this._onSanityResetDaily,
       weaponRoll: this._onWeaponRoll,
       damageRoll: this._onDamageRoll,
       armourRoll: this._onArmourRoll,
@@ -327,6 +328,14 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
   //Sanity Roll
   static _onSanityRoll(event, target) {
     BRPRollType._onSanityRoll(event, target.dataset, this.document)
+  }
+
+  //Keeper "new day": clear the per-day Sanity loss tally only. Current SAN and
+  //the day's episode stay as they are; the next loss can cross TIS again.
+  static async _onSanityResetDaily(event, target) {
+    if (!game.user.isGM || !game.settings.get('brp', 'useSAN')) { return }
+    await this.document.update({ 'system.sanity.dailyLoss': 0 })
+    ui.notifications.info(game.i18n.format('BRP.sanityDailyReset', { name: this.document.name }))
   }
 
   //Skill Roll

@@ -70,8 +70,23 @@ export class BRPLuck {
 
   //--------- Chat-card buttons (OPCard style: read flags, mutate, re-render) ---------
 
+  //Spends are read-modify-write on both the card flags and the actor's Luck
+  //budget. Two quick clicks (or two open cards for the same actor) would read
+  //the same pre-spend budget and lose one update, so a single client-side
+  //chain serializes them; the pure settlement core below stays unchanged.
+  static _spendChain = Promise.resolve()
+
+  static spendFromCard(data) {
+    const run = BRPLuck._spendChain.then(
+      () => BRPLuck._spendFromCardNow(data),
+      () => BRPLuck._spendFromCardNow(data)
+    )
+    BRPLuck._spendChain = run.then(() => { }, () => { })
+    return run
+  }
+
   //Spend a fixed amount driven by a card button (data.amount resolved from the preset)
-  static async spendFromCard(data) {
+  static async _spendFromCardNow(data) {
     const msg = await game.messages.get(data.targetChatId)
     const card = msg?.flags?.brp
     if (!card?.chatCard?.length) { return }

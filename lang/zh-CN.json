@@ -517,6 +517,8 @@
     "sanity": "理智值",
     "sanLoss": "理智损失",
     "sanityRollHint": "点击进行理智检定",
+    "sanityResetDaily": "新的一天：清零当日理智损失",
+    "sanityDailyReset": "已清零 {name} 的当日理智损失",
     "sanLossPreset": "损失预设",
     "sanLossPresetHint": "成对的成功/失败损失公式，不含表格文本",
     "sanLossPair": "理智损失（成功/失败）",
