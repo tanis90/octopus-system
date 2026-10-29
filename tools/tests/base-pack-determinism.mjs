@@ -26,12 +26,16 @@ const walk = (dir, base = dir) => {
   return out.sort();
 };
 
+// This probe owns the octopus/UGE base pack. Other packs (coc-skills) live in
+// the same artifact roots and must not make the base-pack check depend on them.
+const isBasePackArtifact = (rel) => rel.startsWith("octopus-");
+
 const compareTrees = (left, right) => {
   const diffs = [];
   for (const dir of DIRS) {
     const a = join(left, dir), b = join(right, dir);
     if (!existsSync(a) || !existsSync(b)) { diffs.push(`${dir}: missing`); continue; }
-    const af = walk(a), bf = walk(b);
+    const af = walk(a).filter(isBasePackArtifact), bf = walk(b).filter(isBasePackArtifact);
     const all = [...new Set([...af, ...bf])].sort();
     for (const rel of all) {
       const pa = join(a, rel), pb = join(b, rel);

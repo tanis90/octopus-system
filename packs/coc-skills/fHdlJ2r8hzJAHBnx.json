@@ -1,0 +1,49 @@
+{
+ "_id": "fHdlJ2r8hzJAHBnx",
+ "name": "聆听",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.listen",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Listen",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.listen",
+    "key": "listen",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 20,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 20
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "听懂声音、偷听谈话或察觉门后的低语。"
+ }
+}

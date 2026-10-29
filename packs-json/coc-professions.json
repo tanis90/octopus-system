@@ -1,0 +1,2218 @@
+[
+ {
+  "_id": "14mc4Fk4QmbtlG6F",
+  "name": "考古学家",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.archaeologist",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Archaeologist",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.archaeologist",
+     "slug": "archaeologist",
+     "creditMin": 10,
+     "creditMax": 40,
+     "pointFormula": "EDU*4",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations"
+     ],
+     "fixedSkillKeys": [
+      "appraise",
+      "archaeology",
+      "history",
+      "library-use",
+      "spot-hidden",
+      "mechanical-repair"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "navigate-or-science",
+       "label": "导航或一门科学",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "navigate",
+         "brpids": [
+          "i.skill.coc.navigate"
+         ]
+        },
+        {
+         "kind": "family",
+         "family": "science",
+         "parentKey": "science",
+         "base": 1,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.science-biology",
+          "i.skill.coc.science-chemistry",
+          "i.skill.coc.science-engineering",
+          "i.skill.coc.science-pharmacy",
+          "i.skill.coc.science-physics"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "language-other",
+       "label": "其他语言",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "language-other",
+         "parentKey": "language-other",
+         "base": 1,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.language-other-greek",
+          "i.skill.coc.language-other-latin"
+         ]
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.appraise",
+     "uuid": "VvQ3kwJkRmfwdxZr"
+    },
+    {
+     "brpid": "i.skill.coc.archaeology",
+     "uuid": "iyGal5hstQ2SefS0"
+    },
+    {
+     "brpid": "i.skill.coc.history",
+     "uuid": "ZsbrYPHoyqIA6fGF"
+    },
+    {
+     "brpid": "i.skill.coc.library-use",
+     "uuid": "7BNMWqPVJyA0sReg"
+    },
+    {
+     "brpid": "i.skill.coc.spot-hidden",
+     "uuid": "ehKcuxiTWOk0GDgA"
+    },
+    {
+     "brpid": "i.skill.coc.mechanical-repair",
+     "uuid": "zp9eYH1FLjd04b0T"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.navigate",
+       "uuid": "XFTLEmt7ULlfiVWT"
+      },
+      {
+       "brpid": "i.skill.coc.science-biology",
+       "uuid": "ojfHa6wDmmM5s0ey"
+      },
+      {
+       "brpid": "i.skill.coc.science-chemistry",
+       "uuid": "qg1EZMCkC7VLFVcy"
+      },
+      {
+       "brpid": "i.skill.coc.science-engineering",
+       "uuid": "VcW0QSmva65xYMUF"
+      },
+      {
+       "brpid": "i.skill.coc.science-pharmacy",
+       "uuid": "FYszZeEWTX2DBFSd"
+      },
+      {
+       "brpid": "i.skill.coc.science-physics",
+       "uuid": "wnVkcgYRKa02xsc0"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.language-other-greek",
+       "uuid": "zxbzRO9P1dqY9jzD"
+      },
+      {
+       "brpid": "i.skill.coc.language-other-latin",
+       "uuid": "YY2QWZ0T7f8A76NE"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "以遗迹、文物与古代文化为研究对象，常在发掘现场与图书馆之间往返。职业点 EDU × 4；信用评级 10–40。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：10–40（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "JpkZqagpPRadBcgY",
+  "name": "作家",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.author",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Author",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.author",
+     "slug": "author",
+     "creditMin": 9,
+     "creditMax": 30,
+     "pointFormula": "EDU*4",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations"
+     ],
+     "fixedSkillKeys": [
+      "history",
+      "library-use",
+      "psychology",
+      "language-own"
+     ],
+     "specialismSlots": [
+      {
+       "key": "art-literature",
+       "family": "art-craft",
+       "specKey": "literature",
+       "label": "艺术/手艺（文学）",
+       "parentKey": "art-craft",
+       "base": 5,
+       "baseSourceRefs": [
+        "coc-sheet-1920s"
+       ],
+       "requiresExplicitBase": false,
+       "brpid": "i.skill.coc.art-craft-literature"
+      }
+     ],
+     "choiceGroups": [
+      {
+       "key": "natural-world-or-occult",
+       "label": "博物学或神秘学",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "natural-world",
+         "brpids": [
+          "i.skill.coc.natural-world"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "occult",
+         "brpids": [
+          "i.skill.coc.occult"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "language-other",
+       "label": "其他语言",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "language-other",
+         "parentKey": "language-other",
+         "base": 1,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.language-other-greek",
+          "i.skill.coc.language-other-latin"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "any-specialty",
+       "label": "任意一项其他技能（个人或时代专长）",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "any",
+         "brpids": []
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.history",
+     "uuid": "ZsbrYPHoyqIA6fGF"
+    },
+    {
+     "brpid": "i.skill.coc.library-use",
+     "uuid": "7BNMWqPVJyA0sReg"
+    },
+    {
+     "brpid": "i.skill.coc.psychology",
+     "uuid": "n8ACQitSLni4geaF"
+    },
+    {
+     "brpid": "i.skill.coc.language-own",
+     "uuid": "7WwKSOQFVJeDC4hr"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.natural-world",
+       "uuid": "EFVIz8qOdZvW2Rej"
+      },
+      {
+       "brpid": "i.skill.coc.occult",
+       "uuid": "bOIhegZL1iqyb8S1"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.language-other-greek",
+       "uuid": "zxbzRO9P1dqY9jzD"
+      },
+      {
+       "brpid": "i.skill.coc.language-other-latin",
+       "uuid": "YY2QWZ0T7f8A76NE"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "以写作、编辑或评论为生，靠文字与人脉维持生活。职业点 EDU × 4；信用评级 9–30。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "o4poryCQ9TXoj6E8",
+  "name": "飞贼",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.cat-burglar",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Cat Burglar",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.cat-burglar",
+     "slug": "cat-burglar",
+     "creditMin": 5,
+     "creditMax": 40,
+     "pointFormula": "EDU*2+DEX*2",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations"
+     ],
+     "fixedSkillKeys": [
+      "appraise",
+      "climb",
+      "listen",
+      "locksmith",
+      "sleight-of-hand",
+      "stealth",
+      "spot-hidden"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "repair",
+       "label": "电气维修或机械维修",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "electrical-repair",
+         "brpids": [
+          "i.skill.coc.electrical-repair"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "mechanical-repair",
+         "brpids": [
+          "i.skill.coc.mechanical-repair"
+         ]
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.appraise",
+     "uuid": "VvQ3kwJkRmfwdxZr"
+    },
+    {
+     "brpid": "i.skill.coc.climb",
+     "uuid": "XBPmBl9yAuJ1Peo9"
+    },
+    {
+     "brpid": "i.skill.coc.listen",
+     "uuid": "fHdlJ2r8hzJAHBnx"
+    },
+    {
+     "brpid": "i.skill.coc.locksmith",
+     "uuid": "eKnqrVHDFmGDtEYg"
+    },
+    {
+     "brpid": "i.skill.coc.sleight-of-hand",
+     "uuid": "PbKsNi34CVtdcZEX"
+    },
+    {
+     "brpid": "i.skill.coc.stealth",
+     "uuid": "KAT6rXWeJrlD9MOD"
+    },
+    {
+     "brpid": "i.skill.coc.spot-hidden",
+     "uuid": "ehKcuxiTWOk0GDgA"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.electrical-repair",
+       "uuid": "GgBauywhcx3bJVG3"
+      },
+      {
+       "brpid": "i.skill.coc.mechanical-repair",
+       "uuid": "zp9eYH1FLjd04b0T"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "擅长翻墙入室、开锁与脱身的夜行者。职业点 EDU × 2 + DEX × 2；信用评级 5–40。\n\n职业点：EDU*2+DEX*2（引擎按白名单公式求值）\n\n信用评级：5–40（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "SqhdUdPMj8ksoIkp",
+  "name": "纨绔子弟",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.dilettante",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Dilettante",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.dilettante",
+     "slug": "dilettante",
+     "creditMin": 50,
+     "creditMax": 99,
+     "pointFormula": "EDU*2+APP*2",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations"
+     ],
+     "fixedSkillKeys": [
+      "ride"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "firearms",
+       "label": "一项射击专精",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "firearms",
+         "parentKey": "firearms",
+         "base": null,
+         "requiresExplicitBase": true,
+         "brpids": [
+          "i.skill.coc.firearms-handgun",
+          "i.skill.coc.firearms-rifle-shotgun"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "interpersonal",
+       "label": "一项人际技能",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "charm",
+         "brpids": [
+          "i.skill.coc.charm"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "fast-talk",
+         "brpids": [
+          "i.skill.coc.fast-talk"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "intimidate",
+         "brpids": [
+          "i.skill.coc.intimidate"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "persuade",
+         "brpids": [
+          "i.skill.coc.persuade"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "art-craft",
+       "label": "一项艺术/手艺专精",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "art-craft",
+         "parentKey": "art-craft",
+         "base": 5,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.art-craft-acting",
+          "i.skill.coc.art-craft-painting",
+          "i.skill.coc.art-craft-photography",
+          "i.skill.coc.art-craft-technical-drawing"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "language-other",
+       "label": "其他语言",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "language-other",
+         "parentKey": "language-other",
+         "base": 1,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.language-other-greek",
+          "i.skill.coc.language-other-latin"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "any-specialty",
+       "label": "任意三项其他技能（个人或时代专长）",
+       "choose": 3,
+       "options": [
+        {
+         "kind": "any",
+         "brpids": []
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.ride",
+     "uuid": "okghi72jSCDGA3Hz"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.firearms-handgun",
+       "uuid": "1GMNDl2j6zfGXyI3"
+      },
+      {
+       "brpid": "i.skill.coc.firearms-rifle-shotgun",
+       "uuid": "icEnsbSORKp1qZtF"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.charm",
+       "uuid": "ebCHph0biyJ2AG3j"
+      },
+      {
+       "brpid": "i.skill.coc.fast-talk",
+       "uuid": "AwLPg18IRN57w0fB"
+      },
+      {
+       "brpid": "i.skill.coc.intimidate",
+       "uuid": "mhG3if5iht465aSn"
+      },
+      {
+       "brpid": "i.skill.coc.persuade",
+       "uuid": "7zQTHnGe7rHoRnjC"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.art-craft-acting",
+       "uuid": "fwjXSgaOTh0oh0fj"
+      },
+      {
+       "brpid": "i.skill.coc.art-craft-painting",
+       "uuid": "yRoJ2aGTZ6XAmQbg"
+      },
+      {
+       "brpid": "i.skill.coc.art-craft-photography",
+       "uuid": "9vt3o8IIdMi9HXZ5"
+      },
+      {
+       "brpid": "i.skill.coc.art-craft-technical-drawing",
+       "uuid": "9dh2bNvAxHd55Jrw"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.language-other-greek",
+       "uuid": "zxbzRO9P1dqY9jzD"
+      },
+      {
+       "brpid": "i.skill.coc.language-other-latin",
+       "uuid": "YY2QWZ0T7f8A76NE"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "家底殷实、以兴趣安排生活的闲人，靠人脉与金钱打开门路。职业点 EDU × 2 + APP × 2；信用评级 50–99。\n\n职业点：EDU*2+APP*2（引擎按白名单公式求值）\n\n信用评级：50–99（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "65QF22IhBgXJJZ9r",
+  "name": "探险家",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.explorer",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Explorer",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.explorer",
+     "slug": "explorer",
+     "creditMin": 55,
+     "creditMax": 80,
+     "pointFormula": "EDU*2+MAX(APP,DEX,STR)*2",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations"
+     ],
+     "fixedSkillKeys": [
+      "history",
+      "jump",
+      "natural-world",
+      "navigate"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "climb-or-swim",
+       "label": "攀爬或游泳",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "climb",
+         "brpids": [
+          "i.skill.coc.climb"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "swim",
+         "brpids": [
+          "i.skill.coc.swim"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "firearms",
+       "label": "一项射击专精",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "firearms",
+         "parentKey": "firearms",
+         "base": null,
+         "requiresExplicitBase": true,
+         "brpids": [
+          "i.skill.coc.firearms-handgun",
+          "i.skill.coc.firearms-rifle-shotgun"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "survival",
+       "label": "一项生存专精",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "survival",
+         "parentKey": "survival",
+         "base": 10,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.survival-sea",
+          "i.skill.coc.survival-wilderness"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "language-other",
+       "label": "其他语言",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "language-other",
+         "parentKey": "language-other",
+         "base": 1,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.language-other-greek",
+          "i.skill.coc.language-other-latin"
+         ]
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.history",
+     "uuid": "ZsbrYPHoyqIA6fGF"
+    },
+    {
+     "brpid": "i.skill.coc.jump",
+     "uuid": "acDj9JcQQNbsARhC"
+    },
+    {
+     "brpid": "i.skill.coc.natural-world",
+     "uuid": "EFVIz8qOdZvW2Rej"
+    },
+    {
+     "brpid": "i.skill.coc.navigate",
+     "uuid": "XFTLEmt7ULlfiVWT"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.climb",
+       "uuid": "XBPmBl9yAuJ1Peo9"
+      },
+      {
+       "brpid": "i.skill.coc.swim",
+       "uuid": "GyfbAWiGp3GBa1MR"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.firearms-handgun",
+       "uuid": "1GMNDl2j6zfGXyI3"
+      },
+      {
+       "brpid": "i.skill.coc.firearms-rifle-shotgun",
+       "uuid": "icEnsbSORKp1qZtF"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.survival-sea",
+       "uuid": "sxKcGlBfdQ5R0SDt"
+      },
+      {
+       "brpid": "i.skill.coc.survival-wilderness",
+       "uuid": "a3rpM1u0kGnmqesi"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.language-other-greek",
+       "uuid": "zxbzRO9P1dqY9jzD"
+      },
+      {
+       "brpid": "i.skill.coc.language-other-latin",
+       "uuid": "YY2QWZ0T7f8A76NE"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "深入荒野、异国与无人区，为机构或个人带回见闻与样本。职业点 EDU × 2 + MAX(APP, DEX, STR) × 2；信用评级 55–80。\n\n职业点：EDU*2+MAX(APP,DEX,STR)*2（引擎按白名单公式求值）\n\n信用评级：55–80（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "EKX3pk0E6rT1ecJP",
+  "name": "调查记者",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.investigative-journalist",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Investigative Journalist",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.investigative-journalist",
+     "slug": "investigative-journalist",
+     "creditMin": 9,
+     "creditMax": 30,
+     "pointFormula": "EDU*4",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations"
+     ],
+     "fixedSkillKeys": [
+      "history",
+      "library-use",
+      "psychology",
+      "language-own"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "art-craft",
+       "label": "一项艺术/手艺专精（美术或摄影）",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "art-craft",
+         "parentKey": "art-craft",
+         "base": 5,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.art-craft-acting",
+          "i.skill.coc.art-craft-painting",
+          "i.skill.coc.art-craft-photography",
+          "i.skill.coc.art-craft-technical-drawing"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "interpersonal",
+       "label": "一项人际技能",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "charm",
+         "brpids": [
+          "i.skill.coc.charm"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "fast-talk",
+         "brpids": [
+          "i.skill.coc.fast-talk"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "intimidate",
+         "brpids": [
+          "i.skill.coc.intimidate"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "persuade",
+         "brpids": [
+          "i.skill.coc.persuade"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "any-specialty",
+       "label": "任意两项其他技能（个人或时代专长）",
+       "choose": 2,
+       "options": [
+        {
+         "kind": "any",
+         "brpids": []
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.history",
+     "uuid": "ZsbrYPHoyqIA6fGF"
+    },
+    {
+     "brpid": "i.skill.coc.library-use",
+     "uuid": "7BNMWqPVJyA0sReg"
+    },
+    {
+     "brpid": "i.skill.coc.psychology",
+     "uuid": "n8ACQitSLni4geaF"
+    },
+    {
+     "brpid": "i.skill.coc.language-own",
+     "uuid": "7WwKSOQFVJeDC4hr"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.art-craft-acting",
+       "uuid": "fwjXSgaOTh0oh0fj"
+      },
+      {
+       "brpid": "i.skill.coc.art-craft-painting",
+       "uuid": "yRoJ2aGTZ6XAmQbg"
+      },
+      {
+       "brpid": "i.skill.coc.art-craft-photography",
+       "uuid": "9vt3o8IIdMi9HXZ5"
+      },
+      {
+       "brpid": "i.skill.coc.art-craft-technical-drawing",
+       "uuid": "9dh2bNvAxHd55Jrw"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.charm",
+       "uuid": "ebCHph0biyJ2AG3j"
+      },
+      {
+       "brpid": "i.skill.coc.fast-talk",
+       "uuid": "AwLPg18IRN57w0fB"
+      },
+      {
+       "brpid": "i.skill.coc.intimidate",
+       "uuid": "mhG3if5iht465aSn"
+      },
+      {
+       "brpid": "i.skill.coc.persuade",
+       "uuid": "7zQTHnGe7rHoRnjC"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "追查线索、访谈当事人，把事件写成可发表的报道。职业点 EDU × 4；信用评级 9–30。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "a7MmSNAnxCWOi8ko",
+  "name": "护士",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.nurse",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Nurse",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.nurse",
+     "slug": "nurse",
+     "creditMin": 9,
+     "creditMax": 30,
+     "pointFormula": "EDU*4",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations"
+     ],
+     "fixedSkillKeys": [
+      "first-aid",
+      "listen",
+      "medicine",
+      "psychology",
+      "science-biology",
+      "science-chemistry",
+      "spot-hidden"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "interpersonal",
+       "label": "一项人际技能",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "charm",
+         "brpids": [
+          "i.skill.coc.charm"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "fast-talk",
+         "brpids": [
+          "i.skill.coc.fast-talk"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "intimidate",
+         "brpids": [
+          "i.skill.coc.intimidate"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "persuade",
+         "brpids": [
+          "i.skill.coc.persuade"
+         ]
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.first-aid",
+     "uuid": "mFYJcDBHmADhKRNW"
+    },
+    {
+     "brpid": "i.skill.coc.listen",
+     "uuid": "fHdlJ2r8hzJAHBnx"
+    },
+    {
+     "brpid": "i.skill.coc.medicine",
+     "uuid": "lciqRkvUQH0jYqq2"
+    },
+    {
+     "brpid": "i.skill.coc.psychology",
+     "uuid": "n8ACQitSLni4geaF"
+    },
+    {
+     "brpid": "i.skill.coc.science-biology",
+     "uuid": "ojfHa6wDmmM5s0ey"
+    },
+    {
+     "brpid": "i.skill.coc.science-chemistry",
+     "uuid": "qg1EZMCkC7VLFVcy"
+    },
+    {
+     "brpid": "i.skill.coc.spot-hidden",
+     "uuid": "ehKcuxiTWOk0GDgA"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.charm",
+       "uuid": "ebCHph0biyJ2AG3j"
+      },
+      {
+       "brpid": "i.skill.coc.fast-talk",
+       "uuid": "AwLPg18IRN57w0fB"
+      },
+      {
+       "brpid": "i.skill.coc.intimidate",
+       "uuid": "mhG3if5iht465aSn"
+      },
+      {
+       "brpid": "i.skill.coc.persuade",
+       "uuid": "7zQTHnGe7rHoRnjC"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "在医院、诊所或前线照护伤员，熟悉药物与急救。职业点 EDU × 4；信用评级 9–30。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "T4x1XBuQk5LnhCKr",
+  "name": "私家侦探",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.private-investigator",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Private Investigator",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.private-investigator",
+     "slug": "private-investigator",
+     "creditMin": 9,
+     "creditMax": 30,
+     "pointFormula": "EDU*2+MAX(DEX,STR)*2",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations"
+     ],
+     "fixedSkillKeys": [
+      "art-craft-photography",
+      "disguise",
+      "law",
+      "library-use",
+      "psychology",
+      "spot-hidden"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "interpersonal",
+       "label": "一项人际技能",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "charm",
+         "brpids": [
+          "i.skill.coc.charm"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "fast-talk",
+         "brpids": [
+          "i.skill.coc.fast-talk"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "intimidate",
+         "brpids": [
+          "i.skill.coc.intimidate"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "persuade",
+         "brpids": [
+          "i.skill.coc.persuade"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "any-specialty",
+       "label": "任意一项其他技能（个人或时代专长）",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "any",
+         "brpids": []
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.art-craft-photography",
+     "uuid": "9vt3o8IIdMi9HXZ5"
+    },
+    {
+     "brpid": "i.skill.coc.disguise",
+     "uuid": "FcXGDagoFY3CsOZi"
+    },
+    {
+     "brpid": "i.skill.coc.law",
+     "uuid": "lfaJ9sfEpwhlrVph"
+    },
+    {
+     "brpid": "i.skill.coc.library-use",
+     "uuid": "7BNMWqPVJyA0sReg"
+    },
+    {
+     "brpid": "i.skill.coc.psychology",
+     "uuid": "n8ACQitSLni4geaF"
+    },
+    {
+     "brpid": "i.skill.coc.spot-hidden",
+     "uuid": "ehKcuxiTWOk0GDgA"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.charm",
+       "uuid": "ebCHph0biyJ2AG3j"
+      },
+      {
+       "brpid": "i.skill.coc.fast-talk",
+       "uuid": "AwLPg18IRN57w0fB"
+      },
+      {
+       "brpid": "i.skill.coc.intimidate",
+       "uuid": "mhG3if5iht465aSn"
+      },
+      {
+       "brpid": "i.skill.coc.persuade",
+       "uuid": "7zQTHnGe7rHoRnjC"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "受雇跟踪、取证、查访，替委托人弄清真相。职业点 EDU × 2 + MAX(DEX, STR) × 2；信用评级 9–30。\n\n职业点：EDU*2+MAX(DEX,STR)*2（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "IDB0huTGTiLCTVwV",
+  "name": "教授",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.professor",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Professor",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.professor",
+     "slug": "professor",
+     "creditMin": 20,
+     "creditMax": 70,
+     "pointFormula": "EDU*4",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations"
+     ],
+     "fixedSkillKeys": [
+      "library-use",
+      "psychology",
+      "language-own"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "language-other",
+       "label": "其他语言",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "language-other",
+         "parentKey": "language-other",
+         "base": 1,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.language-other-greek",
+          "i.skill.coc.language-other-latin"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "any-specialty",
+       "label": "任意四项其他技能（学术、时代或个人专长）",
+       "choose": 4,
+       "options": [
+        {
+         "kind": "any",
+         "brpids": []
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.library-use",
+     "uuid": "7BNMWqPVJyA0sReg"
+    },
+    {
+     "brpid": "i.skill.coc.psychology",
+     "uuid": "n8ACQitSLni4geaF"
+    },
+    {
+     "brpid": "i.skill.coc.language-own",
+     "uuid": "7WwKSOQFVJeDC4hr"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.language-other-greek",
+       "uuid": "zxbzRO9P1dqY9jzD"
+      },
+      {
+       "brpid": "i.skill.coc.language-other-latin",
+       "uuid": "YY2QWZ0T7f8A76NE"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "在高校或研究机构授课、著书、带学生做课题。职业点 EDU × 4；信用评级 20–70。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：20–70（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "vnrzg2czN1KTc5ZU",
+  "name": "士兵",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.soldier",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Soldier",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.soldier",
+     "slug": "soldier",
+     "creditMin": 9,
+     "creditMax": 30,
+     "pointFormula": "EDU*2+MAX(DEX,STR)*2",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations"
+     ],
+     "fixedSkillKeys": [
+      "dodge",
+      "stealth"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "climb-or-swim",
+       "label": "攀爬或游泳",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "climb",
+         "brpids": [
+          "i.skill.coc.climb"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "swim",
+         "brpids": [
+          "i.skill.coc.swim"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "fighting",
+       "label": "一项格斗专精",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "fighting",
+         "parentKey": "fighting",
+         "base": null,
+         "requiresExplicitBase": true,
+         "brpids": [
+          "i.skill.coc.fighting-brawl"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "firearms",
+       "label": "一项射击专精",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "firearms",
+         "parentKey": "firearms",
+         "base": null,
+         "requiresExplicitBase": true,
+         "brpids": [
+          "i.skill.coc.firearms-handgun",
+          "i.skill.coc.firearms-rifle-shotgun"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "survival",
+       "label": "一项生存专精",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "survival",
+         "parentKey": "survival",
+         "base": 10,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.survival-sea",
+          "i.skill.coc.survival-wilderness"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "specialty",
+       "label": "以下两项：急救、机械维修或其他语言",
+       "choose": 2,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "first-aid",
+         "brpids": [
+          "i.skill.coc.first-aid"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "mechanical-repair",
+         "brpids": [
+          "i.skill.coc.mechanical-repair"
+         ]
+        },
+        {
+         "kind": "family",
+         "family": "language-other",
+         "parentKey": "language-other",
+         "base": 1,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.language-other-greek",
+          "i.skill.coc.language-other-latin"
+         ]
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.dodge",
+     "uuid": "NeiLzxM7dLr6hC5r"
+    },
+    {
+     "brpid": "i.skill.coc.stealth",
+     "uuid": "KAT6rXWeJrlD9MOD"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.climb",
+       "uuid": "XBPmBl9yAuJ1Peo9"
+      },
+      {
+       "brpid": "i.skill.coc.swim",
+       "uuid": "GyfbAWiGp3GBa1MR"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.fighting-brawl",
+       "uuid": "03IOJtCr9psfhkLg"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.firearms-handgun",
+       "uuid": "1GMNDl2j6zfGXyI3"
+      },
+      {
+       "brpid": "i.skill.coc.firearms-rifle-shotgun",
+       "uuid": "icEnsbSORKp1qZtF"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.survival-sea",
+       "uuid": "sxKcGlBfdQ5R0SDt"
+      },
+      {
+       "brpid": "i.skill.coc.survival-wilderness",
+       "uuid": "a3rpM1u0kGnmqesi"
+      }
+     ]
+    },
+    {
+     "options": 2,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.first-aid",
+       "uuid": "mFYJcDBHmADhKRNW"
+      },
+      {
+       "brpid": "i.skill.coc.mechanical-repair",
+       "uuid": "zp9eYH1FLjd04b0T"
+      },
+      {
+       "brpid": "i.skill.coc.language-other-greek",
+       "uuid": "zxbzRO9P1dqY9jzD"
+      },
+      {
+       "brpid": "i.skill.coc.language-other-latin",
+       "uuid": "YY2QWZ0T7f8A76NE"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "受过完整军事训练，熟悉枪械、野外与队列生活。职业点 EDU × 2 + MAX(DEX, STR) × 2；信用评级 9–30。\n\n职业点：EDU*2+MAX(DEX,STR)*2（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "Urzd6Xfcx7SNpkXc",
+  "name": "医生（医学博士）",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.doctor-of-medicine",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Doctor of Medicine",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.doctor-of-medicine",
+     "slug": "doctor-of-medicine",
+     "creditMin": 30,
+     "creditMax": 80,
+     "pointFormula": "EDU*4",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations",
+      "coc-wiki-skills"
+     ],
+     "fixedSkillKeys": [
+      "first-aid",
+      "language-other-latin",
+      "medicine",
+      "psychology",
+      "science-biology",
+      "science-pharmacy"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "any-specialty",
+       "label": "任意两项其他技能（学术或个人专长，例如精神科医生可选心理分析）",
+       "choose": 2,
+       "options": [
+        {
+         "kind": "any",
+         "brpids": []
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.first-aid",
+     "uuid": "mFYJcDBHmADhKRNW"
+    },
+    {
+     "brpid": "i.skill.coc.language-other-latin",
+     "uuid": "YY2QWZ0T7f8A76NE"
+    },
+    {
+     "brpid": "i.skill.coc.medicine",
+     "uuid": "lciqRkvUQH0jYqq2"
+    },
+    {
+     "brpid": "i.skill.coc.psychology",
+     "uuid": "n8ACQitSLni4geaF"
+    },
+    {
+     "brpid": "i.skill.coc.science-biology",
+     "uuid": "ojfHa6wDmmM5s0ey"
+    },
+    {
+     "brpid": "i.skill.coc.science-pharmacy",
+     "uuid": "FYszZeEWTX2DBFSd"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "以诊断与治疗为业的内科或外科医师，熟悉药物、病房与病历。职业点 EDU × 4；信用评级 30–80。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–80（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "q6iDyd4riEIMbpVw",
+  "name": "警探",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.police-detective",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Police Detective",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.police-detective",
+     "slug": "police-detective",
+     "creditMin": 20,
+     "creditMax": 50,
+     "pointFormula": "EDU*2+DEX*2",
+     "pointFormulas": [
+      "EDU*2+DEX*2",
+      "EDU*2+STR*2"
+     ],
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-roll20-occupations",
+      "coc-wiki-skills"
+     ],
+     "fixedSkillKeys": [
+      "law",
+      "listen",
+      "psychology",
+      "spot-hidden"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "acting-or-disguise",
+       "label": "艺术/手艺（表演）或乔装",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "art-craft-acting",
+         "brpids": [
+          "i.skill.coc.art-craft-acting"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "disguise",
+         "brpids": [
+          "i.skill.coc.disguise"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "firearms",
+       "label": "一项射击专精",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "firearms",
+         "parentKey": "firearms",
+         "base": null,
+         "requiresExplicitBase": true,
+         "brpids": [
+          "i.skill.coc.firearms-handgun",
+          "i.skill.coc.firearms-rifle-shotgun"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "interpersonal",
+       "label": "一项人际技能",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "charm",
+         "brpids": [
+          "i.skill.coc.charm"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "fast-talk",
+         "brpids": [
+          "i.skill.coc.fast-talk"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "intimidate",
+         "brpids": [
+          "i.skill.coc.intimidate"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "persuade",
+         "brpids": [
+          "i.skill.coc.persuade"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "any-specialty",
+       "label": "任意一项其他技能（个人或时代专长）",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "any",
+         "brpids": []
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.law",
+     "uuid": "lfaJ9sfEpwhlrVph"
+    },
+    {
+     "brpid": "i.skill.coc.listen",
+     "uuid": "fHdlJ2r8hzJAHBnx"
+    },
+    {
+     "brpid": "i.skill.coc.psychology",
+     "uuid": "n8ACQitSLni4geaF"
+    },
+    {
+     "brpid": "i.skill.coc.spot-hidden",
+     "uuid": "ehKcuxiTWOk0GDgA"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.art-craft-acting",
+       "uuid": "fwjXSgaOTh0oh0fj"
+      },
+      {
+       "brpid": "i.skill.coc.disguise",
+       "uuid": "FcXGDagoFY3CsOZi"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.firearms-handgun",
+       "uuid": "1GMNDl2j6zfGXyI3"
+      },
+      {
+       "brpid": "i.skill.coc.firearms-rifle-shotgun",
+       "uuid": "icEnsbSORKp1qZtF"
+      }
+     ]
+    },
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.charm",
+       "uuid": "ebCHph0biyJ2AG3j"
+      },
+      {
+       "brpid": "i.skill.coc.fast-talk",
+       "uuid": "AwLPg18IRN57w0fB"
+      },
+      {
+       "brpid": "i.skill.coc.intimidate",
+       "uuid": "mhG3if5iht465aSn"
+      },
+      {
+       "brpid": "i.skill.coc.persuade",
+       "uuid": "7zQTHnGe7rHoRnjC"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "便衣办案的警队侦查员，靠案卷、线人与现场权限接近普通市民看不到的事。职业点 EDU × 2 + DEX × 2，或 EDU × 2 + STR × 2（建卡时二选一）；信用评级 20–50。\n\n职业点：EDU*2+DEX*2 或 EDU*2+STR*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：20–50（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "MHQMQoPi6ghQNKbp",
+  "name": "图书管理员",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.librarian",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Librarian",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.librarian",
+     "slug": "librarian",
+     "creditMin": 9,
+     "creditMax": 35,
+     "pointFormula": "EDU*4",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-gamersplane-occupations",
+      "coc-org-uk-occupations",
+      "coc-rpgstack-occupations"
+     ],
+     "fixedSkillKeys": [
+      "accounting",
+      "library-use",
+      "language-own"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "language-other",
+       "label": "其他语言",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "family",
+         "family": "language-other",
+         "parentKey": "language-other",
+         "base": 1,
+         "requiresExplicitBase": false,
+         "brpids": [
+          "i.skill.coc.language-other-greek",
+          "i.skill.coc.language-other-latin"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "any-specialty",
+       "label": "任意四项其他技能（个人专长或专门阅读领域）",
+       "choose": 4,
+       "options": [
+        {
+         "kind": "any",
+         "brpids": []
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.accounting",
+     "uuid": "OprgKpztxOCjv9MA"
+    },
+    {
+     "brpid": "i.skill.coc.library-use",
+     "uuid": "7BNMWqPVJyA0sReg"
+    },
+    {
+     "brpid": "i.skill.coc.language-own",
+     "uuid": "7WwKSOQFVJeDC4hr"
+    }
+   ],
+   "groups": [
+    {
+     "options": 1,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.language-other-greek",
+       "uuid": "zxbzRO9P1dqY9jzD"
+      },
+      {
+       "brpid": "i.skill.coc.language-other-latin",
+       "uuid": "YY2QWZ0T7f8A76NE"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "看管藏书与档案的人，比谁都清楚某本书、某份记录或某册缺失卷宗在哪里。职业点 EDU × 4；信用评级 9–35。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：9–35（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "zqi4Lz4L9ZavXwBG",
+  "name": "律师",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.lawyer",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Lawyer",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.lawyer",
+     "slug": "lawyer",
+     "creditMin": 30,
+     "creditMax": 80,
+     "pointFormula": "EDU*4",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-gamersplane-occupations",
+      "coc-org-uk-occupations",
+      "coc-rpgstack-occupations"
+     ],
+     "fixedSkillKeys": [
+      "accounting",
+      "law",
+      "library-use",
+      "psychology"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "interpersonal-two",
+       "label": "两项不同的人际技能",
+       "choose": 2,
+       "distinct": true,
+       "options": [
+        {
+         "kind": "skill",
+         "skill": "charm",
+         "brpids": [
+          "i.skill.coc.charm"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "fast-talk",
+         "brpids": [
+          "i.skill.coc.fast-talk"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "intimidate",
+         "brpids": [
+          "i.skill.coc.intimidate"
+         ]
+        },
+        {
+         "kind": "skill",
+         "skill": "persuade",
+         "brpids": [
+          "i.skill.coc.persuade"
+         ]
+        }
+       ]
+      },
+      {
+       "key": "any-specialty",
+       "label": "任意两项其他技能（个人或时代专长）",
+       "choose": 2,
+       "options": [
+        {
+         "kind": "any",
+         "brpids": []
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.accounting",
+     "uuid": "OprgKpztxOCjv9MA"
+    },
+    {
+     "brpid": "i.skill.coc.law",
+     "uuid": "lfaJ9sfEpwhlrVph"
+    },
+    {
+     "brpid": "i.skill.coc.library-use",
+     "uuid": "7BNMWqPVJyA0sReg"
+    },
+    {
+     "brpid": "i.skill.coc.psychology",
+     "uuid": "n8ACQitSLni4geaF"
+    }
+   ],
+   "groups": [
+    {
+     "options": 2,
+     "skills": [
+      {
+       "brpid": "i.skill.coc.charm",
+       "uuid": "ebCHph0biyJ2AG3j"
+      },
+      {
+       "brpid": "i.skill.coc.fast-talk",
+       "uuid": "AwLPg18IRN57w0fB"
+      },
+      {
+       "brpid": "i.skill.coc.intimidate",
+       "uuid": "mhG3if5iht465aSn"
+      },
+      {
+       "brpid": "i.skill.coc.persuade",
+       "uuid": "7zQTHnGe7rHoRnjC"
+      }
+     ]
+    }
+   ],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "执业律师，把卷宗、程序与谈判压力变成其他调查员拿不到的信息。职业点 EDU × 4；信用评级 30–80。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–80（只能用职业点，且必须落在区间内）"
+  }
+ },
+ {
+  "_id": "dZGMenIIh1pzyzef",
+  "name": "工程师",
+  "type": "profession",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.engineer",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Engineer",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occupation.engineer",
+     "slug": "engineer",
+     "creditMin": 30,
+     "creditMax": 60,
+     "pointFormula": "EDU*4",
+     "evidence": "secondary",
+     "sourceRefs": [
+      "coc-gamersplane-occupations",
+      "coc-org-uk-occupations",
+      "coc-rpgstack-occupations"
+     ],
+     "fixedSkillKeys": [
+      "art-craft-technical-drawing",
+      "electrical-repair",
+      "library-use",
+      "mechanical-repair",
+      "operate-heavy-machinery",
+      "science-engineering",
+      "science-physics"
+     ],
+     "specialismSlots": [],
+     "choiceGroups": [
+      {
+       "key": "any-specialty",
+       "label": "任意一项其他技能（个人或时代专长）",
+       "choose": 1,
+       "options": [
+        {
+         "kind": "any",
+         "brpids": []
+        }
+       ]
+      }
+     ],
+     "wealthNotApplicable": true
+    }
+   }
+  },
+  "system": {
+   "skills": [
+    {
+     "brpid": "i.skill.coc.art-craft-technical-drawing",
+     "uuid": "9dh2bNvAxHd55Jrw"
+    },
+    {
+     "brpid": "i.skill.coc.electrical-repair",
+     "uuid": "GgBauywhcx3bJVG3"
+    },
+    {
+     "brpid": "i.skill.coc.library-use",
+     "uuid": "7BNMWqPVJyA0sReg"
+    },
+    {
+     "brpid": "i.skill.coc.mechanical-repair",
+     "uuid": "zp9eYH1FLjd04b0T"
+    },
+    {
+     "brpid": "i.skill.coc.operate-heavy-machinery",
+     "uuid": "9WclC1qp9ZYdl1pf"
+    },
+    {
+     "brpid": "i.skill.coc.science-engineering",
+     "uuid": "VcW0QSmva65xYMUF"
+    },
+    {
+     "brpid": "i.skill.coc.science-physics",
+     "uuid": "wnVkcgYRKa02xsc0"
+    }
+   ],
+   "groups": [],
+   "powers": [],
+   "minWealth": 0,
+   "maxWealth": 0,
+   "description": "设计并建造机械与系统的技术专家，能诊断、修理并在压力下临时改装设备。职业点 EDU × 4；信用评级 30–60。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–60（只能用职业点，且必须落在区间内）"
+  }
+ }
+]

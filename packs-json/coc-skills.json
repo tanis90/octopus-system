@@ -1,0 +1,2746 @@
+[
+ {
+  "_id": "OprgKpztxOCjv9MA",
+  "name": "会计",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.accounting",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Accounting",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.accounting",
+     "key": "accounting",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "阅读账目、发现财务异常，并追踪资金流向。"
+  }
+ },
+ {
+  "_id": "a1dJxqAXYqYlWsqc",
+  "name": "人类学",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.anthropology",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Anthropology",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.anthropology",
+     "key": "anthropology",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "通过观察理解一种文化的生活方式与习俗。"
+  }
+ },
+ {
+  "_id": "VvQ3kwJkRmfwdxZr",
+  "name": "估价",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.appraise",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Appraise",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.appraise",
+     "key": "appraise",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "判断物品的材质、工艺与大致价值。"
+  }
+ },
+ {
+  "_id": "iyGal5hstQ2SefS0",
+  "name": "考古学",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.archaeology",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Archaeology",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.archaeology",
+     "key": "archaeology",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "为古代遗物断代、辨识真伪并理解其背景。"
+  }
+ },
+ {
+  "_id": "fwjXSgaOTh0oh0fj",
+  "name": "艺术/手艺（表演）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-acting",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Art/Craft (Acting)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.art-craft-acting",
+     "key": "art-craft-acting",
+     "specKey": "acting",
+     "parentKey": "art-craft",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "艺术/手艺（表演）",
+   "mainName": "艺术/手艺",
+   "noXP": false,
+   "description": "以扮演与舞台表演改变他人对自己的判断。"
+  }
+ },
+ {
+  "_id": "9vt3o8IIdMi9HXZ5",
+  "name": "艺术/手艺（摄影）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-photography",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Art/Craft (Photography)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.art-craft-photography",
+     "key": "art-craft-photography",
+     "specKey": "photography",
+     "parentKey": "art-craft",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "艺术/手艺（摄影）",
+   "mainName": "艺术/手艺",
+   "noXP": false,
+   "description": "以摄影完成创作、记录或暗房处理。"
+  }
+ },
+ {
+  "_id": "yRoJ2aGTZ6XAmQbg",
+  "name": "艺术/手艺（绘画）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-painting",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Art/Craft (Painting)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.art-craft-painting",
+     "key": "art-craft-painting",
+     "specKey": "painting",
+     "parentKey": "art-craft",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "艺术/手艺（绘画）",
+   "mainName": "艺术/手艺",
+   "noXP": false,
+   "description": "以绘画完成创作、临摹或修复。"
+  }
+ },
+ {
+  "_id": "9dh2bNvAxHd55Jrw",
+  "name": "艺术/手艺（技术制图）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-technical-drawing",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Art/Craft (Technical Drawing)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.art-craft-technical-drawing",
+     "key": "art-craft-technical-drawing",
+     "specKey": "technical-drawing",
+     "parentKey": "art-craft",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "艺术/手艺（技术制图）",
+   "mainName": "艺术/手艺",
+   "noXP": false,
+   "description": "绘制与阅读工程图、蓝图及技术示意图。"
+  }
+ },
+ {
+  "_id": "ebCHph0biyJ2AG3j",
+  "name": "魅惑",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.charm",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Charm",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.charm",
+     "key": "charm",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 15,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 15
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "以亲和、恭维或吸引力让对方愿意配合。"
+  }
+ },
+ {
+  "_id": "XBPmBl9yAuJ1Peo9",
+  "name": "攀爬",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.climb",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Climb",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.climb",
+     "key": "climb",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 20,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 20
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "攀上或爬下墙壁、树木、崖壁等垂直表面。"
+  }
+ },
+ {
+  "_id": "NEiczXQzhWgyrtzI",
+  "name": "信用评级",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.credit-rating",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Credit Rating",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.credit-rating",
+     "key": "credit-rating",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "表示角色的财富、阶层与社会资源；创建时通常需要分配点数。"
+  }
+ },
+ {
+  "_id": "diY0vuZhfduvl3kK",
+  "name": "克苏鲁神话",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.cthulhu-mythos",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Cthulhu Mythos",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.cthulhu-mythos",
+     "key": "cthulhu-mythos",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": true,
+   "description": "对神话真相的理解；创建角色时不能投入点数，并会压低理智上限。"
+  }
+ },
+ {
+  "_id": "FcXGDagoFY3CsOZi",
+  "name": "乔装",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.disguise",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Disguise",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.disguise",
+     "key": "disguise",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "改变外貌、穿着与举止，让自己看起来像另一个人。"
+  }
+ },
+ {
+  "_id": "NeiLzxM7dLr6hC5r",
+  "name": "闪避",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.dodge",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Dodge",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.dodge",
+     "key": "dodge",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": true,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "dex",
+     "value": 0.5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": true,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "本能地躲开近战攻击或投掷物；起始值为 DEX 的一半（向下取整）。"
+  }
+ },
+ {
+  "_id": "oNzu3fHKqOJ5FVVq",
+  "name": "汽车驾驶",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.drive-auto",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Drive Auto",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.drive-auto",
+     "key": "drive-auto",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 20,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 20
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "驾驶汽车或轻型卡车，处理普通路况与车辆故障。"
+  }
+ },
+ {
+  "_id": "GgBauywhcx3bJVG3",
+  "name": "电气维修",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.electrical-repair",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Electrical Repair",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.electrical-repair",
+     "key": "electrical-repair",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "修理或改装电气设备、线路与点火系统。"
+  }
+ },
+ {
+  "_id": "AwLPg18IRN57w0fB",
+  "name": "话术",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.fast-talk",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Fast Talk",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.fast-talk",
+     "key": "fast-talk",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "用言语误导、欺骗或让对方一时照做。"
+  }
+ },
+ {
+  "_id": "03IOJtCr9psfhkLg",
+  "name": "格斗（斗殴）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.fighting-brawl",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Fighting (Brawl)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.fighting-brawl",
+     "key": "fighting-brawl",
+     "specKey": "brawl",
+     "parentKey": "fighting",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 25,
+   "basic": true,
+   "combat": true,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 25
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "格斗（斗殴）",
+   "mainName": "格斗",
+   "noXP": false,
+   "description": "徒手、拳脚、棍棒与匕首等简易近战武器的格斗能力。"
+  }
+ },
+ {
+  "_id": "1GMNDl2j6zfGXyI3",
+  "name": "射击（手枪）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.firearms-handgun",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Firearms (Handgun)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.firearms-handgun",
+     "key": "firearms-handgun",
+     "specKey": "handgun",
+     "parentKey": "firearms",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 20,
+   "basic": true,
+   "combat": true,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 20
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "射击（手枪）",
+   "mainName": "射击",
+   "noXP": false,
+   "description": "使用手枪等单手火器进行射击。"
+  }
+ },
+ {
+  "_id": "icEnsbSORKp1qZtF",
+  "name": "射击（步枪/霰弹枪）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.firearms-rifle-shotgun",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Firearms (Rifle/Shotgun)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.firearms-rifle-shotgun",
+     "key": "firearms-rifle-shotgun",
+     "specKey": "rifle-shotgun",
+     "parentKey": "firearms",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 25,
+   "basic": true,
+   "combat": true,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 25
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "射击（步枪/霰弹枪）",
+   "mainName": "射击",
+   "noXP": false,
+   "description": "使用步枪、霰弹枪等长身火器进行射击。"
+  }
+ },
+ {
+  "_id": "mFYJcDBHmADhKRNW",
+  "name": "急救",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.first-aid",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "First Aid",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.first-aid",
+     "key": "first-aid",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 30,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 30
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "在受伤后一小时内进行紧急处置，恢复少量生命并唤醒昏迷者。"
+  }
+ },
+ {
+  "_id": "ZsbrYPHoyqIA6fGF",
+  "name": "历史",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.history",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "History",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.history",
+     "key": "history",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "回忆历史事件、人物、地区或国家的意义。"
+  }
+ },
+ {
+  "_id": "mhG3if5iht465aSn",
+  "name": "恐吓",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.intimidate",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Intimidate",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.intimidate",
+     "key": "intimidate",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 15,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 15
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "以身体或心理威胁迫使对方配合或吐露信息。"
+  }
+ },
+ {
+  "_id": "acDj9JcQQNbsARhC",
+  "name": "跳跃",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.jump",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Jump",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.jump",
+     "key": "jump",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 20,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 20
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "跳过障碍或落差；成功可减轻坠落伤害。"
+  }
+ },
+ {
+  "_id": "7WwKSOQFVJeDC4hr",
+  "name": "母语",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.language-own",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Language (Own)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.language-own",
+     "key": "language-own",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 0,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "edu",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": true,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "角色最熟悉的语言；起始值等于 EDU。"
+  }
+ },
+ {
+  "_id": "YY2QWZ0T7f8A76NE",
+  "name": "外语（拉丁语）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.language-other-latin",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Language (Other) (Latin)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.language-other-latin",
+     "key": "language-other-latin",
+     "specKey": "latin",
+     "parentKey": "language-other",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "外语（拉丁语）",
+   "mainName": "外语",
+   "noXP": false,
+   "description": "理解、听说、阅读与书写拉丁语。"
+  }
+ },
+ {
+  "_id": "zxbzRO9P1dqY9jzD",
+  "name": "外语（希腊语）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.language-other-greek",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Language (Other) (Greek)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.language-other-greek",
+     "key": "language-other-greek",
+     "specKey": "greek",
+     "parentKey": "language-other",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "外语（希腊语）",
+   "mainName": "外语",
+   "noXP": false,
+   "description": "理解、听说、阅读与书写希腊语。"
+  }
+ },
+ {
+  "_id": "lfaJ9sfEpwhlrVph",
+  "name": "法律",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.law",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Law",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.law",
+     "key": "law",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "了解法律、判例、程序与法庭运作。"
+  }
+ },
+ {
+  "_id": "7BNMWqPVJyA0sReg",
+  "name": "图书馆使用",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.library-use",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Library Use",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.library-use",
+     "key": "library-use",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 20,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 20
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "在图书馆或档案中查找书籍、报纸与文献。"
+  }
+ },
+ {
+  "_id": "fHdlJ2r8hzJAHBnx",
+  "name": "聆听",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.listen",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Listen",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.listen",
+     "key": "listen",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 20,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 20
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "听懂声音、偷听谈话或察觉门后的低语。"
+  }
+ },
+ {
+  "_id": "eKnqrVHDFmGDtEYg",
+  "name": "开锁",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.locksmith",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Locksmith",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.locksmith",
+     "key": "locksmith",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "开锁、配钥匙、破坏普通锁具与警报系统。"
+  }
+ },
+ {
+  "_id": "zp9eYH1FLjd04b0T",
+  "name": "机械维修",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.mechanical-repair",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Mechanical Repair",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.mechanical-repair",
+     "key": "mechanical-repair",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "修理机器、制作简单机械或进行木工与管道工作。"
+  }
+ },
+ {
+  "_id": "lciqRkvUQH0jYqq2",
+  "name": "医学",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.medicine",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Medicine",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.medicine",
+     "key": "medicine",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "诊断和治疗伤病、中毒与疾病。"
+  }
+ },
+ {
+  "_id": "EFVIz8qOdZvW2Rej",
+  "name": "自然学",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.natural-world",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Natural World",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.natural-world",
+     "key": "natural-world",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "识别动植物、足迹与自然迹象。"
+  }
+ },
+ {
+  "_id": "XFTLEmt7ULlfiVWT",
+  "name": "导航",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.navigate",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Navigate",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.navigate",
+     "key": "navigate",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "在陌生城市或荒野中辨认方向、阅读地图并判断路程。"
+  }
+ },
+ {
+  "_id": "bOIhegZL1iqyb8S1",
+  "name": "神秘学",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.occult",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Occult",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.occult",
+     "key": "occult",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "辨认神秘学器物、术语、传统与魔法书。"
+  }
+ },
+ {
+  "_id": "9WclC1qp9ZYdl1pf",
+  "name": "操作重型机械",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.operate-heavy-machinery",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Operate Heavy Machinery",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.operate-heavy-machinery",
+     "key": "operate-heavy-machinery",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "驾驶或操作火车、蒸汽机、推土机等大型机械。"
+  }
+ },
+ {
+  "_id": "7zQTHnGe7rHoRnjC",
+  "name": "说服",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.persuade",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Persuade",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.persuade",
+     "key": "persuade",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "通过论证、辩论与讨论让对方接受某个观点。"
+  }
+ },
+ {
+  "_id": "Bs1gkNxebfcMmEem",
+  "name": "驾驶（船）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.pilot-boat",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Pilot (Boat)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.pilot-boat",
+     "key": "pilot-boat",
+     "specKey": "boat",
+     "parentKey": "pilot",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "驾驶（船）",
+   "mainName": "驾驶",
+   "noXP": false,
+   "description": "安全操作船只并处理水上航行问题。"
+  }
+ },
+ {
+  "_id": "LvXnqaAxwiyzyWTg",
+  "name": "驾驶（飞行器）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.pilot-aircraft",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Pilot (Aircraft)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.pilot-aircraft",
+     "key": "pilot-aircraft",
+     "specKey": "aircraft",
+     "parentKey": "pilot",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "驾驶（飞行器）",
+   "mainName": "驾驶",
+   "noXP": false,
+   "description": "安全操作飞行器并处理空中航行问题。"
+  }
+ },
+ {
+  "_id": "OdugCGiQt5WkewJ5",
+  "name": "精神分析",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.psychoanalysis",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Psychoanalysis",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.psychoanalysis",
+     "key": "psychoanalysis",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "通过心理治疗帮助患者恢复理智或面对恐惧。"
+  }
+ },
+ {
+  "_id": "n8ACQitSLni4geaF",
+  "name": "心理学",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.psychology",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Psychology",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.psychology",
+     "key": "psychology",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "判断他人的动机、性格与是否说谎。"
+  }
+ },
+ {
+  "_id": "okghi72jSCDGA3Hz",
+  "name": "骑术",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.ride",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Ride",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.ride",
+     "key": "ride",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 5,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 5
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "骑乘马、驴、骡等动物并照料骑具。"
+  }
+ },
+ {
+  "_id": "ojfHa6wDmmM5s0ey",
+  "name": "科学（生物学）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-biology",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Science (Biology)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.science-biology",
+     "key": "science-biology",
+     "specKey": "biology",
+     "parentKey": "science",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "科学（生物学）",
+   "mainName": "科学",
+   "noXP": false,
+   "description": "生物学理论与实践能力。"
+  }
+ },
+ {
+  "_id": "qg1EZMCkC7VLFVcy",
+  "name": "科学（化学）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-chemistry",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Science (Chemistry)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.science-chemistry",
+     "key": "science-chemistry",
+     "specKey": "chemistry",
+     "parentKey": "science",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "科学（化学）",
+   "mainName": "科学",
+   "noXP": false,
+   "description": "化学理论与实践能力。"
+  }
+ },
+ {
+  "_id": "VcW0QSmva65xYMUF",
+  "name": "科学（工程学）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-engineering",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Science (Engineering)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.science-engineering",
+     "key": "science-engineering",
+     "specKey": "engineering",
+     "parentKey": "science",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "科学（工程学）",
+   "mainName": "科学",
+   "noXP": false,
+   "description": "工程学理论与实践能力，涵盖结构、材料与系统。"
+  }
+ },
+ {
+  "_id": "FYszZeEWTX2DBFSd",
+  "name": "科学（药学）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-pharmacy",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Science (Pharmacy)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.science-pharmacy",
+     "key": "science-pharmacy",
+     "specKey": "pharmacy",
+     "parentKey": "science",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "科学（药学）",
+   "mainName": "科学",
+   "noXP": false,
+   "description": "药剂配制、药物辨识与剂量判断。"
+  }
+ },
+ {
+  "_id": "wnVkcgYRKa02xsc0",
+  "name": "科学（物理学）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-physics",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Science (Physics)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.science-physics",
+     "key": "science-physics",
+     "specKey": "physics",
+     "parentKey": "science",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 1,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 1
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "科学（物理学）",
+   "mainName": "科学",
+   "noXP": false,
+   "description": "物理学理论与实践能力，涵盖力学、电学与热学。"
+  }
+ },
+ {
+  "_id": "PbKsNi34CVtdcZEX",
+  "name": "手上功夫",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.sleight-of-hand",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Sleight of Hand",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.sleight-of-hand",
+     "key": "sleight-of-hand",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "藏匿、调换或快速操作小物件。"
+  }
+ },
+ {
+  "_id": "ehKcuxiTWOk0GDgA",
+  "name": "侦查",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.spot-hidden",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Spot Hidden",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.spot-hidden",
+     "key": "spot-hidden",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 25,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 25
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "发现暗门、隐藏的入侵者、细微线索或异常之处。"
+  }
+ },
+ {
+  "_id": "KAT6rXWeJrlD9MOD",
+  "name": "潜行",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.stealth",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Stealth",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.stealth",
+     "key": "stealth",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 20,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 20
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "安静移动、躲藏并避免被察觉。"
+  }
+ },
+ {
+  "_id": "a3rpM1u0kGnmqesi",
+  "name": "生存（荒野）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.survival-wilderness",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Survival (Wilderness)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.survival-wilderness",
+     "key": "survival-wilderness",
+     "specKey": "wilderness",
+     "parentKey": "survival",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "生存（荒野）",
+   "mainName": "生存",
+   "noXP": false,
+   "description": "在荒野中狩猎、寻找庇护所并避开自然危险。"
+  }
+ },
+ {
+  "_id": "sxKcGlBfdQ5R0SDt",
+  "name": "生存（海上）",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.survival-sea",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Survival (Sea)",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.survival-sea",
+     "key": "survival-sea",
+     "specKey": "sea",
+     "parentKey": "survival",
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": true,
+   "chosen": true,
+   "specName": "生存（海上）",
+   "mainName": "生存",
+   "noXP": false,
+   "description": "在海上环境中求生并应对风暴与缺水。"
+  }
+ },
+ {
+  "_id": "GyfbAWiGp3GBa1MR",
+  "name": "游泳",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.swim",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Swim",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.swim",
+     "key": "swim",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 20,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 20
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "在水中浮起、移动并应对危险情况。"
+  }
+ },
+ {
+  "_id": "dbPdKXNf1Ccm2J0a",
+  "name": "投掷",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.throw",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Throw",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.throw",
+     "key": "throw",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 20,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 20
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "把石块、矛、手雷等物体投向目标。"
+  }
+ },
+ {
+  "_id": "tYFug7dklIQrgfZC",
+  "name": "追踪",
+  "type": "skill",
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.track",
+     "lang": "zh-CN",
+     "priority": 1
+    },
+    "enName": "Track",
+    "contentSource": "coc",
+    "coc": {
+     "factId": "coc7.track",
+     "key": "track",
+     "specKey": null,
+     "parentKey": null,
+     "sourceRefs": [
+      "coc-sheet-1920s"
+     ]
+    }
+   }
+  },
+  "system": {
+   "base": 10,
+   "basic": true,
+   "combat": false,
+   "category": "none",
+   "baseFormula": {
+    "1": {
+     "stat": "fixed",
+     "value": 10
+    },
+    "2": {
+     "stat": "fixed",
+     "value": 0
+    },
+    "Func": "or"
+   },
+   "variable": false,
+   "specialism": false,
+   "chosen": false,
+   "specName": "",
+   "mainName": "",
+   "noXP": false,
+   "description": "循着人、车辆或动物留下的痕迹追踪。"
+  }
+ }
+]

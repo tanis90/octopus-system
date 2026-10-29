@@ -1,0 +1,49 @@
+{
+ "_id": "ojfHa6wDmmM5s0ey",
+ "name": "科学（生物学）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.science-biology",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Science (Biology)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.science-biology",
+    "key": "science-biology",
+    "specKey": "biology",
+    "parentKey": "science",
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "科学（生物学）",
+  "mainName": "科学",
+  "noXP": false,
+  "description": "生物学理论与实践能力。"
+ }
+}

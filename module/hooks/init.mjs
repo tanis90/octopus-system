@@ -12,8 +12,14 @@ import { BRPActiveEffect } from "../apps/active-effect.mjs";
 import { BRPCheck } from '../apps/check.mjs';
 import { BRPMadness } from '../apps/madness.mjs';
 import { BRPLuck } from '../apps/luck.mjs';
+import { BRPCharDev } from '../apps/charDev.mjs';
+import { BRPSystemSocket } from '../apps/socket.mjs';
+import { BRPSanity, bindSanityCheck } from '../apps/sanity.mjs';
+import { BRPWorldTime } from '../apps/worldTime.mjs';
+import { Rules } from '../rules/index.mjs';
 
 export default function Init() {
+  bindSanityCheck(BRPCheck);
   //Add classes to global game object
   game.brp = {
     BRPActor,
@@ -21,6 +27,46 @@ export default function Init() {
     BRPCheck,
     BRPMadness,
     BRPLuck,
+    BRPCharDev,
+    BRPSystemSocket,
+    BRPSanity,
+    BRPWorldTime,
+    rules: Rules,
+    //Native CoC combat/wound entry points (no chat-DOM dependency). Every
+    //method takes plain data and routes cross-owner writes through activeGM.
+    coc: {
+      attack: (options) => BRPCheck.cocAttack(options),
+      defend: (options) => BRPCheck.cocDefend(options),
+      resolve: (options) => BRPCheck.cocResolve(options),
+      reroll: (options) => BRPCheck.cocReroll(options),
+      state: (actor) => BRPCheck.cocState(actor),
+      damage: (options) => BRPCheck.cocApplyDamage(options),
+      firstAid: (options) => BRPCheck.cocFirstAid(options),
+      medicine: (options) => BRPCheck.cocMedicine(options),
+      weeklyHeal: (options) => BRPCheck.cocWeeklyHeal(options),
+      naturalHeal: (options) => BRPCheck.cocNaturalHeal(options),
+      dyingRound: (options) => BRPCheck.cocDyingRound(options),
+    },
+    //Native CoC M4 SAN / madness / Luck / growth entry points. Plain data in,
+    //no chat DOM required; every settlement routes to the single active-GM
+    //writer and returns `{queued:true}` when this client is not it.
+    sanity: {
+      state: (actor) => BRPSanity.state(actor),
+      settle: (options) => BRPSanity.settle(options),
+      intCheck: (options) => BRPSanity.completeIntCheck(options),
+      endTemporary: (options) => BRPSanity.endTemporary(options),
+      endIndefinite: (options) => BRPSanity.endIndefinite(options),
+      clearPermanent: (options) => BRPSanity.clearPermanent(options),
+      newDay: (options) => BRPSanity.newDay(options),
+      luckRecovery: (options) => BRPSanity.luckRecovery(options),
+      advanceTime: (options) => BRPSanity.advanceTime(options),
+      expire: () => BRPSanity.expireDueEpisodes(),
+    },
+    clock: {
+      now: () => BRPWorldTime.now(),
+      dayId: () => BRPWorldTime.dayId(),
+      advance: (options) => BRPSanity.advanceTime(options),
+    },
     rollItemMacro,
     rollCharMacro,
     rollSanMacro,
@@ -41,10 +87,12 @@ export default function Init() {
   CONFIG.ui.combat = BRPCombatTracker;
   CONFIG.ActiveEffect.documentClass = BRPActiveEffect;
 
-  //Sanity chain: the system's first two status effects (temporary and
-  //permanent insanity) - applied as ActiveEffect statuses by BRPMadness
+  //Sanity chain: the system's status effects. Temporary, indefinite and
+  //permanent insanity are separate statuses; permanent is terminal, the other
+  //two can coexist.
   CONFIG.statusEffects.push(
     { id: BRPMadness.TEMP_INSANE_ID, name: game.i18n.localize('BRP.madness.tempInsane'), icon: 'systems/brp/assets/Icons/drama-masks.svg' },
+    { id: BRPMadness.INDEFINITE_INSANE_ID, name: game.i18n.localize('BRP.madness.indefiniteInsane'), icon: 'systems/brp/assets/Icons/drama-masks.svg' },
     { id: BRPMadness.PERMA_INSANE_ID, name: game.i18n.localize('BRP.madness.permaInsane'), icon: 'systems/brp/assets/Icons/inner-self.svg' }
   )
 
@@ -54,7 +102,12 @@ export default function Init() {
   Hooks.on('updateActiveEffect', (effect, changed) => {
     if (changed?.disabled === true) { BRPMadness.syncEndedFromEffect(effect) }
   })
-  Hooks.on('updateWorldTime', () => BRPMadness.expireTempInsaneEffects())
+  Hooks.on('updateWorldTime', (worldTime) => {
+    //Mirror the real clock into the persisted CoC clock first: episodes are
+    //measured against it, so a refresh cannot restart a 1D10h duration.
+    if (Rules.activeId?.() === 'coc') { BRPWorldTime.syncFromGameTime(worldTime) }
+    BRPMadness.expireTempInsaneEffects()
+  })
 
 
   ChaosiumCanvasInterfaceInit.initSelf()

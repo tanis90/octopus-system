@@ -1,0 +1,161 @@
+{
+ "_id": "14mc4Fk4QmbtlG6F",
+ "name": "考古学家",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.archaeologist",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Archaeologist",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.occupation.archaeologist",
+    "slug": "archaeologist",
+    "creditMin": 10,
+    "creditMax": 40,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "coc-roll20-occupations"
+    ],
+    "fixedSkillKeys": [
+     "appraise",
+     "archaeology",
+     "history",
+     "library-use",
+     "spot-hidden",
+     "mechanical-repair"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "navigate-or-science",
+      "label": "导航或一门科学",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "navigate",
+        "brpids": [
+         "i.skill.coc.navigate"
+        ]
+       },
+       {
+        "kind": "family",
+        "family": "science",
+        "parentKey": "science",
+        "base": 1,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.science-biology",
+         "i.skill.coc.science-chemistry",
+         "i.skill.coc.science-engineering",
+         "i.skill.coc.science-pharmacy",
+         "i.skill.coc.science-physics"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "language-other",
+      "label": "其他语言",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "language-other",
+        "parentKey": "language-other",
+        "base": 1,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.language-other-greek",
+         "i.skill.coc.language-other-latin"
+        ]
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.appraise",
+    "uuid": "VvQ3kwJkRmfwdxZr"
+   },
+   {
+    "brpid": "i.skill.coc.archaeology",
+    "uuid": "iyGal5hstQ2SefS0"
+   },
+   {
+    "brpid": "i.skill.coc.history",
+    "uuid": "ZsbrYPHoyqIA6fGF"
+   },
+   {
+    "brpid": "i.skill.coc.library-use",
+    "uuid": "7BNMWqPVJyA0sReg"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   },
+   {
+    "brpid": "i.skill.coc.mechanical-repair",
+    "uuid": "zp9eYH1FLjd04b0T"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.navigate",
+      "uuid": "XFTLEmt7ULlfiVWT"
+     },
+     {
+      "brpid": "i.skill.coc.science-biology",
+      "uuid": "ojfHa6wDmmM5s0ey"
+     },
+     {
+      "brpid": "i.skill.coc.science-chemistry",
+      "uuid": "qg1EZMCkC7VLFVcy"
+     },
+     {
+      "brpid": "i.skill.coc.science-engineering",
+      "uuid": "VcW0QSmva65xYMUF"
+     },
+     {
+      "brpid": "i.skill.coc.science-pharmacy",
+      "uuid": "FYszZeEWTX2DBFSd"
+     },
+     {
+      "brpid": "i.skill.coc.science-physics",
+      "uuid": "wnVkcgYRKa02xsc0"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.language-other-greek",
+      "uuid": "zxbzRO9P1dqY9jzD"
+     },
+     {
+      "brpid": "i.skill.coc.language-other-latin",
+      "uuid": "YY2QWZ0T7f8A76NE"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "以遗迹、文物与古代文化为研究对象，常在发掘现场与图书馆之间往返。职业点 EDU × 4；信用评级 10–40。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：10–40（只能用职业点，且必须落在区间内）"
+ }
+}

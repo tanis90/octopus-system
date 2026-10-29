@@ -1,0 +1,49 @@
+{
+ "_id": "7WwKSOQFVJeDC4hr",
+ "name": "母语",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.language-own",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Language (Own)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.language-own",
+    "key": "language-own",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "edu",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": true,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "角色最熟悉的语言；起始值等于 EDU。"
+ }
+}

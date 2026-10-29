@@ -43,6 +43,17 @@
               {{#if (eq c.resultLevel 0)}}
                 <span class="pending roll-fumb">{{c.resultLabel}}: {{c.rollVal}} {{#unless (eq healing 0)}} [{{healing}}]{{/unless}}<i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i>
               {{/if}}
+              {{#if c.requiredBandLabel}}
+                <span class="pending">{{localize 'BRP.coc.requiredBand'}}: {{c.requiredBandLabel}}{{#if (eq c.taskSuccess false)}} — {{localize 'BRP.coc.taskFailed'}} {{c.requiredBandLabel}}{{/if}}</span>
+              {{/if}}
+              {{#if c.diceDetail}}
+                {{#isOr c.diceDetail.bonus c.diceDetail.penalty}}
+                  <span class="pending">{{localize 'BRP.coc.dicePool'}}: {{c.diceDetail.formula}} [{{c.diceDetail.faces}}]{{#if c.diceDetail.bonus}} +{{c.diceDetail.bonus}} {{localize 'BRP.coc.bonusDie'}}{{/if}}{{#if c.diceDetail.penalty}} +{{c.diceDetail.penalty}} {{localize 'BRP.coc.penaltyDie'}}{{/if}} — {{localize 'BRP.coc.chosenTens'}}: {{c.diceDetail.chosenTens}}</span>
+                {{/isOr}}
+              {{/if}}
+              {{#if c.cocTreatment}}
+                <span class="pending">{{#if (eq c.cocTreatment.skill 'first-aid')}}{{localize 'BRP.coc.firstAid'}}{{else}}{{localize 'BRP.coc.medicine'}}{{/if}}: {{#if c.cocTreatment.applied}}+{{c.healing}}{{else}}{{localize 'BRP.coc.treatmentFailed'}}{{/if}}</span>
+              {{/if}}
               {{#if (lt c.malfunction 0)}}
                 <span class="bold result-fail"> {{localize 'BRP.malfunction'}}</span>
               {{/if}}

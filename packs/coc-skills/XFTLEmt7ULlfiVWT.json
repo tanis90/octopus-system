@@ -1,0 +1,49 @@
+{
+ "_id": "XFTLEmt7ULlfiVWT",
+ "name": "导航",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.navigate",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Navigate",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.navigate",
+    "key": "navigate",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 10,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 10
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "在陌生城市或荒野中辨认方向、阅读地图并判断路程。"
+ }
+}

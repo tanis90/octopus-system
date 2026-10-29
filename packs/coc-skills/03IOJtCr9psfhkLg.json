@@ -1,0 +1,49 @@
+{
+ "_id": "03IOJtCr9psfhkLg",
+ "name": "格斗（斗殴）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.fighting-brawl",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Fighting (Brawl)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.fighting-brawl",
+    "key": "fighting-brawl",
+    "specKey": "brawl",
+    "parentKey": "fighting",
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 25,
+  "basic": true,
+  "combat": true,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 25
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "格斗（斗殴）",
+  "mainName": "格斗",
+  "noXP": false,
+  "description": "徒手、拳脚、棍棒与匕首等简易近战武器的格斗能力。"
+ }
+}

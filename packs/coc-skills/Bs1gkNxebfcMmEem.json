@@ -1,0 +1,49 @@
+{
+ "_id": "Bs1gkNxebfcMmEem",
+ "name": "驾驶（船）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.pilot-boat",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Pilot (Boat)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.pilot-boat",
+    "key": "pilot-boat",
+    "specKey": "boat",
+    "parentKey": "pilot",
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "驾驶（船）",
+  "mainName": "驾驶",
+  "noXP": false,
+  "description": "安全操作船只并处理水上航行问题。"
+ }
+}

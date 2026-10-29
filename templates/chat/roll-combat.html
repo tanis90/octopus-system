@@ -17,23 +17,41 @@
               </div>
               {{#if (eq ../state 'closed')}}
                 {{#if (eq c.resultLevel 4)}}
-                  <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: {{c.rollResult}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
+                  <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
                 {{/if}}
 
                 {{#if (eq c.resultLevel 3)}}
-                  <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: {{c.rollResult}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
+                  <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
                 {{/if}}
 
                 {{#if (eq c.resultLevel 2)}}
-                  <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: {{c.rollResult}} <i class="result-success fas fa-certificate"></i></span>
+                  <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i></span>
                 {{/if}}
 
                 {{#if (eq c.resultLevel 1)}}
-                  <span class="pending">{{c.resultLabel}}: {{c.rollResult}} <i class="result-fail fas fa-skull"></i></span>
+                  <span class="pending">{{c.resultLabel}}: {{c.rollVal}} <i class="result-fail fas fa-skull"></i></span>
                 {{/if}}
 
                 {{#if (eq c.resultLevel 0)}}
-                  <span class="pending">{{c.resultLabel}}: {{c.rollResult}} <i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i></span>
+                  <span class="pending">{{c.resultLabel}}: {{c.rollVal}} <i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i></span>
+                {{/if}}
+
+                {{#if c.bandLabel}}
+                  <span class="pending">{{c.bandLabel}}{{#if c.requiredBandLabel}} ({{localize 'BRP.coc.requiredBand'}}: {{c.requiredBandLabel}}){{/if}}{{#if (eq c.taskSuccess false)}} — {{localize 'BRP.coc.taskFailed'}} {{c.requiredBandLabel}}{{/if}}</span>
+                {{/if}}
+                {{#if c.diceDetail}}
+                  {{#isOr c.diceDetail.bonus c.diceDetail.penalty}}
+                    <span class="pending">{{localize 'BRP.coc.dicePool'}}: {{c.diceDetail.formula}} [{{c.diceDetail.faces}}]{{#if c.diceDetail.bonus}} +{{c.diceDetail.bonus}} {{localize 'BRP.coc.bonusDie'}}{{/if}}{{#if c.diceDetail.penalty}} +{{c.diceDetail.penalty}} {{localize 'BRP.coc.penaltyDie'}}{{/if}} — {{localize 'BRP.coc.chosenTens'}}: {{c.diceDetail.chosenTens}}</span>
+                  {{/isOr}}
+                {{/if}}
+                {{#if c.opposedOutcome}}
+                  <span class="pending">{{#unless c.opposedOutcome.winner}}{{localize 'BRP.coc.rerollRequired'}}({{c.opposedOutcome.reason}}){{else}}{{c.opposedOutcome.reason}}{{/unless}}</span>
+                {{/if}}
+                {{#if c.damage}}
+                  <span class="pending bold">{{localize 'BRP.coc.damageTier'}}: {{c.damage.formula}} = {{c.damage.total}}{{#if c.damage.tier}} ({{localize (concat 'BRP.cocBand.' c.damage.tier)}}){{/if}}{{#unless c.damage.applied}} [{{localize 'BRP.coc.treatmentFailed'}}]{{/unless}}</span>
+                {{/if}}
+                {{#if c.wounds}}
+                  <span class="pending">{{localize 'BRP.coc.hpAfter'}}: {{c.wounds.hpValue}}/{{c.wounds.hpMax}}{{#if c.wounds.majorWound}} · {{localize 'BRP.coc.majorWound'}}{{/if}}{{#if c.wounds.dying}} · {{localize 'BRP.coc.dying'}}{{/if}}{{#if c.wounds.dead}} · {{localize 'BRP.coc.dead'}}{{/if}}{{#if c.wounds.unconscious}} · {{localize 'BRP.coc.unconscious'}}{{/if}}</span>
                 {{/if}}
               {{else}}
                 <span class='pending' data-tooltip="{{localize 'BRP.grTag'}}">{{localize 'BRP.difficulty'}}: {{c.diffLabel}}

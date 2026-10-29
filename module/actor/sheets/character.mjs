@@ -8,6 +8,7 @@ import { BRPSelectLists } from '../../apps/select-lists.mjs';
 import { BRPActiveEffectSheet } from '../../sheets/brp-active-effect-sheet.mjs';
 import { BRPActorSheetV2 } from "./base-actor-sheet.mjs";
 import { BRPActor } from '../actor.mjs';
+import { Rules } from '../../rules/index.mjs';
 
 export class BRPCharacterSheet extends BRPActorSheetV2 {
   constructor(options = {}) {
@@ -216,11 +217,11 @@ export class BRPCharacterSheet extends BRPActorSheetV2 {
     context.logo = game.settings.get('brp', 'charSheetLogo');
     context.useWealth = game.settings.get('brp', 'useWealth');
     context.wealthLabel = game.settings.get('brp', 'wealthLabel');
-    context.useEDU = game.settings.get('brp', 'useEDU');
+    context.useEDU = Rules.active().settings.useEDU();
     context.useFP = game.settings.get('brp', 'useFP');
-    context.useSAN = game.settings.get('brp', 'useSAN');
+    context.useSAN = Rules.active().settings.useSAN();
     context.useRES5 = game.settings.get('brp', 'useRes5');
-    context.useHPL = game.settings.get('brp', 'useHPL');
+    context.useHPL = game.settings.get('brp', 'useHPL') && !Rules.active().wounds;
     context.useAlleg = game.settings.get('brp', 'useAlleg');
     context.usePassion = game.settings.get('brp', 'usePassion');
     context.usePersTrait = game.settings.get('brp', 'usePersTrait');
@@ -242,7 +243,7 @@ export class BRPCharacterSheet extends BRPActorSheetV2 {
     context.background3 = game.settings.get('brp', 'background3');
     let resource = 2;
     if (game.settings.get('brp', 'useFP')) { resource++ };
-    if (game.settings.get('brp', 'useSAN')) { resource++ };
+    if (Rules.active().settings.useSAN()) { resource++ };
     if (game.settings.get('brp', 'useRes5')) { resource++ };
     context.resource = resource;
     context.magicLabel = game.i18n.localize('BRP.magic')
@@ -290,6 +291,10 @@ export class BRPCharacterSheet extends BRPActorSheetV2 {
     }
     context.xpFixed = "+" + game.settings.get('brp','xpFixed') +"%";
     context.xpFormula = "+" + game.settings.get('brp','xpFormula') + "%";
+    // CoC settlement is always 1D10 with no fixed tier and no POW improvement;
+    // the dev tab must not offer a control the ruleset ignores.
+    context.growthFixed = Rules.active().growth?.allowFixedTier !== false;
+    context.growthPow = Rules.active().growth?.allowPowImprovement !== false;
 
     //Story Section
     context.storySections = []
@@ -484,7 +489,10 @@ export class BRPCharacterSheet extends BRPActorSheetV2 {
 
 
         if (itm.system.sourceID) {
-          itm.system.skillScore = this.actor.items.get(itm.system.sourceID).system.total + this.actor.system.skillcategory[this.actor.items.get(itm.system.sourceID).system.category]
+          //Category bonus is optional: rulesets without skill categories (CoC core
+          //skills) have no entry, so an explicit 0 keeps the weapon hit score numeric.
+          itm.system.skillScore = this.actor.items.get(itm.system.sourceID).system.total
+            + (this.actor.system.skillcategory[this.actor.items.get(itm.system.sourceID).system.category] ?? 0)
           itm.system.skillName = this.actor.items.get(itm.system.sourceID).name
         } else {
           itm.system.skillScore = 0
@@ -764,5 +772,6 @@ export class BRPCharacterSheet extends BRPActorSheetV2 {
         document.querySelectorAll('.brp.actor').forEach(el=>el.style.setProperty('--actor-title-font','customTitleFont'))
     }
 
+    this._syncCharacterModeToggle(this.element);
   }
 }

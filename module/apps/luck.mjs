@@ -1,6 +1,7 @@
 import { BRPCheck } from './check.mjs'
 import { BRPactorDetails } from './actorDetails.mjs'
 import BRPDialog from '../setup/brp-dialog.mjs'
+import { Rules } from '../rules/index.mjs'
 
 //Luck spending (CthulhuD100 extension layer) - the settlement core is
 //deliberately DOM-free: applyLuck settles a spend against the actor's budget
@@ -8,8 +9,15 @@ import BRPDialog from '../setup/brp-dialog.mjs'
 //or the actor. The chat card buttons below are just one driving surface for
 //the same logic (OPCard-style: mutate message flags, re-render).
 //Two deliberate v1 omissions: no Luck re-roll (spending lowers the die result,
-//push/re-roll is a separate future mechanism) and no automatic recovery
-//(restoration is a keeper hand edit on the luck field, clamped at max).
+//push/re-roll is a separate future mechanism).
+//
+//Ruleset split (M4): octopus keeps the historical behaviour byte for byte. CoC
+//allows a spend on a skill or characteristic roll only - never on a Sanity roll,
+//the dice that decide how much Sanity is lost, a Luck roll, damage, weapon
+//malfunction, a pushed roll or a natural fumble - and never resettles a Sanity
+//loss. Both the card snapshot and the settlement ask
+//`Rules.active().luck.cardEligible` / `canSpend`, so no UI can offer a spend the
+//rules refuse.
 export class BRPLuck {
 
   //Spend step-downs offered on every d100 check card (plus the custom dialog)
@@ -23,7 +31,7 @@ export class BRPLuck {
   //re-rate the success level in place. Pure with respect to the game
   //surface - no DOM, no chat, no actor writes; the caller applies the result.
   //entry is the card entry the driving surface picked by its card index.
-  static async applyLuck(actor, entry, amount, cardType = 'NO') {
+  static async applyLuck(actor, entry, amount, cardType = 'NO', context = {}) {
     const luckData = actor?.system?.luck ?? {}
     const budget = Math.max(0, Math.floor(Number(luckData.value) || 0))
     const max = Math.max(0, Math.floor(Number(luckData.max) || 0))
@@ -36,6 +44,11 @@ export class BRPLuck {
     const originalRawScore = Number.isFinite(Number(entry?.originalRawScore))
       ? Number(entry.originalRawScore)
       : rollVal
+    const originalLevel = await BRPCheck.successLevel({
+      targetScore: Number(entry?.targetScore) || 0,
+      rollVal,
+      cardType
+    })
     let resultLevel = await BRPCheck.successLevel({
       targetScore: Number(entry?.targetScore) || 0,
       rollVal: newRollVal,
@@ -46,26 +59,90 @@ export class BRPLuck {
       if (resultLevel > 2) { resultLevel = 2 }
       if (resultLevel < 1) { resultLevel = 1 }
     }
+    //CoC re-judges with the live ruleset band so a Luck-adjusted 01 is an Extreme
+    //success (never a critical), and the card carries the band the rules give.
+    const adjust = Rules.active().luck?.apply
+      ? Rules.active().luck.apply({
+        purpose: entry?.rollType ?? context.rollType ?? null,
+        rollType: context.rollType ?? entry?.rollType ?? null,
+        naturalRoll: rollVal,
+        targetScore: Number(entry?.targetScore) || 0,
+        amount: spent,
+        luckValue: budget,
+        pushed: entry?.pushed === true || context.pushed === true,
+        band: entry?.band ?? null,
+      })
+      : null
+    const displayMax = Math.max(max, Math.floor(Number(luckData.cap) || 0))
+    // Second gate: the ruleset can refuse the spend even though a card exists.
+    // Nothing is deducted and the die/result stay exactly where they were.
+    if (adjust && adjust.allowed !== true) {
+      return {
+        allowed: false,
+        code: adjust.code,
+        reason: adjust.reason,
+        luck: { value: budget, max: displayMax, spent: 0 },
+        roll: {
+          rollVal,
+          resultLevel: originalLevel,
+          resultLabel: game.i18n.localize('BRP.resultLevel.' + originalLevel),
+          originalRawScore,
+          luckSpent: Math.max(0, Math.floor(Number(entry?.luckSpent) || 0)),
+          band: entry?.band ?? null,
+          criticalSource: rollVal === 1 ? 'natural' : null,
+          adjustedToCritical: false,
+        }
+      }
+    }
+    const band = adjust?.allowed ? adjust.band.adjusted : null
+    if (band) { resultLevel = band.level }
     return {
-      luck: { value: budget - spent, max, spent },
+      allowed: true,
+      luck: { value: budget - spent, max: displayMax, spent },
       roll: {
         rollVal: newRollVal,
         resultLevel,
-        resultLabel: game.i18n.localize('BRP.resultLevel.' + resultLevel),
+        resultLabel: band
+          ? game.i18n.localize('BRP.cocBand.' + band.band)
+          : game.i18n.localize('BRP.resultLevel.' + resultLevel),
         originalRawScore,
-        luckSpent: Math.max(0, Math.floor(Number(entry?.luckSpent) || 0)) + spent
+        luckSpent: Math.max(0, Math.floor(Number(entry?.luckSpent) || 0)) + spent,
+        band: band?.band ?? null,
+        // A Luck-lowered 01 is an extreme success; only a natural 01 is critical.
+        criticalSource: rollVal === 1 ? 'natural' : null,
+        adjustedToCritical: false
       }
     }
   }
 
   //Snapshot of the actor's luck budget stored on a card entry at creation.
   //Only the roll-result template family carries spend buttons; a zero budget
-  //stores null so the card simply doesn't render the button row.
-  static cardLuck(actor, chatTemplate) {
+  //stores null so the card simply doesn't render the button row. The ruleset
+  //decides eligibility: CoC refuses the Sanity card and fumbles outright.
+  static cardLuck(actor, chatTemplate, context = {}) {
     if (chatTemplate !== BRPLuck.CHECK_TEMPLATE) { return null }
     const luck = actor?.system?.luck
     if (!luck || !(Number(luck.value) > 0)) { return null }
-    return { value: Math.floor(Number(luck.value)), max: Math.floor(Number(luck.max) || 0) }
+    const eligible = Rules.active().luck?.cardEligible
+    if (eligible) {
+      const allowed = eligible({
+        rollType: context.rollType ?? null,
+        cardType: context.cardType ?? 'NO',
+        rollVal: context.rollVal ?? null,
+        band: context.band ?? null,
+        pushed: context.pushed === true,
+      })
+      if (allowed !== true) { return null }
+    }
+    return {
+      value: Math.floor(Number(luck.value)),
+      // CoC's starting Luck is not a ceiling; show the rules cap (99) rather
+      // than the creation snapshot. Octopus has no separate cap.
+      max: Math.max(
+        Math.floor(Number(luck.max) || 0),
+        Math.floor(Number(luck.cap) || 0)
+      )
+    }
   }
 
   //--------- Chat-card buttons (OPCard style: read flags, mutate, re-render) ---------
@@ -94,6 +171,21 @@ export class BRPLuck {
     const entry = card.chatCard[cardIndex]
     //No budget recorded on this roll (or a card beyond saving): nothing to spend
     if (!entry?.luck || entry.permaInsane) { return }
+    //Ruleset gate, second line of defence: the card snapshot already refused an
+    //ineligible roll, and a direct call is refused here too. CoC never lets Luck
+    //touch a Sanity roll, a Sanity-loss die, a fumble or a Luck roll.
+    const decision = Rules.active().luck?.canSpend?.({
+      purpose: card.rollType,
+      rollType: card.rollType,
+      cardType: card.cardType,
+      rollVal: entry.originalRawScore ?? entry.rollVal,
+      band: entry.band ?? null,
+      pushed: entry.pushed === true,
+    })
+    if (decision && decision.allowed !== true) {
+      ui.notifications.warn(decision.reason || game.i18n.localize('BRP.luck.notAllowed'))
+      return
+    }
     const actor = await BRPactorDetails._getParticipant(entry.particId, entry.particType)
     if (!actor?.system?.luck) { return }
     //GM may spend for anyone; a player only for their own character
@@ -105,27 +197,72 @@ export class BRPLuck {
         return
       }
     }
-    const result = await BRPLuck.applyLuck(actor, entry, data.amount, card.cardType)
+    const result = await BRPLuck.applyLuck(actor, entry, data.amount, card.cardType, { rollType: card.rollType })
     if (result.luck.spent < 1) {
       ui.notifications.info(game.i18n.localize('BRP.luck.noneLeft'))
       return
     }
     await actor.update({ 'system.luck.value': result.luck.value })
-    //SN cards spend too: a spend that lifts the roll to success switches the
-    //paired loss to the small value - reconcile what settlement already wrote
-    if (card.rollType === 'SN') {
+    //SN cards spend too (octopus only): a spend that lifts the roll to success
+    //switches the paired loss to the small value - reconcile what settlement
+    //already wrote. CoC forbids Luck on the Sanity chain entirely.
+    const resettle = Rules.active().luck?.resettlesSanLoss === true
+    if (card.rollType === 'SN' && resettle) {
       await BRPLuck._resettleSanLoss(actor, entry, result)
+    }
+    //A Luck-bought success does not earn a development tick. If the roll was
+    //already ticked, remove it.
+    const growth = Rules.active().growth
+    if (growth?.tickOnLuckSuccess === false) {
+      await BRPLuck._untickGrowth(entry, result)
     }
     //Trace + re-rate in place on the card entry (flags update + re-render)
     entry.rollVal = result.roll.rollVal
     entry.rollResult = result.roll.rollVal
     entry.resultLevel = result.roll.resultLevel
     entry.resultLabel = result.roll.resultLabel
+    if (result.roll.band) {
+      entry.band = result.roll.band
+      const rules = Rules.active()
+      const rank = rules.check?.bandRank ?? rules.combat?.bandRank
+      if (rank) { entry.bandRank = rank(result.roll.band) }
+      entry.bandLabel = game.i18n.localize('BRP.cocBand.' + result.roll.band)
+      if (entry.requiredBand && rank) {
+        entry.taskSuccess = entry.bandRank >= rank(entry.requiredBand)
+      }
+    }
+    entry.criticalSource = result.roll.criticalSource ?? null
+    entry.adjustedToCritical = false
     entry.originalRawScore = result.roll.originalRawScore
     entry.luckSpent = result.roll.luckSpent
     entry.luck = { value: result.luck.value, max: result.luck.max }
+    //The spend itself is recorded, so a later settlement can see it was bought.
+    entry.luckAdjusted = true
     await msg.update({ 'flags.brp.chatCard': card.chatCard })
     ui.notifications.info(game.i18n.format('BRP.luck.spentCard', { spent: result.luck.spent, roll: result.roll.rollVal }))
+  }
+
+  //CoC: a success bought with Luck must not leave a development tick behind.
+  //Clearing is idempotent and only touches the item this roll named.
+  static async _untickGrowth(entry, result) {
+    if (!(Number(result.roll.resultLevel) >= 2)) { return }
+    try {
+      if (!entry?.skillId) { return }
+      // The new spend is on the result, not yet on the card entry; reading
+      // entry.luckSpent here would miss the first spend and leave the tick.
+      if (!(Number(result.roll.luckSpent) > 0)) { return }
+      const actor = await BRPactorDetails._getParticipant(entry.particId, entry.particType)
+      const item = actor?.items?.get(entry.skillId)
+      if (!item) { return }
+      if (item.system?.improve === true) {
+        await item.update({ 'system.improve': false })
+      }
+      if (item.system?.oppimprove === true) {
+        await item.update({ 'system.oppimprove': false })
+      }
+    } catch (thrown) {
+      console.error('BRP luck untick failed', thrown)
+    }
   }
 
   //Keeper/player typed amount: small dialog, then the same settlement path
@@ -145,8 +282,10 @@ export class BRPLuck {
 
   //A Luck spend turned an SN fail into a success: the large loss already
   //applied gives way to the small value - refund the difference on both the
-  //current SAN and the daily tally (the episode, if any, stays for the keeper)
+  //current SAN and the daily tally (the episode, if any, stays for the keeper).
+  //octopus only: CoC forbids spending Luck on the Sanity chain at all.
   static async _resettleSanLoss(actor, entry, result) {
+    if (Rules.active().luck?.resettlesSanLoss !== true) { return }
     const crossedToSuccess = (Number(entry.resultLevel) < 2) && (result.roll.resultLevel >= 2)
     if (!crossedToSuccess) { return }
     const newLoss = await BRPCheck._rollSanLoss(String(entry.sanLossSuccess ?? '0'))

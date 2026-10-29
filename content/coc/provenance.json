@@ -1,0 +1,450 @@
+{
+  "dataset": "coc7-core-m1-m2-m3-m4-m5",
+  "revision": "2026-10-30",
+  "scope": "M1 core skills, derived attributes, success bands, growth and starter isolation; M2 first-batch occupations, occupation point formulas, credit-rating ranges and creation/allocation rules; M3 native combat (bonus/penalty d100, weapon profiles, opposed/fight-back/cover, extreme damage, situational modifiers) and wounds (major wound, dying, death, First Aid, Medicine, weekly and natural healing); M4 native sanity/insanity, Luck spend and recovery, skill growth and the persisted CoC world clock; M5 five additional specialisms and the second occupation batch (Doctor of Medicine, Police Detective, Librarian, Lawyer, Engineer) with either/or point formulas. M4 rule facts and evidence grades live in content/coc/sanity-provenance.json. Note on naming: the shipped occupation dataset string is `coc7-occupations-m3` (the second occupation batch, as requested); the repository-wide milestone label for this batch is M5 because M3/M4 are already taken by combat and sanity.",
+  "m4Provenance": "content/coc/sanity-provenance.json",
+  "licenseBoundary": {
+    "code": "MIT (repository code only)",
+    "facts": "Only numeric values, formulas, field semantics and URLs from official public Chaosium sources are recorded. Prose in this repository is written for this project.",
+    "excluded": [
+      "No Call of Cthulhu 7e Foundry VTT system source, template, YAML or implementation was read or referenced.",
+      "No other GPL system implementation was used.",
+      "No official PDF, text block, image, font, logo or trade dress is committed.",
+      "No claim is made that VTT use is covered by Chaosium's fan material policy; licensing review is still required before public distribution.",
+      "No occupation description, skill-list prose or page layout from Roll20 or Chaosium is reproduced; only the point formula, credit-rating range and skill names needed for data mapping are recorded."
+    ]
+  },
+  "sources": [
+    {
+      "id": "coc-autocalc",
+      "title": "Call of Cthulhu 7e Standard autocalc investigator sheet (official)",
+      "url": "https://downloads.chaosium.com/call-of-cthulhu/cha2300-investigator-sheets/CoC7_Investigator_Sheet_Standard_autocalc.pdf",
+      "usedFor": [
+        "HP = floor((CON + SIZ) / 10)",
+        "MP = floor(POW / 5)",
+        "SAN starts at POW; max SAN = 99 - Cthulhu Mythos",
+        "MOV from DEX/STR/SIZ and age",
+        "Build and Damage Bonus table",
+        "Dodge and Language (Own) secondary-field semantics"
+      ],
+      "note": "Used only to verify formulas. The PDF and its scripts are not committed."
+    },
+    {
+      "id": "coc-wiki-secondary",
+      "title": "Official wiki: Step Two - Secondary Attributes",
+      "url": "https://cthulhuwiki.chaosium.com/investigators/step-two-secondary-attributes.html",
+      "usedFor": [
+        "HP, MP, SAN and Luck definitions",
+        "Luck = 3D6 x 5",
+        "Build and Damage Bonus baseline table"
+      ]
+    },
+    {
+      "id": "coc-wiki-skills",
+      "title": "Official wiki: Step Three - Occupation and Skills",
+      "url": "https://cthulhuwiki.chaosium.com/investigators/step-three-occupation-and-skills.html",
+      "usedFor": [
+        "Dodge starts at half DEX",
+        "Language (Own) starts at EDU",
+        "Credit Rating and Cthulhu Mythos semantics",
+        "Skill specialization semantics"
+      ]
+    },
+    {
+      "id": "coc-wiki-game-system",
+      "title": "Official wiki: The Game System - skill rolls and difficulty",
+      "url": "https://cthulhuwiki.chaosium.com/rules/game-system.html",
+      "usedFor": [
+        "Regular success = roll <= skill",
+        "Hard success = roll <= half skill",
+        "Extreme success = roll <= one-fifth skill"
+      ]
+    },
+    {
+      "id": "coc-wiki-rewards",
+      "title": "Official wiki: Rewards of Success",
+      "url": "https://cthulhuwiki.chaosium.com/rules/rewards-of-success.html",
+      "usedFor": [
+        "Skill improvement: roll 1D100 over current value, then add 1D10",
+        "No INT bonus in the improvement check"
+      ]
+    },
+    {
+      "id": "coc-sheet-1920s",
+      "title": "Official 7e 1920s investigator sheet (base values)",
+      "url": "https://www.chaosium.com/content/FreePDFs/CoC/Character%20Sheets/1920s/Character%20Sheet%20-%201920s%20-%20basic%20autocalc%20-%20Call%20of%20Cthulhu%207th%20Ed.pdf",
+      "usedFor": [
+        "Core skill names and printed base values",
+        "Credit Rating 00, Cthulhu Mythos 00, Library Use 20, Dodge half DEX, Language (Own) EDU, Fighting (Brawl) 25, Firearms (Handgun) 20, Firearms (Rifle/Shotgun) 25"
+      ]
+    },
+    {
+      "id": "coc-starter-pregens",
+      "title": "Official Call of Cthulhu Starter Set pre-generated characters (success bands)",
+      "url": "https://www.chaosium.com/content/FreePDFs/CoC/CHA23158%20-%20Call%20of%20Cthulhu%20Starter%20Set/CHA23158%20-%20PreGen%20Characters.pdf",
+      "usedFor": [
+        "Success bands: 01 critical; <= 1/5 extreme; <= 1/2 hard; <= skill regular; fumble 100, or 96-100 when skill is below 50"
+      ],
+      "note": "Only the band wording/facts were used; no character text or layout is copied."
+    },
+    {
+      "id": "coc-quickstart",
+      "title": "Official Call of Cthulhu 7e Quick-Start Rules",
+      "url": "https://www.chaosium.com/content/FreePDFs/CoC/CHA23131%20Call%20of%20Cthulhu%207th%20Edition%20Quick-Start%20Rules.pdf",
+      "usedFor": [
+        "Regular/Hard/Extreme ladder",
+        "Dodge and combat skill specialization semantics",
+        "SAN starting value and starting sanity box"
+      ]
+    },
+    {
+      "id": "coc-legacy-sheet-faq",
+      "title": "Official Legacy AutoCalc Character Sheet Instructions",
+      "url": "https://www.chaosium.com/legacy-autocalc-character-sheet-instructions/",
+      "usedFor": [
+        "MOV is auto-calculated from STR, DEX, SIZ and Age",
+        "Max SAN is auto-calculated from Cthulhu Mythos",
+        "Dodge in the combat block is the same live Dodge skill"
+      ]
+    },
+    {
+      "id": "coc-wiki-combat",
+      "title": "Official wiki: Combat",
+      "url": "https://cthulhuwiki.chaosium.com/rules/combat.html",
+      "usedFor": [
+        "Initiative is DEX order; a readied firearm acts at DEX +50",
+        "Dodge tie goes to the defender; fight back needs a strictly higher success band",
+        "A winning fight back deals regular damage only",
+        "Extreme damage: blunt maximum weapon damage + maximum damage bonus; impaling adds the damage bonus and another weapon die",
+        "Only the initiating attacker can deal extreme damage",
+        "Firearms cannot be fought back; a target may dive for cover with Dodge (attacker penalty die, diver forfeits next attack)",
+        "Firing 2-3 shots in a round gives one penalty die per shot; point blank (one-fifth DEX in feet) gives one bonus die",
+        "Fighting maneuver: each point of Build deficit gives one penalty die, capped at two; a deficit of three or more is ineffective",
+        "Outnumbered: after the defender has fought back or dodged this round, further melee attacks get one bonus die; firearms ignore it"
+      ]
+    },
+    {
+      "id": "coc-wiki-wounds",
+      "title": "Official wiki: Hit Points, Wounds, and Healing",
+      "url": "https://cthulhuwiki.chaosium.com/rules/hit-points-wounds-and-healing.html",
+      "usedFor": [
+        "Damage in one blow at or above half full HP is a major wound; the character rolls CON or falls unconscious",
+        "A major wound at zero HP is dying: CON at the end of each round or die; First Aid stabilizes",
+        "Damage at or above maximum HP in one blow is instant death",
+        "Zero HP without a major wound is unconsciousness only",
+        "No major wound: +1 HP per day; major wound: weekly CON, +1D3 (extreme +2D3), cleared by an extreme success or HP back to half",
+        "First Aid: +1 HP, rouses an unconscious character, extends a dying character's life",
+        "Medicine: +1D3 with at least an hour and equipment; a dying patient becomes eligible for weekly healing"
+      ]
+    },
+    {
+      "id": "coc-roll20-occupations",
+      "title": "Roll20 Compendium: Call of Cthulhu occupation pages (sourced from Free Basic Rules)",
+      "url": "https://roll20.net/compendium/coc/Index%3AOccupations",
+      "usedFor": [
+        "Occupation point formulas (Occupation Skill Points)",
+        "Credit Rating min-max ranges",
+        "Fixed occupation skills and choice groups"
+      ],
+      "evidence": "secondary",
+      "note": "Tertiary transcription of the Free Basic Rules occupation pages, therefore recorded as secondary evidence. Only numeric/formula facts and skill names were read on 2026-10-28; the Doctor of Medicine and Police Detective attribute blocks were re-read on 2026-10-30. No prose, table styling or layout is copied. Each page states its own source as Free Basic Rules."
+    },
+    {
+      "id": "coc-gamersplane-occupations",
+      "title": "Gamers' Plane: Call of Cthulhu 7e quick-reference occupation list (secondary)",
+      "url": "https://gamersplane.com/games/1581",
+      "usedFor": [
+        "Librarian: EDU*4, credit 9-35, Accounting/Library Use/Other Language/Own Language + four others",
+        "Lawyer: EDU*4, credit 30-80, Accounting/Law/Library Use/two interpersonal/Psychology + two others",
+        "Engineer: EDU*4, credit 30-60, Art/Craft (Technical Drawing)/Electrical Repair/Library Use/Mechanical Repair/Operate Heavy Machinery/Science (Engineering)/Science (Physics) + one other"
+      ],
+      "evidence": "secondary",
+      "note": "A community rules-summary page, not a Chaosium publication and not a licensed compendium. Read on 2026-10-30 only to cross-check the point formula, credit-rating range and skill names of the three occupations lacking a licensed compendium page. No prose is copied."
+    },
+    {
+      "id": "coc-org-uk-occupations",
+      "title": "callofcthulhu.org.uk play-by-post: Character Creation and Skill List (secondary)",
+      "url": "https://www.callofcthulhu.org.uk/pbp/viewtopic.php?t=5927",
+      "usedFor": [
+        "Librarian occupation skill list and credit 9-35",
+        "Lawyer occupation skill list (two interpersonal skills) and credit 30-80",
+        "Engineer occupation skill list (Art/Craft (Technical Drawing), Science (Engineering), Science (Physics)) and credit 30-60"
+      ],
+      "evidence": "secondary",
+      "note": "A fan-forum restatement of the 7e occupation table, cross-checked against the other two secondary sources on 2026-10-30. The site returns HTTP 403 to direct fetches; the facts were confirmed from the indexed page text. Not an official Chaosium page and not treated as one."
+    },
+    {
+      "id": "coc-rpgstack-occupations",
+      "title": "RPG Stack: Call of Cthulhu 7e occupation reference (secondary)",
+      "url": "https://rpgstack.com/systems/coc7e/occupations",
+      "usedFor": [
+        "Librarian: credit 9-35, EDU*4",
+        "Lawyer: credit 30-80, EDU*4",
+        "Engineer: credit 30-60, EDU*4",
+        "Police Detective: credit 20-50, EDU*2 + (DEX*2 or STR*2), Art/Craft or Disguise / Firearms / Law / Listen / interpersonal / Psychology / Spot Hidden / any one",
+        "Doctor of Medicine: credit 30-80, EDU*4"
+      ],
+      "evidence": "secondary",
+      "note": "Third-party reference site summarising the 7e occupation table. Used as the third leg of a three-way cross-check on 2026-10-30 together with the Gamers' Plane and callofcthulhu.org.uk pages, and as an independent check on the two licensed-compendium records. Not an official source."
+    }
+  ],
+  "unverified": {
+    "status": "pending-official-source",
+    "items": [
+      "Fighting specializations other than Brawl",
+      "Firearms specializations other than Handgun and Rifle/Shotgun",
+      "Art/Craft, Science, Pilot and Survival variants not listed as concrete verified specializations (the M3 batch adds Art/Craft (Acting) and (Technical Drawing), and Science (Engineering), (Pharmacy) and (Physics))",
+      "Occupation point formulas and credit-rating ranges beyond the fifteen occupations in the two published batches",
+      "Occupation-specific suggested contacts, asset/cash tables and full age adjustment",
+      "Additional damage effects of a critical (01) beyond treating its damage tier as extreme",
+      "Bonus/penalty dice interaction with the 01 and 96-100 boundaries when several tens dice are rolled",
+      "Netting of more than one bonus against more than one penalty beyond the one-cancels-one rule",
+      "Burst/full auto, dual wielding, aiming, cover values and range-difficulty modifiers",
+      "Generic armour values and damage reduction for monsters",
+      "Point-blank Dodge against a firearm (the official exception is not modelled)",
+      "Whether the major-wound and dying CON checks take a difficulty band, and the exact stabilisation state machine",
+      "Per-combatant initiative (readied firearm DEX +50) is a pure helper only; the Combatant override is not wired",
+      "Full SAN/insanity and luck-spend flows (M4)"
+    ]
+  },
+  "combat": {
+    "status": "source-slice-implemented-verified-in-temporary-headless-probe-no-e2e",
+    "evidence": "primary (official wiki pages) for the rules; no official weapon table is bundled",
+    "sourceRefs": [
+      "coc-wiki-game-system",
+      "coc-wiki-combat",
+      "coc-wiki-wounds"
+    ],
+    "implemented": {
+      "dice": "bonus/penalty tens dice as one real Nd10 pool (1 units + 1+net tens), 00+0=100, 00+n=n, one bonus cancels one penalty",
+      "difficulty": "required success band (regular/hard/extreme); the target is never multiplied",
+      "characteristicTest": "rolled against the characteristic value itself",
+      "weaponSkill": "weapon.system.skill1/skill2 brpid (+ CoC specialism key), live skill total; never the display name",
+      "unarmed": "1D3 + full DB, explicit flags.brp.coc.weapon marker; the BRP special:'crush' field is ignored",
+      "damageBonus": "melee full, thrown/bow half (halved die), firearms none",
+      "extremeDamage": "blunt max weapon + max DB; impaling max weapon + DB + another weapon die; computed in pure code because the compat Roll ignores maximize",
+      "opposed": "band, then skill, then a fresh pair of rolls on an exact tie (lower d100 wins)",
+      "closeCombat": "dodge tie -> defender; fight back needs a strictly higher band and deals regular damage only",
+      "firearms": "no fight back; dive for cover on a successful Dodge -> attacker re-rolls with one penalty die, diver forfeits next attack",
+      "modifiers": "2-3 shots -> penalty die; point blank (DEX/5 ft) -> bonus die; maneuver Build deficit 1-2 -> penalty dice, >=3 ineffective; outnumbered melee -> bonus die (firearms exempt)",
+      "wounds": "current HP written straight to system.health.value; state under flags.brp.coc.wounds; major wound CON, dying per-round CON, instant death, unconscious at zero without a major wound",
+      "healing": "First Aid +1/stabilise, Medicine +1D3, weekly CON (1D3 / extreme 2D3, clears major wound), natural +1/day without a major wound",
+      "exclusions": "no BRP wound items, no health.daily accumulation, no hit locations; useHPL is ignored and recorded as hplIgnored",
+      "unopposed": "a target that declares no defence is a legal state: the attack resolves on its own band and the damage lands on the declared target (choice 'none')",
+      "cardIsolation": "a second attacker never joins another actor's open attack card; reuse is gated on the same initiator with a single attacker entry",
+      "hitLocations": "CoC actors never enter the BRP hit-location, armour-HPL or hit-location item creation branches (nor the sheet HPL mode), even when the world still has useHPL on; rerolled vitals also reset flags.brp.coc.wounds",
+      "xp": "CoC difficulty never skips a development tick (the target is never multiplied); Cthulhu Mythos (noXP) never ticks; octopus keeps its own skip rule"
+    },
+    "unimplemented": [
+      "Weapon catalogue: only the native unarmed weapon and user-created weapon items are supported",
+      "Critical (01) extra damage beyond the extreme tier",
+      "Burst/full auto, dual wield, aiming, cover values, range-difficulty modifiers",
+      "Monster armour/damage reduction and multi-attack action economy",
+      "Per-combatant initiative override for readied firearms",
+      "Automated weekly calendar healing (the weekly check is an explicit API call)",
+      "Frontend/studio combat tab and browser E2E (compat repository)"
+    ],
+    "verification": {
+      "sourcePure": "node tools/tests/coc-rules-regressions.mjs -> 107/107",
+      "sanityPure": "node tools/tests/coc-sanity-regressions.mjs -> 45/45",
+      "headless": "tools/tests/rules-regressions.mjs in a temporary compat mirror -> 161/161, spike errors 0 (47 M4 checks)",
+      "basePack": "node tools/tests/base-pack-determinism.mjs -> consecutive build byte-identical, committed octopus artifacts unchanged",
+      "tempMirrorNpmTest": "npm test (static + unit + headless) in the temporary mirror -> exit 0",
+      "notRun": "vendor sync into the compat worktree, browser/studio checks, isolated stack REST/WS, dual-client/refresh E2E"
+    }
+  },
+  "occupations": {
+    "status": "two-batches-verified-secondary-not-official-first-party",
+    "dataset": "content/coc/professions.json",
+    "evidence": "secondary",
+    "sourceRef": "coc-roll20-occupations",
+    "retrievedOn": "2026-10-28",
+    "secondBatchRetrievedOn": "2026-10-30",
+    "evidenceNote": "Every profession in both batches is secondary evidence only. No record in this file claims an official first-party Chaosium source. The first batch rests on the Roll20 compendium (itself a transcription of the Free Basic Rules). The two licensed-compendium records in the second batch (Doctor of Medicine, Police Detective) additionally cite the public Chaosium wiki, which repeats the free quick-start occupation list; the remaining three (Librarian, Lawyer, Engineer) have no licensed compendium page and rest on a three-way cross-check of Gamers' Plane, callofcthulhu.org.uk and RPG Stack.",
+    "perRecord": {
+      "coc7.occupation.archaeologist": {
+        "formula": "EDU*4",
+        "creditMin": 10,
+        "creditMax": 40,
+        "page": "Archaeologist"
+      },
+      "coc7.occupation.author": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Author"
+      },
+      "coc7.occupation.cat-burglar": {
+        "formula": "EDU*2+DEX*2",
+        "creditMin": 5,
+        "creditMax": 40,
+        "page": "Cat Burglar"
+      },
+      "coc7.occupation.dilettante": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 50,
+        "creditMax": 99,
+        "page": "Dilettante"
+      },
+      "coc7.occupation.explorer": {
+        "formula": "EDU*2+MAX(APP,DEX,STR)*2",
+        "creditMin": 55,
+        "creditMax": 80,
+        "page": "Explorer"
+      },
+      "coc7.occupation.investigative-journalist": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Investigative Journalist"
+      },
+      "coc7.occupation.nurse": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Nurse"
+      },
+      "coc7.occupation.private-investigator": {
+        "formula": "EDU*2+MAX(DEX,STR)*2",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Private Investigator"
+      },
+      "coc7.occupation.professor": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 70,
+        "page": "Professor"
+      },
+      "coc7.occupation.soldier": {
+        "formula": "EDU*2+MAX(DEX,STR)*2",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Soldier"
+      },
+      "coc7.occupation.doctor-of-medicine": {
+        "formula": "EDU*4",
+        "formulas": ["EDU*4"],
+        "creditMin": 30,
+        "creditMax": 80,
+        "page": "Doctor of Medicine",
+        "sourceRefs": ["coc-roll20-occupations", "coc-wiki-skills"],
+        "crossCheckedWith": ["coc-rpgstack-occupations"],
+        "evidence": "secondary",
+        "skillShape": "First Aid, Other Language (Latin), Medicine, Psychology, Science (Biology), Science (Pharmacy) + any two",
+        "batch": "M3 second batch"
+      },
+      "coc7.occupation.police-detective": {
+        "formula": "EDU*2+DEX*2",
+        "formulas": ["EDU*2+DEX*2", "EDU*2+STR*2"],
+        "formulaNote": "Published as EDU*2 + (DEX*2 or STR*2): the player picks one characteristic. Not modelled as MAX(DEX,STR), which would hand out a strictly larger pool. Kept as an ordered either/or list so the builder can present the choice.",
+        "creditMin": 20,
+        "creditMax": 50,
+        "page": "Police Detective",
+        "sourceRefs": ["coc-roll20-occupations", "coc-wiki-skills"],
+        "crossCheckedWith": ["coc-rpgstack-occupations"],
+        "evidence": "secondary",
+        "skillShape": "Art/Craft (Acting) or Disguise, Firearms, Law, Listen, one interpersonal skill (Charm/Fast Talk/Intimidate/Persuade), Psychology, Spot Hidden + any one",
+        "batch": "M3 second batch",
+        "distinctFrom": "private-investigator"
+      },
+      "coc7.occupation.librarian": {
+        "formula": "EDU*4",
+        "formulas": ["EDU*4"],
+        "creditMin": 9,
+        "creditMax": 35,
+        "page": "Librarian",
+        "sourceRefs": ["coc-gamersplane-occupations", "coc-org-uk-occupations", "coc-rpgstack-occupations"],
+        "crossChecked": true,
+        "evidence": "secondary",
+        "skillShape": "Accounting, Library Use, Other Language, Own Language + any four",
+        "batch": "M3 second batch",
+        "claimBoundary": "No licensed compendium page was found for this occupation. Formula, credit range and skill names were only accepted because three independent secondary pages agree; this is not official first-party confirmation."
+      },
+      "coc7.occupation.lawyer": {
+        "formula": "EDU*4",
+        "formulas": ["EDU*4"],
+        "creditMin": 30,
+        "creditMax": 80,
+        "page": "Lawyer",
+        "sourceRefs": ["coc-gamersplane-occupations", "coc-org-uk-occupations", "coc-rpgstack-occupations"],
+        "crossChecked": true,
+        "evidence": "secondary",
+        "skillShape": "Accounting, Law, Library Use, two interpersonal skills (distinct), Psychology + any two",
+        "batch": "M3 second batch",
+        "claimBoundary": "No licensed compendium page was found for this occupation. Formula, credit range and skill names were only accepted because three independent secondary pages agree; this is not official first-party confirmation.",
+        "productNote": "The two interpersonal skills are recorded as a choose-two group with distinct: true, i.e. two different skills from Charm/Fast Talk/Intimidate/Persuade. That is the product reading of an ambiguous phrase, so the same skill twice is rejected rather than silently allowed."
+      },
+      "coc7.occupation.engineer": {
+        "formula": "EDU*4",
+        "formulas": ["EDU*4"],
+        "creditMin": 30,
+        "creditMax": 60,
+        "page": "Engineer",
+        "sourceRefs": ["coc-gamersplane-occupations", "coc-org-uk-occupations", "coc-rpgstack-occupations"],
+        "crossChecked": true,
+        "evidence": "secondary",
+        "skillShape": "Art/Craft (Technical Drawing), Electrical Repair, Library Use, Mechanical Repair, Operate Heavy Machinery, Science (Engineering), Science (Physics) + any one",
+        "batch": "M3 second batch",
+        "claimBoundary": "No licensed compendium page was found for this occupation. Formula, credit range and skill names were only accepted because three independent secondary pages agree; this is not official first-party confirmation."
+      }
+    },
+    "notes": [
+      "The Dilettante page body is empty in the compendium; only its attributes block (credit 50-99, EDU*2+APP*2, Firearms, Ride, and four choice groups) is available, so the record relies on the attributes block alone.",
+      "No occupation outside these two batches is claimed. Occupations lacking a verified formula or credit range must not become a character-creation default.",
+      "The Explorer formula is published as EDU*2 + (APP*2 or DEX*2 or STR*2); it is modelled as EDU*2+MAX(APP,DEX,STR)*2 and the player picks which characteristic supplies the total.",
+      "Police Detective is the one occupation whose published formula is an either/or that must not be collapsed: the source says DEX*2 OR STR*2, so it stays an explicit two-formula choice (EDU*2+DEX*2 / EDU*2+STR*2) and never a MAX.",
+      "Police Detective is a separate occupation from Private Investigator: different credit band (20-50 vs 9-30), different formula wording, Law/Listen/Spot Hidden fixed with no Library Use, and an Art/Craft (Acting)-or-Disguise slot. Neither record aliases the other.",
+      "UGE minWealth/maxWealth are not credit rating and are never read or written as one.",
+      "No record here is a first-party Chaosium source. The two licensed-compendium records are still transcriptions; the other three are community pages that happen to agree. Treat the whole file as secondary evidence and record any later official confirmation separately."
+    ]
+  },
+  "skillsM5": {
+    "status": "secondary-verified-not-official-first-party",
+    "dataset": "content/coc/skills.json",
+    "evidence": "secondary",
+    "retrievedOn": "2026-10-30",
+    "added": {
+      "science-pharmacy": {
+        "parentKey": "science",
+        "specKey": "pharmacy",
+        "base": 1,
+        "sourceRefs": ["coc-wiki-skills", "coc-sheet-1920s"],
+        "usedBy": ["doctor-of-medicine"]
+      },
+      "science-engineering": {
+        "parentKey": "science",
+        "specKey": "engineering",
+        "base": 1,
+        "sourceRefs": ["coc-gamersplane-occupations", "coc-org-uk-occupations"],
+        "usedBy": ["engineer"]
+      },
+      "science-physics": {
+        "parentKey": "science",
+        "specKey": "physics",
+        "base": 1,
+        "sourceRefs": ["coc-wiki-skills", "coc-sheet-1920s", "coc-gamersplane-occupations"],
+        "usedBy": ["engineer"]
+      },
+      "art-craft-acting": {
+        "parentKey": "art-craft",
+        "specKey": "acting",
+        "base": 5,
+        "sourceRefs": ["coc-wiki-skills", "coc-org-uk-occupations"],
+        "usedBy": ["police-detective"]
+      },
+      "art-craft-technical-drawing": {
+        "parentKey": "art-craft",
+        "specKey": "technical-drawing",
+        "base": 5,
+        "sourceRefs": ["coc-gamersplane-occupations", "coc-org-uk-occupations"],
+        "usedBy": ["engineer"]
+      }
+    },
+    "notes": [
+      "Science and Art/Craft specialisms take the family base (Science 1, Art/Craft 5) rather than an individually printed value; the family base is the verified fact and the specialism inherits it.",
+      "The specialism names are confirmed by the occupation skill lists that require them; the printed base chance is the family base on the 1920s sheet.",
+      "No name here is a first-party Chaosium statement about the specialism table; the occupation pages are the evidence that these specialisms exist under those parents."
+    ]
+  }
+}

@@ -1,0 +1,112 @@
+{
+ "_id": "o4poryCQ9TXoj6E8",
+ "name": "飞贼",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.cat-burglar",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Cat Burglar",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.occupation.cat-burglar",
+    "slug": "cat-burglar",
+    "creditMin": 5,
+    "creditMax": 40,
+    "pointFormula": "EDU*2+DEX*2",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "coc-roll20-occupations"
+    ],
+    "fixedSkillKeys": [
+     "appraise",
+     "climb",
+     "listen",
+     "locksmith",
+     "sleight-of-hand",
+     "stealth",
+     "spot-hidden"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "repair",
+      "label": "电气维修或机械维修",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "electrical-repair",
+        "brpids": [
+         "i.skill.coc.electrical-repair"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "mechanical-repair",
+        "brpids": [
+         "i.skill.coc.mechanical-repair"
+        ]
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.appraise",
+    "uuid": "VvQ3kwJkRmfwdxZr"
+   },
+   {
+    "brpid": "i.skill.coc.climb",
+    "uuid": "XBPmBl9yAuJ1Peo9"
+   },
+   {
+    "brpid": "i.skill.coc.listen",
+    "uuid": "fHdlJ2r8hzJAHBnx"
+   },
+   {
+    "brpid": "i.skill.coc.locksmith",
+    "uuid": "eKnqrVHDFmGDtEYg"
+   },
+   {
+    "brpid": "i.skill.coc.sleight-of-hand",
+    "uuid": "PbKsNi34CVtdcZEX"
+   },
+   {
+    "brpid": "i.skill.coc.stealth",
+    "uuid": "KAT6rXWeJrlD9MOD"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.electrical-repair",
+      "uuid": "GgBauywhcx3bJVG3"
+     },
+     {
+      "brpid": "i.skill.coc.mechanical-repair",
+      "uuid": "zp9eYH1FLjd04b0T"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "擅长翻墙入室、开锁与脱身的夜行者。职业点 EDU × 2 + DEX × 2；信用评级 5–40。\n\n职业点：EDU*2+DEX*2（引擎按白名单公式求值）\n\n信用评级：5–40（只能用职业点，且必须落在区间内）"
+ }
+}

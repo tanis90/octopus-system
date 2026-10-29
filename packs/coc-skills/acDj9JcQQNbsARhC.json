@@ -1,0 +1,49 @@
+{
+ "_id": "acDj9JcQQNbsARhC",
+ "name": "跳跃",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.jump",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Jump",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.jump",
+    "key": "jump",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 20,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 20
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "跳过障碍或落差；成功可减轻坠落伤害。"
+ }
+}

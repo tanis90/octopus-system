@@ -1,0 +1,242 @@
+[
+ {
+  "_id": "14mc4Fk4QmbtlG6F",
+  "name": "考古学家",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.archaeologist",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "JpkZqagpPRadBcgY",
+  "name": "作家",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.author",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "o4poryCQ9TXoj6E8",
+  "name": "飞贼",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.cat-burglar",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "SqhdUdPMj8ksoIkp",
+  "name": "纨绔子弟",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.dilettante",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "65QF22IhBgXJJZ9r",
+  "name": "探险家",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.explorer",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "EKX3pk0E6rT1ecJP",
+  "name": "调查记者",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.investigative-journalist",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "a7MmSNAnxCWOi8ko",
+  "name": "护士",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.nurse",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "T4x1XBuQk5LnhCKr",
+  "name": "私家侦探",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.private-investigator",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "IDB0huTGTiLCTVwV",
+  "name": "教授",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.professor",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "vnrzg2czN1KTc5ZU",
+  "name": "士兵",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.soldier",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Urzd6Xfcx7SNpkXc",
+  "name": "医生（医学博士）",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.doctor-of-medicine",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "q6iDyd4riEIMbpVw",
+  "name": "警探",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.police-detective",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "MHQMQoPi6ghQNKbp",
+  "name": "图书管理员",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.librarian",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "zqi4Lz4L9ZavXwBG",
+  "name": "律师",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.lawyer",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "dZGMenIIh1pzyzef",
+  "name": "工程师",
+  "type": "profession",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.profession.coc.engineer",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ }
+]

@@ -1,0 +1,49 @@
+{
+ "_id": "ebCHph0biyJ2AG3j",
+ "name": "魅惑",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.charm",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Charm",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.charm",
+    "key": "charm",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 15,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 15
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "以亲和、恭维或吸引力让对方愿意配合。"
+ }
+}

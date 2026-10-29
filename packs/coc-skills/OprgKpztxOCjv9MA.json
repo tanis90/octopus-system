@@ -1,0 +1,49 @@
+{
+ "_id": "OprgKpztxOCjv9MA",
+ "name": "会计",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.accounting",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Accounting",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.accounting",
+    "key": "accounting",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "阅读账目、发现财务异常，并追踪资金流向。"
+ }
+}

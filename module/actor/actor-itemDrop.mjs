@@ -2,6 +2,7 @@ import { BRPSelectLists } from '../apps/select-lists.mjs'
 import { SkillsSelectDialog } from "../apps/skill-selection.mjs"
 import { BRPUtilities } from '../apps/utilities.mjs';
 import BRPDialog from '../setup/brp-dialog.mjs';
+import { Rules } from '../rules/index.mjs';
 
 export class BRPactorItemDrop {
 
@@ -236,31 +237,11 @@ export class BRPactorItemDrop {
   static async _calcBase(itm, actor) {
     //Check the skill Category exists
     await this._checkSkillCat(itm, actor)
-    if (itm.system.variable) {
-      let stat1 = itm.system.baseFormula[1].stat
-      let stat2 = itm.system.baseFormula[2].stat
-      let opt1 = 0
-      let opt2 = 0
-      let newScore = 0
-      if (stat1 != 'fixed') {
-        if (stat1 != 'edu' || game.settings.get('brp', 'useEDU')) {
-          opt1 = Math.ceil((actor.system.stats[stat1].base + actor.system.stats[stat1].redist + actor.system.stats[stat1].culture) * itm.system.baseFormula[1].value)
-        }
-      }
-      if (stat2 != 'fixed') {
-        if (stat2 != 'edu' || game.settings.get('brp', 'useEDU')) {
-          opt2 = Math.ceil((actor.system.stats[stat2].base + actor.system.stats[stat2].redist + actor.system.stats[stat2].culture) * itm.system.baseFormula[2].value)
-        }
-      }
-
-      if (itm.system.baseFormula.Func === 'and') {
-        newScore = opt1 + opt2
-      } else {
-        newScore = Math.max(opt1, opt2)
-      }
-      return newScore
-    }
-    return itm.system.base
+    return Rules.active().skillBase({
+      item: itm,
+      stats: actor.system.stats,
+      useEDU: Rules.active().settings.useEDU()
+    })
   }
 
   static async hitLocationDialog(actor) {
@@ -628,6 +609,8 @@ export class BRPactorItemDrop {
   }
 
   static async _checkSkillCat(skill, actor) {
+    //Rulesets without category bonuses (CoC) never attach a skillcat item.
+    if (!Rules.active().starter.categories) { return }
     //Check to see if the skill category already exists and if it does then do nothing
     let newSkillCats = []
     if (actor.items.filter(dItm => dItm.getFlag('brp', 'brpidFlag')?.id).filter(nitm => nitm.flags.brp.brpidFlag.id === skill.system.category).length > 0) {

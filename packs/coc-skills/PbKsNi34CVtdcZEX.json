@@ -1,0 +1,49 @@
+{
+ "_id": "PbKsNi34CVtdcZEX",
+ "name": "手上功夫",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.sleight-of-hand",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Sleight of Hand",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.sleight-of-hand",
+    "key": "sleight-of-hand",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 10,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 10
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "藏匿、调换或快速操作小物件。"
+ }
+}

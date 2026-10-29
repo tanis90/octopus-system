@@ -1,0 +1,190 @@
+{
+ "_id": "65QF22IhBgXJJZ9r",
+ "name": "探险家",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.explorer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Explorer",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.occupation.explorer",
+    "slug": "explorer",
+    "creditMin": 55,
+    "creditMax": 80,
+    "pointFormula": "EDU*2+MAX(APP,DEX,STR)*2",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "coc-roll20-occupations"
+    ],
+    "fixedSkillKeys": [
+     "history",
+     "jump",
+     "natural-world",
+     "navigate"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "climb-or-swim",
+      "label": "攀爬或游泳",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "climb",
+        "brpids": [
+         "i.skill.coc.climb"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "swim",
+        "brpids": [
+         "i.skill.coc.swim"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "firearms",
+      "label": "一项射击专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "firearms",
+        "parentKey": "firearms",
+        "base": null,
+        "requiresExplicitBase": true,
+        "brpids": [
+         "i.skill.coc.firearms-handgun",
+         "i.skill.coc.firearms-rifle-shotgun"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "survival",
+      "label": "一项生存专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "survival",
+        "parentKey": "survival",
+        "base": 10,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.survival-sea",
+         "i.skill.coc.survival-wilderness"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "language-other",
+      "label": "其他语言",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "language-other",
+        "parentKey": "language-other",
+        "base": 1,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.language-other-greek",
+         "i.skill.coc.language-other-latin"
+        ]
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.history",
+    "uuid": "ZsbrYPHoyqIA6fGF"
+   },
+   {
+    "brpid": "i.skill.coc.jump",
+    "uuid": "acDj9JcQQNbsARhC"
+   },
+   {
+    "brpid": "i.skill.coc.natural-world",
+    "uuid": "EFVIz8qOdZvW2Rej"
+   },
+   {
+    "brpid": "i.skill.coc.navigate",
+    "uuid": "XFTLEmt7ULlfiVWT"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.climb",
+      "uuid": "XBPmBl9yAuJ1Peo9"
+     },
+     {
+      "brpid": "i.skill.coc.swim",
+      "uuid": "GyfbAWiGp3GBa1MR"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.firearms-handgun",
+      "uuid": "1GMNDl2j6zfGXyI3"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-rifle-shotgun",
+      "uuid": "icEnsbSORKp1qZtF"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.survival-sea",
+      "uuid": "sxKcGlBfdQ5R0SDt"
+     },
+     {
+      "brpid": "i.skill.coc.survival-wilderness",
+      "uuid": "a3rpM1u0kGnmqesi"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.language-other-greek",
+      "uuid": "zxbzRO9P1dqY9jzD"
+     },
+     {
+      "brpid": "i.skill.coc.language-other-latin",
+      "uuid": "YY2QWZ0T7f8A76NE"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "深入荒野、异国与无人区，为机构或个人带回见闻与样本。职业点 EDU × 2 + MAX(APP, DEX, STR) × 2；信用评级 55–80。\n\n职业点：EDU*2+MAX(APP,DEX,STR)*2（引擎按白名单公式求值）\n\n信用评级：55–80（只能用职业点，且必须落在区间内）"
+ }
+}

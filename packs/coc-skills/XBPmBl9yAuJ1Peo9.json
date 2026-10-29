@@ -1,0 +1,49 @@
+{
+ "_id": "XBPmBl9yAuJ1Peo9",
+ "name": "攀爬",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.climb",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Climb",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.climb",
+    "key": "climb",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 20,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 20
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "攀上或爬下墙壁、树木、崖壁等垂直表面。"
+ }
+}

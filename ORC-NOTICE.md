@@ -27,3 +27,11 @@ www.chaosium.com/orclicense / www.azoralaw.com/orclicense / www.paizo.com/orclic
 
 **未获授权且明确不使用**：Chaosium 商标（Basic Roleplaying™ / Call of Cthulhu™）、
 其他 Chaosium 产品线内容（信用评级/克苏鲁神话技能/官方冒险等 Prohibited Content）。
+
+## 独立 CoC 数据包（不属于 ORC 授权）
+
+`packs/coc-skills`、`packs-json/coc-skills.json`、`packs-index/coc-skills.json` 与
+`content/coc/` 是独立的 CoC 7e M1 事实数据，**不属于上述 ORC Licensed Content**，
+也不由 ORC 许可证覆盖。其数值/公式只来自官方公开规则页与官方调查员表，文案与代码
+自写；未提交官方 PDF、正文、图片或字体。VTT 使用与公开发布的授权问题仍需单独评审
+（见 `docs/coc-compatibility-contract.md`）。

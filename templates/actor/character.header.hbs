@@ -10,17 +10,6 @@
           <img class="long-logo" src={{logo}} height="58" />
         {{/unless}}
       </div>
-      <div class="lock-icon" style="max-height: 58px">
-        {{#if isLocked}}
-          <a data-action="actorToggle" data-property="lock" data-tooltip='{{localize "BRP.lock"}}'>
-                <i class="fas fa-lock"></i>
-              </a>
-        {{else}}
-          <a data-action="actorToggle" data-property="lock" data-tooltip='{{localize "BRP.lock"}}'>
-                <i class="fas fa-lock-open"></i>
-              </a>
-        {{/if}}
-      </div>
     </div>
   </section>
 
@@ -186,6 +175,10 @@
       <img class="profile-img" data-action="onEditImage" src="{{actor.img}}" data-edit="img" data-tooltip="{{actor.name}}" height="100" width="100" />
       <br>
       <div class="centre statusIcon">
+        {{#if system.cocWounds}}
+          <a class="{{#if system.majorWound}}active-status{{/if}}" data-tooltip="{{ localize 'BRP.coc.majorWound' }}"><i class="fas fa-crutches"></i></a>
+          <a class="{{#if system.dying}}active-status{{/if}}" data-tooltip="{{ localize 'BRP.coc.dying' }}"><i class="fas fa-heart-pulse"></i></a>
+        {{else}}
         {{#if useHPL}}
           <a class="{{#if system.bleeding}}active-status{{/if}}" data-tooltip="{{ localize 'BRP.bleeding' }}"><i
               class="fas fa-droplet"></i></a>
@@ -200,6 +193,7 @@
             data-tooltip="{{ localize 'BRP.minorWnd' }}"><i class="fas fa-crutch"></i></a>
           <a class="{{#if system.majorWnd}}active-status{{/if}}" data-action="actorToggle" data-property="majorWnd"
             data-tooltip="{{ localize 'BRP.majorWound' }}"><i class="fas fa-crutches"></i></a>
+        {{/if}}
         {{/if}}
         <a class="{{#if system.unconscious}}active-status{{/if}}" data-tooltip="{{ localize 'BRP.unconscious' }}"><i
             class="fas fa-snooze"></i></a>
@@ -272,7 +266,7 @@
               <div class="divider"> / </div>
               <input class="attrib-inp centre" type="text" name="system.sanity.max" value="{{system.sanity.max}}"
                 data-dtype="Number" />
-              <div></div>
+              <div class="right rollable">{{#if isGM}}{{#if isCoC}}<a class="smallIcon" data-action="cocAdvanceHour" data-tooltip="{{localize 'BRP.coc.advanceHourHint'}}"><i class="fas fa-clock"></i></a><a class="smallIcon" data-action="cocAdvanceDay" data-tooltip="{{localize 'BRP.coc.advanceDayHint'}}"><i class="fas fa-calendar-day"></i></a>{{/if}}{{/if}}</div>
             </div>
           </div>
         {{/if}}

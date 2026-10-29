@@ -1,6 +1,7 @@
 import { BRPactorDetails } from './actorDetails.mjs'
 import { OPCard } from "../cards/opposed-card.mjs"
 import { BRPUtilities } from './utilities.mjs'
+import { Rules } from '../rules/index.mjs'
 
 export class BRPCharDev {
 
@@ -73,12 +74,21 @@ export class BRPCharDev {
 
     if (!opp && !item.system.improve) { return }
     if (opp && !item.system.oppimprove) { return }
-    let result = await BRPCharDev.xpRoll(score, actor.system.xpBonus)
+    // CoC: Mythos (and any noXP skill) can never be improved by a development
+    // check, even if an imported/legacy document left the improve flag set.
+    if (Rules.active().check.xpSkipsNoXP === true && item.system?.noXP === true) { return }
+    const rules = Rules.active()
+    // CoC has no fixed improvement tier: the "fixed" button settles as 1D10 too,
+    // so a client that still sends it cannot mint a constant +3.
+    const effectiveType = rules.growth.allowFixedTier === false ? 'formula' : type
+    let result = await BRPCharDev.xpRoll(score, rules.growth.bonus(actor))
     if (result.level === 1) {
-      if (type === 'fixed') {
+      if (effectiveType === 'fixed') {
         improvVal = game.settings.get('brp', 'xpFixed')
       } else {
-        let roll = new Roll(game.settings.get('brp', 'xpFormula'))
+        let roll = new Roll(rules.growth.formula({
+          xpFormula: game.settings.get('brp', 'xpFormula')
+        }))
         await roll.evaluate();
         improvVal = roll.total
         if (game.settings.get('brp', 'xpRollDice') && game.modules.get('dice-so-nice')?.active) {
@@ -115,8 +125,7 @@ export class BRPCharDev {
     let resultLevel = 0
     let roll = new Roll('1D100')
     await roll.evaluate();
-    target = Math.min(target, 100)
-    if (Number(roll.total) + bonus > target) {
+    if (Rules.active().growth.check({ roll: Number(roll.total), targetScore: target, bonus })) {
       resultLevel = 1
     }
     //If Game Settings and Dice So Nice then show dice roll
@@ -179,8 +188,9 @@ export class BRPCharDev {
   }
 
 
-  //POW Improvement Check
+  //POW Improvement Check (BRP only - CoC has no POW improvement)
   static async powImprov(actor, token, type) {
+    if (Rules.active().growth.allowPowImprovement === false) { return { error: 'no-pow-improvement' } }
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
     let max = 21   //TODO - replace this with variable based on culture
     let score = partic.system.stats.pow.total

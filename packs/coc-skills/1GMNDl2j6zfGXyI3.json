@@ -1,0 +1,49 @@
+{
+ "_id": "1GMNDl2j6zfGXyI3",
+ "name": "射击（手枪）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.firearms-handgun",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Firearms (Handgun)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.firearms-handgun",
+    "key": "firearms-handgun",
+    "specKey": "handgun",
+    "parentKey": "firearms",
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 20,
+  "basic": true,
+  "combat": true,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 20
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "射击（手枪）",
+  "mainName": "射击",
+  "noXP": false,
+  "description": "使用手枪等单手火器进行射击。"
+ }
+}

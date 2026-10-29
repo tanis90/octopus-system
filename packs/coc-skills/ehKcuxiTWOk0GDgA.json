@@ -1,0 +1,49 @@
+{
+ "_id": "ehKcuxiTWOk0GDgA",
+ "name": "侦查",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.spot-hidden",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Spot Hidden",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.spot-hidden",
+    "key": "spot-hidden",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 25,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 25
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "发现暗门、隐藏的入侵者、细微线索或异常之处。"
+ }
+}

@@ -1,0 +1,898 @@
+[
+ {
+  "_id": "OprgKpztxOCjv9MA",
+  "name": "会计",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.accounting",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "a1dJxqAXYqYlWsqc",
+  "name": "人类学",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.anthropology",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "VvQ3kwJkRmfwdxZr",
+  "name": "估价",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.appraise",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "iyGal5hstQ2SefS0",
+  "name": "考古学",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.archaeology",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "fwjXSgaOTh0oh0fj",
+  "name": "艺术/手艺（表演）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-acting",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "9vt3o8IIdMi9HXZ5",
+  "name": "艺术/手艺（摄影）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-photography",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "yRoJ2aGTZ6XAmQbg",
+  "name": "艺术/手艺（绘画）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-painting",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "9dh2bNvAxHd55Jrw",
+  "name": "艺术/手艺（技术制图）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-technical-drawing",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ebCHph0biyJ2AG3j",
+  "name": "魅惑",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.charm",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "XBPmBl9yAuJ1Peo9",
+  "name": "攀爬",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.climb",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "NEiczXQzhWgyrtzI",
+  "name": "信用评级",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.credit-rating",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "diY0vuZhfduvl3kK",
+  "name": "克苏鲁神话",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.cthulhu-mythos",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "FcXGDagoFY3CsOZi",
+  "name": "乔装",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.disguise",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "NeiLzxM7dLr6hC5r",
+  "name": "闪避",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.dodge",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "oNzu3fHKqOJ5FVVq",
+  "name": "汽车驾驶",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.drive-auto",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "GgBauywhcx3bJVG3",
+  "name": "电气维修",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.electrical-repair",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "AwLPg18IRN57w0fB",
+  "name": "话术",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.fast-talk",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "03IOJtCr9psfhkLg",
+  "name": "格斗（斗殴）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.fighting-brawl",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "1GMNDl2j6zfGXyI3",
+  "name": "射击（手枪）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.firearms-handgun",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "icEnsbSORKp1qZtF",
+  "name": "射击（步枪/霰弹枪）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.firearms-rifle-shotgun",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "mFYJcDBHmADhKRNW",
+  "name": "急救",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.first-aid",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ZsbrYPHoyqIA6fGF",
+  "name": "历史",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.history",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "mhG3if5iht465aSn",
+  "name": "恐吓",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.intimidate",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "acDj9JcQQNbsARhC",
+  "name": "跳跃",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.jump",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "7WwKSOQFVJeDC4hr",
+  "name": "母语",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.language-own",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "YY2QWZ0T7f8A76NE",
+  "name": "外语（拉丁语）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.language-other-latin",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "zxbzRO9P1dqY9jzD",
+  "name": "外语（希腊语）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.language-other-greek",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "lfaJ9sfEpwhlrVph",
+  "name": "法律",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.law",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "7BNMWqPVJyA0sReg",
+  "name": "图书馆使用",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.library-use",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "fHdlJ2r8hzJAHBnx",
+  "name": "聆听",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.listen",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "eKnqrVHDFmGDtEYg",
+  "name": "开锁",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.locksmith",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "zp9eYH1FLjd04b0T",
+  "name": "机械维修",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.mechanical-repair",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "lciqRkvUQH0jYqq2",
+  "name": "医学",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.medicine",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "EFVIz8qOdZvW2Rej",
+  "name": "自然学",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.natural-world",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "XFTLEmt7ULlfiVWT",
+  "name": "导航",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.navigate",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "bOIhegZL1iqyb8S1",
+  "name": "神秘学",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.occult",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "9WclC1qp9ZYdl1pf",
+  "name": "操作重型机械",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.operate-heavy-machinery",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "7zQTHnGe7rHoRnjC",
+  "name": "说服",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.persuade",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Bs1gkNxebfcMmEem",
+  "name": "驾驶（船）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.pilot-boat",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "LvXnqaAxwiyzyWTg",
+  "name": "驾驶（飞行器）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.pilot-aircraft",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "OdugCGiQt5WkewJ5",
+  "name": "精神分析",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.psychoanalysis",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "n8ACQitSLni4geaF",
+  "name": "心理学",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.psychology",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "okghi72jSCDGA3Hz",
+  "name": "骑术",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.ride",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ojfHa6wDmmM5s0ey",
+  "name": "科学（生物学）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-biology",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "qg1EZMCkC7VLFVcy",
+  "name": "科学（化学）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-chemistry",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "VcW0QSmva65xYMUF",
+  "name": "科学（工程学）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-engineering",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "FYszZeEWTX2DBFSd",
+  "name": "科学（药学）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-pharmacy",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "wnVkcgYRKa02xsc0",
+  "name": "科学（物理学）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-physics",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "PbKsNi34CVtdcZEX",
+  "name": "手上功夫",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.sleight-of-hand",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ehKcuxiTWOk0GDgA",
+  "name": "侦查",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.spot-hidden",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "KAT6rXWeJrlD9MOD",
+  "name": "潜行",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.stealth",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "a3rpM1u0kGnmqesi",
+  "name": "生存（荒野）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.survival-wilderness",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "sxKcGlBfdQ5R0SDt",
+  "name": "生存（海上）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.survival-sea",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "GyfbAWiGp3GBa1MR",
+  "name": "游泳",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.swim",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "dbPdKXNf1Ccm2J0a",
+  "name": "投掷",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.throw",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "tYFug7dklIQrgfZC",
+  "name": "追踪",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.track",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ }
+]
