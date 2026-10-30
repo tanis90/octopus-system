@@ -2,6 +2,7 @@
 
 ## 0.3.1-dev (unreleased)
 Fork development snapshot on top of d5d4a22 / v0.3.0. Not tagged or released; do not ship as v0.3.0.
+- CoC combat: new additive entry point `game.brp.coc.declareAttack({actorId, itemId, bonusDice, penaltyDice})` for the mobile player flow. It takes no target/required band/shots, rolls one real percentile strike (bonus/penalty dice honoured) plus one real damage roll (weapon formula + DB, extreme on an extreme band) and creates one `cardType:"CD"` read-only ChatMessage with `flags.brp.declare:true`. It never resolves an opposed test and writes no actor document; `cocAttack`/`cocDefend`/`cocResolve`/`applyCoCDamage` are unchanged.
 - NPC/combat: resolving a CB card no longer throws when an entry has no `skillId` (NPC weapons); auto-XP off no longer ticks XP on card resolve.
 - NPC HP semantics documented and regression-locked: non-HPL NPC current HP is the native roll/average `updateVitals` fill or a keeper hand edit, not character-style wound derivation; wounds remain character/HPL-only.
 - Luck: concurrent spends on the same card are serialized; all chat-button clients route to Foundry's deterministic `activeGM` single writer (no backend endpoint); real card path re-renders adjusted result.
@@ -257,6 +258,74 @@ run is claimed.
 - Sync target (not executed from this source repo): `web/packages/brp/` in the
   compat repo, byte-for-byte `content/coc/*`, `module/rules/*`, `packs-json/*`,
   `packs-index/*`, `packs/*` and `system.json`.
+
+### CoC 7e content split: core packs + optional expansion module
+
+Source-repo slice only; nothing was committed, pushed or deployed.
+
+- One fact source, two pack sets. `content/coc/skills.json` and
+  `content/coc/professions.json` stay the only source; every record carries
+  `pack: "core" | "expand"` and `tools/coc-pack/build.mjs` emits both sets.
+  Each key belongs to exactly one pack and the union equals the file — the build
+  fails on a duplicate key, a brpid collision, an empty pack, or a declared
+  count that disagrees with the records.
+- Core packs (registered in `system.json`): `coc-skills` **60** skills
+  (22 specialisms) and `coc-professions` **9** entries. Expansion packs
+  (sibling distribution repo `../arcane-investigator-options/`, module-only):
+  `arcane-investigator-skills` **31** skills (28 specialisms) and
+  `arcane-investigator-professions` **148** occupations. Merged: **91** skills /
+  **50** specialisms, **156** transcribed occupations + **1** custom template.
+- Core skills are the 59 skills outside the SealDice batch plus Art/Craft
+  (Writing); the other 31 SealDice members are the expansion. Core occupations
+  are Antiquarian, Author, Dilettante, Doctor of Medicine, Investigative
+  Journalist, Police Detective, Private Investigator, Professor. Author keeps
+  its open Art/Craft (Literature) specialism slot; no `art-craft-literature`
+  document is invented.
+- New `custom-investigator` (core, `i.profession.coc.custom-investigator`): a
+  product-defined template (`evidence: "product"` + `productBoundary`), one
+  choice group `custom-eight` with `choose: 8` and `options: [{ kind: "any" }]`,
+  a Keeper-reviewed CR range 0–99, a self-written description, and five
+  selectable whitelisted formulas (`EDU*4`, `EDU*2+DEX*2`, `EDU*2+APP*2`,
+  `EDU*2+STR*2`, `EDU*2+POW*2`). No sixth or invented official formula;
+  `sourceRefs` stays on the existing `coc-wiki-skills`.
+- New standalone distribution repo `arcane-investigator-options/` — 「章鱼调查员扩展资料包」:
+  `module.json` declaring exactly two Item packs (`system: "brp"`, no
+  `esmodules`, no invented remote manifest/download), `README.md`,
+  `LICENSE.txt` (standard MIT), `NOTICE.md`, minimal Node >= 22 `package.json`
+  and a self-contained `tools/pack.mjs`. The build writes real LevelDB WAL
+  (`packs/<name>/000001.log`, `!items!<_id>` keys) plus `packs-json/` for diff;
+  `tools/pack.mjs` produces a deterministic
+  `dist/arcane-investigator-options-0.1.0.zip` (no timestamps, STORED entries,
+  `dist/` ignored). Presence enables the expansion; removing the module restores
+  the core 60/9 list. `system.json` keeps the original four packs and never
+  registers the expansion.
+- The docs state the licence boundary without an old public-distribution ban:
+  standard MIT covers only original code and prose, third-party facts are not
+  relicensed, and a takedown stops the repository/Release without recalling
+  copies already made or existing git history.
+- Expansion skills ship with `system.basic: false`, so the starter auto-attach
+  path cannot pull them into a core character even when the module is enabled.
+- Shared family expansion still works across core/expand: a core record's family
+  option lists core members natively and reports expansion members separately in
+  `expandPackBrpids`; an expansion record enumerates the whole family.
+- Legacy identity preserved: `brpid`, `slug` and document `_id` are unchanged by
+  the move, and ids are still derived only from the stable brpid.
+- `tools/coc-pack/import-sealdice-occupations.mjs` now writes the `pack` tag and
+  derives `packSplit.counts`, so a re-import cannot desynchronise the split.
+- Tests: `tools/tests/coc-rules-regressions.mjs` **167/167** (core 60/9, expand
+  31/148, merged 91/157 incl. the custom template, partition and per-pack reference
+  containment, expansion absent from `system.json`, distribution manifest/LevelDB
+  WAL/licence+takedown boundary, custom investigator shape/formulas/allocation,
+  core professions buildable from the core packs alone, Author's literature slot,
+  deterministic ids, UGE bytes unchanged). `tools/tests/base-pack-determinism.mjs` passes;
+  `tools/tests/rules-regressions.mjs` now expects the 60-skill core starter and
+  the 9-document core profession pack, and ran **163/163** in a temporary compat
+  mirror. A second spike probe confirmed that, with the module loaded, both
+  expansion packs register while the core packs and the 60-skill CoC starter set
+  stay unchanged.
+- Docs: `Readme.md`, `CHANGELOG.md`, `ORC-NOTICE.md`,
+  `docs/coc-compatibility-contract.md` and `content/coc/provenance.json`
+  (`packSplit`) describe the split and its licensing boundary.
 
 ### CoC 7e M3 (experimental, opt-in): native combat and wounds
 

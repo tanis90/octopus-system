@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.persuade",
     "key": "persuade",
+    "pack": "core",
     "specKey": null,
     "parentKey": null,
     "sourceRefs": [

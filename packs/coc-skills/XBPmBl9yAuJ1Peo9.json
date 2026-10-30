@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.climb",
     "key": "climb",
+    "pack": "core",
     "specKey": null,
     "parentKey": null,
     "sourceRefs": [

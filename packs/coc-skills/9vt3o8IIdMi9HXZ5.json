@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.art-craft-photography",
     "key": "art-craft-photography",
+    "pack": "core",
     "specKey": "photography",
     "parentKey": "art-craft",
     "sourceRefs": [

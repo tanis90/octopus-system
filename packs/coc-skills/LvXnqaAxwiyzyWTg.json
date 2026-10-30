@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.pilot-aircraft",
     "key": "pilot-aircraft",
+    "pack": "core",
     "specKey": "aircraft",
     "parentKey": "pilot",
     "sourceRefs": [

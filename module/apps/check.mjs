@@ -1395,6 +1395,208 @@ export class BRPCheck {
     return { messageId, profile, bonusDice: bonus, penaltyDice: penalty, maneuver }
   }
 
+  // Mobile declaration attack: the player only says "I attack with this
+  // weapon". Target, required band, shots and defence are the keeper's call,
+  // so this entry takes no target and never resolves an opposed test. It rolls
+  // the strike (real percentile pool with bonus/penalty dice) and the damage
+  // the system would deal (weapon profile + DB, extreme on an extreme band) as
+  // two real Rolls on one closed, read-only card. No actor is written.
+  // Params: actor/actorId, itemId (weapon), bonusDice, penaltyDice.
+  static async cocDeclareAttack(options = {}) {
+    if (!BRPCheck.isCoC()) { return { error: 'ruleset-not-coc' } }
+    const actor = await BRPCheck._cocActor(options)
+    if (!actor) { return { error: 'actor-missing' } }
+    if (!game.user?.isGM && actor.isOwner !== true) { return { error: 'not-authorised' } }
+    const weapon = actor.items.get(options.itemId)
+    if (!weapon) { return { error: 'weapon-missing' } }
+    // Same gate as cocAttack: a PC weapon must resolve to a real skill by
+    // brpid, so an unverified specialism cannot silently attack at 0.
+    let skill = null
+    if (actor.type !== 'npc') {
+      skill = BRPCheck.weaponSkill(actor, weapon, weapon.system?.skill1)
+      if (!skill) { return { error: 'weapon-skill-missing', brpid: weapon.system?.skill1 ?? null } }
+    }
+    const combat = Rules.active().combat
+    const profile = combat.weaponProfile(weapon)
+    const bonus = Math.max(0, Math.floor(Number(options.bonusDice ?? 0)))
+    const penalty = Math.max(0, Math.floor(Number(options.penaltyDice ?? 0)))
+    const category = Number(actor.system?.skillcategory?.[skill?.system?.category] ?? 0)
+    const rawScore = actor.type === 'npc'
+      ? Number(weapon.system?.npcVal ?? 0)
+      : Number(skill?.system?.total ?? 0) + category
+    const config = {
+      rollType: 'CM',
+      cardType: 'CD',
+      rollFormula: '1D100',
+      bonusDice: bonus,
+      penaltyDice: penalty,
+      flatMod: 0,
+      requiredBand: null,
+      targetScore: rawScore,
+      rawScore,
+      malfunction: Number(weapon.system?.mal ?? 0),
+      label: skill?.name ?? weapon.name ?? '',
+      skillId: skill?._id ?? null,
+      itemId: weapon._id,
+      diff: 'average',
+      diffVal: 1,
+      useDiffValue: false,
+    }
+    // Same real percentile pipeline as _trigger: bonus/penalty dice become one
+    // real Nd10 pool and the percentile value is read from its faces.
+    await BRPCheck.makeRoll(config)
+
+    const tier = combat.damageTier
+      ? combat.damageTier({ rank: Number(config.bandRank ?? 0), role: 'attacker' })
+      : null
+    const dbFormula = combat.damageBonusFor({
+      dbFull: actor.system?.dmgBonus?.full,
+      dbHalf: actor.system?.dmgBonus?.half,
+      mode: profile?.dbMode ?? 'none',
+    })
+    const weaponFormula = profile.formula ?? weapon.system?.dmg1 ?? '1D3'
+    let formula
+    let damageRoll
+    let damageTotal
+    const damageFaces = []
+    try {
+      formula = combat.damageFormula({
+        weaponFormula,
+        dbFormula,
+        impaling: profile.impaling === true,
+        tier: tier ?? 'regular',
+      })
+      damageRoll = new Roll(formula)
+      await damageRoll.evaluate()
+      damageTotal = Math.max(0, Math.floor(Number(damageRoll.total) || 0))
+      for (const die of damageRoll.dice ?? []) {
+        for (const value of die.values ?? []) { damageFaces.push(Number(value)) }
+      }
+    } catch (thrown) {
+      return { error: 'invalid-damage-formula', detail: String(thrown?.message ?? thrown) }
+    }
+
+    const particImg = await BRPactorDetails.getParticImg(actor.id, 'actor')
+    const entry = {
+      rollType: 'CM',
+      particName: actor.name,
+      particId: actor.id,
+      particType: 'actor',
+      particImg,
+      // No target identity at all: the keeper decides what this strike hits.
+      characteristic: false,
+      label: config.label,
+      skillId: config.skillId,
+      itemId: weapon._id,
+      addStat: 'none',
+      targetScore: rawScore,
+      rawScore,
+      resistance: 0,
+      diff: 'average',
+      diffVal: 1,
+      useDiffValue: false,
+      diffLabel: game.i18n.localize('BRP.average'),
+      rollFormula: config.rollFormula,
+      flatMod: 0,
+      diceMod: 0,
+      malfunction: config.malfunction,
+      rollResult: config.rollResult,
+      rollVal: config.rollVal,
+      diceRolled: config.diceRolled,
+      resultLevel: config.resultLevel,
+      resultLabel: BRPCheck.resultLabel(config),
+      band: config.band,
+      bandRank: config.bandRank,
+      bandLabel: config.bandLabel,
+      diceDetail: config.diceDetail,
+      requiredBand: null,
+      requiredBandLabel: null,
+      minimumRank: 0,
+      taskSuccess: null,
+      opposed: null,
+      tier: tier ?? 'regular',
+      damage: {
+        formula,
+        total: damageTotal,
+        faces: damageFaces,
+        tier: tier ?? 'regular',
+        applied: false,
+      },
+      cocTreatment: null,
+      weaponProfile: profile,
+      weaponId: weapon._id,
+      specLabel: '',
+      opp: 'false',
+      description: '',
+      healing: 0,
+      healingLabel: '',
+      luck: null,
+      luckSpent: 0,
+      declare: true,
+    }
+    const chatTemplate = 'systems/brp/templates/chat/roll-declare.html'
+    const chatMsgData = {
+      rollType: 'CM',
+      cardType: 'CD',
+      chatTemplate,
+      state: 'closed',
+      chatCard: [entry],
+      declare: true,
+    }
+    const html = await BRPCheck.startChat(chatMsgData)
+    const message = await ChatMessage.create({
+      author: game.user.id,
+      type: CONST.CHAT_MESSAGE_STYLES.OTHER,
+      content: html,
+      rolls: [config.roll, damageRoll],
+      speaker: { actor: actor.id, alias: actor.name },
+      flags: {
+        brp: {
+          initiator: actor.id,
+          initiatorType: 'actor',
+          chatTemplate,
+          state: 'closed',
+          cardType: 'CD',
+          rollType: 'CM',
+          wait: false,
+          successLevel: -1,
+          chatCard: [entry],
+          opp: 'false',
+          madness: null,
+          declare: true,
+          coc: {
+            declare: {
+              targetScore: rawScore,
+              rollVal: config.rollVal,
+              band: config.band,
+              bandRank: config.bandRank,
+              bonusDice: bonus,
+              penaltyDice: penalty,
+              damageFormula: formula,
+              damageTotal,
+              damageTier: tier ?? 'regular',
+            },
+          },
+        },
+      },
+    })
+    return {
+      messageId: message._id ?? message.id,
+      profile,
+      bonusDice: bonus,
+      penaltyDice: penalty,
+      hitBand: config.band,
+      hitBandRank: config.bandRank,
+      hitBandLabel: config.bandLabel,
+      hitRoll: config.rollVal,
+      hitTarget: rawScore,
+      damageFormula: formula,
+      damageTotal,
+      damageTier: tier ?? 'regular',
+      declare: true,
+    }
+  }
+
   // Defender side: declares dodge / fightback / dive-for-cover and rolls into
   // the attacker's card. Params:
   //   messageId, actor/actorId, choice, itemId (fightback weapon), skillId (dodge)

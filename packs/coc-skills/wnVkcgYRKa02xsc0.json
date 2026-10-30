@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.science-physics",
     "key": "science-physics",
+    "pack": "core",
     "specKey": "physics",
     "parentKey": "science",
     "sourceRefs": [

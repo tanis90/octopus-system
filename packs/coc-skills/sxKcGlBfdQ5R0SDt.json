@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.survival-sea",
     "key": "survival-sea",
+    "pack": "core",
     "specKey": "sea",
     "parentKey": "survival",
     "sourceRefs": [

@@ -121,9 +121,11 @@ internal `coc` adapter; `coc` is also accepted. Unknown values fall back to
 `octopus`, never CoC. This is a core slice, not a complete CoC implementation.
 
 - `content/coc/` + `packs-json/coc-skills.json` + `packs/coc-skills/`: core
-  skills in their own `coc-skills` pack — 51 at M1, 59 after M7, 91 after M8
-  (50 specialisms). Seven unverified specialisms stay
-  `pending-official-source` with no fixed value. Octopus pack bytes are unchanged.
+  skills in their own `coc-skills` pack — 51 at M1, 59 after M7, split at the M9
+  slice into **60 core** (the 59 plus Art/Craft (Writing)) with the remaining 31
+  in the optional expansion distribution repo, 91 merged (50 specialisms). Seven unverified
+  specialisms stay `pending-official-source` with no fixed value. Octopus pack
+  bytes are unchanged.
 - `module/rules/`: centralized rules interface. CoC derives HP/MP/SAN/Luck/
   Build/DB/MOV, uses its own success bands and +1D10 growth, and maps APP to the
   native `cha` field. EDU is enabled. Dodge (½ DEX) and mother tongue (EDU) use
@@ -274,12 +276,67 @@ simply does not exist as a buildable default.
   either/or choices are ordered `pointFormulas`. A parenthetical family list is
   one choice slot, never extra fixed slots, and no record is padded with an
   unprinted "any skill" slot.
-- Source-repo tests: `tools/tests/coc-rules-regressions.mjs` **149/149**;
+- Source-repo tests: `tools/tests/coc-rules-regressions.mjs` **149/149** at M8 time
+  (see the split section below for the current count);
   deterministic builds pass and octopus artifacts stay byte-identical.
+
+### CoC 7e content split: core packs + optional expansion module
+
+The same fact source (`content/coc/skills.json`, `content/coc/professions.json`) now
+emits **two pack sets**. Nothing is duplicated: each skill and each profession
+belongs to exactly one pack, and the union equals the source file.
+
+| Pack | Where | Items | Contents |
+| --- | --- | --- | --- |
+| `coc-skills` | `packs-json` / `packs-index` / `packs`, registered in `system.json` | **60** skills (22 specialisms) | core, always present |
+| `coc-professions` | same | **9** entries | 8 core occupations + the custom investigator |
+| `arcane-investigator-skills` | `../arcane-investigator-options/` (sibling distribution repo) | **31** skills (28 specialisms) | expansion, module-only |
+| `arcane-investigator-professions` | same | **148** occupations | expansion, module-only |
+
+- Merged totals stay **91** skills / **50** specialisms and **156** transcribed
+  occupations plus **1** product-defined custom investigator.
+- Core skills are the 59 skills outside the SealDice batch **plus Art/Craft
+  (Writing)**; the other 31 SealDice members are the expansion. Core occupations
+  are Antiquarian, Author, Dilettante, Doctor of Medicine, Investigative
+  Journalist, Police Detective, Private Investigator, Professor, plus the custom
+  template. Author keeps its open Art/Craft (Literature) specialism slot — no
+  `art-craft-literature` document is invented.
+- **Custom investigator** (`custom-investigator`): one choice group
+  `custom-eight` with `choose: 8` and `options: [{ kind: "any" }]`, a CR 0–99
+  range reviewed by the Keeper, a self-written description, and five point
+  formulas to pick from (`EDU*4`, `EDU*2+DEX*2`, `EDU*2+APP*2`, `EDU*2+STR*2`,
+  `EDU*2+POW*2`). No sixth or invented official formula; `sourceRefs` stays on
+  the existing `coc-wiki-skills`.
+- The expansion is built into the sibling distribution repository
+  `../arcane-investigator-options/` (override with `--out <dir>` or
+  `ARCANE_INVESTIGATOR_OPTIONS_OUT`): two Item packs (`system: "brp"`), no
+  `esmodules`, README / LICENSE / NOTICE, real LevelDB WAL under `packs/`, JSON
+  kept in `packs-json/` for diff, and a deterministic
+  `dist/arcane-investigator-options-0.1.0.zip`; run `node tools/pack.mjs` in that
+  repository to rebuild it. Enabling the module is what makes
+  it appear; removing it restores the core 60/9 list. `system.json` keeps its
+  original four packs and never registers the expansion.
+- Expansion skills ship with `system.basic: false`, so a core character's starter
+  set is unchanged even with the module enabled.
+- Shared family expansion still works across the split: a core record's family
+  option lists core members natively and reports expansion members separately in
+  `expandPackBrpids`; an expansion record enumerates the whole family. A brpid
+  collision (or a key in two packs) still fails the build.
+- Legacy identity is preserved: `brpid`, `slug` and document `_id` are unchanged
+  by the move, and both are still derived only from the stable brpid.
+- Source-repo tests: `tools/tests/coc-rules-regressions.mjs` **167/167**;
+  consecutive builds are byte-identical, `base-pack-determinism` passes, and the
+  octopus/UGE artifacts are byte-unchanged. The expansion build is compared
+  byte-for-byte with the sibling distribution repository; its `packs/` are real
+  LevelDB WAL. In a temporary compat mirror the headless `rules-regressions`
+  suite runs **163/163**; with the module loaded explicitly, both expansion packs
+  register, the core packs keep their 60/9 documents, and a fresh CoC character
+  still gets exactly the 60 core starter skills.
 
 Regression checks:
 
 ```bash
+node tools/coc-pack/build.mjs
 node tools/tests/coc-rules-regressions.mjs
 node tools/tests/base-pack-determinism.mjs
 MT_SYSTEM_ID=brp MT_SPIKE_EVAL=tools/tests/rules-regressions.mjs \
@@ -371,8 +428,9 @@ CoC。本期只是核心纵向切片，不是完整 CoC。
 
 - `content/coc/` + `packs-json/coc-skills.json` + `packs/coc-skills/`：独立
   `coc-skills` 包，M1 为 51 条核心技能（13 条专精），M7 后 59 条 / 21 条专精，
-  M8 后 91 条 / 50 条专精。7 条未证实专精标为 `pending-official-source`，不写固定
-  值、不写入包。octopus 包字节不变。
+  M8 后合并 91 条 / 50 条专精；M9 拆包后核心包为 **60 条**（原 59 条 + 艺术/手艺
+  （写作）），其余 31 条进可选的分发仓。7 条未证实专精标为
+  `pending-official-source`，不写固定值、不写入包。octopus 包字节不变。
 - `module/rules/`：集中式规则接口。CoC 派生 HP/MP/SAN/Luck/Build/DB/MOV，
   使用 CoC 成功等级与 +1D10 成长，APP 映射原生 `cha`，EDU 启用。闪避（½ DEX）
   与母语（EDU）走原生 `variable`/`baseFormula`。
@@ -471,9 +529,52 @@ CoC。本期只是核心纵向切片，不是完整 CoC。
   octopus 产物字节不变。compat 前端同步与真实栈 550/550（dev HS256）记在 compat
   仓 `PROGRESS.md` 与 `docs/coc-compatibility-contract.md`。
 
+### CoC 7e 拆包：核心包 + 可选扩展模块
+
+同一份事实源（`content/coc/skills.json`、`content/coc/professions.json`）现在产出
+**两套包**。不重复：每条技能、每个职业只属于一个包，合并后与源文件逐条相等。
+
+| 包 | 位置 | 条目 | 说明 |
+| --- | --- | --- | --- |
+| `coc-skills` | `packs-json` / `packs-index` / `packs`，注册进 `system.json` | **60** 条技能（22 专精） | 核心，始终存在 |
+| `coc-professions` | 同上 | **9** 个入口 | 8 个核心职业 + 自定义调查员 |
+| `arcane-investigator-skills` | `../arcane-investigator-options/`（sibling 分发仓） | **31** 条技能（28 专精） | 扩展，仅模块启用时存在 |
+| `arcane-investigator-professions` | 同上 | **148** 个职业 | 扩展，仅模块启用时存在 |
+
+- 合并总数不变：**91** 条技能 / **50** 条专精、**156** 个转录职业 + **1** 个
+  产品定义的自定义调查员。
+- 核心技能 = SealDice 批次之外的 59 条 **加艺术/手艺（写作）**；其余 31 条进扩展。
+  核心职业 = 古董商、作家、纨绔子弟、医生（医学博士）、调查记者、警探、私家侦探、
+  教授 + 自定义调查员。作家的「艺术/手艺（文学）」仍是开放专精槽，**不**虚构
+  `art-craft-literature` 技能文档。
+- **自定义调查员**（`custom-investigator`）：选择组 `custom-eight`，
+  `choose: 8`，`options: [{ kind: "any" }]`；信用评级 0–99 由守密人审核；描述自写；
+  五条公式可选（`EDU*4`、`EDU*2+DEX*2`、`EDU*2+APP*2`、`EDU*2+STR*2`、
+  `EDU*2+POW*2`），不新增第六条、不虚构官方公式，`sourceRefs` 仍用现有
+  `coc-wiki-skills`。
+- 扩展到 sibling 分发仓 `../arcane-investigator-options/`（可用 `--out <dir>` 或
+  `ARCANE_INVESTIGATOR_OPTIONS_OUT` 覆盖）：两个 Item 包（`system: "brp"`）、
+  无 `esmodules`，带 README / LICENSE / NOTICE；`packs/` 是真实 LevelDB WAL，
+  `packs-json/` 保留 JSON 供 diff，并生成确定性
+  `dist/arcane-investigator-options-0.1.0.zip`；在该仓运行 `node tools/pack.mjs`
+  重新打包。**存在即启用**，撤下后世界回到核心
+  60 技能 / 9 职业入口；`system.json` 仍只有原来四个包，**不**登记扩展。
+- 扩展技能 `system.basic: false`：即使模块启用，核心角色的 starter 技能集合也不变。
+- 技能族展开仍跨包工作：核心职业的族选项在原生组里列核心成员，扩展成员另记在
+  `expandPackBrpids`；扩展职业则枚举整族。brpid 冲突（或同一 key 进两个包）仍然
+  构建失败。
+- 旧身份保留：`brpid`、`slug`、文档 `_id` 拆分后逐字不变，`_id` 仍只由稳定 brpid
+  派生。
+- 源仓验证：`tools/tests/coc-rules-regressions.mjs` **167/167**；连续构建
+  byte-identical，`base-pack-determinism` 通过，octopus/UGE 产物字节不变；扩展构建与
+  sibling 分发仓逐字节一致，`packs/` 为真实 LevelDB WAL。临时 compat 镜像里
+  `rules-regressions` **163/163**；显式装载模块后实测两个扩展包注册、核心包仍是
+  60/9、新建 CoC 角色仍只拿 60 条核心 starter 技能。
+
 回归检查：
 
 ```bash
+node tools/coc-pack/build.mjs
 node tools/tests/coc-rules-regressions.mjs
 node tools/tests/base-pack-determinism.mjs
 MT_SYSTEM_ID=brp MT_SPIKE_EVAL=tools/tests/rules-regressions.mjs \

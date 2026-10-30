@@ -6,7 +6,8 @@
 //   node tools/tests/coc-rules-regressions.mjs
 //
 // Covers:
-//   1. deterministic CoC pack build (skills + professions) + octopus artifacts byte-unchanged
+//   1. deterministic CoC pack build (skills + professions) into the core packs
+//      and the sibling distribution repo + octopus artifacts byte-unchanged
 //   2. fact/pack contract: core values, specialism identity, pending exclusion,
 //      source isolation, no fixed 0 for unverified specialisms
 //   3. centralized rules: derived attributes, SAN/Luck, success bands, growth,
@@ -29,7 +30,7 @@
 //      and license boundary, legacy 38 choices preserved
 import { cpSync, mkdtempSync, readFileSync, readdirSync, rmSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, relative } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -38,6 +39,17 @@ import { CoCSanity } from "../../module/rules/coc-sanity.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), "utf8"));
+// Same derivation the build uses: document ids come from the stable brpid.
+const cocDocId = (seed) => {
+  let out = "";
+  let i = 0;
+  while (out.length < 16) {
+    const byte = createHash("sha256").update(`coc:${seed}:${i}`).digest()[0];
+    out += "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[byte % 62];
+    i += 1;
+  }
+  return out;
+};
 const checks = {};
 const errors = [];
 const check = (name, ok, detail) => {
@@ -74,7 +86,15 @@ const compareTrees = (left, right, dirs) => {
 };
 
 // --- 1) deterministic build and octopus isolation ---
-const DIRS = ["packs-json", "packs-index", "packs"];
+// The expansion is emitted into its own distribution repository, not into a
+// second modules/ tree inside this repository.
+const EXPAND_ROOT = process.env.ARCANE_INVESTIGATOR_OPTIONS_DIR
+  ? resolve(process.env.ARCANE_INVESTIGATOR_OPTIONS_DIR)
+  : resolve(ROOT, "../arcane-investigator-options");
+const readExpand = (path) => JSON.parse(readFileSync(join(EXPAND_ROOT, path), "utf8"));
+const CORE_DIRS = ["packs-json", "packs-index", "packs"];
+const EXPAND_DIRS = ["packs-json", "packs-index", "packs"];
+const OUT_REL = "expand-out";
 const temp = mkdtempSync(join(tmpdir(), "octopus-coc-build-"));
 try {
   for (const item of ["content", "tools/coc-pack", "module/rules", "system.json", "packs-json", "packs-index", "packs"]) {
@@ -82,23 +102,38 @@ try {
     if (!existsSync(src)) throw new Error(`missing seed: ${item}`);
     cpSync(src, join(temp, item), { recursive: true });
   }
+  const manifestSrc = join(EXPAND_ROOT, "module.json");
+  if (!existsSync(manifestSrc)) throw new Error(`missing seed: ${manifestSrc}`);
+  cpSync(manifestSrc, join(temp, OUT_REL, "module.json"));
   const build = () => {
-    const result = spawnSync(process.execPath, ["tools/coc-pack/build.mjs"], { cwd: temp, encoding: "utf8" });
+    const result = spawnSync(process.execPath, ["tools/coc-pack/build.mjs"], {
+      cwd: temp,
+      encoding: "utf8",
+      env: { ...process.env, ARCANE_INVESTIGATOR_OPTIONS_OUT: join(temp, OUT_REL) },
+    });
     if (result.status !== 0) throw new Error(`build failed (${result.status}): ${result.stderr || result.stdout}`);
     return result.stdout;
   };
   build();
-  for (const dir of DIRS) cpSync(join(temp, dir), join(temp, `__run1/${dir}`), { recursive: true });
+  for (const dir of CORE_DIRS) cpSync(join(temp, dir), join(temp, `__run1/${dir}`), { recursive: true });
+  for (const dir of EXPAND_DIRS) cpSync(join(temp, OUT_REL, dir), join(temp, `__run1/${OUT_REL}/${dir}`), { recursive: true });
   cpSync(join(temp, "system.json"), join(temp, "__run1/system.json"));
   build();
-  const consecutive = compareTrees(join(temp, "__run1"), temp, DIRS);
+  const consecutive = compareTrees(join(temp, "__run1"), temp, [
+    ...CORE_DIRS, ...EXPAND_DIRS.map((dir) => `${OUT_REL}/${dir}`),
+  ]);
   if (!existsSync(join(temp, "__run1/system.json")) || !readFileSync(join(temp, "system.json")).equals(readFileSync(join(temp, "__run1/system.json")))) {
     consecutive.push("system.json: bytes differ");
   }
   check("buildConsecutiveByteIdentical", consecutive.length === 0, consecutive.slice(0, 8));
 
-  const cocCommitted = compareTrees(temp, ROOT, DIRS);
-  check("buildMatchesCommittedArtifacts", cocCommitted.length === 0, cocCommitted.slice(0, 8));
+  const cocCommitted = compareTrees(temp, ROOT, CORE_DIRS);
+  check("coreBuildMatchesCommittedArtifacts", cocCommitted.length === 0, cocCommitted.slice(0, 8));
+
+  const expandCommitted = compareTrees(join(temp, OUT_REL), EXPAND_ROOT, EXPAND_DIRS);
+  check("expansionBuildMatchesDistributionRepo", expandCommitted.length === 0, expandCommitted.slice(0, 8));
+
+  check("buildDoesNotWriteModulesTree", !existsSync(join(temp, "modules")), join(temp, "modules"));
 
   const octopusTemp = compareTrees(join(temp, "packs-json"), join(ROOT, "packs-json"), ["."]);
   const octopusIndex = compareTrees(join(temp, "packs-index"), join(ROOT, "packs-index"), ["."]);
@@ -112,20 +147,79 @@ try {
 // --- 2) facts and pack contract ---
 const facts = readJson("content/coc/skills.json");
 const provenance = readJson("content/coc/provenance.json");
+// Two packs, one fact source. `cocDocs` stays the core pack; the expansion is
+// emitted into the distribution repository and must never be registered in
+// system.json.
 const cocDocs = readJson("packs-json/coc-skills.json");
 const cocIndex = readJson("packs-index/coc-skills.json");
+const expandSkillDocs = readExpand("packs-json/arcane-investigator-skills.json");
+const expandSkillIndex = readExpand("packs-index/arcane-investigator-skills.json");
+const allSkillDocs = [...cocDocs, ...expandSkillDocs];
 const octopusDocs = readJson("packs-json/octopus-skills.json");
-const docsByKey = new Map(cocDocs.map((doc) => [doc.flags.brp.coc.key, doc]));
+const docsByKey = new Map(allSkillDocs.map((doc) => [doc.flags.brp.coc.key, doc]));
 
+const CORE_SKILL_COUNT = 60;
+const EXPAND_SKILL_COUNT = 31;
 const LEGACY_SKILL_COUNT = 59;
 const sealdiceSkillCount = Object.keys(provenance.skillsM8?.perSkill ?? {}).length;
-check("factCount", facts.skills.length === LEGACY_SKILL_COUNT + sealdiceSkillCount
-  && cocDocs.length === facts.skills.length && cocIndex.length === facts.skills.length,
-  { facts: facts.skills.length, docs: cocDocs.length, index: cocIndex.length, sealDiceAdded: sealdiceSkillCount });
-check("documentIdsUniqueAndDeterministic", new Set(cocDocs.map((doc) => doc._id)).size === cocDocs.length
-  && cocDocs.every((doc) => /^[A-Za-z0-9]{16}$/.test(doc._id))
-  && new Set(cocIndex.map((doc) => doc._id)).size === cocIndex.length,
-  { docs: cocDocs.length, unique: new Set(cocDocs.map((doc) => doc._id)).size });
+check("factCount", facts.skills.length === CORE_SKILL_COUNT + EXPAND_SKILL_COUNT
+  && facts.skills.length === LEGACY_SKILL_COUNT + sealdiceSkillCount
+  && cocDocs.length === CORE_SKILL_COUNT && cocIndex.length === CORE_SKILL_COUNT
+  && expandSkillDocs.length === EXPAND_SKILL_COUNT && expandSkillIndex.length === EXPAND_SKILL_COUNT
+  && allSkillDocs.length === facts.skills.length
+  && facts.packSplit?.counts?.core === CORE_SKILL_COUNT
+  && facts.packSplit?.counts?.expand === EXPAND_SKILL_COUNT,
+  { facts: facts.skills.length, core: cocDocs.length, expand: expandSkillDocs.length, sealDiceAdded: sealdiceSkillCount });
+
+check("splitIsPartitionOfTheFactSource", (() => {
+  // Every fact sits in exactly one pack, the two pack documents are the same
+  // keys as the file, and nothing is emitted twice.
+  const factKeys = facts.skills.map((skill) => skill.key);
+  const coreKeys = facts.skills.filter((skill) => skill.pack === "core").map((skill) => skill.key);
+  const expandKeys = facts.skills.filter((skill) => skill.pack === "expand").map((skill) => skill.key);
+  const emitted = allSkillDocs.map((doc) => doc.flags.brp.coc.key);
+  const brpids = allSkillDocs.map((doc) => doc.flags.brp.brpidFlag.id);
+  const coreBrpids = new Set(cocDocs.map((doc) => doc.flags.brp.brpidFlag.id));
+  const bad = [];
+  if (!facts.skills.every((skill) => ["core", "expand"].includes(skill.pack))) bad.push("fact without a pack tag");
+  if (coreKeys.length + expandKeys.length !== factKeys.length) bad.push("pack tags do not cover the file");
+  if (new Set(coreKeys).size !== coreKeys.length || new Set(expandKeys).size !== expandKeys.length) bad.push("key in two packs");
+  if (new Set(emitted).size !== emitted.length) bad.push("skill emitted twice");
+  if (new Set(brpids).size !== brpids.length) bad.push("brpid reused across packs");
+  if (expandSkillDocs.some((doc) => coreBrpids.has(doc.flags.brp.brpidFlag.id))) bad.push("expand doc also in core pack");
+  if (JSON.stringify(cocDocs.map((doc) => doc.flags.brp.coc.key)) !== JSON.stringify(coreKeys)) bad.push("core pack order differs from facts");
+  const expandDocKeys = expandSkillDocs.map((doc) => doc.flags.brp.coc.key);
+  if (JSON.stringify([...expandDocKeys].sort()) !== JSON.stringify([...expandKeys].sort())) bad.push("expand pack keys differ from facts");
+  const expandIds = expandSkillDocs.map((doc) => doc._id);
+  if (JSON.stringify(expandIds) !== JSON.stringify([...expandIds].sort())) bad.push("expand pack is not _id sorted");
+  if (cocDocs.some((doc) => doc.flags.brp.coc.pack !== "core")) bad.push("core doc tagged expand");
+  if (expandSkillDocs.some((doc) => doc.flags.brp.coc.pack !== "expand")) bad.push("expand doc tagged core");
+  return bad.length ? bad : true;
+})(), facts.packSplit);
+
+check("documentIdsUniqueAndDeterministic", new Set(allSkillDocs.map((doc) => doc._id)).size === allSkillDocs.length
+  && allSkillDocs.every((doc) => /^[A-Za-z0-9]{16}$/.test(doc._id))
+  && new Set(cocIndex.map((doc) => doc._id)).size === cocIndex.length
+  && new Set(expandSkillIndex.map((doc) => doc._id)).size === expandSkillIndex.length,
+  { docs: allSkillDocs.length, unique: new Set(allSkillDocs.map((doc) => doc._id)).size });
+
+check("documentIdsDeriveFromBrpidOnlyAndAreStable", (() => {
+  // The document id is a function of the brpid and nothing else, so moving a
+  // record between packs can never migrate an id and the expansion can never
+  // collide with the core pack.
+  const derive = (seed) => {
+    let out = "";
+    let i = 0;
+    while (out.length < 16) {
+      const byte = createHash("sha256").update(`coc:${seed}:${i}`).digest()[0];
+      out += "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[byte % 62];
+      i += 1;
+    }
+    return out;
+  };
+  return allSkillDocs.every((doc) => doc._id === derive(doc.flags.brp.brpidFlag.id));
+})(), allSkillDocs.filter((doc) => doc._id !== createHash("sha256").update(doc.flags.brp.brpidFlag.id).digest("hex")).length);
+
 check("systemPackRegistration", (() => {
   const sys = readJson("system.json");
   const pack = sys.packs?.find((entry) => entry.name === "coc-skills");
@@ -133,12 +227,103 @@ check("systemPackRegistration", (() => {
     && sys.packs.some((entry) => entry.name === "octopus-skills")
     && sys.packs.some((entry) => entry.name === "octopus-professions");
 })());
+
+check("expansionIsNotInSystemPacks", (() => {
+  // Enabling the module is what adds the expansion; removing it has to fall
+  // back to the core list, so system.json must stay at the four shipped packs.
+  const sys = readJson("system.json");
+  return sys.packs.length === 4
+    && !sys.packs.some((entry) => String(entry.name).startsWith("arcane-investigator-"))
+    && !JSON.stringify(sys).includes("arcane-investigator");
+})());
+
+check("moduleManifestDeclaresTheTwoItemPacks", (() => {
+  const manifest = readExpand("module.json");
+  const packs = manifest.packs ?? [];
+  const skills = packs.find((entry) => entry.name === "arcane-investigator-skills");
+  const professions = packs.find((entry) => entry.name === "arcane-investigator-professions");
+  return manifest.id === "arcane-investigator-options"
+    && manifest.version === "0.1.0"
+    && manifest.title === "章鱼调查员扩展资料包"
+    && packs.length === 2
+    && (manifest.esmodules ?? []).length === 0
+    && manifest.manifest === undefined && manifest.download === undefined
+    && manifest.url === undefined
+    && skills?.path === "packs/arcane-investigator-skills"
+    && professions?.path === "packs/arcane-investigator-professions"
+    && packs.every((entry) => entry.type === "Item" && entry.system === "brp")
+    && existsSync(join(EXPAND_ROOT, "README.md"))
+    && existsSync(join(EXPAND_ROOT, "LICENSE.txt"))
+    && existsSync(join(EXPAND_ROOT, "NOTICE.md"))
+    && existsSync(join(EXPAND_ROOT, "package.json"))
+    && existsSync(join(EXPAND_ROOT, "tools/pack.mjs"));
+})(), readExpand("module.json"));
+
+check("expansionPacksAreLevelDbWal", (() => {
+  // Foundry uploads a compendium directory, and its reader expects LevelDB
+  // files. The distribution repo therefore ships a real WAL, not per-doc JSON.
+  const bad = [];
+  for (const name of ["arcane-investigator-skills", "arcane-investigator-professions"]) {
+    const dir = join(EXPAND_ROOT, "packs", name);
+    if (!existsSync(dir)) { bad.push(`${name}: missing`); continue; }
+    const files = readdirSync(dir).sort();
+    if (JSON.stringify(files) !== JSON.stringify(["000001.log"])) {
+      bad.push(`${name}: files ${JSON.stringify(files)}`);
+      continue;
+    }
+    const bytes = readFileSync(join(dir, files[0]));
+    if (bytes.length < 7 || ![1, 2].includes(bytes[6])) bad.push(`${name}: not a WAL record`);
+    if (!bytes.includes(Buffer.from("!items!"))) bad.push(`${name}: no !items! keys`);
+  }
+  return bad.length ? bad : true;
+})(), null);
+
+check("expansionDocsKeepLicenceAndTakedownBoundary", (() => {
+  // Standard MIT covers only original code and prose. The NOTICE must not
+  // pretend third-party facts are licensed, and the README must explain a
+  // takedown without claiming that deletion recalls copies or that there is no
+  // legal risk.
+  const readme = readFileSync(join(EXPAND_ROOT, "README.md"), "utf8");
+  const notice = readFileSync(join(EXPAND_ROOT, "NOTICE.md"), "utf8");
+  const license = readFileSync(join(EXPAND_ROOT, "LICENSE.txt"), "utf8");
+  const text = `${readme}\n${notice}\n${license}`;
+  return /^MIT License\n/.test(license)
+    && !/SCOPE OF THIS LICENSE/.test(license)
+    && /MIT/.test(text)
+    && /SealDice/.test(text) && /coc-cardwright/.test(text)
+    && /仅覆盖本仓的原创代码与原创文案/.test(notice)
+    && /不覆盖、也不授权任何第三方事实/.test(notice)
+    && /不因本仓的 MIT 声明获得 MIT 授权/.test(notice)
+    && /不声称.*授权|不声称任何形式的官方授权/.test(notice)
+    && /60/.test(readme) && /9\b/.test(readme)
+    && /31/.test(readme) && /148/.test(readme)
+    && /91/.test(readme) && /50/.test(readme) && /157/.test(readme)
+    && /custom-investigator/.test(readme) && /custom-eight/.test(readme)
+    && /只上传/.test(readme)
+    && /ArcaneMap/.test(readme)
+    && /资料库/.test(readme)
+    && /上传合集包/.test(readme)
+    && /战役管理/.test(readme)
+    && /只勾选其中一个包/.test(readme)
+    && /两个都勾选/.test(readme)
+    && /user-arcane-investigator-options\.arcane-investigator-skills/.test(readme)
+    && /user-arcane-investigator-options\.arcane-investigator-professions/.test(readme)
+    && /不生效|不启用/.test(readme)
+    && /停止仓库/.test(readme) && /Release/.test(readme)
+    && /不会撤回/.test(readme) && /git 历史/.test(readme)
+    // No invented first-party/SRD claim, no old public-distribution ban and no
+    // "there is no legal risk" claim.
+    && !/COC SRD/.test(text) && !/已获官方授权|官方授权版本/.test(text)
+    && !/不得声称整包可自由分发/.test(text)
+    && !/保证[^。\n]*无法律风险|no legal risk/i.test(text);
+})(), null);
+
 check("pendingSpecialismsExcluded", (facts.pendingSpecialisms ?? []).length === 7
   && (facts.pendingSpecialisms ?? []).every((pending) => pending.base === null
     && pending.status === "pending-official-source"
     && !docsByKey.has(pending.factId)
-    && !cocDocs.some((doc) => doc.flags.brp.coc.factId === pending.factId)),
-  { pending: facts.pendingSpecialisms?.length, emitted: cocDocs.filter((doc) => doc.flags.brp.coc.status === "pending-official-source").length });
+    && !allSkillDocs.some((doc) => doc.flags.brp.coc.factId === pending.factId)),
+  { pending: facts.pendingSpecialisms?.length, emitted: allSkillDocs.filter((doc) => doc.flags.brp.coc.status === "pending-official-source").length });
 
 const core = {
   "credit-rating": 0,
@@ -159,17 +344,18 @@ check("formulaSkillsUseVariableBaseFormula", dodge?.system.variable === true
   && own.system.baseFormula["1"].stat === "edu" && own.system.baseFormula["1"].value === 1,
   { dodge: dodge?.system, own: own?.system });
 
-check("noFixedZeroOutsideOfficialZeroSkills", cocDocs.filter((doc) => doc.system.base === 0 && !doc.system.variable)
+check("noFixedZeroOutsideOfficialZeroSkills", allSkillDocs.filter((doc) => doc.system.base === 0 && !doc.system.variable)
   .every((doc) => ["credit-rating", "cthulhu-mythos"].includes(doc.flags.brp.coc.key)),
-  cocDocs.filter((doc) => doc.system.base === 0).map((doc) => doc.flags.brp.coc.key));
+  allSkillDocs.filter((doc) => doc.system.base === 0).map((doc) => doc.flags.brp.coc.key));
 
 const brpidRe = /^i\.skill\.coc\.[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const specIds = new Set();
-check("brpidAsciiAndUnique", cocDocs.every((doc) => brpidRe.test(doc.flags.brp.brpidFlag.id))
-  && new Set(cocDocs.map((doc) => doc.flags.brp.brpidFlag.id)).size === cocDocs.length,
-  cocDocs.filter((doc) => !brpidRe.test(doc.flags.brp.brpidFlag.id)).map((doc) => doc.flags.brp.brpidFlag.id));
+check("brpidAsciiAndUnique", allSkillDocs.every((doc) => brpidRe.test(doc.flags.brp.brpidFlag.id))
+  && new Set(allSkillDocs.map((doc) => doc.flags.brp.brpidFlag.id)).size === allSkillDocs.length,
+  allSkillDocs.filter((doc) => !brpidRe.test(doc.flags.brp.brpidFlag.id)).map((doc) => doc.flags.brp.brpidFlag.id));
 
-const specDocs = cocDocs.filter((doc) => doc.system.specialism);
+const specDocs = allSkillDocs.filter((doc) => doc.system.specialism);
+const coreSpecDocs = cocDocs.filter((doc) => doc.system.specialism);
 const LEGACY_SPECIALISM_COUNT = 21;
 const sealdiceSpecialismCount = facts.skills.filter((skill) => String(skill.factId).startsWith("sealdice.skill.") && skill.specialism).length;
 check("specialismIdentityIndependent", specDocs.length === LEGACY_SPECIALISM_COUNT + sealdiceSpecialismCount && specDocs.every((doc) => {
@@ -182,8 +368,19 @@ check("specialismIdentityIndependent", specDocs.length === LEGACY_SPECIALISM_COU
   return true;
 }), { count: specDocs.length, ids: [...specIds] });
 
-check("allDocsTaggedCoc", cocDocs.every((doc) => doc.flags.brp.contentSource === "coc"),
-  cocDocs.filter((doc) => doc.flags.brp.contentSource !== "coc").length);
+check("specialismIdentitySpansBothPacks", coreSpecDocs.length === 22 && specDocs.length === 50,
+  { coreSpecialisms: coreSpecDocs.length, allSpecialisms: specDocs.length });
+
+check("allDocsTaggedCoc", allSkillDocs.every((doc) => doc.flags.brp.contentSource === "coc"),
+  allSkillDocs.filter((doc) => doc.flags.brp.contentSource !== "coc").length);
+
+check("expansionSkillsAreNotStarterSkills", (() => {
+  // Starter auto-attach selects every registered coc skill with `system.basic`.
+  // An expansion member must therefore never be basic, or enabling the module
+  // would silently add 31 skills to every new investigator.
+  return cocDocs.every((doc) => doc.system.basic === true)
+    && expandSkillDocs.every((doc) => doc.system.basic === false);
+})(), { core: cocDocs.filter((doc) => doc.system.basic).length, expand: expandSkillDocs.filter((doc) => doc.system.basic).length });
 
 // M3/M5/M6/M7 specialisms added after the first batch, all verified as secondary evidence.
 const NEW_SPECIALISMS = {
@@ -265,11 +462,11 @@ check("skillFamiliesConcreteCoversEveryPublishedSpecialism", (() => {
 check("octopusPackHasNoCocContent", octopusDocs.every((doc) => doc.flags.brp.contentSource !== "coc"
   && !String(doc.flags.brp.brpidFlag.id).startsWith("i.skill.coc.")),
   octopusDocs.filter((doc) => String(doc.flags.brp.brpidFlag.id).startsWith("i.skill.coc.")).map((doc) => doc.flags.brp.brpidFlag.id));
-check("noCocBrpidCollisionWithOctopus", !cocDocs.some((doc) => octopusDocs.some((oct) => oct.flags.brp.brpidFlag.id === doc.flags.brp.brpidFlag.id)));
+check("noCocBrpidCollisionWithOctopus", !allSkillDocs.some((doc) => octopusDocs.some((oct) => oct.flags.brp.brpidFlag.id === doc.flags.brp.brpidFlag.id)));
 check("provenanceHasOfficialSourcesAndExclusions", provenance.sources.length >= 8
   && provenance.sources.every((source) => source.url.startsWith("https://"))
   && provenance.licenseBoundary.excluded.some((line) => line.includes("No official PDF")));
-check("noStatsAppInContent", !JSON.stringify(facts).includes("\"app\"") && !JSON.stringify(cocDocs).includes("\"stats\""));
+check("noStatsAppInContent", !JSON.stringify(facts).includes("\"app\"") && !JSON.stringify(allSkillDocs).includes("\"stats\""));
 
 // --- 3) centralized rules ---
 const coc = Rules.for("coc");
@@ -798,20 +995,60 @@ check("specialismIndependentGrowthContract", (() => {
 const professionFacts = readJson("content/coc/professions.json");
 const profDocs = readJson("packs-json/coc-professions.json");
 const profIndex = readJson("packs-index/coc-professions.json");
-const profBySlug = new Map(profDocs.map((doc) => [doc.flags.brp.coc.slug, doc]));
+const expandProfDocs = readExpand("packs-json/arcane-investigator-professions.json");
+const expandProfIndex = readExpand("packs-index/arcane-investigator-professions.json");
+const allProfDocs = [...profDocs, ...expandProfDocs];
+// Every record is resolvable by slug regardless of which pack it ships in;
+// creation helpers below take the merged list, never only the core one.
+const profBySlug = new Map(allProfDocs.map((doc) => [doc.flags.brp.coc.slug, doc]));
+const proSlugsByPack = (pack) => professionFacts.professions
+  .filter((entry) => entry.pack === pack).map((entry) => entry.slug);
+const CORE_PROFESSION_COUNT = 9;
+const EXPAND_PROFESSION_COUNT = 148;
 
 const LEGACY_PROFESSION_COUNT = 38;
-const sealdiceProfessionDocs = profDocs.filter((doc) => String(doc.flags.brp.coc.factId).startsWith("sealdice.occupation.")).length;
+const CUSTOM_PROFESSION_COUNT = 1;
+const sealdiceProfessionDocs = allProfDocs.filter((doc) => String(doc.flags.brp.coc.factId).startsWith("sealdice.occupation.")).length;
 const sealdiceProfessionFacts = professionFacts.professions.filter((entry) => String(entry.factId).startsWith("sealdice.occupation.")).length;
-const expectedProfessionCount = LEGACY_PROFESSION_COUNT + sealdiceProfessionDocs;
+// 38 transcribed occupations + 118 SealDice imports + 1 product-defined template.
+const expectedProfessionCount = LEGACY_PROFESSION_COUNT + sealdiceProfessionDocs + CUSTOM_PROFESSION_COUNT;
 check("professionFactCount", professionFacts.professions.length === expectedProfessionCount
-  && profDocs.length === expectedProfessionCount && profIndex.length === expectedProfessionCount
+  && allProfDocs.length === expectedProfessionCount
   && sealdiceProfessionFacts === sealdiceProfessionDocs
   && sealdiceProfessionDocs === provenance.occupations.deferredSummary?.imported
-  && new Set(profDocs.map((doc) => doc._id)).size === expectedProfessionCount
-  && profDocs.every((doc) => /^[A-Za-z0-9]{16}$/.test(doc._id)),
-  { facts: professionFacts.professions.length, docs: profDocs.length, index: profIndex.length,
-    legacy: LEGACY_PROFESSION_COUNT, sealDice: sealdiceProfessionDocs });
+  && new Set(allProfDocs.map((doc) => doc._id)).size === expectedProfessionCount
+  && allProfDocs.every((doc) => /^[A-Za-z0-9]{16}$/.test(doc._id)),
+  { facts: professionFacts.professions.length, docs: allProfDocs.length,
+    legacy: LEGACY_PROFESSION_COUNT, sealDice: sealdiceProfessionDocs, custom: CUSTOM_PROFESSION_COUNT });
+
+check("professionSplitIsPartitionOfTheFactSource", (() => {
+  const coreSlugs = proSlugsByPack("core");
+  const expandSlugs = proSlugsByPack("expand");
+  const bad = [];
+  if (coreSlugs.length !== CORE_PROFESSION_COUNT) bad.push(`core ${coreSlugs.length}`);
+  if (expandSlugs.length !== EXPAND_PROFESSION_COUNT) bad.push(`expand ${expandSlugs.length}`);
+  if (profDocs.length !== CORE_PROFESSION_COUNT || profIndex.length !== CORE_PROFESSION_COUNT) bad.push("core pack size");
+  if (expandProfDocs.length !== EXPAND_PROFESSION_COUNT || expandProfIndex.length !== EXPAND_PROFESSION_COUNT) bad.push("expand pack size");
+  if (new Set(coreSlugs).size !== coreSlugs.length || new Set(expandSlugs).size !== expandSlugs.length) bad.push("slug in two packs");
+  if (coreSlugs.some((slug) => expandSlugs.includes(slug))) bad.push("slug in both pack lists");
+  if (JSON.stringify(profDocs.map((doc) => doc.flags.brp.coc.slug)) !== JSON.stringify(coreSlugs)) bad.push("core pack order differs from facts");
+  const expandDocSlugs = expandProfDocs.map((doc) => doc.flags.brp.coc.slug);
+  if (JSON.stringify([...expandDocSlugs].sort()) !== JSON.stringify([...expandSlugs].sort())) bad.push("expand pack slugs differ from facts");
+  const expandProfIds = expandProfDocs.map((doc) => doc._id);
+  if (JSON.stringify(expandProfIds) !== JSON.stringify([...expandProfIds].sort())) bad.push("expand pack is not _id sorted");
+  if (profDocs.some((doc) => doc.flags.brp.coc.pack !== "core")) bad.push("core doc tagged expand");
+  if (expandProfDocs.some((doc) => doc.flags.brp.coc.pack !== "expand")) bad.push("expand doc tagged core");
+  // Legacy identities survive the move: slug, brpid and document id are the
+  // same strings the merged pack used before the split.
+  const badIdentities = [];
+  for (const doc of expandProfDocs) {
+    const coc = doc.flags.brp.coc;
+    if (doc.flags.brp.brpidFlag.id !== `i.profession.coc.${coc.slug}`) badIdentities.push(`${coc.slug}: brpid`);
+    if (doc._id !== cocDocId(`profession-i.profession.coc.${coc.slug}`)) badIdentities.push(`${coc.slug}: id`);
+  }
+  if (badIdentities.length) bad.push(...badIdentities);
+  return bad.length ? bad : true;
+})(), { core: profDocs.length, expand: expandProfDocs.length });
 
 check("professionPackRegistration", (() => {
   const sys = readJson("system.json");
@@ -935,18 +1172,6 @@ const EXPECTED_OCCUPATIONS = {
   },
 };
 
-// Same derivation the build uses: document ids come from the stable brpid.
-const cocDocId = (seed) => {
-  let out = "";
-  let i = 0;
-  while (out.length < 16) {
-    const byte = createHash("sha256").update(`coc:${seed}:${i}`).digest()[0];
-    out += "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[byte % 62];
-    i += 1;
-  }
-  return out;
-};
-
 check("professionFormulasAndCreditRangesMatchSources", (() => {
   const mismatched = [];
   for (const [slug, expected] of Object.entries(EXPECTED_OCCUPATIONS)) {
@@ -989,13 +1214,13 @@ check("professionFormulasAndCreditRangesMatchSources", (() => {
 
 check("noShippedProfessionUsesMaxFormula", (() => {
   const bad = [];
-  for (const doc of profDocs) {
+  for (const doc of allProfDocs) {
     const coc = doc.flags.brp.coc;
     const formulas = coc.pointFormulas ?? [coc.pointFormula];
     if (formulas.some((formula) => String(formula).includes("MAX"))) bad.push(coc.slug);
   }
   return bad.length ? bad : true;
-})(), profDocs.filter((doc) => (doc.flags.brp.coc.pointFormulas ?? [doc.flags.brp.coc.pointFormula])
+})(), allProfDocs.filter((doc) => (doc.flags.brp.coc.pointFormulas ?? [doc.flags.brp.coc.pointFormula])
   .some((formula) => String(formula).includes("MAX"))).map((doc) => doc.flags.brp.coc.slug));
 
 check("legacyMaxProfessionsAreNowOrderedChoices", (() => {
@@ -1023,7 +1248,7 @@ check("legacyMaxProfessionsAreNowOrderedChoices", (() => {
 
 check("everyProfessionCarriesEightSlotsExceptSourceFaithfulAuthor", (() => {
   const bad = [];
-  for (const doc of profDocs) {
+  for (const doc of allProfDocs) {
     const coc = doc.flags.brp.coc;
     const total = (coc.fixedSkillKeys ?? []).length
       + (coc.choiceGroups ?? []).reduce((sum, group) => sum + group.choose, 0);
@@ -1037,7 +1262,7 @@ check("everyProfessionCarriesEightSlotsExceptSourceFaithfulAuthor", (() => {
     }
   }
   return bad.length ? bad : true;
-})(), profDocs.map((doc) => [doc.flags.brp.coc.slug,
+})(), allProfDocs.map((doc) => [doc.flags.brp.coc.slug,
   (doc.flags.brp.coc.fixedSkillKeys ?? []).length
   + (doc.flags.brp.coc.choiceGroups ?? []).reduce((sum, group) => sum + group.choose, 0)]));
 
@@ -1045,26 +1270,46 @@ check("professionIdentitiesAreUnique", (() => {
   const bad = [];
   for (const field of ["slug", "factId", "name"]) {
     const values = field === "name"
-      ? profDocs.map((doc) => doc.name)
-      : profDocs.map((doc) => doc.flags.brp.coc[field]);
+      ? allProfDocs.map((doc) => doc.name)
+      : allProfDocs.map((doc) => doc.flags.brp.coc[field]);
     if (new Set(values).size !== values.length) bad.push(`${field} duplicated`);
   }
-  const brpids = profDocs.map((doc) => doc.flags.brp.brpidFlag.id);
+  const brpids = allProfDocs.map((doc) => doc.flags.brp.brpidFlag.id);
   if (new Set(brpids).size !== brpids.length) bad.push("brpid duplicated");
-  const ids = profDocs.map((doc) => doc._id);
+  const ids = allProfDocs.map((doc) => doc._id);
   if (new Set(ids).size !== ids.length) bad.push("_id duplicated");
   const factSlugs = professionFacts.professions.map((entry) => entry.slug);
   if (new Set(factSlugs).size !== factSlugs.length) bad.push("fact slug duplicated");
-  if (professionFacts.professions.length !== profDocs.length) bad.push("fact/doc count mismatch");
+  if (professionFacts.professions.length !== allProfDocs.length) bad.push("fact/doc count mismatch");
   return bad.length ? bad : true;
-})(), profDocs.length);
+})(), allProfDocs.length);
 
-check("everyProfessionIsSecondaryEvidenceWithSources", profDocs.every((doc) => {
+check("everyProfessionIsSecondaryEvidenceWithSources", allProfDocs.every((doc) => {
   const coc = doc.flags.brp.coc;
+  // Published records are secondary evidence. The single product-defined
+  // record declares itself as such and carries a boundary instead of a source.
+  if (coc.evidence === "product") {
+    return coc.slug === "custom-investigator"
+      && typeof coc.productBoundary === "string" && coc.productBoundary.length > 0
+      && Array.isArray(coc.sourceRefs) && coc.sourceRefs.length > 0
+      && coc.sourceRefs.every((ref) => provenance.sources.some((source) => source.id === ref));
+  }
   return coc.evidence === "secondary"
     && Array.isArray(coc.sourceRefs) && coc.sourceRefs.length > 0
     && coc.sourceRefs.every((ref) => provenance.sources.some((source) => source.id === ref));
-}), profDocs.map((doc) => [doc.flags.brp.coc.slug, doc.flags.brp.coc.sourceRefs]));
+}), allProfDocs.map((doc) => [doc.flags.brp.coc.slug, doc.flags.brp.coc.evidence, doc.flags.brp.coc.sourceRefs]));
+
+check("onlyTheCustomTemplateIsProductDefined", (() => {
+  const product = allProfDocs.filter((doc) => doc.flags.brp.coc.evidence === "product");
+  const custom = profBySlug.get("custom-investigator");
+  return product.length === 1
+    && product[0].flags.brp.coc.slug === "custom-investigator"
+    && custom.flags.brp.coc.pack === "core"
+    && custom.flags.brp.coc.evidence === "product"
+    && JSON.stringify(custom.flags.brp.coc.sourceRefs) === JSON.stringify(["coc-wiki-skills"])
+    && !JSON.stringify(custom).includes("official")
+    && !JSON.stringify(custom).includes("SRD");
+})(), allProfDocs.filter((doc) => doc.flags.brp.coc.evidence === "product").map((doc) => doc.flags.brp.coc.slug));
 
 check("m5ProfessionsCarryExactlyEightSkills", (() => {
   const expected = {
@@ -1207,7 +1452,7 @@ check("m5ProfessionsCarryExactlyEightSkills", (() => {
     if (total !== 8) bad.push(`${slug}: ${total} skills, not 8`);
   }
   return bad.length ? bad : true;
-})(), profDocs.filter((doc) => ["doctor-of-medicine", "police-detective", "librarian", "lawyer", "engineer",
+})(), allProfDocs.filter((doc) => ["doctor-of-medicine", "police-detective", "librarian", "lawyer", "engineer",
   "police-officer", "artist", "clergy", "pilot",
   "psychiatrist", "museum-curator", "coroner", "judge", "bookseller", "antiquarian", "intermediary",
   "orderly", "government-official", "traveler", "firefighter", "fisherman", "hunter", "pharmacist",
@@ -1516,7 +1761,7 @@ check("psychiatristIsModelledFromCardwright", (() => {
   deferred: provenance.occupations.deferredRecords,
 });
 
-check("professionNeverUsesWealthBandAsCreditRating", profDocs.every((doc) => {
+check("professionNeverUsesWealthBandAsCreditRating", allProfDocs.every((doc) => {
   const coc = doc.flags.brp.coc;
   const fact = professionFacts.professions.find((entry) => entry.slug === coc.slug);
   return doc.system.minWealth === 0 && doc.system.maxWealth === 0
@@ -1526,34 +1771,87 @@ check("professionNeverUsesWealthBandAsCreditRating", profDocs.every((doc) => {
     // Tribe Member legitimately prints CR 0-15, so equality with the zeroed
     // wealth fields is not the invariant.
     && coc.creditMin === fact?.creditMin && coc.creditMax === fact?.creditMax;
-}), profDocs.map((doc) => [doc.flags.brp.coc.slug, doc.system.minWealth, doc.system.maxWealth]));
+}), allProfDocs.map((doc) => [doc.flags.brp.coc.slug, doc.system.minWealth, doc.system.maxWealth]));
 
-check("professionSkillRefsResolveToCocSkills", (() => {
-  const skillBrpids = new Set(cocDocs.map((doc) => doc.flags.brp.brpidFlag.id));
+check("professionSkillRefsResolveWithinTheirOwnPacks", (() => {
+  // A core profession must be usable with only the core packs loaded, so every
+  // native ref has to come from coc-skills. An expansion profession may draw on
+  // both packs (its own first) because enabling the module is what makes the
+  // record present at all.
+  const coreSkillBrpids = new Set(cocDocs.map((doc) => doc.flags.brp.brpidFlag.id));
+  const expandSkillBrpids = new Set(expandSkillDocs.map((doc) => doc.flags.brp.brpidFlag.id));
+  const allSkillBrpids = new Set([...coreSkillBrpids, ...expandSkillBrpids]);
   const bad = [];
-  for (const doc of profDocs) {
+  for (const doc of allProfDocs) {
+    const slug = doc.flags.brp.coc.slug;
+    const pack = doc.flags.brp.coc.pack;
     for (const ref of [...doc.system.skills, ...doc.system.groups.flatMap((group) => group.skills)]) {
-      if (!skillBrpids.has(ref.brpid)) bad.push(`${doc.flags.brp.coc.slug}→${ref.brpid}`);
-      if (ref.uuid !== cocDocId(ref.brpid)) bad.push(`${doc.flags.brp.coc.slug}→${ref.brpid}: uuid`);
+      const allowed = pack === "core" ? coreSkillBrpids : allSkillBrpids;
+      if (!allowed.has(ref.brpid)) bad.push(`${slug}(${pack})→${ref.brpid}`);
+      if (ref.uuid !== cocDocId(ref.brpid)) bad.push(`${slug}→${ref.brpid}: uuid`);
     }
     for (const ref of doc.system.skills) {
       if (octopusDocs.some((oct) => oct.flags.brp.brpidFlag.id === ref.brpid)) bad.push(`octopus ref ${ref.brpid}`);
     }
   }
   return bad.length ? bad : true;
-})());
+})(), []);
 
-check("professionGroupsCarryPickCountsAndSpecialismSlotsStayOut", profDocs.every((doc) => {
+check("coreProfessionsStaySelfContainedWhileFamiliesSpanBothPacks", (() => {
+  // The shared family expansion still works across the split: a core record
+  // reports the expansion members it could not enumerate natively instead of
+  // silently dropping them or pointing outside its own pack.
+  const coreSkillBrpids = new Set(cocDocs.map((doc) => doc.flags.brp.brpidFlag.id));
+  const expandSkillBrpids = new Set(expandSkillDocs.map((doc) => doc.flags.brp.brpidFlag.id));
+  const bad = [];
+  const dilettante = profBySlug.get("dilettante")?.flags.brp.coc;
+  const artCraft = (dilettante?.choiceGroups ?? []).find((group) => group.key === "art-craft");
+  const artOption = (artCraft?.options ?? []).find((option) => option.kind === "family");
+  if (!artOption) bad.push("dilettante: art-craft family group missing");
+  else {
+    if (!artOption.brpids.includes("i.skill.coc.art-craft-writing")) bad.push("dilettante: core member art-craft-writing missing");
+    if (artOption.brpids.some((brpid) => expandSkillBrpids.has(brpid))) bad.push("dilettante: expands into the expansion pack natively");
+    if (!(artOption.expandPackBrpids ?? []).includes("i.skill.coc.art-craft-calligraphy")) {
+      bad.push(`dilettante: expandPackBrpids ${JSON.stringify(artOption.expandPackBrpids)}`);
+    }
+    if ((artOption.expandPackBrpids ?? []).some((brpid) => !expandSkillBrpids.has(brpid))) {
+      bad.push("dilettante: expandPackBrpids point outside the expansion pack");
+    }
+  }
+  // Expansion records may use the whole family, core members included.
+  const clergyman = profBySlug.get("clergy")?.flags.brp.coc;
+  if (!clergyman || clergyman.pack !== "expand") bad.push("clergy: not in the expansion pack");
+  for (const doc of expandProfDocs) {
+    for (const group of doc.flags.brp.coc.choiceGroups ?? []) {
+      for (const option of group.options) {
+        if (option.kind !== "family") continue;
+        if ((option.brpids ?? []).some((brpid) => expandSkillBrpids.has(brpid))) continue;
+        const fact = professionFacts.skillFamilies?.[option.family];
+        const hasExpansionMember = (fact?.concrete ?? []).some((key) => docsByKey.get(key)?.flags.brp.coc.pack === "expand");
+        if (hasExpansionMember) bad.push(`${doc.flags.brp.coc.slug}/${group.key}: expansion member not enumerated`);
+      }
+    }
+  }
+  // Core native refs never point at a skill the core pack does not hold.
+  for (const doc of profDocs) {
+    for (const ref of [...doc.system.skills, ...doc.system.groups.flatMap((group) => group.skills)]) {
+      if (!coreSkillBrpids.has(ref.brpid)) bad.push(`${doc.flags.brp.coc.slug}: core ref ${ref.brpid}`);
+    }
+  }
+  return bad.length ? bad : true;
+})(), profDocs.map((doc) => [doc.flags.brp.coc.slug, doc.system.skills.map((ref) => ref.brpid)]));
+
+check("professionGroupsCarryPickCountsAndSpecialismSlotsStayOut", allProfDocs.every((doc) => {
   const groups = doc.system.groups;
   return groups.every((group) => Number.isInteger(group.options) && group.options >= 1
     && group.skills.length >= group.options)
     && doc.system.powers.length === 0;
-}), profDocs.map((doc) => [doc.flags.brp.coc.slug, doc.system.groups.map((group) => [group.options, group.skills.length])]));
+}), allProfDocs.map((doc) => [doc.flags.brp.coc.slug, doc.system.groups.map((group) => [group.options, group.skills.length])]));
 
 check("professionChoiceGroupsCarryResolvedSkillIds", (() => {
-  const skillBrpids = new Set(cocDocs.map((doc) => doc.flags.brp.brpidFlag.id));
+  const skillBrpids = new Set(allSkillDocs.map((doc) => doc.flags.brp.brpidFlag.id));
   const bad = [];
-  for (const doc of profDocs) {
+  for (const doc of allProfDocs) {
     const groups = doc.flags.brp.coc.choiceGroups ?? [];
     if (!groups.length) {
       // A source list with no either/or group is modelled as eight fixed skills;
@@ -1594,7 +1892,7 @@ check("professionChoiceGroupsCarryResolvedSkillIds", (() => {
 
 check("professionSpecialismSlotsCarryVerifiedFamilyBase", (() => {
   const bad = [];
-  for (const doc of profDocs) {
+  for (const doc of allProfDocs) {
     for (const slot of doc.flags.brp.coc.specialismSlots ?? []) {
       if (!ASCII_ID.test(slot.specKey ?? "")) bad.push(`${doc.flags.brp.coc.slug}: specKey ${slot.specKey}`);
       if (!ASCII_ID.test(slot.parentKey ?? "")) bad.push(`${doc.flags.brp.coc.slug}: parentKey ${slot.parentKey}`);
@@ -1607,13 +1905,13 @@ check("professionSpecialismSlotsCarryVerifiedFamilyBase", (() => {
     }
   }
   return bad.length ? bad : true;
-})(), profDocs.map((doc) => [doc.flags.brp.coc.slug, (doc.flags.brp.coc.specialismSlots ?? []).length]));
+})(), allProfDocs.map((doc) => [doc.flags.brp.coc.slug, (doc.flags.brp.coc.specialismSlots ?? []).length]));
 
-check("professionBrpidAsciiUniqueAndCocScoped", profDocs.every((doc) => /^i\.profession\.coc\.[a-z0-9]+(?:-[a-z0-9]+)*$/.test(doc.flags.brp.brpidFlag.id))
-  && new Set(profDocs.map((doc) => doc.flags.brp.brpidFlag.id)).size === profDocs.length
-  && !profDocs.some((doc) => octopusDocs.some((oct) => oct.flags.brp.brpidFlag.id === doc.flags.brp.brpidFlag.id))
-  && !JSON.stringify(profDocs).includes('"\"app\""'),
-  profDocs.map((doc) => doc.flags.brp.brpidFlag.id));
+check("professionBrpidAsciiUniqueAndCocScoped", allProfDocs.every((doc) => /^i\.profession\.coc\.[a-z0-9]+(?:-[a-z0-9]+)*$/.test(doc.flags.brp.brpidFlag.id))
+  && new Set(allProfDocs.map((doc) => doc.flags.brp.brpidFlag.id)).size === allProfDocs.length
+  && !allProfDocs.some((doc) => octopusDocs.some((oct) => oct.flags.brp.brpidFlag.id === doc.flags.brp.brpidFlag.id))
+  && !JSON.stringify(allProfDocs).includes('"\"app\""'),
+  allProfDocs.map((doc) => doc.flags.brp.brpidFlag.id));
 
 // Creation rules: pure functions imported exactly as the frontend will.
 const creation = await import("../../module/rules/creation.mjs");
@@ -1630,7 +1928,7 @@ const {
 // every entry, and the legacy 38 records must not be overwritten.
 const SEALDICE_FACT_PREFIX = "sealdice.occupation.";
 const sealdiceFacts = professionFacts.professions.filter((entry) => String(entry.factId).startsWith(SEALDICE_FACT_PREFIX));
-const sealdiceDocs = profDocs.filter((doc) => String(doc.flags.brp.coc.factId).startsWith(SEALDICE_FACT_PREFIX));
+const sealdiceDocs = allProfDocs.filter((doc) => String(doc.flags.brp.coc.factId).startsWith(SEALDICE_FACT_PREFIX));
 const sealdiceDeferred = provenance.occupations.deferredRecords ?? {};
 const sealdiceSummary = provenance.occupations.deferredSummary ?? {};
 const sealdicePerRecord = provenance.occupations.perRecord ?? {};
@@ -1644,7 +1942,7 @@ check("sealdiceBatchReportMatchesRecords", sealdiceFacts.length > 0
   && Object.keys(sealdiceDeferred).length === sealdiceSummary.deferred
   && Object.values(sealdiceSummary.byCategory ?? {}).reduce((sum, count) => sum + count, 0) === sealdiceSummary.deferred
   && sealdiceFacts.every((fact) => sealdicePerRecord[fact.factId])
-  && professionFacts.professions.length === LEGACY_PROFESSION_COUNT + sealdiceFacts.length,
+  && professionFacts.professions.length === LEGACY_PROFESSION_COUNT + sealdiceFacts.length + CUSTOM_PROFESSION_COUNT,
   { imported: sealdiceFacts.length, summary: sealdiceSummary });
 
 check("sealdiceDeferredRecordsCarryCategoryAndReason", (() => {
@@ -1888,7 +2186,8 @@ check("sealdiceDescriptionsAreOriginalProse", sealdiceFacts.every((fact) => type
   && !fact.description.includes("职业序号")), sealdiceFacts.map((fact) => [fact.slug, fact.description?.length]));
 
 check("sealdiceBatchPreservesLegacyRecordsAndChoices", (() => {
-  const legacy = professionFacts.professions.filter((entry) => !String(entry.factId).startsWith(SEALDICE_FACT_PREFIX));
+  const legacy = professionFacts.professions.filter((entry) => !String(entry.factId).startsWith(SEALDICE_FACT_PREFIX)
+    && entry.evidence !== "product");
   const bySlug = new Map(legacy.map((entry) => [entry.slug, entry]));
   return legacy.length === LEGACY_PROFESSION_COUNT
     && JSON.stringify(bySlug.get("private-investigator")?.pointFormulas) === JSON.stringify(["EDU*2+STR*2", "EDU*2+DEX*2"])
@@ -1941,8 +2240,11 @@ check("formulaUsageMatchesThePinnedOccupationTable", (() => {
   // table; no record may still carry the old MAX spelling, and the MAX
   // formulas stay whitelisted for backward compatibility only.
   // This table pins the M7 legacy 38. The M8 SealDice batch is checked by
-  // sealdiceImportedProfessionsUseWhitelistedFormulasAndCredit instead.
-  const legacyDocs = profDocs.filter((doc) => !String(doc.flags.brp.coc.factId).startsWith("sealdice.occupation."));
+  // sealdiceImportedProfessionsUseWhitelistedFormulasAndCredit instead, and the
+  // product-defined template is pinned by
+  // customInvestigatorFormulasAreTheFiveWhitelistedOnes.
+  const legacyDocs = allProfDocs.filter((doc) => !String(doc.flags.brp.coc.factId).startsWith("sealdice.occupation.")
+    && doc.flags.brp.coc.evidence !== "product");
   const actual = new Map(legacyDocs.map((doc) => [
     doc.flags.brp.coc.slug,
     doc.flags.brp.coc.pointFormulas ?? [doc.flags.brp.coc.pointFormula],
@@ -1964,9 +2266,9 @@ check("formulaUsageMatchesThePinnedOccupationTable", (() => {
     || !POINT_FORMULAS.includes("EDU*2+MAX(DEX,STR)*2")) bad.push("MAX formulas dropped from whitelist");
   return bad.length ? bad : true;
 })(), {
-  maxUsers: profDocs.filter((doc) => (doc.flags.brp.coc.pointFormulas ?? [doc.flags.brp.coc.pointFormula])
+  maxUsers: allProfDocs.filter((doc) => (doc.flags.brp.coc.pointFormulas ?? [doc.flags.brp.coc.pointFormula])
     .some((formula) => formula.includes("MAX"))).map((doc) => doc.flags.brp.coc.slug),
-  powUsers: profDocs.filter((doc) => (doc.flags.brp.coc.pointFormulas ?? [doc.flags.brp.coc.pointFormula])
+  powUsers: allProfDocs.filter((doc) => (doc.flags.brp.coc.pointFormulas ?? [doc.flags.brp.coc.pointFormula])
     .includes("EDU*2+POW*2")).map((doc) => doc.flags.brp.coc.slug),
   formulas: [...POINT_FORMULAS],
 });
@@ -2048,6 +2350,83 @@ check("allocationValidPathOnRealProfession", okArchaeologist.valid
   okArchaeologist);
 
 const budgetCodes = (result) => result.errors.map((entry) => entry.code);
+
+// The product-defined template is validated here: these helpers need both the
+// pack documents and the pure creation rules.
+check("customInvestigatorFormulasAreTheFiveWhitelistedOnes", (() => {
+  // Five real formulas to pick from, all already whitelisted. No sixth formula
+  // and no MAX shorthand is invented for the template.
+  const coc = profBySlug.get("custom-investigator")?.flags.brp.coc;
+  const expected = ["EDU*4", "EDU*2+DEX*2", "EDU*2+APP*2", "EDU*2+STR*2", "EDU*2+POW*2"];
+  if (!coc) return false;
+  const formulas = coc.pointFormulas ?? [];
+  return JSON.stringify(formulas) === JSON.stringify(expected)
+    && coc.pointFormula === expected[0]
+    && formulas.every((formula) => POINT_FORMULAS.includes(formula))
+    && !formulas.some((formula) => formula.includes("MAX"))
+    && coc.creditMin === 0 && coc.creditMax === 99;
+})(), profBySlug.get("custom-investigator")?.flags.brp.coc.pointFormulas);
+
+check("customInvestigatorChoiceShape", (() => {
+  // Eight arbitrary skills, one choice group, and nothing hard-wired: the record
+  // must not smuggle in a fixed skill or a narrower option list.
+  const coc = profBySlug.get("custom-investigator")?.flags.brp.coc;
+  if (!coc) return false;
+  const groups = coc.choiceGroups ?? [];
+  return (coc.fixedSkillKeys ?? []).length === 0
+    && (coc.specialismSlots ?? []).length === 0
+    && groups.length === 1
+    && groups[0].key === "custom-eight"
+    && groups[0].choose === 8
+    && groups[0].distinct === true
+    && groups[0].options.length === 1
+    && groups[0].options[0].kind === "any"
+    && groups[0].options[0].brpids.length === 0
+    // An "any" group cannot be enumerated, so it stays out of the native groups.
+    && profBySlug.get("custom-investigator").system.groups.length === 0;
+})(), profBySlug.get("custom-investigator")?.flags.brp.coc.choiceGroups);
+
+check("customInvestigatorBuildsThroughTheRealCreationRules", (() => {
+  // The template has to work as a character-creation source, not just as data:
+  // CR 0–99 is the Keeper-reviewed range, either end is legal, a CR outside it
+  // is rejected, and the player still has to pin one of the five formulas.
+  const doc = profBySlug.get("custom-investigator");
+  const custom = (skills, pointFormula) => validateAllocation({
+    profession: doc, stats: creationStats, skills, ...(pointFormula ? { pointFormula } : {}),
+  });
+  const atMin = custom([{ key: "credit-rating", base: 0, occupation: 0 }], "EDU*4");
+  const atMax = custom([{ key: "credit-rating", base: 0, occupation: 99 }], "EDU*2+DEX*2");
+  const unpinned = custom([{ key: "credit-rating", base: 0, occupation: 10 }]);
+  const overMax = custom([{ key: "credit-rating", base: 0, occupation: 100 }], "EDU*4");
+  const eightPicks = custom([
+    { key: "credit-rating", base: 0, occupation: 20 },
+    { key: "library-use", base: 20, occupation: 10 },
+    { key: "art-craft-writing", base: 5, interest: 15 },
+    { key: "history", base: 5, interest: 10 },
+    { key: "occult", base: 5, interest: 10 },
+    { key: "listen", base: 20, interest: 10 },
+    { key: "psychology", base: 10, interest: 10 },
+    { key: "stealth", base: 20, interest: 10 },
+    { key: "swim", base: 20, interest: 5 },
+  ], "EDU*2+POW*2");
+  return atMin.valid && atMin.creditRating.value === 0
+    && atMax.valid && atMax.creditRating.value === 99
+    && atMax.budgets.occupation.max === 260
+    && !unpinned.valid && unpinned.budgets === null
+    && budgetCodes(unpinned).includes("formula-choice-required")
+    && !overMax.valid && budgetCodes(overMax).includes("credit-rating-above-max")
+    && eightPicks.valid
+    && eightPicks.totals.length === 9
+    && eightPicks.budgets.interest.max === 100;
+})(), (() => {
+  try {
+    return budgetCodes(validateAllocation({
+      profession: profBySlug.get("custom-investigator"), stats: creationStats,
+      skills: [{ key: "credit-rating", base: 0, occupation: 100 }], pointFormula: "EDU*4",
+    }));
+  } catch (thrown) { return thrown.code; }
+})());
+
 check("allocationRejectsOverspendOnBothBudgets",
   budgetCodes(alloc("archaeologist", [{ key: "credit-rating", base: 0, occupation: 21 }, { key: "archaeology", base: 1, occupation: 220 }]))
     .includes("budget-occupation-exceeded")
@@ -2299,6 +2678,61 @@ check("singleFormulaProfessionsKeepTheirOldBudgets", (() => {
   return bad.length ? bad : true;
 })(), null);
 
+check("coreProfessionsBuildEndToEndFromCorePacksOnly", (() => {
+  // The pinned core eight plus the custom template must be buildable with only
+  // the core packs loaded: every skill key they reference exists in coc-skills,
+  // and each one pins a formula and a credit rating inside its own range.
+  const coreSkillKeys = new Set(cocDocs.map((doc) => doc.flags.brp.coc.key));
+  const coreSlugs = ["antiquarian", "author", "dilettante", "doctor-of-medicine",
+    "investigative-journalist", "police-detective", "private-investigator", "professor"];
+  const bad = [];
+  for (const slug of [...coreSlugs, "custom-investigator"]) {
+    const doc = profBySlug.get(slug);
+    if (!doc) { bad.push(`${slug}: missing`); continue; }
+    if (doc.flags.brp.coc.pack !== "core") bad.push(`${slug}: pack ${doc.flags.brp.coc.pack}`);
+    for (const key of doc.flags.brp.coc.fixedSkillKeys ?? []) {
+      if (!coreSkillKeys.has(key)) bad.push(`${slug}: fixed ${key} not in the core pack`);
+    }
+    for (const group of doc.flags.brp.coc.choiceGroups ?? []) {
+      for (const option of group.options) {
+        if (option.kind === "skill" && !coreSkillKeys.has(option.skill)) bad.push(`${slug}: option ${option.skill}`);
+        for (const brpid of option.brpids ?? []) {
+          if (!cocDocs.some((skillDocEntry) => skillDocEntry.flags.brp.brpidFlag.id === brpid)) {
+            bad.push(`${slug}: native ref ${brpid} outside the core pack`);
+          }
+        }
+      }
+    }
+    const coc = doc.flags.brp.coc;
+    const first = (coc.pointFormulas ?? [coc.pointFormula])[0];
+    const result = validateAllocation({
+      profession: doc, stats: creationStats,
+      skills: [{ key: "credit-rating", base: 0, occupation: coc.creditMin }],
+      ...(coc.pointFormulas ? { pointFormula: first } : {}),
+    });
+    if (!result.valid) bad.push(`${slug}: ${budgetCodes(result)}`);
+  }
+  return bad.length ? bad : true;
+})(), null);
+
+check("authorKeepsItsOpenLiteratureDirection", (() => {
+  // The literary direction is an open specialism slot, not a published skill:
+  // the player names the specialism, so no `art-craft-literature` document may
+  // be invented and the slot must stay available without the module.
+  const author = profBySlug.get("author")?.flags.brp.coc;
+  const slot = (author?.specialismSlots ?? []).find((entry) => entry.specKey === "literature");
+  return !!slot
+    && slot.family === "art-craft"
+    && slot.parentKey === "art-craft"
+    && slot.brpid === "i.skill.coc.art-craft-literature"
+    && slot.base === 5
+    && (slot.baseSourceRefs ?? []).length > 0
+    && slot.requiresExplicitBase === false
+    && !docsByKey.has("art-craft-literature")
+    && !cocDocs.some((doc) => doc.flags.brp.coc.key === "art-craft-literature")
+    && JSON.stringify(author.sourceRefs) === JSON.stringify(["coc-roll20-occupations"]);
+})(), profBySlug.get("author")?.flags.brp.coc.specialismSlots);
+
 check("newProfessionsBuildValidAllocationsEndToEnd", (() => {
   // One realistic allocation per M5/M6 profession plus a credit-rating-only
   // pass over every shipped occupation, through the pack documents the builder
@@ -2331,7 +2765,7 @@ check("newProfessionsBuildValidAllocationsEndToEnd", (() => {
   // formula, allocate only Credit Rating at its minimum and expect the exact
   // pool from the whitelisted evaluator. This catches a record whose formula
   // and credit range disagree with its own pack document.
-  for (const doc of profDocs) {
+  for (const doc of allProfDocs) {
     const coc = doc.flags.brp.coc;
     const first = (coc.pointFormulas ?? [coc.pointFormula])[0];
     const result = validateAllocation({
@@ -2478,9 +2912,9 @@ check("professionDocIdsAreDeterministicFromSlug", (() => {
     }
     return out;
   };
-  return profDocs.every((doc) => doc._id === rebuild(`profession-${doc.flags.brp.brpidFlag.id}`))
-    && new Set(profDocs.map((doc) => doc._id)).size === profDocs.length;
-})(), profDocs.map((doc) => doc._id));
+  return allProfDocs.every((doc) => doc._id === rebuild(`profession-${doc.flags.brp.brpidFlag.id}`))
+    && new Set(allProfDocs.map((doc) => doc._id)).size === allProfDocs.length;
+})(), allProfDocs.map((doc) => doc._id));
 
 check("packProfessionDocumentFeedsValidateAllocationDirectly", (() => {
   // The builder will hand the pack document straight in, so normalization

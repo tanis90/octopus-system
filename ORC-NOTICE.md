@@ -30,8 +30,27 @@ www.chaosium.com/orclicense / www.azoralaw.com/orclicense / www.paizo.com/orclic
 
 ## 独立 CoC 数据包（不属于 ORC 授权）
 
-`packs/coc-skills`、`packs-json/coc-skills.json`、`packs-index/coc-skills.json` 与
-`content/coc/` 是独立的 CoC 7e M1 事实数据，**不属于上述 ORC Licensed Content**，
-也不由 ORC 许可证覆盖。其数值/公式只来自官方公开规则页与官方调查员表，文案与代码
-自写；未提交官方 PDF、正文、图片或字体。VTT 使用与公开发布的授权问题仍需单独评审
-（见 `docs/coc-compatibility-contract.md`）。
+`packs/coc-skills`、`packs-json/coc-skills.json`、`packs-index/coc-skills.json`、
+`packs/coc-professions`（及对应 `packs-json`/`packs-index`）与 `content/coc/` 是独立的
+CoC 7e 事实数据，**不属于上述 ORC Licensed Content**，也不由 ORC 许可证覆盖。其数值/
+公式只来自官方公开规则页、公开二手页与用户仓库，文案与代码自写；未提交官方 PDF、
+正文、图片或字体。VTT 使用与公开发布的授权问题仍需单独评审（见
+`docs/coc-compatibility-contract.md`）。
+
+## 可选扩展（不属于 ORC 授权，也不随系统默认分发）
+
+sibling 分发仓 `../arcane-investigator-options/`（「章鱼调查员扩展资料包」）及其两个
+Item 包 `arcane-investigator-skills`（31 条技能）与
+`arcane-investigator-professions`（148 个职业）：
+
+- 不是 Chaosium 官方产品，不是 CoC SRD，也不由 ORC 许可证覆盖；不声称任何官方授权。
+- 只在模块存在并被加载时出现；`system.json` 不登记这两个包，撤下模块即回到核心
+  60 技能 / 9 职业入口。
+- 标准 MIT 仅覆盖该仓的原创代码与原创文案（manifest、打包脚本、README/NOTICE、
+  自写的中文描述与结构化字段）。**SealDice builtins、coc-cardwright、Roll20 /
+  Chaosium wiki 等第三方事实不因这份 MIT 声明获得 MIT 授权**，权利仍归各自权利人。
+- 未复制任何第三方原文：没有 SealDice JSON/helpdoc 正文、没有 coc-cardwright 模板或
+  代码、没有官方 PDF/正文/图片/字体。
+- 公开分发是维护者决定，不声称第三方事实已获授权，也不保证无法律风险；收到权利人异议时
+  停止仓库与 Release。删除不会撤回已经分发的副本，也不清除既有 git 历史。
+  详见 `../arcane-investigator-options/NOTICE.md`。

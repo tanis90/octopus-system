@@ -32,6 +32,42 @@ const FACT_PREFIX = "sealdice.occupation.";
 const SKILL_FACT_PREFIX = "sealdice.skill.";
 const BATCH = "M8 sealdice-builtins compatibility batch";
 
+// Pack split. The import keeps writing one fact source; the build slices it into
+// the core packs and the optional expansion distribution repo. Every M8 member is expansion
+// material except Art/Craft (Writing), which the core occupations print, and the
+// core occupation slugs are the ones the core packs ship.
+const CORE_SKILL_KEYS = new Set(["art-craft-writing"]);
+const CORE_PROFESSION_SLUGS = new Set([
+  "antiquarian", "author", "dilettante", "doctor-of-medicine",
+  "investigative-journalist", "police-detective", "private-investigator", "professor",
+  "custom-investigator",
+]);
+const packForSkill = (key) => (CORE_SKILL_KEYS.has(key) ? "core" : "expand");
+const packForProfession = (slug) => (CORE_PROFESSION_SLUGS.has(slug) ? "core" : "expand");
+// Insert `pack` right after `brpid` so the fact files keep a readable shape.
+const withPack = (entry, pack) => {
+  const out = {};
+  for (const [key, value] of Object.entries(entry)) {
+    out[key] = value;
+    if (key === "brpid") out.pack = pack;
+  }
+  if (out.pack === undefined) out.pack = pack;
+  return out;
+};
+const packSplit = (skills, professions) => {
+  const counts = {
+    skills: {
+      core: skills.filter((entry) => entry.pack === "core").length,
+      expand: skills.filter((entry) => entry.pack === "expand").length,
+    },
+    professions: {
+      core: professions.filter((entry) => entry.pack === "core").length,
+      expand: professions.filter((entry) => entry.pack === "expand").length,
+    },
+  };
+  return counts;
+};
+
 const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), "utf8"));
 const writeJson = (path, value) => writeFileSync(join(ROOT, path), JSON.stringify(value, null, 2) + "\n");
 const fail = (message) => { console.error(`导入器失败：${message}`); process.exit(1); };
@@ -832,7 +868,7 @@ for (const record of importedFacts) {
 // ----------------------------------------------------------- skills.json
 const skillFacts = readJson("content/coc/skills.json");
 skillFacts.skills = skillFacts.skills.filter((skill) => !isImportedSkill(skill));
-const skillRecords = NEW_SKILLS.map((skill) => ({
+const skillRecords = NEW_SKILLS.map((skill) => withPack({
   factId: `${SKILL_FACT_PREFIX}${skill.key}`,
   key: skill.key,
   specKey: skill.specKey,
@@ -846,7 +882,8 @@ const skillRecords = NEW_SKILLS.map((skill) => ({
   ...(skill.parentKey ? { parentKey: skill.parentKey, mainName: FAMILY_LABEL[skill.parentKey] } : {}),
   sourceRefs: skillSourceRefs(skill),
   description: skill.description,
-})).sort((left, right) => left.key.localeCompare(right.key));
+}, packForSkill(skill.key))).sort((left, right) => left.key.localeCompare(right.key));
+skillFacts.skills = skillFacts.skills.map((skill) => withPack(skill, skill.pack ?? packForSkill(skill.key)));
 skillFacts.skills.push(...skillRecords);
 skillFacts.revision = "2026-10-30";
 writeJson("content/coc/skills.json", skillFacts);
@@ -854,7 +891,8 @@ writeJson("content/coc/skills.json", skillFacts);
 // -------------------------------------------------------- professions.json
 const professionFacts = existingProfessions;
 professionFacts.professions = professionFacts.professions.filter((entry) => !String(entry.factId).startsWith(FACT_PREFIX));
-professionFacts.professions.push(...importedFacts);
+professionFacts.professions.push(...importedFacts.map((entry) => withPack(entry, packForProfession(entry.slug))));
+professionFacts.professions = professionFacts.professions.map((entry) => withPack(entry, entry.pack ?? packForProfession(entry.slug)));
 for (const [familyKey, keys] of Object.entries({
   "art-craft": NEW_SKILLS.filter((skill) => skill.parentKey === "art-craft").map((skill) => skill.key),
   "science": NEW_SKILLS.filter((skill) => skill.parentKey === "science").map((skill) => skill.key),
@@ -876,8 +914,16 @@ professionFacts.scope = [
   `and the ${BATCH}: ${importedFacts.length} SealDice builtin formal definitions mapped onto the same creation rules.`,
   "Only the helpdoc's formula, credit-rating range and skill composition are used; every description is written for this project.",
   "Entries that are aliases, malformed, custom, not eight slots, missing a formula/credit range, or lacking a verified skill base are listed as deferred in provenance.json.",
+  "The file stays a single fact source; every record carries `pack` and the build slices it into the core packs (coc-skills / coc-professions) and the optional expansion distribution repo (arcane-investigator-skills / arcane-investigator-professions).",
 ].join(" ");
+// The split counters are derived, never typed by hand.
+{
+  const counts = packSplit(skillFacts.skills, professionFacts.professions);
+  skillFacts.packSplit = { ...(skillFacts.packSplit ?? {}), counts: counts.skills };
+  professionFacts.packSplit = { ...(professionFacts.packSplit ?? {}), counts: counts.professions };
+}
 writeJson("content/coc/professions.json", professionFacts);
+writeJson("content/coc/skills.json", skillFacts);
 
 // --------------------------------------------------------- provenance.json
 const provenance = readJson("content/coc/provenance.json");

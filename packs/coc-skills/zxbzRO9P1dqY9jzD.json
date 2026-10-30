@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.language-other-greek",
     "key": "language-other-greek",
+    "pack": "core",
     "specKey": "greek",
     "parentKey": "language-other",
     "sourceRefs": [

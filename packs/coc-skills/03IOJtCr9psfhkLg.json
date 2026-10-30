@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.fighting-brawl",
     "key": "fighting-brawl",
+    "pack": "core",
     "specKey": "brawl",
     "parentKey": "fighting",
     "sourceRefs": [

@@ -99,14 +99,14 @@
     },
     {
       "name": "coc-skills",
-      "label": "克苏鲁的呼唤 · 核心技能（CoC 7e · M1）",
+      "label": "克苏鲁的呼唤 · 核心技能（CoC 7e）",
       "path": "packs/coc-skills",
       "type": "Item",
       "system": "brp"
     },
     {
       "name": "coc-professions",
-      "label": "克苏鲁的呼唤 · 职业（CoC 7e · M2）",
+      "label": "克苏鲁的呼唤 · 核心职业（CoC 7e）",
       "path": "packs/coc-professions",
       "type": "Item",
       "system": "brp"

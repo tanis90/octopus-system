@@ -15,6 +15,7 @@
     "coc": {
      "factId": "coc7.accounting",
      "key": "accounting",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -64,6 +65,7 @@
     "coc": {
      "factId": "coc7.anthropology",
      "key": "anthropology",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -113,6 +115,7 @@
     "coc": {
      "factId": "coc7.appraise",
      "key": "appraise",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -162,6 +165,7 @@
     "coc": {
      "factId": "coc7.archaeology",
      "key": "archaeology",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -211,6 +215,7 @@
     "coc": {
      "factId": "coc7.art-craft-acting",
      "key": "art-craft-acting",
+     "pack": "core",
      "specKey": "acting",
      "parentKey": "art-craft",
      "sourceRefs": [
@@ -260,6 +265,7 @@
     "coc": {
      "factId": "coc7.art-craft-photography",
      "key": "art-craft-photography",
+     "pack": "core",
      "specKey": "photography",
      "parentKey": "art-craft",
      "sourceRefs": [
@@ -309,6 +315,7 @@
     "coc": {
      "factId": "coc7.art-craft-painting",
      "key": "art-craft-painting",
+     "pack": "core",
      "specKey": "painting",
      "parentKey": "art-craft",
      "sourceRefs": [
@@ -358,6 +365,7 @@
     "coc": {
      "factId": "coc7.art-craft-technical-drawing",
      "key": "art-craft-technical-drawing",
+     "pack": "core",
      "specKey": "technical-drawing",
      "parentKey": "art-craft",
      "sourceRefs": [
@@ -407,6 +415,7 @@
     "coc": {
      "factId": "coc7.charm",
      "key": "charm",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -456,6 +465,7 @@
     "coc": {
      "factId": "coc7.climb",
      "key": "climb",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -505,6 +515,7 @@
     "coc": {
      "factId": "coc7.credit-rating",
      "key": "credit-rating",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -554,6 +565,7 @@
     "coc": {
      "factId": "coc7.cthulhu-mythos",
      "key": "cthulhu-mythos",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -603,6 +615,7 @@
     "coc": {
      "factId": "coc7.disguise",
      "key": "disguise",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -652,6 +665,7 @@
     "coc": {
      "factId": "coc7.dodge",
      "key": "dodge",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -701,6 +715,7 @@
     "coc": {
      "factId": "coc7.drive-auto",
      "key": "drive-auto",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -750,6 +765,7 @@
     "coc": {
      "factId": "coc7.electrical-repair",
      "key": "electrical-repair",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -799,6 +815,7 @@
     "coc": {
      "factId": "coc7.fast-talk",
      "key": "fast-talk",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -848,6 +865,7 @@
     "coc": {
      "factId": "coc7.fighting-brawl",
      "key": "fighting-brawl",
+     "pack": "core",
      "specKey": "brawl",
      "parentKey": "fighting",
      "sourceRefs": [
@@ -897,6 +915,7 @@
     "coc": {
      "factId": "coc7.firearms-handgun",
      "key": "firearms-handgun",
+     "pack": "core",
      "specKey": "handgun",
      "parentKey": "firearms",
      "sourceRefs": [
@@ -946,6 +965,7 @@
     "coc": {
      "factId": "coc7.firearms-rifle-shotgun",
      "key": "firearms-rifle-shotgun",
+     "pack": "core",
      "specKey": "rifle-shotgun",
      "parentKey": "firearms",
      "sourceRefs": [
@@ -995,6 +1015,7 @@
     "coc": {
      "factId": "coc7.first-aid",
      "key": "first-aid",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1044,6 +1065,7 @@
     "coc": {
      "factId": "coc7.history",
      "key": "history",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1093,6 +1115,7 @@
     "coc": {
      "factId": "coc7.intimidate",
      "key": "intimidate",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1142,6 +1165,7 @@
     "coc": {
      "factId": "coc7.jump",
      "key": "jump",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1191,6 +1215,7 @@
     "coc": {
      "factId": "coc7.language-own",
      "key": "language-own",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1240,6 +1265,7 @@
     "coc": {
      "factId": "coc7.language-other-latin",
      "key": "language-other-latin",
+     "pack": "core",
      "specKey": "latin",
      "parentKey": "language-other",
      "sourceRefs": [
@@ -1289,6 +1315,7 @@
     "coc": {
      "factId": "coc7.language-other-greek",
      "key": "language-other-greek",
+     "pack": "core",
      "specKey": "greek",
      "parentKey": "language-other",
      "sourceRefs": [
@@ -1338,6 +1365,7 @@
     "coc": {
      "factId": "coc7.law",
      "key": "law",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1387,6 +1415,7 @@
     "coc": {
      "factId": "coc7.library-use",
      "key": "library-use",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1436,6 +1465,7 @@
     "coc": {
      "factId": "coc7.listen",
      "key": "listen",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1485,6 +1515,7 @@
     "coc": {
      "factId": "coc7.locksmith",
      "key": "locksmith",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1534,6 +1565,7 @@
     "coc": {
      "factId": "coc7.mechanical-repair",
      "key": "mechanical-repair",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1583,6 +1615,7 @@
     "coc": {
      "factId": "coc7.medicine",
      "key": "medicine",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1632,6 +1665,7 @@
     "coc": {
      "factId": "coc7.natural-world",
      "key": "natural-world",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1681,6 +1715,7 @@
     "coc": {
      "factId": "coc7.navigate",
      "key": "navigate",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1730,6 +1765,7 @@
     "coc": {
      "factId": "coc7.occult",
      "key": "occult",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1779,6 +1815,7 @@
     "coc": {
      "factId": "coc7.operate-heavy-machinery",
      "key": "operate-heavy-machinery",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1828,6 +1865,7 @@
     "coc": {
      "factId": "coc7.persuade",
      "key": "persuade",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -1877,6 +1915,7 @@
     "coc": {
      "factId": "coc7.pilot-boat",
      "key": "pilot-boat",
+     "pack": "core",
      "specKey": "boat",
      "parentKey": "pilot",
      "sourceRefs": [
@@ -1926,6 +1965,7 @@
     "coc": {
      "factId": "coc7.pilot-aircraft",
      "key": "pilot-aircraft",
+     "pack": "core",
      "specKey": "aircraft",
      "parentKey": "pilot",
      "sourceRefs": [
@@ -1975,6 +2015,7 @@
     "coc": {
      "factId": "coc7.psychoanalysis",
      "key": "psychoanalysis",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -2024,6 +2065,7 @@
     "coc": {
      "factId": "coc7.psychology",
      "key": "psychology",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -2073,6 +2115,7 @@
     "coc": {
      "factId": "coc7.ride",
      "key": "ride",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -2122,6 +2165,7 @@
     "coc": {
      "factId": "coc7.science-astronomy",
      "key": "science-astronomy",
+     "pack": "core",
      "specKey": "astronomy",
      "parentKey": "science",
      "sourceRefs": [
@@ -2173,6 +2217,7 @@
     "coc": {
      "factId": "coc7.science-biology",
      "key": "science-biology",
+     "pack": "core",
      "specKey": "biology",
      "parentKey": "science",
      "sourceRefs": [
@@ -2222,6 +2267,7 @@
     "coc": {
      "factId": "coc7.science-chemistry",
      "key": "science-chemistry",
+     "pack": "core",
      "specKey": "chemistry",
      "parentKey": "science",
      "sourceRefs": [
@@ -2271,6 +2317,7 @@
     "coc": {
      "factId": "coc7.science-engineering",
      "key": "science-engineering",
+     "pack": "core",
      "specKey": "engineering",
      "parentKey": "science",
      "sourceRefs": [
@@ -2320,6 +2367,7 @@
     "coc": {
      "factId": "coc7.science-forensics",
      "key": "science-forensics",
+     "pack": "core",
      "specKey": "forensics",
      "parentKey": "science",
      "sourceRefs": [
@@ -2369,6 +2417,7 @@
     "coc": {
      "factId": "coc7.science-pharmacy",
      "key": "science-pharmacy",
+     "pack": "core",
      "specKey": "pharmacy",
      "parentKey": "science",
      "sourceRefs": [
@@ -2418,6 +2467,7 @@
     "coc": {
      "factId": "coc7.science-physics",
      "key": "science-physics",
+     "pack": "core",
      "specKey": "physics",
      "parentKey": "science",
      "sourceRefs": [
@@ -2467,6 +2517,7 @@
     "coc": {
      "factId": "coc7.science-zoology",
      "key": "science-zoology",
+     "pack": "core",
      "specKey": "zoology",
      "parentKey": "science",
      "sourceRefs": [
@@ -2516,6 +2567,7 @@
     "coc": {
      "factId": "coc7.sleight-of-hand",
      "key": "sleight-of-hand",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -2565,6 +2617,7 @@
     "coc": {
      "factId": "coc7.spot-hidden",
      "key": "spot-hidden",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -2614,6 +2667,7 @@
     "coc": {
      "factId": "coc7.stealth",
      "key": "stealth",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -2663,6 +2717,7 @@
     "coc": {
      "factId": "coc7.survival-wilderness",
      "key": "survival-wilderness",
+     "pack": "core",
      "specKey": "wilderness",
      "parentKey": "survival",
      "sourceRefs": [
@@ -2712,6 +2767,7 @@
     "coc": {
      "factId": "coc7.survival-sea",
      "key": "survival-sea",
+     "pack": "core",
      "specKey": "sea",
      "parentKey": "survival",
      "sourceRefs": [
@@ -2761,6 +2817,7 @@
     "coc": {
      "factId": "coc7.swim",
      "key": "swim",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -2810,6 +2867,7 @@
     "coc": {
      "factId": "coc7.throw",
      "key": "throw",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -2859,6 +2917,7 @@
     "coc": {
      "factId": "coc7.track",
      "key": "track",
+     "pack": "core",
      "specKey": null,
      "parentKey": null,
      "sourceRefs": [
@@ -2893,888 +2952,6 @@
   }
  },
  {
-  "_id": "oJeEiHzOXS9AO4Fi",
-  "name": "艺术/手艺（杂技）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-acrobatics",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Acrobatics)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-acrobatics",
-     "key": "art-craft-acrobatics",
-     "specKey": "acrobatics",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-sheet-1920s"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（杂技）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "以翻腾、平衡和抛接完成杂技表演。"
-  }
- },
- {
-  "_id": "ve3J9iJVEmEvjtO6",
-  "name": "艺术/手艺（理发）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-barber",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Barbering)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-barber",
-     "key": "art-craft-barber",
-     "specKey": "barber",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（理发）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "修剪头发、修面并打理仪容。"
-  }
- },
- {
-  "_id": "MXi7qoAGbFhDFGJ7",
-  "name": "艺术/手艺（书法）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-calligraphy",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Calligraphy)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-calligraphy",
-     "key": "art-craft-calligraphy",
-     "specKey": "calligraphy",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（书法）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "以毛笔或硬笔书写讲究章法的文字。"
-  }
- },
- {
-  "_id": "Fzj3HEWBr9SsyNvS",
-  "name": "艺术/手艺（喜剧）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-comedy",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Comedy)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-comedy",
-     "key": "art-craft-comedy",
-     "specKey": "comedy",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-sheet-1920s"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（喜剧）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "以笑话、即兴和节奏制造喜剧效果。"
-  }
- },
- {
-  "_id": "11sRAhrEnc92m05E",
-  "name": "艺术/手艺（烹饪）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-cooking",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Cooking)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-cooking",
-     "key": "art-craft-cooking",
-     "specKey": "cooking",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（烹饪）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "选材、调味并烹制可供多人食用的餐点。"
-  }
- },
- {
-  "_id": "xIaLauIBdQRcWVsQ",
-  "name": "艺术/手艺（舞蹈）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-dancing",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Dancing)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-dancing",
-     "key": "art-craft-dancing",
-     "specKey": "dancing",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-sheet-1920s"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（舞蹈）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "以身体动作和节奏完成舞蹈表演。"
-  }
- },
- {
-  "_id": "Ya78rigufztVtROW",
-  "name": "艺术/手艺（耕作）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-farming",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Farming)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-farming",
-     "key": "art-craft-farming",
-     "specKey": "farming",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（耕作）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "耕作、轮作与照料作物，判断土壤和收成。"
-  }
- },
- {
-  "_id": "P5i3vrcbbMomODZW",
-  "name": "艺术/手艺（钳工）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-fitter",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Fitting)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-fitter",
-     "key": "art-craft-fitter",
-     "specKey": "fitter",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-sheet-1920s"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（钳工）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "使用钳工工具加工、装配与修理金属件。"
-  }
- },
- {
-  "_id": "HFQd7DHbU0brVL3d",
-  "name": "艺术/手艺（伪造）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-forgery",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Forgery)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-forgery",
-     "key": "art-craft-forgery",
-     "specKey": "forgery",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（伪造）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "仿制文件、签名或艺术品以骗过查验。"
-  }
- },
- {
-  "_id": "TeGTcKFHKUjPCzxi",
-  "name": "艺术/手艺（游戏）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-game",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Games)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-game",
-     "key": "art-craft-game",
-     "specKey": "game",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-sheet-1920s"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（游戏）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "设计、制作并测试游戏与娱乐节目。"
-  }
- },
- {
-  "_id": "KToPfyAmRHbJUbRJ",
-  "name": "艺术/手艺（音乐）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-music",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Music)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-music",
-     "key": "art-craft-music",
-     "specKey": "music",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（音乐）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "演奏乐器或进行音乐创作。"
-  }
- },
- {
-  "_id": "0ysoEiETgRDwqDll",
-  "name": "艺术/手艺（管道工）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-plumbing",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Plumbing)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-plumbing",
-     "key": "art-craft-plumbing",
-     "specKey": "plumbing",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（管道工）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "安装与修理供水、排水和供暖管道。"
-  }
- },
- {
-  "_id": "ZWPHsfsnvxzgcwPF",
-  "name": "艺术/手艺（速记）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-shorthand",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Shorthand)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-shorthand",
-     "key": "art-craft-shorthand",
-     "specKey": "shorthand",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（速记）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "用速记符号记录口述与会议内容。"
-  }
- },
- {
-  "_id": "XDEPC1hKNzOnH3Zg",
-  "name": "艺术/手艺（歌唱）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-singing",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Singing)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-singing",
-     "key": "art-craft-singing",
-     "specKey": "singing",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-sheet-1920s"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（歌唱）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "以歌唱、发声与舞台表达完成演出。"
-  }
- },
- {
-  "_id": "MucNS8Gpk9jXxcg1",
-  "name": "艺术/手艺（裁缝）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-tailoring",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Tailoring)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-tailoring",
-     "key": "art-craft-tailoring",
-     "specKey": "tailoring",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（裁缝）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "量体、裁剪并缝制合身的衣物。"
-  }
- },
- {
-  "_id": "uYxt94ftQiHbwajm",
-  "name": "艺术/手艺（打字）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-typing",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Typing)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-typing",
-     "key": "art-craft-typing",
-     "specKey": "typing",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（打字）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "快速而准确地打字、排版与整理文书。"
-  }
- },
- {
-  "_id": "rBRaqMQqBCws4gOS",
-  "name": "艺术/手艺（焊接）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-welding",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Welding)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-welding",
-     "key": "art-craft-welding",
-     "specKey": "welding",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（焊接）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "以焊接设备连接和修补金属结构。"
-  }
- },
- {
-  "_id": "Tc2MdQ7QKDUCns5v",
-  "name": "艺术/手艺（木工）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.art-craft-woodworking",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Art/Craft (Woodworking)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.art-craft-woodworking",
-     "key": "art-craft-woodworking",
-     "specKey": "woodworking",
-     "parentKey": "art-craft",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "艺术/手艺（木工）",
-   "mainName": "艺术/手艺",
-   "noXP": false,
-   "description": "以木工工具制作与修理木制品。"
-  }
- },
- {
   "_id": "f7bsCdzSlFXbREZB",
   "name": "艺术/手艺（写作）",
   "type": "skill",
@@ -3790,6 +2967,7 @@
     "coc": {
      "factId": "sealdice.skill.art-craft-writing",
      "key": "art-craft-writing",
+     "pack": "core",
      "specKey": "writing",
      "parentKey": "art-craft",
      "sourceRefs": [
@@ -3821,643 +2999,6 @@
    "mainName": "艺术/手艺",
    "noXP": false,
    "description": "以写作、编辑与文学创作完成作品。"
-  }
- },
- {
-  "_id": "RS6e1ho0S4LXuWBc",
-  "name": "计算机",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.computer",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Computer Use",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.computer",
-     "key": "computer",
-     "specKey": null,
-     "parentKey": null,
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": false,
-   "chosen": false,
-   "specName": "",
-   "mainName": "",
-   "noXP": false,
-   "description": "使用计算机检索资料、编写程序并绕过基础安全措施。"
-  }
- },
- {
-  "_id": "u7i5VkGXGst2vopx",
-  "name": "潜水",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.diving",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Diving",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.diving",
-     "key": "diving",
-     "specKey": null,
-     "parentKey": null,
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 1,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 1
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": false,
-   "chosen": false,
-   "specName": "",
-   "mainName": "",
-   "noXP": false,
-   "description": "使用潜水装备在水下作业与搜救。"
-  }
- },
- {
-  "_id": "GduMYPbct7oMJEt8",
-  "name": "电子学",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.electronics",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Electronics",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.electronics",
-     "key": "electronics",
-     "specKey": null,
-     "parentKey": null,
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 1,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 1
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": false,
-   "chosen": false,
-   "specName": "",
-   "mainName": "",
-   "noXP": false,
-   "description": "检修电子设备、线路与通信器材。"
-  }
- },
- {
-  "_id": "AbFYN5iZK5ocm7gQ",
-  "name": "格斗（链锯）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.fighting-chainsaw",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Fighting (Chainsaw)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.fighting-chainsaw",
-     "key": "fighting-chainsaw",
-     "specKey": "chainsaw",
-     "parentKey": "fighting",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 10,
-   "basic": true,
-   "combat": true,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 10
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "格斗（链锯）",
-   "mainName": "格斗",
-   "noXP": false,
-   "description": "把链锯当作近战武器挥砍。"
-  }
- },
- {
-  "_id": "VkTPXjdacqcNy7IK",
-  "name": "格斗（矛）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.fighting-spear",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Fighting (Spear)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.fighting-spear",
-     "key": "fighting-spear",
-     "specKey": "spear",
-     "parentKey": "fighting",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 20,
-   "basic": true,
-   "combat": true,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 20
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "格斗（矛）",
-   "mainName": "格斗",
-   "noXP": false,
-   "description": "以长矛刺击并保持与对手的距离。"
-  }
- },
- {
-  "_id": "paZT2vSGfhlTBGSZ",
-  "name": "格斗（剑）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.fighting-sword",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Fighting (Sword)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.fighting-sword",
-     "key": "fighting-sword",
-     "specKey": "sword",
-     "parentKey": "fighting",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 20,
-   "basic": true,
-   "combat": true,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 20
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "格斗（剑）",
-   "mainName": "格斗",
-   "noXP": false,
-   "description": "以刀剑进行劈砍、格挡与近身交锋。"
-  }
- },
- {
-  "_id": "Q99xKqgzylVeB7aR",
-  "name": "格斗（鞭）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.fighting-whip",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Fighting (Whip)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.fighting-whip",
-     "key": "fighting-whip",
-     "specKey": "whip",
-     "parentKey": "fighting",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": true,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "格斗（鞭）",
-   "mainName": "格斗",
-   "noXP": false,
-   "description": "以鞭子抽击、缠绕和牵制对手。"
-  }
- },
- {
-  "_id": "YdgqZpurYRRtmgip",
-  "name": "射击（弓）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.firearms-bow",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Firearms (Bow)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.firearms-bow",
-     "key": "firearms-bow",
-     "specKey": "bow",
-     "parentKey": "firearms",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 15,
-   "basic": true,
-   "combat": true,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 15
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "射击（弓）",
-   "mainName": "射击",
-   "noXP": false,
-   "description": "以弓或弩瞄准并发射箭矢。"
-  }
- },
- {
-  "_id": "sWk9oCrzamoVHGzn",
-  "name": "驾驶（马车）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.pilot-horse",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Pilot (Horse-drawn)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.pilot-horse",
-     "key": "pilot-horse",
-     "specKey": "horse",
-     "parentKey": "pilot",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 1,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 1
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "驾驶（马车）",
-   "mainName": "驾驶",
-   "noXP": false,
-   "description": "驾驭马车或运货马车，处理路况与牲畜。"
-  }
- },
- {
-  "_id": "OlX1keGDxhw1KCIe",
-  "name": "科学（植物学）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.science-botany",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Science (Botany)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.science-botany",
-     "key": "science-botany",
-     "specKey": "botany",
-     "parentKey": "science",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 1,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 1
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "科学（植物学）",
-   "mainName": "科学",
-   "noXP": false,
-   "description": "研究植物分类、生长与生态。"
-  }
- },
- {
-  "_id": "HDWgdIhpGGLSC0Ns",
-  "name": "科学（地质学）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.science-geology",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Science (Geology)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.science-geology",
-     "key": "science-geology",
-     "specKey": "geology",
-     "parentKey": "science",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 1,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 1
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "科学（地质学）",
-   "mainName": "科学",
-   "noXP": false,
-   "description": "研究地层、岩石与地质作用。"
-  }
- },
- {
-  "_id": "dJFv4Qd5vqg7tqXC",
-  "name": "科学（数学）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.science-math",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Science (Mathematics)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.science-math",
-     "key": "science-math",
-     "specKey": "math",
-     "parentKey": "science",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 10,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 10
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "科学（数学）",
-   "mainName": "科学",
-   "noXP": false,
-   "description": "以数学推导、统计与建模解决问题。"
-  }
- },
- {
-  "_id": "vTV5x2qMctnhDm14",
-  "name": "生存（山地）",
-  "type": "skill",
-  "flags": {
-   "brp": {
-    "brpidFlag": {
-     "id": "i.skill.coc.survival-mountain",
-     "lang": "zh-CN",
-     "priority": 1
-    },
-    "enName": "Survival (Mountain)",
-    "contentSource": "coc",
-    "coc": {
-     "factId": "sealdice.skill.survival-mountain",
-     "key": "survival-mountain",
-     "specKey": "mountain",
-     "parentKey": "survival",
-     "sourceRefs": [
-      "coc-cardwright"
-     ]
-    }
-   }
-  },
-  "system": {
-   "base": 5,
-   "basic": true,
-   "combat": false,
-   "category": "none",
-   "baseFormula": {
-    "1": {
-     "stat": "fixed",
-     "value": 5
-    },
-    "2": {
-     "stat": "fixed",
-     "value": 0
-    },
-    "Func": "or"
-   },
-   "variable": false,
-   "specialism": true,
-   "chosen": true,
-   "specName": "生存（山地）",
-   "mainName": "生存",
-   "noXP": false,
-   "description": "在山地寻找路线、躲避风雪并获取食物。"
   }
  }
 ]
