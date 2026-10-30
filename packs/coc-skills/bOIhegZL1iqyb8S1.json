@@ -1,0 +1,49 @@
+{
+ "_id": "bOIhegZL1iqyb8S1",
+ "name": "神秘学",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.occult",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Occult",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.occult",
+    "key": "occult",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "辨认神秘学器物、术语、传统与魔法书。"
+ }
+}

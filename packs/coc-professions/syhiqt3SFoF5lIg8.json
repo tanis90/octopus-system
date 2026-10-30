@@ -1,0 +1,121 @@
+{
+ "_id": "syhiqt3SFoF5lIg8",
+ "name": "小企业家",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.small-business-owner",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Small Business Owner",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.small-business-owner",
+    "slug": "small-business-owner",
+    "creditMin": 50,
+    "creditMax": 70,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "accounting",
+     "psychology"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "interpersonal",
+      "label": "两项社交技能（魅惑、话术、恐吓、说服）",
+      "choose": 2,
+      "distinct": true,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "charm",
+        "brpids": [
+         "i.skill.coc.charm"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "fast-talk",
+        "brpids": [
+         "i.skill.coc.fast-talk"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "intimidate",
+        "brpids": [
+         "i.skill.coc.intimidate"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "persuade",
+        "brpids": [
+         "i.skill.coc.persuade"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "any-specialty",
+      "label": "四项经营业务相关技能",
+      "choose": 4,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.accounting",
+    "uuid": "OprgKpztxOCjv9MA"
+   },
+   {
+    "brpid": "i.skill.coc.psychology",
+    "uuid": "n8ACQitSLni4geaF"
+   }
+  ],
+  "groups": [
+   {
+    "options": 2,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.charm",
+      "uuid": "ebCHph0biyJ2AG3j"
+     },
+     {
+      "brpid": "i.skill.coc.fast-talk",
+      "uuid": "AwLPg18IRN57w0fB"
+     },
+     {
+      "brpid": "i.skill.coc.intimidate",
+      "uuid": "mhG3if5iht465aSn"
+     },
+     {
+      "brpid": "i.skill.coc.persuade",
+      "uuid": "7zQTHnGe7rHoRnjC"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "创办并经营小企业，兼顾账目、人事与市场。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：50–70（只能用职业点，且必须落在区间内）"
+ }
+}

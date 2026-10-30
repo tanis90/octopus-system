@@ -1,0 +1,49 @@
+{
+ "_id": "LvXnqaAxwiyzyWTg",
+ "name": "驾驶（飞行器）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.pilot-aircraft",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Pilot (Aircraft)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.pilot-aircraft",
+    "key": "pilot-aircraft",
+    "specKey": "aircraft",
+    "parentKey": "pilot",
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "驾驶（飞行器）",
+  "mainName": "驾驶",
+  "noXP": false,
+  "description": "安全操作飞行器并处理空中航行问题。"
+ }
+}

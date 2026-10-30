@@ -1,0 +1,157 @@
+{
+ "_id": "09FKbcj9uaT6YMPl",
+ "name": "发言人",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.spokesperson",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Spokesperson",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.spokesperson",
+    "slug": "spokesperson",
+    "creditMin": 50,
+    "creditMax": 80,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "disguise",
+     "dodge",
+     "psychology"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "interpersonal",
+      "label": "三项社交技能（魅惑、话术、恐吓、说服）",
+      "choose": 3,
+      "distinct": true,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "charm",
+        "brpids": [
+         "i.skill.coc.charm"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "fast-talk",
+        "brpids": [
+         "i.skill.coc.fast-talk"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "intimidate",
+        "brpids": [
+         "i.skill.coc.intimidate"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "persuade",
+        "brpids": [
+         "i.skill.coc.persuade"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "language-other",
+      "label": "一项其他语言专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "language-other",
+        "parentKey": "language-other",
+        "base": 1,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.language-other-greek",
+         "i.skill.coc.language-other-latin"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "any-specialty",
+      "label": "任意一项其他个人或时代特长",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.disguise",
+    "uuid": "FcXGDagoFY3CsOZi"
+   },
+   {
+    "brpid": "i.skill.coc.dodge",
+    "uuid": "NeiLzxM7dLr6hC5r"
+   },
+   {
+    "brpid": "i.skill.coc.psychology",
+    "uuid": "n8ACQitSLni4geaF"
+   }
+  ],
+  "groups": [
+   {
+    "options": 3,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.charm",
+      "uuid": "ebCHph0biyJ2AG3j"
+     },
+     {
+      "brpid": "i.skill.coc.fast-talk",
+      "uuid": "AwLPg18IRN57w0fB"
+     },
+     {
+      "brpid": "i.skill.coc.intimidate",
+      "uuid": "mhG3if5iht465aSn"
+     },
+     {
+      "brpid": "i.skill.coc.persuade",
+      "uuid": "7zQTHnGe7rHoRnjC"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.language-other-greek",
+      "uuid": "zxbzRO9P1dqY9jzD"
+     },
+     {
+      "brpid": "i.skill.coc.language-other-latin",
+      "uuid": "YY2QWZ0T7f8A76NE"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "代表组织对外发布消息、应对媒体与公众质询。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：50–80（只能用职业点，且必须落在区间内）"
+ }
+}

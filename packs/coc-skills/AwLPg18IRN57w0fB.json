@@ -1,0 +1,49 @@
+{
+ "_id": "AwLPg18IRN57w0fB",
+ "name": "话术",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.fast-talk",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Fast Talk",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.fast-talk",
+    "key": "fast-talk",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "用言语误导、欺骗或让对方一时照做。"
+ }
+}

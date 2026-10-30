@@ -1,3 +1,5 @@
+import { Rules } from '../rules/index.mjs';
+
 export class BRPSelectLists {
 
   //Attribute List
@@ -28,7 +30,7 @@ export class BRPSelectLists {
       "dex": game.i18n.localize("BRP.StatsDexAbbr"),
       "cha": game.i18n.localize("BRP.StatsChaAbbr"),
     }
-    if (game.settings.get('brp', 'useEDU')) {
+    if (Rules.active().settings.useEDU()) {
       options = Object.assign(options, { 'edu': game.i18n.localize("BRP.StatsEduAbbr") })
     }
     return options;
@@ -281,6 +283,15 @@ export class BRPSelectLists {
 
   //Difficulty List
   static async getDifficultyOptions() {
+    //CoC difficulty is the success band a task requires; the BRP multipliers
+    //would be counted a second time against the half/fifth thresholds.
+    if (Rules.activeId() === 'coc') {
+      return {
+        "average": game.i18n.localize("BRP.cocBand.regular"),
+        "hard": game.i18n.localize("BRP.cocBand.hard"),
+        "extreme": game.i18n.localize("BRP.cocBand.extreme"),
+      };
+    }
     let options = {
       "easy": game.i18n.localize("BRP.easy") + " (*2)",
       "average": game.i18n.localize("BRP.average") + " (*1)",
@@ -297,6 +308,13 @@ export class BRPSelectLists {
 
   //Difficulty List
   static async getCHDifficultyOptions() {
+    if (Rules.activeId() === 'coc') {
+      return {
+        "average": game.i18n.localize("BRP.cocBand.regular"),
+        "hard": game.i18n.localize("BRP.cocBand.hard"),
+        "extreme": game.i18n.localize("BRP.cocBand.extreme"),
+      };
+    }
     let options = {
       "easy": game.i18n.localize("BRP.easy") + " (*10)",
       "average": game.i18n.localize("BRP.average") + " (*5)",
@@ -327,6 +345,13 @@ export class BRPSelectLists {
 
   //Success Level List
   static async getSuccessOptions() {
+    //CoC damage asks for the attack's own tier: extreme or regular.
+    if (Rules.activeId() === 'coc') {
+      return {
+        "4": game.i18n.localize("BRP.cocBand.extreme"),
+        "2": game.i18n.localize("BRP.cocBand.regular"),
+      };
+    }
     let options = {
       "4": game.i18n.localize("BRP.resultLevel.4"),
       "3": game.i18n.localize("BRP.resultLevel.3"),

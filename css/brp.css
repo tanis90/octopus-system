@@ -1012,6 +1012,33 @@ body.theme-dark .application.brp.sheet,
   color: var(--brp-icon-primary);
 }
 
+.brp .window-header .brp-mode-toggle {
+  align-self: center;
+  margin: 0 8px 0 2px;
+  padding: 2px 8px;
+  min-height: 22px;
+  border: 1px solid var(--brp-border-color);
+  border-radius: 3px;
+  background: var(--brp-button-colour);
+  color: var(--brp-colour-primary);
+  font-family: var(--actor-main-font);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.brp .window-header .brp-mode-toggle[aria-pressed="true"] {
+  background: var(--brp-colour-secondary);
+  color: #fff;
+  border-color: var(--brp-colour-secondary);
+}
+
+.brp .window-header .brp-mode-toggle:focus-visible {
+  outline: 2px solid var(--brp-tab-shadow);
+  outline-offset: 2px;
+}
+
 .brp .hitlocgrid {
   display: grid;
   margin: 0px;

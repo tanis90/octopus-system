@@ -1,0 +1,49 @@
+{
+ "_id": "YY2QWZ0T7f8A76NE",
+ "name": "外语（拉丁语）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.language-other-latin",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Language (Other) (Latin)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.language-other-latin",
+    "key": "language-other-latin",
+    "specKey": "latin",
+    "parentKey": "language-other",
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "外语（拉丁语）",
+  "mainName": "外语",
+  "noXP": false,
+  "description": "理解、听说、阅读与书写拉丁语。"
+ }
+}

@@ -1,0 +1,113 @@
+{
+ "_id": "sirEKCEcF5GqcCq0",
+ "name": "山岳救援队员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.mountain-rescuer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Mountain Rescuer",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.mountain-rescuer",
+    "slug": "mountain-rescuer",
+    "creditMin": 10,
+    "creditMax": 50,
+    "pointFormula": "EDU*2+STR*2",
+    "pointFormulas": [
+     "EDU*2+STR*2",
+     "EDU*2+DEX*2"
+    ],
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "first-aid",
+     "listen",
+     "jump",
+     "track",
+     "climb",
+     "navigate",
+     "survival-mountain"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "language-other",
+      "label": "一项其他语言专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "language-other",
+        "parentKey": "language-other",
+        "base": 1,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.language-other-greek",
+         "i.skill.coc.language-other-latin"
+        ]
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.first-aid",
+    "uuid": "mFYJcDBHmADhKRNW"
+   },
+   {
+    "brpid": "i.skill.coc.listen",
+    "uuid": "fHdlJ2r8hzJAHBnx"
+   },
+   {
+    "brpid": "i.skill.coc.jump",
+    "uuid": "acDj9JcQQNbsARhC"
+   },
+   {
+    "brpid": "i.skill.coc.track",
+    "uuid": "tYFug7dklIQrgfZC"
+   },
+   {
+    "brpid": "i.skill.coc.climb",
+    "uuid": "XBPmBl9yAuJ1Peo9"
+   },
+   {
+    "brpid": "i.skill.coc.navigate",
+    "uuid": "XFTLEmt7ULlfiVWT"
+   },
+   {
+    "brpid": "i.skill.coc.survival-mountain",
+    "uuid": "vTV5x2qMctnhDm14"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.language-other-greek",
+      "uuid": "zxbzRO9P1dqY9jzD"
+     },
+     {
+      "brpid": "i.skill.coc.language-other-latin",
+      "uuid": "YY2QWZ0T7f8A76NE"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "在山地搜索并救援遇险者，熟悉攀爬与野外急救。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：10–50（只能用职业点，且必须落在区间内）"
+ }
+}

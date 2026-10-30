@@ -1,0 +1,49 @@
+{
+ "_id": "qg1EZMCkC7VLFVcy",
+ "name": "科学（化学）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.science-chemistry",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Science (Chemistry)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.science-chemistry",
+    "key": "science-chemistry",
+    "specKey": "chemistry",
+    "parentKey": "science",
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "科学（化学）",
+  "mainName": "科学",
+  "noXP": false,
+  "description": "化学理论与实践能力。"
+ }
+}

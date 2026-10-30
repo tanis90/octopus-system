@@ -1,0 +1,49 @@
+{
+ "_id": "GgBauywhcx3bJVG3",
+ "name": "电气维修",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.electrical-repair",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Electrical Repair",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.electrical-repair",
+    "key": "electrical-repair",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 10,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 10
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "修理或改装电气设备、线路与点火系统。"
+ }
+}

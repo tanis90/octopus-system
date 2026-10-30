@@ -1,0 +1,81 @@
+{
+ "_id": "tMFc1LPYIoipAnhP",
+ "name": "急诊医生／救援队员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.emergency-physician",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Emergency Physician",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.emergency-physician",
+    "slug": "emergency-physician",
+    "creditMin": 10,
+    "creditMax": 50,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "medicine",
+     "first-aid",
+     "science-chemistry",
+     "locksmith",
+     "mechanical-repair",
+     "electrical-repair",
+     "climb",
+     "jump"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.medicine",
+    "uuid": "lciqRkvUQH0jYqq2"
+   },
+   {
+    "brpid": "i.skill.coc.first-aid",
+    "uuid": "mFYJcDBHmADhKRNW"
+   },
+   {
+    "brpid": "i.skill.coc.science-chemistry",
+    "uuid": "qg1EZMCkC7VLFVcy"
+   },
+   {
+    "brpid": "i.skill.coc.locksmith",
+    "uuid": "eKnqrVHDFmGDtEYg"
+   },
+   {
+    "brpid": "i.skill.coc.mechanical-repair",
+    "uuid": "zp9eYH1FLjd04b0T"
+   },
+   {
+    "brpid": "i.skill.coc.electrical-repair",
+    "uuid": "GgBauywhcx3bJVG3"
+   },
+   {
+    "brpid": "i.skill.coc.climb",
+    "uuid": "XBPmBl9yAuJ1Peo9"
+   },
+   {
+    "brpid": "i.skill.coc.jump",
+    "uuid": "acDj9JcQQNbsARhC"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "在急诊室或事故现场抢救伤员，快速判断并处置。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：10–50（只能用职业点，且必须落在区间内）"
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "_id": "VvQ3kwJkRmfwdxZr",
+ "name": "估价",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.appraise",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Appraise",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.appraise",
+    "key": "appraise",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "判断物品的材质、工艺与大致价值。"
+ }
+}

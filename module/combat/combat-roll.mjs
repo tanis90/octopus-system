@@ -1,5 +1,6 @@
 import { BRPSelectLists } from "../apps/select-lists.mjs"
 import { BRPCheck } from "../apps/check.mjs"
+import { Rules } from "../rules/index.mjs"
 
 export class BRPCombatRoll {
 
@@ -33,9 +34,12 @@ export class BRPCombatRoll {
       rangeOptions = Object.assign(rangeOptions, await this.getRangeOptions(weapon));
       if (Object.keys(rangeOptions).length > 1) { askRange = true }
 
-      //Het hand Options
-      handOptions = Object.assign(handOptions, await this.getHandOptions(weapon));
-      if (Object.keys(handOptions).length > 1) { askHands = true }
+      //Het hand Options (CoC has no two-handed DB split; the weapon profile
+      //decides full/half/none)
+      if (!Rules.active().combat) {
+        handOptions = Object.assign(handOptions, await this.getHandOptions(weapon));
+        if (Object.keys(handOptions).length > 1) { askHands = true }
+      }
 
       //If this is a magic spell impact roll
     } else if (type === 'IM') {
@@ -103,6 +107,22 @@ export class BRPCombatRoll {
 
     let newFormula = ""
     let specialType = "other"
+
+    //CoC: the damage tier follows the attack's success band and the weapon's
+    //profile (blunt max+maxDB, impaling max+DB+another weapon die). Nothing is
+    //asked from the roller, and `maximize` is never used.
+    const coc = Rules.active().combat
+    if (coc?.damageFormula && type === 'DM') {
+      const profile = coc.weaponProfile(weapon)
+      const rank = success === "4" ? 4 : 2
+      const tier = coc.damageTier({ rank, role: 'attacker' })
+      return coc.damageFormula({
+        weaponFormula: damForm,
+        dbFormula: damBon,
+        impaling: profile.impaling,
+        tier: tier ?? 'regular',
+      })
+    }
 
     //If a Critical then set new formula to be max damage + damage bonus
     if (success === "4") {
@@ -173,6 +193,17 @@ export class BRPCombatRoll {
 
   //Get weapon Damage Bonus
   static async getDamageBonus(actor, weapon, hands) {
+    //CoC reads the weapon's DB mode (melee full, thrown/bow half, firearms
+    //none); two-handed use never changes it.
+    const coc = Rules.active().combat
+    if (coc?.weaponProfile) {
+      const profile = coc.weaponProfile(weapon)
+      return coc.damageBonusFor({
+        dbFull: actor.system.dmgBonus?.full,
+        dbHalf: actor.system.dmgBonus?.half,
+        mode: profile.dbMode,
+      })
+    }
     let damageBonus = ""
     if (hands === "1") {
       damageBonus = actor.system.dmgBonus.half

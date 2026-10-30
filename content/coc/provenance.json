@@ -1,0 +1,3754 @@
+{
+  "dataset": "coc7-core-m1-m2-m3-m4-m5-m6-m7-m8",
+  "revision": "2026-10-30",
+  "scope": "M1 core skills, derived attributes, success bands, growth and starter isolation; M2 first-batch occupations, occupation point formulas, credit-rating ranges and creation/allocation rules; M3 native combat (bonus/penalty d100, weapon profiles, opposed/fight-back/cover, extreme damage, situational modifiers) and wounds (major wound, dying, death, First Aid, Medicine, weekly and natural healing); M4 native sanity/insanity, Luck spend and recovery, skill growth and the persisted CoC world clock; M5 five additional specialisms and the second occupation batch (Doctor of Medicine, Police Detective, Librarian, Lawyer, Engineer) with either/or point formulas; M6 Science (Astronomy) and the third occupation batch (Police Officer, Artist, Clergy, Pilot); M7 two further Science specialisms and 19 occupations mapped one-to-one from the user's coc-cardwright repository, plus re-sourcing of the four M6 records to that repository. Every M7 record is secondary evidence with an explicit claim boundary. M4 rule facts and evidence grades live in content/coc/sanity-provenance.json. Note on naming: the shipped occupation dataset string is `coc7-occupations-m8` (the fifth occupation batch, from the SealDice builtin helpdoc); the repository milestone label is M8 SealDice builtin compatibility batch: 118 formal occupation definitions and 32 concrete skills, with deferred categories recorded separately.",
+  "m4Provenance": "content/coc/sanity-provenance.json",
+  "licenseBoundary": {
+    "code": "MIT (repository code only)",
+    "facts": "Only numeric values, formulas, field semantics, skill names and URLs from official public Chaosium sources or the user's coc-cardwright repository are recorded. Prose in this repository is written for this project.",
+    "excluded": [
+      "No Call of Cthulhu 7e Foundry VTT system source, template, YAML or implementation was read or referenced.",
+      "No other GPL system implementation was used.",
+      "No coc-cardwright visual template, HTML/CSS, Python implementation or repository code is copied; only numeric occupation facts, formulas, credit ranges and skill names are mapped.",
+      "No official PDF, text block, image, font, logo or trade dress is committed.",
+      "No claim is made that VTT use is covered by Chaosium's fan material policy; licensing review is still required before public distribution.",
+      "No occupation description, skill-list prose or page layout from Roll20, Chaosium or coc-cardwright is reproduced; only the point formula, credit-rating range and skill names needed for data mapping are recorded.",
+      "No SealDice builtin JSON file, helpdoc text or occupation description is copied into this repository; sealdice-builtins declares no license.",
+      "No GPL Call of Cthulhu system implementation, template or source file was read or referenced for this batch."
+    ]
+  },
+  "sources": [
+    {
+      "id": "coc-autocalc",
+      "title": "Call of Cthulhu 7e Standard autocalc investigator sheet (official)",
+      "url": "https://downloads.chaosium.com/call-of-cthulhu/cha2300-investigator-sheets/CoC7_Investigator_Sheet_Standard_autocalc.pdf",
+      "usedFor": [
+        "HP = floor((CON + SIZ) / 10)",
+        "MP = floor(POW / 5)",
+        "SAN starts at POW; max SAN = 99 - Cthulhu Mythos",
+        "MOV from DEX/STR/SIZ and age",
+        "Build and Damage Bonus table",
+        "Dodge and Language (Own) secondary-field semantics"
+      ],
+      "note": "Used only to verify formulas. The PDF and its scripts are not committed."
+    },
+    {
+      "id": "coc-wiki-secondary",
+      "title": "Official wiki: Step Two - Secondary Attributes",
+      "url": "https://cthulhuwiki.chaosium.com/investigators/step-two-secondary-attributes.html",
+      "usedFor": [
+        "HP, MP, SAN and Luck definitions",
+        "Luck = 3D6 x 5",
+        "Build and Damage Bonus baseline table"
+      ]
+    },
+    {
+      "id": "coc-wiki-skills",
+      "title": "Official wiki: Step Three - Occupation and Skills",
+      "url": "https://cthulhuwiki.chaosium.com/investigators/step-three-occupation-and-skills.html",
+      "usedFor": [
+        "Dodge starts at half DEX",
+        "Language (Own) starts at EDU",
+        "Credit Rating and Cthulhu Mythos semantics",
+        "Skill specialization semantics"
+      ]
+    },
+    {
+      "id": "coc-wiki-game-system",
+      "title": "Official wiki: The Game System - skill rolls and difficulty",
+      "url": "https://cthulhuwiki.chaosium.com/rules/game-system.html",
+      "usedFor": [
+        "Regular success = roll <= skill",
+        "Hard success = roll <= half skill",
+        "Extreme success = roll <= one-fifth skill"
+      ]
+    },
+    {
+      "id": "coc-wiki-rewards",
+      "title": "Official wiki: Rewards of Success",
+      "url": "https://cthulhuwiki.chaosium.com/rules/rewards-of-success.html",
+      "usedFor": [
+        "Skill improvement: roll 1D100 over current value, then add 1D10",
+        "No INT bonus in the improvement check"
+      ]
+    },
+    {
+      "id": "coc-sheet-1920s",
+      "title": "Official 7e 1920s investigator sheet (base values)",
+      "url": "https://www.chaosium.com/content/FreePDFs/CoC/Character%20Sheets/1920s/Character%20Sheet%20-%201920s%20-%20basic%20autocalc%20-%20Call%20of%20Cthulhu%207th%20Ed.pdf",
+      "usedFor": [
+        "Core skill names and printed base values",
+        "Credit Rating 00, Cthulhu Mythos 00, Library Use 20, Dodge half DEX, Language (Own) EDU, Fighting (Brawl) 25, Firearms (Handgun) 20, Firearms (Rifle/Shotgun) 25"
+      ]
+    },
+    {
+      "id": "coc-starter-pregens",
+      "title": "Official Call of Cthulhu Starter Set pre-generated characters (success bands)",
+      "url": "https://www.chaosium.com/content/FreePDFs/CoC/CHA23158%20-%20Call%20of%20Cthulhu%20Starter%20Set/CHA23158%20-%20PreGen%20Characters.pdf",
+      "usedFor": [
+        "Success bands: 01 critical; <= 1/5 extreme; <= 1/2 hard; <= skill regular; fumble 100, or 96-100 when skill is below 50"
+      ],
+      "note": "Only the band wording/facts were used; no character text or layout is copied."
+    },
+    {
+      "id": "coc-quickstart",
+      "title": "Official Call of Cthulhu 7e Quick-Start Rules",
+      "url": "https://www.chaosium.com/content/FreePDFs/CoC/CHA23131%20Call%20of%20Cthulhu%207th%20Edition%20Quick-Start%20Rules.pdf",
+      "usedFor": [
+        "Regular/Hard/Extreme ladder",
+        "Dodge and combat skill specialization semantics",
+        "SAN starting value and starting sanity box"
+      ]
+    },
+    {
+      "id": "coc-legacy-sheet-faq",
+      "title": "Official Legacy AutoCalc Character Sheet Instructions",
+      "url": "https://www.chaosium.com/legacy-autocalc-character-sheet-instructions/",
+      "usedFor": [
+        "MOV is auto-calculated from STR, DEX, SIZ and Age",
+        "Max SAN is auto-calculated from Cthulhu Mythos",
+        "Dodge in the combat block is the same live Dodge skill"
+      ]
+    },
+    {
+      "id": "coc-wiki-combat",
+      "title": "Official wiki: Combat",
+      "url": "https://cthulhuwiki.chaosium.com/rules/combat.html",
+      "usedFor": [
+        "Initiative is DEX order; a readied firearm acts at DEX +50",
+        "Dodge tie goes to the defender; fight back needs a strictly higher success band",
+        "A winning fight back deals regular damage only",
+        "Extreme damage: blunt maximum weapon damage + maximum damage bonus; impaling adds the damage bonus and another weapon die",
+        "Only the initiating attacker can deal extreme damage",
+        "Firearms cannot be fought back; a target may dive for cover with Dodge (attacker penalty die, diver forfeits next attack)",
+        "Firing 2-3 shots in a round gives one penalty die per shot; point blank (one-fifth DEX in feet) gives one bonus die",
+        "Fighting maneuver: each point of Build deficit gives one penalty die, capped at two; a deficit of three or more is ineffective",
+        "Outnumbered: after the defender has fought back or dodged this round, further melee attacks get one bonus die; firearms ignore it"
+      ]
+    },
+    {
+      "id": "coc-wiki-wounds",
+      "title": "Official wiki: Hit Points, Wounds, and Healing",
+      "url": "https://cthulhuwiki.chaosium.com/rules/hit-points-wounds-and-healing.html",
+      "usedFor": [
+        "Damage in one blow at or above half full HP is a major wound; the character rolls CON or falls unconscious",
+        "A major wound at zero HP is dying: CON at the end of each round or die; First Aid stabilizes",
+        "Damage at or above maximum HP in one blow is instant death",
+        "Zero HP without a major wound is unconsciousness only",
+        "No major wound: +1 HP per day; major wound: weekly CON, +1D3 (extreme +2D3), cleared by an extreme success or HP back to half",
+        "First Aid: +1 HP, rouses an unconscious character, extends a dying character's life",
+        "Medicine: +1D3 with at least an hour and equipment; a dying patient becomes eligible for weekly healing"
+      ]
+    },
+    {
+      "id": "coc-roll20-occupations",
+      "title": "Roll20 Compendium: Call of Cthulhu occupation pages (sourced from Free Basic Rules)",
+      "url": "https://roll20.net/compendium/coc/Index%3AOccupations",
+      "usedFor": [
+        "Occupation point formulas (Occupation Skill Points)",
+        "Credit Rating min-max ranges",
+        "Fixed occupation skills and choice groups"
+      ],
+      "evidence": "secondary",
+      "note": "Tertiary transcription of the Free Basic Rules occupation pages, therefore recorded as secondary evidence. Only numeric/formula facts and skill names were read on 2026-10-28; the Doctor of Medicine and Police Detective attribute blocks were re-read on 2026-10-30. No prose, table styling or layout is copied. Each page states its own source as Free Basic Rules."
+    },
+    {
+      "id": "coc-gamersplane-occupations",
+      "title": "Gamers' Plane: Call of Cthulhu 7e quick-reference occupation list (secondary)",
+      "url": "https://gamersplane.com/games/1581",
+      "usedFor": [
+        "Librarian: EDU*4, credit 9-35, Accounting/Library Use/Other Language/Own Language + four others",
+        "Lawyer: EDU*4, credit 30-80, Accounting/Law/Library Use/two interpersonal/Psychology + two others",
+        "Engineer: EDU*4, credit 30-60, Art/Craft (Technical Drawing)/Electrical Repair/Library Use/Mechanical Repair/Operate Heavy Machinery/Science (Engineering)/Science (Physics) + one other"
+      ],
+      "evidence": "secondary",
+      "note": "A community rules-summary page, not a Chaosium publication and not a licensed compendium. Read on 2026-10-30 to cross-check the point formula, credit-rating range and skill names of the M5 occupations lacking a licensed compendium page. It previously carried the M6 records too; those were re-sourced to coc-cardwright in M7 and are no longer cited here. No prose is copied."
+    },
+    {
+      "id": "coc-org-uk-occupations",
+      "title": "callofcthulhu.org.uk play-by-post: Character Creation and Skill List (secondary)",
+      "url": "https://www.callofcthulhu.org.uk/pbp/viewtopic.php?t=5927",
+      "usedFor": [
+        "Librarian occupation skill list and credit 9-35",
+        "Lawyer occupation skill list (two interpersonal skills) and credit 30-80",
+        "Engineer occupation skill list (Art/Craft (Technical Drawing), Science (Engineering), Science (Physics)) and credit 30-60"
+      ],
+      "evidence": "secondary",
+      "note": "A fan-forum restatement of the 7e occupation table, cross-checked against the other two secondary sources on 2026-10-30. The site returns HTTP 403 to direct fetches; the facts were confirmed from the indexed page text. Not an official Chaosium page and not treated as one."
+    },
+    {
+      "id": "coc-org-uk-chargen",
+      "title": "callofcthulhu.org.uk play-by-post: Character sheet creation (secondary)",
+      "url": "https://www.callofcthulhu.org.uk/pbp/viewtopic.php?t=6537",
+      "usedFor": [
+        "Science (Astronomy): existence under the Science parent, cited by the M6 skill record"
+      ],
+      "evidence": "secondary",
+      "note": "A fan-forum restatement of the 7e occupation table, consulted for the M6 third batch on 2026-10-30 (HTTP 403 to direct fetches; the facts came from indexed page text). All four M6 occupation records were re-sourced to coc-cardwright in M7, so no current occupation cites this page. It remains supporting evidence only for the Science (Astronomy) skill record, plus an audit trail of the superseded occupation cross-check."
+    },
+    {
+      "id": "coc-rpgstack-occupations",
+      "title": "RPG Stack: Call of Cthulhu 7e occupation reference (secondary)",
+      "url": "https://rpgstack.com/systems/coc7e/occupations",
+      "usedFor": [
+        "Librarian: credit 9-35, EDU*4",
+        "Lawyer: credit 30-80, EDU*4",
+        "Engineer: credit 30-60, EDU*4",
+        "Police Detective: credit 20-50, EDU*2 + (DEX*2 or STR*2), Art/Craft or Disguise / Firearms / Law / Listen / interpersonal / Psychology / Spot Hidden / any one",
+        "Doctor of Medicine: credit 30-80, EDU*4"
+      ],
+      "evidence": "secondary",
+      "note": "Third-party reference site summarising the 7e occupation table. Used as the third leg of a three-way cross-check on 2026-10-30 together with the Gamers' Plane and callofcthulhu.org.uk pages, and as an independent check on the two licensed-compendium records. Its at-a-glance table truncates every occupation to the first four skills and omits Pilot entirely, so it is never cited as the source of a complete eight-item occupation list; it only corroborates formulas and credit ranges. The four M6 records that briefly cited it were re-sourced to coc-cardwright in M7. Not an official source."
+    },
+    {
+      "id": "coc-cardwright",
+      "title": "coc-cardwright: COC 7e 480-buy character-card generator (user repository; jobs.py and skills.py data tables)",
+      "url": "https://github.com/tanis90/coc-cardwright",
+      "revision": "c0a07335ba7523a6ddedff932abed037cb39e60e",
+      "retrievedOn": "2026-10-30",
+      "usedFor": [
+        "Occupation point formulas, credit-rating ranges and skill lists for the M7 batch (Psychiatrist, Museum Curator, Coroner, Judge, Bookseller, Antiquarian, Intermediary, Orderly, Government Official, Traveler, Firefighter, Fisherman, Hunter, Pharmacist, Gambler, Tribe Member, Spy, Gang Leader, Asylum Orderly)",
+        "Re-sourcing of the four M6 records (Police Officer, Artist, Clergy, Pilot) to a single repository instead of public-page splicing",
+        "Science (Zoology) and Science (Forensics) specialism existence and the Science family base of 1"
+      ],
+      "upstream": [
+        {
+          "id": "trpg-saikou",
+          "url": "https://github.com/masquevil/trpg-saikou",
+          "note": "README-declared source of the occupation and skill data (112 occupations, 140 skills), by 侠小然."
+        },
+        {
+          "id": "cochar",
+          "url": "https://github.com/ajwalkiewicz/cochar",
+          "note": "README-declared reference for rule calculations, by Adam Walkiewicz."
+        }
+      ],
+      "evidence": "secondary",
+      "note": "The user's own repository, used as the fact source for this batch from a local read-only clone at /tmp/coc-cardwright-reference. Its README states that occupation/skill data were extracted from trpg-saikou and that rule calculations reference cochar; that upstream chain is recorded as the README's statement, not as independent verification of any single fact. Only numeric formulas, credit ranges and skill names were mapped. No visual template, HTML/CSS, Python implementation or other repository code is copied, and no public occupation page was spliced in for this batch. The repository is a secondary transcription, not an official Chaosium publication."
+    },
+    {
+      "id": "sealdice-occupations",
+      "title": "SealDice builtin COC职业查询 helpdoc (sealdice-builtins; no license declared)",
+      "url": "https://github.com/sealdice/sealdice-builtins",
+      "retrievedOn": "2026-10-30",
+      "evidence": "secondary",
+      "usedFor": [
+        "Occupation point formulas, credit-rating ranges and skill composition for the SealDice compatibility batch",
+        "The complete list of aliases, malformed entries, the custom template, non-eight-slot lists, duplicate definitions and unverified skill references that stay deferred"
+      ],
+      "note": "Read from a local read-only copy at /tmp/sealdice-coc-occupations.json. sealdice-core is MIT, but sealdice-builtins declares no license. The JSON file and its occupation prose are not redistributed: only formulas, credit ranges and skill names are mapped, and every description in content/coc/professions.json is written for this project. This is secondary evidence, not an official Chaosium publication."
+    }
+  ],
+  "unverified": {
+    "status": "pending-official-source",
+    "items": [
+      "Fighting specializations other than Brawl",
+      "Firearms specializations other than Handgun and Rifle/Shotgun",
+      "Art/Craft, Science, Pilot and Survival variants not listed as concrete verified specializations (M3 adds Art/Craft (Acting) and (Technical Drawing); M5 adds Science (Engineering), (Pharmacy) and (Physics); M6 adds Science (Astronomy); M7 adds Science (Zoology) and Science (Forensics))",
+      "Occupation point formulas and credit-rating ranges beyond the published batches; the SealDice compatibility batch adds every formal eight-slot entry whose formula, credit range and skill bases could be verified, but aliases, malformed entries, the custom template, non-eight-slot lists and records needing 学问 (Knowledge), Bicycle, or unverified combat specialisms remain deferred",
+      "Occupation-specific suggested contacts, asset/cash tables and full age adjustment",
+      "Additional damage effects of a critical (01) beyond treating its damage tier as extreme",
+      "Bonus/penalty dice interaction with the 01 and 96-100 boundaries when several tens dice are rolled",
+      "Netting of more than one bonus against more than one penalty beyond the one-cancels-one rule",
+      "Burst/full auto, dual wielding, aiming, cover values and range-difficulty modifiers",
+      "Generic armour values and damage reduction for monsters",
+      "Point-blank Dodge against a firearm (the official exception is not modelled)",
+      "Whether the major-wound and dying CON checks take a difficulty band, and the exact stabilisation state machine",
+      "Per-combatant initiative (readied firearm DEX +50) is a pure helper only; the Combatant override is not wired",
+      "Full SAN/insanity and luck-spend flows (M4)"
+    ]
+  },
+  "combat": {
+    "status": "source-slice-implemented-verified-in-temporary-headless-probe-no-e2e",
+    "evidence": "primary (official wiki pages) for the rules; no official weapon table is bundled",
+    "sourceRefs": [
+      "coc-wiki-game-system",
+      "coc-wiki-combat",
+      "coc-wiki-wounds"
+    ],
+    "implemented": {
+      "dice": "bonus/penalty tens dice as one real Nd10 pool (1 units + 1+net tens), 00+0=100, 00+n=n, one bonus cancels one penalty",
+      "difficulty": "required success band (regular/hard/extreme); the target is never multiplied",
+      "characteristicTest": "rolled against the characteristic value itself",
+      "weaponSkill": "weapon.system.skill1/skill2 brpid (+ CoC specialism key), live skill total; never the display name",
+      "unarmed": "1D3 + full DB, explicit flags.brp.coc.weapon marker; the BRP special:'crush' field is ignored",
+      "damageBonus": "melee full, thrown/bow half (halved die), firearms none",
+      "extremeDamage": "blunt max weapon + max DB; impaling max weapon + DB + another weapon die; computed in pure code because the compat Roll ignores maximize",
+      "opposed": "band, then skill, then a fresh pair of rolls on an exact tie (lower d100 wins)",
+      "closeCombat": "dodge tie -> defender; fight back needs a strictly higher band and deals regular damage only",
+      "firearms": "no fight back; dive for cover on a successful Dodge -> attacker re-rolls with one penalty die, diver forfeits next attack",
+      "modifiers": "2-3 shots -> penalty die; point blank (DEX/5 ft) -> bonus die; maneuver Build deficit 1-2 -> penalty dice, >=3 ineffective; outnumbered melee -> bonus die (firearms exempt)",
+      "wounds": "current HP written straight to system.health.value; state under flags.brp.coc.wounds; major wound CON, dying per-round CON, instant death, unconscious at zero without a major wound",
+      "healing": "First Aid +1/stabilise, Medicine +1D3, weekly CON (1D3 / extreme 2D3, clears major wound), natural +1/day without a major wound",
+      "exclusions": "no BRP wound items, no health.daily accumulation, no hit locations; useHPL is ignored and recorded as hplIgnored",
+      "unopposed": "a target that declares no defence is a legal state: the attack resolves on its own band and the damage lands on the declared target (choice 'none')",
+      "cardIsolation": "a second attacker never joins another actor's open attack card; reuse is gated on the same initiator with a single attacker entry",
+      "hitLocations": "CoC actors never enter the BRP hit-location, armour-HPL or hit-location item creation branches (nor the sheet HPL mode), even when the world still has useHPL on; rerolled vitals also reset flags.brp.coc.wounds",
+      "xp": "CoC difficulty never skips a development tick (the target is never multiplied); Cthulhu Mythos (noXP) never ticks; octopus keeps its own skip rule"
+    },
+    "unimplemented": [
+      "Weapon catalogue: only the native unarmed weapon and user-created weapon items are supported",
+      "Critical (01) extra damage beyond the extreme tier",
+      "Burst/full auto, dual wield, aiming, cover values, range-difficulty modifiers",
+      "Monster armour/damage reduction and multi-attack action economy",
+      "Per-combatant initiative override for readied firearms",
+      "Automated weekly calendar healing (the weekly check is an explicit API call)",
+      "Frontend/studio combat tab and browser E2E (compat repository)"
+    ],
+    "verification": {
+      "sourcePure": "node tools/tests/coc-rules-regressions.mjs -> 107/107",
+      "sanityPure": "node tools/tests/coc-sanity-regressions.mjs -> 45/45",
+      "headless": "tools/tests/rules-regressions.mjs in a temporary compat mirror -> 161/161, spike errors 0 (47 M4 checks)",
+      "basePack": "node tools/tests/base-pack-determinism.mjs -> consecutive build byte-identical, committed octopus artifacts unchanged",
+      "tempMirrorNpmTest": "npm test (static + unit + headless) in the temporary mirror -> exit 0",
+      "notRun": "vendor sync into the compat worktree, browser/studio checks, isolated stack REST/WS, dual-client/refresh E2E"
+    }
+  },
+  "occupations": {
+    "status": "five-batches-verified-secondary-not-official-first-party",
+    "dataset": "content/coc/professions.json",
+    "evidence": "secondary",
+    "sourceRef": "coc-roll20-occupations",
+    "retrievedOn": "2026-10-28",
+    "secondBatchRetrievedOn": "2026-10-30",
+    "thirdBatchRetrievedOn": "2026-10-30",
+    "fourthBatchRetrievedOn": "2026-10-30",
+    "evidenceNote": "Every profession in all published batches is secondary evidence only. No record in this file claims an official first-party Chaosium source. The first batch rests on the Roll20 compendium (itself a transcription of the Free Basic Rules). The two licensed-compendium records in the second batch (Doctor of Medicine, Police Detective) additionally cite the public Chaosium wiki, which repeats the free quick-start occupation list; the remaining three (Librarian, Lawyer, Engineer) have no licensed compendium page and rest on a three-way cross-check of Gamers' Plane, callofcthulhu.org.uk and RPG Stack. The fourth batch (the four M6 records Police Officer, Artist, Clergy and Pilot plus 19 further occupations) is sourced from the user's coc-cardwright repository alone. The earlier public-page citations for those four records were removed when the repository data was adopted, so this file no longer splices together public occupation tables. coc-cardwright's README states that its occupation and skill data were extracted from trpg-saikou (masquevil/trpg-saikou) and that its rule calculations reference cochar (ajwalkiewicz/cochar); that README statement is recorded as the upstream chain, not as independent confirmation of any fact. The M8 SealDice batch adds formal definitions from the sealdice-builtins COC职业查询 helpdoc. sealdice-core is MIT but sealdice-builtins declares no license; only formulas, credit ranges and skill names were used, all descriptions are self-written, and the helpdoc text is not redistributed. Every M8 record is secondary evidence, not an official Chaosium publication.",
+    "perRecord": {
+      "coc7.occupation.archaeologist": {
+        "formula": "EDU*4",
+        "creditMin": 10,
+        "creditMax": 40,
+        "page": "Archaeologist"
+      },
+      "coc7.occupation.author": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Author"
+      },
+      "coc7.occupation.cat-burglar": {
+        "formula": "EDU*2+DEX*2",
+        "creditMin": 5,
+        "creditMax": 40,
+        "page": "Cat Burglar"
+      },
+      "coc7.occupation.dilettante": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 50,
+        "creditMax": 99,
+        "page": "Dilettante"
+      },
+      "coc7.occupation.explorer": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2",
+          "EDU*2+DEX*2",
+          "EDU*2+STR*2"
+        ],
+        "formulaNote": "Published as EDU*2 + (APP*2 or DEX*2 or STR*2): the player picks one characteristic. Replaces the earlier MAX(APP,DEX,STR) reading, which handed out a larger pool than the game does. The kept option order is APP, DEX, STR.",
+        "creditMin": 55,
+        "creditMax": 80,
+        "page": "Explorer"
+      },
+      "coc7.occupation.investigative-journalist": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Investigative Journalist"
+      },
+      "coc7.occupation.nurse": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Nurse"
+      },
+      "coc7.occupation.private-investigator": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "formulaNote": "Published as EDU*2 + (STR*2 or DEX*2): the player picks one characteristic. Replaces the earlier MAX(DEX,STR) reading.",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Private Investigator"
+      },
+      "coc7.occupation.professor": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 70,
+        "page": "Professor"
+      },
+      "coc7.occupation.soldier": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "formulaNote": "Published as EDU*2 + (STR*2 or DEX*2): the player picks one characteristic. Replaces the earlier MAX(DEX,STR) reading.",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Soldier"
+      },
+      "coc7.occupation.doctor-of-medicine": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 30,
+        "creditMax": 80,
+        "page": "Doctor of Medicine",
+        "sourceRefs": [
+          "coc-roll20-occupations",
+          "coc-wiki-skills"
+        ],
+        "crossCheckedWith": [
+          "coc-rpgstack-occupations"
+        ],
+        "evidence": "secondary",
+        "skillShape": "First Aid, Other Language (Latin), Medicine, Psychology, Science (Biology), Science (Pharmacy) + any two",
+        "batch": "M3 second batch"
+      },
+      "coc7.occupation.police-detective": {
+        "formula": "EDU*2+DEX*2",
+        "formulas": [
+          "EDU*2+DEX*2",
+          "EDU*2+STR*2"
+        ],
+        "formulaNote": "Published as EDU*2 + (DEX*2 or STR*2): the player picks one characteristic. Not modelled as MAX(DEX,STR), which would hand out a strictly larger pool. Kept as an ordered either/or list so the builder can present the choice.",
+        "creditMin": 20,
+        "creditMax": 50,
+        "page": "Police Detective",
+        "sourceRefs": [
+          "coc-roll20-occupations",
+          "coc-wiki-skills"
+        ],
+        "crossCheckedWith": [
+          "coc-rpgstack-occupations"
+        ],
+        "evidence": "secondary",
+        "skillShape": "Art/Craft (Acting) or Disguise, Firearms, Law, Listen, one interpersonal skill (Charm/Fast Talk/Intimidate/Persuade), Psychology, Spot Hidden + any one",
+        "batch": "M3 second batch",
+        "distinctFrom": "private-investigator"
+      },
+      "coc7.occupation.librarian": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 9,
+        "creditMax": 35,
+        "page": "Librarian",
+        "sourceRefs": [
+          "coc-gamersplane-occupations",
+          "coc-org-uk-occupations",
+          "coc-rpgstack-occupations"
+        ],
+        "crossChecked": true,
+        "evidence": "secondary",
+        "skillShape": "Accounting, Library Use, Other Language, Own Language + any four",
+        "batch": "M3 second batch",
+        "claimBoundary": "No licensed compendium page was found for this occupation. Formula, credit range and skill names were only accepted because three independent secondary pages agree; this is not official first-party confirmation."
+      },
+      "coc7.occupation.lawyer": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 30,
+        "creditMax": 80,
+        "page": "Lawyer",
+        "sourceRefs": [
+          "coc-gamersplane-occupations",
+          "coc-org-uk-occupations",
+          "coc-rpgstack-occupations"
+        ],
+        "crossChecked": true,
+        "evidence": "secondary",
+        "skillShape": "Accounting, Law, Library Use, two interpersonal skills (distinct), Psychology + any two",
+        "batch": "M3 second batch",
+        "claimBoundary": "No licensed compendium page was found for this occupation. Formula, credit range and skill names were only accepted because three independent secondary pages agree; this is not official first-party confirmation.",
+        "productNote": "The two interpersonal skills are recorded as a choose-two group with distinct: true, i.e. two different skills from Charm/Fast Talk/Intimidate/Persuade. That is the product reading of an ambiguous phrase, so the same skill twice is rejected rather than silently allowed."
+      },
+      "coc7.occupation.engineer": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 30,
+        "creditMax": 60,
+        "page": "Engineer",
+        "sourceRefs": [
+          "coc-gamersplane-occupations",
+          "coc-org-uk-occupations",
+          "coc-rpgstack-occupations"
+        ],
+        "crossChecked": true,
+        "evidence": "secondary",
+        "skillShape": "Art/Craft (Technical Drawing), Electrical Repair, Library Use, Mechanical Repair, Operate Heavy Machinery, Science (Engineering), Science (Physics) + any one",
+        "batch": "M3 second batch",
+        "claimBoundary": "No licensed compendium page was found for this occupation. Formula, credit range and skill names were only accepted because three independent secondary pages agree; this is not official first-party confirmation."
+      },
+      "coc7.occupation.police-officer": {
+        "formula": "EDU*2+DEX*2",
+        "formulas": [
+          "EDU*2+DEX*2",
+          "EDU*2+STR*2"
+        ],
+        "formulaNote": "Kept as an ordered either/or list with DEX first (as approved in M6) so the player picks one characteristic, never collapsed to MAX(DEX,STR). coc-cardwright's job table prints STR first, so the option order is a product decision rather than a source fact.",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Police Officer",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "巡警(原作向)",
+        "evidence": "secondary",
+        "skillShape": "Fighting (Brawl), Firearms, First Aid, one interpersonal skill (Charm/Fast Talk/Intimidate/Persuade), Law, Psychology, either Drive Auto or Ride, Spot Hidden",
+        "batch": "M7 coc-cardwright batch (re-sourced from M6)",
+        "distinctFrom": "police-detective",
+        "claimBoundary": "Mapped from the coc-cardwright job table (巡警(原作向)); the earlier Gamers' Plane, callofcthulhu.org.uk and RPG Stack citations were removed, so this record no longer depends on a spliced public table. The repository is secondary evidence, not an official Chaosium publication."
+      },
+      "coc7.occupation.artist": {
+        "formula": "EDU*2+POW*2",
+        "formulas": [
+          "EDU*2+POW*2",
+          "EDU*2+DEX*2"
+        ],
+        "formulaNote": "Kept as an ordered either/or list with POW first (as approved in M6); POW is used as printed and is never replaced by APP, nor collapsed to a MAX. coc-cardwright's job table prints DEX first, so the option order is a product decision rather than a source fact.",
+        "creditMin": 9,
+        "creditMax": 50,
+        "page": "Artist",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "艺术家",
+        "evidence": "secondary",
+        "skillShape": "Art/Craft (any), History or Natural World, one interpersonal skill (Charm/Fast Talk/Intimidate/Persuade), Other Language, Psychology, Spot Hidden, any two other skills",
+        "batch": "M7 coc-cardwright batch (re-sourced from M6)",
+        "productNote": "The interpersonal skill is a real four-way choice; Persuade is one option and is not hard-wired as the fixed skill. coc-cardwright's job table prints six items; the product record keeps the eight-slot shape approved in M6, so the any-two slot is an explicit product decision rather than a source fact.",
+        "claimBoundary": "Mapped from the coc-cardwright job table (艺术家); the earlier Gamers' Plane, callofcthulhu.org.uk and RPG Stack citations were removed. The repository is secondary evidence, not an official Chaosium publication."
+      },
+      "coc7.occupation.clergy": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 9,
+        "creditMax": 60,
+        "page": "Clergy, Member of the",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "神职人员",
+        "evidence": "secondary",
+        "skillShape": "Accounting, History, Library Use, Listen, Other Language, one interpersonal skill (Charm/Fast Talk/Intimidate/Persuade), Psychology, any one other skill",
+        "batch": "M7 coc-cardwright batch (re-sourced from M6)",
+        "nameNote": "The source heading is 'Clergy, Member of the'; the record stores the shorter stable name Clergy. coc-cardwright's job table prints seven items; the product record keeps the eight-slot shape approved in M6, so the any-one slot is an explicit product decision rather than a source fact.",
+        "claimBoundary": "Mapped from the coc-cardwright job table (神职人员); the earlier Gamers' Plane, callofcthulhu.org.uk and RPG Stack citations were removed. The repository is secondary evidence, not an official Chaosium publication."
+      },
+      "coc7.occupation.pilot": {
+        "formula": "EDU*2+DEX*2",
+        "formulas": [
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 20,
+        "creditMax": 70,
+        "page": "Pilot",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "飞行员",
+        "evidence": "secondary",
+        "skillShape": "Electrical Repair, Mechanical Repair, Navigate, Operate Heavy Machinery, Pilot (Aircraft), Science (Astronomy), any two other skills",
+        "batch": "M7 coc-cardwright batch (re-sourced from M6)",
+        "productNote": "Pilot (Aircraft) is the fixed specialism; Pilot (Boat) is a different specialism and is deliberately absent from this record. coc-cardwright's job table prints six items; the product record keeps the eight-slot shape approved in M6, so the any-two slot is an explicit product decision rather than a source fact.",
+        "claimBoundary": "Mapped from the coc-cardwright job table (飞行员); the earlier Gamers' Plane and callofcthulhu.org.uk citations were removed. The repository is secondary evidence, not an official Chaosium publication."
+      },
+      "coc7.occupation.psychiatrist": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 30,
+        "creditMax": 80,
+        "page": "Psychiatrist",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "精神病学家",
+        "evidence": "secondary",
+        "skillShape": "Language (Other), Listen, Medicine, Persuade, Psychoanalysis, Psychology, Science (Biology), Science (Chemistry)",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.museum-curator": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 10,
+        "creditMax": 30,
+        "page": "Museum Curator",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "博物馆管理员",
+        "evidence": "secondary",
+        "skillShape": "Accounting, Appraise, Archaeology, History, Library Use, Occult, Language (Other), Spot Hidden",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.coroner": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 40,
+        "creditMax": 60,
+        "page": "Coroner",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "法医",
+        "evidence": "secondary",
+        "skillShape": "Language (Other), Library Use, Medicine, Persuade, Science (Biology), Science (Forensics), Science (Pharmacy), Spot Hidden",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.judge": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 50,
+        "creditMax": 80,
+        "page": "Judge",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "法官",
+        "evidence": "secondary",
+        "skillShape": "History, Intimidate, Law, Library Use, Listen, Language (Own), Persuade, Psychology",
+        "batch": "M7 coc-cardwright batch",
+        "productNote": "All eight slots are fixed; the source prints no either/or group for this occupation, so the record carries an empty choiceGroups list rather than inventing one.",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.bookseller": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 20,
+        "creditMax": 40,
+        "page": "Bookseller",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "书商",
+        "evidence": "secondary",
+        "skillShape": "Accounting, Appraise, Drive Auto, History, Library Use, Language (Own), Language (Other), one interpersonal skill (Charm/Fast Talk/Intimidate/Persuade)",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.antiquarian": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 30,
+        "creditMax": 50,
+        "page": "Antiquarian",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "古董商",
+        "evidence": "secondary",
+        "skillShape": "Accounting, Appraise, Drive Auto, History, Library Use, Navigate, two interpersonal picks (Charm/Fast Talk/Intimidate/Persuade)",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.intermediary": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "formulaNote": "Printed as EDU*2 + (STR*2 or DEX*2): ordered either/or, the player picks one; never collapsed to MAX.",
+        "creditMin": 20,
+        "creditMax": 45,
+        "page": "Intermediary Investigator",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "中介调查员",
+        "evidence": "secondary",
+        "skillShape": "Fighting (Brawl), Firearms, Law, Library Use, Psychology, Stealth, Track, one interpersonal skill (Charm/Fast Talk/Intimidate/Persuade)",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.orderly": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2"
+        ],
+        "creditMin": 6,
+        "creditMax": 15,
+        "page": "Orderly",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "勤杂护工",
+        "evidence": "secondary",
+        "skillShape": "Electrical Repair, Fighting (Brawl), First Aid, Listen, Mechanical Repair, Psychology, Stealth, one interpersonal skill (Charm/Fast Talk/Intimidate/Persuade)",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.government-official": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2"
+        ],
+        "creditMin": 50,
+        "creditMax": 90,
+        "page": "Government Official",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "政府官员",
+        "evidence": "secondary",
+        "skillShape": "Charm, History, Intimidate, Fast Talk, Listen, Language (Own), Persuade, Psychology",
+        "batch": "M7 coc-cardwright batch",
+        "productNote": "All eight slots are fixed; the source prints no either/or group for this occupation, so the record carries an empty choiceGroups list rather than inventing one.",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.traveler": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "formulaNote": "Printed as EDU*2 + (STR*2 or DEX*2): ordered either/or, the player picks one; never collapsed to MAX.",
+        "creditMin": 5,
+        "creditMax": 20,
+        "page": "Traveler",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "旅行家",
+        "evidence": "secondary",
+        "skillShape": "Firearms, First Aid, Listen, Natural World, Navigate, Spot Hidden, Survival, Track",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.firefighter": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "formulaNote": "Printed as EDU*2 + (STR*2 or DEX*2): ordered either/or, the player picks one; never collapsed to MAX.",
+        "creditMin": 9,
+        "creditMax": 30,
+        "page": "Firefighter",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "消防员",
+        "evidence": "secondary",
+        "skillShape": "Climb, Dodge, Drive Auto, First Aid, Jump, Mechanical Repair, Operate Heavy Machinery, Throw",
+        "batch": "M7 coc-cardwright batch",
+        "productNote": "All eight slots are fixed; the source prints no either/or group for this occupation, so the record carries an empty choiceGroups list rather than inventing one.",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.fisherman": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 20,
+        "creditMax": 40,
+        "page": "Fisherman",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "渔民",
+        "evidence": "secondary",
+        "skillShape": "First Aid, Mechanical Repair, Natural World, Navigate, Pilot (Boat), Spot Hidden, Swim, one interpersonal skill (Charm/Fast Talk/Intimidate/Persuade)",
+        "batch": "M7 coc-cardwright batch",
+        "productNote": "Pilot (Boat) is the fixed vehicle specialism; Pilot (Aircraft) is a different specialism and is not part of the occupation.",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.hunter": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "formulaNote": "Printed as EDU*2 + (STR*2 or DEX*2): ordered either/or, the player picks one; never collapsed to MAX.",
+        "creditMin": 20,
+        "creditMax": 50,
+        "page": "Hunter",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "猎人",
+        "evidence": "secondary",
+        "skillShape": "Firearms, Natural World, Navigate, Science (Zoology), Stealth, Track, Listen or Spot Hidden, Language (Other) or Survival",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.pharmacist": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4"
+        ],
+        "creditMin": 35,
+        "creditMax": 75,
+        "page": "Pharmacist",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "药剂师",
+        "evidence": "secondary",
+        "skillShape": "Accounting, First Aid, Language (Other, Latin), Library Use, Psychology, Science (Chemistry), Science (Pharmacy), one interpersonal skill (Charm/Fast Talk/Intimidate/Persuade)",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.gambler": {
+        "formula": "EDU*2+DEX*2",
+        "formulas": [
+          "EDU*2+DEX*2",
+          "EDU*2+APP*2"
+        ],
+        "formulaNote": "Printed as EDU*2 + (DEX*2 or APP*2): ordered either/or, the player picks one; never collapsed to MAX.",
+        "creditMin": 8,
+        "creditMax": 50,
+        "page": "Gambler",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "赌徒",
+        "evidence": "secondary",
+        "skillShape": "Accounting, Art/Craft (Acting), Listen, Psychology, Sleight of Hand, Spot Hidden, two interpersonal picks (Charm/Fast Talk/Intimidate/Persuade)",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.tribe-member": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "formulaNote": "Printed as EDU*2 + (STR*2 or DEX*2): ordered either/or, the player picks one; never collapsed to MAX.",
+        "creditMin": 0,
+        "creditMax": 15,
+        "page": "Tribe Member",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "部落成员",
+        "evidence": "secondary",
+        "skillShape": "Climb, Listen, Natural World, Occult, Spot Hidden, Swim, Survival, Fighting or Throw",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.spy": {
+        "formula": "EDU*2+DEX*2",
+        "formulas": [
+          "EDU*2+DEX*2",
+          "EDU*2+APP*2"
+        ],
+        "formulaNote": "Printed as EDU*2 + (DEX*2 or APP*2): ordered either/or, the player picks one; never collapsed to MAX.",
+        "creditMin": 20,
+        "creditMax": 60,
+        "page": "Spy",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "间谍",
+        "evidence": "secondary",
+        "skillShape": "Firearms, Listen, Language (Other), Psychology, Sleight of Hand, Stealth, Art/Craft (Acting) or Disguise, one interpersonal skill (Charm/Fast Talk/Intimidate/Persuade)",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.gang-leader": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2"
+        ],
+        "creditMin": 60,
+        "creditMax": 95,
+        "page": "Gang Leader",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "黑帮老大",
+        "evidence": "secondary",
+        "skillShape": "Fighting, Firearms, Law, Listen, Psychology, Spot Hidden, two interpersonal picks (Charm/Fast Talk/Intimidate/Persuade)",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "coc7.occupation.asylum-orderly": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "formulaNote": "Printed as EDU*2 + (STR*2 or DEX*2): ordered either/or, the player picks one; never collapsed to MAX.",
+        "creditMin": 8,
+        "creditMax": 20,
+        "page": "Asylum Orderly",
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "cardwrightJob": "精神病院护工",
+        "evidence": "secondary",
+        "skillShape": "Dodge, Fighting (Brawl), First Aid, Listen, Psychology, Stealth, two interpersonal picks (Charm/Fast Talk/Intimidate/Persuade)",
+        "batch": "M7 coc-cardwright batch",
+        "claimBoundary": "Mapped one-to-one from coc-cardwright's jobs.py; no public occupation page was consulted for this record. The repository is secondary evidence and is not an official Chaosium publication."
+      },
+      "sealdice.occupation.accountant": {
+        "formula": "EDU*4",
+        "creditMin": 30,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "会计师",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.acrobat": {
+        "formula": "EDU*2+DEX*2",
+        "creditMin": 9,
+        "creditMax": 20,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "杂技演员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.stage-actor": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 9,
+        "creditMax": 40,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "演员-戏剧演员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.film-actor": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 20,
+        "creditMax": 90,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "演员-电影演员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.animal-trainer": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2",
+          "EDU*2+POW*2"
+        ],
+        "creditMin": 10,
+        "creditMax": 40,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "动物训练师",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.antiquities-scholar": {
+        "formula": "EDU*4",
+        "creditMin": 30,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "文物学家（原作向）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.architect": {
+        "formula": "EDU*4",
+        "creditMin": 30,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "建筑师",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.athlete": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "运动员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.writer-classic": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "作家（原作向",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.bartender": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 8,
+        "creditMax": 25,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "酒保",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.bounty-hunter": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "赏金猎人",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.boxer-wrestler": {
+        "formula": "EDU*2+STR*2",
+        "creditMin": 9,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "拳击手、摔跤手",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.butler-servant": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 40,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "管家、男仆、女仆",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.programmer-electronics-engineer": {
+        "formula": "EDU*4",
+        "creditMin": 10,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "程序员、电子工程师（现代）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.hacker": {
+        "formula": "EDU*4",
+        "creditMin": 10,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "黑客/骇客（现代）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.cowboy": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 20,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "牛仔",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.assassin": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 30,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "罪犯-刺客",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.bank-robber": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 5,
+        "creditMax": 75,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "罪犯-银行劫匪",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.thug-bruiser": {
+        "formula": "EDU*2+STR*2",
+        "creditMin": 5,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "罪犯-打手、暴徒",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.lone-criminal": {
+        "formula": "EDU*2+DEX*2",
+        "formulas": [
+          "EDU*2+DEX*2",
+          "EDU*2+APP*2"
+        ],
+        "creditMin": 5,
+        "creditMax": 65,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "罪犯-独行罪犯",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.female-cat-burglar": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 10,
+        "creditMax": 80,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "罪犯-女飞贼（古典）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.fence": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 20,
+        "creditMax": 40,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "罪犯-赃物贩子",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.forger": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "罪犯-赝造者",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.smuggler": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 20,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "罪犯-走私者",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.hoodlum": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 3,
+        "creditMax": 10,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "罪犯-混混",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.cult-leader": {
+        "formula": "EDU*4",
+        "creditMin": 30,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "教团首领",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.exorcist": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 50,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "除魅师（现代）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.designer": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "设计师",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.diver": {
+        "formula": "EDU*2+DEX*2",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "潜水员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.vagrant": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2",
+          "EDU*2+DEX*2",
+          "EDU*2+STR*2"
+        ],
+        "creditMin": 0,
+        "creditMax": 5,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "流浪者",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.chauffeur": {
+        "formula": "EDU*2+DEX*2",
+        "creditMin": 10,
+        "creditMax": 40,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "司机-私人司机",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.driver": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 20,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "司机-司机",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.taxi-driver": {
+        "formula": "EDU*2+DEX*2",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "司机-出租车司机",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.editor": {
+        "formula": "EDU*4",
+        "creditMin": 10,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "编辑",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.farmer": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "农民",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.federal-agent": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 40,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "联邦探员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.foreign-correspondent": {
+        "formula": "EDU*4",
+        "creditMin": 10,
+        "creditMax": 40,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "驻外记者",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.gang-underling": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 20,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "黑帮-马仔",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.gentleman-lady": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 40,
+        "creditMax": 90,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "绅士、淑女",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.hobo": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 0,
+        "creditMax": 5,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "游民",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.correspondent": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "记者(原作向)-通讯记者",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.unskilled-laborer": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "工人-非熟练工人",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.lumberjack": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "工人-伐木工",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.miner": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "工人-矿工",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.technician": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 40,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "技师",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.military-officer": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 20,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "军官",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.missionary": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 0,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "传教士",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.mountaineer": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 30,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "登山家",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.musician": {
+        "formula": "EDU*2+POW*2",
+        "formulas": [
+          "EDU*2+POW*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "音乐家",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.occultist": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 65,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "神秘学家",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.parapsychologist": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "超心理学家",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.photographer": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "摄影师-摄影师",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.photojournalist": {
+        "formula": "EDU*4",
+        "creditMin": 10,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "摄影师-摄影记者",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.stunt-pilot": {
+        "formula": "EDU*4",
+        "creditMin": 30,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "飞行员-特技飞行员（古典）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.prospector": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 0,
+        "creditMax": 10,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "淘金客",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.sex-worker": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 5,
+        "creditMax": 50,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "性工作者",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.researcher": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "研究员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.naval-sailor": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "海员-军舰海员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.salesman": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 9,
+        "creditMax": 40,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "推销员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.secretary": {
+        "formula": "EDU*2+DEX*2",
+        "formulas": [
+          "EDU*2+DEX*2",
+          "EDU*2+APP*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "秘书",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.shop-owner": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 20,
+        "creditMax": 40,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "店老板",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.student-intern": {
+        "formula": "EDU*4",
+        "creditMin": 5,
+        "creditMax": 10,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "学生、实习生",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.stunt-performer": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 10,
+        "creditMax": 50,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "替身演员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.union-activist": {
+        "formula": "EDU*4",
+        "creditMin": 5,
+        "creditMax": 50,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "公会活动家",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.waiter": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 20,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "服务生",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.office-clerk": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 20,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "白领工人-职员、主管",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.middle-manager": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 80,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "白领工人-中高层管理人员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.zealot": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2",
+          "EDU*2+POW*2"
+        ],
+        "creditMin": 0,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "狂热者",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.aquatic-athlete": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 20,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "运动员（游泳/潜水）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.golfer": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 50,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "运动员（高尔夫）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.tennis-player": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 30,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "运动员（网球）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.track-athlete": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 20,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "运动员（田径）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.spokesperson": {
+        "formula": "EDU*4",
+        "creditMin": 50,
+        "creditMax": 80,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "发言人",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.bail-bondsman": {
+        "formula": "EDU*4",
+        "creditMin": 50,
+        "creditMax": 80,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "保释担保人",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.catholic-priest": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "神职人员(天主教牧师)",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.rabbi": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "神职人员（犹太教拉比）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.socialist-activist": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2",
+          "EDU*2+POW*2"
+        ],
+        "creditMin": 0,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "社会主义者/激进主义者",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.copywriter": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "撰稿人",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.loan-shark": {
+        "formula": "EDU*2+DEX*2",
+        "formulas": [
+          "EDU*2+DEX*2",
+          "EDU*2+APP*2"
+        ],
+        "creditMin": 50,
+        "creditMax": 80,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "罪犯（放高利贷者）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.pickpocket": {
+        "formula": "EDU*2+DEX*2",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "罪犯（扒手）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.bus-driver": {
+        "formula": "EDU*2+DEX*2",
+        "creditMin": 30,
+        "creditMax": 50,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "司机-公交司机",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.field-researcher": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "实地调研员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.film-crew": {
+        "formula": "EDU*2+POW*2",
+        "formulas": [
+          "EDU*2+POW*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "电影摄制人员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.sports-manager": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 20,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "运动经理",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.merchant-seaman": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 20,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "商船队船员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.classical-musician": {
+        "formula": "EDU*2+POW*2",
+        "formulas": [
+          "EDU*2+POW*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "古典音乐家",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.racing-driver": {
+        "formula": "EDU*2+DEX*2",
+        "creditMin": 30,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "赛车手/赛艇手",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.radio-announcer": {
+        "formula": "EDU*4",
+        "creditMin": 50,
+        "creditMax": 80,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "电台播音员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.traveling-salesman": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "推销员（旅行推销员）",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.small-business-owner": {
+        "formula": "EDU*4",
+        "creditMin": 50,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "小企业家",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.stagehand": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 20,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "舞台工作人员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.stockbroker": {
+        "formula": "EDU*4",
+        "creditMin": 60,
+        "creditMax": 90,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "证券经纪人",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.surveyor": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "勘测员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.telephone-operator": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 50,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "电话接线员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.talent-scout": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "星探",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.treasure-hunter": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "寻宝猎人",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.biker-gang": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 5,
+        "creditMax": 10,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "暴走族",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.high-school-student": {
+        "formula": "EDU*4",
+        "creditMin": 5,
+        "creditMax": 10,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "高中生",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.language-teacher": {
+        "formula": "EDU*4",
+        "creditMin": 30,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "外语教师",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.illegal-immigrant": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 0,
+        "creditMax": 5,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "非法移民",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.psychotherapist": {
+        "formula": "EDU*4",
+        "creditMin": 30,
+        "creditMax": 50,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "心理治疗师",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.boarding-student": {
+        "formula": "EDU*4",
+        "creditMin": 5,
+        "creditMax": 10,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "寄居学生",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.animal-assisted-therapist": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2",
+          "EDU*2+POW*2"
+        ],
+        "creditMin": 30,
+        "creditMax": 50,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "动物辅助治疗师",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.emergency-physician": {
+        "formula": "EDU*4",
+        "creditMin": 10,
+        "creditMax": 50,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "急诊医生/救援队员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.unlicensed-doctor": {
+        "formula": "EDU*4",
+        "creditMin": 10,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "密医",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.mountain-rescuer": {
+        "formula": "EDU*2+STR*2",
+        "formulas": [
+          "EDU*2+STR*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 10,
+        "creditMax": 50,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "山岳救援队员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.dancer": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 9,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "舞者",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.fashion-designer": {
+        "formula": "EDU*4",
+        "creditMin": 20,
+        "creditMax": 60,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "服装设计师",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.idol": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 9,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "偶像",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.singer": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 9,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "歌手",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.comedian": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 9,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "搞笑艺人",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.internet-celebrity": {
+        "formula": "EDU*2+APP*2",
+        "creditMin": 9,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "网络明星",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.agent": {
+        "formula": "EDU*4",
+        "creditMin": 30,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "经纪人",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.diviner-medium": {
+        "formula": "EDU*4",
+        "formulas": [
+          "EDU*4",
+          "EDU*2+APP*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "占卜师、灵媒师",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.stay-at-home-guard": {
+        "formula": "EDU*4",
+        "creditMin": 1,
+        "creditMax": 10,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "自宅警备员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.game-tester": {
+        "formula": "EDU*4",
+        "creditMin": 9,
+        "creditMax": 20,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "游戏测试员",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.physician": {
+        "formula": "EDU*4",
+        "creditMin": 30,
+        "creditMax": 70,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "医生",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      },
+      "sealdice.occupation.shopkeeper": {
+        "formula": "EDU*2+APP*2",
+        "formulas": [
+          "EDU*2+APP*2",
+          "EDU*2+DEX*2"
+        ],
+        "creditMin": 9,
+        "creditMax": 30,
+        "sourceRefs": [
+          "sealdice-occupations"
+        ],
+        "evidence": "secondary",
+        "batch": "M8 sealdice-builtins compatibility batch",
+        "sourceKey": "店主",
+        "slotCount": 8,
+        "claimBoundary": "Mapped from a SealDice builtin helpdoc entry: only the printed point formula, credit-rating range and skill composition were used. The description is original to this project, and the helpdoc prose was not copied. sealdice-builtins declares no license, so no part of that file is redistributed; treat this record as secondary evidence."
+      }
+    },
+    "deferredRecords": {
+      "自定义职业": {
+        "category": "custom",
+        "reason": "自定义职业模板没有固定公式与完整的八项技能表"
+      },
+      "精神病医生（古典）": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "工匠": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "医生（原作向）": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "工程师": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "艺人": {
+        "category": "not-eight-slots",
+        "reason": "解析为 11 项，规则要求恰好 8 项"
+      },
+      "法医": {
+        "category": "not-eight-slots",
+        "reason": "解析为 6 项，规则要求恰好 8 项"
+      },
+      "实验室助理": {
+        "category": "not-eight-slots",
+        "reason": "解析为 6 项，规则要求恰好 8 项"
+      },
+      "律师": {
+        "category": "not-eight-slots",
+        "reason": "解析为 12 项，规则要求恰好 8 项"
+      },
+      "护士": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "药剂师": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "私家侦探": {
+        "category": "not-eight-slots",
+        "reason": "解析为 10 项，规则要求恰好 8 项"
+      },
+      "教授（原作向）": {
+        "category": "not-eight-slots",
+        "reason": "解析为 9 项，规则要求恰好 8 项"
+      },
+      "精神病学家": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "心理学家、精神分析学家": {
+        "category": "not-eight-slots",
+        "reason": "解析为 9 项，规则要求恰好 8 项"
+      },
+      "科学家": {
+        "category": "unverified-skill",
+        "reason": "至多六种其他学问技巧作为个人专长（学问（Knowledge）没有已核基础值）"
+      },
+      "殡葬师": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "饲养员": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "专栏作家": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "罪犯（赌博庄家）": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "牙医": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "外科医生/内科医生": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "整形医生": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "司法科学家": {
+        "category": "not-eight-slots",
+        "reason": "解析为 6 项，规则要求恰好 8 项"
+      },
+      "医疗技术员": {
+        "category": "not-eight-slots",
+        "reason": "解析为 6 项，规则要求恰好 8 项"
+      },
+      "队医": {
+        "category": "missing-formula",
+        "reason": "【职业属性】为空，无法确定职业点公式"
+      },
+      "西部治安官": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "神职人员（和尚，尼姑）": {
+        "category": "unverified-skill",
+        "reason": "学问（佛教）（没有对应的技能 key）"
+      },
+      "神职人员（神官，巫女）": {
+        "category": "unverified-skill",
+        "reason": "学问（神道教）（没有对应的技能 key）"
+      },
+      "风水师": {
+        "category": "unverified-skill",
+        "reason": "学问（道教）（没有对应的技能 key）"
+      },
+      "家传降妖人": {
+        "category": "unverified-skill",
+        "reason": "学问（佛教或神道教）（没有对应的技能 key）"
+      },
+      "市子（盲人）": {
+        "category": "unverified-skill",
+        "reason": "学问（神道教）（没有对应的技能 key）"
+      },
+      "言灵师/阴阳师": {
+        "category": "unverified-skill",
+        "reason": "学问（阴阳道）（没有对应的技能 key）"
+      },
+      "炼丹师": {
+        "category": "unverified-skill",
+        "reason": "学问（道教）（没有对应的技能 key）"
+      },
+      "女学生": {
+        "category": "unverified-skill",
+        "reason": "自行车驾驶（没有对应的技能 key）"
+      },
+      "科学搜查研究员": {
+        "category": "not-eight-slots",
+        "reason": "解析为 6 项，规则要求恰好 8 项"
+      },
+      "评论家": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "捉鬼人": {
+        "category": "not-eight-slots",
+        "reason": "解析为 6 项，规则要求恰好 8 项"
+      },
+      "厨师": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "交际花": {
+        "category": "not-eight-slots",
+        "reason": "解析为 10 项，规则要求恰好 8 项"
+      },
+      "考古学家": {
+        "category": "not-eight-slots",
+        "reason": "解析为 11 项，规则要求恰好 8 项"
+      },
+      "贵族": {
+        "category": "not-eight-slots",
+        "reason": "解析为 9 项，规则要求恰好 8 项"
+      },
+      "作家": {
+        "category": "not-eight-slots",
+        "reason": "解析为 9 项，规则要求恰好 8 项"
+      },
+      "马车夫": {
+        "category": "not-eight-slots",
+        "reason": "解析为 11 项，规则要求恰好 8 项"
+      },
+      "牧师": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "咨询侦探": {
+        "category": "not-eight-slots",
+        "reason": "解析为 14 项，规则要求恰好 8 项"
+      },
+      "罪犯": {
+        "category": "not-eight-slots",
+        "reason": "解析为 7 项，规则要求恰好 8 项"
+      },
+      "业余艺术爱好者": {
+        "category": "not-eight-slots",
+        "reason": "解析为 6 项，规则要求恰好 8 项"
+      },
+      "退役军官": {
+        "category": "not-eight-slots",
+        "reason": "解析为 11 项，规则要求恰好 8 项"
+      },
+      "探险家": {
+        "category": "not-eight-slots",
+        "reason": "解析为 17 项，规则要求恰好 8 项"
+      },
+      "记者": {
+        "category": "not-eight-slots",
+        "reason": "解析为 11 项，规则要求恰好 8 项"
+      },
+      "劳工": {
+        "category": "not-eight-slots",
+        "reason": "解析为 9 项，规则要求恰好 8 项"
+      },
+      "警察": {
+        "category": "not-eight-slots",
+        "reason": "解析为 10 项，规则要求恰好 8 项"
+      },
+      "教授/学者": {
+        "category": "unverified-skill",
+        "reason": "至多六种额外的学问技巧作为个人专长（学问（Knowledge）没有已核基础值）"
+      },
+      "佣人": {
+        "category": "unverified-skill",
+        "reason": "会计，估价，马车驾驶，礼仪，急救，其他语言（欧洲），说服（任选组含未核实技能：礼仪）"
+      },
+      "士兵": {
+        "category": "not-eight-slots",
+        "reason": "解析为 9 项，规则要求恰好 8 项"
+      },
+      "密探": {
+        "category": "not-eight-slots",
+        "reason": "解析为 12 项，规则要求恰好 8 项"
+      },
+      "事务所侦探、保安": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 intermediary 的公式选项、信用区间与技能签名完全一致"
+      },
+      "古董商": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 antiquarian 的公式选项、信用区间与技能签名完全一致"
+      },
+      "考古学家（原作向）": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 archaeologist 的公式选项、信用区间与技能签名完全一致"
+      },
+      "艺术家": {
+        "category": "display-name-conflict",
+        "reason": "显示名「艺术家」与已有职业冲突；已有 CR 9-50、EDU*2+POW*2 或 EDU*2+DEX*2，固定技能为心理学/侦查；来源 CR 10-40、固定技能含估价/历史/图书馆，规范化签名不同，不覆盖已有记录"
+      },
+      "精神病院看护": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 asylum-orderly 的公式选项、信用区间与技能签名完全一致"
+      },
+      "猎人": {
+        "category": "display-name-conflict",
+        "reason": "显示名「猎人」与已有职业冲突；已有把科学（动物学）固定，来源是科学（生物学或植物学）选择位，固定专精不同，不覆盖已有记录"
+      },
+      "书商": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 bookseller 的公式选项、信用区间与技能签名完全一致"
+      },
+      "神职人员": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 clergy 的公式选项、信用区间与技能签名完全一致"
+      },
+      "罪犯-窃贼": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 cat-burglar 的公式选项、信用区间与技能签名完全一致"
+      },
+      "业余艺术爱好者（原作向）": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 dilettante 的公式选项、信用区间与技能签名完全一致"
+      },
+      "政府官员": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 government-official 的公式选项、信用区间与技能签名完全一致"
+      },
+      "探险家（古典）": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 explorer 的公式选项、信用区间与技能签名完全一致"
+      },
+      "消防员": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 firefighter 的公式选项、信用区间与技能签名完全一致"
+      },
+      "赌徒": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 gambler 的公式选项、信用区间与技能签名完全一致"
+      },
+      "黑帮-黑帮老大": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 gang-leader 的公式选项、信用区间与技能签名完全一致"
+      },
+      "勤杂护工": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 orderly 的公式选项、信用区间与技能签名完全一致"
+      },
+      "记者(原作向)-调查记者": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 investigative-journalist 的公式选项、信用区间与技能签名完全一致"
+      },
+      "法官": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 judge 的公式选项、信用区间与技能签名完全一致"
+      },
+      "图书馆管理员": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 librarian 的公式选项、信用区间与技能签名完全一致"
+      },
+      "博物馆管理员": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 museum-curator 的公式选项、信用区间与技能签名完全一致"
+      },
+      "旅行家": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 traveler 的公式选项、信用区间与技能签名完全一致"
+      },
+      "飞行员-飞行员": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 pilot 的公式选项、信用区间与技能签名完全一致"
+      },
+      "警方(原作向)-警探": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 police-detective 的公式选项、信用区间与技能签名完全一致"
+      },
+      "警方(原作向)-巡警": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 police-officer 的公式选项、信用区间与技能签名完全一致"
+      },
+      "海员-民船海员": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 fisherman 的公式选项、信用区间与技能签名完全一致"
+      },
+      "士兵、海军陆战队士兵": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 soldier 的公式选项、信用区间与技能签名完全一致"
+      },
+      "间谍": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 spy 的公式选项、信用区间与技能签名完全一致"
+      },
+      "部落成员": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 tribe-member 的公式选项、信用区间与技能签名完全一致"
+      },
+      "大使": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 government-official 的公式选项、信用区间与技能签名完全一致"
+      },
+      "神职人员（新教牧师）": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 clergy 的公式选项、信用区间与技能签名完全一致"
+      },
+      "罪犯（地下钱庄）": {
+        "category": "duplicate-source",
+        "reason": "与来源条目「会计师」的公式选项、信用区间与技能签名完全一致"
+      },
+      "罪犯（黑律师）": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 lawyer 的公式选项、信用区间与技能签名完全一致"
+      },
+      "推销员（圣经推销员）": {
+        "category": "duplicate-source",
+        "reason": "与来源条目「推销员」的公式选项、信用区间与技能签名完全一致"
+      },
+      "相扑力士": {
+        "category": "duplicate-source",
+        "reason": "与来源条目「拳击手、摔跤手」的公式选项、信用区间与技能签名完全一致"
+      },
+      "渔民": {
+        "category": "display-name-conflict",
+        "reason": "显示名「渔民」与已有职业冲突；规范化签名不同：已有 CR 20-40、EDU*4、急救+一项社交，来源 CR 9-30、EDU*2+STR*2 或 EDU*2+DEX*2、操作重型机械+科学（天文），不覆盖已有记录"
+      },
+      "海上自卫队员": {
+        "category": "duplicate-source",
+        "reason": "与来源条目「海员-军舰海员」的公式选项、信用区间与技能签名完全一致"
+      },
+      "海警": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 fisherman 的公式选项、信用区间与技能签名完全一致"
+      },
+      "陆上自卫队员": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 soldier 的公式选项、信用区间与技能签名完全一致"
+      },
+      "私人军事公司成员": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 soldier 的公式选项、信用区间与技能签名完全一致"
+      },
+      "冒险家教授": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 explorer 的公式选项、信用区间与技能签名完全一致"
+      },
+      "运动员艺人": {
+        "category": "duplicate-source",
+        "reason": "与来源条目「杂技演员」的公式选项、信用区间与技能签名完全一致"
+      },
+      "播音员": {
+        "category": "duplicate-source",
+        "reason": "与来源条目「电台播音员」的公式选项、信用区间与技能签名完全一致"
+      },
+      "主持人": {
+        "category": "duplicate-source",
+        "reason": "与来源条目「电台播音员」的公式选项、信用区间与技能签名完全一致"
+      },
+      "电视解说员": {
+        "category": "duplicate-source",
+        "reason": "与来源条目「电台播音员」的公式选项、信用区间与技能签名完全一致"
+      },
+      "机械师": {
+        "category": "duplicate-source",
+        "reason": "与来源条目「技师」的公式选项、信用区间与技能签名完全一致"
+      },
+      "网络犯罪者": {
+        "category": "duplicate-source",
+        "reason": "与来源条目「黑客/骇客（现代）」的公式选项、信用区间与技能签名完全一致"
+      },
+      "佣兵": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 soldier 的公式选项、信用区间与技能签名完全一致"
+      },
+      "壮汉保镖": {
+        "category": "duplicate-existing",
+        "reason": "与已有职业 police-officer 的公式选项、信用区间与技能签名完全一致"
+      },
+      "戏剧演员": {
+        "category": "alias",
+        "reason": "别名，指向「演员-戏剧演员」；不单独建卡"
+      },
+      "电影演员": {
+        "category": "alias",
+        "reason": "别名，指向「演员-电影演员」；不单独建卡"
+      },
+      "事务所侦探": {
+        "category": "alias",
+        "reason": "别名，指向「事务所侦探、保安」；不单独建卡"
+      },
+      "保安": {
+        "category": "alias",
+        "reason": "别名，指向「事务所侦探、保安」；不单独建卡"
+      },
+      "摔跤手": {
+        "category": "alias",
+        "reason": "别名，指向「拳击手、摔跤手」；不单独建卡"
+      },
+      "拳击手": {
+        "category": "alias",
+        "reason": "别名，指向「拳击手、摔跤手」；不单独建卡"
+      },
+      "管家": {
+        "category": "alias",
+        "reason": "别名，指向「管家、男仆、女仆」；不单独建卡"
+      },
+      "男仆": {
+        "category": "alias",
+        "reason": "别名，指向「管家、男仆、女仆」；不单独建卡"
+      },
+      "女仆": {
+        "category": "alias",
+        "reason": "别名，指向「管家、男仆、女仆」；不单独建卡"
+      },
+      "程序员": {
+        "category": "alias",
+        "reason": "别名，指向「程序员、电子工程师（现代）」；不单独建卡"
+      },
+      "电子工程师": {
+        "category": "alias",
+        "reason": "别名，指向「程序员、电子工程师（现代）」；不单独建卡"
+      },
+      "黑客": {
+        "category": "alias",
+        "reason": "别名，指向「黑客/骇客（现代）」；不单独建卡"
+      },
+      "骇客": {
+        "category": "alias",
+        "reason": "别名，指向「黑客/骇客（现代）」；不单独建卡"
+      },
+      "刺客": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-刺客」；不单独建卡"
+      },
+      "银行劫匪": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-银行劫匪」；不单独建卡"
+      },
+      "打手": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-打手、暴徒」；不单独建卡"
+      },
+      "暴徒": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-打手、暴徒」；不单独建卡"
+      },
+      "窃贼": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-窃贼」；不单独建卡"
+      },
+      "欺诈师": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-欺诈师」；不单独建卡"
+      },
+      "独行罪犯": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-独行罪犯」；不单独建卡"
+      },
+      "女飞贼": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-女飞贼（古典）」；不单独建卡"
+      },
+      "赃物贩子": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-赃物贩子」；不单独建卡"
+      },
+      "赝造者": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-赝造者」；不单独建卡"
+      },
+      "走私者": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-走私者」；不单独建卡"
+      },
+      "混混": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯-混混」；不单独建卡"
+      },
+      "流浪汉": {
+        "category": "alias",
+        "reason": "别名，指向「流浪者」；不单独建卡"
+      },
+      "私人司机": {
+        "category": "alias",
+        "reason": "别名，指向「司机-私人司机」；不单独建卡"
+      },
+      "司机": {
+        "category": "alias",
+        "reason": "别名，指向「司机-司机」；不单独建卡"
+      },
+      "出租车司机": {
+        "category": "alias",
+        "reason": "别名，指向「司机-出租车司机」；不单独建卡"
+      },
+      "黑帮老大": {
+        "category": "alias",
+        "reason": "别名，指向「黑帮-黑帮老大」；不单独建卡"
+      },
+      "马仔": {
+        "category": "alias",
+        "reason": "别名，指向「黑帮-马仔」；不单独建卡"
+      },
+      "绅士": {
+        "category": "alias",
+        "reason": "别名，指向「绅士、淑女」；不单独建卡"
+      },
+      "淑女": {
+        "category": "alias",
+        "reason": "别名，指向「绅士、淑女」；不单独建卡"
+      },
+      "调查记者": {
+        "category": "alias",
+        "reason": "别名，指向「记者(原作向)-调查记者」；不单独建卡"
+      },
+      "通讯记者": {
+        "category": "alias",
+        "reason": "别名，指向「记者(原作向)-通讯记者」；不单独建卡"
+      },
+      "非熟练工人": {
+        "category": "alias",
+        "reason": "别名，指向「工人-非熟练工人」；不单独建卡"
+      },
+      "伐木工": {
+        "category": "alias",
+        "reason": "别名，指向「工人-伐木工」；不单独建卡"
+      },
+      "矿工": {
+        "category": "alias",
+        "reason": "别名，指向「工人-矿工」；不单独建卡"
+      },
+      "摄影师": {
+        "category": "alias",
+        "reason": "别名，指向「摄影师-摄影师」；不单独建卡"
+      },
+      "摄影记者": {
+        "category": "alias",
+        "reason": "别名，指向「摄影师-摄影记者」；不单独建卡"
+      },
+      "飞行员": {
+        "category": "alias",
+        "reason": "别名，指向「飞行员-飞行员」；不单独建卡"
+      },
+      "特技飞行员": {
+        "category": "alias",
+        "reason": "别名，指向「飞行员-特技飞行员（古典）」；不单独建卡"
+      },
+      "警探": {
+        "category": "alias",
+        "reason": "别名，指向「警方(原作向)-警探」；不单独建卡"
+      },
+      "巡警": {
+        "category": "alias",
+        "reason": "别名，指向「警方(原作向)-巡警」；不单独建卡"
+      },
+      "心理学家": {
+        "category": "alias",
+        "reason": "别名，指向「心理学家、精神分析学家」；不单独建卡"
+      },
+      "精神分析学家": {
+        "category": "alias",
+        "reason": "别名，指向「心理学家、精神分析学家」；不单独建卡"
+      },
+      "军舰海员": {
+        "category": "alias",
+        "reason": "别名，指向「海员-军舰海员」；不单独建卡"
+      },
+      "民船海员": {
+        "category": "alias",
+        "reason": "别名，指向「海员-民船海员」；不单独建卡"
+      },
+      "海军陆战队士兵": {
+        "category": "alias",
+        "reason": "别名，指向「士兵、海军陆战队士兵」；不单独建卡"
+      },
+      "学生": {
+        "category": "alias",
+        "reason": "别名，指向「学生、实习生」；不单独建卡"
+      },
+      "实习生": {
+        "category": "alias",
+        "reason": "别名，指向「学生、实习生」；不单独建卡"
+      },
+      "职员、主管": {
+        "category": "alias",
+        "reason": "别名，指向「白领工人-职员、主管」；不单独建卡"
+      },
+      "中高层管理人员": {
+        "category": "alias",
+        "reason": "别名，指向「白领工人-中高层管理人员」；不单独建卡"
+      },
+      "天主教牧师": {
+        "category": "alias",
+        "reason": "别名，指向「神职人员(天主教牧师)」；不单独建卡"
+      },
+      "新教牧师": {
+        "category": "alias",
+        "reason": "别名，指向「神职人员（新教牧师）」；不单独建卡"
+      },
+      "犹太教拉比": {
+        "category": "alias",
+        "reason": "别名，指向「神职人员（犹太教拉比）」；不单独建卡"
+      },
+      "赌博庄家": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯（赌博庄家）」；不单独建卡"
+      },
+      "放高利贷者": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯（放高利贷者）」；不单独建卡"
+      },
+      "扒手": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯（扒手）」；不单独建卡"
+      },
+      "地下钱庄": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯（地下钱庄）」；不单独建卡"
+      },
+      "黑律师": {
+        "category": "alias",
+        "reason": "别名，指向「罪犯（黑律师）」；不单独建卡"
+      },
+      "外科医生": {
+        "category": "alias",
+        "reason": "别名，指向「外科医生/内科医生」；不单独建卡"
+      },
+      "内科医生": {
+        "category": "alias",
+        "reason": "别名，指向「外科医生/内科医生」；不单独建卡"
+      },
+      "公交司机": {
+        "category": "alias",
+        "reason": "别名，指向「司机-公交司机」；不单独建卡"
+      },
+      "赛车手": {
+        "category": "alias",
+        "reason": "别名，指向「赛车手/赛艇手」；不单独建卡"
+      },
+      "赛艇手": {
+        "category": "alias",
+        "reason": "别名，指向「赛车手/赛艇手」；不单独建卡"
+      },
+      "圣经推销员": {
+        "category": "alias",
+        "reason": "别名，指向「推销员（圣经推销员）」；不单独建卡"
+      },
+      "和尚": {
+        "category": "alias",
+        "reason": "别名，指向「神职人员（和尚，尼姑）」；不单独建卡"
+      },
+      "尼姑": {
+        "category": "alias",
+        "reason": "别名，指向「神职人员（和尚，尼姑）」；不单独建卡"
+      },
+      "神官": {
+        "category": "alias",
+        "reason": "别名，指向「神职人员（神官，巫女）」；不单独建卡"
+      },
+      "巫女": {
+        "category": "alias",
+        "reason": "别名，指向「神职人员（神官，巫女）」；不单独建卡"
+      },
+      "市子": {
+        "category": "alias",
+        "reason": "别名，指向「市子（盲人）」；不单独建卡"
+      },
+      "言灵师": {
+        "category": "alias",
+        "reason": "别名，指向「言灵师/阴阳师」；不单独建卡"
+      },
+      "阴阳师": {
+        "category": "alias",
+        "reason": "别名，指向「言灵师/阴阳师」；不单独建卡"
+      },
+      "急诊医生": {
+        "category": "alias",
+        "reason": "别名，指向「急诊医生/救援队员」；不单独建卡"
+      },
+      "救援队员": {
+        "category": "alias",
+        "reason": "别名，指向「急诊医生/救援队员」；不单独建卡"
+      },
+      "占卜师": {
+        "category": "alias",
+        "reason": "别名，指向「占卜师、灵媒师」；不单独建卡"
+      },
+      "灵媒师": {
+        "category": "alias",
+        "reason": "别名，指向「占卜师、灵媒师」；不单独建卡"
+      },
+      "学者": {
+        "category": "alias",
+        "reason": "别名，指向「教授/学者」；不单独建卡"
+      },
+      "罪犯-欺诈师": {
+        "category": "format-anomaly",
+        "reason": "缺少规范的职业序号/正文结构，无法按正式定义解析"
+      },
+      "旅行推销员": {
+        "category": "format-anomaly",
+        "reason": "缺少规范的职业序号/正文结构，无法按正式定义解析"
+      },
+      "盲人": {
+        "category": "format-anomaly",
+        "reason": "缺少规范的职业序号/正文结构，无法按正式定义解析"
+      }
+    },
+    "resolvedDeferredRecords": {
+      "psychiatrist": {
+        "status": "implemented",
+        "resolvedIn": "M7 coc-cardwright batch",
+        "reason": "coc-cardwright's jobs.py prints the complete eight-item list (Other Language, Listen, Medicine, Persuade, Psychoanalysis, Psychology, Science (Biology), Science (Chemistry)), so the record is now modelled instead of deferred."
+      }
+    },
+    "notes": [
+      "The Dilettante page body is empty in the compendium; only its attributes block (credit 50-99, EDU*2+APP*2, Firearms, Ride, and four choice groups) is available, so the record relies on the attributes block alone.",
+      "No occupation outside these four batches is claimed. Occupations lacking a verified formula or credit range must not become a character-creation default.",
+      "Explorer, Private Investigator and Soldier publish a characteristic choice (Explorer APP/DEX/STR; Private Investigator and Soldier STR/DEX). All three were previously modelled as MAX(...) and are now ordered either/or formula lists; the player picks one and the engine refuses to allocate until a choice is pinned. No MAX formula is used by any shipped occupation.",
+      "Police Detective is an either/or occupation that must not be collapsed: the source says DEX*2 OR STR*2, so it stays an explicit two-formula choice (EDU*2+DEX*2 / EDU*2+STR*2) and never a MAX.",
+      "Police Detective is a separate occupation from Private Investigator: different credit band (20-50 vs 9-30), different formula wording, Law/Listen/Spot Hidden fixed with no Library Use, and an Art/Craft (Acting)-or-Disguise slot. Neither record aliases the other.",
+      "Police Officer is a separate occupation from Police Detective: different credit band (9-30 vs 20-50), Fighting (Brawl)/First Aid fixed, Spot Hidden with no Listen, and a Drive Auto-or-Ride slot instead of Art/Craft (Acting)-or-Disguise. Neither record aliases the other.",
+      "Artist publishes EDU*2 + (POW*2 or DEX*2); POW is used as printed, APP is never substituted and the two options are never collapsed to a MAX. The interpersonal slot stays a four-way choice, so Persuade is not hard-wired.",
+      "Clergy is listed as 'Clergy, Member of the'; the record uses the shorter stable name Clergy with the same eight-item list.",
+      "Pilot fixes Pilot (Aircraft) and Science (Astronomy). Pilot (Boat) is a different specialism and is not part of the occupation.",
+      "The M7 batch (the four M6 records re-sourced plus 19 new occupations) cites coc-cardwright only. Its jobs.py prints the formula, credit range and complete skill list for each entry; no public occupation page was read or spliced for these records. Skill names were mapped to the project's existing stable keys; the eight-slot shape is the jobs.py list, except where a productNote records an earlier product decision.",
+      "Psychiatrist is no longer deferred: coc-cardwright prints the full eight-item list, and the record is now modelled with Language (Other), Listen, Medicine, Persuade, Psychoanalysis, Psychology, Science (Biology) and Science (Chemistry).",
+      "Fisherman fixes Pilot (Boat), not Pilot (Aircraft); Hunter fixes Science (Zoology); Coroner fixes Science (Forensics).",
+      "coc-cardwright's README states that its occupation/skill data come from trpg-saikou and its rule calculations reference cochar. That chain is recorded as the repository's own statement. Only facts were mapped; no visual template, HTML/CSS or Python implementation was copied.",
+      "UGE minWealth/maxWealth are not credit rating and are never read or written as one.",
+      "No record here is a first-party Chaosium source. The licensed-compendium records are still transcriptions, the community-page records are secondary cross-checks, and the coc-cardwright records are a secondary transcription as well. Treat the whole file as secondary evidence and record any later official confirmation separately.",
+      "SealDice slot model: every imported record has exactly eight fixed/choice/any slots. A parenthetical list under one skill family is one choice slot (for example Science (Biology, Pharmacy) is one slot with two options), not several fixed slots; an explicit 'any N' counts as N slots. No record is padded with an unprinted 'any skill' slot and no formula is collapsed to MAX.",
+      "SealDice descriptions are self-written. The helpdoc's 【介绍】 prose is not copied, and sealdice-builtins is not described as MIT or as an official Chaosium source.",
+      "SealDice batch: 79 aliases, 3 malformed entries, 1 custom template, and every definition that is not exactly eight slots, lacks a formula/credit range, duplicates an existing or source definition, conflicts on display name, or references an unverified skill base stay out of the buildable list. The 3 display-name conflicts are kept as deferred rather than overwriting the existing 38 records."
+    ],
+    "fifthBatchRetrievedOn": "2026-10-30",
+    "deferredSummary": {
+      "imported": 118,
+      "deferred": 187,
+      "total": 305,
+      "byCategory": {
+        "alias": 79,
+        "custom": 1,
+        "display-name-conflict": 3,
+        "duplicate-existing": 35,
+        "duplicate-source": 10,
+        "format-anomaly": 3,
+        "missing-formula": 1,
+        "not-eight-slots": 44,
+        "unverified-skill": 11
+      }
+    }
+  },
+  "skillsM6": {
+    "status": "secondary-verified-not-official-first-party",
+    "dataset": "content/coc/skills.json",
+    "evidence": "secondary",
+    "retrievedOn": "2026-10-30",
+    "added": {
+      "science-astronomy": {
+        "parentKey": "science",
+        "specKey": "astronomy",
+        "base": 1,
+        "sourceRefs": [
+          "coc-gamersplane-occupations",
+          "coc-org-uk-chargen",
+          "coc-sheet-1920s"
+        ],
+        "usedBy": [
+          "pilot"
+        ]
+      }
+    },
+    "notes": [
+      "Science (Astronomy) inherits the Science family base of 1 from the 1920s sheet; no individual printed value is claimed.",
+      "Its existence under the Science parent is confirmed by the Pilot occupation list, which fixes Science (Astronomy) alongside Pilot (Aircraft).",
+      "No name here is a first-party Chaosium statement about the specialism table."
+    ]
+  },
+  "skillsM7": {
+    "status": "secondary-verified-not-official-first-party",
+    "dataset": "content/coc/skills.json",
+    "evidence": "secondary",
+    "retrievedOn": "2026-10-30",
+    "sourceRef": "coc-cardwright",
+    "added": {
+      "science-zoology": {
+        "parentKey": "science",
+        "specKey": "zoology",
+        "base": 1,
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "usedBy": [
+          "hunter"
+        ]
+      },
+      "science-forensics": {
+        "parentKey": "science",
+        "specKey": "forensics",
+        "base": 1,
+        "sourceRefs": [
+          "coc-cardwright"
+        ],
+        "usedBy": [
+          "coroner"
+        ]
+      }
+    },
+    "notes": [
+      "Both specialisms take the Science family base of 1; coc-cardwright's skills.py gives 科学(动物学) and 科学(鉴证) an initial value of 1.",
+      "Their existence under the Science parent is confirmed by the Hunter and Coroner occupation lists, which name them as fixed skills.",
+      "coc-cardwright's README records trpg-saikou as the upstream data source and cochar as the rule-calculation reference; that chain is recorded as the repository's statement, not as first-party confirmation."
+    ]
+  },
+  "skillsM5": {
+    "status": "secondary-verified-not-official-first-party",
+    "dataset": "content/coc/skills.json",
+    "evidence": "secondary",
+    "retrievedOn": "2026-10-30",
+    "added": {
+      "science-pharmacy": {
+        "parentKey": "science",
+        "specKey": "pharmacy",
+        "base": 1,
+        "sourceRefs": [
+          "coc-wiki-skills",
+          "coc-sheet-1920s"
+        ],
+        "usedBy": [
+          "doctor-of-medicine"
+        ]
+      },
+      "science-engineering": {
+        "parentKey": "science",
+        "specKey": "engineering",
+        "base": 1,
+        "sourceRefs": [
+          "coc-gamersplane-occupations",
+          "coc-org-uk-occupations"
+        ],
+        "usedBy": [
+          "engineer"
+        ]
+      },
+      "science-physics": {
+        "parentKey": "science",
+        "specKey": "physics",
+        "base": 1,
+        "sourceRefs": [
+          "coc-wiki-skills",
+          "coc-sheet-1920s",
+          "coc-gamersplane-occupations"
+        ],
+        "usedBy": [
+          "engineer"
+        ]
+      },
+      "art-craft-acting": {
+        "parentKey": "art-craft",
+        "specKey": "acting",
+        "base": 5,
+        "sourceRefs": [
+          "coc-wiki-skills",
+          "coc-org-uk-occupations"
+        ],
+        "usedBy": [
+          "police-detective"
+        ]
+      },
+      "art-craft-technical-drawing": {
+        "parentKey": "art-craft",
+        "specKey": "technical-drawing",
+        "base": 5,
+        "sourceRefs": [
+          "coc-gamersplane-occupations",
+          "coc-org-uk-occupations"
+        ],
+        "usedBy": [
+          "engineer"
+        ]
+      }
+    },
+    "notes": [
+      "Science and Art/Craft specialisms take the family base (Science 1, Art/Craft 5) rather than an individually printed value; the family base is the verified fact and the specialism inherits it.",
+      "The specialism names are confirmed by the occupation skill lists that require them; the printed base chance is the family base on the 1920s sheet.",
+      "No name here is a first-party Chaosium statement about the specialism table; the occupation pages are the evidence that these specialisms exist under those parents."
+    ]
+  },
+  "skillsM8": {
+    "status": "secondary",
+    "sourceRef": "coc-cardwright",
+    "note": "Base values for the concrete skills added for the SealDice batch come from one of two verified sources: a same-name skills.py row (sourceRefs coc-cardwright), or the open family's verified base and baseSourceRefs (coc-sheet-1920s) when skills.py has no same-name row. A specific printed value overrides the family default: Mathematics is 10 rather than the Science family default 1, and Survival (Mountain) is 5 as printed, not the Survival family default 10. No value is guessed and no unverified skill is emitted as fixed 0.",
+    "perSkill": {
+      "art-craft-acrobatics": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-sheet-1920s"
+        ]
+      },
+      "art-craft-barber": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-calligraphy": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-comedy": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-sheet-1920s"
+        ]
+      },
+      "art-craft-cooking": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-dancing": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-sheet-1920s"
+        ]
+      },
+      "art-craft-farming": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-fitter": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-sheet-1920s"
+        ]
+      },
+      "art-craft-forgery": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-game": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-sheet-1920s"
+        ]
+      },
+      "art-craft-music": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-plumbing": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-shorthand": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-singing": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-sheet-1920s"
+        ]
+      },
+      "art-craft-tailoring": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-typing": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-welding": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-woodworking": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "art-craft-writing": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "computer": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "diving": {
+        "base": 1,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "electronics": {
+        "base": 1,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "fighting-chainsaw": {
+        "base": 10,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "fighting-spear": {
+        "base": 20,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "fighting-sword": {
+        "base": 20,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "fighting-whip": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "firearms-bow": {
+        "base": 15,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "pilot-horse": {
+        "base": 1,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "science-botany": {
+        "base": 1,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "science-geology": {
+        "base": 1,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "science-math": {
+        "base": 10,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      },
+      "survival-mountain": {
+        "base": 5,
+        "sourceRefs": [
+          "coc-cardwright"
+        ]
+      }
+    }
+  }
+}

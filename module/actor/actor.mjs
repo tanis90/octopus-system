@@ -1,5 +1,6 @@
 import { BRPactorItemDrop } from './actor-itemDrop.mjs'
 import { BRPID } from '../brpid/brpid.mjs';
+import { Rules } from '../rules/index.mjs';
 
 export class BRPActor extends Actor {
 
@@ -42,7 +43,16 @@ export class BRPActor extends Actor {
     this._prepStats(actorData)
     this._prepDerivedStats(actorData)
 
+    const persistedHp = Number(systemData.health.value)
     systemData.health.value = systemData.health.max;
+    //CoC keeps current HP in the document itself (there are no wound items).
+    //Once damage/healing has been recorded under flags.brp.coc.wounds the
+    //persisted value is authoritative; before that a fresh character is at full
+    //HP, which is the historical derived behaviour.
+    if (Rules.active().wounds?.woundState && actorData.flags?.brp?.coc?.wounds?.initialised === true) {
+      const hp = Number.isFinite(persistedHp) ? persistedHp : systemData.health.max
+      systemData.health.value = Math.min(Math.max(hp, 0), systemData.health.max)
+    }
 
     //Initialise Powers IDs
     systemData.magic = "";
@@ -92,7 +102,7 @@ export class BRPActor extends Actor {
           bonus = Math.ceil(systemData.stats[itm.system.stat].total / 2);
         } else if (game.settings.get('brp', 'skillBonus') === "2") {
           for (let [key, value] of Object.entries(itm.system.attrib)) {
-            if (key === 'edu' && !game.settings.get('brp', 'useEDU')) { continue }
+            if (key === 'edu' && !Rules.active().settings.useEDU()) { continue }
 
             switch (value) {
               case "0":    //No adjustment
@@ -182,9 +192,12 @@ export class BRPActor extends Actor {
         //If armour
       } else if (itm.type === 'armour') {
         //Calc encumbrance based on carry status and if using HPL
+        //A CoC world has no hit locations at all, so the location-scoped
+        //branches are skipped there instead of dereferencing a missing item.
+        const hplArmour = game.settings.get('brp', 'useHPL') && !Rules.active().wounds
         itm.system.actlEnc = 0
         if (itm.system.equipStatus === 'carried') {
-          if (game.settings.get('brp', 'useHPL')) {
+          if (hplArmour) {
             itm.system.actlEnc = Math.round(itm.system.quantity * itm.system.enc / actorData.items.get(itm.system.hitlocID).system.fractionENC * 10) / 10
           } else {
             itm.system.actlEnc = Number(itm.system.quantity * itm.system.enc)
@@ -195,7 +208,7 @@ export class BRPActor extends Actor {
         if (itm.system.equipStatus != 'stored') {
           if (itm.system.pSCurr > 0) { systemData.psCurr = systemData.psCurr + itm.system.pSCurr }
           if (itm.system.pSMax > 0) { systemData.psMax = systemData.psMax + itm.system.pSMax }
-          if (game.settings.get('brp', 'useHPL')) {
+          if (hplArmour) {
             let hitLoc = actorData.items.get(itm.system.hitlocID)
             hitLoc.system.ppCurr += itm.system.ppCurr
             hitLoc.system.pSCurr += Number(itm.system.pSCurr)
@@ -205,7 +218,7 @@ export class BRPActor extends Actor {
 
         //Add the Armour Point Score to the Hit Location if worn
         if (itm.system.equipStatus === 'worn') {
-          if (game.settings.get('brp', 'useHPL')) {
+          if (hplArmour) {
             let hitLoc = actorData.items.get(itm.system.hitlocID)
             hitLoc.system.av1 += itm.system.av1
             hitLoc.system.mnplmod += itm.system.mnplmod
@@ -232,7 +245,7 @@ export class BRPActor extends Actor {
             }
           }
         }
-        if (game.settings.get('brp', 'useHPL')) {
+        if (hplArmour) {
           let hitLoc = actorData.items.get(itm.system.hitlocID)
           hitLoc.system.enc += itm.system.actlEnc
         }
@@ -243,7 +256,10 @@ export class BRPActor extends Actor {
         systemData.profession = itm.name
         systemData.professionId = itm._id;
         //If hit locations calculation HPL max and current and statuses
-      } else if (itm.type === 'hit-location' && game.settings.get('brp', 'useHPL')) {
+        //CoC core has no hit locations: even in a world that still has the BRP
+        //option on, a CoC actor never enters the location branch (otherwise a
+        //location's own states would overwrite the wound flags).
+      } else if (itm.type === 'hit-location' && game.settings.get('brp', 'useHPL') && !Rules.active().wounds) {
         itm.system.injured = false;
         itm.system.maxHP = Math.max((Math.ceil(systemData.health.max / itm.system.fractionHP) + itm.system.adj), 0);
         itm.system.currHP = itm.system.maxHP
@@ -299,8 +315,26 @@ export class BRPActor extends Actor {
     systemData.enc = (systemData.enc).toFixed(2)
     systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total - systemData.enc + systemData.fatigue.mod + (systemData.fatigue.effects ?? 0));
 
-    //Derive Health Statuses from total HP
-    if (systemData.health.value < 1) {
+    //Derive Health Statuses from total HP.
+    //CoC keeps its own wound state in flags.brp.coc.wounds: zero HP alone is
+    //unconsciousness, death only comes from instant death or a failed dying
+    //CON roll. Octopus keeps the historical thresholds unchanged.
+    const cocWounds = Rules.active().wounds
+    if (cocWounds) {
+      const state = cocWounds.woundState({
+        hpValue: systemData.health.value,
+        hpMax: systemData.health.max,
+        majorWound: actorData.flags?.brp?.coc?.wounds?.majorWound === true,
+        dying: actorData.flags?.brp?.coc?.wounds?.dying === true,
+        dead: actorData.flags?.brp?.coc?.wounds?.dead === true,
+        unconscious: actorData.flags?.brp?.coc?.wounds?.unconscious === true,
+      })
+      systemData.dead = state.dead
+      systemData.unconscious = state.unconscious
+      systemData.dying = state.dying
+      systemData.majorWound = state.majorWound
+      systemData.cocWounds = true
+    } else if (systemData.health.value < 1) {
       systemData.dead = true;
     } else if (systemData.health.value < 3) {
       systemData.unconscious = true;
@@ -325,7 +359,7 @@ export class BRPActor extends Actor {
       stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
       //Mark all stats as visible except for EDU where it's not being used
       stat.visible = true;
-      if (key === 'edu' && !game.settings.get('brp', 'useEDU')) { stat.visible = false }
+      if (key === 'edu' && !Rules.active().settings.useEDU()) { stat.visible = false }
     }
 
 
@@ -341,16 +375,37 @@ export class BRPActor extends Actor {
         itm.system.total = itm.system.base;
         itm.system.opptotal = 100 - itm.system.base;
       }
-      else if (itm.type === 'hit-location' && (game.settings.get('brp', 'useHPL') || game.settings.get('brp', 'beastiary'))) {
+      else if (itm.type === 'hit-location' && (game.settings.get('brp', 'useHPL') || game.settings.get('brp', 'beastiary'))
+        && !Rules.active().wounds) {
         itm.system.injured = false;
         itm.system.maxHP = Math.max((Math.ceil(systemData.health.max / itm.system.fractionHP) + itm.system.adj), 0);
         damage = damage + Math.max(itm.system.maxHP - itm.system.currHP, 0)
       }
     }
 
-    //If using HPL then set current health
-    if (game.settings.get('brp', 'useHPL') || game.settings.get('brp', 'beastiary')) {
+    //If using HPL then set current health (CoC has no hit locations; its current
+    //HP lives in the document and is never recomputed from them)
+    if (!Rules.active().wounds && (game.settings.get('brp', 'useHPL') || game.settings.get('brp', 'beastiary'))) {
       systemData.health.value = systemData.health.max - damage
+    }
+
+    //CoC NPCs carry the same wound flags as investigators; derive the four
+    //states from them (octopus returns no wound block and is untouched).
+    const npcWounds = Rules.active().wounds
+    if (npcWounds?.woundState && actorData.flags?.brp?.coc?.wounds?.initialised === true) {
+      const state = npcWounds.woundState({
+        hpValue: systemData.health.value,
+        hpMax: systemData.health.max,
+        majorWound: actorData.flags?.brp?.coc?.wounds?.majorWound === true,
+        dying: actorData.flags?.brp?.coc?.wounds?.dying === true,
+        dead: actorData.flags?.brp?.coc?.wounds?.dead === true,
+        unconscious: actorData.flags?.brp?.coc?.wounds?.unconscious === true,
+      })
+      systemData.dead = state.dead
+      systemData.unconscious = state.unconscious
+      systemData.dying = state.dying
+      systemData.majorWound = state.majorWound
+      systemData.cocWounds = true
     }
 
     //Sanity chain derives last, once all skill scores exist (lore clamp)
@@ -404,14 +459,14 @@ export class BRPActor extends Actor {
 
       //Mark all stats as visible except for EDU where it's not being used
       stat.visible = true;
-      if (key === 'edu' && !game.settings.get('brp', 'useEDU')) { stat.visible = false }
+      if (key === 'edu' && !Rules.active().settings.useEDU()) { stat.visible = false }
     }
     if (actorData.type === 'npc')
       for (let [key, stat] of Object.entries(actorData.system.baseStats)) {
         stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
         //Mark all stats as visible except for EDU where it's not being used
         stat.visible = true;
-        if (key === 'edu' && !game.settings.get('brp', 'useEDU')) { stat.visible = false }
+        if (key === 'edu' && !Rules.active().settings.useEDU()) { stat.visible = false }
       }
     actorData.system.redistTotal = actorData.system.redistInc + actorData.system.redistDec
   }
@@ -455,6 +510,17 @@ export class BRPActor extends Actor {
     systemData.xpBonus = Math.ceil(systemData.stats.int.total / 2);
     systemData.dmgBonus = this._damageBonus(systemData.stats.str.total + systemData.stats.siz.total)
     systemData.dmgSpecBonus = this._damageBonus(systemData.stats.str.total * 2)
+
+    //Ruleset seam: octopus returns no overrides; CoC replaces HP/MP/Build/MOV/DB
+    //with its own official formulas.
+    const secondary = Rules.active().deriveSecondary({ actorData, systemData })
+    if (Number.isFinite(secondary.healthMax)) { systemData.health.max = secondary.healthMax }
+    if (Number.isFinite(secondary.powerMax)) { systemData.power.max = secondary.powerMax }
+    if (Number.isFinite(secondary.build)) { systemData.build = secondary.build }
+    if (Number.isFinite(secondary.mov)) { systemData.mov = secondary.mov }
+    if (secondary.dmgBonus) { systemData.dmgBonus = secondary.dmgBonus }
+    if (secondary.dmgSpecBonus) { systemData.dmgSpecBonus = secondary.dmgSpecBonus }
+    systemData.health.mjrwnd = Math.ceil(systemData.health.max / 2);
 
     //Set Resource Labels
     if (game.settings.get('brp', 'ppLabelLong')) {
@@ -519,27 +585,61 @@ export class BRPActor extends Actor {
   //Fields persisted on the actor: starting/tis (creation snapshot), dailyLoss.
   //Everything else (max, lore clamp, value bounds) is derived here each pass.
   _prepSanity(actorData) {
-    if (!game.settings.get('brp', 'useSAN')) { return }
+    if (!Rules.active().settings.useSAN()) { return }
     const systemData = actorData.system
     const san = systemData.sanity
     const pow = systemData.stats.pow.total
 
-    //Until the creation snapshot (initSanity) is persisted, derive from current POW
-    const starting = Number.isFinite(Number(san.starting)) ? Number(san.starting) : Math.max(pow * 5, 0)
-    san.starting = starting
-
-    //TIS - temporary insanity threshold; snapshot at creation, derived until then
-    if (!Number.isFinite(Number(san.tis))) {
-      san.tis = game.settings.get('brp', 'sanityTisPow') ? pow : Math.floor(starting / 2)
-    }
-
-    //max = min(starting, 100 - lore skill percent); no lore skill found = no clamp
-    san.loreSkillPercent = this._sanityLorePercent()
-    san.max = this._sanityMax(starting, san.loreSkillPercent)
+    const model = Rules.active().sanity.prepare({
+      pow,
+      starting: san.starting,
+      tis: san.tis,
+      lorePercent: this._sanityLorePercent(),
+      mythosPercent: this._sanityMythosPercent(),
+      settings: { sanityTisPow: game.settings.get('brp', 'sanityTisPow') }
+    })
+    san.starting = model.starting
+    san.tis = model.tis
+    if (Object.hasOwn(model, 'loreSkillPercent')) { san.loreSkillPercent = model.loreSkillPercent }
+    if (Object.hasOwn(model, 'mythosPercent')) { san.mythosPercent = model.mythosPercent }
+    san.max = model.max
 
     //Invariant: 0 <= value <= max
     san.dailyLoss = Math.max(Number(san.dailyLoss) || 0, 0)
     san.value = Math.min(Math.max(Number(san.value) || 0, 0), san.max)
+
+    //CoC M4 state. These are documented facts about the current episode, not
+    //derived numbers: they are only normalized here, never recomputed, so a
+    //refresh cannot resurrect a finished episode or invent a new one.
+    if (Rules.active().sanity?.core) {
+      san.singleLoss = Math.max(Number(san.singleLoss) || 0, 0)
+      // `Number(null)` is 0, which would make a never-snapshotted day look
+      // like "day started at SAN 0" and disable the one-fifth threshold.
+      const rawDayStart = san.dayStartSan
+      san.dayStartSan = rawDayStart === null || rawDayStart === undefined || rawDayStart === ''
+        ? null
+        : Math.max(Number(rawDayStart) || 0, 0)
+      san.dayId = typeof san.dayId === 'string' && san.dayId !== '' ? san.dayId : null
+      san.dayStartSource = san.dayId ? (san.dayStartSource ?? null) : null
+      const insanity = san.insanity && typeof san.insanity === 'object' ? san.insanity : {}
+      san.insanity = {
+        temporary: insanity.temporary ?? null,
+        indefinite: insanity.indefinite ?? null,
+        permanent: insanity.permanent === true,
+        lastUpdatedAt: insanity.lastUpdatedAt ?? null
+      }
+    }
+  }
+
+  //Cthulhu Mythos percent for the CoC SAN cap (99 - Mythos).
+  _sanityMythosPercent() {
+    const skill = this.items.find(itm => itm.type === 'skill' && (
+      itm.flags.brp?.brpidFlag?.id === 'i.skill.coc.cthulhu-mythos' ||
+      itm.flags.brp?.coc?.key === 'cthulhu-mythos'
+    ))
+    if (!skill) { return 0 }
+    const total = Number(skill.system.total) + Number(this.system.skillcategory?.[skill.system.category] ?? 0)
+    return Number.isFinite(total) ? Math.max(0, Math.min(100, total)) : 0
   }
 
   //Find the "forbidden lore" style skill and return its percent (null = not found, no clamp)
@@ -566,22 +666,26 @@ export class BRPActor extends Actor {
     return Math.max(Math.min(starting, cap), 0)
   }
 
-  //Create-time SAN snapshot: starting = POW x 5, TIS threshold, current filled to max.
-  //Idempotent - once the snapshot exists it is never taken again (later POW changes don't move it).
+  //Create-time SAN snapshot. Octopus: starting = POW x 5. CoC: starting = POW,
+  //max = 99 - Cthulhu Mythos. Idempotent - once the snapshot exists it is never
+  //taken again (later POW changes don't move it).
   async initSanity() {
-    if (!game.settings.get('brp', 'useSAN')) { return false }
+    if (!Rules.active().settings.useSAN()) { return false }
     if (this._sanitySnapshotted()) { return false }
     const pow = this.system.stats.pow.total
     if (!(pow > 0)) { return false }
-    const starting = pow * 5
-    const tis = game.settings.get('brp', 'sanityTisPow') ? pow : Math.floor(starting / 2)
-    const max = this._sanityMax(starting, this._sanityLorePercent())
+    const initial = Rules.active().sanity.initial({
+      pow,
+      lorePercent: this._sanityLorePercent(),
+      mythosPercent: this._sanityMythosPercent(),
+      settings: { sanityTisPow: game.settings.get('brp', 'sanityTisPow') }
+    })
     await this.update({
-      'system.sanity.starting': starting,
-      'system.sanity.tis': tis,
+      'system.sanity.starting': initial.starting,
+      'system.sanity.tis': initial.tis,
       'system.sanity.dailyLoss': 0,
-      'system.sanity.max': max,
-      'system.sanity.value': max
+      'system.sanity.max': initial.max,
+      'system.sanity.value': initial.value
     })
     return true
   }
@@ -596,31 +700,59 @@ export class BRPActor extends Actor {
     }
   }
 
-  //Prepare the Luck budget. max is a creation snapshot (POW x 5) - it is never
+  //Prepare the Luck budget. max is a creation snapshot (POW x 5 for octopus,
+  //3D6 x 5 for CoC) - it is never
   //re-derived, so later POW changes don't move it. Invariant: 0 <= value <= max
   //once the snapshot exists (keeper restores by hand, clamped at max).
-  //Before the snapshot the budget simply reads as-is (default 0 - no budget).
+  //CoC also has a rules ceiling of 99: the starting value is not a cap, so a
+  //session-start recovery may take Luck above the creation snapshot. `cap`
+  //carries that ceiling; octopus leaves it null and keeps the historical max.
   _prepLuck(actorData) {
     const luck = actorData.system.luck
     if (!luck) { return }
     const max = Math.floor(Number(luck.max))
     if (Number.isFinite(max) && max > 0) {
+      // Older CoC actors predate `luck.cap`; derive the same 99 ceiling from
+      // the ruleset instead of clamping a recovered value to the snapshot.
+      let cap = Math.floor(Number(luck.cap))
+      if (!(Number.isFinite(cap) && cap > 0) && Rules.activeId?.() === 'coc') {
+        const pow = Number(actorData.system?.stats?.pow?.total) || 0
+        const ruleCap = Rules.active().luck?.cap?.({ pow })
+        cap = Math.floor(Number(ruleCap) || 0)
+      }
+      const ceiling = Number.isFinite(cap) && cap > 0 ? Math.max(max, cap) : max
       luck.max = max
-      luck.value = Math.min(Math.max(Math.floor(Number(luck.value) || 0), 0), max)
+      if (Number.isFinite(cap) && cap > 0) { luck.cap = cap }
+      luck.value = Math.min(Math.max(Math.floor(Number(luck.value) || 0), 0), ceiling)
     }
   }
 
-  //Create-time Luck snapshot: max = POW x 5, value filled to max. Luck only
-  //spends down from there (check-card buttons); restoration is a keeper hand
-  //edit. Idempotent - once max is persisted it is never taken again.
+  //Create-time Luck snapshot: octopus uses POW x 5; CoC rolls 3D6 x 5.
+  //Luck only spends down from there (check-card buttons); restoration is a
+  //keeper hand edit. Idempotent - once max is persisted it is never taken again.
   async initLuck() {
     if (this._luckSnapshotted()) { return false }
     const pow = this.system.stats.pow.total
-    if (!(pow > 0)) { return false }
-    const max = pow * 5
+    const initial = Rules.active().luck.initial({ pow })
+    let max = initial.max
+    let value = initial.value
+    if (initial.formula) {
+      // CoC Luck is independent of POW (3D6 x 5).
+      const roll = new Roll(initial.formula)
+      await roll.evaluate()
+      max = Math.floor(roll.total)
+      value = max
+    } else if (!(pow > 0)) {
+      return false
+    }
+    if (!(max > 0)) { return false }
+    const cap = Rules.activeId?.() === 'coc' && Rules.active().luck?.cap
+      ? Math.max(max, Number(Rules.active().luck.cap({ pow })) || 0)
+      : null
     await this.update({
       'system.luck.max': max,
-      'system.luck.value': max
+      'system.luck.value': value,
+      'system.luck.cap': cap
     })
     return true
   }
@@ -697,8 +829,22 @@ export class BRPActor extends Actor {
       'system.power.value': this.system.power.max,
       'system.fatigue.value': this.system.fatigue.max
     }
+    //A CoC reroll is a fresh vitals track; the wound flags must not keep a
+    //stale majorWound/dying/dead state next to a full HP bar.
+    if (Rules.active().wounds) {
+      checkProp['flags.brp.coc.wounds'] = {
+        initialised: true,
+        hpValue: this.system.health.max,
+        hpMax: this.system.health.max,
+        majorWound: false,
+        dying: false,
+        dead: false,
+        unconscious: false,
+        stabilized: false,
+      }
+    }
     await this.update(checkProp)
-    if (game.settings.get('brp', 'useHPL')) {
+    if (game.settings.get('brp', 'useHPL') && !Rules.active().wounds) {
       let hitLocs = this.items.filter(itm => itm.type === 'hit-location').map(itm => {
         return { _id: itm.id, 'system.currHP': itm.system.maxHP }
       })
@@ -763,8 +909,10 @@ export class BRPActor extends Actor {
     }
 
 
-    //Set up a general hit location for a new actor if using HPL
-    if (actor.type === 'character' && game.settings.get('brp', 'useHPL')) {
+    //Set up a general hit location for a new actor if using HPL.
+    //CoC core has no hit locations, so a CoC actor never gets the item even when
+    //the world still has the BRP option on.
+    if (actor.type === 'character' && game.settings.get('brp', 'useHPL') && !Rules.active().wounds) {
       let brpid = "i.hit-location.general"
 
       const itemData = [{
@@ -783,10 +931,14 @@ export class BRPActor extends Actor {
       const newItem = await Item.createDocuments(itemData, { parent: actor });
     }
 
-    //Add Starter Skills if toggled on
+    const rules = Rules.active()
+
+    //Add Starter Skills if toggled on. Content is source-scoped: octopus and
+    //CoC packs never leak into each other's starter sets.
     if (actor.type === 'character' && game.settings.get('brp', 'starterSkills')) {
       let newSkills = []
-      let skillList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp: new RegExp('^i.skill'), type: 'i' })).filter(itm => itm.system.basic)
+      let skillList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp: new RegExp('^i.skill'), type: 'i' }))
+        .filter(itm => itm.system.basic && Rules.contentSourceOf(itm) === rules.starter.source)
       for (let itm of skillList) {
         if (actor.items.filter(nitm => nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id).length < 1) {
           itm.system.base = await BRPactorItemDrop._calcBase(itm, actor);
@@ -795,6 +947,65 @@ export class BRPActor extends Actor {
       }
       await Item.createDocuments(newSkills, { parent: actor });
       await BRPActor.charBaseSkillScores(actor);
+    }
+
+    //Every new character gets a real Unarmed (Brawl) weapon. This only runs on
+    //the create path: existing actors and world/compendium imports are never
+    //back-filled or migrated. Brawl is also ensured when starter skills are off
+    //so weapon.system.skill1 always resolves to a real actor skill.
+    if (actor.type === 'character' && !options.fromCompendium) {
+      const brawlBrpid = rules.starter.brawlBrpid
+      let brawlSkill = actor.items.find(itm => itm.flags?.brp?.brpidFlag?.id === brawlBrpid)
+      if (!brawlSkill) {
+        const brawlDoc = (await game.system.api.brpid.fromBRPIDBest({ brpid: brawlBrpid }))[0]
+        if (brawlDoc) {
+          brawlDoc.system.base = await BRPactorItemDrop._calcBase(brawlDoc, actor)
+          brawlSkill = (await Item.createDocuments([brawlDoc], { parent: actor }))[0]
+        }
+      }
+      if (!brawlSkill) {
+        const message = `BRP: brawl skill ${brawlBrpid} not found; unarmed weapon not created for ${actor.name}`
+        console.warn(message)
+        globalThis.ui?.notifications?.warn?.(message)
+      } else if (!actor.items.some(itm => itm.flags?.brp?.unarmed === true)) {
+        const unarmed = rules.starter.unarmed ?? {}
+        //CoC marks the weapon with its own profile (`flags.brp.coc.weapon`) so
+        //the BRP `special` field is never the rule source. Octopus keeps the
+        //historical item byte-for-byte.
+        const cocWeapon = rules.id === 'coc'
+          ? { kind: 'melee', dbMode: unarmed.dbMode ?? 'full', impaling: unarmed.impaling === true }
+          : null
+        await Item.createDocuments([{
+          name: '徒手（斗殴）',
+          type: 'weapon',
+          img: 'systems/brp/assets/Icons/deadly-strike.svg',
+          flags: {
+            brp: {
+              unarmed: true,
+              brpidFlag: { id: 'i.weapon.unarmed', lang: 'zh-CN', priority: 1 },
+              enName: 'Unarmed',
+              ...(cocWeapon ? { coc: { weapon: cocWeapon } } : {})
+            }
+          },
+          system: {
+            weaponType: 'melee',
+            skill1: brawlBrpid,
+            skill2: 'none',
+            dmg1: unarmed.damage ?? '1D3',
+            db: unarmed.dbMode ?? 'full',
+            special: cocWeapon ? (unarmed.special ?? 'none') : 'crush',
+            spclDmg: false,
+            att: 1,
+            range1: 'S',
+            hands: '1H',
+            parry: false,
+            quantity: 1,
+            enc: 0,
+            equipStatus: 'carried',
+            npcVal: 0
+          }
+        }], { parent: actor })
+      }
     }
 
     //Add Starter Traits if toggled on
@@ -811,10 +1022,12 @@ export class BRPActor extends Actor {
 
 
 
-    //Add Skill Categories
-    if (actor.type === 'character') {
+    //Add Skill Categories only for rulesets that use category bonuses. CoC
+    //core skills stand alone, so a CoC actor gets no octopus/empty magic cat.
+    if (actor.type === 'character' && rules.starter.categories) {
       let newSkillCats = []
       let skillCatList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp: new RegExp('^i.skillcat'), type: 'i' }))
+        .filter(itm => Rules.contentSourceOf(itm) === rules.starter.source)
       for (let itm of skillCatList) {
         if (actor.items.filter(nitm => nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id).length < 1) {
           newSkillCats.push(itm)

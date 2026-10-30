@@ -1,0 +1,49 @@
+{
+ "_id": "icEnsbSORKp1qZtF",
+ "name": "射击（步枪/霰弹枪）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.firearms-rifle-shotgun",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Firearms (Rifle/Shotgun)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.firearms-rifle-shotgun",
+    "key": "firearms-rifle-shotgun",
+    "specKey": "rifle-shotgun",
+    "parentKey": "firearms",
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 25,
+  "basic": true,
+  "combat": true,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 25
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "射击（步枪/霰弹枪）",
+  "mainName": "射击",
+  "noXP": false,
+  "description": "使用步枪、霰弹枪等长身火器进行射击。"
+ }
+}

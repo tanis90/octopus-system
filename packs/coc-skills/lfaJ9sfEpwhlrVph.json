@@ -1,0 +1,49 @@
+{
+ "_id": "lfaJ9sfEpwhlrVph",
+ "name": "法律",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.law",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Law",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.law",
+    "key": "law",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 5,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "了解法律、判例、程序与法庭运作。"
+ }
+}

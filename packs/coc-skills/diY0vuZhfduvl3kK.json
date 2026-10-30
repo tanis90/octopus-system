@@ -1,0 +1,49 @@
+{
+ "_id": "diY0vuZhfduvl3kK",
+ "name": "克苏鲁神话",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.cthulhu-mythos",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Cthulhu Mythos",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.cthulhu-mythos",
+    "key": "cthulhu-mythos",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": true,
+  "description": "对神话真相的理解；创建角色时不能投入点数，并会压低理智上限。"
+ }
+}

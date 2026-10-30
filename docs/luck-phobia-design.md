@@ -26,6 +26,11 @@
 - 纯函数内核 `applyLuck(actor, cardIndex, amount) → {luck, roll}`，不碰 DOM，
   按钮只是驱动面（同 `resolveMadness` 惯例）。
 
+**多客户端单写者（0.3.1-dev）**：聊天卡按钮统一路由到 Foundry 的
+`game.users.activeGM`（core 语义：最高角色、同角色取最小 user id，见
+`client/documents/collections/users.mjs`），由该客户端的 `BRPLuck._spendChain`
+串行执行读改写；不新增后端端点。`applyLuck` 仍是无锁纯函数，SN 差额回补不变。
+
 ### 两个明确不做（v1）
 
 1. **不做运气重掷**：7e 桌面本体是"降值"不是"重掷"；重掷归入将来的

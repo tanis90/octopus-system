@@ -1,0 +1,49 @@
+{
+ "_id": "a1dJxqAXYqYlWsqc",
+ "name": "人类学",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.anthropology",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Anthropology",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.anthropology",
+    "key": "anthropology",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "通过观察理解一种文化的生活方式与习俗。"
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "_id": "iyGal5hstQ2SefS0",
+ "name": "考古学",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.archaeology",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Archaeology",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.archaeology",
+    "key": "archaeology",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "为古代遗物断代、辨识真伪并理解其背景。"
+ }
+}

@@ -81,6 +81,12 @@
 - 「新的一天」重置 dailyLoss；恢复 = keeper 调整 + 理由记账（flag 简史）
 - lore 技能成长 → max 联动下降
 
+**0.3.1-dev 最小实现**：角色/NPC 卡的 SAN 行提供 GM-only「新的一天」按钮
+（`BRPActorSheetV2._onSanityResetDaily`），只清零 `system.sanity.dailyLoss`，
+不动当前 SAN 与本日已发作的 episode；全组面板与恢复记账仍未实现。`tempInsane`
+ActiveEffect 被删除、禁用或世界时间到期时，`BRPMadness.endOpenCards` 会把对应
+发作卡标记 `ended` 并重渲染，避免卡面继续显示 keeper 按钮。
+
 ## 验证
 
 无头探针（宿主 mt-foundry-compat 研究栈 `tools/brp-spike-eval.js` 扩展）不变量组：
@@ -89,7 +95,8 @@
 （lore 技能抬升后 max 下降）；4. 损失 clamp（不足不减到负）；5. dailyLoss 累加与
 重置；6. 达 TIS 触发 tempInsane（时长 ∈ 表）；7. SAN=0 触发 permaInsane；
 8. updateVitals 重掷属性后 SAN 不回满（回归修正断言）；9. 既有 d100 检定 12 项
-不变量不回归；10. SN 卡渲染零报错。
+不变量不回归；10. SN 卡渲染零报错；11. GM「新的一天」只清零 dailyLoss；12. 删除/
+禁用/世界时间到期 tempInsane 时发作卡 `ended=true` 且内容重渲染。
 
 ## 许可纪律
 

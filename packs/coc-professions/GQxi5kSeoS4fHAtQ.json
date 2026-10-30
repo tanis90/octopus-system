@@ -1,0 +1,92 @@
+{
+ "_id": "GQxi5kSeoS4fHAtQ",
+ "name": "矿工",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.miner",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Miner",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.miner",
+    "slug": "miner",
+    "creditMin": 9,
+    "creditMax": 30,
+    "pointFormula": "EDU*2+STR*2",
+    "pointFormulas": [
+     "EDU*2+STR*2",
+     "EDU*2+DEX*2"
+    ],
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "climb",
+     "science-geology",
+     "jump",
+     "mechanical-repair",
+     "operate-heavy-machinery",
+     "stealth",
+     "spot-hidden"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "any-specialty",
+      "label": "任意一项其他个人或时代特长",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.climb",
+    "uuid": "XBPmBl9yAuJ1Peo9"
+   },
+   {
+    "brpid": "i.skill.coc.science-geology",
+    "uuid": "HDWgdIhpGGLSC0Ns"
+   },
+   {
+    "brpid": "i.skill.coc.jump",
+    "uuid": "acDj9JcQQNbsARhC"
+   },
+   {
+    "brpid": "i.skill.coc.mechanical-repair",
+    "uuid": "zp9eYH1FLjd04b0T"
+   },
+   {
+    "brpid": "i.skill.coc.operate-heavy-machinery",
+    "uuid": "9WclC1qp9ZYdl1pf"
+   },
+   {
+    "brpid": "i.skill.coc.stealth",
+    "uuid": "KAT6rXWeJrlD9MOD"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "在地下矿井采掘矿石，熟悉地质、机械与通风。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "_id": "sWk9oCrzamoVHGzn",
+ "name": "驾驶（马车）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.pilot-horse",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Pilot (Horse-drawn)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.skill.pilot-horse",
+    "key": "pilot-horse",
+    "specKey": "horse",
+    "parentKey": "pilot",
+    "sourceRefs": [
+     "coc-cardwright"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "驾驶（马车）",
+  "mainName": "驾驶",
+  "noXP": false,
+  "description": "驾驭马车或运货马车，处理路况与牲畜。"
+ }
+}

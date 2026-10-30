@@ -1,0 +1,49 @@
+{
+ "_id": "lciqRkvUQH0jYqq2",
+ "name": "医学",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.medicine",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Medicine",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.medicine",
+    "key": "medicine",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "诊断和治疗伤病、中毒与疾病。"
+ }
+}

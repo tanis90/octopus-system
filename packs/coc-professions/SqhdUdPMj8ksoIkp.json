@@ -1,0 +1,318 @@
+{
+ "_id": "SqhdUdPMj8ksoIkp",
+ "name": "纨绔子弟",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.dilettante",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Dilettante",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.occupation.dilettante",
+    "slug": "dilettante",
+    "creditMin": 50,
+    "creditMax": 99,
+    "pointFormula": "EDU*2+APP*2",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "coc-roll20-occupations"
+    ],
+    "fixedSkillKeys": [
+     "ride"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "firearms",
+      "label": "一项射击专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "firearms",
+        "parentKey": "firearms",
+        "base": null,
+        "requiresExplicitBase": true,
+        "brpids": [
+         "i.skill.coc.firearms-bow",
+         "i.skill.coc.firearms-handgun",
+         "i.skill.coc.firearms-rifle-shotgun"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "interpersonal",
+      "label": "一项人际技能",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "charm",
+        "brpids": [
+         "i.skill.coc.charm"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "fast-talk",
+        "brpids": [
+         "i.skill.coc.fast-talk"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "intimidate",
+        "brpids": [
+         "i.skill.coc.intimidate"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "persuade",
+        "brpids": [
+         "i.skill.coc.persuade"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "art-craft",
+      "label": "一项艺术/手艺专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "art-craft",
+        "parentKey": "art-craft",
+        "base": 5,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.art-craft-acrobatics",
+         "i.skill.coc.art-craft-acting",
+         "i.skill.coc.art-craft-barber",
+         "i.skill.coc.art-craft-calligraphy",
+         "i.skill.coc.art-craft-comedy",
+         "i.skill.coc.art-craft-cooking",
+         "i.skill.coc.art-craft-dancing",
+         "i.skill.coc.art-craft-farming",
+         "i.skill.coc.art-craft-fitter",
+         "i.skill.coc.art-craft-forgery",
+         "i.skill.coc.art-craft-game",
+         "i.skill.coc.art-craft-music",
+         "i.skill.coc.art-craft-painting",
+         "i.skill.coc.art-craft-photography",
+         "i.skill.coc.art-craft-plumbing",
+         "i.skill.coc.art-craft-shorthand",
+         "i.skill.coc.art-craft-singing",
+         "i.skill.coc.art-craft-tailoring",
+         "i.skill.coc.art-craft-technical-drawing",
+         "i.skill.coc.art-craft-typing",
+         "i.skill.coc.art-craft-welding",
+         "i.skill.coc.art-craft-woodworking",
+         "i.skill.coc.art-craft-writing"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "language-other",
+      "label": "其他语言",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "language-other",
+        "parentKey": "language-other",
+        "base": 1,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.language-other-greek",
+         "i.skill.coc.language-other-latin"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "any-specialty",
+      "label": "任意三项其他技能（个人或时代专长）",
+      "choose": 3,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.ride",
+    "uuid": "okghi72jSCDGA3Hz"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.firearms-bow",
+      "uuid": "YdgqZpurYRRtmgip"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-handgun",
+      "uuid": "1GMNDl2j6zfGXyI3"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-rifle-shotgun",
+      "uuid": "icEnsbSORKp1qZtF"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.charm",
+      "uuid": "ebCHph0biyJ2AG3j"
+     },
+     {
+      "brpid": "i.skill.coc.fast-talk",
+      "uuid": "AwLPg18IRN57w0fB"
+     },
+     {
+      "brpid": "i.skill.coc.intimidate",
+      "uuid": "mhG3if5iht465aSn"
+     },
+     {
+      "brpid": "i.skill.coc.persuade",
+      "uuid": "7zQTHnGe7rHoRnjC"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.art-craft-acrobatics",
+      "uuid": "oJeEiHzOXS9AO4Fi"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-acting",
+      "uuid": "fwjXSgaOTh0oh0fj"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-barber",
+      "uuid": "ve3J9iJVEmEvjtO6"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-calligraphy",
+      "uuid": "MXi7qoAGbFhDFGJ7"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-comedy",
+      "uuid": "Fzj3HEWBr9SsyNvS"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-cooking",
+      "uuid": "11sRAhrEnc92m05E"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-dancing",
+      "uuid": "xIaLauIBdQRcWVsQ"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-farming",
+      "uuid": "Ya78rigufztVtROW"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-fitter",
+      "uuid": "P5i3vrcbbMomODZW"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-forgery",
+      "uuid": "HFQd7DHbU0brVL3d"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-game",
+      "uuid": "TeGTcKFHKUjPCzxi"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-music",
+      "uuid": "KToPfyAmRHbJUbRJ"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-painting",
+      "uuid": "yRoJ2aGTZ6XAmQbg"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-photography",
+      "uuid": "9vt3o8IIdMi9HXZ5"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-plumbing",
+      "uuid": "0ysoEiETgRDwqDll"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-shorthand",
+      "uuid": "ZWPHsfsnvxzgcwPF"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-singing",
+      "uuid": "XDEPC1hKNzOnH3Zg"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-tailoring",
+      "uuid": "MucNS8Gpk9jXxcg1"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-technical-drawing",
+      "uuid": "9dh2bNvAxHd55Jrw"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-typing",
+      "uuid": "uYxt94ftQiHbwajm"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-welding",
+      "uuid": "rBRaqMQqBCws4gOS"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-woodworking",
+      "uuid": "Tc2MdQ7QKDUCns5v"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-writing",
+      "uuid": "f7bsCdzSlFXbREZB"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.language-other-greek",
+      "uuid": "zxbzRO9P1dqY9jzD"
+     },
+     {
+      "brpid": "i.skill.coc.language-other-latin",
+      "uuid": "YY2QWZ0T7f8A76NE"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "家底殷实、以兴趣安排生活的闲人，靠人脉与金钱打开门路。职业点 EDU × 2 + APP × 2；信用评级 50–99。\n\n职业点：EDU*2+APP*2（引擎按白名单公式求值）\n\n信用评级：50–99（只能用职业点，且必须落在区间内）"
+ }
+}

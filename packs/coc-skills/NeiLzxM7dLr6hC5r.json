@@ -1,0 +1,49 @@
+{
+ "_id": "NeiLzxM7dLr6hC5r",
+ "name": "闪避",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.dodge",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Dodge",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.dodge",
+    "key": "dodge",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": true,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "dex",
+    "value": 0.5
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": true,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "本能地躲开近战攻击或投掷物；起始值为 DEX 的一半（向下取整）。"
+ }
+}

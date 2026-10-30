@@ -69,6 +69,36 @@ const skillDocs = skillsEn.map((s, i) => {
 });
 const skillNameToBrpid = new Map(skillDocs.map((d) => [d.name, d.flags.brp.brpidFlag.id]));
 
+// Existing profession ref UUIDs are opaque per-occurrence keys. Reuse them when
+// rebuilding so the 44 committed docs do not churn; new/unknown slots fall back
+// to a deterministic id derived from brpid + occurrence. This keeps consecutive
+// builds byte-identical without forcing an ID migration.
+const refKey = (prof, section, brpid, occurrence) => `${prof}|${section}|${brpid}|${occurrence}`;
+const existingRefUuids = (() => {
+  const map = new Map();
+  const path = join(ROOT, "packs-json/octopus-professions.json");
+  if (!existsSync(path)) { return map; }
+  let docs;
+  try { docs = JSON.parse(readFileSync(path, "utf8")); }
+  catch { return map; }
+  const seed = (prof, section, refs) => {
+    const seen = new Map();
+    for (const ref of refs ?? []) {
+      if (!ref?.brpid || !ref?.uuid) continue;
+      const n = seen.get(ref.brpid) ?? 0;
+      seen.set(ref.brpid, n + 1);
+      map.set(refKey(prof, section, ref.brpid, n), ref.uuid);
+    }
+  };
+  for (const doc of docs) {
+    const prof = doc?.flags?.brp?.brpidFlag?.id;
+    if (!prof) continue;
+    seed(prof, "skills", doc.system?.skills);
+    (doc.system?.groups ?? []).forEach((group, index) => seed(prof, `group:${index}`, group.skills));
+  }
+  return map;
+})();
+
 // —— 职业文档（解析 zh skills 文本 → 固定引用 + 任选组）——
 const zhNum = { 一: 1, 两: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9, 十: 10 };
 const WEALTH = { 一贫如洗: 0, 贫穷: 1, 中等: 2, 殷实: 3, 富有: 4 };
@@ -87,13 +117,20 @@ const resolveOne = (item) => {
     ?? skillNameEntries.find(([nm]) => cleaned.includes(nm) && nm.length >= 2);
   return hit ? hit[1] : null;
 };
-const resolveNames = (text) => {
+const resolveNames = (text, context = "") => {
   const out = [];
+  const seen = new Map();
   for (let part of text.split(/[、，,]/)) {
     part = part.trim().replace(/^并?/, "").replace(/[。；;]$/, "");
     if (!part) continue;
     const brpid = resolveOne(part);
-    if (brpid) out.push({ brpid, uuid: docId("ref-" + part + Math.random().toString(36).slice(2, 6)) });
+    if (brpid) {
+      const occurrence = seen.get(brpid) ?? 0;
+      seen.set(brpid, occurrence + 1);
+      const key = `${context}|${brpid}|${occurrence}`;
+      const uuid = (context && existingRefUuids.get(key)) || docId(`ref-${key || `${brpid}-${occurrence}-${part}`}`);
+      out.push({ brpid, uuid });
+    }
     else if (part.length > 1 && !/^(任选|以下|下列|视设定|从下|技能|或|以及|并)/.test(part)) unresolved.push(part);
   }
   return out;
@@ -105,20 +142,21 @@ const parseWealth = (text) => {
 const profDocs = profsEn.map((p, i) => {
   const zh = profsZh[i];
   const raw = zh.skills;
+  const profBrpid = `i.profession.${p.slug}`;
   let fixedPart = raw, choosePart = "", options = 0;
   const m = raw.match(/^(.*?)任选([一两三四五六七八九十\d]+)项?[：:](.*)$/s) ?? raw.match(/^(.*?)，并从下列.*?[：:](.*)$/s);
   if (m) { fixedPart = m[1]; choosePart = m[3] ?? m[2] ?? ""; const n = raw.match(/任选([一两三四五六七八九十\d]+)项/); if (n) { options = zhNum[n[1]] ?? parseInt(n[1], 10) ?? 1; } }
   const groups = choosePart && options
-    ? [{ options, skills: resolveNames(choosePart) }].filter((g) => g.skills.length)
+    ? [{ options, skills: resolveNames(choosePart, `${profBrpid}|group:0`) }].filter((g) => g.skills.length)
     : [];
   const w = parseWealth(zh.wealth);
   return {
     _id: docId("profession-" + p.slug),
     name: zh.name,
     type: "profession",
-    flags: { brp: { brpidFlag: { id: `i.profession.${p.slug}`, lang: "zh-CN", priority: 1 }, enName: p.name } },
+    flags: { brp: { brpidFlag: { id: profBrpid, lang: "zh-CN", priority: 1 }, enName: p.name } },
     system: {
-      skills: resolveNames(fixedPart),
+      skills: resolveNames(fixedPart, `${profBrpid}|skills`),
       groups,
       powers: [],
       minWealth: w.min, maxWealth: w.max,

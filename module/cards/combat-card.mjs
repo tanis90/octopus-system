@@ -6,6 +6,11 @@ export class CBCard {
 
   //Resolve a combat card - roll dice, update and close
   static async CBResolve(config) {
+    //CoC compares success bands (dodge tie -> defender, fightback tie ->
+    //attacker) and applies real damage; the BRP rank/level path is untouched.
+    if (BRPCheck.isCoC()) {
+      return BRPCheck.cocResolve({ messageId: config.targetChatId, applyDamage: config.applyDamage !== false })
+    }
     let targetMsg = await game.messages.get(config.targetChatId)
     let chatCards = targetMsg.flags.brp.chatCard
 

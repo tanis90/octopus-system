@@ -1,0 +1,92 @@
+{
+ "_id": "YLta1rJdRbF5y0fO",
+ "name": "动物辅助治疗师",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.animal-assisted-therapist",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Animal-Assisted Therapist",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.animal-assisted-therapist",
+    "slug": "animal-assisted-therapist",
+    "creditMin": 30,
+    "creditMax": 50,
+    "pointFormula": "EDU*2+APP*2",
+    "pointFormulas": [
+     "EDU*2+APP*2",
+     "EDU*2+POW*2"
+    ],
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "listen",
+     "psychology",
+     "psychoanalysis",
+     "science-zoology",
+     "jump",
+     "track",
+     "natural-world"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "any-specialty",
+      "label": "任意一项其他个人或时代特长",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.listen",
+    "uuid": "fHdlJ2r8hzJAHBnx"
+   },
+   {
+    "brpid": "i.skill.coc.psychology",
+    "uuid": "n8ACQitSLni4geaF"
+   },
+   {
+    "brpid": "i.skill.coc.psychoanalysis",
+    "uuid": "OdugCGiQt5WkewJ5"
+   },
+   {
+    "brpid": "i.skill.coc.science-zoology",
+    "uuid": "mTXA1OJqEe8jdrgk"
+   },
+   {
+    "brpid": "i.skill.coc.jump",
+    "uuid": "acDj9JcQQNbsARhC"
+   },
+   {
+    "brpid": "i.skill.coc.track",
+    "uuid": "tYFug7dklIQrgfZC"
+   },
+   {
+    "brpid": "i.skill.coc.natural-world",
+    "uuid": "EFVIz8qOdZvW2Rej"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "借助动物陪伴开展治疗，观察并记录患者变化。\n\n职业点：EDU*2+APP*2 或 EDU*2+POW*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：30–50（只能用职业点，且必须落在区间内）"
+ }
+}

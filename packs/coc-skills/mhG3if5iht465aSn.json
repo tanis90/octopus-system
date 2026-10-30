@@ -1,0 +1,49 @@
+{
+ "_id": "mhG3if5iht465aSn",
+ "name": "恐吓",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.intimidate",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Intimidate",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.intimidate",
+    "key": "intimidate",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 15,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 15
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "以身体或心理威胁迫使对方配合或吐露信息。"
+ }
+}

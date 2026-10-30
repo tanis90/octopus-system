@@ -1,0 +1,49 @@
+{
+ "_id": "OlX1keGDxhw1KCIe",
+ "name": "科学（植物学）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.science-botany",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Science (Botany)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.skill.science-botany",
+    "key": "science-botany",
+    "specKey": "botany",
+    "parentKey": "science",
+    "sourceRefs": [
+     "coc-cardwright"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "科学（植物学）",
+  "mainName": "科学",
+  "noXP": false,
+  "description": "研究植物分类、生长与生态。"
+ }
+}

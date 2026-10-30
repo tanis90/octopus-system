@@ -70,7 +70,7 @@
       <div class="centre"><input class="attrib-inp centre" type="number" name="system.luck.value" value="{{system.luck.value}}"
           data-dtype="Number" data-tooltip="{{localize 'BRP.luck.statHint'}}" /></div>
       <div class="bold">{{localize 'BRP.luck.max'}}</div>
-      <div class="attrib-disp centre" data-tooltip="{{localize 'BRP.luck.statHint'}}">{{system.luck.max}}</div>
+      <div class="attrib-disp centre" data-tooltip="{{localize 'BRP.luck.statHint'}}">{{#if isCoC}}{{system.luck.cap}}{{else}}{{system.luck.max}}{{/if}}{{#if isGM}}{{#if isCoC}} <a class="smallIcon" data-action="luckRecovery" data-tooltip="{{localize 'BRP.luck.recoveryHint'}}"><i class="fas fa-dice-d20"></i></a>{{/if}}{{/if}}</div>
       <div class="bold">{{localize 'BRP.totalENC'}}</div>
       <div class="attrib-disp centre"> {{actor.system.enc}}</div>
     </div>

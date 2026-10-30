@@ -1,0 +1,84 @@
+{
+ "_id": "Urzd6Xfcx7SNpkXc",
+ "name": "医生（医学博士）",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.doctor-of-medicine",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Doctor of Medicine",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.occupation.doctor-of-medicine",
+    "slug": "doctor-of-medicine",
+    "creditMin": 30,
+    "creditMax": 80,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "coc-roll20-occupations",
+     "coc-wiki-skills"
+    ],
+    "fixedSkillKeys": [
+     "first-aid",
+     "language-other-latin",
+     "medicine",
+     "psychology",
+     "science-biology",
+     "science-pharmacy"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "any-specialty",
+      "label": "任意两项其他技能（学术或个人专长，例如精神科医生可选心理分析）",
+      "choose": 2,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.first-aid",
+    "uuid": "mFYJcDBHmADhKRNW"
+   },
+   {
+    "brpid": "i.skill.coc.language-other-latin",
+    "uuid": "YY2QWZ0T7f8A76NE"
+   },
+   {
+    "brpid": "i.skill.coc.medicine",
+    "uuid": "lciqRkvUQH0jYqq2"
+   },
+   {
+    "brpid": "i.skill.coc.psychology",
+    "uuid": "n8ACQitSLni4geaF"
+   },
+   {
+    "brpid": "i.skill.coc.science-biology",
+    "uuid": "ojfHa6wDmmM5s0ey"
+   },
+   {
+    "brpid": "i.skill.coc.science-pharmacy",
+    "uuid": "FYszZeEWTX2DBFSd"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "以诊断与治疗为业的内科或外科医师，熟悉药物、病房与病历。职业点 EDU × 4；信用评级 30–80。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–80（只能用职业点，且必须落在区间内）"
+ }
+}

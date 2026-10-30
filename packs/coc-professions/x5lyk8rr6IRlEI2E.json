@@ -1,0 +1,81 @@
+{
+ "_id": "x5lyk8rr6IRlEI2E",
+ "name": "政府官员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.government-official",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Government Official",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.occupation.government-official",
+    "slug": "government-official",
+    "creditMin": 50,
+    "creditMax": 90,
+    "pointFormula": "EDU*2+APP*2",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "coc-cardwright"
+    ],
+    "fixedSkillKeys": [
+     "charm",
+     "history",
+     "intimidate",
+     "fast-talk",
+     "listen",
+     "language-own",
+     "persuade",
+     "psychology"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.charm",
+    "uuid": "ebCHph0biyJ2AG3j"
+   },
+   {
+    "brpid": "i.skill.coc.history",
+    "uuid": "ZsbrYPHoyqIA6fGF"
+   },
+   {
+    "brpid": "i.skill.coc.intimidate",
+    "uuid": "mhG3if5iht465aSn"
+   },
+   {
+    "brpid": "i.skill.coc.fast-talk",
+    "uuid": "AwLPg18IRN57w0fB"
+   },
+   {
+    "brpid": "i.skill.coc.listen",
+    "uuid": "fHdlJ2r8hzJAHBnx"
+   },
+   {
+    "brpid": "i.skill.coc.language-own",
+    "uuid": "7WwKSOQFVJeDC4hr"
+   },
+   {
+    "brpid": "i.skill.coc.persuade",
+    "uuid": "7zQTHnGe7rHoRnjC"
+   },
+   {
+    "brpid": "i.skill.coc.psychology",
+    "uuid": "n8ACQitSLni4geaF"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "在政府部门任职的官员，靠公文、会议与私人关系推动事务。职业点 EDU × 2 + APP × 2；信用评级 50–90。\n\n职业点：EDU*2+APP*2（引擎按白名单公式求值）\n\n信用评级：50–90（只能用职业点，且必须落在区间内）"
+ }
+}

@@ -1,0 +1,113 @@
+{
+ "_id": "fYe28qVW3seOazkV",
+ "name": "医生",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.physician",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Physician",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.physician",
+    "slug": "physician",
+    "creditMin": 30,
+    "creditMax": 70,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "first-aid",
+     "language-other-latin",
+     "library-use",
+     "medicine",
+     "psychology"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "science-biology-or-science-pharmacy",
+      "label": "科学（生物学、药剂学）",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "science-biology",
+        "brpids": [
+         "i.skill.coc.science-biology"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "science-pharmacy",
+        "brpids": [
+         "i.skill.coc.science-pharmacy"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "any-specialty",
+      "label": "任意两项其他个人或时代特长",
+      "choose": 2,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.first-aid",
+    "uuid": "mFYJcDBHmADhKRNW"
+   },
+   {
+    "brpid": "i.skill.coc.language-other-latin",
+    "uuid": "YY2QWZ0T7f8A76NE"
+   },
+   {
+    "brpid": "i.skill.coc.library-use",
+    "uuid": "7BNMWqPVJyA0sReg"
+   },
+   {
+    "brpid": "i.skill.coc.medicine",
+    "uuid": "lciqRkvUQH0jYqq2"
+   },
+   {
+    "brpid": "i.skill.coc.psychology",
+    "uuid": "n8ACQitSLni4geaF"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.science-biology",
+      "uuid": "ojfHa6wDmmM5s0ey"
+     },
+     {
+      "brpid": "i.skill.coc.science-pharmacy",
+      "uuid": "FYszZeEWTX2DBFSd"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "诊断和治疗常见疾病，兼顾急救、医学与药剂知识。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–70（只能用职业点，且必须落在区间内）"
+ }
+}

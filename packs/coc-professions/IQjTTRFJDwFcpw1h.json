@@ -1,0 +1,82 @@
+{
+ "_id": "IQjTTRFJDwFcpw1h",
+ "name": "暴走族",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.biker-gang",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Biker Gang Member",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.biker-gang",
+    "slug": "biker-gang",
+    "creditMin": 5,
+    "creditMax": 10,
+    "pointFormula": "EDU*2+STR*2",
+    "pointFormulas": [
+     "EDU*2+STR*2",
+     "EDU*2+DEX*2"
+    ],
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "fighting-brawl",
+     "drive-auto",
+     "mechanical-repair",
+     "fast-talk",
+     "intimidate"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "any-specialty",
+      "label": "任意三项其他个人或时代特长",
+      "choose": 3,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.fighting-brawl",
+    "uuid": "03IOJtCr9psfhkLg"
+   },
+   {
+    "brpid": "i.skill.coc.drive-auto",
+    "uuid": "oNzu3fHKqOJ5FVVq"
+   },
+   {
+    "brpid": "i.skill.coc.mechanical-repair",
+    "uuid": "zp9eYH1FLjd04b0T"
+   },
+   {
+    "brpid": "i.skill.coc.fast-talk",
+    "uuid": "AwLPg18IRN57w0fB"
+   },
+   {
+    "brpid": "i.skill.coc.intimidate",
+    "uuid": "mhG3if5iht465aSn"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "结伙改装摩托、飙车并与对立团伙冲突。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：5–10（只能用职业点，且必须落在区间内）"
+ }
+}

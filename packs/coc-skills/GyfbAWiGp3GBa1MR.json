@@ -1,0 +1,49 @@
+{
+ "_id": "GyfbAWiGp3GBa1MR",
+ "name": "游泳",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.swim",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Swim",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.swim",
+    "key": "swim",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 20,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 20
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "在水中浮起、移动并应对危险情况。"
+ }
+}

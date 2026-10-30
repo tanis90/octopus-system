@@ -1,0 +1,49 @@
+{
+ "_id": "tYFug7dklIQrgfZC",
+ "name": "追踪",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.track",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Track",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.track",
+    "key": "track",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 10,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 10
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "循着人、车辆或动物留下的痕迹追踪。"
+ }
+}

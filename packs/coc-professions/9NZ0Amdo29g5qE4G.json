@@ -1,0 +1,83 @@
+{
+ "_id": "9NZ0Amdo29g5qE4G",
+ "name": "程序员／电子工程师（现代）",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.programmer-electronics-engineer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Programmer/Electronics Engineer",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.programmer-electronics-engineer",
+    "slug": "programmer-electronics-engineer",
+    "creditMin": 10,
+    "creditMax": 70,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "computer",
+     "electrical-repair",
+     "electronics",
+     "library-use",
+     "science-math",
+     "spot-hidden"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "any-specialty",
+      "label": "任意两项其他个人或时代特长",
+      "choose": 2,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.computer",
+    "uuid": "RS6e1ho0S4LXuWBc"
+   },
+   {
+    "brpid": "i.skill.coc.electrical-repair",
+    "uuid": "GgBauywhcx3bJVG3"
+   },
+   {
+    "brpid": "i.skill.coc.electronics",
+    "uuid": "GduMYPbct7oMJEt8"
+   },
+   {
+    "brpid": "i.skill.coc.library-use",
+    "uuid": "7BNMWqPVJyA0sReg"
+   },
+   {
+    "brpid": "i.skill.coc.science-math",
+    "uuid": "dJFv4Qd5vqg7tqXC"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "编写程序、维护电子设备并处理现代通信与安全问题。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：10–70（只能用职业点，且必须落在区间内）"
+ }
+}

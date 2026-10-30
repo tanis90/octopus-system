@@ -1,0 +1,49 @@
+{
+ "_id": "VcW0QSmva65xYMUF",
+ "name": "科学（工程学）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.science-engineering",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Science (Engineering)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.science-engineering",
+    "key": "science-engineering",
+    "specKey": "engineering",
+    "parentKey": "science",
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "科学（工程学）",
+  "mainName": "科学",
+  "noXP": false,
+  "description": "工程学理论与实践能力，涵盖结构、材料与系统。"
+ }
+}

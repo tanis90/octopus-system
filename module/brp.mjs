@@ -25,6 +25,13 @@ Hooks.on('ready', async () => {
     BRPSystemSocket.callSocket(data)
   });
 
+  //CoC M4: restore the persisted world clock before anything reads a duration.
+  //`game.time.worldTime` restarts at 0 on a page load in the compat runtime, and
+  //a 1D10h temporary insanity must not resurrect or expire because of that.
+  try {
+    if (game.brp?.BRPWorldTime) { await game.brp.BRPWorldTime.hydrate() }
+  } catch (e) { console.error('BRP world clock hydrate failed', e) }
+
   //Preload certain lists
   game.brp.categories = BRPSelectLists.preLoadCategoriesCategories()
 

@@ -1,5 +1,6 @@
 import { BRPCheck } from './check.mjs';
 import { isCtrlKey } from './helper.mjs'
+import { Rules } from '../rules/index.mjs';
 
 export class BRPRollType {
 
@@ -78,7 +79,7 @@ export class BRPRollType {
   //Start Sanity Roll
   static async _onSanityRoll(event, detail, actor) {
     //Sanity checks only exist when the optional Sanity system is enabled
-    if (!game.settings.get('brp', 'useSAN')) { return }
+    if (!Rules.active().settings.useSAN()) { return }
     let shiftKey = event.shiftKey
     if (game.settings.get('brp', 'switchShift')) {
       shiftKey = !shiftKey
@@ -210,6 +211,27 @@ export class BRPRollType {
     let shiftKey = event.shiftKey
     let rollType = 'CM'
     let cardType = 'CB'
+
+    //CoC: a weapon roll against a selected target opens the real attack card
+    //(attacker band + declared defence slot). Without a target, or with Shift,
+    //the plain skill/combat roll below stays available.
+    if (Rules.activeId() === 'coc' && !shiftKey && game.user?.targets?.size > 0) {
+      const token = Array.from(game.user.targets)[0]
+      const targetId = token?.document?.actorLink ? token.document.actorId : token?.id
+      if (targetId) {
+        const result = await BRPCheck.cocAttack({
+          actor,
+          itemId,
+          skillId,
+          targetId,
+          targetType: token?.document?.actorLink ? 'actor' : 'token',
+          targetName: token?.document?.name ?? token?.name,
+        })
+        if (result?.messageId) { return }
+        if (result?.error) { ui.notifications?.warn(result.error); return }
+      }
+    }
+
     if (game.settings.get('brp', 'quickCombat') && shiftKey) {
       rollType = 'QC'
       cardType = "NO"

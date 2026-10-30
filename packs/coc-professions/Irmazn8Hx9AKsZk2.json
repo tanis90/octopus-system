@@ -1,0 +1,173 @@
+{
+ "_id": "Irmazn8Hx9AKsZk2",
+ "name": "农民",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.farmer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Farmer",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.farmer",
+    "slug": "farmer",
+    "creditMin": 9,
+    "creditMax": 30,
+    "pointFormula": "EDU*2+STR*2",
+    "pointFormulas": [
+     "EDU*2+STR*2",
+     "EDU*2+DEX*2"
+    ],
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "art-craft-farming",
+     "mechanical-repair",
+     "natural-world",
+     "operate-heavy-machinery",
+     "track"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "drive-auto-or-pilot-horse",
+      "label": "汽车驾驶（或运货马车）",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "drive-auto",
+        "brpids": [
+         "i.skill.coc.drive-auto"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "pilot-horse",
+        "brpids": [
+         "i.skill.coc.pilot-horse"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "interpersonal",
+      "label": "一项社交技能（魅惑、话术、恐吓、说服）",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "charm",
+        "brpids": [
+         "i.skill.coc.charm"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "fast-talk",
+        "brpids": [
+         "i.skill.coc.fast-talk"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "intimidate",
+        "brpids": [
+         "i.skill.coc.intimidate"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "persuade",
+        "brpids": [
+         "i.skill.coc.persuade"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "any-specialty",
+      "label": "任意一项其他个人或时代特长",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.art-craft-farming",
+    "uuid": "Ya78rigufztVtROW"
+   },
+   {
+    "brpid": "i.skill.coc.mechanical-repair",
+    "uuid": "zp9eYH1FLjd04b0T"
+   },
+   {
+    "brpid": "i.skill.coc.natural-world",
+    "uuid": "EFVIz8qOdZvW2Rej"
+   },
+   {
+    "brpid": "i.skill.coc.operate-heavy-machinery",
+    "uuid": "9WclC1qp9ZYdl1pf"
+   },
+   {
+    "brpid": "i.skill.coc.track",
+    "uuid": "tYFug7dklIQrgfZC"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.drive-auto",
+      "uuid": "oNzu3fHKqOJ5FVVq"
+     },
+     {
+      "brpid": "i.skill.coc.pilot-horse",
+      "uuid": "sWk9oCrzamoVHGzn"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.charm",
+      "uuid": "ebCHph0biyJ2AG3j"
+     },
+     {
+      "brpid": "i.skill.coc.fast-talk",
+      "uuid": "AwLPg18IRN57w0fB"
+     },
+     {
+      "brpid": "i.skill.coc.intimidate",
+      "uuid": "mhG3if5iht465aSn"
+     },
+     {
+      "brpid": "i.skill.coc.persuade",
+      "uuid": "7zQTHnGe7rHoRnjC"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "耕种土地、饲养牲畜，靠机械维修和自然经验维持收成。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+ }
+}

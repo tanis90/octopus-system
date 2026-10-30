@@ -1,0 +1,49 @@
+{
+ "_id": "OdugCGiQt5WkewJ5",
+ "name": "精神分析",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.psychoanalysis",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Psychoanalysis",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.psychoanalysis",
+    "key": "psychoanalysis",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "通过心理治疗帮助患者恢复理智或面对恐惧。"
+ }
+}

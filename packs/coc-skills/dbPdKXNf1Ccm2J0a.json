@@ -1,0 +1,49 @@
+{
+ "_id": "dbPdKXNf1Ccm2J0a",
+ "name": "投掷",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.throw",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Throw",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.throw",
+    "key": "throw",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 20,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 20
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "把石块、矛、手雷等物体投向目标。"
+ }
+}

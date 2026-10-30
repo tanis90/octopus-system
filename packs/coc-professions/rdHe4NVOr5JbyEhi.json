@@ -1,0 +1,92 @@
+{
+ "_id": "rdHe4NVOr5JbyEhi",
+ "name": "淘金客",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.prospector",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Prospector",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.prospector",
+    "slug": "prospector",
+    "creditMin": 0,
+    "creditMax": 10,
+    "pointFormula": "EDU*2+STR*2",
+    "pointFormulas": [
+     "EDU*2+STR*2",
+     "EDU*2+DEX*2"
+    ],
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "climb",
+     "first-aid",
+     "history",
+     "mechanical-repair",
+     "navigate",
+     "science-geology",
+     "spot-hidden"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "any-specialty",
+      "label": "任意一项其他个人或时代特长",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.climb",
+    "uuid": "XBPmBl9yAuJ1Peo9"
+   },
+   {
+    "brpid": "i.skill.coc.first-aid",
+    "uuid": "mFYJcDBHmADhKRNW"
+   },
+   {
+    "brpid": "i.skill.coc.history",
+    "uuid": "ZsbrYPHoyqIA6fGF"
+   },
+   {
+    "brpid": "i.skill.coc.mechanical-repair",
+    "uuid": "zp9eYH1FLjd04b0T"
+   },
+   {
+    "brpid": "i.skill.coc.navigate",
+    "uuid": "XFTLEmt7ULlfiVWT"
+   },
+   {
+    "brpid": "i.skill.coc.science-geology",
+    "uuid": "HDWgdIhpGGLSC0Ns"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "在荒野寻找矿脉与砂金，靠地质知识和耐力谋生。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：0–10（只能用职业点，且必须落在区间内）"
+ }
+}

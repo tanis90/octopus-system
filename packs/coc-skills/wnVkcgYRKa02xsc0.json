@@ -1,0 +1,49 @@
+{
+ "_id": "wnVkcgYRKa02xsc0",
+ "name": "科学（物理学）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.science-physics",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Science (Physics)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.science-physics",
+    "key": "science-physics",
+    "specKey": "physics",
+    "parentKey": "science",
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "科学（物理学）",
+  "mainName": "科学",
+  "noXP": false,
+  "description": "物理学理论与实践能力，涵盖力学、电学与热学。"
+ }
+}

@@ -50,6 +50,7 @@
         <div class=" centre"> / </div>
         <div class="centre"><input class="centre npcpersonal-inp" name="system.sanity.max" type="text"
             value="{{system.sanity.max}}" data-dtype="Number" /></div>
+        <div class="centre">{{#if isGM}}{{#if useSAN}}<a class="smallIcon" data-action="sanityResetDaily" data-tooltip="{{localize 'BRP.sanityResetDaily'}}"><i class="fas fa-sunrise"></i></a>{{/if}}{{/if}}</div>
         {{/isOr}}
 
         {{#isOr useRes5 useBeastiary}}

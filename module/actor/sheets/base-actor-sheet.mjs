@@ -9,6 +9,8 @@ import BRPDialog from '../../setup/brp-dialog.mjs';
 import { BRPActor } from "../actor.mjs";
 import { isCtrlKey } from '../../apps/helper.mjs'
 import { BRPCharDev } from "../../apps/charDev.mjs";
+import { BRPSanity } from "../../apps/sanity.mjs";
+import { Rules } from "../../rules/index.mjs";
 
 export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
   constructor(options = {}) {
@@ -41,6 +43,10 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       skillRoll: this._onSkillRoll,
       statRoll: this._onStatRoll,
       sanityRoll: this._onSanityRoll,
+      sanityResetDaily: this._onSanityResetDaily,
+      cocAdvanceHour: this._onCocAdvanceHour,
+      cocAdvanceDay: this._onCocAdvanceDay,
+      luckRecovery: this._onLuckRecovery,
       weaponRoll: this._onWeaponRoll,
       damageRoll: this._onDamageRoll,
       armourRoll: this._onArmourRoll,
@@ -74,6 +80,39 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
   }
 
 
+  // PC window-header mode toggle: one native button at the far left, backed by the
+  // existing actorToggle/lock action. Use mode (lock=true) offers "Edit"; edit mode
+  // offers "Use". Synced on every render (frame creation and _onRender) so
+  // re-renders cannot duplicate it or leave stale labels/state behind.
+  _syncCharacterModeToggle(frame) {
+    const header = frame?.querySelector?.(".window-header") ?? this.window.header;
+    if (!header) return;
+    const existing = [...header.querySelectorAll("[data-brp-mode-toggle]")];
+    let toggle = existing.shift() ?? null;
+    for (const extra of existing) extra.remove();
+    if (this.actor.type !== "character" || !this.isEditable) {
+      toggle?.remove();
+      return;
+    }
+    if (!toggle) {
+      toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "brp-mode-toggle";
+      toggle.dataset.brpModeToggle = "";
+      toggle.dataset.action = "actorToggle";
+      toggle.dataset.property = "lock";
+      header.prepend(toggle);
+    }
+    const useMode = this.actor.system.lock === true;
+    const label = game.i18n.localize(useMode ? "BRP.sheetModeEdit" : "BRP.sheetModeUse");
+    const hint = game.i18n.localize(useMode ? "BRP.sheetModeEditHint" : "BRP.sheetModeUseHint");
+    toggle.textContent = label;
+    toggle.title = hint;
+    toggle.setAttribute("aria-label", `${label}: ${hint}`);
+    toggle.setAttribute("aria-pressed", String(!useMode));
+    toggle.dataset.mode = useMode ? "use" : "edit";
+  }
+
   //Add BRPID Editor Button as seperate icon on the Window header
   async _renderFrame(options) {
     const frame = await super._renderFrame(options);
@@ -89,6 +128,7 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       el = el.previousElementSibling;
     }
     el.insertAdjacentHTML("beforebegin", brpidEditor);
+    this._syncCharacterModeToggle(frame);
     return frame;
   }
 
@@ -101,17 +141,20 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       actor: this.actor,
       flags: this.actor.flags,
       isGM: game.user.isGM,
+      isCoC: (() => { try { return Rules.activeId() === 'coc' } catch { return false } })(),
       fields: this.document.schema.fields,
       config: CONFIG.BRP,
       system: this.actor.system,
       isLocked: this.actor.system.lock,
       isLinked: this.actor.prototypeToken?.actorLink === true,
       isSynth: this.actor.isToken,
-      useEDU: game.settings.get('brp', 'useEDU'),
+      useEDU: Rules.active().settings.useEDU(),
       useFP: game.settings.get('brp', 'useFP'),
-      useSAN: game.settings.get('brp', 'useSAN'),
+      useSAN: Rules.active().settings.useSAN(),
       useRes5: game.settings.get('brp', 'useRes5'),
-      useHPL: game.settings.get('brp', 'useHPL'),
+      //CoC core has no hit locations, so its sheet never offers that UI even
+      //when the world still has the BRP option on. Octopus is unchanged.
+      useHPL: game.settings.get('brp', 'useHPL') && !Rules.active().wounds,
       useAlleg: game.settings.get('brp', 'useAlleg'),
       usePassion: game.settings.get('brp', 'usePassion'),
       useAVRand: game.settings.get('brp', 'useAVRand'),
@@ -265,7 +308,7 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
     for (let [key, stat] of Object.entries(this.actor.system.stats)) {
       let checkProp = ""
       if (stat.formula === "") { continue }
-      if (key === 'edu' && !game.settings.get('brp', 'useEDU')) { continue }
+      if (key === 'edu' && !Rules.active().settings.useEDU()) { continue }
       let roll = new Roll(stat.formula)
       await roll.evaluate()
       let newVal = Math.round(Number(roll.total))
@@ -327,6 +370,71 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
   //Sanity Roll
   static _onSanityRoll(event, target) {
     BRPRollType._onSanityRoll(event, target.dataset, this.document)
+  }
+
+  //Keeper "new day": clear the per-day Sanity loss tally only. Current SAN and
+  //the day's episode stay as they are; the next loss can cross TIS again.
+  //Keeper "new day". Octopus only clears the per-day Sanity loss tally; CoC also
+  //rebases the one-fifth line on the SAN the investigator has at that moment and
+  //issues a fresh day id, because the threshold is a ratio of the day-start SAN.
+  static async _onSanityResetDaily(event, target) {
+    if (!game.user.isGM || !Rules.active().settings.useSAN()) { return }
+    if (Rules.active().sanity?.core) {
+      const result = await BRPSanity.newDay({ actor: this.document })
+      if (result?.error) {
+        ui.notifications.warn(game.i18n.localize('BRP.noAvailableGM'))
+        return
+      }
+      ui.notifications.info(game.i18n.format('BRP.sanityNewDay', { name: this.document.name, san: result.dayStartSan }))
+      return
+    }
+    await this.document.update({ 'system.sanity.dailyLoss': 0 })
+    ui.notifications.info(game.i18n.format('BRP.sanityDailyReset', { name: this.document.name }))
+  }
+
+  //CoC keeper clock: the 1D10 hour episode duration is measured against the
+  //persisted world clock, so the keeper advances it explicitly. One hour/day per
+  //click keeps the action deterministic; the API accepts any delta.
+  static async _onCocAdvanceHour(event, target) {
+    return BRPActorSheetV2._advanceCocClock({ hours: 1 })
+  }
+
+  static async _onCocAdvanceDay(event, target) {
+    return BRPActorSheetV2._advanceCocClock({ days: 1 })
+  }
+
+  static async _advanceCocClock(delta) {
+    if (!game.user.isGM) { return }
+    const moved = await BRPSanity.advanceTime(delta)
+    if (moved?.error) {
+      ui.notifications.warn(moved.error === 'not-active-gm'
+        ? game.i18n.localize('BRP.noAvailableGM')
+        : game.i18n.localize('BRP.coc.timeAdvanceFailed'))
+      return
+    }
+    ui.notifications.info(game.i18n.format('BRP.coc.timeAdvanced', {
+      hours: Math.round(Number(moved.advanced ?? 0) / 3600),
+    }))
+  }
+
+  //CoC keeper "new session": the only Luck recovery surface. Never runs on a
+  //page load or a sheet render; the button is GM-only and the settlement rolls
+  //1D100 against the current Luck on the active-GM writer.
+  static async _onLuckRecovery(event, target) {
+    if (!game.user.isGM) { return }
+    const result = await BRPSanity.luckRecovery({ actor: this.document })
+    if (result?.error) {
+      ui.notifications.warn(result.error === 'not-active-gm'
+        ? game.i18n.localize('BRP.noAvailableGM')
+        : game.i18n.localize('BRP.luck.recoveryFailed'))
+      return
+    }
+    ui.notifications.info(game.i18n.format('BRP.luck.recoveryDone', {
+      roll: result.roll,
+      formula: result.formula,
+      before: result.luck.before,
+      after: result.luck.after,
+    }))
   }
 
   //Skill Roll
@@ -396,6 +504,12 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
 
   //Add Damage
   static async _addDamage(event, target) {
+    //CoC keeps HP in the document itself; the BRP wound-item dialog would
+    //create an item that never subtracts from CoC health.
+    if (Rules.active().wounds) {
+      await BRPDamage.cocAddDamageDialog(this.actor)
+      return
+    }
     await BRPDamage.addDamage(target,this.actor, this.token, 0)
   }
 

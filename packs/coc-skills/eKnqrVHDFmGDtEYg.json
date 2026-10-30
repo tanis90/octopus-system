@@ -1,0 +1,49 @@
+{
+ "_id": "eKnqrVHDFmGDtEYg",
+ "name": "开锁",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.locksmith",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Locksmith",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.locksmith",
+    "key": "locksmith",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "开锁、配钥匙、破坏普通锁具与警报系统。"
+ }
+}

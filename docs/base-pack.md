@@ -73,10 +73,14 @@ profession: { type: "profession", name: <中文>, 同款 brpidFlag("i.profession
    中文名含"侦查/聆听"类样本、base 值抽样对拍 UGE、`system.basic` 真。
 3. 本地栈 E2E：真 lobby/play 新建角色 → starter 附挂可见中文技能表（截图留证）。
 4. 本机 FVTT（D:\FVTT_DATA）folder pack 装载冒烟。
+5. 构建确定性（0.3.1-dev）：职业引用 UUID 从既有 `packs-json` 复用，未知槽位由
+   `brpid + occurrence` 确定性派生；`node tools/tests/base-pack-determinism.mjs`
+   连续两次构建 byte-identical，且与已提交产物逐字节一致（不制造 ID 迁移）。
 
 ## 7. 发布
 
 v0.3.0：tag + release zip + compat 仓 vendor 台账 hash 更新（brp-hash.mjs）+ 本地演示面同步。
+当前树为未发布的 `0.3.1-dev` 修复快照；发布/资产更新另行决定，不得按 v0.3.0 交付。
 
 ## 8. 实现台账（随 commit 填写）
 

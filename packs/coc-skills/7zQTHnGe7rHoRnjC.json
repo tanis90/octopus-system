@@ -1,0 +1,49 @@
+{
+ "_id": "7zQTHnGe7rHoRnjC",
+ "name": "说服",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.persuade",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Persuade",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.persuade",
+    "key": "persuade",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 10,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 10
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "通过论证、辩论与讨论让对方接受某个观点。"
+ }
+}

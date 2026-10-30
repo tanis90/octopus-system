@@ -1,0 +1,49 @@
+{
+ "_id": "NEiczXQzhWgyrtzI",
+ "name": "信用评级",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.credit-rating",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Credit Rating",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.credit-rating",
+    "key": "credit-rating",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 0,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "表示角色的财富、阶层与社会资源；创建时通常需要分配点数。"
+ }
+}

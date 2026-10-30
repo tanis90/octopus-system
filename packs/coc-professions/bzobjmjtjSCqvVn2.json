@@ -1,0 +1,83 @@
+{
+ "_id": "bzobjmjtjSCqvVn2",
+ "name": "杂技演员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.acrobat",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Acrobat",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.acrobat",
+    "slug": "acrobat",
+    "creditMin": 9,
+    "creditMax": 20,
+    "pointFormula": "EDU*2+DEX*2",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "climb",
+     "dodge",
+     "jump",
+     "throw",
+     "spot-hidden",
+     "swim"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "any-specialty",
+      "label": "任意两项其他个人或时代特长",
+      "choose": 2,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.climb",
+    "uuid": "XBPmBl9yAuJ1Peo9"
+   },
+   {
+    "brpid": "i.skill.coc.dodge",
+    "uuid": "NeiLzxM7dLr6hC5r"
+   },
+   {
+    "brpid": "i.skill.coc.jump",
+    "uuid": "acDj9JcQQNbsARhC"
+   },
+   {
+    "brpid": "i.skill.coc.throw",
+    "uuid": "dbPdKXNf1Ccm2J0a"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   },
+   {
+    "brpid": "i.skill.coc.swim",
+    "uuid": "GyfbAWiGp3GBa1MR"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "以攀爬、跳跃与投掷技巧完成舞台或马戏表演。\n\n职业点：EDU*2+DEX*2（引擎按白名单公式求值）\n\n信用评级：9–20（只能用职业点，且必须落在区间内）"
+ }
+}

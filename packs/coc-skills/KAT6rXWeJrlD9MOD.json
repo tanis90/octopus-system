@@ -1,0 +1,49 @@
+{
+ "_id": "KAT6rXWeJrlD9MOD",
+ "name": "潜行",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.stealth",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Stealth",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.stealth",
+    "key": "stealth",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 20,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 20
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "安静移动、躲藏并避免被察觉。"
+ }
+}

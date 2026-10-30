@@ -164,5 +164,60 @@ export async function registerSettings() {
     default: "12.1.36"
   });
 
+  // Hidden world ruleset selector. Default is the existing octopus/BRP:UGE
+  // behaviour; CoC is opt-in and M1-scoped. No public UI in this phase.
+  game.settings.register('brp', "ruleset", {
+    name: "",
+    hint: "",
+    scope: "world",
+    requiresReload: false,
+    config: false,
+    type: String,
+    default: "octopus",
+    choices: {
+      octopus: "Octopus / BRP:UGE",
+      coc: "Call of Cthulhu 7e"
+    }
+  });
+
+  // CoC insanity clock (M4). World-scoped so the campaign store persists it and
+  // every client reads the same value; `game.time.worldTime` alone is not
+  // persisted by the compat shim, and a 1D10h episode must not restart or expire
+  // because a page reloaded. Only the active GM writes it.
+  game.settings.register('brp', "worldTime", {
+    name: "",
+    hint: "",
+    scope: "world",
+    requiresReload: false,
+    config: false,
+    type: Number,
+    default: 0
+  });
+
+  // Keeper day counter: makes every "new game day" a distinct day id, so the
+  // pure core can refuse a reused one.
+  game.settings.register('brp', "cocDaySeq", {
+    name: "",
+    hint: "",
+    scope: "world",
+    requiresReload: false,
+    config: false,
+    type: Number,
+    default: 0
+  });
+
+  // Keeper-confirmed session counter for Luck recovery. Recovery is an explicit
+  // "start a new session" action, never a page-load side effect, so this records
+  // how many times it was applied.
+  game.settings.register('brp', "cocSessionSeq", {
+    name: "",
+    hint: "",
+    scope: "world",
+    requiresReload: false,
+    config: false,
+    type: Number,
+    default: 0
+  });
+
 }
 

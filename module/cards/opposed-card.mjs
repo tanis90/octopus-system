@@ -5,6 +5,11 @@ export class OPCard {
 
   //Resolve an opposed card - roll dice, update and close
   static async OPResolve(config) {
+    //CoC compares bands/skill and asks for a re-roll on an exact tie instead of
+    //inventing a winner from the dice already rolled.
+    if (BRPCheck.isCoC()) {
+      return BRPCheck.cocResolve({ messageId: config.targetChatId, applyDamage: false })
+    }
     let targetMsg = await game.messages.get(config.targetChatId)
     let chatCards = targetMsg.flags.brp.chatCard
     if (chatCards.length < 2) {
@@ -57,9 +62,12 @@ export class OPCard {
   static async showDiceRoll(chatCard) {
     //If this is an Opposed or Combat roll then for the dice to roll if Dice so Nice used
     if (game.modules.get('dice-so-nice')?.active) {
-      let tens = Math.floor(chatCard.rollResult / 10)
-      let units = chatCard.rollResult - (10 * tens)
-      if (chatCard.rollResult === 100) {
+      //CoC stores the percentile value (bonus/penalty pools cannot be read from
+      //the summed dice total); octopus keeps its historical rollResult.
+      const shown = chatCard.band ? Number(chatCard.rollVal) : Number(chatCard.rollResult)
+      let tens = Math.floor(shown / 10)
+      let units = shown - (10 * tens)
+      if (shown === 100) {
         tens = 0
         units = 0
       }
@@ -67,14 +75,14 @@ export class OPCard {
         throws: [{
           dice: [
             {
-              resultLabel: chatCard.rollResult,
+              resultLabel: shown,
               result: tens,
               type: "d100",
               options: {},
               vectors: []
             },
             {
-              resultLabel: chatCard.rollResult,
+              resultLabel: shown,
               result: units,
               type: "d10",
               options: {},

@@ -113,17 +113,31 @@
           "max": 5,
           "starting": null,
           "tis": null,
-          "dailyLoss": 0
+          "dailyLoss": 0,
+          "singleLoss": 0,
+          "dayId": null,
+          "dayStartSan": null,
+          "dayStartSource": null,
+          "lastLossAt": null,
+          "insanity": {
+            "temporary": null,
+            "indefinite": null,
+            "permanent": false,
+            "lastUpdatedAt": null
+          }
         },
         "luck": {
           "value": 0,
-          "max": null
+          "max": null,
+          "cap": null
         },
         "res5": {
           "value": 0,
           "max": 0
         },
-        "wealthValue": 0
+        "wealthValue": 0,
+        "build": 0,
+        "mov": 0
       }
     },
     "character": {
@@ -149,7 +163,7 @@
       "minorWnd": false,
       "move": 0,
       "hand": "Right",
-      "lock": false,
+      "lock": true,
       "skillOrder": true,
       "skillcategory": {}
     },

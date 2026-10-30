@@ -1,0 +1,49 @@
+{
+ "_id": "0AAlWrrgIC6iZezX",
+ "name": "科学（鉴证）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.science-forensics",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Science (Forensics)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.science-forensics",
+    "key": "science-forensics",
+    "specKey": "forensics",
+    "parentKey": "science",
+    "sourceRefs": [
+     "coc-cardwright"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "科学（鉴证）",
+  "mainName": "科学",
+  "noXP": false,
+  "description": "现场痕迹、尸检与物证检验的科学方法。"
+ }
+}

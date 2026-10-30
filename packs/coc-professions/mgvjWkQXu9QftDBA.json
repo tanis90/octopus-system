@@ -1,0 +1,88 @@
+{
+ "_id": "mgvjWkQXu9QftDBA",
+ "name": "出租车司机",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.taxi-driver",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Taxi Driver",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.taxi-driver",
+    "slug": "taxi-driver",
+    "creditMin": 9,
+    "creditMax": 30,
+    "pointFormula": "EDU*2+DEX*2",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "accounting",
+     "drive-auto",
+     "electrical-repair",
+     "fast-talk",
+     "mechanical-repair",
+     "navigate",
+     "spot-hidden"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "any-specialty",
+      "label": "任意一项其他个人或时代特长",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.accounting",
+    "uuid": "OprgKpztxOCjv9MA"
+   },
+   {
+    "brpid": "i.skill.coc.drive-auto",
+    "uuid": "oNzu3fHKqOJ5FVVq"
+   },
+   {
+    "brpid": "i.skill.coc.electrical-repair",
+    "uuid": "GgBauywhcx3bJVG3"
+   },
+   {
+    "brpid": "i.skill.coc.fast-talk",
+    "uuid": "AwLPg18IRN57w0fB"
+   },
+   {
+    "brpid": "i.skill.coc.mechanical-repair",
+    "uuid": "zp9eYH1FLjd04b0T"
+   },
+   {
+    "brpid": "i.skill.coc.navigate",
+    "uuid": "XFTLEmt7ULlfiVWT"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "驾驶出租车载客，熟悉城市道路与各色乘客。\n\n职业点：EDU*2+DEX*2（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+ }
+}

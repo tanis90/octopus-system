@@ -5,8 +5,18 @@ export class GRCard {
 
   //Add a new skill to a Combined Card
   static async GRAdd(config, msgId) {
-    if (game.user.isGM) {
+    //CoC joins are always written by the deterministic active GM and cap the
+    //card at the two combatants; the octopus path below is untouched.
+    const cocJoin = config?.cocJoin === true
+    const cocWriter = cocJoin ? game.users?.activeGM : null
+    const canWrite = cocJoin ? !!cocWriter && game.user.id === cocWriter.id : game.user.isGM
+    if (canWrite) {
       let targetMsg = await game.messages.get(msgId)
+      if (!targetMsg) { return false }
+      if (cocJoin && (targetMsg.flags.brp.chatCard ?? []).length >= 2) {
+        ui.notifications.warn(game.i18n.localize('BRP.resolveMax'))
+        return false
+      }
       if ((targetMsg.flags.brp.chatCard).length >= 5 && (targetMsg.flags.brp.cardType === 'GR' || targetMsg.flags.brp.cardType === 'CO')) {
         ui.notifications.warn(game.i18n.localize('BRP.resolveMax'))
         return
@@ -17,11 +27,21 @@ export class GRCard {
 
       let newChatCards = targetMsg.flags.brp.chatCard
       newChatCards.push(config.chatCard[0])
-      await targetMsg.update({ 'flags.brp.chatCard': newChatCards })
+      const update = { 'flags.brp.chatCard': newChatCards }
+      if (cocJoin && config.rolls) {
+        //Keep the defender's real Roll on the message next to the attacker's.
+        const rolls = Array.isArray(targetMsg.rolls) ? [...targetMsg.rolls] : []
+        rolls.push(config.rolls)
+        update.rolls = rolls
+      }
+      await targetMsg.update(update)
       const pushhtml = await BRPCheck.startChat(targetMsg.flags.brp)
       await targetMsg.update({ content: pushhtml })
+      return true
     } else {
-      const availableGM = game.users.find(d => d.active && d.isGM)?.id
+      const availableGM = cocJoin
+        ? cocWriter?.id
+        : game.users.find(d => d.active && d.isGM)?.id
       if (availableGM) {
         game.socket.emit('system.brp', {
           type: 'GRAdd',
@@ -31,6 +51,7 @@ export class GRCard {
       } else {
         ui.notifications.warn(game.i18n.localize('BRP.noAvailableGM'))
       }
+      return false
     }
   }
 

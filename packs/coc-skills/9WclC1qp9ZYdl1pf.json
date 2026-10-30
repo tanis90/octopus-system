@@ -1,0 +1,49 @@
+{
+ "_id": "9WclC1qp9ZYdl1pf",
+ "name": "操作重型机械",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.operate-heavy-machinery",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Operate Heavy Machinery",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.operate-heavy-machinery",
+    "key": "operate-heavy-machinery",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "驾驶或操作火车、蒸汽机、推土机等大型机械。"
+ }
+}

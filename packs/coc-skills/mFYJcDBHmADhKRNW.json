@@ -1,0 +1,49 @@
+{
+ "_id": "mFYJcDBHmADhKRNW",
+ "name": "急救",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.first-aid",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "First Aid",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.first-aid",
+    "key": "first-aid",
+    "specKey": null,
+    "parentKey": null,
+    "sourceRefs": [
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 30,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 30
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": false,
+  "chosen": false,
+  "specName": "",
+  "mainName": "",
+  "noXP": false,
+  "description": "在受伤后一小时内进行紧急处置，恢复少量生命并唤醒昏迷者。"
+ }
+}

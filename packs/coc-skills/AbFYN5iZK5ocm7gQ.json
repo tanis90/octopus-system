@@ -1,0 +1,49 @@
+{
+ "_id": "AbFYN5iZK5ocm7gQ",
+ "name": "格斗（链锯）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.fighting-chainsaw",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Fighting (Chainsaw)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.skill.fighting-chainsaw",
+    "key": "fighting-chainsaw",
+    "specKey": "chainsaw",
+    "parentKey": "fighting",
+    "sourceRefs": [
+     "coc-cardwright"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 10,
+  "basic": true,
+  "combat": true,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 10
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "格斗（链锯）",
+  "mainName": "格斗",
+  "noXP": false,
+  "description": "把链锯当作近战武器挥砍。"
+ }
+}

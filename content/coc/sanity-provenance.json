@@ -1,0 +1,274 @@
+{
+  "dataset": "coc7-m4-sanity-luck-growth-core",
+  "revision": "2026-10-29",
+  "scope": "M4 decision core (SAN single-loss and per-game-day thresholds, temporary/indefinite/permanent insanity state, Luck spend eligibility and post-adjustment band, Luck recovery, skill-growth tick and settlement) plus its native integration in module/apps/sanity.mjs, module/apps/luck.mjs, module/apps/charDev.mjs, module/apps/check.mjs and module/apps/worldTime.mjs. The core itself stays pure; the app layer owns actor writes, ActiveEffects, dice and chat cards.",
+  "module": "module/rules/coc-sanity.mjs",
+  "integration": {
+    "sanity": "module/apps/sanity.mjs",
+    "luck": "module/apps/luck.mjs",
+    "growth": ["module/apps/charDev.mjs", "module/apps/check.mjs"],
+    "clock": "module/apps/worldTime.mjs",
+    "socket": "module/apps/socket.mjs",
+    "surface": "game.brp.sanity / game.brp.clock",
+    "writePolicy": "All SAN settlements and keeper actions run on game.users.activeGM. A non-writer rewrites the card loss to a socket request; the writer serializes the read-modify-write and applies it once. Luck spends/spends are serialized on the active GM and also gated by the ruleset at settlement, not only in the UI.",
+    "tests": "tools/tests/coc-sanity-regressions.mjs (45 pure checks) and tools/tests/rules-regressions.mjs (161 checks in the headless compat mirror; 47 of them M4)."
+  },
+  "tests": "tools/tests/coc-sanity-regressions.mjs",
+  "licenseBoundary": {
+    "code": "MIT (repository code only)",
+    "facts": "Only numeric values, dice formulas, thresholds, field semantics and URLs are recorded. All prose, tag names and state names in module/rules/coc-sanity.mjs were written for this project.",
+    "excluded": [
+      "No Call of Cthulhu 7e Foundry VTT system source, template, YAML, data or implementation was read or referenced.",
+      "No other GPL system implementation was used.",
+      "No official PDF, text block, table layout, image, font, logo or trade dress is committed.",
+      "The ten bout-of-madness entries are stored as 1..10 index plus a short project-authored id and zh label; the official description sentences are not reproduced.",
+      "No Pulp Cthulhu talent or Pulp-only Luck spend is enabled; Pulp-only ids are listed so an integration cannot enable them by accident."
+    ]
+  },
+  "sources": [
+    {
+      "id": "coc-quickstart",
+      "title": "Official Call of Cthulhu 7e Quick-Start Rules",
+      "url": "https://www.chaosium.com/content/FreePDFs/CoC/CHA23131%20Call%20of%20Cthulhu%207th%20Edition%20Quick-Start%20Rules.pdf",
+      "evidence": "primary-official-free",
+      "usedFor": [
+        "SAN roll is 1D100 against current SAN; loss written as pass/fail pair",
+        "A loss of 5 or more from a single SAN roll requires a 1D100 roll against INT",
+        "INT result equal to or less than INT means temporarily insane for 1D10 hours",
+        "Failed INT roll means the investigator stays sane for now",
+        "A bout of madness is rolled on 1D10 and played round by round",
+        "Once 1D10 hours pass the investigator is sane again; delusions stop, phobias/manias/backstory changes remain",
+        "Characteristics are percentile values (STR 60 means 60%) and an uncovered test uses the characteristic like a skill",
+        "Successful skill use earns one check; end-of-scenario 1D100 over the skill value adds 1D10"
+      ],
+      "note": "Parsed for facts only; no text block is stored."
+    },
+    {
+      "id": "coc-wiki-sanity",
+      "title": "Official wiki: Sanity",
+      "url": "https://cthulhuwiki.chaosium.com/rules/sanity.html",
+      "evidence": "primary-official-free",
+      "usedFor": [
+        "5 or more points lost from a single SAN roll = major emotional trauma, then 1D100 <= INT",
+        "Success means temporary insanity for 1D10 hours; failure means the mind closes and the investigator remains sane",
+        "Temporarily insane investigators suffer a bout of madness resolved with 1D10",
+        "Bouts of madness table has exactly ten entries at index 1..10, each lasting 1D10 rounds; entries 9 and 10 add a phobia and a mania",
+        "Delusions end with the 1D10 hour period; phobias, manias and altered backstory remain"
+      ],
+      "note": "The page documents temporary insanity only; it carries no indefinite-insanity rule."
+    },
+    {
+      "id": "coc-wiki-game-system",
+      "title": "Official wiki: The Game System",
+      "url": "https://cthulhuwiki.chaosium.com/rules/game-system.html",
+      "evidence": "primary-official-free",
+      "usedFor": [
+        "On a successful skill roll put a check next to that skill; one check per skill at a time",
+        "Regular success = roll <= value, Hard = roll <= half, Extreme = roll <= one fifth",
+        "Pushed rolls exist and cannot be combined with Luck spending in the standard procedure",
+        "Luck roll succeeds on roll <= current Luck"
+      ]
+    },
+    {
+      "id": "coc-wiki-rewards",
+      "title": "Official wiki: Rewards of Success",
+      "url": "https://cthulhuwiki.chaosium.com/rules/rewards-of-success.html",
+      "evidence": "primary-official-free",
+      "usedFor": [
+        "Only checked skills (used and rolled successfully) are rolled for improvement",
+        "Improvement roll is 1D100 strictly over the current value",
+        "A successful improvement adds 1D10 to the skill value",
+        "No INT bonus and no fixed improvement tier are part of the check"
+      ]
+    },
+    {
+      "id": "coc-wiki-secondary",
+      "title": "Official wiki: Step Two - Secondary Attributes",
+      "url": "https://cthulhuwiki.chaosium.com/investigators/step-two-secondary-attributes.html",
+      "evidence": "primary-official-free",
+      "usedFor": [
+        "SAN begins equal to POW and is used as a percentile roll",
+        "Luck is 3D6 x 5 and a Luck roll succeeds on roll <= current Luck",
+        "Luck therefore has no printed ceiling other than the 99 used below (see coc-roll20-using-luck)"
+      ]
+    },
+    {
+      "id": "coc-lightless-beacon",
+      "title": "Official free scenario: The Lightless Beacon (Introducing Spending Luck)",
+      "url": "https://www.chaosium.com/content/FreePDFs/WeAreAllUs/2019/The%20Lightless%20Beacon%20-%20Call%20of%20Cthulhu.pdf",
+      "evidence": "primary-official-free",
+      "usedFor": [
+        "Luck may adjust a skill roll on a 1-for-1 basis, and may raise the degree of success",
+        "Luck may NOT be spent to adjust a Sanity roll",
+        "Luck may NOT be spent on rolls that determine how much Sanity is lost",
+        "Luck may NOT be spent to adjust a pushed roll or a fumbled roll",
+        "Luck may NOT be spent on weapon malfunction outcomes, damage rolls or Luck rolls",
+        "The only limit on a spend is the Luck currently remaining; spent Luck is gone for later Luck rolls",
+        "Official free indefinite-insanity wording: losing one fifth or more of STARTING Sanity cumulatively as the scenario proceeds",
+        "Pre-generated thresholds corroborate the one-fifth-of-starting figure: SAN 50 -> 10+, SAN 65 -> 13+, SAN 60 -> 12+"
+      ],
+      "note": "Only the luck-spend prohibitions and the one-fifth arithmetic are used. The scenario's prose, investigators and handouts are not copied."
+    },
+    {
+      "id": "coc-roll20-using-luck",
+      "title": "Roll20 Compendium: Using Luck (transcription of the Keeper Rulebook procedure)",
+      "url": "https://roll20.net/compendium/coc/Using%20Luck",
+      "evidence": "secondary",
+      "usedFor": [
+        "Luck cannot be spent on Luck rolls, damage rolls, the result of a pushed roll, Sanity rolls, or skill experience checks",
+        "A critical success only arises from a natural 01; using Luck to lower a roll to 01 gives an Extreme success, not a critical",
+        "Skill experience checks are only earned for successes made without spending Luck",
+        "Luck recovery: start of session 1D100 against current Luck; higher than current adds 2D10+10, otherwise adds 1D10+5; Luck may never exceed 99 and the starting value is not a cap",
+        "Halving a failed Sanity loss by spending double the loss is listed under investigator Luck spends"
+      ],
+      "note": "This page mixes standard investigator Luck spends with Pulp-only ones (hit-point recovery, avoiding death, staying conscious). Those Pulp entries are recorded as excluded, not implemented. Halving Sanity loss conflicts with the official free scenario's prohibition on spending Luck on Sanity-loss rolls, so the standard core keeps it disabled."
+    },
+    {
+      "id": "coc-trpgline",
+      "title": "TRPGLine system reference: Call of Cthulhu 7th (Keeper Rulebook transcription)",
+      "url": "https://trpgline.com/en/rules/coc7/summary",
+      "evidence": "secondary",
+      "usedFor": [
+        "Three insanity states: temporary, indefinite, permanent",
+        "Indefinite insanity on losing a fifth or more of CURRENT Sanity points in one game day",
+        "Permanent insanity when Sanity reaches 0, and the investigator ceases to be a playable character",
+        "Indefinite insanity lasts until cured or recovered; treatment is monthly private care or institutionalization"
+      ],
+      "note": "Tertiary transcription. Recorded as the only available wording for the current-SAN basis and for permanent insanity; the recovery quantities are NOT recorded as fact."
+    }
+  ],
+  "facts": {
+    "singleLossThreshold": {
+      "value": 5,
+      "comparison": "loss >= 5",
+      "grade": "primary-official-free",
+      "sourceRefs": ["coc-quickstart", "coc-wiki-sanity"],
+      "appliedTo": "the Sanity points lost as the consequence of a single Sanity roll, after clamping to remaining SAN"
+    },
+    "intCheck": {
+      "capability": "INT",
+      "rule": "1D100 roll; result <= INT means temporarily insane, > INT means remains sane",
+      "missingDiePolicy": "pending; never treated as success or failure",
+      "grade": "primary-official-free",
+      "sourceRefs": ["coc-quickstart", "coc-wiki-sanity"]
+    },
+    "temporaryInsanityDuration": {
+      "formula": "1D10 hours",
+      "grade": "primary-official-free",
+      "sourceRefs": ["coc-quickstart", "coc-wiki-sanity"],
+      "note": "Duration in hours is returned as data. Elapsed time is confirmed by an explicit keeper event; this module never infers expiry from a clock."
+    },
+    "boutOfMadness": {
+      "die": "1D10",
+      "entries": 10,
+      "duration": "1D10 rounds",
+      "phobiaAndManiaAt": [9, 10],
+      "grade": "primary-official-free",
+      "sourceRefs": ["coc-wiki-sanity", "coc-quickstart"],
+      "note": "Only index, die type and the 9/10 phobia-mania fact are used. Entry ids and zh labels are project-authored."
+    },
+    "temporaryInsanityEnd": {
+      "rule": "after 1D10 hours the investigator is sane again; delusions stop, phobias/manias/altered backstory remain",
+      "grade": "primary-official-free",
+      "sourceRefs": ["coc-wiki-sanity", "coc-quickstart"],
+      "note": "The core requires an explicit end reason and never reports automatic recovery from elapsed model time."
+    },
+    "permanentInsanity": {
+      "rule": "Sanity reaching 0 means permanent insanity; the investigator is no longer playable",
+      "grade": "secondary",
+      "sourceRefs": ["coc-trpgline"],
+      "note": "Corroborated only by a tertiary transcription; the number 0 is also implied by the free sources' loss arithmetic. No recovery path is implemented."
+    },
+    "indefiniteInsanity": {
+      "trigger": "cumulative Sanity loss of at least one fifth of a basis value",
+      "threshold": "ceil(basis / 5)",
+      "window": "one game day as declared by the keeper",
+      "grade": "conflicting",
+      "sourceRefs": ["coc-lightless-beacon", "coc-trpgline"],
+      "conflict": "The official free scenario measures one fifth of STARTING Sanity cumulatively over the scenario; the Keeper Rulebook transcription measures one fifth of CURRENT Sanity within one game day.",
+      "resolution": "The core accepts an explicit basis (`day-start` | `starting` | `current`) and returns the basis and threshold it used. `day-start` is the default because it needs a keeper-declared snapshot and invents neither basis. Without a basis value the threshold is null and no trigger can fire.",
+      "recovery": {
+        "implemented": false,
+        "grade": "pending-official-source",
+        "note": "Monthly private-care/institutionalization roll quantities are not recorded from any verifiable primary text. Only a keeper-review marker is returned."
+      }
+    },
+    "gameDayAnchor": {
+      "definition": "explicit keeper snapshot: a caller-supplied dayId plus the SAN at day start",
+      "forbidden": ["Date.now", "game.time.worldTime", "game.time.components"],
+      "reason": "The pure core never reads a clock. The integration persists a world-scoped CoC world clock (brp.worldTime) and a keeper day sequence (brp.cocDaySeq), restores them on load and advances them only through keeper actions; game.time.worldTime may restart at 0, so it is mirrored rather than trusted.",
+      "grade": "project-constraint",
+      "sourceRefs": []
+    },
+    "luckSpendEligible": {
+      "purposes": ["skill-roll", "characteristic-roll"],
+      "cost": "1 Luck point per 1 point of roll adjustment",
+      "limit": "only by Luck currently remaining",
+      "grade": "primary-official-free",
+      "sourceRefs": ["coc-lightless-beacon", "coc-roll20-using-luck"]
+    },
+    "luckSpendForbidden": {
+      "purposes": [
+        "sanity-roll",
+        "sanity-loss-roll",
+        "luck-roll",
+        "damage-roll",
+        "weapon-malfunction",
+        "growth-check",
+        "pushed-roll",
+        "natural-fumble"
+      ],
+      "grade": "primary-official-free",
+      "sourceRefs": ["coc-lightless-beacon", "coc-roll20-using-luck"],
+      "note": "The free scenario forbids pushed/fumbled rolls, weapon malfunction, damage, Sanity rolls, Sanity-loss rolls and Luck rolls. Growth checks are forbidden by the secondary source and follow from the 'successes made without spending Luck' rule."
+    },
+    "luckCritical": {
+      "rule": "a critical is only a natural 01; spending Luck to reach 01 yields an Extreme success",
+      "grade": "secondary",
+      "sourceRefs": ["coc-roll20-using-luck"],
+      "note": "Implemented as a hard downgrade in applyLuckSpend; the adjusted result is always lower than or equal to the natural one because spends are positive."
+    },
+    "luckRecovery": {
+      "rule": "session start 1D100 against current Luck; roll > current adds 2D10+10, roll <= current adds 1D10+5; cap 99",
+      "grade": "secondary",
+      "sourceRefs": ["coc-roll20-using-luck"],
+      "note": "Both branches implemented with injected D10 values and an explicit 99 cap. The starting Luck value is not treated as a cap. Because the only source is secondary, the result is tagged with that grade so the integration can gate or label it."
+    },
+    "luckSanLossHalving": {
+      "rule": "spend twice the Sanity loss to halve it",
+      "grade": "pending-official-source",
+      "status": "disabled-in-standard",
+      "sourceRefs": ["coc-roll20-using-luck", "coc-lightless-beacon"],
+      "note": "The secondary compendium lists it as an investigator Luck spend, while the official free scenario forbids spending Luck on rolls that determine how much Sanity is lost. Until a primary ruling is available the standard core keeps it disabled and returns `pulp-only`/disabled ids rather than a number."
+    },
+    "growthTick": {
+      "rule": "tick only after a successful skill use, not when the success came from spending Luck, and not for noXP skills",
+      "grade": "primary-official-free",
+      "sourceRefs": ["coc-wiki-game-system", "coc-roll20-using-luck"],
+      "note": "The 'no Luck' half is secondary; the 'only successful use' half is primary. NPC actors and non-skill rolls never tick."
+    },
+    "growthSettlement": {
+      "rule": "1D100 strictly over the current value adds 1D10; equal or lower adds nothing",
+      "grade": "primary-official-free",
+      "sourceRefs": ["coc-wiki-rewards", "coc-quickstart"],
+      "note": "No INT bonus, no fixed tier, no cap; the module returns the injected D10 and the new value."
+    }
+  },
+  "unverified": {
+    "status": "pending-official-source",
+    "items": [
+      "Indefinite insanity basis and window: official free wording (one fifth of starting SAN over the scenario) and the Keeper Rulebook transcription (one fifth of current SAN in one game day) disagree.",
+      "Indefinite insanity recovery quantities and cadence (private care vs institutionalization rolls).",
+      "Whether spending double the Sanity loss to halve it is a standard or Pulp-era option; the free scenario forbids Luck on Sanity-loss rolls.",
+      "The 'game day' calendar definition: no in-world calendar exists in the runtime.",
+      "Permanent insanity's exact book wording; only a tertiary transcription was reachable.",
+      "Whether the 96-100 fumble band for skills below 50 belongs to the free rules text; it is inherited from the M1 band and reused here unchanged."
+    ]
+  },
+  "notImplemented": [
+    "Any third-party system's sanity automation or code.",
+    "Pulp talents: avoiding death, hit-point recovery, staying conscious, and any other Pulp-only Luck spend.",
+    "Automatic recovery of any insanity state from elapsed model time.",
+    "Writing actor data, creating ActiveEffects, rolling dice, or sending chat cards from this module."
+  ]
+}
