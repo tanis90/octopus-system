@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.art-craft-painting",
     "key": "art-craft-painting",
+    "pack": "core",
     "specKey": "painting",
     "parentKey": "art-craft",
     "sourceRefs": [

@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.occupation.doctor-of-medicine",
     "slug": "doctor-of-medicine",
+    "pack": "core",
     "creditMin": 30,
     "creditMax": 80,
     "pointFormula": "EDU*4",

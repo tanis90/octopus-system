@@ -36,6 +36,7 @@ export default function Init() {
     //method takes plain data and routes cross-owner writes through activeGM.
     coc: {
       attack: (options) => BRPCheck.cocAttack(options),
+      declareAttack: (options) => BRPCheck.cocDeclareAttack(options),
       defend: (options) => BRPCheck.cocDefend(options),
       resolve: (options) => BRPCheck.cocResolve(options),
       reroll: (options) => BRPCheck.cocReroll(options),

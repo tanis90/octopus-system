@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.art-craft-technical-drawing",
     "key": "art-craft-technical-drawing",
+    "pack": "core",
     "specKey": "technical-drawing",
     "parentKey": "art-craft",
     "sourceRefs": [

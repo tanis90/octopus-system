@@ -1,4 +1,4 @@
-# CoC 7e 兼容契约（M1 + M2 + M3 + M4 + M5 + M6 + M7 + M8 源仓切片）
+# CoC 7e 兼容契约（M1 + M2 + M3 + M4 + M5 + M6 + M7 + M8 + 拆包 源仓切片）
 
 状态：实验性第八期源仓切片（2026-10-30）。M4 完成原生 SAN/疯狂、Luck 消费与恢复、
 技能成长和持久化 CoC 世界时钟的源仓实现与无头集成探针（真实 `Roll`、真实 Actor/
@@ -30,6 +30,13 @@ M8（2026-10-30）从 SealDice 内置 `COC职业查询` helpdoc 批量导入能�
 描述，只取公式、信用区间与技能名，描述全部自写；证据仍为 **secondary**。compat 同步
 目标为 `web/packages/brp/`，本源仓未执行前端/E2E 验收。
 
+拆包（2026-10-30）把同一份事实源切成两套包：核心 `coc-skills` **60** /
+`coc-professions` **9**（含产品定义的自定义调查员），扩展
+`arcane-investigator-skills` **31** / `arcane-investigator-professions` **148**，
+后者由 sibling 分发仓 `../arcane-investigator-options/` 的 `module.json` 声明。
+合并口径仍是 91/50 与 156+1；`system.json` 仍只有原来四个包。本源仓只做数据、
+构建、模块清单与测试；真实 Foundry 加载与前端接线由 compat 仓验收。
+
 ## 目标
 
 在保留 MIT BRP 底座与既有 octopus/UGE 行为的前提下，提供可验证的 CoC 7e 基础片：
@@ -49,6 +56,8 @@ M8（2026-10-30）从 SealDice 内置 `COC职业查询` helpdoc 批量导入能�
 - M8：从 SealDice 内置 helpdoc 批量导入 118 个职业（共 156）、32 条技能（共 91）、
   29 条专精（共 50）；deferred 187 条带类别与原因；不覆盖已有 38 职业，不新增 MAX，
   不复制无许可证 JSON/职业描述。
+- 拆包：单一事实源生成核心包（60 技能 / 9 职业入口）与可选扩展分发仓（31 技能 /
+  148 职业）；每项只属一个包，合并等于源文件；扩展不由 `system.json` 注册。
 
 ## 允许来源
 
@@ -125,6 +134,13 @@ M8 追加（**SealDice 内置 helpdoc，secondary；无许可证声明**）：
 - 新增 32 条具体技能的基础值对照用户 `coc-cardwright` 的 `skills.py` 或开放族已核基础值；只发布
   「开放族已有已核基础值 + `skills.py` 有成员值」的专精，不猜值、不写 0。
 
+拆包追加（事实源不变，仅改变发布形态）：
+
+- 核心包沿用 `content/coc/*` 的既有事实；扩展包不引入任何新事实来源，也没有新的
+  一手/二手声明。扩展里全部 `sourceRefs` 与逐条 `claimBoundary` 原样继承。
+- 自定义调查员不属于任何外部来源：`evidence: "product"` + `productBoundary`，
+  `sourceRefs` 只引用既有的 `coc-wiki-skills` 技能总表语义，不声称来源印过该职业。
+
 逐条事实映射见 `content/coc/provenance.json`。
 
 ## 禁止来源
@@ -137,6 +153,10 @@ M8 追加（**SealDice 内置 helpdoc，secondary；无许可证声明**）：
 - 不提交官方 PDF、正文块、图片、字体、图标、排版或商标资源。
 - 不把 BRP:UGE 的数值/技能/职业改名冒充 CoC。
 - 不把本仓代码视为已获得 VTT 授权。Chaosium Fan Material Policy 明确将 VTT 排除在政策覆盖之外；公开发布前需另做许可评审。
+- 扩展分发仓的 MIT 只覆盖其原创代码与原创文案；不得据此声称 SealDice builtins、
+  coc-cardwright 或公开页面的第三方事实也变成 MIT。公开分发是维护者决定，不声称第三方
+  已获授权，也不保证无法律风险；收到异议时停止仓库与 Release，删除不撤回已分发副本或已有
+  git 历史。
 
 ## M1 事实
 
@@ -611,6 +631,7 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 | 方法 | 参数 | 返回 |
 | --- | --- | --- |
 | `attack(options)` | `{actor 或 actorId, itemId, skillId?, targetId?, targetType?, bonusDice?, penaltyDice?, requiredBand?, flatMod?, shots?, distanceFeet?, maneuver?{defenderBuild}, outnumbered?{defenderActedThisRound}}` | `{messageId, profile, bonusDice, penaltyDice, maneuver}` |
+| `declareAttack(options)` | `{actor 或 actorId, itemId, bonusDice?, penaltyDice?}`（无 `targetId`/`requiredBand`/`shots`） | `{messageId, profile, bonusDice, penaltyDice, hitBand, hitBandRank, hitBandLabel, hitRoll, hitTarget, damageFormula, damageTotal, damageTier, declare:true}` |
 | `defend(options)` | `{messageId, actor 或 actorId, choice: 'dodge' / 'fightback' / 'cover', itemId?, skillId?, bonusDice?, penaltyDice?, requiredBand?}` | `{messageId, choice}` 或 `{error}` |
 | `resolve(options)` | `{messageId, applyDamage?=true}` | `{outcome, winner, reason, choice, tier, formula, damage, wounds, conCheck}`；平局/扑掩体返回 `{reroll}`。目标不防御时 `choice: 'none'` 并按攻击方 band 结算 |
 | `reroll(options)` | `{messageId}` | 普通对抗平局的双方新骰；战斗扑掩体返回 `{error:'combat-reroll-needs-new-attack', penaltyDice}` |
@@ -621,12 +642,19 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 
 - `attack`: 无权限 `{error:'not-authorised'}`；非 CoC `{error:'ruleset-not-coc'}`；PC 武器解析不到
   CoC 技能 `{error:'weapon-skill-missing'}`；战技 Build 差 ≥3 `{error:'maneuver-ineffective'}`。
+- `declareAttack`: 校验与 `attack` 同款（isCoC/归属/武器/PC brpid 技能）；不接收目标、所需成功等级、
+  连发或距离，不判对抗、不调用 `applyCoCDamage`、不写任何 actor；伤害公式只按本次 band 与
+  `weaponProfile`/DB 生成，失败返回同款 `{error}`（含 `{error:'invalid-damage-formula'}`）。
 - `defend`: `{error:'defense-not-allowed', allowed:[...]}`（火器只允许 `cover`）；
   `{error:'not-the-target'}` 非目标玩家；`{error:'card-full'}` 已有两人。
 - `resolve`: 非 GM 客户端返回 `{queued:true, by}`（relay 给 activeGM）；未凑齐两人时普通对抗
   `{error:'need-two-entries'}`，近战卡可单方结算。
 - `damage` 等写操作：跨所有者且调用者不是 activeGM 时返回 `{queued:true}`；
   同一 actor 上已 `dead` 返回 `{applied:false, reason:'already-dead'}`。
+
+声明卡（`cardType: 'CD'`、`state: 'closed'`、`flags.brp.declare: true`）：一条消息挂两条真实
+`Roll`（命中 + 伤害），卡面分「命中/伤害」两块并列出骰面/奖励惩罚明细，不出现防御、结算或
+关闭按钮；手机聊天按普通聊天卡只读渲染并照播骰子动画。
 
 聊天卡：攻击/防御/普通对抗都会把真实 `Roll` 挂到 `ChatMessage.rolls`；卡面显示
 `band`、所需成功等级、骰池/采用十位/全部骰面、伤害公式与骰值、HP 与四态。
@@ -763,29 +791,102 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 - 前端 M4 卡面交互不在本源仓范围；本仓只提供 `game.brp.sanity` / 卡 flags / api；
   阶段二已验收 M4 前端/真实多端 58/58。
 
+## 拆包事实（核心包 + 可选扩展模块）
+
+### 单一事实源、两套包
+
+`content/coc/skills.json` 与 `content/coc/professions.json` 仍是唯一事实源；每条记录带
+`pack: "core" | "expand"`，`tools/coc-pack/build.mjs` 一次产出两套包。**每项只属于一个包**，
+合并后与源文件逐条相等；重复 key、brpid 冲突、空包或声明的 `packSplit.counts` 与实际不符，
+都会让构建失败。
+
+| 包 | 位置 | 条目 | 注册 |
+| --- | --- | --- | --- |
+| `coc-skills` | 仓库根 `packs-json` / `packs-index` / `packs` | **60** 技能（22 专精） | `system.json` |
+| `coc-professions` | 同上 | **9** 个职业入口 | `system.json` |
+| `arcane-investigator-skills` | sibling 分发仓 `../arcane-investigator-options/` | **31** 技能（28 专精） | 模块 `module.json` |
+| `arcane-investigator-professions` | 同上 | **148** 职业 | 模块 `module.json` |
+
+- 合并口径不变：**91** 技能 / **50** 专精、**156** 转录职业 + **1** 自定义模板。
+- 核心技能 = SealDice 批次之外的 59 条 **加艺术/手艺（写作）**；其余 31 条 SealDice 成员
+  进扩展。核心职业 = 古董商、作家、纨绔子弟、医生（医学博士）、调查记者、警探、私家侦探、
+  教授。作家的「艺术/手艺（文学）」是 `specialismSlots` 开放槽，不虚构
+  `art-craft-literature` 文档。
+- 旧身份保留：`brpid`、`slug`、文档 `_id` 拆分后逐字不变；`_id` 仍只由稳定 brpid 派生，
+  拆分不产生 ID 迁移。
+
+### 自定义调查员（产品模板）
+
+`custom-investigator`（`i.profession.coc.custom-investigator`，核心包）：
+
+- `choiceGroups` 只有 `custom-eight`：`choose: 8`、`options: [{ kind: "any" }]`，玩家自选
+  8 项任意技能；`distinct: true`，同一技能不得重复计数。
+- 职业点公式五选一：`EDU*4`、`EDU*2+DEX*2`、`EDU*2+APP*2`、`EDU*2+STR*2`、
+  `EDU*2+POW*2`（全部已在白名单内）。**没有第六条公式**，不用 `MAX(...)`，不虚构官方写法。
+- 信用评级 0–99，由守密人审核后落在区间内；不是 UGE 财富档。
+- 描述自写；`evidence: "product"` + `productBoundary`；`sourceRefs` 只引用既有的
+  `coc-wiki-skills`（技能总表语义），不声称任何来源印过该职业。
+
+### 扩展分发仓边界
+
+- 构建输出到 sibling 分发仓 `../arcane-investigator-options/`（默认；可用 `--out <dir>` 或
+  `ARCANE_INVESTIGATOR_OPTIONS_OUT` 覆盖）：`module.json` 只声明两个 Item 包
+  （`system: "brp"`），无 `esmodules`，不写远端 `manifest`/`download`/`url`；
+  附 `README.md`、`LICENSE.txt`、`NOTICE.md`、最小 `package.json` 与 `tools/pack.mjs`。
+- `packs-json/` 保留完整 JSON 供 diff；`packs/<包名>/000001.log` 是真实 LevelDB WAL
+  （WriteBatch，键 `!items!<_id>`，值为完整 JSON 文档）。`node tools/pack.mjs` 生成
+  `dist/arcane-investigator-options-0.1.0.zip`，`dist/` 不入 git。
+- **存在即启用**；撤下（禁用或删除）后世界回到核心 60 技能 / 9 职业入口。核心包不引用
+  扩展文档，因此不产生悬空引用。`system.json` 仍只有四个包，脚本会剔除任何
+  `arcane-investigator-*` 登记。
+- 扩展技能 `system.basic: false`：starter 自动挂载按 `system.basic` 选包内技能，因此即使
+  模块启用也不会把 31 条扩展技能塞进新角色。
+- 技能族展开跨包工作：核心职业的族选项原生只列核心成员，扩展成员另记在
+  `expandPackBrpids`（供模块感知的车卡器展开）；扩展职业枚举整族。核心职业的固定技能与
+  选项不得指向扩展技能，构建直接失败。
+- 许可：标准 MIT 只覆盖该仓原创代码与原创文案；SealDice builtins、coc-cardwright、Roll20 /
+  Chaosium wiki 等第三方事实不因此获得 MIT 授权。公开分发是维护者决定，不声称第三方已获
+  授权，也不保证无法律风险；收到异议时按 README 的下架流程停止仓库与 Release。删除不会
+  撤回已分发的副本，也不清除既有 git 历史。
+
 ## 验证口径
 
 - `node tools/tests/coc-rules-regressions.mjs`：数据/构建/规则/配点/战斗/创伤/M4 适配器契约
   纯函数，M4 时点 **107 项**、M5 **124**、M6 **132**、M7 **137**、M8 **146 项**
-  （当前为 149/149）。
+  （M8 收口 149/149；拆包后 **167/167**）。
 - M7 当前（2026-10-30）：`coc-rules-regressions` **137/137**、确定性构建通过；
   compat 前端 `studio-coc-verify` **198/198**、真实栈 07/08/09/10 **550/550**
   （dev HS256），证据在 `/tmp/coc-cardwright-e2e/`；本源仓不声称跑过浏览器 E2E。
 - M8 源仓（2026-10-30）：`coc-rules-regressions` **149/149**、`base-pack-determinism`
   通过；118 条新增职业全部八项、公式/CR/来源/唯一 ID/技能引用与基础值通过，187 条
   deferred 全部有类别与原因。compat 同步目标 `web/packages/brp/`，本源仓未跑前端 E2E。
+- 拆包源仓（2026-10-30）：`coc-rules-regressions` **167/167**、`base-pack-determinism`
+  通过、octopus 产物字节不变；核心 60/9、扩展 31/148、合并 91/157（含自定义）、划分完整性、
+  每包引用闭合、扩展不进 `system.json`、分发仓清单/LevelDB WAL/许可与下架边界、自定义
+  调查员形状/公式/配点、核心职业可只用核心包建卡、作家文学槽与确定性 ID 均由断言覆盖。
+- 拆包 compat 镜像（临时副本，2026-10-30）：`rules-regressions` **163/163**、报错 0；
+  以 `?modules=arcane-investigator-options` 显式装载模块后实测：两个扩展 Item 包注册
+  （`module.system` 面为 module）、核心 60/9 文档不变、扩展 31/148 文档、
+  扩展职业的每一条技能引用都能解析、新增 CoC 角色仍只拿 **60** 条核心 starter 技能。
+  compat 工作树未改动；正式同步与前端接线由 compat 仓单独验收。
 - `node tools/tests/coc-sanity-regressions.mjs`：M4 SAN/疯狂/Luck/成长纯核 **45 项**
   （在 38 项基础上新增阈值口径、Luck 全负例、恢复上限、成长边界、显式结束原因、永久终态）。
-- `tools/tests/rules-regressions.mjs`：无头原生链 **161 项**（M3 的 114 项全部保留；
+- `tools/tests/rules-regressions.mjs`：无头原生链 **163 项**（M3 的 114 项全部保留；
   M4 新增 47 项，覆盖真实 SN 卡、INT 成败、日阈值、三态并存、permanent、relay 权限、
   并发单写、Luck UI+结算双门、恢复两分支、成长勾选/结算/autoXP=2、dev UI、世界时钟/
-  hydrate/updateWorldTime/到期/禁用/删除、completeIntCheck）。
+  hydrate/updateWorldTime/到期/禁用/删除、completeIntCheck）。拆包后其中三项改为
+  核心口径：CoC starter **60** 条技能、`coc-professions` **9** 文档（含自定义调查员、
+  不含图书管理员），二选一公式检查改用核心的作家代替已移入扩展的图书管理员；并新增
+  「扩展包不出现在运行时包列表」一项。在临时 compat 镜像里实测 **163/163**。
   该文件是 Foundry 页面内 eval（顶层 `return out`），不是 `node` 直跑脚本；必须通过
   `MT_SYSTEM_ID=brp MT_SPIKE_EVAL=... node --experimental-vm-modules tools/run-headless.mjs`
   在包含 `game` 的 compat 镜像里执行。直接 `node tools/tests/rules-regressions.mjs` 会在
   解析阶段报 `Illegal return statement`，这是文件形态而非测试失败。
 - `node tools/tests/base-pack-determinism.mjs`：octopus 基础包连续构建与提交产物一致。
 - `coc-skills` 与 `coc-professions` 连续构建 byte-identical；octopus 包字节不变。
+- 拆包后扩展产物同样确定：sibling 分发仓 `../arcane-investigator-options/` 下的
+  `packs-json` / `packs-index` / `packs` 由同一构建生成，连续两次运行字节一致；
+  `packs/` 是真实 LevelDB WAL，`node tools/pack.mjs` 的 ZIP 连续构建字节一致。
 - M4 源仓切片当时只在临时副本（compat 检出 + 本仓 `module`/`templates`/`lang`/
   `template.json`/`system.json` 镜像到 `web/packages/brp`）中运行，**未**改 compat 工作树、
   未同步 vendor；临时镜像里 `npm test`（static + unit + headless）exit 0。这是**阶段一**。
@@ -854,3 +955,8 @@ M4 原生链负责；上述验收不扩张为真实 Keycloak、生产部署或�
 - M8 的 compat 前端/E2E 未在本源仓执行；同步目标为 `web/packages/brp/`，是否接线与
   真实栈验收由 compat 仓单独记录。
 - VTT 授权未评审：Fan Material Policy 排除 VTT，本仓自研代码不等于已获授权。
+- 拆包后扩展不在本源仓验收：sibling 分发仓 `../arcane-investigator-options/` 只证明数据、
+  清单、LevelDB 包与许可边界；真实 Foundry 加载模块、车卡器渲染 `expandPackBrpids` 与
+  撤下模块后的回退，均需在 compat 仓单独验收。
+- 自定义调查员是产品模板，不是印刷事实；「任意八项」「CR 0–99 由守密人审核」「自行
+  撰写描述」都是产品决定，没有一手来源，也不得被引用成官方职业。

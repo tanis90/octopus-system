@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.survival-wilderness",
     "key": "survival-wilderness",
+    "pack": "core",
     "specKey": "wilderness",
     "parentKey": "survival",
     "sourceRefs": [

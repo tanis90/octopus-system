@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.science-forensics",
     "key": "science-forensics",
+    "pack": "core",
     "specKey": "forensics",
     "parentKey": "science",
     "sourceRefs": [

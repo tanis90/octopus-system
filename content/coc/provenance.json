@@ -1,6 +1,18 @@
 {
   "dataset": "coc7-core-m1-m2-m3-m4-m5-m6-m7-m8",
   "revision": "2026-10-30",
+  "packSplit": {
+    "rule": "The same fact source is emitted as two pack sets. Core packs (coc-skills / coc-professions) are registered in system.json and always present: 60 skills / 9 profession entries. Expansion packs (arcane-investigator-skills / arcane-investigator-professions) are emitted into the sibling distribution repository arcane-investigator-options (LevelDB packs/ plus packs-json for diff): 31 skills / 148 professions. A record belongs to exactly one pack and the union equals this file; nothing is duplicated.",
+    "coreSkills": 60,
+    "expandSkills": 31,
+    "coreProfessions": 9,
+    "expandProfessions": 148,
+    "mergedSkills": 91,
+    "mergedProfessions": 157,
+    "customTemplate": "custom-investigator is a product-defined core template (evidence: product). It is not a printed occupation and no sourceRefs claim that any source prints it; its eight skills, 0-99 Keeper-reviewed credit rating and five whitelisted point formulas are a product decision.",
+    "origin": "Before the split the two packs shipped 91 skills / 156 transcribed professions in one set. Splitting only moves document ownership: brpid, slug, _id and derivation are unchanged, so no id migration is involved.",
+    "moduleBehaviour": "The distribution module declares the two Item packs and has no esmodules. Enabling it exposes the expansion; disabling or removing it restores the core 60/9 list. Expansion skills are never system.basic, so a core character starter set is unaffected by the module."
+  },
   "scope": "M1 core skills, derived attributes, success bands, growth and starter isolation; M2 first-batch occupations, occupation point formulas, credit-rating ranges and creation/allocation rules; M3 native combat (bonus/penalty d100, weapon profiles, opposed/fight-back/cover, extreme damage, situational modifiers) and wounds (major wound, dying, death, First Aid, Medicine, weekly and natural healing); M4 native sanity/insanity, Luck spend and recovery, skill growth and the persisted CoC world clock; M5 five additional specialisms and the second occupation batch (Doctor of Medicine, Police Detective, Librarian, Lawyer, Engineer) with either/or point formulas; M6 Science (Astronomy) and the third occupation batch (Police Officer, Artist, Clergy, Pilot); M7 two further Science specialisms and 19 occupations mapped one-to-one from the user's coc-cardwright repository, plus re-sourcing of the four M6 records to that repository. Every M7 record is secondary evidence with an explicit claim boundary. M4 rule facts and evidence grades live in content/coc/sanity-provenance.json. Note on naming: the shipped occupation dataset string is `coc7-occupations-m8` (the fifth occupation batch, from the SealDice builtin helpdoc); the repository milestone label is M8 SealDice builtin compatibility batch: 118 formal occupation definitions and 32 concrete skills, with deferred categories recorded separately.",
   "m4Provenance": "content/coc/sanity-provenance.json",
   "licenseBoundary": {
@@ -11,10 +23,12 @@
       "No other GPL system implementation was used.",
       "No coc-cardwright visual template, HTML/CSS, Python implementation or repository code is copied; only numeric occupation facts, formulas, credit ranges and skill names are mapped.",
       "No official PDF, text block, image, font, logo or trade dress is committed.",
-      "No claim is made that VTT use is covered by Chaosium's fan material policy; licensing review is still required before public distribution.",
+      "No claim is made that VTT use is covered by Chaosium's fan material policy; VTT use is a maintainer decision and third-party rights remain with their owners.",
       "No occupation description, skill-list prose or page layout from Roll20, Chaosium or coc-cardwright is reproduced; only the point formula, credit-rating range and skill names needed for data mapping are recorded.",
       "No SealDice builtin JSON file, helpdoc text or occupation description is copied into this repository; sealdice-builtins declares no license.",
-      "No GPL Call of Cthulhu system implementation, template or source file was read or referenced for this batch."
+      "No GPL Call of Cthulhu system implementation, template or source file was read or referenced for this batch.",
+      "The expansion module does not relicense third-party facts: its MIT grant covers only original code and original prose, and SealDice builtins, coc-cardwright and the public pages do not gain an MIT grant through it.",
+      "Public distribution of the expansion is a maintainer decision; its MIT grant does not cover third-party facts, and the documented takedown process stops future distribution without recalling copies already made."
     ]
   },
   "sources": [

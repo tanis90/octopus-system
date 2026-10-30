@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.science-engineering",
     "key": "science-engineering",
+    "pack": "core",
     "specKey": "engineering",
     "parentKey": "science",
     "sourceRefs": [

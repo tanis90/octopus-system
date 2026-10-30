@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.art-craft-acting",
     "key": "art-craft-acting",
+    "pack": "core",
     "specKey": "acting",
     "parentKey": "art-craft",
     "sourceRefs": [

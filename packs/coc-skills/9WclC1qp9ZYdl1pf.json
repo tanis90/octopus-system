@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.operate-heavy-machinery",
     "key": "operate-heavy-machinery",
+    "pack": "core",
     "specKey": null,
     "parentKey": null,
     "sourceRefs": [

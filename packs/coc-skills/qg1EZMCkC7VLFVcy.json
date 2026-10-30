@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.science-chemistry",
     "key": "science-chemistry",
+    "pack": "core",
     "specKey": "chemistry",
     "parentKey": "science",
     "sourceRefs": [

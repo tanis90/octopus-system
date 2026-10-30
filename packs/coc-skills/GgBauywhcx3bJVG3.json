@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.electrical-repair",
     "key": "electrical-repair",
+    "pack": "core",
     "specKey": null,
     "parentKey": null,
     "sourceRefs": [

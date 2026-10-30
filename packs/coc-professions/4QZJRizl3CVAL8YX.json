@@ -1,0 +1,61 @@
+{
+ "_id": "4QZJRizl3CVAL8YX",
+ "name": "自定义调查员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.custom-investigator",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Custom Investigator",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "custom.occupation.custom-investigator",
+    "slug": "custom-investigator",
+    "pack": "core",
+    "creditMin": 0,
+    "creditMax": 99,
+    "pointFormula": "EDU*4",
+    "pointFormulas": [
+     "EDU*4",
+     "EDU*2+DEX*2",
+     "EDU*2+APP*2",
+     "EDU*2+STR*2",
+     "EDU*2+POW*2"
+    ],
+    "evidence": "product",
+    "productBoundary": "Product-defined character-creation template, not a published occupation fact. No source prints it: the eight skills are the player choice, the credit rating is reviewed by the Keeper inside 0-99, and the description is written for this project. Any of the five whitelisted point formulas may be pinned; no sixth formula is invented.",
+    "sourceRefs": [
+     "coc-wiki-skills"
+    ],
+    "fixedSkillKeys": [],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "custom-eight",
+      "label": "任意八项技能",
+      "choose": 8,
+      "distinct": true,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "玩家自定的调查员：任意选定 8 项技能，由守密人审核信用评级（0–99），并自行撰写背景。职业点公式从五条白名单公式中选一条，没有第六条自创公式。\n\n职业点：EDU*4 或 EDU*2+DEX*2 或 EDU*2+APP*2 或 EDU*2+STR*2 或 EDU*2+POW*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：0–99（只能用职业点，且必须落在区间内）"
+ }
+}

@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.occupation.police-detective",
     "slug": "police-detective",
+    "pack": "core",
     "creditMin": 20,
     "creditMax": 50,
     "pointFormula": "EDU*2+DEX*2",
@@ -67,9 +68,11 @@
         "base": null,
         "requiresExplicitBase": true,
         "brpids": [
-         "i.skill.coc.firearms-bow",
          "i.skill.coc.firearms-handgun",
          "i.skill.coc.firearms-rifle-shotgun"
+        ],
+        "expandPackBrpids": [
+         "i.skill.coc.firearms-bow"
         ]
        }
       ]
@@ -161,10 +164,6 @@
    {
     "options": 1,
     "skills": [
-     {
-      "brpid": "i.skill.coc.firearms-bow",
-      "uuid": "YdgqZpurYRRtmgip"
-     },
      {
       "brpid": "i.skill.coc.firearms-handgun",
       "uuid": "1GMNDl2j6zfGXyI3"

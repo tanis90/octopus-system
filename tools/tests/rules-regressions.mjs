@@ -643,7 +643,7 @@ if (!ui.chat.collection) { ui.chat.collection = game.messages; }
     }, { renderSheet: false });
     const skills = [...coc.items].filter((itm) => itm.type === 'skill');
     const cats = [...coc.items].filter((itm) => itm.type === 'skillcat');
-    check('cocStarterCountAndIsolation', skills.length === 91 && cats.length === 0
+    check('cocStarterCountAndIsolation', skills.length === 60 && cats.length === 0
       && skills.every((itm) => itm.flags?.brp?.contentSource === 'coc')
       && !skills.some((itm) => itm.flags?.brp?.brpidFlag?.id === 'i.skill.brawl')
       && skills.every((itm) => String(itm.flags?.brp?.brpidFlag?.id).startsWith('i.skill.coc.')),
@@ -771,9 +771,10 @@ if (!ui.chat.collection) { ui.chat.collection = game.messages; }
       ? await Promise.all(profEntries.map((entry) => profPack.getDocument(entry._id)))
       : [];
     check('cocProfessionPackLoads', !!profPack && profPack.metadata.type === 'Item'
-      && profPack.metadata.system === 'brp' && profDocs.length === 156
+      && profPack.metadata.system === 'brp' && profDocs.length === 9
       && profDocs.every((doc) => doc.type === 'profession'
         && doc.flags?.brp?.contentSource === 'coc'
+        && doc.flags?.brp?.coc?.pack === 'core'
         && /^i\.profession\.coc\.[a-z0-9]+(?:-[a-z0-9]+)*$/.test(doc.flags?.brp?.brpidFlag?.id)),
       { found: !!profPack, type: profPack?.metadata?.type, docs: profDocs.length });
 
@@ -805,23 +806,40 @@ if (!ui.chat.collection) { ui.chat.collection = game.messages; }
     })());
 
     // M5 either/or formula: the pack document exposes both options in order and
-    // still carries the single-formula field for older readers.
+    // still carries the single-formula field for older readers. Librarian now
+    // ships in the expansion module, so the single-formula side of this check
+    // uses a core record instead.
     check('cocProfessionEitherOrFormulaInWorld', (() => {
       const detective = profDocs.find((doc) => doc.flags?.brp?.coc?.slug === 'police-detective');
-      const librarian = profDocs.find((doc) => doc.flags?.brp?.coc?.slug === 'librarian');
-      if (!detective || !librarian) return { detective: !!detective, librarian: !!librarian };
+      const author = profDocs.find((doc) => doc.flags?.brp?.coc?.slug === 'author');
+      if (!detective || !author) return { detective: !!detective, author: !!author };
       const d = detective.flags.brp.coc;
-      const l = librarian.flags.brp.coc;
+      const a = author.flags.brp.coc;
       return Array.isArray(d.pointFormulas)
         && d.pointFormulas.length === 2
         && d.pointFormulas[0] === 'EDU*2+DEX*2' && d.pointFormulas[1] === 'EDU*2+STR*2'
         && d.pointFormula === d.pointFormulas[0]
         && !d.pointFormulas.some((formula) => formula.includes('MAX'))
-        && !Array.isArray(l.pointFormulas)
-        && l.pointFormula === 'EDU*4';
-    })(), profDocs.filter((doc) => ['police-detective', 'librarian']
+        && !Array.isArray(a.pointFormulas)
+        && a.pointFormula === 'EDU*4';
+    })(), profDocs.filter((doc) => ['police-detective', 'author']
       .includes(doc.flags?.brp?.coc?.slug))
       .map((doc) => [doc.flags.brp.coc.slug, doc.flags.brp.coc.pointFormula, doc.flags.brp.coc.pointFormulas]));
+
+    // The expansion module is not part of the system's runtime pack list. Its
+    // two packs only appear when the module is present, and the core packs must
+    // be fully usable without them.
+    check('cocExpansionPacksAbsentUnlessModuleEnabled', (() => {
+      const names = [...game.packs.values()].map((pack) => pack.metadata?.name);
+      const registered = names.filter((name) => String(name ?? '').startsWith('arcane-investigator-'));
+      const coreProfSlugs = profDocs.map((doc) => doc.flags?.brp?.coc?.slug);
+      return registered.length === 0
+        && coreProfSlugs.length === 9
+        && coreProfSlugs.includes('custom-investigator')
+        && !coreProfSlugs.includes('librarian')
+        && profDocs.every((doc) => (doc.flags?.brp?.coc?.fixedSkillKeys ?? []).length >= 0);
+    })(), [...game.packs.values()].map((pack) => pack.metadata?.name)
+      .filter((name) => String(name ?? '').startsWith('arcane-investigator-')));
   } finally {
     for (const actor of [coc, cocBare, cocNpc, octo]) { if (actor) { try { await actor.delete(); } catch { /* shim only */ } } }
     await game.settings.set('brp', 'ruleset', prevRuleset);

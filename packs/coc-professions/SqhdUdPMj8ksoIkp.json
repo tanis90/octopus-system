@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.occupation.dilettante",
     "slug": "dilettante",
+    "pack": "core",
     "creditMin": 50,
     "creditMax": 99,
     "pointFormula": "EDU*2+APP*2",
@@ -38,9 +39,11 @@
         "base": null,
         "requiresExplicitBase": true,
         "brpids": [
-         "i.skill.coc.firearms-bow",
          "i.skill.coc.firearms-handgun",
          "i.skill.coc.firearms-rifle-shotgun"
+        ],
+        "expandPackBrpids": [
+         "i.skill.coc.firearms-bow"
         ]
        }
       ]
@@ -92,8 +95,14 @@
         "base": 5,
         "requiresExplicitBase": false,
         "brpids": [
-         "i.skill.coc.art-craft-acrobatics",
          "i.skill.coc.art-craft-acting",
+         "i.skill.coc.art-craft-painting",
+         "i.skill.coc.art-craft-photography",
+         "i.skill.coc.art-craft-technical-drawing",
+         "i.skill.coc.art-craft-writing"
+        ],
+        "expandPackBrpids": [
+         "i.skill.coc.art-craft-acrobatics",
          "i.skill.coc.art-craft-barber",
          "i.skill.coc.art-craft-calligraphy",
          "i.skill.coc.art-craft-comedy",
@@ -104,17 +113,13 @@
          "i.skill.coc.art-craft-forgery",
          "i.skill.coc.art-craft-game",
          "i.skill.coc.art-craft-music",
-         "i.skill.coc.art-craft-painting",
-         "i.skill.coc.art-craft-photography",
          "i.skill.coc.art-craft-plumbing",
          "i.skill.coc.art-craft-shorthand",
          "i.skill.coc.art-craft-singing",
          "i.skill.coc.art-craft-tailoring",
-         "i.skill.coc.art-craft-technical-drawing",
          "i.skill.coc.art-craft-typing",
          "i.skill.coc.art-craft-welding",
-         "i.skill.coc.art-craft-woodworking",
-         "i.skill.coc.art-craft-writing"
+         "i.skill.coc.art-craft-woodworking"
         ]
        }
       ]
@@ -165,10 +170,6 @@
     "options": 1,
     "skills": [
      {
-      "brpid": "i.skill.coc.firearms-bow",
-      "uuid": "YdgqZpurYRRtmgip"
-     },
-     {
       "brpid": "i.skill.coc.firearms-handgun",
       "uuid": "1GMNDl2j6zfGXyI3"
      },
@@ -203,52 +204,8 @@
     "options": 1,
     "skills": [
      {
-      "brpid": "i.skill.coc.art-craft-acrobatics",
-      "uuid": "oJeEiHzOXS9AO4Fi"
-     },
-     {
       "brpid": "i.skill.coc.art-craft-acting",
       "uuid": "fwjXSgaOTh0oh0fj"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-barber",
-      "uuid": "ve3J9iJVEmEvjtO6"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-calligraphy",
-      "uuid": "MXi7qoAGbFhDFGJ7"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-comedy",
-      "uuid": "Fzj3HEWBr9SsyNvS"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-cooking",
-      "uuid": "11sRAhrEnc92m05E"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-dancing",
-      "uuid": "xIaLauIBdQRcWVsQ"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-farming",
-      "uuid": "Ya78rigufztVtROW"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-fitter",
-      "uuid": "P5i3vrcbbMomODZW"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-forgery",
-      "uuid": "HFQd7DHbU0brVL3d"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-game",
-      "uuid": "TeGTcKFHKUjPCzxi"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-music",
-      "uuid": "KToPfyAmRHbJUbRJ"
      },
      {
       "brpid": "i.skill.coc.art-craft-painting",
@@ -259,36 +216,8 @@
       "uuid": "9vt3o8IIdMi9HXZ5"
      },
      {
-      "brpid": "i.skill.coc.art-craft-plumbing",
-      "uuid": "0ysoEiETgRDwqDll"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-shorthand",
-      "uuid": "ZWPHsfsnvxzgcwPF"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-singing",
-      "uuid": "XDEPC1hKNzOnH3Zg"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-tailoring",
-      "uuid": "MucNS8Gpk9jXxcg1"
-     },
-     {
       "brpid": "i.skill.coc.art-craft-technical-drawing",
       "uuid": "9dh2bNvAxHd55Jrw"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-typing",
-      "uuid": "uYxt94ftQiHbwajm"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-welding",
-      "uuid": "rBRaqMQqBCws4gOS"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-woodworking",
-      "uuid": "Tc2MdQ7QKDUCns5v"
      },
      {
       "brpid": "i.skill.coc.art-craft-writing",

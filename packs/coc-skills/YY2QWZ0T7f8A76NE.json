@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.language-other-latin",
     "key": "language-other-latin",
+    "pack": "core",
     "specKey": "latin",
     "parentKey": "language-other",
     "sourceRefs": [

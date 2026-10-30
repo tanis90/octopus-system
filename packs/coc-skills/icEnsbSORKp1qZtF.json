@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.firearms-rifle-shotgun",
     "key": "firearms-rifle-shotgun",
+    "pack": "core",
     "specKey": "rifle-shotgun",
     "parentKey": "firearms",
     "sourceRefs": [

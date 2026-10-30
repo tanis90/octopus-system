@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.occupation.author",
     "slug": "author",
+    "pack": "core",
     "creditMin": 9,
     "creditMax": 30,
     "pointFormula": "EDU*4",

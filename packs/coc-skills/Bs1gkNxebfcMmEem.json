@@ -14,6 +14,7 @@
    "coc": {
     "factId": "coc7.pilot-boat",
     "key": "pilot-boat",
+    "pack": "core",
     "specKey": "boat",
     "parentKey": "pilot",
     "sourceRefs": [

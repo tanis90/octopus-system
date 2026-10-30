@@ -14,6 +14,7 @@
    "coc": {
     "factId": "sealdice.skill.art-craft-writing",
     "key": "art-craft-writing",
+    "pack": "core",
     "specKey": "writing",
     "parentKey": "art-craft",
     "sourceRefs": [
