@@ -1,0 +1,170 @@
+{
+ "_id": "BelJh6g6r2JukrCq",
+ "name": "运动员（田径）",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.track-athlete",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Track Athlete",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.track-athlete",
+    "slug": "track-athlete",
+    "creditMin": 9,
+    "creditMax": 20,
+    "pointFormula": "EDU*2+STR*2",
+    "pointFormulas": [
+     "EDU*2+STR*2",
+     "EDU*2+DEX*2"
+    ],
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "climb",
+     "jump",
+     "fighting-brawl",
+     "dodge",
+     "throw"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "language-other",
+      "label": "一项其他语言专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "language-other",
+        "parentKey": "language-other",
+        "base": 1,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.language-other-greek",
+         "i.skill.coc.language-other-latin"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "interpersonal",
+      "label": "一项社交技能（魅惑、话术、恐吓、说服）",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "charm",
+        "brpids": [
+         "i.skill.coc.charm"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "fast-talk",
+        "brpids": [
+         "i.skill.coc.fast-talk"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "intimidate",
+        "brpids": [
+         "i.skill.coc.intimidate"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "persuade",
+        "brpids": [
+         "i.skill.coc.persuade"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "any-specialty",
+      "label": "任意一项其他个人或时代特长",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.climb",
+    "uuid": "XBPmBl9yAuJ1Peo9"
+   },
+   {
+    "brpid": "i.skill.coc.jump",
+    "uuid": "acDj9JcQQNbsARhC"
+   },
+   {
+    "brpid": "i.skill.coc.fighting-brawl",
+    "uuid": "03IOJtCr9psfhkLg"
+   },
+   {
+    "brpid": "i.skill.coc.dodge",
+    "uuid": "NeiLzxM7dLr6hC5r"
+   },
+   {
+    "brpid": "i.skill.coc.throw",
+    "uuid": "dbPdKXNf1Ccm2J0a"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.language-other-greek",
+      "uuid": "zxbzRO9P1dqY9jzD"
+     },
+     {
+      "brpid": "i.skill.coc.language-other-latin",
+      "uuid": "YY2QWZ0T7f8A76NE"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.charm",
+      "uuid": "ebCHph0biyJ2AG3j"
+     },
+     {
+      "brpid": "i.skill.coc.fast-talk",
+      "uuid": "AwLPg18IRN57w0fB"
+     },
+     {
+      "brpid": "i.skill.coc.intimidate",
+      "uuid": "mhG3if5iht465aSn"
+     },
+     {
+      "brpid": "i.skill.coc.persuade",
+      "uuid": "7zQTHnGe7rHoRnjC"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "参加跑跳投等田径项目，以爆发力和耐力竞争。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：9–20（只能用职业点，且必须落在区间内）"
+ }
+}

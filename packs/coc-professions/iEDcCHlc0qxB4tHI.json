@@ -1,0 +1,134 @@
+{
+ "_id": "iEDcCHlc0qxB4tHI",
+ "name": "渔民",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.fisherman",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Fisherman",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.occupation.fisherman",
+    "slug": "fisherman",
+    "creditMin": 20,
+    "creditMax": 40,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "coc-cardwright"
+    ],
+    "fixedSkillKeys": [
+     "first-aid",
+     "mechanical-repair",
+     "natural-world",
+     "navigate",
+     "pilot-boat",
+     "spot-hidden",
+     "swim"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "interpersonal",
+      "label": "一项人际技能",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "charm",
+        "brpids": [
+         "i.skill.coc.charm"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "fast-talk",
+        "brpids": [
+         "i.skill.coc.fast-talk"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "intimidate",
+        "brpids": [
+         "i.skill.coc.intimidate"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "persuade",
+        "brpids": [
+         "i.skill.coc.persuade"
+        ]
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.first-aid",
+    "uuid": "mFYJcDBHmADhKRNW"
+   },
+   {
+    "brpid": "i.skill.coc.mechanical-repair",
+    "uuid": "zp9eYH1FLjd04b0T"
+   },
+   {
+    "brpid": "i.skill.coc.natural-world",
+    "uuid": "EFVIz8qOdZvW2Rej"
+   },
+   {
+    "brpid": "i.skill.coc.navigate",
+    "uuid": "XFTLEmt7ULlfiVWT"
+   },
+   {
+    "brpid": "i.skill.coc.pilot-boat",
+    "uuid": "Bs1gkNxebfcMmEem"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   },
+   {
+    "brpid": "i.skill.coc.swim",
+    "uuid": "GyfbAWiGp3GBa1MR"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.charm",
+      "uuid": "ebCHph0biyJ2AG3j"
+     },
+     {
+      "brpid": "i.skill.coc.fast-talk",
+      "uuid": "AwLPg18IRN57w0fB"
+     },
+     {
+      "brpid": "i.skill.coc.intimidate",
+      "uuid": "mhG3if5iht465aSn"
+     },
+     {
+      "brpid": "i.skill.coc.persuade",
+      "uuid": "7zQTHnGe7rHoRnjC"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "靠出海捕捞为生的渔民，熟悉潮汐、渔场与船上的一切活计。职业点 EDU × 4；信用评级 20–40。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：20–40（只能用职业点，且必须落在区间内）"
+ }
+}

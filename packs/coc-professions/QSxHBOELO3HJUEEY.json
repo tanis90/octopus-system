@@ -1,0 +1,83 @@
+{
+ "_id": "QSxHBOELO3HJUEEY",
+ "name": "会计师",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.accountant",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Accountant",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.accountant",
+    "slug": "accountant",
+    "creditMin": 30,
+    "creditMax": 70,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "accounting",
+     "law",
+     "library-use",
+     "listen",
+     "persuade",
+     "spot-hidden"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "any-specialty",
+      "label": "任意其他两项个人或时代特长",
+      "choose": 2,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.accounting",
+    "uuid": "OprgKpztxOCjv9MA"
+   },
+   {
+    "brpid": "i.skill.coc.law",
+    "uuid": "lfaJ9sfEpwhlrVph"
+   },
+   {
+    "brpid": "i.skill.coc.library-use",
+    "uuid": "7BNMWqPVJyA0sReg"
+   },
+   {
+    "brpid": "i.skill.coc.listen",
+    "uuid": "fHdlJ2r8hzJAHBnx"
+   },
+   {
+    "brpid": "i.skill.coc.persuade",
+    "uuid": "7zQTHnGe7rHoRnjC"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "为企业与个人整理账目、审计财务并发现异常资金流向。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–70（只能用职业点，且必须落在区间内）"
+ }
+}

@@ -1,0 +1,212 @@
+{
+ "_id": "W8txF6GY9RzdxJ0y",
+ "name": "牛仔",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.cowboy",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Cowboy",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.cowboy",
+    "slug": "cowboy",
+    "creditMin": 9,
+    "creditMax": 20,
+    "pointFormula": "EDU*2+STR*2",
+    "pointFormulas": [
+     "EDU*2+STR*2",
+     "EDU*2+DEX*2"
+    ],
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "dodge",
+     "jump",
+     "ride",
+     "throw",
+     "track"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "fighting-or-firearms",
+      "label": "格斗或射击",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "fighting",
+        "parentKey": "fighting",
+        "base": null,
+        "requiresExplicitBase": true,
+        "brpids": [
+         "i.skill.coc.fighting-brawl",
+         "i.skill.coc.fighting-chainsaw",
+         "i.skill.coc.fighting-spear",
+         "i.skill.coc.fighting-sword",
+         "i.skill.coc.fighting-whip"
+        ]
+       },
+       {
+        "kind": "family",
+        "family": "firearms",
+        "parentKey": "firearms",
+        "base": null,
+        "requiresExplicitBase": true,
+        "brpids": [
+         "i.skill.coc.firearms-bow",
+         "i.skill.coc.firearms-handgun",
+         "i.skill.coc.firearms-rifle-shotgun"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "first-aid-or-natural-world",
+      "label": "急救或自然",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "first-aid",
+        "brpids": [
+         "i.skill.coc.first-aid"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "natural-world",
+        "brpids": [
+         "i.skill.coc.natural-world"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "survival",
+      "label": "一项生存专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "survival",
+        "parentKey": "survival",
+        "base": 10,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.survival-mountain",
+         "i.skill.coc.survival-sea",
+         "i.skill.coc.survival-wilderness"
+        ]
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.dodge",
+    "uuid": "NeiLzxM7dLr6hC5r"
+   },
+   {
+    "brpid": "i.skill.coc.jump",
+    "uuid": "acDj9JcQQNbsARhC"
+   },
+   {
+    "brpid": "i.skill.coc.ride",
+    "uuid": "okghi72jSCDGA3Hz"
+   },
+   {
+    "brpid": "i.skill.coc.throw",
+    "uuid": "dbPdKXNf1Ccm2J0a"
+   },
+   {
+    "brpid": "i.skill.coc.track",
+    "uuid": "tYFug7dklIQrgfZC"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.fighting-brawl",
+      "uuid": "03IOJtCr9psfhkLg"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-chainsaw",
+      "uuid": "AbFYN5iZK5ocm7gQ"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-spear",
+      "uuid": "VkTPXjdacqcNy7IK"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-sword",
+      "uuid": "paZT2vSGfhlTBGSZ"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-whip",
+      "uuid": "Q99xKqgzylVeB7aR"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-bow",
+      "uuid": "YdgqZpurYRRtmgip"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-handgun",
+      "uuid": "1GMNDl2j6zfGXyI3"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-rifle-shotgun",
+      "uuid": "icEnsbSORKp1qZtF"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.first-aid",
+      "uuid": "mFYJcDBHmADhKRNW"
+     },
+     {
+      "brpid": "i.skill.coc.natural-world",
+      "uuid": "EFVIz8qOdZvW2Rej"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.survival-mountain",
+      "uuid": "vTV5x2qMctnhDm14"
+     },
+     {
+      "brpid": "i.skill.coc.survival-sea",
+      "uuid": "sxKcGlBfdQ5R0SDt"
+     },
+     {
+      "brpid": "i.skill.coc.survival-wilderness",
+      "uuid": "a3rpM1u0kGnmqesi"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "在牧场上驯马、放牧并使用枪械与绳索。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：9–20（只能用职业点，且必须落在区间内）"
+ }
+}

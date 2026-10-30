@@ -1,0 +1,51 @@
+{
+ "_id": "vtzRQOCNjhk0mzRK",
+ "name": "科学（天文学）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.science-astronomy",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Science (Astronomy)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.science-astronomy",
+    "key": "science-astronomy",
+    "specKey": "astronomy",
+    "parentKey": "science",
+    "sourceRefs": [
+     "coc-gamersplane-occupations",
+     "coc-org-uk-chargen",
+     "coc-sheet-1920s"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 1,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 1
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "科学（天文学）",
+  "mainName": "科学",
+  "noXP": false,
+  "description": "天文学理论与实践能力，涵盖天体观测、星图与天文导航。"
+ }
+}

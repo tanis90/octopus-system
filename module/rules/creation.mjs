@@ -47,6 +47,7 @@ export const POINT_FORMULAS = Object.freeze([
   'EDU*2+DEX*2',
   'EDU*2+APP*2',
   'EDU*2+STR*2',
+  'EDU*2+POW*2',
   'EDU*2+MAX(APP,DEX,STR)*2',
   'EDU*2+MAX(DEX,STR)*2',
 ])

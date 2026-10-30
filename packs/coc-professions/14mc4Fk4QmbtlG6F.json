@@ -50,11 +50,17 @@
         "base": 1,
         "requiresExplicitBase": false,
         "brpids": [
+         "i.skill.coc.science-astronomy",
          "i.skill.coc.science-biology",
+         "i.skill.coc.science-botany",
          "i.skill.coc.science-chemistry",
          "i.skill.coc.science-engineering",
+         "i.skill.coc.science-forensics",
+         "i.skill.coc.science-geology",
+         "i.skill.coc.science-math",
          "i.skill.coc.science-pharmacy",
-         "i.skill.coc.science-physics"
+         "i.skill.coc.science-physics",
+         "i.skill.coc.science-zoology"
         ]
        }
       ]
@@ -118,8 +124,16 @@
       "uuid": "XFTLEmt7ULlfiVWT"
      },
      {
+      "brpid": "i.skill.coc.science-astronomy",
+      "uuid": "vtzRQOCNjhk0mzRK"
+     },
+     {
       "brpid": "i.skill.coc.science-biology",
       "uuid": "ojfHa6wDmmM5s0ey"
+     },
+     {
+      "brpid": "i.skill.coc.science-botany",
+      "uuid": "OlX1keGDxhw1KCIe"
      },
      {
       "brpid": "i.skill.coc.science-chemistry",
@@ -130,12 +144,28 @@
       "uuid": "VcW0QSmva65xYMUF"
      },
      {
+      "brpid": "i.skill.coc.science-forensics",
+      "uuid": "0AAlWrrgIC6iZezX"
+     },
+     {
+      "brpid": "i.skill.coc.science-geology",
+      "uuid": "HDWgdIhpGGLSC0Ns"
+     },
+     {
+      "brpid": "i.skill.coc.science-math",
+      "uuid": "dJFv4Qd5vqg7tqXC"
+     },
+     {
       "brpid": "i.skill.coc.science-pharmacy",
       "uuid": "FYszZeEWTX2DBFSd"
      },
      {
       "brpid": "i.skill.coc.science-physics",
       "uuid": "wnVkcgYRKa02xsc0"
+     },
+     {
+      "brpid": "i.skill.coc.science-zoology",
+      "uuid": "mTXA1OJqEe8jdrgk"
      }
     ]
    },

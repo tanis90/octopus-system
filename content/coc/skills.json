@@ -1,7 +1,9 @@
 {
   "ruleset": "coc7",
   "revision": "2026-10-30",
-  "defaultSourceRefs": ["coc-sheet-1920s"],
+  "defaultSourceRefs": [
+    "coc-sheet-1920s"
+  ],
   "skills": [
     {
       "factId": "coc7.accounting",
@@ -191,8 +193,14 @@
       "base": null,
       "variable": true,
       "baseFormula": {
-        "1": { "stat": "dex", "value": 0.5 },
-        "2": { "stat": "fixed", "value": 0 },
+        "1": {
+          "stat": "dex",
+          "value": 0.5
+        },
+        "2": {
+          "stat": "fixed",
+          "value": 0
+        },
         "Func": "or"
       },
       "specialism": false,
@@ -344,8 +352,14 @@
       "base": null,
       "variable": true,
       "baseFormula": {
-        "1": { "stat": "edu", "value": 1 },
-        "2": { "stat": "fixed", "value": 0 },
+        "1": {
+          "stat": "edu",
+          "value": 1
+        },
+        "2": {
+          "stat": "fixed",
+          "value": 0
+        },
         "Func": "or"
       },
       "specialism": false,
@@ -594,6 +608,26 @@
       "description": "骑乘马、驴、骡等动物并照料骑具。"
     },
     {
+      "factId": "coc7.science-astronomy",
+      "key": "science-astronomy",
+      "specKey": "astronomy",
+      "parentKey": "science",
+      "name": "科学（天文学）",
+      "enName": "Science (Astronomy)",
+      "mainName": "科学",
+      "brpid": "i.skill.coc.science-astronomy",
+      "base": 1,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "sourceRefs": [
+        "coc-gamersplane-occupations",
+        "coc-org-uk-chargen",
+        "coc-sheet-1920s"
+      ],
+      "description": "天文学理论与实践能力，涵盖天体观测、星图与天文导航。"
+    },
+    {
       "factId": "coc7.science-biology",
       "key": "science-biology",
       "specKey": "biology",
@@ -639,6 +673,24 @@
       "description": "工程学理论与实践能力，涵盖结构、材料与系统。"
     },
     {
+      "factId": "coc7.science-forensics",
+      "key": "science-forensics",
+      "specKey": "forensics",
+      "parentKey": "science",
+      "name": "科学（鉴证）",
+      "enName": "Science (Forensics)",
+      "mainName": "科学",
+      "brpid": "i.skill.coc.science-forensics",
+      "base": 1,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "现场痕迹、尸检与物证检验的科学方法。"
+    },
+    {
       "factId": "coc7.science-pharmacy",
       "key": "science-pharmacy",
       "specKey": "pharmacy",
@@ -667,6 +719,24 @@
       "baseFormula": null,
       "specialism": true,
       "description": "物理学理论与实践能力，涵盖力学、电学与热学。"
+    },
+    {
+      "factId": "coc7.science-zoology",
+      "key": "science-zoology",
+      "specKey": "zoology",
+      "parentKey": "science",
+      "name": "科学（动物学）",
+      "enName": "Science (Zoology)",
+      "mainName": "科学",
+      "brpid": "i.skill.coc.science-zoology",
+      "base": 1,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "动物分类、习性与生态知识。"
     },
     {
       "factId": "coc7.sleight-of-hand",
@@ -775,6 +845,576 @@
       "baseFormula": null,
       "specialism": false,
       "description": "循着人、车辆或动物留下的痕迹追踪。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-acrobatics",
+      "key": "art-craft-acrobatics",
+      "specKey": "acrobatics",
+      "name": "艺术/手艺（杂技）",
+      "enName": "Art/Craft (Acrobatics)",
+      "brpid": "i.skill.coc.art-craft-acrobatics",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-sheet-1920s"
+      ],
+      "description": "以翻腾、平衡和抛接完成杂技表演。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-barber",
+      "key": "art-craft-barber",
+      "specKey": "barber",
+      "name": "艺术/手艺（理发）",
+      "enName": "Art/Craft (Barbering)",
+      "brpid": "i.skill.coc.art-craft-barber",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "修剪头发、修面并打理仪容。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-calligraphy",
+      "key": "art-craft-calligraphy",
+      "specKey": "calligraphy",
+      "name": "艺术/手艺（书法）",
+      "enName": "Art/Craft (Calligraphy)",
+      "brpid": "i.skill.coc.art-craft-calligraphy",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "以毛笔或硬笔书写讲究章法的文字。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-comedy",
+      "key": "art-craft-comedy",
+      "specKey": "comedy",
+      "name": "艺术/手艺（喜剧）",
+      "enName": "Art/Craft (Comedy)",
+      "brpid": "i.skill.coc.art-craft-comedy",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-sheet-1920s"
+      ],
+      "description": "以笑话、即兴和节奏制造喜剧效果。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-cooking",
+      "key": "art-craft-cooking",
+      "specKey": "cooking",
+      "name": "艺术/手艺（烹饪）",
+      "enName": "Art/Craft (Cooking)",
+      "brpid": "i.skill.coc.art-craft-cooking",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "选材、调味并烹制可供多人食用的餐点。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-dancing",
+      "key": "art-craft-dancing",
+      "specKey": "dancing",
+      "name": "艺术/手艺（舞蹈）",
+      "enName": "Art/Craft (Dancing)",
+      "brpid": "i.skill.coc.art-craft-dancing",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-sheet-1920s"
+      ],
+      "description": "以身体动作和节奏完成舞蹈表演。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-farming",
+      "key": "art-craft-farming",
+      "specKey": "farming",
+      "name": "艺术/手艺（耕作）",
+      "enName": "Art/Craft (Farming)",
+      "brpid": "i.skill.coc.art-craft-farming",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "耕作、轮作与照料作物，判断土壤和收成。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-fitter",
+      "key": "art-craft-fitter",
+      "specKey": "fitter",
+      "name": "艺术/手艺（钳工）",
+      "enName": "Art/Craft (Fitting)",
+      "brpid": "i.skill.coc.art-craft-fitter",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-sheet-1920s"
+      ],
+      "description": "使用钳工工具加工、装配与修理金属件。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-forgery",
+      "key": "art-craft-forgery",
+      "specKey": "forgery",
+      "name": "艺术/手艺（伪造）",
+      "enName": "Art/Craft (Forgery)",
+      "brpid": "i.skill.coc.art-craft-forgery",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "仿制文件、签名或艺术品以骗过查验。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-game",
+      "key": "art-craft-game",
+      "specKey": "game",
+      "name": "艺术/手艺（游戏）",
+      "enName": "Art/Craft (Games)",
+      "brpid": "i.skill.coc.art-craft-game",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-sheet-1920s"
+      ],
+      "description": "设计、制作并测试游戏与娱乐节目。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-music",
+      "key": "art-craft-music",
+      "specKey": "music",
+      "name": "艺术/手艺（音乐）",
+      "enName": "Art/Craft (Music)",
+      "brpid": "i.skill.coc.art-craft-music",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "演奏乐器或进行音乐创作。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-plumbing",
+      "key": "art-craft-plumbing",
+      "specKey": "plumbing",
+      "name": "艺术/手艺（管道工）",
+      "enName": "Art/Craft (Plumbing)",
+      "brpid": "i.skill.coc.art-craft-plumbing",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "安装与修理供水、排水和供暖管道。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-shorthand",
+      "key": "art-craft-shorthand",
+      "specKey": "shorthand",
+      "name": "艺术/手艺（速记）",
+      "enName": "Art/Craft (Shorthand)",
+      "brpid": "i.skill.coc.art-craft-shorthand",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "用速记符号记录口述与会议内容。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-singing",
+      "key": "art-craft-singing",
+      "specKey": "singing",
+      "name": "艺术/手艺（歌唱）",
+      "enName": "Art/Craft (Singing)",
+      "brpid": "i.skill.coc.art-craft-singing",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-sheet-1920s"
+      ],
+      "description": "以歌唱、发声与舞台表达完成演出。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-tailoring",
+      "key": "art-craft-tailoring",
+      "specKey": "tailoring",
+      "name": "艺术/手艺（裁缝）",
+      "enName": "Art/Craft (Tailoring)",
+      "brpid": "i.skill.coc.art-craft-tailoring",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "量体、裁剪并缝制合身的衣物。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-typing",
+      "key": "art-craft-typing",
+      "specKey": "typing",
+      "name": "艺术/手艺（打字）",
+      "enName": "Art/Craft (Typing)",
+      "brpid": "i.skill.coc.art-craft-typing",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "快速而准确地打字、排版与整理文书。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-welding",
+      "key": "art-craft-welding",
+      "specKey": "welding",
+      "name": "艺术/手艺（焊接）",
+      "enName": "Art/Craft (Welding)",
+      "brpid": "i.skill.coc.art-craft-welding",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "以焊接设备连接和修补金属结构。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-woodworking",
+      "key": "art-craft-woodworking",
+      "specKey": "woodworking",
+      "name": "艺术/手艺（木工）",
+      "enName": "Art/Craft (Woodworking)",
+      "brpid": "i.skill.coc.art-craft-woodworking",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "以木工工具制作与修理木制品。"
+    },
+    {
+      "factId": "sealdice.skill.art-craft-writing",
+      "key": "art-craft-writing",
+      "specKey": "writing",
+      "name": "艺术/手艺（写作）",
+      "enName": "Art/Craft (Writing)",
+      "brpid": "i.skill.coc.art-craft-writing",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "art-craft",
+      "mainName": "艺术/手艺",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "以写作、编辑与文学创作完成作品。"
+    },
+    {
+      "factId": "sealdice.skill.computer",
+      "key": "computer",
+      "specKey": null,
+      "name": "计算机",
+      "enName": "Computer Use",
+      "brpid": "i.skill.coc.computer",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": false,
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "使用计算机检索资料、编写程序并绕过基础安全措施。"
+    },
+    {
+      "factId": "sealdice.skill.diving",
+      "key": "diving",
+      "specKey": null,
+      "name": "潜水",
+      "enName": "Diving",
+      "brpid": "i.skill.coc.diving",
+      "base": 1,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": false,
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "使用潜水装备在水下作业与搜救。"
+    },
+    {
+      "factId": "sealdice.skill.electronics",
+      "key": "electronics",
+      "specKey": null,
+      "name": "电子学",
+      "enName": "Electronics",
+      "brpid": "i.skill.coc.electronics",
+      "base": 1,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": false,
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "检修电子设备、线路与通信器材。"
+    },
+    {
+      "factId": "sealdice.skill.fighting-chainsaw",
+      "key": "fighting-chainsaw",
+      "specKey": "chainsaw",
+      "name": "格斗（链锯）",
+      "enName": "Fighting (Chainsaw)",
+      "brpid": "i.skill.coc.fighting-chainsaw",
+      "base": 10,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "fighting",
+      "mainName": "格斗",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "把链锯当作近战武器挥砍。"
+    },
+    {
+      "factId": "sealdice.skill.fighting-spear",
+      "key": "fighting-spear",
+      "specKey": "spear",
+      "name": "格斗（矛）",
+      "enName": "Fighting (Spear)",
+      "brpid": "i.skill.coc.fighting-spear",
+      "base": 20,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "fighting",
+      "mainName": "格斗",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "以长矛刺击并保持与对手的距离。"
+    },
+    {
+      "factId": "sealdice.skill.fighting-sword",
+      "key": "fighting-sword",
+      "specKey": "sword",
+      "name": "格斗（剑）",
+      "enName": "Fighting (Sword)",
+      "brpid": "i.skill.coc.fighting-sword",
+      "base": 20,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "fighting",
+      "mainName": "格斗",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "以刀剑进行劈砍、格挡与近身交锋。"
+    },
+    {
+      "factId": "sealdice.skill.fighting-whip",
+      "key": "fighting-whip",
+      "specKey": "whip",
+      "name": "格斗（鞭）",
+      "enName": "Fighting (Whip)",
+      "brpid": "i.skill.coc.fighting-whip",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "fighting",
+      "mainName": "格斗",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "以鞭子抽击、缠绕和牵制对手。"
+    },
+    {
+      "factId": "sealdice.skill.firearms-bow",
+      "key": "firearms-bow",
+      "specKey": "bow",
+      "name": "射击（弓）",
+      "enName": "Firearms (Bow)",
+      "brpid": "i.skill.coc.firearms-bow",
+      "base": 15,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "firearms",
+      "mainName": "射击",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "以弓或弩瞄准并发射箭矢。"
+    },
+    {
+      "factId": "sealdice.skill.pilot-horse",
+      "key": "pilot-horse",
+      "specKey": "horse",
+      "name": "驾驶（马车）",
+      "enName": "Pilot (Horse-drawn)",
+      "brpid": "i.skill.coc.pilot-horse",
+      "base": 1,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "pilot",
+      "mainName": "驾驶",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "驾驭马车或运货马车，处理路况与牲畜。"
+    },
+    {
+      "factId": "sealdice.skill.science-botany",
+      "key": "science-botany",
+      "specKey": "botany",
+      "name": "科学（植物学）",
+      "enName": "Science (Botany)",
+      "brpid": "i.skill.coc.science-botany",
+      "base": 1,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "science",
+      "mainName": "科学",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "研究植物分类、生长与生态。"
+    },
+    {
+      "factId": "sealdice.skill.science-geology",
+      "key": "science-geology",
+      "specKey": "geology",
+      "name": "科学（地质学）",
+      "enName": "Science (Geology)",
+      "brpid": "i.skill.coc.science-geology",
+      "base": 1,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "science",
+      "mainName": "科学",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "研究地层、岩石与地质作用。"
+    },
+    {
+      "factId": "sealdice.skill.science-math",
+      "key": "science-math",
+      "specKey": "math",
+      "name": "科学（数学）",
+      "enName": "Science (Mathematics)",
+      "brpid": "i.skill.coc.science-math",
+      "base": 10,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "science",
+      "mainName": "科学",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "以数学推导、统计与建模解决问题。"
+    },
+    {
+      "factId": "sealdice.skill.survival-mountain",
+      "key": "survival-mountain",
+      "specKey": "mountain",
+      "name": "生存（山地）",
+      "enName": "Survival (Mountain)",
+      "brpid": "i.skill.coc.survival-mountain",
+      "base": 5,
+      "variable": false,
+      "baseFormula": null,
+      "specialism": true,
+      "parentKey": "survival",
+      "mainName": "生存",
+      "sourceRefs": [
+        "coc-cardwright"
+      ],
+      "description": "在山地寻找路线、躲避风雪并获取食物。"
     }
   ],
   "pendingSpecialisms": [

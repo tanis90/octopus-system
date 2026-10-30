@@ -1,0 +1,135 @@
+{
+ "_id": "dHW0LKta6amMt0IW",
+ "name": "摄影师",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.photographer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Photographer",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.photographer",
+    "slug": "photographer",
+    "creditMin": 9,
+    "creditMax": 30,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "art-craft-photography",
+     "psychology",
+     "science-chemistry",
+     "stealth",
+     "spot-hidden"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "interpersonal",
+      "label": "一项社交技能（魅惑、话术、恐吓、说服）",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "charm",
+        "brpids": [
+         "i.skill.coc.charm"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "fast-talk",
+        "brpids": [
+         "i.skill.coc.fast-talk"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "intimidate",
+        "brpids": [
+         "i.skill.coc.intimidate"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "persuade",
+        "brpids": [
+         "i.skill.coc.persuade"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "any-specialty",
+      "label": "任意两项其他个人或时代特长",
+      "choose": 2,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.art-craft-photography",
+    "uuid": "9vt3o8IIdMi9HXZ5"
+   },
+   {
+    "brpid": "i.skill.coc.psychology",
+    "uuid": "n8ACQitSLni4geaF"
+   },
+   {
+    "brpid": "i.skill.coc.science-chemistry",
+    "uuid": "qg1EZMCkC7VLFVcy"
+   },
+   {
+    "brpid": "i.skill.coc.stealth",
+    "uuid": "KAT6rXWeJrlD9MOD"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.charm",
+      "uuid": "ebCHph0biyJ2AG3j"
+     },
+     {
+      "brpid": "i.skill.coc.fast-talk",
+      "uuid": "AwLPg18IRN57w0fB"
+     },
+     {
+      "brpid": "i.skill.coc.intimidate",
+      "uuid": "mhG3if5iht465aSn"
+     },
+     {
+      "brpid": "i.skill.coc.persuade",
+      "uuid": "7zQTHnGe7rHoRnjC"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "以摄影记录人物、地点与事件，并自行冲洗底片。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+ }
+}

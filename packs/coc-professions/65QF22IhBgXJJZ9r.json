@@ -16,7 +16,12 @@
     "slug": "explorer",
     "creditMin": 55,
     "creditMax": 80,
-    "pointFormula": "EDU*2+MAX(APP,DEX,STR)*2",
+    "pointFormula": "EDU*2+APP*2",
+    "pointFormulas": [
+     "EDU*2+APP*2",
+     "EDU*2+DEX*2",
+     "EDU*2+STR*2"
+    ],
     "evidence": "secondary",
     "sourceRefs": [
      "coc-roll20-occupations"
@@ -62,6 +67,7 @@
         "base": null,
         "requiresExplicitBase": true,
         "brpids": [
+         "i.skill.coc.firearms-bow",
          "i.skill.coc.firearms-handgun",
          "i.skill.coc.firearms-rifle-shotgun"
         ]
@@ -80,6 +86,7 @@
         "base": 10,
         "requiresExplicitBase": false,
         "brpids": [
+         "i.skill.coc.survival-mountain",
          "i.skill.coc.survival-sea",
          "i.skill.coc.survival-wilderness"
         ]
@@ -146,6 +153,10 @@
     "options": 1,
     "skills": [
      {
+      "brpid": "i.skill.coc.firearms-bow",
+      "uuid": "YdgqZpurYRRtmgip"
+     },
+     {
       "brpid": "i.skill.coc.firearms-handgun",
       "uuid": "1GMNDl2j6zfGXyI3"
      },
@@ -158,6 +169,10 @@
    {
     "options": 1,
     "skills": [
+     {
+      "brpid": "i.skill.coc.survival-mountain",
+      "uuid": "vTV5x2qMctnhDm14"
+     },
      {
       "brpid": "i.skill.coc.survival-sea",
       "uuid": "sxKcGlBfdQ5R0SDt"
@@ -185,6 +200,6 @@
   "powers": [],
   "minWealth": 0,
   "maxWealth": 0,
-  "description": "深入荒野、异国与无人区，为机构或个人带回见闻与样本。职业点 EDU × 2 + MAX(APP, DEX, STR) × 2；信用评级 55–80。\n\n职业点：EDU*2+MAX(APP,DEX,STR)*2（引擎按白名单公式求值）\n\n信用评级：55–80（只能用职业点，且必须落在区间内）"
+  "description": "深入荒野、异国与无人区，为机构或个人带回见闻与样本。职业点 EDU × 2 + APP × 2，或 EDU × 2 + DEX × 2，或 EDU × 2 + STR × 2（建卡时三选一）；信用评级 55–80。\n\n职业点：EDU*2+APP*2 或 EDU*2+DEX*2 或 EDU*2+STR*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：55–80（只能用职业点，且必须落在区间内）"
  }
 }

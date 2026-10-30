@@ -1,0 +1,249 @@
+{
+ "_id": "h9pXQE0S9U4gM8ny",
+ "name": "设计师",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.designer",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Designer",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.designer",
+    "slug": "designer",
+    "creditMin": 20,
+    "creditMax": 60,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "accounting",
+     "art-craft-photography",
+     "mechanical-repair",
+     "psychology",
+     "spot-hidden"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "art-craft",
+      "label": "一项艺术/手艺专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "art-craft",
+        "parentKey": "art-craft",
+        "base": 5,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.art-craft-acrobatics",
+         "i.skill.coc.art-craft-acting",
+         "i.skill.coc.art-craft-barber",
+         "i.skill.coc.art-craft-calligraphy",
+         "i.skill.coc.art-craft-comedy",
+         "i.skill.coc.art-craft-cooking",
+         "i.skill.coc.art-craft-dancing",
+         "i.skill.coc.art-craft-farming",
+         "i.skill.coc.art-craft-fitter",
+         "i.skill.coc.art-craft-forgery",
+         "i.skill.coc.art-craft-game",
+         "i.skill.coc.art-craft-music",
+         "i.skill.coc.art-craft-painting",
+         "i.skill.coc.art-craft-photography",
+         "i.skill.coc.art-craft-plumbing",
+         "i.skill.coc.art-craft-shorthand",
+         "i.skill.coc.art-craft-singing",
+         "i.skill.coc.art-craft-tailoring",
+         "i.skill.coc.art-craft-technical-drawing",
+         "i.skill.coc.art-craft-typing",
+         "i.skill.coc.art-craft-welding",
+         "i.skill.coc.art-craft-woodworking",
+         "i.skill.coc.art-craft-writing"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "computer-or-library-use",
+      "label": "计算机或图书馆",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "computer",
+        "brpids": [
+         "i.skill.coc.computer"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "library-use",
+        "brpids": [
+         "i.skill.coc.library-use"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "any-specialty",
+      "label": "任意一项其他个人特长",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.accounting",
+    "uuid": "OprgKpztxOCjv9MA"
+   },
+   {
+    "brpid": "i.skill.coc.art-craft-photography",
+    "uuid": "9vt3o8IIdMi9HXZ5"
+   },
+   {
+    "brpid": "i.skill.coc.mechanical-repair",
+    "uuid": "zp9eYH1FLjd04b0T"
+   },
+   {
+    "brpid": "i.skill.coc.psychology",
+    "uuid": "n8ACQitSLni4geaF"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.art-craft-acrobatics",
+      "uuid": "oJeEiHzOXS9AO4Fi"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-acting",
+      "uuid": "fwjXSgaOTh0oh0fj"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-barber",
+      "uuid": "ve3J9iJVEmEvjtO6"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-calligraphy",
+      "uuid": "MXi7qoAGbFhDFGJ7"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-comedy",
+      "uuid": "Fzj3HEWBr9SsyNvS"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-cooking",
+      "uuid": "11sRAhrEnc92m05E"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-dancing",
+      "uuid": "xIaLauIBdQRcWVsQ"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-farming",
+      "uuid": "Ya78rigufztVtROW"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-fitter",
+      "uuid": "P5i3vrcbbMomODZW"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-forgery",
+      "uuid": "HFQd7DHbU0brVL3d"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-game",
+      "uuid": "TeGTcKFHKUjPCzxi"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-music",
+      "uuid": "KToPfyAmRHbJUbRJ"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-painting",
+      "uuid": "yRoJ2aGTZ6XAmQbg"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-photography",
+      "uuid": "9vt3o8IIdMi9HXZ5"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-plumbing",
+      "uuid": "0ysoEiETgRDwqDll"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-shorthand",
+      "uuid": "ZWPHsfsnvxzgcwPF"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-singing",
+      "uuid": "XDEPC1hKNzOnH3Zg"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-tailoring",
+      "uuid": "MucNS8Gpk9jXxcg1"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-technical-drawing",
+      "uuid": "9dh2bNvAxHd55Jrw"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-typing",
+      "uuid": "uYxt94ftQiHbwajm"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-welding",
+      "uuid": "rBRaqMQqBCws4gOS"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-woodworking",
+      "uuid": "Tc2MdQ7QKDUCns5v"
+     },
+     {
+      "brpid": "i.skill.coc.art-craft-writing",
+      "uuid": "f7bsCdzSlFXbREZB"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.computer",
+      "uuid": "RS6e1ho0S4LXuWBc"
+     },
+     {
+      "brpid": "i.skill.coc.library-use",
+      "uuid": "7BNMWqPVJyA0sReg"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "以制图、摄影和手艺完成视觉与产品设计。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：20–60（只能用职业点，且必须落在区间内）"
+ }
+}

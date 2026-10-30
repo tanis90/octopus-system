@@ -1,0 +1,120 @@
+{
+ "_id": "sFueT2iKcusFpLUr",
+ "name": "联邦探员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.federal-agent",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Federal Agent",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.federal-agent",
+    "slug": "federal-agent",
+    "creditMin": 20,
+    "creditMax": 40,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "drive-auto",
+     "fighting-brawl",
+     "law",
+     "persuade",
+     "stealth",
+     "spot-hidden"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "firearms",
+      "label": "一项射击专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "firearms",
+        "parentKey": "firearms",
+        "base": null,
+        "requiresExplicitBase": true,
+        "brpids": [
+         "i.skill.coc.firearms-bow",
+         "i.skill.coc.firearms-handgun",
+         "i.skill.coc.firearms-rifle-shotgun"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "any-specialty",
+      "label": "任意一项其他个人或时代特长",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.drive-auto",
+    "uuid": "oNzu3fHKqOJ5FVVq"
+   },
+   {
+    "brpid": "i.skill.coc.fighting-brawl",
+    "uuid": "03IOJtCr9psfhkLg"
+   },
+   {
+    "brpid": "i.skill.coc.law",
+    "uuid": "lfaJ9sfEpwhlrVph"
+   },
+   {
+    "brpid": "i.skill.coc.persuade",
+    "uuid": "7zQTHnGe7rHoRnjC"
+   },
+   {
+    "brpid": "i.skill.coc.stealth",
+    "uuid": "KAT6rXWeJrlD9MOD"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.firearms-bow",
+      "uuid": "YdgqZpurYRRtmgip"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-handgun",
+      "uuid": "1GMNDl2j6zfGXyI3"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-rifle-shotgun",
+      "uuid": "icEnsbSORKp1qZtF"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "调查跨州或联邦案件，执行逮捕并保存证据。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：20–40（只能用职业点，且必须落在区间内）"
+ }
+}

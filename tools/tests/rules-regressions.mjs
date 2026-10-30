@@ -590,7 +590,7 @@ if (!ui.chat.collection) { ui.chat.collection = game.messages; }
       { damage: qc?.dmgSpecForm, fullDb, special: unarmed.system.special, db: unarmed.system.db });
     if (qcCard) await qcCard.delete();
 
-    // starterSkills=false: only Brawl is added (not the other 56 skills), then Unarmed.
+    // starterSkills=false: only Brawl is added (not the other 56 octopus skills), then Unarmed.
     await game.settings.set('brp', 'starterSkills', false);
     bare = await Actor.create({ name: 'Regression Bare PC', type: 'character', system: { stats: mkStats() } }, { renderSheet: false });
     const bareSkills = [...bare.items].filter((itm) => itm.type === 'skill');
@@ -643,7 +643,7 @@ if (!ui.chat.collection) { ui.chat.collection = game.messages; }
     }, { renderSheet: false });
     const skills = [...coc.items].filter((itm) => itm.type === 'skill');
     const cats = [...coc.items].filter((itm) => itm.type === 'skillcat');
-    check('cocStarterCountAndIsolation', skills.length === 56 && cats.length === 0
+    check('cocStarterCountAndIsolation', skills.length === 59 && cats.length === 0
       && skills.every((itm) => itm.flags?.brp?.contentSource === 'coc')
       && !skills.some((itm) => itm.flags?.brp?.brpidFlag?.id === 'i.skill.brawl')
       && skills.every((itm) => String(itm.flags?.brp?.brpidFlag?.id).startsWith('i.skill.coc.')),
@@ -771,7 +771,7 @@ if (!ui.chat.collection) { ui.chat.collection = game.messages; }
       ? await Promise.all(profEntries.map((entry) => profPack.getDocument(entry._id)))
       : [];
     check('cocProfessionPackLoads', !!profPack && profPack.metadata.type === 'Item'
-      && profPack.metadata.system === 'brp' && profDocs.length === 15
+      && profPack.metadata.system === 'brp' && profDocs.length === 38
       && profDocs.every((doc) => doc.type === 'profession'
         && doc.flags?.brp?.contentSource === 'coc'
         && /^i\.profession\.coc\.[a-z0-9]+(?:-[a-z0-9]+)*$/.test(doc.flags?.brp?.brpidFlag?.id)),

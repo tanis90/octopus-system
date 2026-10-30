@@ -16,7 +16,11 @@
     "slug": "soldier",
     "creditMin": 9,
     "creditMax": 30,
-    "pointFormula": "EDU*2+MAX(DEX,STR)*2",
+    "pointFormula": "EDU*2+STR*2",
+    "pointFormulas": [
+     "EDU*2+STR*2",
+     "EDU*2+DEX*2"
+    ],
     "evidence": "secondary",
     "sourceRefs": [
      "coc-roll20-occupations"
@@ -60,7 +64,11 @@
         "base": null,
         "requiresExplicitBase": true,
         "brpids": [
-         "i.skill.coc.fighting-brawl"
+         "i.skill.coc.fighting-brawl",
+         "i.skill.coc.fighting-chainsaw",
+         "i.skill.coc.fighting-spear",
+         "i.skill.coc.fighting-sword",
+         "i.skill.coc.fighting-whip"
         ]
        }
       ]
@@ -77,6 +85,7 @@
         "base": null,
         "requiresExplicitBase": true,
         "brpids": [
+         "i.skill.coc.firearms-bow",
          "i.skill.coc.firearms-handgun",
          "i.skill.coc.firearms-rifle-shotgun"
         ]
@@ -95,6 +104,7 @@
         "base": 10,
         "requiresExplicitBase": false,
         "brpids": [
+         "i.skill.coc.survival-mountain",
          "i.skill.coc.survival-sea",
          "i.skill.coc.survival-wilderness"
         ]
@@ -169,12 +179,32 @@
      {
       "brpid": "i.skill.coc.fighting-brawl",
       "uuid": "03IOJtCr9psfhkLg"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-chainsaw",
+      "uuid": "AbFYN5iZK5ocm7gQ"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-spear",
+      "uuid": "VkTPXjdacqcNy7IK"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-sword",
+      "uuid": "paZT2vSGfhlTBGSZ"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-whip",
+      "uuid": "Q99xKqgzylVeB7aR"
      }
     ]
    },
    {
     "options": 1,
     "skills": [
+     {
+      "brpid": "i.skill.coc.firearms-bow",
+      "uuid": "YdgqZpurYRRtmgip"
+     },
      {
       "brpid": "i.skill.coc.firearms-handgun",
       "uuid": "1GMNDl2j6zfGXyI3"
@@ -188,6 +218,10 @@
    {
     "options": 1,
     "skills": [
+     {
+      "brpid": "i.skill.coc.survival-mountain",
+      "uuid": "vTV5x2qMctnhDm14"
+     },
      {
       "brpid": "i.skill.coc.survival-sea",
       "uuid": "sxKcGlBfdQ5R0SDt"
@@ -223,6 +257,6 @@
   "powers": [],
   "minWealth": 0,
   "maxWealth": 0,
-  "description": "受过完整军事训练，熟悉枪械、野外与队列生活。职业点 EDU × 2 + MAX(DEX, STR) × 2；信用评级 9–30。\n\n职业点：EDU*2+MAX(DEX,STR)*2（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+  "description": "受过完整军事训练，熟悉枪械、野外与队列生活。职业点 EDU × 2 + STR × 2，或 EDU × 2 + DEX × 2（建卡时二选一）；信用评级 9–30。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
  }
 }

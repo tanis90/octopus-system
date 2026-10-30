@@ -688,6 +688,22 @@
   }
  },
  {
+  "_id": "vtzRQOCNjhk0mzRK",
+  "name": "科学（天文学）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-astronomy",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
   "_id": "ojfHa6wDmmM5s0ey",
   "name": "科学（生物学）",
   "type": "skill",
@@ -736,6 +752,22 @@
   }
  },
  {
+  "_id": "0AAlWrrgIC6iZezX",
+  "name": "科学（鉴证）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-forensics",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
   "_id": "FYszZeEWTX2DBFSd",
   "name": "科学（药学）",
   "type": "skill",
@@ -761,6 +793,22 @@
    "brp": {
     "brpidFlag": {
      "id": "i.skill.coc.science-physics",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "mTXA1OJqEe8jdrgk",
+  "name": "科学（动物学）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-zoology",
      "lang": "zh-CN",
      "priority": 1
     }
@@ -889,6 +937,518 @@
    "brp": {
     "brpidFlag": {
      "id": "i.skill.coc.track",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "oJeEiHzOXS9AO4Fi",
+  "name": "艺术/手艺（杂技）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-acrobatics",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ve3J9iJVEmEvjtO6",
+  "name": "艺术/手艺（理发）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-barber",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "MXi7qoAGbFhDFGJ7",
+  "name": "艺术/手艺（书法）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-calligraphy",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Fzj3HEWBr9SsyNvS",
+  "name": "艺术/手艺（喜剧）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-comedy",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "11sRAhrEnc92m05E",
+  "name": "艺术/手艺（烹饪）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-cooking",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "xIaLauIBdQRcWVsQ",
+  "name": "艺术/手艺（舞蹈）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-dancing",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Ya78rigufztVtROW",
+  "name": "艺术/手艺（耕作）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-farming",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "P5i3vrcbbMomODZW",
+  "name": "艺术/手艺（钳工）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-fitter",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "HFQd7DHbU0brVL3d",
+  "name": "艺术/手艺（伪造）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-forgery",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "TeGTcKFHKUjPCzxi",
+  "name": "艺术/手艺（游戏）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-game",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "KToPfyAmRHbJUbRJ",
+  "name": "艺术/手艺（音乐）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-music",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "0ysoEiETgRDwqDll",
+  "name": "艺术/手艺（管道工）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-plumbing",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "ZWPHsfsnvxzgcwPF",
+  "name": "艺术/手艺（速记）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-shorthand",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "XDEPC1hKNzOnH3Zg",
+  "name": "艺术/手艺（歌唱）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-singing",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "MucNS8Gpk9jXxcg1",
+  "name": "艺术/手艺（裁缝）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-tailoring",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "uYxt94ftQiHbwajm",
+  "name": "艺术/手艺（打字）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-typing",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "rBRaqMQqBCws4gOS",
+  "name": "艺术/手艺（焊接）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-welding",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Tc2MdQ7QKDUCns5v",
+  "name": "艺术/手艺（木工）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-woodworking",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "f7bsCdzSlFXbREZB",
+  "name": "艺术/手艺（写作）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.art-craft-writing",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "RS6e1ho0S4LXuWBc",
+  "name": "计算机",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.computer",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "u7i5VkGXGst2vopx",
+  "name": "潜水",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.diving",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "GduMYPbct7oMJEt8",
+  "name": "电子学",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.electronics",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "AbFYN5iZK5ocm7gQ",
+  "name": "格斗（链锯）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.fighting-chainsaw",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "VkTPXjdacqcNy7IK",
+  "name": "格斗（矛）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.fighting-spear",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "paZT2vSGfhlTBGSZ",
+  "name": "格斗（剑）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.fighting-sword",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "Q99xKqgzylVeB7aR",
+  "name": "格斗（鞭）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.fighting-whip",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "YdgqZpurYRRtmgip",
+  "name": "射击（弓）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.firearms-bow",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "sWk9oCrzamoVHGzn",
+  "name": "驾驶（马车）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.pilot-horse",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "OlX1keGDxhw1KCIe",
+  "name": "科学（植物学）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-botany",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "HDWgdIhpGGLSC0Ns",
+  "name": "科学（地质学）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-geology",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "dJFv4Qd5vqg7tqXC",
+  "name": "科学（数学）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.science-math",
+     "lang": "zh-CN",
+     "priority": 1
+    }
+   }
+  }
+ },
+ {
+  "_id": "vTV5x2qMctnhDm14",
+  "name": "生存（山地）",
+  "type": "skill",
+  "img": null,
+  "sort": 0,
+  "flags": {
+   "brp": {
+    "brpidFlag": {
+     "id": "i.skill.coc.survival-mountain",
      "lang": "zh-CN",
      "priority": 1
     }

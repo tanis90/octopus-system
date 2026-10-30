@@ -1,6 +1,6 @@
-# CoC 7e 兼容契约（M1 + M2 + M3 + M4 + M5 源仓切片）
+# CoC 7e 兼容契约（M1 + M2 + M3 + M4 + M5 + M6 + M7 + M8 源仓切片）
 
-状态：实验性第五期源仓切片（2026-10-30）。M4 完成原生 SAN/疯狂、Luck 消费与恢复、
+状态：实验性第八期源仓切片（2026-10-30）。M4 完成原生 SAN/疯狂、Luck 消费与恢复、
 技能成长和持久化 CoC 世界时钟的源仓实现与无头集成探针（真实 `Roll`、真实 Actor/
 ChatMessage/flags/ActiveEffect、activeGM 单写与串行 relay）。源仓切片当时只改源仓、
 源仓测试与文档，只在临时 compat 镜像验证，未改前端/后端、未 commit/push/部署、未跑
@@ -9,7 +9,26 @@ ChatMessage/flags/ActiveEffect、activeGM 单写与串行 relay）。源仓切�
 “完整 CoC 已上线”的声明，也不覆盖真实 Keycloak、生产部署或可选规则。
 
 M5（2026-10-30）在本源仓追加 5 条专精与 5 个职业、多公式职业点与对应回归；
-同样只改源仓，前端/后端未同步，需 compat 仓自行接线（见文末 M5 末节）。
+M6（2026-10-30）追加 1 条专精（科学（天文学））与第三批 4 个职业（警察（巡警）、
+艺术家、神职人员、飞行员），新增 `EDU*2+POW*2` 公式。M5/M6 当时只改源仓，
+前端/后端由 compat 仓后续接线。
+
+M7（2026-10-30）把职业/技能事实源切换为用户仓库 `tanis90/coc-cardwright`
+revision `c0a0733`（README 自述上游 `trpg-saikou/cochar`），不再用公开职业网页拼表。
+本批新增 19 个职业、保留 M6 的 4 条记录并统一来源，合计 **38 个职业**；技能
+**59 条 / 21 条专精**；公式白名单 **7 条**。精神病学家已成功落地，不再 deferred；
+没有完整八项的职业不导入。`coc-cardwright` 自述 112 个职业，本批**不是 112 全表**，
+不宣称全职业覆盖；全部记录仍为 **secondary**，不冒充官方一手。compat 前端已同步本批
+并完成真实栈 550/550（dev HS256），证据记在 compat 仓 `PROGRESS.md`；本源仓只对数据、
+共享规则与源仓回归负责。
+
+M8（2026-10-30）从 SealDice 内置 `COC职业查询` helpdoc 批量导入能映射的正式定义：
+新增 **118** 个职业（合计 **156**）、**32** 条具体技能（合计 **91**）、**29** 条专精
+（合计 **50**）；公式白名单仍为 **7** 条，不新增 MAX。79 个别名、3 个格式异常、自定义
+模板、非八项、缺公式/信用区间、缺可核基础值与精确重复共 **187** 条按类别记入 deferred。
+`sealdice-core` 是 MIT，但 `sealdice-builtins` 未声明许可证：本仓不分发其 JSON/职业
+描述，只取公式、信用区间与技能名，描述全部自写；证据仍为 **secondary**。compat 同步
+目标为 `web/packages/brp/`，本源仓未执行前端/E2E 验收。
 
 ## 目标
 
@@ -25,6 +44,11 @@ M5（2026-10-30）在本源仓追加 5 条专精与 5 个职业、多公式职�
 - M4：原生理智检定→真实成对损失→单次 ≥5 的真实 INT 检定→1D10 小时/1D10 轮发作；
   日内累计第五阈值→独立不定疯狂；临时/不定/永久并存；Luck 只允许技能/特征 1:1 调值；
   成长按“成功且未花 Luck”勾选；keeper 显式推进小时/天/新会话并持久化 CoC 世界时钟。
+- M7：职业/技能事实源切换为 `coc-cardwright`，职业扩到 38、技能 59 / 专精 21、
+  公式 7 条；只导入完整八项，不宣称 112 全表或全职业覆盖。
+- M8：从 SealDice 内置 helpdoc 批量导入 118 个职业（共 156）、32 条技能（共 91）、
+  29 条专精（共 50）；deferred 187 条带类别与原因；不覆盖已有 38 职业，不新增 MAX，
+  不复制无许可证 JSON/职业描述。
 
 ## 允许来源
 
@@ -80,11 +104,36 @@ M4 追加（M4 纯核与整合的证据分级见 `content/coc/sanity-provenance.
   自然 01 才是大成功，Luck 调到 01 只是极难成功；新会话 1D100 对当前 Luck，成功
   +2D10+10、失败 +1D10+5、上限 99；Pulp 项与 SAN 减半不启用。
 
+M7 追加（**唯一职业/技能来源，secondary**）：
+
+- [coc-cardwright](https://github.com/tanis90/coc-cardwright)（`tanis90/coc-cardwright`，
+  revision `c0a0733`）：M7 的 19 个新职业与 4 个保留职业的公式、信用区间、完整八项
+  技能名；科学（动物学）/科学（鉴证）专精。README 自述上游
+  [trpg-saikou](https://github.com/masquevil/trpg-saikou) 与
+  [cochar](https://github.com/ajwalkiewicz/cochar)，本仓只按 README 声明记录，
+  不当作独立一手核验。该仓库是次级转录，不是 Chaosium 官方出版物；不复制其模板、
+  HTML/CSS、Python 实现或其他仓代码。
+
+M8 追加（**SealDice 内置 helpdoc，secondary；无许可证声明**）：
+
+- `sealdice/sealdice-builtins` 的 `COC职业查询` helpdoc，本地只读副本
+  `/tmp/sealdice-coc-occupations.json`。只取职业点公式、信用区间、技能构成与
+  职业名称；helpdoc 的【介绍】正文、JSON 文件与整表均不入库、不发布、不转 MIT。
+  `sealdice-core` 的 MIT 许可不延伸到 `sealdice-builtins`；该仓库未声明许可证。
+- 79 个别名、3 个格式异常条目、自定义模板、非八项、缺公式/信用区间、缺可核基础值
+  与精确重复的记录全部 deferred，逐条原因见 `content/coc/provenance.json`。
+- 新增 32 条具体技能的基础值对照用户 `coc-cardwright` 的 `skills.py` 或开放族已核基础值；只发布
+  「开放族已有已核基础值 + `skills.py` 有成员值」的专精，不猜值、不写 0。
+
 逐条事实映射见 `content/coc/provenance.json`。
 
 ## 禁止来源
 
 - 不读取、不参考、不复制 CoC7-FoundryVTT 或其它 GPL 系统的源码、模板、YAML、资源或实现。
+- 不复制 `coc-cardwright` 的模板、HTML/CSS、Python 实现或其他仓代码；只取数值、公式、
+  信用区间与技能名。
+- 不复制 `sealdice-builtins` 的 JSON、helpdoc 正文或职业描述，也不把该仓库的数据
+  标成 MIT；只取公式、信用区间与技能名。
 - 不提交官方 PDF、正文块、图片、字体、图标、排版或商标资源。
 - 不把 BRP:UGE 的数值/技能/职业改名冒充 CoC。
 - 不把本仓代码视为已获得 VTT 授权。Chaosium Fan Material Policy 明确将 VTT 排除在政策覆盖之外；公开发布前需另做许可评审。
@@ -93,8 +142,8 @@ M4 追加（M4 纯核与整合的证据分级见 `content/coc/sanity-provenance.
 
 ### 核心技能
 
-- 独立包 56 条，其中 18 条专精；每条使用稳定 ASCII `brpid`，专精另有 `specKey`。
-  （M1 时为 51 条 / 13 专精，M5 追加 5 条专精，见下文 M5 事实。）
+- 独立包 59 条，其中 21 条专精；每条使用稳定 ASCII `brpid`，专精另有 `specKey`。
+  （M1 时为 51 条 / 13 专精，M5 追加 5 条专精，M6 追加 1 条，M7 追加 2 条，见下文各期事实。）
 - 已证实基础值示例：Credit Rating 00、Cthulhu Mythos 00、Library Use 20、Fighting (Brawl) 25、Firearms (Handgun) 20、Firearms (Rifle/Shotgun) 25。
 - Dodge = ½ DEX；Language (Own) = EDU；两者用原生 `variable` + `baseFormula`，CoC 计算向下取整。
 - 未证实的专精（剑/斧/矛/鞭/弓/弩/其他艺术）保留在 `pendingSpecialisms`，基础值为 `null`，不写入包，不写 fixed 0。
@@ -149,10 +198,11 @@ M4 追加（M4 纯核与整合的证据分级见 `content/coc/sanity-provenance.
 
 ### 覆盖范围
 
-- 职业包 `coc-professions` 首批 10 条（M5 后共 15 条），独立于 `octopus-professions`：
-  Archaeologist、Author、Cat Burglar、Dilettante、Explorer、
+- 职业包 `coc-professions` 首批 10 条（M5 后 15 条，M6 后 19 条，M7 后共 38 条），
+  独立于 `octopus-professions`：Archaeologist、Author、Cat Burglar、Dilettante、Explorer、
   Investigative Journalist、Nurse、Private Investigator、Professor、Soldier
-  （M5 第二批见下文 M5 事实）。
+  （M5/M6/M7 各批见下文事实）。M7 起后续职业事实源为 `coc-cardwright`，首批 10 条仍保留
+  原 Roll20/secondary 记录，不改写成一手。
 - 数据源：`content/coc/professions.json`；证据：`content/coc/provenance.json`
   的 `coc-roll20-occupations`（Roll20 职业页，页面自身标注 Free Basic Rules），
   证据强度记为 **secondary**，逐职业钉住公式、信用区间与页码。
@@ -171,6 +221,9 @@ M4 追加（M4 纯核与整合的证据分级见 `content/coc/sanity-provenance.
 | Private Investigator | `EDU*2+MAX(DEX,STR)*2` | 9–30 |
 | Professor | `EDU*4` | 20–70 |
 | Soldier | `EDU*2+MAX(DEX,STR)*2` | 9–30 |
+
+> 上表是 M2 时点记录。M7 已把 Explorer 的 `MAX(APP,DEX,STR)`、Private Investigator /
+> Soldier 的 `MAX(DEX,STR)` 改为真实二选一/三选一（见 M7 事实），不再发 MAX 点数。
 
 Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公式、Firearms/Ride、
 四个选择组），该记录只依赖属性块。
@@ -191,9 +244,9 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 
 无 Foundry 依赖、无 `eval`/`Function`，供 `studio-coc` 直接 import：
 
-- `evaluatePointFormula(formula, stats)`：白名单 AST 求值六个公式（M5 增
-  `EDU*2+STR*2`）；未知公式、未知属性、缺失/负数属性一律抛 `CreationRuleError`
-  （fail closed）。
+- `evaluatePointFormula(formula, stats)`：白名单 AST 求值七个公式（M5 增
+  `EDU*2+STR*2`，M6 增 `EDU*2+POW*2`）；未知公式、未知属性、缺失/负数属性一律抛
+  `CreationRuleError`（fail closed）。
 - `interestPoints(int)`：INT × 2；不是 UGE 的 INT × 10 / 250 点池。
 - `validateAllocation({ profession, stats, skills })`：职业点预算、兴趣点预算、
   信用评级（只用职业点、落区间、基础值必须为 0）、克苏鲁神话禁投、缺基础值或
@@ -258,9 +311,11 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 - 数据形态：单公式继续用 `pointFormula`；二选一用 `pointFormulas`（有序数组，
   玩家选一条）。两者**不得同时出现**，构建直接失败；`pointFormulas` 少于两项也算
   数据错误（单公式请用 `pointFormula`）。
-- 共享白名单新增 `EDU*2+STR*2`（现共 6 条）；这是**新增**，不改任何已有公式的求值
-  结果，回归里 `EDU*4=240`、`EDU*2+DEX*2=260`、`EDU*2+APP*2=200`、
-  `EDU*2+MAX(APP,DEX,STR)*2=260`、`EDU*2+MAX(DEX,STR)*2=260` 全部逐条钉住。
+- 共享白名单新增 `EDU*2+STR*2`（M5 时共 6 条；M6 再增 `EDU*2+POW*2`，现共 7 条）；
+  两次都是**新增**，不改任何已有公式的求值结果，回归里 `EDU*4=240`、
+  `EDU*2+DEX*2=260`、`EDU*2+APP*2=200`、`EDU*2+MAX(APP,DEX,STR)*2=260`、
+  `EDU*2+MAX(DEX,STR)*2=260` 全部逐条钉住；M6 另钉 `EDU*2+POW*2=210` 与
+  “POW 缺失即 fail closed”。
 - `creation.mjs`：
   - `normalizePointFormulas(source)` 归一 `pointFormula`/`pointFormulas`，返回冻结
     的规范化公式 id 数组；重复、缺失、不在白名单一律抛 `CreationRuleError`。
@@ -288,6 +343,212 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 - 没有可核对公式或信用区间的其他 CoC 职业仍不进入包，也不能作为车卡默认值。
 - 三个二手来源不是官方出版物；将来若拿到官方一手确认，应在 `provenance.json`
   另起记录，而不是就地升级既有条目。
+
+## M6 事实（第三批职业、POW 公式、科学（天文学））
+
+### 新增专精（技能 56 → 57，专精 18 → 19）
+
+| 技能 | key | 父族 | 基础值 | 族来源 |
+| --- | --- | --- | --- | --- |
+| 科学（天文学） | `science-astronomy` | science | 1 | `coc-sheet-1920s`（族基础值） |
+
+- 专精存在性由飞行员职业表钉住（Pilot 固定 `Science (Astronomy)`）；基础值取 Science
+  族基础值 1，不声称单独印刷值。`professions.json` 的 `skillFamilies.science.concrete`
+  同步加入，双向一致检查继续生效。
+- 副作用：带“科学族任选”的既有职业（如考古学家的导航或科学）会多出天文学选项；
+  这是族清单变更的预期结果，不是职业数据改写。
+
+### 第三批职业（职业 15 → 19）
+
+| 职业 | 职业点公式 | 信用评级 | 八项构成 |
+| --- | --- | --- | --- |
+| 警察（巡警）Police Officer | `EDU*2+DEX*2` **或** `EDU*2+STR*2` | 9–30 | 格斗（斗殴）、急救、法律、心理学、侦查固定 5 + 射击族 1 + 人际 1 + 汽车驾驶或骑术 1 |
+| 艺术家 Artist | `EDU*2+POW*2` **或** `EDU*2+DEX*2` | 9–50 | 心理学、侦查固定 2 + 艺术/手艺族 1 + 历史或自然学 1 + 人际 1 + 其他语言族 1 + 任意 2 |
+| 神职人员 Clergy | `EDU*4` | 9–60 | 会计、历史、图书馆使用、聆听、心理学固定 5 + 其他语言族 1 + 人际 1 + 任意 1 |
+| 飞行员 Pilot | `EDU*2+DEX*2` | 20–70 | 电气维修、机械维修、导航、操作重型机械、驾驶（飞行器）、科学（天文学）固定 6 + 任意 2 |
+
+- 八项恒等继续由构建与回归锁定（固定数 + `choose` 之和 = 8）。
+- 艺术家按印刷顺序记录 `POW` 在前的二选一：不得用 APP 替换 POW，也不得折叠成 MAX；
+  人际项是四选一，不得把 Persuade 写死。
+- 飞行员固定 `Pilot (Aircraft)`；`Pilot (Boat)` 是另一专精，不在该职业内。
+- 警察（巡警）与警探是两条独立记录：信用区间 9–30 / 20–50，巡警有格斗（斗殴）、
+  急救、侦查、无聆听，且有汽车驾驶或骑术槽；警探有聆听、无格斗（斗殴）/急救，
+  且有表演或乔装槽。两者公式相同但文档、brpid 与固定技能集均不同，互不复用。
+- 精神科医生在 M6 时点暂缓：RPG Stack 只给出 4 项（语言、医学、说服、精神分析），
+  无法确认完整八项，因此当时不发布；现有“医生（医学博士）+ 任意两项（可含精神分析）”
+  已覆盖玩法。**M7 已按 `coc-cardwright` 的完整八项落地，不再 deferred**（见 M7 事实）；
+  本条保留 M6 时点记录。
+
+### 公式白名单（M6）
+
+- 新增 `EDU*2+POW*2`，白名单现共 7 条；既有六条求值逐条不变（回归钉住）。
+- POW 与 APP 互不别名：`EDU*2+POW*2` 读 `pow`，`EDU*2+APP*2` 读 `app|cha`；
+  POW 缺失时 fail closed（`stat-missing`）。
+- `tools/coc-pack/build.mjs` 的公式门直接复用 `isSupportedPointFormulas`，无需另列名单。
+
+### M6 来源与边界
+
+- 四个职业均为 `evidence: "secondary"` + `sourceRefs`，无官方一手声明。
+- 艺术家 / 神职人员 / 警察（巡警）由 Gamers' Plane 完整职业表、callofcthulhu.org.uk
+  索引页与 RPG Stack 三处交叉（后者只用于公式/信用区间）；飞行员由前两处交叉，
+  因为 RPG Stack 职业表没有飞行员条目。
+- RPG Stack 的速览表把每个职业截断为前四项技能（例如巡警只列 Firearms、First Aid、
+  Law、Persuade），因此**不得**把它当作完整八项技能表；`provenance.json` 的每条 M6
+  记录带 `skillShapeSourceRefs`，回归拒绝把 RPG Stack 列入八项来源。
+- callofcthulhu.org.uk 对直接抓取返回 HTTP 403；该页事实来自搜索引擎索引文本，
+  与 M5 条目同样按二手处理，不升级为一手。
+- **M7 已把上述 4 条记录统一改记 `coc-cardwright` 来源**，移除对公开职业表的拼接依赖；
+  本条保留 M6 时点的来源审计轨迹。
+
+### M6 未覆盖 / 需前端同步
+
+- 本源仓仍只到数据、共享规则与构建产物；`studio-coc` 向导、卡面适配器与后端
+  profile/catalog 在 compat 仓。
+- 前端需在 `COC_FORMULAS`/共享 `creation.mjs` 已支持 `EDU*2+POW*2` 的基础上，
+  把新职业的选择组（族选择、`drive-or-ride`、`history-or-natural-world`）渲染为
+  单选；艺术家二选一必须把选定公式回传 `validateAllocation({ pointFormula })`。
+- 精神科医生在 M6 时点不在包内；M7 已按 `coc-cardwright` 完整八项落地，本条不再适用。
+
+## M7 事实（第四批职业、两项科学专精、coc-cardwright 事实源）
+
+### 事实源与边界
+
+- 本批职业/技能事实源为用户仓库 `tanis90/coc-cardwright` revision `c0a0733`
+  （README 自述上游 `trpg-saikou/cochar`），不再用公开职业网页拼表。只取数值、公式、
+  信用区间与技能名；不复制其模板、HTML/CSS、Python 实现或其他仓代码。
+- `coc-cardwright` 是次级转录，**不是 Chaosium 官方出版物**；本批全部记录标
+  `evidence: "secondary"`，不把项目数据说成官方一手。README 声明的上游链只按声明记录，
+  不当作独立一手核验。
+- 只导入能确认完整八项、公式与信用区间的条目；没有完整八项的职业不导入。
+  `coc-cardwright` 自述 112 个职业，本批**不是 112 全表**，不宣称全职业覆盖。
+
+### 新增专精（技能 57 → 59，专精 19 → 21）
+
+| 技能 | key | 父族 | 基础值 | 来源 |
+| --- | --- | --- | --- | --- |
+| 科学（动物学） | `science-zoology` | science | 1 | `coc-cardwright` |
+| 科学（鉴证） | `science-forensics` | science | 1 | `coc-cardwright` |
+
+- 两条均归 `science` 族、基础值取族级 1；`skillFamilies.science.concrete` 同步加入，
+  双向一致检查继续生效。
+- 科学（天文学）保留；M7 不删除 M6 的专精。
+
+### 新增 19 职业（职业 19 → 38）
+
+| 职业 | 公式 | 信用评级 |
+| --- | --- | --- |
+| 精神病学家 Psychiatrist | `EDU*4` | 30–80 |
+| 博物馆管理员 Museum Curator | `EDU*4` | 10–30 |
+| 法医 Coroner | `EDU*4` | 40–60 |
+| 法官 Judge | `EDU*4` | 50–80 |
+| 书商 Bookseller | `EDU*4` | 20–40 |
+| 古董商 Antiquarian | `EDU*4` | 30–50 |
+| 中介调查员 Intermediary Investigator | `EDU*2+STR*2` **或** `EDU*2+DEX*2` | 20–45 |
+| 勤杂护工 Orderly | `EDU*2+STR*2` | 6–15 |
+| 政府官员 Government Official | `EDU*2+APP*2` | 50–90 |
+| 旅行家 Traveler | `EDU*2+STR*2` **或** `EDU*2+DEX*2` | 5–20 |
+| 消防员 Firefighter | `EDU*2+STR*2` **或** `EDU*2+DEX*2` | 9–30 |
+| 渔民 Fisherman | `EDU*4` | 20–40 |
+| 猎人 Hunter | `EDU*2+STR*2` **或** `EDU*2+DEX*2` | 20–50 |
+| 药剂师 Pharmacist | `EDU*4` | 35–75 |
+| 赌徒 Gambler | `EDU*2+DEX*2` **或** `EDU*2+APP*2` | 8–50 |
+| 部落成员 Tribe Member | `EDU*2+STR*2` **或** `EDU*2+DEX*2` | 0–15 |
+| 间谍 Spy | `EDU*2+DEX*2` **或** `EDU*2+APP*2` | 20–60 |
+| 黑帮老大 Gang Leader | `EDU*2+APP*2` | 60–95 |
+| 精神病院护工 Asylum Orderly | `EDU*2+STR*2` **或** `EDU*2+DEX*2` | 8–20 |
+
+- 精神病学家已成功落地，不再 deferred；固定 7 项含精神分析 + 任选 1 门其他语言。
+- 渔民固定 7 项含驾驶（船）/游泳；猎人固定 5 项含科学（动物学）/追踪，另有射击、
+  聆听或侦查、外语或生存三个选择组；法医固定 7 项含科学（鉴证）与 1 门其他语言。
+- 警察（巡警）、艺术家、神职人员、飞行员 4 条 M6 记录保留，并统一改记
+  `coc-cardwright` 来源；艺术家仍按 `EDU*2+POW*2` / `EDU*2+DEX*2` 二选一，不折叠 MAX。
+- 每条的固定技能数 + 各选择组 `choose` 之和必须为 8；构建与回归双向锁定。
+
+### 公式与选择（7 条）
+
+- 白名单新增 `EDU*2+POW*2`，共 7 条；既有 6 条求值逐条不变，POW 与 APP 不互为别名。
+- 私家侦探、士兵从 `MAX(DEX,STR)` 改为 `[STR,DEX]` 真实二选一；探险家从
+  `MAX(APP,DEX,STR)` 改为 `[APP,DEX,STR]` 真实三选一。预算按所选属性分别计算，
+  不白送 MAX 点数；职业文档的 `pointFormula` 保存实际选择（构建产物同时保留
+  `pointFormulas` 列表）。
+- 多公式职业仍必须显式选择；未选择报 `formula-choice-required`，不默认取第一条或 MAX。
+
+### M7 验证与来源
+
+- 源仓 `tools/tests/coc-rules-regressions.mjs` **137/137**；确定性构建通过，
+  `coc-skills` / `coc-professions` / packs 连续构建一致，octopus 包字节不变。
+- 证据全部为 **secondary**：本批 19 条与 4 条保留记录均以 `coc-cardwright` 为
+  `sourceRefs`，不再引用公开职业页拼接；README 的上游声明只作审计线索。
+- compat 前端已同步本批并完成真实栈 550/550（dev HS256），证据记在 compat 仓
+  `PROGRESS.md` 与 `docs/coc-compatibility-contract.md`；本源仓不声称跑过浏览器 E2E。
+- 仍未覆盖：`coc-cardwright` 112 全表、Investigator Handbook 全量、资产/装备/现金自动化。
+
+## M8 事实（SealDice 职业批量兼容导入）
+
+### 事实源与许可边界
+
+- 事实源为 SealDice 内置 `COC职业查询` helpdoc（`sealdice/sealdice-builtins`），
+  从 `/tmp/sealdice-coc-occupations.json` 只读副本解析，仓库不保存该文件。
+- `sealdice-core` 是 MIT，但 `sealdice-builtins` 没有声明许可证。本仓**不分发**
+  该 JSON、helpdoc 正文或【介绍】段落；只取职业点公式、信用区间与技能构成三类
+  事实，全部职业描述为本仓自写。该来源记为 **secondary**，不冒充 Chaosium 一手，
+  也不把海豹数据说成 MIT。
+- 去重按「公式选项 + 信用区间 + 规范化技能形状」；同名但定义不同的记录不覆盖已有 38
+  职业。规范化形状会把「两个各选一项社交技能」与「一次选两项社交技能」视为同一形状，
+  因此 古董商/赌徒/黑帮老大/精神病院看护 归 `duplicate-existing`；艺术家/猎人/渔民
+  因 CR、公式或固定专精确实不同，保留 `display-name-conflict`。79 个别名、3 个格式
+  异常、1 个自定义模板、1 条缺公式、44 条非八项、11 条缺可核基础值、35 条与已有职业
+  精确重复、10 条来源内重复、3 条显示名冲突，均带类别与原因写入
+  `content/coc/provenance.json` 的 `occupations.deferredRecords`。
+
+### 最终计数
+
+| 项 | M7 | M8 | 说明 |
+| --- | ---: | ---: | --- |
+| 职业 | 38 | **156** | 新增 118，已有 38 未覆盖 |
+| 技能文档 | 59 | **91** | 新增 32 条具体技能 |
+| 专精 | 21 | **50** | 新增 29 条（Computer/Electronics/Diving 不是专精） |
+| deferred | — | **187** | 305 条 helpdoc = 118 导入 + 187 deferred |
+
+### 新增技能与基础值
+
+- 新增独立技能：计算机 5、电子学 1、潜水 1。
+- 新增专精：艺术/手艺 19 条（耕作/伪造/音乐/木工/写作/打字/速记/歌唱/舞蹈/游戏/
+  杂技/喜剧/钳工/书法/烹饪/裁缝/理发/焊接/管道工）各 5；格斗 4 条（剑 20/鞭 5/
+  矛 20/链锯 10）；射击（弓）15；驾驶（马车）1；科学（植物学/地质学）各 1、
+  科学（数学）10；生存（山地）5。
+- 基础值规则：有同名 `skills.py` 条目的专精取该值；没有同名条目的开放族成员取族
+  已核基础值与 `baseSourceRefs`（艺术/手艺族 5，来源 `coc-sheet-1920s`）。印刷成员值
+  优先于族默认值：数学 10（不是科学族 1）、生存（山地）**5**（不是生存族 10）；
+  格斗/射击族本身没有族基础值，但其具体成员有 `skills.py` 值，不能因此把成员
+  deferred，也不能反推族基础值。
+- 没有族或明确依据的继续 deferred：学问（Knowledge）、自行车驾驶、礼仪等不猜值、
+  不写 0。
+
+### 八项与公式
+
+- 每条新增职业恰好 8 项：`fixedSkills` + `choiceGroups[].choose` 之和，
+  任选组按 `choose` 计入。括号内的同类专精算一个选择槽（例如
+  科学（生物学、药剂学）是一条二选一），不把并列项误算成多固定槽；不补
+  未印出的「任意技能」凑数。
+- 复杂并列句按真实选项解析后再判 8 项：交际花解析为 10 项、劳工 9 项，均以
+  `not-eight-slots` 拒绝而不是「句子复杂」跳过；佣人解析为 8 项，但礼仪没有族或
+  已核基础值，以 `unverified-skill: 礼仪` 拒绝。
+- 公式只用现有 7 条白名单；不新增 MAX。多选公式写成有序 `pointFormulas`，
+  单公式写 `pointFormula`；构建同时保留两者的一致性。
+- 已有 Private Investigator / Soldier / Explorer 的真实二选一/三选一与 Artist
+  的 POW 公式保持不变；新增记录不写 UGE 财富档，信用评级只作职业约束。
+
+### M8 验证与同步
+
+- 源仓 `tools/tests/coc-rules-regressions.mjs` **149/149**；构建连续运行字节一致，
+  octopus 包字节不变；`base-pack-determinism` 通过。测试 harness 现在只把
+  `ok === true` 视为通过，修复了此前数组返回值被当成 truthy 的静默通过。
+- 导入器幂等：重跑后 `content/coc/{professions,skills,provenance}.json` 哈希不变；
+  `sealdice.occupation.*` 记录整体替换，已有 38 条不参与替换。
+- 同步路径（本源仓不执行）：compat 仓 `web/packages/brp/`，逐字节同步
+  `content/coc/*`、`module/rules/*`、`packs-json/*`、`packs-index/*`、`packs/*`
+  与 `system.json`。前端 E2E 与真实栈验收不在本源仓声明。
 
 ## M3 事实（原生战斗与创伤，源仓切片）
 
@@ -505,7 +766,14 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 ## 验证口径
 
 - `node tools/tests/coc-rules-regressions.mjs`：数据/构建/规则/配点/战斗/创伤/M4 适配器契约
-  纯函数 **107 项**（M4 新增 6 项：SAN/Luck/成长/发作表/i18n+template/无第二 REST 写路）。
+  纯函数，M4 时点 **107 项**、M5 **124**、M6 **132**、M7 **137**、M8 **146 项**
+  （当前为 149/149）。
+- M7 当前（2026-10-30）：`coc-rules-regressions` **137/137**、确定性构建通过；
+  compat 前端 `studio-coc-verify` **198/198**、真实栈 07/08/09/10 **550/550**
+  （dev HS256），证据在 `/tmp/coc-cardwright-e2e/`；本源仓不声称跑过浏览器 E2E。
+- M8 源仓（2026-10-30）：`coc-rules-regressions` **149/149**、`base-pack-determinism`
+  通过；118 条新增职业全部八项、公式/CR/来源/唯一 ID/技能引用与基础值通过，187 条
+  deferred 全部有类别与原因。compat 同步目标 `web/packages/brp/`，本源仓未跑前端 E2E。
 - `node tools/tests/coc-sanity-regressions.mjs`：M4 SAN/疯狂/Luck/成长纯核 **45 项**
   （在 38 项基础上新增阈值口径、Luck 全负例、恢复上限、成长边界、显式结束原因、永久终态）。
 - `tools/tests/rules-regressions.mjs`：无头原生链 **161 项**（M3 的 114 项全部保留；
@@ -575,5 +843,14 @@ M4 原生链负责；上述验收不扩张为真实 Keycloak、生产部署或�
 - M4 不定疯狂的恢复数量/周期仍是 `pending-official-source`；仅 keeper 复核，不填数字。
 - M4 的 Lightless Beacon starting/scenario 阈值只作为可选 `basis`，默认不启用；不得把
   scenario 简化阈值冒充核心规则。
-- 职业公式/信用区间是公开页面的次级证据，不是 Chaosium 一手 PDF 的逐字核对。
+- M7 的 38 职业不是 `coc-cardwright` 的 112 全表，也不是 Investigator Handbook 全量；
+  没有完整八项的职业不导入。职业公式/信用区间是公开页面或用户仓库的次级证据，不是
+  Chaosium 一手 PDF 的逐字核对。
+- M7 的 compat 真实栈仍是 dev HS256，不是真实 Keycloak；本契约不据此宣称生产部署、
+  真实 OIDC 或可选规则已覆盖。
+- M8 的 156 职业不是 Chaosium 官方全职业表，也不是 `sealdice-builtins` 的全表：
+  只导入能核到公式、信用区间、完整八项与技能基础值的正式定义；187 条按类别 deferred。
+  海豹数据不是 MIT，helpdoc 正文/职业描述未复制；全部记录仍是 secondary。
+- M8 的 compat 前端/E2E 未在本源仓执行；同步目标为 `web/packages/brp/`，是否接线与
+  真实栈验收由 compat 仓单独记录。
 - VTT 授权未评审：Fan Material Policy 排除 VTT，本仓自研代码不等于已获授权。

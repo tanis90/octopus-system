@@ -67,6 +67,7 @@
         "base": null,
         "requiresExplicitBase": true,
         "brpids": [
+         "i.skill.coc.firearms-bow",
          "i.skill.coc.firearms-handgun",
          "i.skill.coc.firearms-rifle-shotgun"
         ]
@@ -160,6 +161,10 @@
    {
     "options": 1,
     "skills": [
+     {
+      "brpid": "i.skill.coc.firearms-bow",
+      "uuid": "YdgqZpurYRRtmgip"
+     },
      {
       "brpid": "i.skill.coc.firearms-handgun",
       "uuid": "1GMNDl2j6zfGXyI3"

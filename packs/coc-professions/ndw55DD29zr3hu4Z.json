@@ -1,0 +1,232 @@
+{
+ "_id": "ndw55DD29zr3hu4Z",
+ "name": "高中生",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.high-school-student",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "High School Student",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.high-school-student",
+    "slug": "high-school-student",
+    "creditMin": 5,
+    "creditMax": 10,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "climb",
+     "stealth",
+     "jump",
+     "library-use",
+     "language-own"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "fighting",
+      "label": "一项格斗专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "fighting",
+        "parentKey": "fighting",
+        "base": null,
+        "requiresExplicitBase": true,
+        "brpids": [
+         "i.skill.coc.fighting-brawl",
+         "i.skill.coc.fighting-chainsaw",
+         "i.skill.coc.fighting-spear",
+         "i.skill.coc.fighting-sword",
+         "i.skill.coc.fighting-whip"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "science-or-history",
+      "label": "科学（任一）或历史",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "science",
+        "parentKey": "science",
+        "base": 1,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.science-astronomy",
+         "i.skill.coc.science-biology",
+         "i.skill.coc.science-botany",
+         "i.skill.coc.science-chemistry",
+         "i.skill.coc.science-engineering",
+         "i.skill.coc.science-forensics",
+         "i.skill.coc.science-geology",
+         "i.skill.coc.science-math",
+         "i.skill.coc.science-pharmacy",
+         "i.skill.coc.science-physics",
+         "i.skill.coc.science-zoology"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "history",
+        "brpids": [
+         "i.skill.coc.history"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "language-other",
+      "label": "一项其他语言专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "language-other",
+        "parentKey": "language-other",
+        "base": 1,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.language-other-greek",
+         "i.skill.coc.language-other-latin"
+        ]
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.climb",
+    "uuid": "XBPmBl9yAuJ1Peo9"
+   },
+   {
+    "brpid": "i.skill.coc.stealth",
+    "uuid": "KAT6rXWeJrlD9MOD"
+   },
+   {
+    "brpid": "i.skill.coc.jump",
+    "uuid": "acDj9JcQQNbsARhC"
+   },
+   {
+    "brpid": "i.skill.coc.library-use",
+    "uuid": "7BNMWqPVJyA0sReg"
+   },
+   {
+    "brpid": "i.skill.coc.language-own",
+    "uuid": "7WwKSOQFVJeDC4hr"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.fighting-brawl",
+      "uuid": "03IOJtCr9psfhkLg"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-chainsaw",
+      "uuid": "AbFYN5iZK5ocm7gQ"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-spear",
+      "uuid": "VkTPXjdacqcNy7IK"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-sword",
+      "uuid": "paZT2vSGfhlTBGSZ"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-whip",
+      "uuid": "Q99xKqgzylVeB7aR"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.science-astronomy",
+      "uuid": "vtzRQOCNjhk0mzRK"
+     },
+     {
+      "brpid": "i.skill.coc.science-biology",
+      "uuid": "ojfHa6wDmmM5s0ey"
+     },
+     {
+      "brpid": "i.skill.coc.science-botany",
+      "uuid": "OlX1keGDxhw1KCIe"
+     },
+     {
+      "brpid": "i.skill.coc.science-chemistry",
+      "uuid": "qg1EZMCkC7VLFVcy"
+     },
+     {
+      "brpid": "i.skill.coc.science-engineering",
+      "uuid": "VcW0QSmva65xYMUF"
+     },
+     {
+      "brpid": "i.skill.coc.science-forensics",
+      "uuid": "0AAlWrrgIC6iZezX"
+     },
+     {
+      "brpid": "i.skill.coc.science-geology",
+      "uuid": "HDWgdIhpGGLSC0Ns"
+     },
+     {
+      "brpid": "i.skill.coc.science-math",
+      "uuid": "dJFv4Qd5vqg7tqXC"
+     },
+     {
+      "brpid": "i.skill.coc.science-pharmacy",
+      "uuid": "FYszZeEWTX2DBFSd"
+     },
+     {
+      "brpid": "i.skill.coc.science-physics",
+      "uuid": "wnVkcgYRKa02xsc0"
+     },
+     {
+      "brpid": "i.skill.coc.science-zoology",
+      "uuid": "mTXA1OJqEe8jdrgk"
+     },
+     {
+      "brpid": "i.skill.coc.history",
+      "uuid": "ZsbrYPHoyqIA6fGF"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.language-other-greek",
+      "uuid": "zxbzRO9P1dqY9jzD"
+     },
+     {
+      "brpid": "i.skill.coc.language-other-latin",
+      "uuid": "YY2QWZ0T7f8A76NE"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "在校学习，同时接触社团、打工与城市生活。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：5–10（只能用职业点，且必须落在区间内）"
+ }
+}

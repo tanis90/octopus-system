@@ -1,0 +1,78 @@
+{
+ "_id": "QqQEKhLGkQs0YWQW",
+ "name": "自宅警备员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.stay-at-home-guard",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Stay-at-Home Guard",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.stay-at-home-guard",
+    "slug": "stay-at-home-guard",
+    "creditMin": 1,
+    "creditMax": 10,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "computer",
+     "listen",
+     "stealth",
+     "library-use",
+     "language-own"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "any-specialty",
+      "label": "任意三项符合尼特族形象的特长",
+      "choose": 3,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.computer",
+    "uuid": "RS6e1ho0S4LXuWBc"
+   },
+   {
+    "brpid": "i.skill.coc.listen",
+    "uuid": "fHdlJ2r8hzJAHBnx"
+   },
+   {
+    "brpid": "i.skill.coc.stealth",
+    "uuid": "KAT6rXWeJrlD9MOD"
+   },
+   {
+    "brpid": "i.skill.coc.library-use",
+    "uuid": "7BNMWqPVJyA0sReg"
+   },
+   {
+    "brpid": "i.skill.coc.language-own",
+    "uuid": "7WwKSOQFVJeDC4hr"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "长期宅居家中，以监控、网络和防盗设备看守住所。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：1–10（只能用职业点，且必须落在区间内）"
+ }
+}

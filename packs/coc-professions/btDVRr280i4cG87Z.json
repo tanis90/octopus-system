@@ -1,0 +1,83 @@
+{
+ "_id": "btDVRr280i4cG87Z",
+ "name": "拳击手／摔跤手",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.boxer-wrestler",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Boxer/Wrestler",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.boxer-wrestler",
+    "slug": "boxer-wrestler",
+    "creditMin": 9,
+    "creditMax": 60,
+    "pointFormula": "EDU*2+STR*2",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "dodge",
+     "fighting-brawl",
+     "intimidate",
+     "jump",
+     "psychology",
+     "spot-hidden"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "any-specialty",
+      "label": "任意两项其他个人或时代特长",
+      "choose": 2,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.dodge",
+    "uuid": "NeiLzxM7dLr6hC5r"
+   },
+   {
+    "brpid": "i.skill.coc.fighting-brawl",
+    "uuid": "03IOJtCr9psfhkLg"
+   },
+   {
+    "brpid": "i.skill.coc.intimidate",
+    "uuid": "mhG3if5iht465aSn"
+   },
+   {
+    "brpid": "i.skill.coc.jump",
+    "uuid": "acDj9JcQQNbsARhC"
+   },
+   {
+    "brpid": "i.skill.coc.psychology",
+    "uuid": "n8ACQitSLni4geaF"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   }
+  ],
+  "groups": [],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "以格斗技巧参加拳击或摔跤比赛，靠体能和意志取胜。\n\n职业点：EDU*2+STR*2（引擎按白名单公式求值）\n\n信用评级：9–60（只能用职业点，且必须落在区间内）"
+ }
+}

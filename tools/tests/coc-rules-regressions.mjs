@@ -1,5 +1,7 @@
 // CoC source-repo regression probe (M1 core + M2 occupations/allocation + M3 combat/wounds
-// + M5 specialisms/second-batch occupations/multi-formula; no Foundry required).
+// + M5 specialisms/second-batch occupations/multi-formula + M6 third-batch occupations/
+// POW formula/Science (Astronomy) + M7 coc-cardwright fourth batch + M8 SealDice
+// compatibility batch; no Foundry required).
 //
 //   node tools/tests/coc-rules-regressions.mjs
 //
@@ -10,17 +12,21 @@
 //   3. centralized rules: derived attributes, SAN/Luck, success bands, growth,
 //      skill formula rounding, APP -> cha mapping
 //   4. negative cases: BRP and CoC differ where they must, no cross-pack bleed
-//   5. M2/M5 occupations: formula/credit range per source, wealth band never used as
-//      CR, resolvable skill refs, deterministic ids, eight-skill shape
-//   6. M2/M5 creation rules: whitelist AST, either/or point formulas, INT x 2,
-//      credit-rating rules, mythos ban, explicit base values, no base folding,
+//   5. M2/M5/M6/M7 occupations: formula/credit range per source, wealth band never used as
+//      CR, resolvable skill refs, deterministic ids, eight-skill shape, unique identities
+//   6. M2/M5/M6/M7 creation rules: whitelist AST, either/or point formulas (incl. POW),
+//      INT x 2, credit-rating rules, mythos ban, explicit base values, no base folding,
 //      specialism identity
 //   7. M3 pure combat/wounds: band ranks, required-band difficulty, bonus/penalty
 //      tens pools, weapon profiles/extreme damage/half DB, opposed ties, dodge/
 //      fightback/cover, Build/outnumbering/shots/point-blank, major wound/dying/
 //      instant death and the healing bands
-//   8. M5 provenance: every new record secondary, no official-first-party claim,
-//      every cited source registered with an https URL
+//   8. M5/M6/M7 provenance: every new record secondary, no official-first-party claim,
+//      every cited source registered with an https URL, coc-cardwright as the only
+//      source for the fourth batch, no public table splicing
+//   9. M8 SealDice batch: 118 imports exactly eight slots, whitelisted formulas/CR, unique
+//      ids, resolvable skill bases, 187 deferred entries with category+reason, source
+//      and license boundary, legacy 38 choices preserved
 import { cpSync, mkdtempSync, readFileSync, readdirSync, rmSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, relative } from "node:path";
@@ -35,8 +41,12 @@ const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), "utf8"));
 const checks = {};
 const errors = [];
 const check = (name, ok, detail) => {
-  checks[name] = ok ? true : { ok: false, detail };
-  if (!ok) errors.push(`${name}: ${JSON.stringify(detail)}`);
+  // A check must return exactly `true` to pass. Array-returning helpers use
+  // `bad.length ? bad : true`; treating an array as truthy would silently turn
+  // every one of those regressions into a pass.
+  const passed = ok === true;
+  checks[name] = passed ? true : { ok: false, detail: detail ?? ok };
+  if (!passed) errors.push(`${name}: ${JSON.stringify(detail ?? ok)}`);
 };
 
 const walk = (dir, base = dir) => {
@@ -107,8 +117,11 @@ const cocIndex = readJson("packs-index/coc-skills.json");
 const octopusDocs = readJson("packs-json/octopus-skills.json");
 const docsByKey = new Map(cocDocs.map((doc) => [doc.flags.brp.coc.key, doc]));
 
-check("factCount", facts.skills.length === 56 && cocDocs.length === 56 && cocIndex.length === 56,
-  { facts: facts.skills.length, docs: cocDocs.length, index: cocIndex.length });
+const LEGACY_SKILL_COUNT = 59;
+const sealdiceSkillCount = Object.keys(provenance.skillsM8?.perSkill ?? {}).length;
+check("factCount", facts.skills.length === LEGACY_SKILL_COUNT + sealdiceSkillCount
+  && cocDocs.length === facts.skills.length && cocIndex.length === facts.skills.length,
+  { facts: facts.skills.length, docs: cocDocs.length, index: cocIndex.length, sealDiceAdded: sealdiceSkillCount });
 check("documentIdsUniqueAndDeterministic", new Set(cocDocs.map((doc) => doc._id)).size === cocDocs.length
   && cocDocs.every((doc) => /^[A-Za-z0-9]{16}$/.test(doc._id))
   && new Set(cocIndex.map((doc) => doc._id)).size === cocIndex.length,
@@ -157,7 +170,9 @@ check("brpidAsciiAndUnique", cocDocs.every((doc) => brpidRe.test(doc.flags.brp.b
   cocDocs.filter((doc) => !brpidRe.test(doc.flags.brp.brpidFlag.id)).map((doc) => doc.flags.brp.brpidFlag.id));
 
 const specDocs = cocDocs.filter((doc) => doc.system.specialism);
-check("specialismIdentityIndependent", specDocs.length === 18 && specDocs.every((doc) => {
+const LEGACY_SPECIALISM_COUNT = 21;
+const sealdiceSpecialismCount = facts.skills.filter((skill) => String(skill.factId).startsWith("sealdice.skill.") && skill.specialism).length;
+check("specialismIdentityIndependent", specDocs.length === LEGACY_SPECIALISM_COUNT + sealdiceSpecialismCount && specDocs.every((doc) => {
   const specKey = doc.flags.brp.coc.specKey;
   const parentKey = doc.flags.brp.coc.parentKey;
   if (!specKey || !parentKey || doc.system.chosen !== true || doc.system.specName !== doc.name) return false;
@@ -170,13 +185,30 @@ check("specialismIdentityIndependent", specDocs.length === 18 && specDocs.every(
 check("allDocsTaggedCoc", cocDocs.every((doc) => doc.flags.brp.contentSource === "coc"),
   cocDocs.filter((doc) => doc.flags.brp.contentSource !== "coc").length);
 
-// M3 second batch: five new specialisms, verified as secondary evidence.
+// M3/M5/M6/M7 specialisms added after the first batch, all verified as secondary evidence.
 const NEW_SPECIALISMS = {
   "science-pharmacy": { parentKey: "science", specKey: "pharmacy", base: 1, mainName: "科学" },
   "science-engineering": { parentKey: "science", specKey: "engineering", base: 1, mainName: "科学" },
   "science-physics": { parentKey: "science", specKey: "physics", base: 1, mainName: "科学" },
+  "science-astronomy": { parentKey: "science", specKey: "astronomy", base: 1, mainName: "科学" },
+  "science-zoology": { parentKey: "science", specKey: "zoology", base: 1, mainName: "科学" },
+  "science-forensics": { parentKey: "science", specKey: "forensics", base: 1, mainName: "科学" },
   "art-craft-acting": { parentKey: "art-craft", specKey: "acting", base: 5, mainName: "艺术/手艺" },
   "art-craft-technical-drawing": { parentKey: "art-craft", specKey: "technical-drawing", base: 5, mainName: "艺术/手艺" },
+  // M8 SealDice compatibility batch: only concrete skills with a verified
+  // family base and a skills.py member value.
+  "art-craft-farming": { parentKey: "art-craft", specKey: "farming", base: 5, mainName: "艺术/手艺" },
+  "art-craft-forgery": { parentKey: "art-craft", specKey: "forgery", base: 5, mainName: "艺术/手艺" },
+  "art-craft-music": { parentKey: "art-craft", specKey: "music", base: 5, mainName: "艺术/手艺" },
+  "art-craft-woodworking": { parentKey: "art-craft", specKey: "woodworking", base: 5, mainName: "艺术/手艺" },
+  "art-craft-writing": { parentKey: "art-craft", specKey: "writing", base: 5, mainName: "艺术/手艺" },
+  "art-craft-typing": { parentKey: "art-craft", specKey: "typing", base: 5, mainName: "艺术/手艺" },
+  "art-craft-shorthand": { parentKey: "art-craft", specKey: "shorthand", base: 5, mainName: "艺术/手艺" },
+  "pilot-horse": { parentKey: "pilot", specKey: "horse", base: 1, mainName: "驾驶" },
+  "science-botany": { parentKey: "science", specKey: "botany", base: 1, mainName: "科学" },
+  "science-geology": { parentKey: "science", specKey: "geology", base: 1, mainName: "科学" },
+  "science-math": { parentKey: "science", specKey: "math", base: 10, mainName: "科学" },
+  "survival-mountain": { parentKey: "survival", specKey: "mountain", base: 5, mainName: "生存" },
 };
 check("m5SpecialismsCarryFamilyBaseAndIdentity", (() => {
   const bad = [];
@@ -202,6 +234,11 @@ check("skillFamiliesConcreteCoversEveryPublishedSpecialism", (() => {
   // chosen, so the two lists must agree in both directions.
   const bad = [];
   const provenanceFamilies = readJson("content/coc/professions.json").skillFamilies ?? {};
+  // Mathematics (10) and Survival (Mountain) (5) carry their own printed
+  // values rather than the family default. Families whose base is intentionally
+  // unknown (Fighting/Firearms, requiresExplicitBase) publish concrete members
+  // with their own verified values, so only the member's base is checked.
+  const SPECIALISM_BASE_OVERRIDES = { "science-math": 10, "survival-mountain": 5 };
   const published = new Map(specDocs.map((doc) => [`${doc.flags.brp.coc.parentKey}/${doc.flags.brp.coc.specKey}`, doc]));
   const listed = new Set();
   for (const [familyKey, family] of Object.entries(provenanceFamilies)) {
@@ -209,7 +246,13 @@ check("skillFamiliesConcreteCoversEveryPublishedSpecialism", (() => {
       const doc = docsByKey.get(key);
       if (!doc) { bad.push(`${familyKey}: unknown concrete ${key}`); continue; }
       if (doc.flags.brp.coc.parentKey !== family.parentKey) bad.push(`${familyKey}: ${key} parent ${doc.flags.brp.coc.parentKey}`);
-      if (doc.system.base !== family.base) bad.push(`${familyKey}: ${key} base ${doc.system.base} != family ${family.base}`);
+      if (family.base === null) {
+        if (family.requiresExplicitBase !== true) bad.push(`${familyKey}: null base without requiresExplicitBase`);
+        if (!Number.isInteger(doc.system.base)) bad.push(`${familyKey}: ${key} has no verified member base`);
+      } else {
+        const expectedBase = SPECIALISM_BASE_OVERRIDES[key] ?? family.base;
+        if (doc.system.base !== expectedBase) bad.push(`${familyKey}: ${key} base ${doc.system.base} != ${expectedBase}`);
+      }
       listed.add(`${doc.flags.brp.coc.parentKey}/${doc.flags.brp.coc.specKey}`);
     }
   }
@@ -757,11 +800,18 @@ const profDocs = readJson("packs-json/coc-professions.json");
 const profIndex = readJson("packs-index/coc-professions.json");
 const profBySlug = new Map(profDocs.map((doc) => [doc.flags.brp.coc.slug, doc]));
 
-check("professionFactCount", professionFacts.professions.length === 15
-  && profDocs.length === 15 && profIndex.length === 15
-  && new Set(profDocs.map((doc) => doc._id)).size === 15
+const LEGACY_PROFESSION_COUNT = 38;
+const sealdiceProfessionDocs = profDocs.filter((doc) => String(doc.flags.brp.coc.factId).startsWith("sealdice.occupation.")).length;
+const sealdiceProfessionFacts = professionFacts.professions.filter((entry) => String(entry.factId).startsWith("sealdice.occupation.")).length;
+const expectedProfessionCount = LEGACY_PROFESSION_COUNT + sealdiceProfessionDocs;
+check("professionFactCount", professionFacts.professions.length === expectedProfessionCount
+  && profDocs.length === expectedProfessionCount && profIndex.length === expectedProfessionCount
+  && sealdiceProfessionFacts === sealdiceProfessionDocs
+  && sealdiceProfessionDocs === provenance.occupations.deferredSummary?.imported
+  && new Set(profDocs.map((doc) => doc._id)).size === expectedProfessionCount
   && profDocs.every((doc) => /^[A-Za-z0-9]{16}$/.test(doc._id)),
-  { facts: professionFacts.professions.length, docs: profDocs.length, index: profIndex.length });
+  { facts: professionFacts.professions.length, docs: profDocs.length, index: profIndex.length,
+    legacy: LEGACY_PROFESSION_COUNT, sealDice: sealdiceProfessionDocs });
 
 check("professionPackRegistration", (() => {
   const sys = readJson("system.json");
@@ -779,12 +829,21 @@ const EXPECTED_OCCUPATIONS = {
   author: { formulas: ["EDU*4"], min: 9, max: 30, sources: ["coc-roll20-occupations"] },
   "cat-burglar": { formulas: ["EDU*2+DEX*2"], min: 5, max: 40, sources: ["coc-roll20-occupations"] },
   dilettante: { formulas: ["EDU*2+APP*2"], min: 50, max: 99, sources: ["coc-roll20-occupations"] },
-  explorer: { formulas: ["EDU*2+MAX(APP,DEX,STR)*2"], min: 55, max: 80, sources: ["coc-roll20-occupations"] },
+  explorer: {
+    formulas: ["EDU*2+APP*2", "EDU*2+DEX*2", "EDU*2+STR*2"], min: 55, max: 80,
+    sources: ["coc-roll20-occupations"], noMax: true,
+  },
   "investigative-journalist": { formulas: ["EDU*4"], min: 9, max: 30, sources: ["coc-roll20-occupations"] },
   nurse: { formulas: ["EDU*4"], min: 9, max: 30, sources: ["coc-roll20-occupations"] },
-  "private-investigator": { formulas: ["EDU*2+MAX(DEX,STR)*2"], min: 9, max: 30, sources: ["coc-roll20-occupations"] },
+  "private-investigator": {
+    formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"], min: 9, max: 30,
+    sources: ["coc-roll20-occupations"], noMax: true,
+  },
   professor: { formulas: ["EDU*4"], min: 20, max: 70, sources: ["coc-roll20-occupations"] },
-  soldier: { formulas: ["EDU*2+MAX(DEX,STR)*2"], min: 9, max: 30, sources: ["coc-roll20-occupations"] },
+  soldier: {
+    formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"], min: 9, max: 30,
+    sources: ["coc-roll20-occupations"], noMax: true,
+  },
   // M3 second batch. Doctor of Medicine and Police Detective have a licensed
   // compendium page plus the public wiki; the other three rest on a three-way
   // secondary cross-check and never claim an official source.
@@ -809,6 +868,70 @@ const EXPECTED_OCCUPATIONS = {
   engineer: {
     formulas: ["EDU*4"], min: 30, max: 60,
     sources: ["coc-gamersplane-occupations", "coc-org-uk-occupations", "coc-rpgstack-occupations"],
+  },
+  // M6 third batch, re-sourced to coc-cardwright in M7: a single user repository
+  // now backs formula, credit range and the complete skill list.
+  "police-officer": {
+    formulas: ["EDU*2+DEX*2", "EDU*2+STR*2"], min: 9, max: 30,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright",
+  },
+  artist: {
+    formulas: ["EDU*2+POW*2", "EDU*2+DEX*2"], min: 9, max: 50,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright",
+  },
+  clergy: {
+    formulas: ["EDU*4"], min: 9, max: 60,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright",
+  },
+  pilot: {
+    formulas: ["EDU*2+DEX*2"], min: 20, max: 70,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright",
+  },
+  // M7 fourth batch: 19 occupations mapped one-to-one from coc-cardwright's
+  // jobs.py. Formula order follows the printed source; every record has exactly
+  // eight fixed+choice slots.
+  psychiatrist: { formulas: ["EDU*4"], min: 30, max: 80, sources: ["coc-cardwright"], onlySource: "coc-cardwright" },
+  "museum-curator": { formulas: ["EDU*4"], min: 10, max: 30, sources: ["coc-cardwright"], onlySource: "coc-cardwright" },
+  coroner: { formulas: ["EDU*4"], min: 40, max: 60, sources: ["coc-cardwright"], onlySource: "coc-cardwright" },
+  judge: { formulas: ["EDU*4"], min: 50, max: 80, sources: ["coc-cardwright"], onlySource: "coc-cardwright" },
+  bookseller: { formulas: ["EDU*4"], min: 20, max: 40, sources: ["coc-cardwright"], onlySource: "coc-cardwright" },
+  antiquarian: { formulas: ["EDU*4"], min: 30, max: 50, sources: ["coc-cardwright"], onlySource: "coc-cardwright" },
+  intermediary: {
+    formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"], min: 20, max: 45,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright", noMax: true,
+  },
+  orderly: { formulas: ["EDU*2+STR*2"], min: 6, max: 15, sources: ["coc-cardwright"], onlySource: "coc-cardwright" },
+  "government-official": { formulas: ["EDU*2+APP*2"], min: 50, max: 90, sources: ["coc-cardwright"], onlySource: "coc-cardwright" },
+  traveler: {
+    formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"], min: 5, max: 20,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright", noMax: true,
+  },
+  firefighter: {
+    formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"], min: 9, max: 30,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright", noMax: true,
+  },
+  fisherman: { formulas: ["EDU*4"], min: 20, max: 40, sources: ["coc-cardwright"], onlySource: "coc-cardwright" },
+  hunter: {
+    formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"], min: 20, max: 50,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright", noMax: true,
+  },
+  pharmacist: { formulas: ["EDU*4"], min: 35, max: 75, sources: ["coc-cardwright"], onlySource: "coc-cardwright" },
+  gambler: {
+    formulas: ["EDU*2+DEX*2", "EDU*2+APP*2"], min: 8, max: 50,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright", noMax: true,
+  },
+  "tribe-member": {
+    formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"], min: 0, max: 15,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright", noMax: true,
+  },
+  spy: {
+    formulas: ["EDU*2+DEX*2", "EDU*2+APP*2"], min: 20, max: 60,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright", noMax: true,
+  },
+  "gang-leader": { formulas: ["EDU*2+APP*2"], min: 60, max: 95, sources: ["coc-cardwright"], onlySource: "coc-cardwright" },
+  "asylum-orderly": {
+    formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"], min: 8, max: 20,
+    sources: ["coc-cardwright"], onlySource: "coc-cardwright", noMax: true,
   },
 };
 
@@ -847,12 +970,94 @@ check("professionFormulasAndCreditRangesMatchSources", (() => {
       if (!(coc.sourceRefs ?? []).includes(source)) mismatched.push(`${slug}: missing sourceRefs ${source}`);
     }
     for (const source of expected.crossChecked ?? []) {
-      if (!(coc.sourceRefs ?? []).includes(source)) mismatched.push(`${slug}: missing cross-check ${source}`);
+      const record = provenance.occupations.perRecord?.[`coc7.occupation.${slug}`];
+      if (!(record?.crossCheckedWith ?? []).includes(source)) mismatched.push(`${slug}: missing cross-check ${source}`);
+    }
+    for (const source of expected.absentSources ?? []) {
+      if ((coc.sourceRefs ?? []).includes(source)) mismatched.push(`${slug}: must not cite ${source}`);
+    }
+    if (expected.noMax && formulas.some((formula) => formula.includes("MAX"))) {
+      mismatched.push(`${slug}: still uses a MAX formula`);
+    }
+    if (expected.onlySource && JSON.stringify(coc.sourceRefs ?? []) !== JSON.stringify([expected.onlySource])) {
+      mismatched.push(`${slug}: cites ${JSON.stringify(coc.sourceRefs)} instead of only ${expected.onlySource}`);
     }
     if (doc.name !== professionFacts.professions.find((entry) => entry.slug === slug)?.name) mismatched.push(`${slug}: name`);
   }
   return mismatched.length === 0 ? true : mismatched;
-})(), [...profBySlug.keys()]);
+})());
+
+check("noShippedProfessionUsesMaxFormula", (() => {
+  const bad = [];
+  for (const doc of profDocs) {
+    const coc = doc.flags.brp.coc;
+    const formulas = coc.pointFormulas ?? [coc.pointFormula];
+    if (formulas.some((formula) => String(formula).includes("MAX"))) bad.push(coc.slug);
+  }
+  return bad.length ? bad : true;
+})(), profDocs.filter((doc) => (doc.flags.brp.coc.pointFormulas ?? [doc.flags.brp.coc.pointFormula])
+  .some((formula) => String(formula).includes("MAX"))).map((doc) => doc.flags.brp.coc.slug));
+
+check("legacyMaxProfessionsAreNowOrderedChoices", (() => {
+  const wanted = {
+    "private-investigator": ["EDU*2+STR*2", "EDU*2+DEX*2"],
+    soldier: ["EDU*2+STR*2", "EDU*2+DEX*2"],
+    explorer: ["EDU*2+APP*2", "EDU*2+DEX*2", "EDU*2+STR*2"],
+  };
+  const bad = [];
+  for (const [slug, formulas] of Object.entries(wanted)) {
+    const coc = profBySlug.get(slug)?.flags?.brp?.coc;
+    if (!coc) { bad.push(`${slug}: missing`); continue; }
+    if (JSON.stringify(coc.pointFormulas) !== JSON.stringify(formulas)) {
+      bad.push(`${slug}: ${JSON.stringify(coc.pointFormulas)} != ${JSON.stringify(formulas)}`);
+    }
+    if (coc.pointFormula !== formulas[0]) bad.push(`${slug}: pointFormula ${coc.pointFormula}`);
+    if (!(coc.choiceGroups ?? []).length) bad.push(`${slug}: lost its skill groups`);
+    if (JSON.stringify(coc.sourceRefs) !== JSON.stringify(["coc-roll20-occupations"])) {
+      bad.push(`${slug}: sources ${JSON.stringify(coc.sourceRefs)}`);
+    }
+  }
+  return bad.length ? bad : true;
+})(), ["private-investigator", "soldier", "explorer"]
+  .map((slug) => [slug, profBySlug.get(slug)?.flags.brp.coc.pointFormulas]));
+
+check("everyProfessionCarriesEightSlotsExceptSourceFaithfulAuthor", (() => {
+  const bad = [];
+  for (const doc of profDocs) {
+    const coc = doc.flags.brp.coc;
+    const total = (coc.fixedSkillKeys ?? []).length
+      + (coc.choiceGroups ?? []).reduce((sum, group) => sum + group.choose, 0);
+    if (coc.slug === "author") {
+      // The printed Author list has seven items (Art/Craft, History, Other
+      // Language, Own Language, Psychology, Library Use, Natural World or
+      // Occult); adding an eighth slot would invent a fact.
+      if (total !== 7) bad.push(`author: ${total}, source prints 7`);
+    } else if (total !== 8) {
+      bad.push(`${coc.slug}: ${total}`);
+    }
+  }
+  return bad.length ? bad : true;
+})(), profDocs.map((doc) => [doc.flags.brp.coc.slug,
+  (doc.flags.brp.coc.fixedSkillKeys ?? []).length
+  + (doc.flags.brp.coc.choiceGroups ?? []).reduce((sum, group) => sum + group.choose, 0)]));
+
+check("professionIdentitiesAreUnique", (() => {
+  const bad = [];
+  for (const field of ["slug", "factId", "name"]) {
+    const values = field === "name"
+      ? profDocs.map((doc) => doc.name)
+      : profDocs.map((doc) => doc.flags.brp.coc[field]);
+    if (new Set(values).size !== values.length) bad.push(`${field} duplicated`);
+  }
+  const brpids = profDocs.map((doc) => doc.flags.brp.brpidFlag.id);
+  if (new Set(brpids).size !== brpids.length) bad.push("brpid duplicated");
+  const ids = profDocs.map((doc) => doc._id);
+  if (new Set(ids).size !== ids.length) bad.push("_id duplicated");
+  const factSlugs = professionFacts.professions.map((entry) => entry.slug);
+  if (new Set(factSlugs).size !== factSlugs.length) bad.push("fact slug duplicated");
+  if (professionFacts.professions.length !== profDocs.length) bad.push("fact/doc count mismatch");
+  return bad.length ? bad : true;
+})(), profDocs.length);
 
 check("everyProfessionIsSecondaryEvidenceWithSources", profDocs.every((doc) => {
   const coc = doc.flags.brp.coc;
@@ -884,6 +1089,110 @@ check("m5ProfessionsCarryExactlyEightSkills", (() => {
         "operate-heavy-machinery", "science-engineering", "science-physics"],
       picks: [["any-specialty", 1]],
     },
+    // M6 third batch.
+    "police-officer": {
+      fixed: ["fighting-brawl", "first-aid", "law", "psychology", "spot-hidden"],
+      picks: [["firearms", 1], ["interpersonal", 1], ["drive-or-ride", 1]],
+    },
+    artist: {
+      fixed: ["psychology", "spot-hidden"],
+      picks: [["art-craft", 1], ["history-or-natural-world", 1], ["interpersonal", 1],
+        ["language-other", 1], ["any-specialty", 2]],
+    },
+    clergy: {
+      fixed: ["accounting", "history", "library-use", "listen", "psychology"],
+      picks: [["language-other", 1], ["interpersonal", 1], ["any-specialty", 1]],
+    },
+    pilot: {
+      fixed: ["electrical-repair", "mechanical-repair", "navigate", "operate-heavy-machinery",
+        "pilot-aircraft", "science-astronomy"],
+      picks: [["any-specialty", 2]],
+    },
+    // M7 fourth batch (coc-cardwright).
+    psychiatrist: {
+      fixed: ["listen", "medicine", "persuade", "psychoanalysis", "psychology",
+        "science-biology", "science-chemistry"],
+      picks: [["language-other", 1]],
+    },
+    "museum-curator": {
+      fixed: ["accounting", "appraise", "archaeology", "history", "library-use", "occult", "spot-hidden"],
+      picks: [["language-other", 1]],
+    },
+    coroner: {
+      fixed: ["library-use", "medicine", "persuade", "science-biology", "science-forensics",
+        "science-pharmacy", "spot-hidden"],
+      picks: [["language-other", 1]],
+    },
+    judge: {
+      fixed: ["history", "intimidate", "law", "library-use", "listen", "language-own",
+        "persuade", "psychology"],
+      picks: [],
+    },
+    bookseller: {
+      fixed: ["accounting", "appraise", "drive-auto", "history", "library-use", "language-own"],
+      picks: [["language-other", 1], ["interpersonal", 1]],
+    },
+    antiquarian: {
+      fixed: ["accounting", "appraise", "drive-auto", "history", "library-use", "navigate"],
+      picks: [["interpersonal", 1], ["interpersonal-two", 1]],
+    },
+    intermediary: {
+      fixed: ["fighting-brawl", "law", "library-use", "psychology", "stealth", "track"],
+      picks: [["firearms", 1], ["interpersonal", 1]],
+    },
+    orderly: {
+      fixed: ["electrical-repair", "fighting-brawl", "first-aid", "listen", "mechanical-repair",
+        "psychology", "stealth"],
+      picks: [["interpersonal", 1]],
+    },
+    "government-official": {
+      fixed: ["charm", "history", "intimidate", "fast-talk", "listen", "language-own",
+        "persuade", "psychology"],
+      picks: [],
+    },
+    traveler: {
+      fixed: ["first-aid", "listen", "natural-world", "navigate", "spot-hidden", "track"],
+      picks: [["firearms", 1], ["survival", 1]],
+    },
+    firefighter: {
+      fixed: ["climb", "dodge", "drive-auto", "first-aid", "jump", "mechanical-repair",
+        "operate-heavy-machinery", "throw"],
+      picks: [],
+    },
+    fisherman: {
+      fixed: ["first-aid", "mechanical-repair", "natural-world", "navigate", "pilot-boat",
+        "spot-hidden", "swim"],
+      picks: [["interpersonal", 1]],
+    },
+    hunter: {
+      fixed: ["natural-world", "navigate", "science-zoology", "stealth", "track"],
+      picks: [["firearms", 1], ["listen-or-spot-hidden", 1], ["language-or-survival", 1]],
+    },
+    pharmacist: {
+      fixed: ["accounting", "first-aid", "language-other-latin", "library-use", "psychology",
+        "science-chemistry", "science-pharmacy"],
+      picks: [["interpersonal", 1]],
+    },
+    gambler: {
+      fixed: ["accounting", "art-craft-acting", "listen", "psychology", "sleight-of-hand", "spot-hidden"],
+      picks: [["interpersonal", 1], ["interpersonal-two", 1]],
+    },
+    "tribe-member": {
+      fixed: ["climb", "listen", "natural-world", "occult", "spot-hidden", "swim"],
+      picks: [["survival", 1], ["fighting-or-throw", 1]],
+    },
+    spy: {
+      fixed: ["listen", "psychology", "sleight-of-hand", "stealth"],
+      picks: [["firearms", 1], ["language-other", 1], ["acting-or-disguise", 1], ["interpersonal", 1]],
+    },
+    "gang-leader": {
+      fixed: ["law", "listen", "psychology", "spot-hidden"],
+      picks: [["fighting", 1], ["firearms", 1], ["interpersonal", 1], ["interpersonal-two", 1]],
+    },
+    "asylum-orderly": {
+      fixed: ["dodge", "fighting-brawl", "first-aid", "listen", "psychology", "stealth"],
+      picks: [["interpersonal", 1], ["interpersonal-two", 1]],
+    },
   };
   const bad = [];
   for (const [slug, want] of Object.entries(expected)) {
@@ -898,7 +1207,11 @@ check("m5ProfessionsCarryExactlyEightSkills", (() => {
     if (total !== 8) bad.push(`${slug}: ${total} skills, not 8`);
   }
   return bad.length ? bad : true;
-})(), profDocs.filter((doc) => ["doctor-of-medicine", "police-detective", "librarian", "lawyer", "engineer"]
+})(), profDocs.filter((doc) => ["doctor-of-medicine", "police-detective", "librarian", "lawyer", "engineer",
+  "police-officer", "artist", "clergy", "pilot",
+  "psychiatrist", "museum-curator", "coroner", "judge", "bookseller", "antiquarian", "intermediary",
+  "orderly", "government-official", "traveler", "firefighter", "fisherman", "hunter", "pharmacist",
+  "gambler", "tribe-member", "spy", "gang-leader", "asylum-orderly"]
   .includes(doc.flags.brp.coc.slug))
   .map((doc) => [doc.flags.brp.coc.slug, (doc.flags.brp.coc.fixedSkillKeys ?? []).length
     + (doc.flags.brp.coc.choiceGroups ?? []).reduce((sum, group) => sum + group.choose, 0)]));
@@ -947,6 +1260,79 @@ check("lawyerInterpersonalGroupRequiresTwoDistinctSkills", (() => {
     && ["charm", "fast-talk", "intimidate", "persuade"].every((key) => skills.includes(key));
 })(), profBySlug.get("lawyer")?.flags.brp.coc.choiceGroups);
 
+// M6 third batch: distinct records, printed formula order and exact slots.
+check("scienceAstronomyIsPublishedInScienceFamily", (() => {
+  const doc = docsByKey.get("science-astronomy");
+  const family = professionFacts.skillFamilies?.science;
+  if (!doc || !family) return false;
+  return doc.system.base === 1 && doc.system.variable === false
+    && doc.system.specialism === true && doc.system.mainName === "科学"
+    && doc.flags.brp.coc.specKey === "astronomy"
+    && doc.flags.brp.brpidFlag.id === "i.skill.coc.science-astronomy"
+    && family.base === 1 && family.concrete.includes("science-astronomy")
+    && (doc.flags.brp.coc.sourceRefs ?? []).length > 0
+    && profBySlug.get("pilot").flags.brp.coc.fixedSkillKeys.includes("science-astronomy");
+})(), { doc: docsByKey.get("science-astronomy")?.system, family: professionFacts.skillFamilies?.science });
+
+check("policeOfficerIsNotPoliceDetective", (() => {
+  const officer = profBySlug.get("police-officer");
+  const detective = profBySlug.get("police-detective");
+  if (!officer || !detective) return false;
+  const o = officer.flags.brp.coc;
+  const d = detective.flags.brp.coc;
+  const oKeys = new Set(o.fixedSkillKeys);
+  const dKeys = new Set(d.fixedSkillKeys);
+  return officer._id !== detective._id
+    && officer.flags.brp.brpidFlag.id !== detective.flags.brp.brpidFlag.id
+    && o.creditMin === 9 && o.creditMax === 30
+    && d.creditMin === 20 && d.creditMax === 50
+    && JSON.stringify(o.pointFormulas) === JSON.stringify(d.pointFormulas)
+    && oKeys.has("fighting-brawl") && oKeys.has("first-aid") && oKeys.has("spot-hidden")
+    && !oKeys.has("listen") && dKeys.has("listen")
+    && !dKeys.has("fighting-brawl") && !dKeys.has("first-aid")
+    && (o.choiceGroups ?? []).some((group) => group.key === "drive-or-ride")
+    && (d.choiceGroups ?? []).some((group) => group.key === "acting-or-disguise")
+    && !JSON.stringify(officer).includes(detective.flags.brp.brpidFlag.id);
+})(), {
+  officer: profBySlug.get("police-officer")?.flags.brp.coc.fixedSkillKeys,
+  detective: profBySlug.get("police-detective")?.flags.brp.coc.fixedSkillKeys,
+});
+
+check("artistUsesPowFormulaNotAppOrMax", (() => {
+  const coc = profBySlug.get("artist")?.flags?.brp?.coc;
+  const formulas = coc?.pointFormulas ?? [];
+  const interpersonal = (coc?.choiceGroups ?? []).find((group) => group.key === "interpersonal");
+  const options = (interpersonal?.options ?? []).filter((option) => option.kind === "skill")
+    .map((option) => option.skill);
+  return formulas.length === 2
+    && formulas[0] === "EDU*2+POW*2" && formulas[1] === "EDU*2+DEX*2"
+    && coc.pointFormula === "EDU*2+POW*2"
+    && !formulas.some((formula) => formula.includes("APP") || formula.includes("MAX"))
+    && !(coc.fixedSkillKeys ?? []).includes("persuade")
+    && interpersonal?.choose === 1
+    && options.length === 4 && new Set(options).size === 4
+    && ["charm", "fast-talk", "intimidate", "persuade"].every((key) => options.includes(key));
+})(), {
+  formulas: profBySlug.get("artist")?.flags.brp.coc.pointFormulas,
+  fixed: profBySlug.get("artist")?.flags.brp.coc.fixedSkillKeys,
+  interpersonal: profBySlug.get("artist")?.flags.brp.coc.choiceGroups
+    ?.find((group) => group.key === "interpersonal")?.options,
+});
+
+check("pilotFixesAircraftAndAstronomyNotBoat", (() => {
+  const coc = profBySlug.get("pilot")?.flags?.brp?.coc;
+  const fixed = coc?.fixedSkillKeys ?? [];
+  return coc?.pointFormula === "EDU*2+DEX*2"
+    && coc.pointFormulas === undefined
+    && coc.creditMin === 20 && coc.creditMax === 70
+    && fixed.includes("pilot-aircraft") && fixed.includes("science-astronomy")
+    && !fixed.includes("pilot-boat")
+    && !(coc.sourceRefs ?? []).includes("coc-rpgstack-occupations")
+    && (coc.choiceGroups ?? []).length === 1
+    && coc.choiceGroups[0].key === "any-specialty" && coc.choiceGroups[0].choose === 2;
+})(), { fixed: profBySlug.get("pilot")?.flags.brp.coc.fixedSkillKeys,
+  refs: profBySlug.get("pilot")?.flags.brp.coc.sourceRefs });
+
 // Provenance: every second-batch fact is registered, every grade is secondary,
 // and nothing claims an official first-party source.
 const M5_PROVENANCE = {
@@ -966,9 +1352,40 @@ const M5_PROVENANCE = {
   },
 };
 
+// M7 fourth batch: coc-cardwright is the only cited source. The four M6
+// records were re-sourced into this batch, so their old public-page citations
+// must be gone rather than kept alongside.
+const M7_PROVENANCE = {
+  "coc7.occupation.police-officer": { sources: ["coc-cardwright"], formulas: ["EDU*2+DEX*2", "EDU*2+STR*2"] },
+  "coc7.occupation.artist": { sources: ["coc-cardwright"], formulas: ["EDU*2+POW*2", "EDU*2+DEX*2"] },
+  "coc7.occupation.clergy": { sources: ["coc-cardwright"], formulas: ["EDU*4"] },
+  "coc7.occupation.pilot": { sources: ["coc-cardwright"], formulas: ["EDU*2+DEX*2"] },
+  "coc7.occupation.psychiatrist": { sources: ["coc-cardwright"], formulas: ["EDU*4"] },
+  "coc7.occupation.museum-curator": { sources: ["coc-cardwright"], formulas: ["EDU*4"] },
+  "coc7.occupation.coroner": { sources: ["coc-cardwright"], formulas: ["EDU*4"] },
+  "coc7.occupation.judge": { sources: ["coc-cardwright"], formulas: ["EDU*4"] },
+  "coc7.occupation.bookseller": { sources: ["coc-cardwright"], formulas: ["EDU*4"] },
+  "coc7.occupation.antiquarian": { sources: ["coc-cardwright"], formulas: ["EDU*4"] },
+  "coc7.occupation.intermediary": { sources: ["coc-cardwright"], formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"] },
+  "coc7.occupation.orderly": { sources: ["coc-cardwright"], formulas: ["EDU*2+STR*2"] },
+  "coc7.occupation.government-official": { sources: ["coc-cardwright"], formulas: ["EDU*2+APP*2"] },
+  "coc7.occupation.traveler": { sources: ["coc-cardwright"], formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"] },
+  "coc7.occupation.firefighter": { sources: ["coc-cardwright"], formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"] },
+  "coc7.occupation.fisherman": { sources: ["coc-cardwright"], formulas: ["EDU*4"] },
+  "coc7.occupation.hunter": { sources: ["coc-cardwright"], formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"] },
+  "coc7.occupation.pharmacist": { sources: ["coc-cardwright"], formulas: ["EDU*4"] },
+  "coc7.occupation.gambler": { sources: ["coc-cardwright"], formulas: ["EDU*2+DEX*2", "EDU*2+APP*2"] },
+  "coc7.occupation.tribe-member": { sources: ["coc-cardwright"], formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"] },
+  "coc7.occupation.spy": { sources: ["coc-cardwright"], formulas: ["EDU*2+DEX*2", "EDU*2+APP*2"] },
+  "coc7.occupation.gang-leader": { sources: ["coc-cardwright"], formulas: ["EDU*2+APP*2"] },
+  "coc7.occupation.asylum-orderly": { sources: ["coc-cardwright"], formulas: ["EDU*2+STR*2", "EDU*2+DEX*2"] },
+};
+
+const PROVENANCE_RECORDS = { ...M5_PROVENANCE, ...M7_PROVENANCE };
+
 check("m5ProvenanceRegistersEveryRecordAsSecondary", (() => {
   const bad = [];
-  for (const [factId, want] of Object.entries(M5_PROVENANCE)) {
+  for (const [factId, want] of Object.entries(PROVENANCE_RECORDS)) {
     const record = provenance.occupations.perRecord[factId];
     if (!record) { bad.push(`${factId}: unregistered`); continue; }
     if (record.evidence !== "secondary") bad.push(`${factId}: evidence ${record.evidence}`);
@@ -977,12 +1394,17 @@ check("m5ProvenanceRegistersEveryRecordAsSecondary", (() => {
       if (!refs.includes(source)) bad.push(`${factId}: missing ${source}`);
     }
     // A record with no licensed compendium page must say so.
-    if (want.strict === false && !record.claimBoundary) bad.push(`${factId}: no claimBoundary`);
+    if ((want.strict === false || want.sources.includes("coc-cardwright")) && !record.claimBoundary) {
+      bad.push(`${factId}: no claimBoundary`);
+    }
     if (want.formulas && JSON.stringify(record.formulas) !== JSON.stringify(want.formulas)) {
       bad.push(`${factId}: formulas ${JSON.stringify(record.formulas)}`);
     }
     if (record.formula !== (record.formulas ?? [])[0] && record.formulas) {
       bad.push(`${factId}: formula/list mismatch`);
+    }
+    for (const source of want.absentSources ?? []) {
+      if (refs.includes(source)) bad.push(`${factId}: must not cite ${source}`);
     }
   }
   return bad.length ? bad : true;
@@ -991,13 +1413,13 @@ check("m5ProvenanceRegistersEveryRecordAsSecondary", (() => {
 check("m5ProvenanceNeverClaimsOfficialFirstParty", (() => {
   const forbidden = ["official", "first-party", "primary", "chaosium-confirmed", "verified-official"];
   const bad = [];
-  for (const [factId] of Object.entries(M5_PROVENANCE)) {
+  for (const [factId] of Object.entries(PROVENANCE_RECORDS)) {
     const record = provenance.occupations.perRecord[factId];
     const grade = String(record?.evidence ?? "");
     if (forbidden.some((word) => grade.toLowerCase().includes(word))) bad.push(`${factId}: ${grade}`);
     // Only the two compendium-backed records may cite the official wiki.
     const citesWiki = (record?.sourceRefs ?? []).some((ref) => ref.startsWith("coc-wiki"));
-    const want = M5_PROVENANCE[factId];
+    const want = PROVENANCE_RECORDS[factId];
     if (citesWiki && want.strict !== true) bad.push(`${factId}: unauthorised wiki citation`);
   }
   const datasetStatus = String(provenance.occupations.status ?? "");
@@ -1008,12 +1430,12 @@ check("m5ProvenanceNeverClaimsOfficialFirstParty", (() => {
 check("m5ProvenanceSourcesResolveToRegisteredUrls", (() => {
   const ids = new Set(provenance.sources.map((source) => source.id));
   const bad = [];
-  for (const [factId, want] of Object.entries(M5_PROVENANCE)) {
-    for (const ref of want.sources) {
+  for (const [factId, want] of Object.entries(PROVENANCE_RECORDS)) {
+    for (const ref of [...want.sources, ...(want.skillShapeSources ?? [])]) {
       if (!ids.has(ref)) bad.push(`${factId}: ${ref} not registered`);
     }
   }
-  for (const id of ["coc-gamersplane-occupations", "coc-org-uk-occupations", "coc-rpgstack-occupations"]) {
+  for (const id of ["coc-gamersplane-occupations", "coc-org-uk-occupations", "coc-org-uk-chargen", "coc-rpgstack-occupations", "coc-cardwright"]) {
     const source = provenance.sources.find((entry) => entry.id === id);
     if (!source) { bad.push(`${id}: missing`); continue; }
     if (!source.url.startsWith("https://")) bad.push(`${id}: url ${source.url}`);
@@ -1021,14 +1443,89 @@ check("m5ProvenanceSourcesResolveToRegisteredUrls", (() => {
     if (!source.note) bad.push(`${id}: no note`);
   }
   return bad.length ? bad : true;
-})(), provenance.sources.filter((source) => source.id.includes("occupations")).map((source) => source.id));
+})(), provenance.sources.filter((source) => source.id.includes("occupations") || source.id === "coc-org-uk-chargen" || source.id === "coc-cardwright").map((source) => source.id));
+
+check("m7CardwrightIsTheOnlySourceAndNoPublicTableIsSpliced", (() => {
+  const bad = [];
+  const publicPageSources = ["coc-roll20-occupations", "coc-wiki-skills", "coc-gamersplane-occupations",
+    "coc-org-uk-occupations", "coc-org-uk-chargen", "coc-rpgstack-occupations"];
+  for (const [factId] of Object.entries(M7_PROVENANCE)) {
+    const record = provenance.occupations.perRecord[factId];
+    if (JSON.stringify(record?.sourceRefs) !== JSON.stringify(["coc-cardwright"])) {
+      bad.push(`${factId}: sourceRefs ${JSON.stringify(record?.sourceRefs)}`);
+    }
+    if ((record?.skillShapeSourceRefs ?? []).length) bad.push(`${factId}: stale skillShapeSourceRefs`);
+    const slug = factId.replace("coc7.occupation.", "");
+    const fact = professionFacts.professions.find((entry) => entry.slug === slug);
+    if (JSON.stringify(fact?.sourceRefs) !== JSON.stringify(["coc-cardwright"])) {
+      bad.push(`${slug}: fact sourceRefs ${JSON.stringify(fact?.sourceRefs)}`);
+    }
+    const doc = profBySlug.get(slug);
+    if (JSON.stringify(doc?.flags?.brp?.coc?.sourceRefs) !== JSON.stringify(["coc-cardwright"])) {
+      bad.push(`${slug}: pack sourceRefs ${JSON.stringify(doc?.flags?.brp?.coc?.sourceRefs)}`);
+    }
+    for (const source of publicPageSources) {
+      if (JSON.stringify(doc ?? {}).includes(source)) bad.push(`${slug}: still cites ${source}`);
+    }
+  }
+  const chargen = provenance.sources.find((entry) => entry.id === "coc-org-uk-chargen");
+  if ((chargen?.usedFor ?? []).some((line) => /Police Officer|Artist|Clergy|Pilot/.test(line))) {
+    bad.push("coc-org-uk-chargen still claims an M6 occupation");
+  }
+  const rpgstack = provenance.sources.find((entry) => entry.id === "coc-rpgstack-occupations");
+  if (!/truncat/i.test(rpgstack?.note ?? "") || !/omits Pilot/i.test(rpgstack?.note ?? "")) {
+    bad.push("RPG Stack truncation note missing");
+  }
+  return bad.length ? bad : true;
+})(), Object.keys(M7_PROVENANCE));
+
+check("m7CardwrightProvenanceRecordsUpstreamAndBoundary", (() => {
+  const source = provenance.sources.find((entry) => entry.id === "coc-cardwright");
+  const upstream = source?.upstream ?? [];
+  const upstreamIds = upstream.map((entry) => entry.id);
+  const boundary = String(provenance.licenseBoundary?.excluded?.join(" ") ?? "");
+  return source?.url === "https://github.com/tanis90/coc-cardwright"
+    && /^[0-9a-f]{40}$/.test(source.revision ?? "")
+    && source.evidence === "secondary"
+    && upstreamIds.includes("trpg-saikou") && upstreamIds.includes("cochar")
+    && upstream.every((entry) => entry.url.startsWith("https://") && entry.note)
+    && /trpg-saikou/.test(source.note) && /cochar/.test(source.note)
+    && /not an official Chaosium publication/i.test(source.note)
+    && /No coc-cardwright visual template/.test(boundary)
+    && /Python implementation/.test(boundary)
+    && /only the point formula, credit-rating range and skill names/i.test(boundary);
+})(), provenance.sources.find((entry) => entry.id === "coc-cardwright"));
+
+check("psychiatristIsModelledFromCardwright", (() => {
+  const doc = profBySlug.get("psychiatrist");
+  const coc = doc?.flags?.brp?.coc;
+  const resolved = provenance.occupations.resolvedDeferredRecords?.psychiatrist;
+  const fixed = coc?.fixedSkillKeys ?? [];
+  const groups = coc?.choiceGroups ?? [];
+  return doc !== undefined
+    && JSON.stringify(fixed) === JSON.stringify(["listen", "medicine", "persuade", "psychoanalysis",
+      "psychology", "science-biology", "science-chemistry"])
+    && groups.length === 1 && groups[0].key === "language-other" && groups[0].choose === 1
+    && JSON.stringify(coc?.sourceRefs) === JSON.stringify(["coc-cardwright"])
+    && coc?.creditMin === 30 && coc?.creditMax === 80 && coc?.pointFormula === "EDU*4"
+    && !provenance.occupations.deferredRecords?.psychiatrist
+    && resolved?.status === "implemented"
+    && professionFacts.professions.some((entry) => entry.slug === "psychiatrist");
+})(), {
+  fixed: profBySlug.get("psychiatrist")?.flags.brp.coc.fixedSkillKeys,
+  deferred: provenance.occupations.deferredRecords,
+});
 
 check("professionNeverUsesWealthBandAsCreditRating", profDocs.every((doc) => {
   const coc = doc.flags.brp.coc;
+  const fact = professionFacts.professions.find((entry) => entry.slug === coc.slug);
   return doc.system.minWealth === 0 && doc.system.maxWealth === 0
     && coc.wealthNotApplicable === true
     && Number.isInteger(coc.creditMin) && Number.isInteger(coc.creditMax)
-    && coc.creditMin !== doc.system.minWealth && coc.creditMax !== doc.system.maxWealth;
+    // The pack CR is copied from the profession fact, never from the UGE band;
+    // Tribe Member legitimately prints CR 0-15, so equality with the zeroed
+    // wealth fields is not the invariant.
+    && coc.creditMin === fact?.creditMin && coc.creditMax === fact?.creditMax;
 }), profDocs.map((doc) => [doc.flags.brp.coc.slug, doc.system.minWealth, doc.system.maxWealth]));
 
 check("professionSkillRefsResolveToCocSkills", (() => {
@@ -1058,7 +1555,14 @@ check("professionChoiceGroupsCarryResolvedSkillIds", (() => {
   const bad = [];
   for (const doc of profDocs) {
     const groups = doc.flags.brp.coc.choiceGroups ?? [];
-    if (!groups.length) bad.push(`${doc.flags.brp.coc.slug}: no choiceGroups`);
+    if (!groups.length) {
+      // A source list with no either/or group is modelled as eight fixed skills;
+      // it must not be silently emitted as an empty profession.
+      if ((doc.flags.brp.coc.fixedSkillKeys ?? []).length !== 8) {
+        bad.push(`${doc.flags.brp.coc.slug}: no groups and ${(doc.flags.brp.coc.fixedSkillKeys ?? []).length} fixed`);
+      }
+      continue;
+    }
     for (const group of groups) {
       if (!group.key || !group.label || !Number.isInteger(group.choose)) bad.push(`${doc.flags.brp.coc.slug}/${group.key}: meta`);
       for (const option of group.options) {
@@ -1072,18 +1576,21 @@ check("professionChoiceGroupsCarryResolvedSkillIds", (() => {
         }
       }
       // Concrete (non-any) groups are exactly what the native pack mirrors.
-      const walkable = group.options.every((option) => option.kind !== "any");
-      const native = doc.system.groups.some((nativeGroup) => nativeGroup.options === group.choose
-        && nativeGroup.skills.length === new Set(group.options.flatMap((option) => option.brpids)).size);
-      if (walkable && !native) bad.push(`${doc.flags.brp.coc.slug}/${group.key}: not mirrored natively`);
-      if (!walkable && doc.system.groups.some((nativeGroup) => nativeGroup.options === group.choose
-        && nativeGroup.skills.some((ref) => group.options.some((option) => option.kind === "any")))) {
-        bad.push(`${doc.flags.brp.coc.slug}/${group.key}: any leaked into native group`);
+      // An "any" group has no enumerable skill list, so the builder must omit it
+      // from the native groups; the whole-document count check below proves it.
+      if (group.options.every((option) => option.kind !== "any")) {
+        const native = doc.system.groups.some((nativeGroup) => nativeGroup.options === group.choose
+          && nativeGroup.skills.length === new Set(group.options.flatMap((option) => option.brpids)).size);
+        if (!native) bad.push(`${doc.flags.brp.coc.slug}/${group.key}: not mirrored natively`);
       }
+    }
+    const concreteGroups = groups.filter((group) => group.options.every((option) => option.kind !== "any"));
+    if (doc.system.groups.length !== concreteGroups.length) {
+      bad.push(`${doc.flags.brp.coc.slug}: native groups ${doc.system.groups.length} != concrete ${concreteGroups.length}`);
     }
   }
   return bad.length ? bad : true;
-})(), profDocs.map((doc) => [doc.flags.brp.coc.slug, (doc.flags.brp.coc.choiceGroups ?? []).length]));
+})());
 
 check("professionSpecialismSlotsCarryVerifiedFamilyBase", (() => {
   const bad = [];
@@ -1116,37 +1623,353 @@ const {
   normalizePointFormulas, isSupportedPointFormulas,
 } = creation;
 
-const creationStats = { edu: 60, int: 50, dex: 70, app: 40, str: 30, cha: 40 };
-check("pointFormulasEvaluateFromWhitelist", POINT_FORMULAS.length === 6
+// --- M8 SealDice compatibility batch -------------------------------------
+// Every imported record must be exactly eight slots, use only the existing
+// formula whitelist, resolve every skill reference, and cite the registered
+// SealDice source. The deferred catalogue must keep a category and a reason for
+// every entry, and the legacy 38 records must not be overwritten.
+const SEALDICE_FACT_PREFIX = "sealdice.occupation.";
+const sealdiceFacts = professionFacts.professions.filter((entry) => String(entry.factId).startsWith(SEALDICE_FACT_PREFIX));
+const sealdiceDocs = profDocs.filter((doc) => String(doc.flags.brp.coc.factId).startsWith(SEALDICE_FACT_PREFIX));
+const sealdiceDeferred = provenance.occupations.deferredRecords ?? {};
+const sealdiceSummary = provenance.occupations.deferredSummary ?? {};
+const sealdicePerRecord = provenance.occupations.perRecord ?? {};
+const sealdiceFamilies = professionFacts.skillFamilies ?? {};
+
+check("sealdiceBatchReportMatchesRecords", sealdiceFacts.length > 0
+  && sealdiceDocs.length === sealdiceFacts.length
+  && sealdiceSummary.imported === sealdiceFacts.length
+  && sealdiceSummary.total === 305
+  && sealdiceSummary.imported + sealdiceSummary.deferred === sealdiceSummary.total
+  && Object.keys(sealdiceDeferred).length === sealdiceSummary.deferred
+  && Object.values(sealdiceSummary.byCategory ?? {}).reduce((sum, count) => sum + count, 0) === sealdiceSummary.deferred
+  && sealdiceFacts.every((fact) => sealdicePerRecord[fact.factId])
+  && professionFacts.professions.length === LEGACY_PROFESSION_COUNT + sealdiceFacts.length,
+  { imported: sealdiceFacts.length, summary: sealdiceSummary });
+
+check("sealdiceDeferredRecordsCarryCategoryAndReason", (() => {
+  const allowed = new Set(["alias", "format-anomaly", "custom", "missing-credit-rating",
+    "missing-formula", "missing-skills", "invalid-credit-rating", "unsupported-formula",
+    "not-eight-slots", "unverified-skill", "duplicate-existing", "duplicate-source",
+    "display-name-conflict"]);
+  const bad = [];
+  const counts = {};
+  for (const [key, entry] of Object.entries(sealdiceDeferred)) {
+    if (!allowed.has(entry?.category)) bad.push(`${key}: category ${entry?.category}`);
+    if (typeof entry?.reason !== "string" || !entry.reason.trim()) bad.push(`${key}: no reason`);
+    counts[entry?.category] = (counts[entry?.category] ?? 0) + 1;
+  }
+  for (const [category, count] of Object.entries(counts)) {
+    if (sealdiceSummary.byCategory?.[category] !== count) bad.push(`${category}: ${count} != ${sealdiceSummary.byCategory?.[category]}`);
+  }
+  if (sealdiceSummary.byCategory?.alias !== 79) bad.push(`aliases: ${sealdiceSummary.byCategory?.alias}`);
+  if (sealdiceSummary.byCategory?.["format-anomaly"] !== 3) bad.push(`format anomalies: ${sealdiceSummary.byCategory?.["format-anomaly"]}`);
+  if (sealdiceDeferred["自定义职业"]?.category !== "custom") bad.push("custom template not deferred");
+  return bad.length ? bad : true;
+})(), sealdiceSummary.byCategory);
+
+check("sealdiceNormalizedDuplicatesAreProven", (() => {
+  // Same option set + same pick count is one canonical choice shape, so the two
+  // separate "one interpersonal skill" groups in the legacy records equal the
+  // source's one "two interpersonal skills" group. These are duplicates, not
+  // display-name conflicts.
+  const duplicates = {
+    "古董商": "antiquarian",
+    "赌徒": "gambler",
+    "黑帮-黑帮老大": "gang-leader",
+    "精神病院看护": "asylum-orderly",
+  };
+  const bad = [];
+  for (const [key, slug] of Object.entries(duplicates)) {
+    const entry = sealdiceDeferred[key];
+    if (entry?.category !== "duplicate-existing") bad.push(`${key}: ${entry?.category}`);
+    else if (!entry.reason.includes(slug)) bad.push(`${key}: reason ${entry.reason}`);
+  }
+  // These keep the conflict because the normalized signature really differs.
+  // Fisherman is not the same record: legacy is EDU*4 / CR 20-40 with First Aid
+  // and one interpersonal pick; the source is EDU*2+STR/DEX / CR 9-30 with
+  // Operate Heavy Machinery and Science (Astronomy). Never overwrite or clone
+  // the same-name card to force a duplicate.
+  for (const key of ["艺术家", "猎人", "渔民"]) {
+    if (sealdiceDeferred[key]?.category !== "display-name-conflict") bad.push(`${key}: ${sealdiceDeferred[key]?.category}`);
+  }
+  return bad.length ? bad : true;
+})(), sealdiceSummary.byCategory);
+
+check("sealdiceComplexListsAreParsedNotSkipped", (() => {
+  const bad = [];
+  const expected = {
+    // 10 and 9 slots are real over-long lists; they are rejected for the slot
+    // count, not because the parser gave up on the comma/parenthesis grammar.
+    "交际花": { category: "not-eight-slots", pattern: /10 项/ },
+    "劳工": { category: "not-eight-slots", pattern: /9 项/ },
+    // 8 slots, but Etiquette has no family or verified base; the reason names it.
+    "佣人": { category: "unverified-skill", pattern: /礼仪/ },
+  };
+  for (const [key, want] of Object.entries(expected)) {
+    const entry = sealdiceDeferred[key];
+    if (entry?.category !== want.category) bad.push(`${key}: ${entry?.category}`);
+    else if (!want.pattern.test(entry.reason)) bad.push(`${key}: ${entry.reason}`);
+  }
+  const importedSourceKeys = new Set(Object.values(sealdicePerRecord)
+    .filter((record) => record?.sourceRefs?.[0] === "sealdice-occupations")
+    .map((record) => record.sourceKey));
+  for (const key of ["工人-伐木工", "游戏测试员", "歌手", "偶像", "搞笑艺人", "网络明星"]) {
+    if (!importedSourceKeys.has(key)) bad.push(`${key}: still deferred`);
+  }
+  return bad.length ? bad : true;
+})(), sealdiceSummary.byCategory);
+
+check("sealdiceSurvivalMountainKeepsPrintedBase", (() => {
+  // skills.py prints 生存(高山)=5. The Survival family default is 10, but a
+  // family default must never overwrite a verified member value.
+  const doc = docsByKey.get("survival-mountain");
+  const fact = facts.skills.find((skill) => skill.key === "survival-mountain");
+  return doc?.system.base === 5
+    && fact?.base === 5
+    && sealdiceFamilies.survival?.base === 10
+    && provenance.skillsM8?.perSkill?.["survival-mountain"]?.base === 5
+    && JSON.stringify(doc?.flags?.brp?.coc?.sourceRefs) === JSON.stringify(["coc-cardwright"]);
+})(), {
+  doc: docsByKey.get("survival-mountain")?.system.base,
+  family: sealdiceFamilies.survival?.base,
+  perSkill: provenance.skillsM8?.perSkill?.["survival-mountain"],
+});
+
+check("sealdiceImportedProfessionsAreExactlyEightSlots", (() => {
+  const bad = [];
+  for (const fact of sealdiceFacts) {
+    const groups = fact.choiceGroups ?? [];
+    const total = (fact.fixedSkills ?? []).length + groups.reduce((sum, group) => sum + group.choose, 0);
+    if (total !== 8) bad.push(`${fact.slug}: ${total} slots`);
+    const fixed = fact.fixedSkills ?? [];
+    if (new Set(fixed).size !== fixed.length) bad.push(`${fact.slug}: repeated fixed skill`);
+    const keys = new Set();
+    for (const group of groups) {
+      if (!ASCII_ID.test(group.key ?? "")) bad.push(`${fact.slug}/${group.key}: key`);
+      if (keys.has(group.key)) bad.push(`${fact.slug}/${group.key}: duplicate group key`);
+      keys.add(group.key);
+      if (!Number.isInteger(group.choose) || group.choose < 1) bad.push(`${fact.slug}/${group.key}: choose`);
+      if (!(group.options ?? []).length) bad.push(`${fact.slug}/${group.key}: no options`);
+      for (const option of group.options ?? []) {
+        if (!["skill", "family", "any"].includes(option.kind)) bad.push(`${fact.slug}/${group.key}: kind ${option.kind}`);
+        if (option.kind === "skill" && !option.skill) bad.push(`${fact.slug}/${group.key}: skill missing`);
+        if (option.kind === "family" && !option.family) bad.push(`${fact.slug}/${group.key}: family missing`);
+      }
+    }
+  }
+  for (const doc of sealdiceDocs) {
+    const coc = doc.flags.brp.coc;
+    const total = (coc.fixedSkillKeys ?? []).length + (coc.choiceGroups ?? []).reduce((sum, group) => sum + group.choose, 0);
+    if (total !== 8) bad.push(`${coc.slug}: pack ${total} slots`);
+  }
+  return bad.length ? bad : true;
+})(), sealdiceFacts.map((fact) => [fact.slug, (fact.fixedSkills ?? []).length
+  + (fact.choiceGroups ?? []).reduce((sum, group) => sum + group.choose, 0)]));
+
+check("sealdiceImportedProfessionsUseWhitelistedFormulasAndCredit", (() => {
+  const bad = [];
+  for (const fact of sealdiceFacts) {
+    const formulas = fact.pointFormulas ?? [fact.pointFormula];
+    if (!formulas.length || formulas.some((formula) => !POINT_FORMULAS.includes(formula))) bad.push(`${fact.slug}: formula`);
+    if (fact.pointFormulas) {
+      if (fact.pointFormulas.length < 2) bad.push(`${fact.slug}: one-entry pointFormulas`);
+      if (fact.pointFormula !== undefined) bad.push(`${fact.slug}: both formula spellings`);
+    }
+    if (formulas.some((formula) => String(formula).includes("MAX"))) bad.push(`${fact.slug}: MAX`);
+    if (!Number.isInteger(fact.creditMin) || !Number.isInteger(fact.creditMax)
+      || fact.creditMin < 0 || fact.creditMax > 99 || fact.creditMin > fact.creditMax) {
+      bad.push(`${fact.slug}: credit ${fact.creditMin}-${fact.creditMax}`);
+    }
+    if (fact.evidence !== "secondary") bad.push(`${fact.slug}: evidence`);
+    if (JSON.stringify(fact.sourceRefs) !== JSON.stringify(["sealdice-occupations"])) bad.push(`${fact.slug}: sources`);
+    const doc = sealdiceDocs.find((entry) => entry.flags.brp.coc.factId === fact.factId);
+    if (!doc) { bad.push(`${fact.slug}: no pack doc`); continue; }
+    const coc = doc.flags.brp.coc;
+    const docFormulas = coc.pointFormulas ?? [coc.pointFormula];
+    if (JSON.stringify(docFormulas) !== JSON.stringify(formulas)) bad.push(`${fact.slug}: pack formulas`);
+    if (coc.creditMin !== fact.creditMin || coc.creditMax !== fact.creditMax) bad.push(`${fact.slug}: pack credit`);
+    if (JSON.stringify(coc.sourceRefs) !== JSON.stringify(fact.sourceRefs)) bad.push(`${fact.slug}: pack sources`);
+  }
+  return bad.length ? bad : true;
+})(), sealdiceFacts.map((fact) => [fact.slug, fact.pointFormulas ?? fact.pointFormula]));
+
+check("sealdiceImportedProfessionsResolveSkillRefsAndBases", (() => {
+  const bad = [];
+  for (const fact of sealdiceFacts) {
+    const doc = sealdiceDocs.find((entry) => entry.flags.brp.coc.factId === fact.factId);
+    const checkSkill = (key, where) => {
+      const skill = docsByKey.get(key);
+      if (!skill) { bad.push(`${where}: unknown skill ${key}`); return; }
+      if (!skill.system.variable && !Number.isFinite(skill.system.base)) bad.push(`${where}: ${key} has no base`);
+      if (!skill.system.variable && skill.system.base === 0 && !["credit-rating", "cthulhu-mythos"].includes(key)) {
+        bad.push(`${where}: ${key} is fixed 0`);
+      }
+    };
+    for (const key of fact.fixedSkills ?? []) checkSkill(key, fact.slug);
+    for (const group of fact.choiceGroups ?? []) {
+      for (const option of group.options ?? []) {
+        if (option.kind === "skill") checkSkill(option.skill, `${fact.slug}/${group.key}`);
+        if (option.kind === "family") {
+          const family = sealdiceFamilies[option.family];
+          if (!family) bad.push(`${fact.slug}/${group.key}: unknown family ${option.family}`);
+          else if (!(Number.isInteger(family.base) || family.requiresExplicitBase === true)) {
+            bad.push(`${fact.slug}/${group.key}: family ${option.family} has no verified base`);
+          }
+        }
+      }
+    }
+    if (doc) {
+      for (const ref of [...doc.system.skills, ...doc.system.groups.flatMap((group) => group.skills)]) {
+        if (!docsByKey.has(ref.brpid.replace("i.skill.coc.", ""))) bad.push(`${fact.slug}: ${ref.brpid}`);
+      }
+    }
+  }
+  return bad.length ? bad : true;
+})(), sealdiceFacts.map((fact) => fact.slug));
+
+check("sealdiceNewSkillsCarryVerifiedBases", (() => {
+  const bad = [];
+  const perSkill = provenance.skillsM8?.perSkill ?? {};
+  if (!Object.keys(perSkill).length) bad.push("no skillsM8.perSkill");
+  for (const [key, entry] of Object.entries(perSkill)) {
+    const base = entry?.base;
+    const sourceRefs = entry?.sourceRefs ?? [];
+    const fact = facts.skills.find((item) => item.key === key);
+    const doc = docsByKey.get(key);
+    if (!fact || !doc) { bad.push(`${key}: missing`); continue; }
+    if (!Number.isInteger(base)) bad.push(`${key}: base is not an integer`);
+    if (fact.base !== base || doc.system.base !== base) bad.push(`${key}: base ${fact.base}/${doc.system.base} != ${base}`);
+    if (!sourceRefs.length) bad.push(`${key}: no sourceRefs`);
+    if (JSON.stringify(fact.sourceRefs) !== JSON.stringify(sourceRefs)) bad.push(`${key}: fact sources ${JSON.stringify(fact.sourceRefs)} != ${JSON.stringify(sourceRefs)}`);
+    if (JSON.stringify(doc.flags.brp.coc.sourceRefs) !== JSON.stringify(sourceRefs)) bad.push(`${key}: doc sources`);
+    if (doc.flags.brp.brpidFlag.id !== `i.skill.coc.${key}`) bad.push(`${key}: brpid`);
+    if (fact.specialism) {
+      const family = sealdiceFamilies[fact.parentKey];
+      if (!family) bad.push(`${key}: family ${fact.parentKey}`);
+      else {
+        if (!(family.concrete ?? []).includes(key)) bad.push(`${key}: not in family concrete`);
+        if (doc.flags.brp.coc.parentKey !== fact.parentKey) bad.push(`${key}: parentKey`);
+        if (doc.flags.brp.coc.specKey !== fact.specKey) bad.push(`${key}: specKey`);
+        if (doc.system.mainName !== family.label) bad.push(`${key}: mainName ${doc.system.mainName}`);
+        if (doc.system.specName !== doc.name) bad.push(`${key}: specName ${doc.system.specName}`);
+        if (doc.system.chosen !== true) bad.push(`${key}: chosen`);
+        // Family-derived members (no same-name skills.py row) must use the
+        // family's verified base. A same-name skills.py row may override it
+        // (Mathematics 10, Survival (Mountain) 5, Fighting/Firearms members).
+        if (sourceRefs.includes("coc-sheet-1920s") && base !== family.base) {
+          bad.push(`${key}: family-base skill ${base} != family ${family.base}`);
+        }
+      }
+    } else if (doc.system.specialism !== false || doc.system.chosen !== false) {
+      bad.push(`${key}: standalone skill marked as specialism`);
+    }
+    if ((facts.pendingSpecialisms ?? []).some((pending) => pending.factId === fact.factId)) bad.push(`${key}: still pending`);
+  }
+  return bad.length ? bad : true;
+})());
+
+check("sealdiceSourceAndLicenseBoundaryAreRegistered", (() => {
+  const source = provenance.sources.find((entry) => entry.id === "sealdice-occupations");
+  const boundary = String(provenance.licenseBoundary?.excluded?.join(" ") ?? "");
+  const notes = String(provenance.occupations.notes?.join(" ") ?? "");
+  return source?.evidence === "secondary"
+    && String(source?.url ?? "").startsWith("https://")
+    && /no license/i.test(source?.note ?? "")
+    && /not redistributed/i.test(source?.note ?? "")
+    && /SealDice builtin JSON/.test(boundary)
+    && /SealDice descriptions are self-written/.test(notes)
+    && /helpdoc's 【介绍】 prose is not copied/.test(notes);
+})(), provenance.sources.find((entry) => entry.id === "sealdice-occupations"));
+
+check("sealdiceDescriptionsAreOriginalProse", sealdiceFacts.every((fact) => typeof fact.description === "string"
+  && fact.description.length >= 8 && fact.description.length <= 120
+  && !fact.description.includes("\n") && !fact.description.includes("【")
+  && !fact.description.includes("职业序号")), sealdiceFacts.map((fact) => [fact.slug, fact.description?.length]));
+
+check("sealdiceBatchPreservesLegacyRecordsAndChoices", (() => {
+  const legacy = professionFacts.professions.filter((entry) => !String(entry.factId).startsWith(SEALDICE_FACT_PREFIX));
+  const bySlug = new Map(legacy.map((entry) => [entry.slug, entry]));
+  return legacy.length === LEGACY_PROFESSION_COUNT
+    && JSON.stringify(bySlug.get("private-investigator")?.pointFormulas) === JSON.stringify(["EDU*2+STR*2", "EDU*2+DEX*2"])
+    && JSON.stringify(bySlug.get("soldier")?.pointFormulas) === JSON.stringify(["EDU*2+STR*2", "EDU*2+DEX*2"])
+    && JSON.stringify(bySlug.get("explorer")?.pointFormulas) === JSON.stringify(["EDU*2+APP*2", "EDU*2+DEX*2", "EDU*2+STR*2"])
+    && JSON.stringify(bySlug.get("artist")?.pointFormulas) === JSON.stringify(["EDU*2+POW*2", "EDU*2+DEX*2"])
+    && sealdiceFacts.every((fact) => !bySlug.has(fact.slug));
+})(), sealdiceFacts.length);
+
+const creationStats = { edu: 60, int: 50, dex: 70, app: 40, str: 30, pow: 45, cha: 40 };
+check("pointFormulasEvaluateFromWhitelist", POINT_FORMULAS.length === 7
   && evaluatePointFormula("EDU*4", creationStats) === 240
   && evaluatePointFormula("EDU*2+DEX*2", creationStats) === 260
   && evaluatePointFormula("EDU*2+APP*2", creationStats) === 200
   && evaluatePointFormula("EDU*2+STR*2", creationStats) === 180
+  && evaluatePointFormula("EDU*2+POW*2", creationStats) === 210
   && evaluatePointFormula("EDU*2+MAX(APP,DEX,STR)*2", creationStats) === 260
   && evaluatePointFormula("EDU*2+MAX(DEX,STR)*2", creationStats) === 260
-  // Adding EDU*2+STR*2 must not move any pre-existing formula's result.
+  // Adding EDU*2+POW*2 must not move any pre-existing formula's result:
+  // APP stays 40 (200), POW is 45 (210) and neither aliases the other.
+  && evaluatePointFormula("EDU*2+POW*2", { ...creationStats, pow: 40 }) === 200
+  && evaluatePointFormula("EDU*2+APP*2", { ...creationStats, pow: 90 }) === 200
   && new Set(POINT_FORMULAS).size === POINT_FORMULAS.length
-  && POINT_FORMULAS.includes("EDU*4") && POINT_FORMULAS.includes("EDU*2+STR*2"),
+  && POINT_FORMULAS.includes("EDU*4") && POINT_FORMULAS.includes("EDU*2+STR*2")
+  && POINT_FORMULAS.includes("EDU*2+POW*2"),
   {
     edu4: evaluatePointFormula("EDU*4", creationStats),
     eduDex: evaluatePointFormula("EDU*2+DEX*2", creationStats),
     eduApp: evaluatePointFormula("EDU*2+APP*2", creationStats),
     eduStr: evaluatePointFormula("EDU*2+STR*2", creationStats),
+    eduPow: evaluatePointFormula("EDU*2+POW*2", creationStats),
     explorer: evaluatePointFormula("EDU*2+MAX(APP,DEX,STR)*2", creationStats),
     pi: evaluatePointFormula("EDU*2+MAX(DEX,STR)*2", creationStats),
     list: [...POINT_FORMULAS],
   });
 
-check("m5FormulasAreWhitelistedButNotUsedByLegacyRecords", (() => {
-  // The new formula is supported for the second batch only; no first-batch
-  // profession may silently switch to it.
-  const legacy = ["archaeologist", "author", "cat-burglar", "dilettante", "explorer",
-    "investigative-journalist", "nurse", "private-investigator", "professor", "soldier"];
-  return legacy.every((slug) => {
-    const coc = profBySlug.get(slug)?.flags?.brp?.coc;
-    return coc && !(coc.pointFormulas ?? [coc.pointFormula]).includes("EDU*2+STR*2");
-  });
-})(), profBySlug.get("soldier")?.flags.brp.coc.pointFormula);
+check("powFormulaFailsClosedWithoutPow", (() => {
+  try {
+    evaluatePointFormula("EDU*2+POW*2", { edu: 60, dex: 70 });
+    return false;
+  } catch (thrown) {
+    return thrown.code === "stat-missing";
+  }
+})(), (() => {
+  try { return evaluatePointFormula("EDU*2+POW*2", { edu: 60 }); } catch (thrown) { return thrown.code; }
+})());
+
+check("formulaUsageMatchesThePinnedOccupationTable", (() => {
+  // Every shipped occupation's ordered formula list must match the pinned
+  // table; no record may still carry the old MAX spelling, and the MAX
+  // formulas stay whitelisted for backward compatibility only.
+  // This table pins the M7 legacy 38. The M8 SealDice batch is checked by
+  // sealdiceImportedProfessionsUseWhitelistedFormulasAndCredit instead.
+  const legacyDocs = profDocs.filter((doc) => !String(doc.flags.brp.coc.factId).startsWith("sealdice.occupation."));
+  const actual = new Map(legacyDocs.map((doc) => [
+    doc.flags.brp.coc.slug,
+    doc.flags.brp.coc.pointFormulas ?? [doc.flags.brp.coc.pointFormula],
+  ]));
+  const bad = [];
+  if (actual.size !== Object.keys(EXPECTED_OCCUPATIONS).length) bad.push(`count ${actual.size}`);
+  for (const [slug, want] of Object.entries(EXPECTED_OCCUPATIONS)) {
+    if (JSON.stringify(actual.get(slug)) !== JSON.stringify(want.formulas)) {
+      bad.push(`${slug}: ${JSON.stringify(actual.get(slug))}`);
+    }
+  }
+  for (const slug of actual.keys()) if (!EXPECTED_OCCUPATIONS[slug]) bad.push(`${slug}: unpinned`);
+  const maxUsers = [...actual].filter(([, formulas]) => formulas.some((formula) => formula.includes("MAX")))
+    .map(([slug]) => slug);
+  const powUsers = [...actual].filter(([, formulas]) => formulas.includes("EDU*2+POW*2")).map(([slug]) => slug);
+  if (maxUsers.length) bad.push(`MAX users ${JSON.stringify(maxUsers)}`);
+  if (JSON.stringify(powUsers) !== JSON.stringify(["artist"])) bad.push(`POW users ${JSON.stringify(powUsers)}`);
+  if (!POINT_FORMULAS.includes("EDU*2+MAX(APP,DEX,STR)*2")
+    || !POINT_FORMULAS.includes("EDU*2+MAX(DEX,STR)*2")) bad.push("MAX formulas dropped from whitelist");
+  return bad.length ? bad : true;
+})(), {
+  maxUsers: profDocs.filter((doc) => (doc.flags.brp.coc.pointFormulas ?? [doc.flags.brp.coc.pointFormula])
+    .some((formula) => formula.includes("MAX"))).map((doc) => doc.flags.brp.coc.slug),
+  powUsers: profDocs.filter((doc) => (doc.flags.brp.coc.pointFormulas ?? [doc.flags.brp.coc.pointFormula])
+    .includes("EDU*2+POW*2")).map((doc) => doc.flags.brp.coc.slug),
+  formulas: [...POINT_FORMULAS],
+});
 
 check("multiFormulaNormalizationBackwardCompatible", (() => {
   const single = normalizePointFormulas({ pointFormula: "EDU*4" });
@@ -1306,12 +2129,17 @@ check("allocationRejectsDuplicateAndNonAsciiSkillKeys", (() => {
     { key: "考古学", base: 1, occupation: 1 }])),
 });
 
-const explorerAllocation = alloc("explorer", [{ key: "credit-rating", base: 0, occupation: 55 }]);
+const explorerAllocation = validateAllocation({
+  profession: profession("explorer"), stats: creationStats,
+  skills: [{ key: "credit-rating", base: 0, occupation: 55 }], pointFormula: "EDU*2+DEX*2",
+});
 check("professionSpecificFormulaDrivesBudget", explorerAllocation.valid
   && explorerAllocation.budgets.occupation.max === 260
   && allocateFor("dilettante").budgets.occupation.max === 200
   && allocateFor("cat-burglar").budgets.occupation.max === 260
   && allocateFor("author").budgets.occupation.max === 240
+  // The MAX formulas stay whitelisted for legacy/custom records even though no
+  // shipped occupation uses them.
   && validateAllocation({
     profession: { pointFormula: "EDU*2+MAX(DEX,STR)*2", creditMin: 9, creditMax: 30 }, stats: creationStats,
     skills: [{ key: "credit-rating", base: 0, occupation: 10 }],
@@ -1451,12 +2279,17 @@ check("eitherOrFormulaRejectsForeignOrIllegalChoice", (() => {
 check("singleFormulaProfessionsKeepTheirOldBudgets", (() => {
   // Regression guard: multi-formula support must not move a single-formula
   // profession's pool or its budget shape.
-  const expected = { archaeologist: 240, author: 240, nurse: 240, professor: 240, "librarian": 240, lawyer: 240, engineer: 240, "doctor-of-medicine": 240 };
+  const expected = { archaeologist: 240, author: 240, nurse: 240, professor: 240, "librarian": 240, lawyer: 240, engineer: 240, "doctor-of-medicine": 240, clergy: 240 };
   const bad = [];
   for (const [slug, max] of Object.entries(expected)) {
+    // Use a credit allocation inside each profession's printed range; lawyer,
+    // engineer and Doctor of Medicine start at 30, so the old hard-coded 20 was
+    // an invalid allocation and made this guard fail for the wrong reason.
+    const entry = profession(slug);
+    const credit = Math.max(20, entry.creditMin);
     const result = validateAllocation({
-      profession: profession(slug), stats: creationStats,
-      skills: [{ key: "credit-rating", base: 0, occupation: 20 }],
+      profession: entry, stats: creationStats,
+      skills: [{ key: "credit-rating", base: 0, occupation: credit }],
     });
     if (!result.valid) bad.push(`${slug}: invalid ${budgetCodes(result)}`);
     if (result.budgets?.occupation.max !== max) bad.push(`${slug}: max ${result.budgets?.occupation.max}`);
@@ -1467,14 +2300,19 @@ check("singleFormulaProfessionsKeepTheirOldBudgets", (() => {
 })(), null);
 
 check("newProfessionsBuildValidAllocationsEndToEnd", (() => {
-  // One realistic allocation per second-batch profession, through the pack
-  // documents the builder will actually hand in.
+  // One realistic allocation per M5/M6 profession plus a credit-rating-only
+  // pass over every shipped occupation, through the pack documents the builder
+  // will actually hand in.
   const cases = [
-    { slug: "doctor-of-medicine", cr: 40, extra: [{ key: "medicine", base: 1, occupation: 66 }] },
-    { slug: "police-detective", cr: 20, pointFormula: "EDU*2+DEX*2", extra: [{ key: "law", base: 5, occupation: 60 }] },
-    { slug: "librarian", cr: 12, extra: [{ key: "library-use", base: 20, occupation: 60 }] },
-    { slug: "lawyer", cr: 30, extra: [{ key: "law", base: 5, occupation: 60 }] },
-    { slug: "engineer", cr: 30, extra: [{ key: "mechanical-repair", base: 10, occupation: 50 }] },
+    { slug: "doctor-of-medicine", cr: 40, budget: 240, extra: [{ key: "medicine", base: 1, occupation: 66 }] },
+    { slug: "police-detective", cr: 20, budget: 260, pointFormula: "EDU*2+DEX*2", extra: [{ key: "law", base: 5, occupation: 60 }] },
+    { slug: "librarian", cr: 12, budget: 240, extra: [{ key: "library-use", base: 20, occupation: 60 }] },
+    { slug: "lawyer", cr: 30, budget: 240, extra: [{ key: "law", base: 5, occupation: 60 }] },
+    { slug: "engineer", cr: 30, budget: 240, extra: [{ key: "mechanical-repair", base: 10, occupation: 50 }] },
+    { slug: "police-officer", cr: 9, budget: 260, pointFormula: "EDU*2+DEX*2", extra: [{ key: "fighting-brawl", base: 25, occupation: 40 }] },
+    { slug: "artist", cr: 9, budget: 210, pointFormula: "EDU*2+POW*2", extra: [{ key: "psychology", base: 10, occupation: 40 }] },
+    { slug: "clergy", cr: 9, budget: 240, extra: [{ key: "accounting", base: 5, occupation: 40 }] },
+    { slug: "pilot", cr: 20, budget: 260, extra: [{ key: "pilot-aircraft", base: 1, occupation: 40 }] },
   ];
   const bad = [];
   for (const entry of cases) {
@@ -1487,9 +2325,55 @@ check("newProfessionsBuildValidAllocationsEndToEnd", (() => {
     });
     if (!result.valid) bad.push(`${entry.slug}: ${budgetCodes(result)}`);
     if (result.creditRating?.value !== entry.cr) bad.push(`${entry.slug}: cr ${result.creditRating?.value}`);
+    if (result.budgets?.occupation.max !== entry.budget) bad.push(`${entry.slug}: max ${result.budgets?.occupation.max}`);
+  }
+  // Every shipped occupation, including the M7 batch: pin the first printed
+  // formula, allocate only Credit Rating at its minimum and expect the exact
+  // pool from the whitelisted evaluator. This catches a record whose formula
+  // and credit range disagree with its own pack document.
+  for (const doc of profDocs) {
+    const coc = doc.flags.brp.coc;
+    const first = (coc.pointFormulas ?? [coc.pointFormula])[0];
+    const result = validateAllocation({
+      profession: doc,
+      stats: creationStats,
+      skills: [{ key: "credit-rating", base: 0, occupation: coc.creditMin }],
+      ...(coc.pointFormulas ? { pointFormula: first } : {}),
+    });
+    if (!result.valid) bad.push(`${coc.slug}: ${budgetCodes(result)}`);
+    if (result.creditRating?.value !== coc.creditMin) bad.push(`${coc.slug}: cr ${result.creditRating?.value}`);
+    const expectedMax = evaluatePointFormula(first, creationStats);
+    if (result.budgets?.occupation.max !== expectedMax) {
+      bad.push(`${coc.slug}: max ${result.budgets?.occupation.max} != ${expectedMax} for ${first}`);
+    }
   }
   return bad.length ? bad : true;
 })(), null);
+
+check("artistEitherOrFormulaSelectsPowOrDexExplicitly", (() => {
+  const base = [{ key: "credit-rating", base: 0, occupation: 9 }];
+  const byPow = validateAllocation({
+    profession: profession("artist"), stats: creationStats, skills: base, pointFormula: "EDU*2+POW*2",
+  });
+  const byDex = validateAllocation({
+    profession: profession("artist"), stats: creationStats, skills: base, pointFormula: "EDU*2+DEX*2",
+  });
+  const unpinned = validateAllocation({ profession: profession("artist"), stats: creationStats, skills: base });
+  const appChoice = validateAllocation({
+    profession: profession("artist"), stats: creationStats, skills: base, pointFormula: "EDU*2+APP*2",
+  });
+  return byPow.valid && byPow.budgets.occupation.max === 210
+    && byPow.budgets.occupation.formula === "EDU*2+POW*2"
+    && byDex.valid && byDex.budgets.occupation.max === 260
+    && byDex.budgets.occupation.formula === "EDU*2+DEX*2"
+    && byPow.budgets.occupation.formulas.length === 2
+    && !unpinned.valid && unpinned.budgets === null
+    && budgetCodes(unpinned).includes("formula-choice-required")
+    && budgetCodes(appChoice).includes("formula-not-allowed");
+})(), budgetCodes(validateAllocation({
+  profession: profession("artist"), stats: creationStats, skills: [{ key: "credit-rating", base: 0, occupation: 9 }],
+  pointFormula: "EDU*2+APP*2",
+})));
 
 check("specialismIdentityRequiresAsciiKeysAndProjectedNames", (() => {
   const ok = buildSpecialism({
@@ -1607,13 +2491,24 @@ check("packProfessionDocumentFeedsValidateAllocationDirectly", (() => {
     profession: doc,
     stats: creationStats,
     skills: [{ key: "credit-rating", base: 0, occupation: 55 }],
+    pointFormula: "EDU*2+DEX*2",
   });
-  return normalized.pointFormula === "EDU*2+MAX(APP,DEX,STR)*2"
+  const unpinned = validateAllocation({
+    profession: doc,
+    stats: creationStats,
+    skills: [{ key: "credit-rating", base: 0, occupation: 55 }],
+  });
+  return normalized.pointFormula === "EDU*2+APP*2"
+    && JSON.stringify(normalized.pointFormulas) === JSON.stringify(["EDU*2+APP*2", "EDU*2+DEX*2", "EDU*2+STR*2"])
     && normalized.creditMin === 55 && normalized.creditMax === 80
     && normalized.contentSource === "coc"
-    && result.valid && result.budgets.occupation.max === 260;
+    && result.valid && result.budgets.occupation.max === 260
+    // The same pack document refuses to guess which characteristic the player
+    // intends: an unpinned either/or record has no budget at all.
+    && !unpinned.valid && unpinned.budgets === null
+    && budgetCodes(unpinned).includes("formula-choice-required");
 })(), (() => {
-  try { professionRules(profBySlug.get("explorer")); return "ok"; } catch (thrown) { return thrown.code; }
+  try { return professionRules(profBySlug.get("explorer")).pointFormulas; } catch (thrown) { return thrown.code; }
 })());
 
 check("professionRulesRejectsIncompleteOrForeignRecords", (() => {

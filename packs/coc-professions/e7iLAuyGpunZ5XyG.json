@@ -1,0 +1,149 @@
+{
+ "_id": "e7iLAuyGpunZ5XyG",
+ "name": "旅行家",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.traveler",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Traveler",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.occupation.traveler",
+    "slug": "traveler",
+    "creditMin": 5,
+    "creditMax": 20,
+    "pointFormula": "EDU*2+STR*2",
+    "pointFormulas": [
+     "EDU*2+STR*2",
+     "EDU*2+DEX*2"
+    ],
+    "evidence": "secondary",
+    "sourceRefs": [
+     "coc-cardwright"
+    ],
+    "fixedSkillKeys": [
+     "first-aid",
+     "listen",
+     "natural-world",
+     "navigate",
+     "spot-hidden",
+     "track"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "firearms",
+      "label": "一项射击专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "firearms",
+        "parentKey": "firearms",
+        "base": null,
+        "requiresExplicitBase": true,
+        "brpids": [
+         "i.skill.coc.firearms-bow",
+         "i.skill.coc.firearms-handgun",
+         "i.skill.coc.firearms-rifle-shotgun"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "survival",
+      "label": "一项生存专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "survival",
+        "parentKey": "survival",
+        "base": 10,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.survival-mountain",
+         "i.skill.coc.survival-sea",
+         "i.skill.coc.survival-wilderness"
+        ]
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.first-aid",
+    "uuid": "mFYJcDBHmADhKRNW"
+   },
+   {
+    "brpid": "i.skill.coc.listen",
+    "uuid": "fHdlJ2r8hzJAHBnx"
+   },
+   {
+    "brpid": "i.skill.coc.natural-world",
+    "uuid": "EFVIz8qOdZvW2Rej"
+   },
+   {
+    "brpid": "i.skill.coc.navigate",
+    "uuid": "XFTLEmt7ULlfiVWT"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   },
+   {
+    "brpid": "i.skill.coc.track",
+    "uuid": "tYFug7dklIQrgfZC"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.firearms-bow",
+      "uuid": "YdgqZpurYRRtmgip"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-handgun",
+      "uuid": "1GMNDl2j6zfGXyI3"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-rifle-shotgun",
+      "uuid": "icEnsbSORKp1qZtF"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.survival-mountain",
+      "uuid": "vTV5x2qMctnhDm14"
+     },
+     {
+      "brpid": "i.skill.coc.survival-sea",
+      "uuid": "sxKcGlBfdQ5R0SDt"
+     },
+     {
+      "brpid": "i.skill.coc.survival-wilderness",
+      "uuid": "a3rpM1u0kGnmqesi"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "长期在路途上的旅行家，熟悉交通、野外与各地风俗。职业点 EDU × 2 + STR × 2，或 EDU × 2 + DEX × 2（建卡时二选一）；信用评级 5–20。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：5–20（只能用职业点，且必须落在区间内）"
+ }
+}

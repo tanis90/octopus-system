@@ -1,0 +1,170 @@
+{
+ "_id": "Fi8glJMa5VLlc5sk",
+ "name": "部落成员",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.tribe-member",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Tribe Member",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.occupation.tribe-member",
+    "slug": "tribe-member",
+    "creditMin": 0,
+    "creditMax": 15,
+    "pointFormula": "EDU*2+STR*2",
+    "pointFormulas": [
+     "EDU*2+STR*2",
+     "EDU*2+DEX*2"
+    ],
+    "evidence": "secondary",
+    "sourceRefs": [
+     "coc-cardwright"
+    ],
+    "fixedSkillKeys": [
+     "climb",
+     "listen",
+     "natural-world",
+     "occult",
+     "spot-hidden",
+     "swim"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "survival",
+      "label": "一项生存专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "survival",
+        "parentKey": "survival",
+        "base": 10,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.survival-mountain",
+         "i.skill.coc.survival-sea",
+         "i.skill.coc.survival-wilderness"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "fighting-or-throw",
+      "label": "一项格斗专精或投掷",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "fighting",
+        "parentKey": "fighting",
+        "base": null,
+        "requiresExplicitBase": true,
+        "brpids": [
+         "i.skill.coc.fighting-brawl",
+         "i.skill.coc.fighting-chainsaw",
+         "i.skill.coc.fighting-spear",
+         "i.skill.coc.fighting-sword",
+         "i.skill.coc.fighting-whip"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "throw",
+        "brpids": [
+         "i.skill.coc.throw"
+        ]
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.climb",
+    "uuid": "XBPmBl9yAuJ1Peo9"
+   },
+   {
+    "brpid": "i.skill.coc.listen",
+    "uuid": "fHdlJ2r8hzJAHBnx"
+   },
+   {
+    "brpid": "i.skill.coc.natural-world",
+    "uuid": "EFVIz8qOdZvW2Rej"
+   },
+   {
+    "brpid": "i.skill.coc.occult",
+    "uuid": "bOIhegZL1iqyb8S1"
+   },
+   {
+    "brpid": "i.skill.coc.spot-hidden",
+    "uuid": "ehKcuxiTWOk0GDgA"
+   },
+   {
+    "brpid": "i.skill.coc.swim",
+    "uuid": "GyfbAWiGp3GBa1MR"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.survival-mountain",
+      "uuid": "vTV5x2qMctnhDm14"
+     },
+     {
+      "brpid": "i.skill.coc.survival-sea",
+      "uuid": "sxKcGlBfdQ5R0SDt"
+     },
+     {
+      "brpid": "i.skill.coc.survival-wilderness",
+      "uuid": "a3rpM1u0kGnmqesi"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.fighting-brawl",
+      "uuid": "03IOJtCr9psfhkLg"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-chainsaw",
+      "uuid": "AbFYN5iZK5ocm7gQ"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-spear",
+      "uuid": "VkTPXjdacqcNy7IK"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-sword",
+      "uuid": "paZT2vSGfhlTBGSZ"
+     },
+     {
+      "brpid": "i.skill.coc.fighting-whip",
+      "uuid": "Q99xKqgzylVeB7aR"
+     },
+     {
+      "brpid": "i.skill.coc.throw",
+      "uuid": "dbPdKXNf1Ccm2J0a"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "在远离城市的族群中长大的部落成员，熟悉本地的土地、动物与禁忌。职业点 EDU × 2 + STR × 2，或 EDU × 2 + DEX × 2（建卡时二选一）；信用评级 0–15。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：0–15（只能用职业点，且必须落在区间内）"
+ }
+}

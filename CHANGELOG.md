@@ -125,6 +125,139 @@ and no E2E is claimed. The compat-repo wizard/adapter is **not** wired for M5.
   new professions through the pack documents, and provenance secondary-only /
   no-official-claim / resolvable-source checks.
 
+### CoC 7e M6 (experimental, opt-in): Science (Astronomy), four occupations, POW formula
+
+Source-repo slice only; no vendor sync into the compat worktree and no browser
+run is claimed.
+
+- Skills: `coc-skills` grows from 56 to 57 documents and from 18 to 19
+  specialisms. Science (Astronomy) takes the Science family base 1, sits under
+  the `science` parent and is listed in `skillFamilies.science.concrete`; the
+  bidirectional family check keeps working. Professions whose "any Science" slot
+  expands the family (e.g. Archaeologist) gain the new option — expected, not a
+  data rewrite.
+- Occupations: `coc-professions` grows from 15 to 19. Police Officer
+  (`EDU*2+DEX*2` **or** `EDU*2+STR*2`, CR 9–30), Artist (`EDU*2+POW*2` **or**
+  `EDU*2+DEX*2`, CR 9–50), Clergy (`EDU*4`, CR 9–60) and Pilot
+  (`EDU*2+DEX*2`, CR 20–70). Each record has exactly eight occupation skills;
+  the exact fixed list and pick shape is asserted in the regression.
+- Formula order is the printed order: Artist keeps `POW` before `DEX`, never
+  substitutes `APP` and never collapses the pair to `MAX`. Police Officer keeps
+  the same either/or pair as Police Detective but is a separate document with a
+  different credit band, fixed skills and a Drive Auto-or-Ride slot.
+- Pilot fixes Pilot (Aircraft) and Science (Astronomy); Pilot (Boat) is a
+  different specialism and is deliberately absent.
+- `module/rules/creation.mjs`: `POINT_FORMULAS` gains `EDU*2+POW*2` (seven
+  entries). The six existing formulas are pinned to the same results; POW and
+  APP do not alias, and a missing POW fails closed with `stat-missing`. The pack
+  build gate reuses `isSupportedPointFormulas`, so no second whitelist exists.
+- Evidence: all four occupations are `evidence: "secondary"` with `sourceRefs`.
+  Artist/Clergy/Police Officer cross-check Gamers' Plane (complete eight-item
+  list), callofcthulhu.org.uk (indexed page text; the site returns HTTP 403 to
+  direct fetches) and RPG Stack (formula/credit range only). Pilot rests on the
+  first two because RPG Stack omits it. RPG Stack truncates every occupation to
+  four skills, so each record carries `skillShapeSourceRefs` excluding it; the
+  regression rejects citing it for the eight-item shape.
+- Psychiatrist is deferred, not guessed: no consulted page prints a complete
+  eight-item list, and Doctor of Medicine + Psychoanalysis already covers the
+  concept. Registered under `occupations.deferredRecords.psychiatrist`.
+- Tests: `tools/tests/coc-rules-regressions.mjs` expands from 124 to 132 checks
+  (57/57 skills, 19/19 specialisms, 19/19 professions, four new eight-skill
+  shapes, seven-formula evaluation with POW, Artist either/or selection,
+  Police Officer vs Police Detective, Astronomy under the Science family,
+  RPG Stack truncation boundary and the deferred psychiatrist). The headless
+  harness counts move to 57 starter skills and 19 profession documents.
+- Build: `packs-json` / `packs-index` / `packs` and `system.json` regenerated;
+  octopus artifacts stay byte-identical and consecutive builds are
+  deterministic.
+
+### CoC 7e M7 (experimental, opt-in): coc-cardwright batch — 38 occupations, 59 skills, 21 specialisms
+
+- Fact source switched to the user's **coc-cardwright** repository
+  (`tanis90/coc-cardwright`, revision `c0a0733`; its README names `trpg-saikou`
+  and `cochar` upstream). The earlier public-page splicing is no longer used for
+  this batch. Only numeric formulas, credit ranges and skill names are mapped;
+  no template, HTML/CSS, Python implementation or other repository code is
+  copied.
+- Evidence for every record stays **secondary**: the repository is a
+  transcription, not a Chaosium first-party publication. The README's upstream
+  chain is recorded as a statement, not as independent verification.
+- 19 new occupations: Psychiatrist, Museum Curator, Coroner, Judge, Bookseller,
+  Antiquarian, Intermediary Investigator, Orderly, Government Official,
+  Traveler, Firefighter, Fisherman, Hunter, Pharmacist, Gambler, Tribe Member,
+  Spy, Gang Leader, Asylum Orderly. The four M6 records (Police Officer, Artist,
+  Clergy, Pilot) are retained and re-sourced to coc-cardwright. Total: **38**.
+  Psychiatrist is now buildable, not deferred; its fixed seven include
+  Psychoanalysis plus one Other Language. Fisherman fixes Pilot (Boat) and Swim;
+  Hunter fixes Science (Zoology) and Track; Coroner fixes Science (Forensics)
+  plus one Other Language.
+- Only records with a complete eight-item skill shape, a point formula and a
+  credit range are imported. coc-cardwright itself carries 112 jobs; this is
+  **not the 112-job table**, and no full-occupation coverage is claimed.
+- Skills: `coc-skills` grows from 57 to **59** documents and from 19 to **21**
+  specialisms. Science (Zoology) and Science (Forensics) are added at the
+  Science family base 1; Science (Astronomy) is retained. The bidirectional
+  `skillFamilies.science.concrete` check still applies.
+- Formulas: `POINT_FORMULAS` gains `EDU*2+POW*2` (**seven** entries). Existing
+  six results are unchanged; POW and APP do not alias, and a missing POW fails
+  closed with `stat-missing`.
+- Private Investigator and Soldier move from `MAX(DEX,STR)` to a real
+  `[STR,DEX]` either/or choice; Explorer moves from `MAX(APP,DEX,STR)` to
+  `[APP,DEX,STR]`. The budget follows the chosen characteristic; the occupation
+  document keeps the actual choice in `pointFormula` and the ordered list in
+  `pointFormulas`. No MAX pool is handed out.
+- Tests: `tools/tests/coc-rules-regressions.mjs` expands from 132 to **137**
+  checks (59/59 skills, 21/21 specialisms, 38/38 occupations, 19 new eight-item
+  shapes, seven-formula evaluation, the three real-choice conversions,
+  Psychiatrist no longer deferred, Fisherman/Hunter/Coroner key skills,
+  secondary-only provenance and the 112-table boundary).
+- Build: `packs-json` / `packs-index` / `packs` and `system.json` regenerated;
+  consecutive builds are deterministic and octopus artifacts stay byte-identical.
+- The compat front-end sync and real-stack 550/550 (dev HS256) are recorded in
+  the compat repo's `PROGRESS.md` and `docs/coc-compatibility-contract.md`;
+  this source slice does not claim a browser run of its own.
+
+### CoC 7e M8 (experimental, opt-in): SealDice compatibility batch — 156 occupations, 91 skills, 50 specialisms
+
+- New importer `tools/coc-pack/import-sealdice-occupations.mjs` reads the
+  SealDice builtin `COC职业查询` helpdoc and imports every formal definition that
+  maps onto the existing creation rules. The helpdoc file and its 【介绍】 prose
+  are not copied: `sealdice-core` is MIT, but `sealdice-builtins` declares no
+  license, so only formulas, credit-rating ranges and skill names are used, and
+  every description in `content/coc/professions.json` is original to this repo.
+- **118** occupations imported (total **156**). The existing 38 records are
+  untouched; Private Investigator / Soldier / Explorer keep their ordered
+  either/or formulas and Artist keeps POW. Every imported record has exactly
+  eight slots (fixed + choice picks + explicit "any N" picks).
+- **187** entries deferred with a category and reason in
+  `content/coc/provenance.json`: 79 aliases, 3 malformed entries, 1 custom
+  template, 1 missing formula, 44 non-eight-slot lists, 11 unverified skill
+  bases, 35 duplicates of existing records, 10 duplicates within the source and
+  3 display-name conflicts. The normalized shape proof moves
+  古董商/赌徒/黑帮老大/精神病院看护 to duplicate-existing; 艺术家/猎人/渔民 remain
+  conflicts because their printed CR/formula/fixed skills really differ.
+- Skills grow from 59 to **91** documents and from 21 to **50** specialisms.
+  32 concrete skills are added. Members with a same-name `skills.py` row take
+  that value; members without one take the open family's verified base and
+  `baseSourceRefs`. A printed member value wins over the family default:
+  Mathematics 10, Survival (Mountain) **5** (not the Survival family default
+  10). The batch also adds Fighting (Sword/Whip/Spear/Chainsaw), Firearms (Bow)
+  and the Art/Craft singing/dancing/game/acrobatics/comedy/fitter/calligraphy/
+  cooking/tailoring/barber/welding/plumbing members. No value is guessed.
+- Point formulas stay on the seven-entry whitelist; no MAX formula is added.
+  A parenthetical family list is one choice slot and an explicit "any N" is N
+  picks — no unprinted padding. 交际花/劳工 parse to 10/9 real slots and are
+  rejected for the slot count, not skipped; 佣人 parses to 8 but Etiquette has
+  no family or verified base and is named in the deferred reason.
+- Tests: `tools/tests/coc-rules-regressions.mjs` **149/149** (8 slots, formula
+  whitelist, CR range, unique identity, resolvable skill refs and verified bases
+  for every imported record; categories/reasons for every deferred record;
+  normalized duplicate proof; legacy 38 and their real choices preserved).
+  Consecutive builds are deterministic and octopus artifacts stay byte-identical.
+- Sync target (not executed from this source repo): `web/packages/brp/` in the
+  compat repo, byte-for-byte `content/coc/*`, `module/rules/*`, `packs-json/*`,
+  `packs-index/*`, `packs/*` and `system.json`.
+
 ### CoC 7e M3 (experimental, opt-in): native combat and wounds
 
 Source-repo slice only; no vendor sync, browser run or E2E is claimed.

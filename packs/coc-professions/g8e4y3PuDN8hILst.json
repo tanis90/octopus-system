@@ -1,0 +1,117 @@
+{
+ "_id": "g8e4y3PuDN8hILst",
+ "name": "学生／实习生",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.student-intern",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Student/Intern",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.student-intern",
+    "slug": "student-intern",
+    "creditMin": 5,
+    "creditMax": 10,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "library-use",
+     "listen"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "language-own-or-language-other",
+      "label": "语言（母语或外语）",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "language-own",
+        "brpids": [
+         "i.skill.coc.language-own"
+        ]
+       },
+       {
+        "kind": "family",
+        "family": "language-other",
+        "parentKey": "language-other",
+        "base": 1,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.language-other-greek",
+         "i.skill.coc.language-other-latin"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "any-specialty",
+      "label": "三个学习的专业",
+      "choose": 3,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     },
+     {
+      "key": "any-specialty-two",
+      "label": "任意两项其他个人或时代特长",
+      "choose": 2,
+      "options": [
+       {
+        "kind": "any",
+        "brpids": []
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.library-use",
+    "uuid": "7BNMWqPVJyA0sReg"
+   },
+   {
+    "brpid": "i.skill.coc.listen",
+    "uuid": "fHdlJ2r8hzJAHBnx"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.language-own",
+      "uuid": "7WwKSOQFVJeDC4hr"
+     },
+     {
+      "brpid": "i.skill.coc.language-other-greek",
+      "uuid": "zxbzRO9P1dqY9jzD"
+     },
+     {
+      "brpid": "i.skill.coc.language-other-latin",
+      "uuid": "YY2QWZ0T7f8A76NE"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "在校园或职场学习，积累专业知识与社会经验。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：5–10（只能用职业点，且必须落在区间内）"
+ }
+}

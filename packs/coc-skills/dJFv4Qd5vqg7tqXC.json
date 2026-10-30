@@ -1,0 +1,49 @@
+{
+ "_id": "dJFv4Qd5vqg7tqXC",
+ "name": "科学（数学）",
+ "type": "skill",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.skill.coc.science-math",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Science (Mathematics)",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.skill.science-math",
+    "key": "science-math",
+    "specKey": "math",
+    "parentKey": "science",
+    "sourceRefs": [
+     "coc-cardwright"
+    ]
+   }
+  }
+ },
+ "system": {
+  "base": 10,
+  "basic": true,
+  "combat": false,
+  "category": "none",
+  "baseFormula": {
+   "1": {
+    "stat": "fixed",
+    "value": 10
+   },
+   "2": {
+    "stat": "fixed",
+    "value": 0
+   },
+   "Func": "or"
+  },
+  "variable": false,
+  "specialism": true,
+  "chosen": true,
+  "specName": "科学（数学）",
+  "mainName": "科学",
+  "noXP": false,
+  "description": "以数学推导、统计与建模解决问题。"
+ }
+}

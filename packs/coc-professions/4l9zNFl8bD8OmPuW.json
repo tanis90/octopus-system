@@ -1,0 +1,112 @@
+{
+ "_id": "4l9zNFl8bD8OmPuW",
+ "name": "建筑师",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.architect",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Architect",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "sealdice.occupation.architect",
+    "slug": "architect",
+    "creditMin": 30,
+    "creditMax": 70,
+    "pointFormula": "EDU*4",
+    "evidence": "secondary",
+    "sourceRefs": [
+     "sealdice-occupations"
+    ],
+    "fixedSkillKeys": [
+     "accounting",
+     "art-craft-technical-drawing",
+     "law",
+     "language-own",
+     "persuade",
+     "psychology",
+     "science-math"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "computer-or-library-use",
+      "label": "计算机或图书馆",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "computer",
+        "brpids": [
+         "i.skill.coc.computer"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "library-use",
+        "brpids": [
+         "i.skill.coc.library-use"
+        ]
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.accounting",
+    "uuid": "OprgKpztxOCjv9MA"
+   },
+   {
+    "brpid": "i.skill.coc.art-craft-technical-drawing",
+    "uuid": "9dh2bNvAxHd55Jrw"
+   },
+   {
+    "brpid": "i.skill.coc.law",
+    "uuid": "lfaJ9sfEpwhlrVph"
+   },
+   {
+    "brpid": "i.skill.coc.language-own",
+    "uuid": "7WwKSOQFVJeDC4hr"
+   },
+   {
+    "brpid": "i.skill.coc.persuade",
+    "uuid": "7zQTHnGe7rHoRnjC"
+   },
+   {
+    "brpid": "i.skill.coc.psychology",
+    "uuid": "n8ACQitSLni4geaF"
+   },
+   {
+    "brpid": "i.skill.coc.science-math",
+    "uuid": "dJFv4Qd5vqg7tqXC"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.computer",
+      "uuid": "RS6e1ho0S4LXuWBc"
+     },
+     {
+      "brpid": "i.skill.coc.library-use",
+      "uuid": "7BNMWqPVJyA0sReg"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "设计建筑与结构，兼顾法规、制图、数学与工程沟通。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–70（只能用职业点，且必须落在区间内）"
+ }
+}

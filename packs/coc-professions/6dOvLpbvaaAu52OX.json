@@ -1,0 +1,197 @@
+{
+ "_id": "6dOvLpbvaaAu52OX",
+ "name": "猎人",
+ "type": "profession",
+ "flags": {
+  "brp": {
+   "brpidFlag": {
+    "id": "i.profession.coc.hunter",
+    "lang": "zh-CN",
+    "priority": 1
+   },
+   "enName": "Hunter",
+   "contentSource": "coc",
+   "coc": {
+    "factId": "coc7.occupation.hunter",
+    "slug": "hunter",
+    "creditMin": 20,
+    "creditMax": 50,
+    "pointFormula": "EDU*2+STR*2",
+    "pointFormulas": [
+     "EDU*2+STR*2",
+     "EDU*2+DEX*2"
+    ],
+    "evidence": "secondary",
+    "sourceRefs": [
+     "coc-cardwright"
+    ],
+    "fixedSkillKeys": [
+     "natural-world",
+     "navigate",
+     "science-zoology",
+     "stealth",
+     "track"
+    ],
+    "specialismSlots": [],
+    "choiceGroups": [
+     {
+      "key": "firearms",
+      "label": "一项射击专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "firearms",
+        "parentKey": "firearms",
+        "base": null,
+        "requiresExplicitBase": true,
+        "brpids": [
+         "i.skill.coc.firearms-bow",
+         "i.skill.coc.firearms-handgun",
+         "i.skill.coc.firearms-rifle-shotgun"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "listen-or-spot-hidden",
+      "label": "聆听或侦查",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "skill",
+        "skill": "listen",
+        "brpids": [
+         "i.skill.coc.listen"
+        ]
+       },
+       {
+        "kind": "skill",
+        "skill": "spot-hidden",
+        "brpids": [
+         "i.skill.coc.spot-hidden"
+        ]
+       }
+      ]
+     },
+     {
+      "key": "language-or-survival",
+      "label": "其他语言或一项生存专精",
+      "choose": 1,
+      "options": [
+       {
+        "kind": "family",
+        "family": "language-other",
+        "parentKey": "language-other",
+        "base": 1,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.language-other-greek",
+         "i.skill.coc.language-other-latin"
+        ]
+       },
+       {
+        "kind": "family",
+        "family": "survival",
+        "parentKey": "survival",
+        "base": 10,
+        "requiresExplicitBase": false,
+        "brpids": [
+         "i.skill.coc.survival-mountain",
+         "i.skill.coc.survival-sea",
+         "i.skill.coc.survival-wilderness"
+        ]
+       }
+      ]
+     }
+    ],
+    "wealthNotApplicable": true
+   }
+  }
+ },
+ "system": {
+  "skills": [
+   {
+    "brpid": "i.skill.coc.natural-world",
+    "uuid": "EFVIz8qOdZvW2Rej"
+   },
+   {
+    "brpid": "i.skill.coc.navigate",
+    "uuid": "XFTLEmt7ULlfiVWT"
+   },
+   {
+    "brpid": "i.skill.coc.science-zoology",
+    "uuid": "mTXA1OJqEe8jdrgk"
+   },
+   {
+    "brpid": "i.skill.coc.stealth",
+    "uuid": "KAT6rXWeJrlD9MOD"
+   },
+   {
+    "brpid": "i.skill.coc.track",
+    "uuid": "tYFug7dklIQrgfZC"
+   }
+  ],
+  "groups": [
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.firearms-bow",
+      "uuid": "YdgqZpurYRRtmgip"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-handgun",
+      "uuid": "1GMNDl2j6zfGXyI3"
+     },
+     {
+      "brpid": "i.skill.coc.firearms-rifle-shotgun",
+      "uuid": "icEnsbSORKp1qZtF"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.listen",
+      "uuid": "fHdlJ2r8hzJAHBnx"
+     },
+     {
+      "brpid": "i.skill.coc.spot-hidden",
+      "uuid": "ehKcuxiTWOk0GDgA"
+     }
+    ]
+   },
+   {
+    "options": 1,
+    "skills": [
+     {
+      "brpid": "i.skill.coc.language-other-greek",
+      "uuid": "zxbzRO9P1dqY9jzD"
+     },
+     {
+      "brpid": "i.skill.coc.language-other-latin",
+      "uuid": "YY2QWZ0T7f8A76NE"
+     },
+     {
+      "brpid": "i.skill.coc.survival-mountain",
+      "uuid": "vTV5x2qMctnhDm14"
+     },
+     {
+      "brpid": "i.skill.coc.survival-sea",
+      "uuid": "sxKcGlBfdQ5R0SDt"
+     },
+     {
+      "brpid": "i.skill.coc.survival-wilderness",
+      "uuid": "a3rpM1u0kGnmqesi"
+     }
+    ]
+   }
+  ],
+  "powers": [],
+  "minWealth": 0,
+  "maxWealth": 0,
+  "description": "以狩猎、设陷阱与向导为生的猎人，熟悉动物习性、追踪与野外生存。职业点 EDU × 2 + STR × 2，或 EDU × 2 + DEX × 2（建卡时二选一）；信用评级 20–50。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：20–50（只能用职业点，且必须落在区间内）"
+ }
+}
