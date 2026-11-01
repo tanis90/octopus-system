@@ -379,18 +379,19 @@ export class BRPMadness {
   //Close the persisted CoC temporary episode (if any) after its effect went away.
   static async _endCocTemporary(actor, actorId, reason) {
     try {
-      const insanity = actor?.system?.sanity?.insanity
+      const insanity = actor?.flags?.brp?.coc?.sanity?.insanity
       if (!insanity?.temporary) { return null }
       if (insanity.temporary.active === false) { return insanity.temporary }
       const now = BRPWorldTime.now()
       const temporary = { ...insanity.temporary, active: false, endedAt: now, endReason: reason }
       await actor.update({
-        'system.sanity.insanity': {
+        'flags.brp.coc.sanity.insanity': {
           temporary,
           indefinite: insanity.indefinite ?? null,
           permanent: insanity.permanent === true,
           lastUpdatedAt: now
-        }
+        },
+        'system.conditions.tempoInsane': { value: false, realTime: false, duration: 0 }
       })
       return temporary
     } catch (thrown) {
@@ -402,7 +403,7 @@ export class BRPMadness {
   //Keep the persisted CoC insanity episode in step with a keeper duration edit.
   static async _syncCocInsanity(madness) {
     const actor = game.actors.get(madness.actorId)
-    const insanity = actor?.system?.sanity?.insanity
+    const insanity = actor?.flags?.brp?.coc?.sanity?.insanity
     if (!insanity?.temporary) { return }
     const now = BRPWorldTime.now()
     const hours = Math.max(1, Number(madness.duration?.hours) || 1)
@@ -413,12 +414,13 @@ export class BRPMadness {
       since: now
     }
     await actor.update({
-      'system.sanity.insanity': {
+      'flags.brp.coc.sanity.insanity': {
         temporary,
         indefinite: insanity.indefinite ?? null,
         permanent: insanity.permanent === true,
         lastUpdatedAt: now
-      }
+      },
+      'system.conditions.tempoInsane': { value: true, realTime: false, duration: hours }
     })
   }
 
@@ -447,11 +449,11 @@ export class BRPMadness {
   static async syncEndedFromEffect(effect) {
     try {
       if (!effect?.statuses?.has?.(BRPMadness.TEMP_INSANE_ID)) { return }
-      //CoC keeps the episode in system.sanity.insanity as well; the effect going
-      //away must close that state, or a refresh would show it active again.
+      //CoC keeps the episode in its own flags and the native condition; the
+      //effect going away closes both rather than resurrecting an active state.
       if (BRPMadness.isCoC()) {
         const actor = effect.parent
-        if (actor?.system?.sanity?.insanity?.temporary) {
+        if (actor?.flags?.brp?.coc?.sanity?.insanity?.temporary) {
           const reason = effect.disabled === true ? 'effect-disabled' : 'effect-deleted'
           await BRPMadness._endCocTemporary(actor, actor.id, reason)
         }

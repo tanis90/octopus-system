@@ -1,0 +1,514 @@
+.brp.coc-npc-card {
+  --coc-npc-gap: 8px;
+}
+
+.brp.coc-npc-card .window-content {
+  padding: 0;
+  overflow: hidden;
+}
+
+.brp.coc-npc-card .coc-npc-sheet {
+  box-sizing: border-box;
+  display: block;
+  max-width: 100%;
+  min-height: 100%;
+  padding: 10px 12px 14px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  container-type: inline-size;
+}
+
+.brp.coc-npc-card h2 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.brp.coc-npc-card section {
+  min-width: 0;
+}
+
+.coc-npc-header {
+  border: 2px solid var(--coc-accent);
+  border-top: 0;
+  margin: 0 0 10px;
+}
+
+.coc-npc-identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px 12px 6px;
+}
+
+.coc-npc-portrait {
+  flex: none;
+  width: 68px;
+  height: 68px;
+  object-fit: cover;
+  border: 2px solid var(--coc-accent);
+}
+
+.coc-npc-name-block {
+  flex: 1;
+  min-width: 0;
+}
+
+.coc-npc-name {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  font: 24px/1.2 var(--actor-title-font);
+  color: var(--coc-accent);
+  overflow-wrap: anywhere;
+}
+
+input.coc-npc-name {
+  border-bottom-color: var(--coc-line);
+}
+
+.coc-npc-resources {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  border-top: 1px solid var(--coc-line);
+}
+
+.coc-npc-resource {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 4px;
+  align-items: baseline;
+  min-width: 0;
+  padding: 6px 10px;
+  border-right: 1px solid var(--coc-line);
+}
+
+.coc-npc-resource:last-child {
+  border-right: 0;
+}
+
+.coc-npc-resource-label {
+  color: var(--coc-muted);
+  font-size: 12px;
+}
+
+.coc-npc-resource-value {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+input.coc-npc-resource-value {
+  width: 52px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.coc-npc-resource.hp .coc-npc-resource-value { color: #8d2828; }
+.coc-npc-resource.mp .coc-npc-resource-value { color: #33597d; }
+.coc-npc-resource.san .coc-npc-resource-value { color: #236844; }
+
+.coc-npc-resource-max {
+  color: var(--coc-muted);
+  white-space: nowrap;
+}
+
+.coc-npc-meter {
+  grid-column: 1 / -1;
+  display: block;
+  height: 5px;
+  margin-top: 2px;
+  background: color-mix(in srgb, var(--coc-ink) 14%, transparent);
+}
+
+.coc-npc-meter i {
+  display: block;
+  height: 100%;
+  background: currentColor;
+}
+
+.coc-npc-resource.hp .coc-npc-meter i { background: #8d2828; }
+.coc-npc-resource.mp .coc-npc-meter i { background: #33597d; }
+.coc-npc-resource.san .coc-npc-meter i { background: #236844; }
+
+.coc-npc-statuses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding: 5px 10px;
+  border-top: 1px solid var(--coc-line);
+}
+
+.coc-npc-status-label {
+  color: var(--coc-muted);
+  font-size: 12px;
+}
+
+.coc-npc-stats {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  border-top: 1px solid var(--coc-line);
+}
+
+.coc-npc-stat {
+  display: grid;
+  place-items: center;
+  gap: 1px;
+  min-width: 0;
+  padding: 6px 2px;
+  border-right: 1px solid var(--coc-line);
+}
+
+.coc-npc-stat:last-child {
+  border-right: 0;
+}
+
+.coc-npc-stat-label {
+  color: var(--coc-muted);
+  font-size: 11px;
+}
+
+.coc-npc-stat-value {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.coc-npc-stat-input {
+  width: 100%;
+  max-width: 50px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.coc-npc-derived {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 20px;
+  padding: 5px 10px;
+  border-top: 1px solid var(--coc-line);
+}
+
+.coc-npc-attacks,
+.coc-npc-skills,
+.coc-npc-powers,
+.coc-npc-equipment,
+.coc-npc-notes {
+  margin-bottom: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--coc-line);
+}
+
+.coc-npc-attack-head,
+.coc-npc-attack-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 1.7fr) minmax(42px, .6fr) minmax(54px, .9fr)
+    minmax(36px, .45fr) minmax(40px, .6fr) minmax(36px, .5fr) minmax(44px, .65fr) minmax(18px, .25fr);
+  gap: 4px;
+  align-items: center;
+  min-width: 0;
+}
+
+.coc-npc-attack-head {
+  padding: 4px 2px;
+  border-bottom: 2px solid var(--coc-accent);
+  font-weight: 700;
+}
+
+.coc-npc-attack-list,
+.coc-npc-skill-grid,
+.coc-npc-power-list,
+.coc-npc-equipment-grid {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coc-npc-attack-row {
+  padding: 5px 2px;
+  border-bottom: 1px solid var(--coc-line);
+}
+
+.coc-npc-attack-row > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.coc-npc-attack-row button {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  cursor: pointer;
+}
+
+.coc-npc-attack-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px 6px;
+  min-width: 0;
+}
+
+.coc-npc-attack-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+}
+
+.coc-npc-attack-actions .coc-npc-delete {
+  margin-left: 0;
+}
+
+.coc-npc-item-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.coc-npc-tag {
+  flex: none;
+  padding: 0 4px;
+  border: 1px solid var(--coc-line);
+  color: var(--coc-muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.coc-npc-dash {
+  color: var(--coc-muted);
+}
+
+.coc-npc-empty {
+  margin: 0;
+  color: var(--coc-muted);
+}
+
+.coc-npc-delete {
+  flex: none;
+  margin-left: auto;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--coc-muted);
+  cursor: pointer;
+}
+
+.coc-npc-attack-row .coc-npc-delete,
+.coc-npc-power .coc-npc-delete,
+.coc-npc-equipment-item .coc-npc-delete {
+  border: 0;
+}
+
+.coc-npc-delete i {
+  font-size: 11px;
+}
+
+.coc-npc-delete:hover {
+  color: #8c1515;
+}
+
+.coc-npc-skill-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.coc-npc-skill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 4px 6px;
+  border: 1px solid var(--coc-line);
+}
+
+.coc-npc-skill-name {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.coc-npc-skill-value {
+  flex: none;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.coc-npc-skill-total {
+  flex: none;
+  color: var(--coc-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.coc-npc-skill-base {
+  width: 50px;
+  text-align: center;
+}
+
+.coc-npc-more-skills {
+  margin-top: 7px;
+}
+
+.coc-npc-more-skills > summary {
+  padding: 3px 1px;
+  color: var(--coc-muted);
+  cursor: pointer;
+}
+
+.coc-npc-more-skills > ol {
+  margin-top: 5px;
+}
+
+.coc-npc-power-list {
+  display: grid;
+  gap: 6px;
+}
+
+.coc-npc-power,
+.coc-npc-equipment-item {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--coc-line);
+}
+
+.coc-npc-power {
+  display: block;
+}
+
+.coc-npc-power-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 8px;
+  min-width: 0;
+}
+
+.coc-npc-power-head .coc-npc-skill-value {
+  margin-left: auto;
+}
+
+.coc-npc-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  margin-top: 4px;
+  color: var(--coc-muted);
+  font-size: 12px;
+}
+
+.coc-npc-power-desc,
+.coc-npc-equipment-desc {
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+}
+
+.coc-npc-power-desc p {
+  margin: 0 0 4px;
+}
+
+.coc-npc-equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.coc-npc-equipment-item > img {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border: 1px solid var(--coc-line);
+}
+
+.coc-npc-equipment-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.coc-npc-equipment-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 7px;
+  min-width: 0;
+}
+
+.coc-npc-equipment-title > span:not(.coc-npc-tag) {
+  color: var(--coc-muted);
+  font-size: 12px;
+}
+
+.coc-npc-notes textarea {
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
+}
+
+.coc-npc-note-doc {
+  overflow-wrap: anywhere;
+}
+
+.coc-npc-note-doc p {
+  margin: 0 0 5px;
+}
+
+.brp.coc-npc-card [data-coc-npc-item][data-coc-npc-editable] {
+  cursor: pointer;
+}
+
+.brp.coc-npc-card [data-coc-npc-item][data-coc-npc-editable]:focus-visible {
+  outline: 2px solid var(--coc-accent);
+  outline-offset: -2px;
+}
+
+@container (max-width: 680px) {
+  .coc-npc-attack-head,
+  .coc-npc-attack-row {
+    grid-template-columns: minmax(90px, 1.55fr) minmax(36px, .55fr) minmax(64px, 1.15fr)
+      minmax(30px, .4fr) minmax(52px, .95fr) minmax(30px, .45fr) minmax(40px, .6fr) minmax(18px, .25fr);
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 700px) {
+  .coc-npc-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .coc-npc-stat:nth-child(4) {
+    border-right: 0;
+  }
+
+  .coc-npc-skill-grid,
+  .coc-npc-equipment-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 540px) {
+  .coc-npc-skill-grid,
+  .coc-npc-equipment-grid {
+    grid-template-columns: 1fr;
+  }
+}

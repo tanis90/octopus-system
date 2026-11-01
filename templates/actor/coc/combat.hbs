@@ -1,0 +1,29 @@
+<section class="actor tab coc-combat {{tab.cssClass}}" data-group="primary" data-tab="combat">
+  <div class="coc-reactions">
+    {{#if dodge}}<div class="item coc-reaction" data-item-id="{{dodge.id}}" data-document-class="Item"><span>闪避</span>{{#if isCoCUse}}<button type="button" data-action="cocSkillRoll">{{dodge.total}}%</button>{{else}}<b>{{dodge.total}}%</b>{{/if}}</div>{{/if}}
+    <div class="coc-reaction"><span>反击</span>{{#if counterWeapons.length}}<select name="counterWeapon" aria-label="反击武器" data-coc-local>{{#each counterWeapons as |weapon|}}<option value="{{weapon.id}}" data-total="{{weapon.skillTotal}}">{{weapon.name}}</option>{{/each}}</select>{{#if isCoCUse}}<button type="button" data-action="cocReaction">{{counterWeapons.0.skillTotal}}%</button>{{/if}}{{else}}<span>—</span>{{/if}}</div>
+  </div>
+
+  <div class="coc-weapon-table">
+    <div class="coc-weapon-head"><span>武器</span><span>技能</span><span>命中</span><span>伤害</span><span>DB</span><span>射程</span><span>攻击次数</span><span>弹药</span><span>故障</span><span></span></div>
+    <ol>
+      {{#each weapons as |weapon|}}
+      <li class="item coc-weapon" data-item-id="{{weapon.id}}" data-document-class="Item">
+        <div class="coc-weapon-row">
+          <button type="button" class="coc-weapon-name" data-action="cocWeaponToggle">{{weapon.name}}</button>
+          <span>{{weapon.skillName}}</span>
+          {{#if weapon.attackable}}{{#if ../isCoCUse}}<button type="button" data-action="cocWeaponSkill">{{weapon.skillTotal}}%</button>{{else}}<span>{{weapon.skillTotal}}%</span>{{/if}}{{else}}<span class="coc-weapon-unattackable">—</span>{{/if}}
+          {{#if weapon.damage}}{{#if ../isCoCUse}}<button type="button" data-action="cocDamage">{{weapon.damage}}</button>{{else}}<span>{{weapon.damage}}</span>{{/if}}{{else}}<span class="coc-weapon-no-damage">—</span>{{/if}}
+          <span>{{weapon.dbLabel}}</span><span>{{weapon.range}}</span><span>{{weapon.rof}}</span><span>{{weapon.ammo}}</span><span>{{weapon.mal}}</span>
+          <span></span>
+        </div>
+        <div class="coc-weapon-details" data-coc-weapon-details hidden>
+          <div class="coc-weapon-meta">{{#each weapon.meta as |entry|}}<span data-coc-weapon-meta="{{entry.key}}">{{entry.label}}</span>{{/each}}</div>
+          <div>{{weapon.description}}</div>
+          {{#if ../isCoCEdit}}<div class="coc-item-actions"><button type="button" data-action="cocDeleteItem">删除</button></div>{{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+</section>

@@ -92,19 +92,19 @@ export class BRPDamage {
       damage = Math.min(damage, location.system.maxHP * 2)
       //Otherwise if not using HPL
     } else if (!game.settings.get('brp', 'useHPL')) {
-      if (damage >= partic.system.health.mjrwnd) {
+      if (damage >= partic.system.attribs.hp.mjrwnd) {
         await partic.update({
           'system.majorWnd': true,
-          'system.health.daily': 0
+          'system.attribs.hp.daily': 0
         })
-      } else if (partic.system.health.daily + damage >= partic.system.health.mjrwnd) {
+      } else if (partic.system.attribs.hp.daily + damage >= partic.system.attribs.hp.mjrwnd) {
         await partic.update({
           'system.minorWnd': true,
-          'system.health.daily': 0
+          'system.attribs.hp.daily': 0
         })
       }
       if (!partic.system.minorWnd && !partic.system.majorWnd)
-        await partic.update({ 'system.health.daily': partic.system.health.daily + damage })
+        await partic.update({ 'system.attribs.hp.daily': partic.system.attribs.hp.daily + damage })
     }
     if (game.settings.get('brp', 'useHPL')) { await location.update(checkprop) }
 
@@ -329,7 +329,7 @@ export class BRPDamage {
   }
 
   static async resetDaily(event, actor) {
-    actor.update({ 'system.health.daily': 0 })
+    actor.update({ 'system.attribs.hp.daily': 0 })
     ui.notifications.warn(game.i18n.localize('BRP.resetDaily')+": "+actor.name)
   }
 
@@ -445,7 +445,7 @@ export class BRPDamage {
 
   // ---------------------------------------------------------------------------
   // CoC 7e wounds (M3). CoC has no wound items and no daily accumulation: the
-  // current value is written straight to system.health.value and every state
+  // current value is written straight to system.attribs.hp.value and every state
   // transition lives under flags.brp.coc.wounds. The BRP paths above are never
   // entered from here.
   // ---------------------------------------------------------------------------
@@ -529,7 +529,7 @@ export class BRPDamage {
     }
 
     await actor.update({
-      'system.health.value': result.hpAfter,
+      'system.attribs.hp.value': result.hpAfter,
       'flags.brp.coc.wounds': state,
     })
     return { ...result, applied: true, conCheck: con, state, hplIgnored }
@@ -556,7 +556,7 @@ export class BRPDamage {
       at: Date.now(),
     }
     await actor.update({
-      'system.health.value': next.dead ? 0 : Math.max(0, Number(actor.system?.health?.value) || 0),
+      'system.attribs.hp.value': next.dead ? 0 : Math.max(0, Number(actor.system?.health?.value) || 0),
       'flags.brp.coc.wounds': state,
     })
     return { ...next, conCheck: con, state, applied: true }
@@ -584,7 +584,7 @@ export class BRPDamage {
       stabilized: effect.stabilizes || wounds.stabilized === true,
       firstAid: { band, rank, healer, healed: heal.applied, at: Date.now() },
     }
-    await actor.update({ 'system.health.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
+    await actor.update({ 'system.attribs.hp.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
     return { applied: true, effect, healing: heal, state }
   }
 
@@ -613,7 +613,7 @@ export class BRPDamage {
       weeklyHealing: effect.grantsWeeklyHealing || wounds.weeklyHealing === true,
       medicine: { band, rank, healer, formula: effect.formula, healed: heal.applied, at: Date.now() },
     }
-    await actor.update({ 'system.health.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
+    await actor.update({ 'system.attribs.hp.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
     return { applied: true, effect, roll, healing: heal, state }
   }
 
@@ -643,7 +643,7 @@ export class BRPDamage {
       weeklyHealing: false,
       weekly: { band, rank, formula: effect.formula, healed: heal.applied, clearedMajorWound: cleared, at: Date.now() },
     }
-    await actor.update({ 'system.health.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
+    await actor.update({ 'system.attribs.hp.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
     return { applied: true, effect, roll, healing: heal, state }
   }
 
@@ -660,7 +660,7 @@ export class BRPDamage {
     const hpValue = Math.max(0, Math.floor(Number(actor.system?.health?.value) || 0))
     const heal = Rules.active().wounds.applyHealing({ hpValue, hpMax, amount: effect.hp })
     const state = { ...wounds, initialised: true, hpValue: heal.hpAfter, unconscious: heal.hpAfter <= 0 }
-    await actor.update({ 'system.health.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
+    await actor.update({ 'system.attribs.hp.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
     return { applied: true, effect, healing: heal, state }
   }
 

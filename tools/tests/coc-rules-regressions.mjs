@@ -11,7 +11,7 @@
 //   2. fact/pack contract: core values, specialism identity, pending exclusion,
 //      source isolation, no fixed 0 for unverified specialisms
 //   3. centralized rules: derived attributes, SAN/Luck, success bands, growth,
-//      skill formula rounding, APP -> cha mapping
+//      skill formula rounding, native APP key preservation
 //   4. negative cases: BRP and CoC differ where they must, no cross-pack bleed
 //   5. M2/M5/M6/M7 occupations: formula/credit range per source, wealth band never used as
 //      CR, resolvable skill refs, deterministic ids, eight-skill shape, unique identities
@@ -35,6 +35,7 @@ import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { Rules } from "../../module/rules/index.mjs";
+import { BRPRules } from "../../module/rules/brp.mjs";
 import { CoCSanity } from "../../module/rules/coc-sanity.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -157,6 +158,7 @@ const expandSkillIndex = readExpand("packs-index/arcane-investigator-skills.json
 const allSkillDocs = [...cocDocs, ...expandSkillDocs];
 const octopusDocs = readJson("packs-json/octopus-skills.json");
 const docsByKey = new Map(allSkillDocs.map((doc) => [doc.flags.brp.coc.key, doc]));
+const factsByKey = new Map(facts.skills.map((fact) => [fact.key, fact]));
 
 const CORE_SKILL_COUNT = 60;
 const EXPAND_SKILL_COUNT = 31;
@@ -326,27 +328,35 @@ check("pendingSpecialismsExcluded", (facts.pendingSpecialisms ?? []).length === 
   { pending: facts.pendingSpecialisms?.length, emitted: allSkillDocs.filter((doc) => doc.flags.brp.coc.status === "pending-official-source").length });
 
 const core = {
-  "credit-rating": 0,
-  "cthulhu-mythos": 0,
-  "library-use": 20,
-  "fighting-brawl": 25,
-  "firearms-handgun": 20,
-  "firearms-rifle-shotgun": 25,
+  "credit-rating": "0",
+  "cthulhu-mythos": "0",
+  "library-use": "20",
+  "fighting-brawl": "25",
+  "firearms-handgun": "20",
+  "firearms-rifle-shotgun": "25",
 };
-check("coreSkillValues", Object.entries(core).every(([key, base]) => docsByKey.get(key)?.system.base === base),
+check("coreSkillValues", Object.entries(core).every(([key, base]) => docsByKey.get(key)?.system.base === base)
+  && allSkillDocs.every((doc) => typeof doc.system.base === "string"),
   Object.fromEntries(Object.keys(core).map((key) => [key, docsByKey.get(key)?.system.base])));
 
 const dodge = docsByKey.get("dodge");
 const own = docsByKey.get("language-own");
-check("formulaSkillsUseVariableBaseFormula", dodge?.system.variable === true
-  && dodge.system.baseFormula["1"].stat === "dex" && dodge.system.baseFormula["1"].value === 0.5
-  && own?.system.variable === true
-  && own.system.baseFormula["1"].stat === "edu" && own.system.baseFormula["1"].value === 1,
-  { dodge: dodge?.system, own: own?.system });
+const dodgeFact = factsByKey.get("dodge");
+const ownFact = factsByKey.get("language-own");
+check("formulaSkillsUseCreationFactsWithoutLegacyItemFields", dodgeFact?.variable === true
+  && dodgeFact.baseFormula["1"].stat === "dex" && dodgeFact.baseFormula["1"].value === 0.5
+  && ownFact?.variable === true
+  && ownFact.baseFormula["1"].stat === "edu" && ownFact.baseFormula["1"].value === 1
+  && [dodge, own].every((doc) => doc?.system.base === "0"
+    && doc.system.variable === undefined && doc.system.baseFormula === undefined
+    && typeof doc.system.skillName === "string" && doc.system.specialization === ""
+    && typeof doc.system.properties?.push === "boolean"),
+  { dodgeFact, ownFact, dodge: dodge?.system, own: own?.system });
 
-check("noFixedZeroOutsideOfficialZeroSkills", allSkillDocs.filter((doc) => doc.system.base === 0 && !doc.system.variable)
+check("noFixedZeroOutsideOfficialZeroSkills", allSkillDocs.filter((doc) => doc.system.base === "0"
+    && !factsByKey.get(doc.flags.brp.coc.key)?.variable)
   .every((doc) => ["credit-rating", "cthulhu-mythos"].includes(doc.flags.brp.coc.key)),
-  allSkillDocs.filter((doc) => doc.system.base === 0).map((doc) => doc.flags.brp.coc.key));
+  allSkillDocs.filter((doc) => doc.system.base === "0").map((doc) => doc.flags.brp.coc.key));
 
 const brpidRe = /^i\.skill\.coc\.[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const specIds = new Set();
@@ -354,14 +364,16 @@ check("brpidAsciiAndUnique", allSkillDocs.every((doc) => brpidRe.test(doc.flags.
   && new Set(allSkillDocs.map((doc) => doc.flags.brp.brpidFlag.id)).size === allSkillDocs.length,
   allSkillDocs.filter((doc) => !brpidRe.test(doc.flags.brp.brpidFlag.id)).map((doc) => doc.flags.brp.brpidFlag.id));
 
-const specDocs = allSkillDocs.filter((doc) => doc.system.specialism);
-const coreSpecDocs = cocDocs.filter((doc) => doc.system.specialism);
+const specDocs = allSkillDocs.filter((doc) => doc.system.specialization);
+const coreSpecDocs = cocDocs.filter((doc) => doc.system.specialization);
 const LEGACY_SPECIALISM_COUNT = 21;
 const sealdiceSpecialismCount = facts.skills.filter((skill) => String(skill.factId).startsWith("sealdice.skill.") && skill.specialism).length;
 check("specialismIdentityIndependent", specDocs.length === LEGACY_SPECIALISM_COUNT + sealdiceSpecialismCount && specDocs.every((doc) => {
   const specKey = doc.flags.brp.coc.specKey;
   const parentKey = doc.flags.brp.coc.parentKey;
-  if (!specKey || !parentKey || doc.system.chosen !== true || doc.system.specName !== doc.name) return false;
+  if (!specKey || !parentKey || !doc.system.skillName || doc.system.specialization !== doc.name
+    || typeof doc.system.properties?.push !== "boolean"
+    || doc.system.specialism !== undefined || doc.system.chosen !== undefined) return false;
   const id = `${parentKey}/${specKey}`;
   if (specIds.has(id)) return false;
   specIds.add(id);
@@ -415,10 +427,11 @@ check("m5SpecialismsCarryFamilyBaseAndIdentity", (() => {
     const coc = doc.flags.brp.coc;
     if (coc.parentKey !== expected.parentKey) bad.push(`${key}: parentKey ${coc.parentKey}`);
     if (coc.specKey !== expected.specKey) bad.push(`${key}: specKey ${coc.specKey}`);
-    if (doc.system.base !== expected.base) bad.push(`${key}: base ${doc.system.base}`);
-    if (doc.system.specialism !== true || doc.system.chosen !== true) bad.push(`${key}: not a chosen specialism`);
-    if (doc.system.mainName !== expected.mainName) bad.push(`${key}: mainName ${doc.system.mainName}`);
-    if (doc.system.specName !== doc.name) bad.push(`${key}: specName ${doc.system.specName}`);
+    if (doc.system.base !== String(expected.base)) bad.push(`${key}: base ${doc.system.base}`);
+    if (!doc.system.specialization || doc.system.specialism !== undefined || doc.system.chosen !== undefined
+      || typeof doc.system.properties?.push !== "boolean") bad.push(`${key}: not a native specialism`);
+    if (doc.system.skillName !== expected.mainName) bad.push(`${key}: skillName ${doc.system.skillName}`);
+    if (doc.system.specialization !== doc.name) bad.push(`${key}: specialization ${doc.system.specialization}`);
     if (doc.flags.brp.brpidFlag.id !== `i.skill.coc.${key}`) bad.push(`${key}: brpid ${doc.flags.brp.brpidFlag.id}`);
     if (!(coc.sourceRefs ?? []).length) bad.push(`${key}: no sourceRefs`);
   }
@@ -445,10 +458,12 @@ check("skillFamiliesConcreteCoversEveryPublishedSpecialism", (() => {
       if (doc.flags.brp.coc.parentKey !== family.parentKey) bad.push(`${familyKey}: ${key} parent ${doc.flags.brp.coc.parentKey}`);
       if (family.base === null) {
         if (family.requiresExplicitBase !== true) bad.push(`${familyKey}: null base without requiresExplicitBase`);
-        if (!Number.isInteger(doc.system.base)) bad.push(`${familyKey}: ${key} has no verified member base`);
+        if (typeof doc.system.base !== "string" || !/^\d+$/.test(doc.system.base)) {
+          bad.push(`${familyKey}: ${key} has no verified member base`);
+        }
       } else {
         const expectedBase = SPECIALISM_BASE_OVERRIDES[key] ?? family.base;
-        if (doc.system.base !== expectedBase) bad.push(`${familyKey}: ${key} base ${doc.system.base} != ${expectedBase}`);
+        if (doc.system.base !== String(expectedBase)) bad.push(`${familyKey}: ${key} base ${doc.system.base} != ${expectedBase}`);
       }
       listed.add(`${doc.flags.brp.coc.parentKey}/${doc.flags.brp.coc.specKey}`);
     }
@@ -471,30 +486,42 @@ check("noStatsAppInContent", !JSON.stringify(facts).includes("\"app\"") && !JSON
 // --- 3) centralized rules ---
 const coc = Rules.for("coc");
 const cocAlias = Rules.for("coc7");
-const brp = Rules.for("octopus");
-const stats = (values) => Object.fromEntries(Object.entries(values).map(([key, total]) => [key, { total, base: total, redist: 0, culture: 0 }]));
-const actorData = { type: "character", system: { age: 40 } };
+const runtimeOctopus = Rules.for("octopus");
+const nativeSystem = (values) => ({
+  characteristics: Object.fromEntries(Object.entries(values).map(([key, value]) => [key, { value, formula: "" }])),
+  attribs: {
+    hp: { auto: true, value: null, max: null },
+    mp: { auto: true, value: null, max: null },
+  },
+});
+const actorData = { type: "character", system: { infos: { age: 40 } } };
 
 const aliasDerived = cocAlias.deriveSecondary({
   actorData,
-  systemData: { stats: stats({ con: 50, siz: 50, pow: 40, str: 60, dex: 55 }) },
+  systemData: nativeSystem({ con: 50, siz: 50, pow: 40, str: 60, dex: 55 }),
 });
 check("coc7AliasResolvesToCocAdapter", cocAlias === coc && cocAlias.id === "coc"
   && Rules.for("coc") === coc && Rules.active("coc7") === coc
   && Rules.normalizeId("coc7") === "coc"
+  && runtimeOctopus === coc && Rules.active("octopus") === coc
+  && Rules.normalizeId("octopus") === "coc"
   && aliasDerived.healthMax === 10 && aliasDerived.powerMax === 8
   && cocAlias.check.successLevel({ rollVal: 96, targetScore: 40 }) === 0
-  && brp.check.successLevel({ rollVal: 96, targetScore: 40 }) === 1,
+  && runtimeOctopus.check.successLevel({ rollVal: 96, targetScore: 40 }) === 0
+  && BRPRules.check.successLevel({ rollVal: 96, targetScore: 40 }) === 1,
   {
     aliasId: cocAlias.id,
     hp: aliasDerived.healthMax,
     mp: aliasDerived.powerMax,
     coc96: cocAlias.check.successLevel({ rollVal: 96, targetScore: 40 }),
-    octopus96: brp.check.successLevel({ rollVal: 96, targetScore: 40 }),
+    octopus96: runtimeOctopus.check.successLevel({ rollVal: 96, targetScore: 40 }),
+    historical96: BRPRules.check.successLevel({ rollVal: 96, targetScore: 40 }),
   });
-check("unknownRulesetFallsBackToOctopusNotCoc", Rules.for("unknown") === brp
-  && Rules.active("unknown") === brp && Rules.for("coc7") !== Rules.for("unknown"),
-  { unknown: Rules.for("unknown").id, coc7: Rules.for("coc7").id });
+check("unknownRulesetFallsBackToCoc", Rules.for("unknown") === coc
+  && Rules.active("unknown") === coc && Rules.for("coc7") === Rules.for("unknown")
+  && Rules.normalizeId("unknown") === "coc" && Rules.defaultId === "coc"
+  && JSON.stringify(Rules.ids) === JSON.stringify(["coc"]),
+  { unknown: Rules.for("unknown").id, coc7: Rules.for("coc7").id, ids: Rules.ids });
 
 // --- M3 pure combat/wound rules (no Foundry) ---
 const bandOf = (rollVal, targetScore) => coc.check.successBand({ rollVal, targetScore }).band;
@@ -507,19 +534,25 @@ check("cocBandRankIsMonotonic", ["fumble", "fail", "regular", "hard", "extreme"]
     extreme: coc.combat.bandRank("extreme"), critical: coc.combat.bandRank("critical") });
 check("cocCharacteristicTargetIsTheValue", coc.check.characteristicTarget(60) === 60
   && coc.check.characteristicTarget(1) === 1 && coc.check.characteristicTarget(-3) === 0
-  && brp.check.characteristicTarget(60) === 300,
-  { coc: coc.check.characteristicTarget(60), octopus: brp.check.characteristicTarget(60) });
+  && runtimeOctopus.check.characteristicTarget(60) === 60
+  && BRPRules.check.characteristicTarget(60) === 300,
+  { coc: coc.check.characteristicTarget(60), octopus: runtimeOctopus.check.characteristicTarget(60),
+    historical: BRPRules.check.characteristicTarget(60) });
 check("cocDifficultyIsRequiredBandNotMultiplier", coc.check.requiredBand("average") === "regular"
   && coc.check.requiredBand("regular") === "regular"
   && coc.check.requiredBand("hard") === "hard"
   && coc.check.requiredBand("difficult") === "hard"
   && coc.check.requiredBand("extreme") === "extreme"
   && coc.check.requiredBand("no-such-difficulty") === "regular"
-  && brp.check.requiredBand("hard") === null,
-  { hard: coc.check.requiredBand("hard"), extreme: coc.check.requiredBand("extreme"), octopus: brp.check.requiredBand("hard") });
-check("cocBonusDiceSeamIsCocOnly", coc.check.supportsBonusDice === true
-  && brp.check.supportsBonusDice === false,
-  { coc: coc.check.supportsBonusDice, octopus: brp.check.supportsBonusDice });
+  && runtimeOctopus.check.requiredBand("hard") === "hard"
+  && BRPRules.check.requiredBand("hard") === null,
+  { hard: coc.check.requiredBand("hard"), extreme: coc.check.requiredBand("extreme"),
+    octopus: runtimeOctopus.check.requiredBand("hard"), historical: BRPRules.check.requiredBand("hard") });
+check("cocBonusDiceEnabledForRuntimeAliases", coc.check.supportsBonusDice === true
+  && runtimeOctopus.check.supportsBonusDice === true
+  && BRPRules.check.supportsBonusDice === false,
+  { coc: coc.check.supportsBonusDice, octopus: runtimeOctopus.check.supportsBonusDice,
+    historical: BRPRules.check.supportsBonusDice });
 check("cocDicePoolCancelsBonusAndPenalty", (() => {
   const oneBonus = coc.check.dice.dicePool({ bonus: 1, penalty: 0 });
   const cancel = coc.check.dice.dicePool({ bonus: 1, penalty: 1 });
@@ -535,8 +568,10 @@ check("cocD100Formula", coc.check.d100Formula({}) === "1D100"
   && coc.check.d100Formula({ bonus: 1 }) === "3D10"
   && coc.check.d100Formula({ penalty: 1 }) === "3D10"
   && coc.check.d100Formula({ penalty: 2 }) === "4D10"
-  && brp.check.d100Formula === undefined,
-  { plain: coc.check.d100Formula({}), bonus: coc.check.d100Formula({ bonus: 1 }), penalty2: coc.check.d100Formula({ penalty: 2 }) });
+  && runtimeOctopus.check.d100Formula({ penalty: 2 }) === "4D10"
+  && BRPRules.check.d100Formula === undefined,
+  { plain: coc.check.d100Formula({}), bonus: coc.check.d100Formula({ bonus: 1 }),
+    penalty2: coc.check.d100Formula({ penalty: 2 }), octopus: runtimeOctopus.check.d100Formula({ penalty: 2 }) });
 check("cocResolveD100ReadsTensAndUnits", (() => {
   const pairs = (units, tens, opts) => coc.check.resolveD100({ units, tens, ...opts });
   const zeroZero = pairs(0, [0]);
@@ -624,7 +659,10 @@ check("cocFirearmsCannotFightBackAndCanDiveForCover", (() => {
 })(), null);
 check("cocWeaponProfileUnarmedIsBluntFullDb", (() => {
   const unarmed = coc.combat.weaponProfile({
-    system: { weaponType: "melee", dmg1: "1D3", db: "full", special: "crush" },
+    system: {
+      range: { normal: { damage: "1D3" } },
+      properties: { impl: false, addb: true, ahdb: false, rngd: false },
+    },
     flags: { brp: { unarmed: true } },
   });
   return unarmed.kind === "melee" && unarmed.ranged === false && unarmed.dbMode === "full"
@@ -636,17 +674,43 @@ check("cocNullDefenderSideDoesNotThrow", (() => {
   const outcome = coc.combat.resolveCloseCombat({ band: "hard", targetScore: 55, rollVal: 20 }, undefined, { choice: "none" });
   return outcome.winner === "attacker" && outcome.reason === "unopposed";
 })(), coc.combat.resolveCloseCombat({ band: "hard", targetScore: 55, rollVal: 20 }, undefined, { choice: "none" }));
-check("cocWeaponProfileFirearmNoDbNoImpale", (() => {
+check("cocWeaponProfileFirearmNoDbUsesNativeImpale", (() => {
   const gun = coc.combat.weaponProfile({
-    system: { weaponType: "firearm", dmg1: "1D10", dmg2: "1D10", db: "none", special: "impale", mal: 96 },
+    system: {
+      range: { normal: { damage: "1D10" }, long: { damage: "1D10" } },
+      properties: { impl: true, addb: false, ahdb: false, rngd: true },
+      malfunction: 96,
+    },
   });
-  const bow = coc.combat.weaponProfile({ system: { weaponType: "missile", dmg1: "1D6+1", db: "" } });
+  const nonImpalingGun = coc.combat.weaponProfile({
+    system: {
+      range: { normal: { damage: "1D10" } },
+      properties: { impl: false, addb: false, ahdb: false, rngd: true },
+    },
+  });
+  const thrown = coc.combat.weaponProfile({
+    system: {
+      range: { normal: { damage: "1D6+1" } },
+      properties: { thrown: true, impl: false, addb: false, ahdb: true, rngd: false },
+    },
+  });
+  const spear = coc.combat.weaponProfile({
+    system: {
+      range: { normal: { damage: "1D8" } },
+      properties: { impl: true, addb: true, ahdb: false, rngd: false },
+    },
+  });
   const marked = coc.combat.weaponProfile({
-    system: { weaponType: "melee", dmg1: "1D8", db: "full", special: "crush" },
+    system: {
+      range: { normal: { damage: "1D8" } },
+      properties: { impl: false, addb: true, ahdb: false, rngd: false },
+    },
     flags: { brp: { coc: { weapon: { kind: "melee", dbMode: "half", impaling: true } } } },
   });
-  return gun.ranged === true && gun.dbMode === "none" && gun.impaling === false && gun.mal === 96
-    && bow.ranged === true && bow.dbMode === "half"
+  return gun.ranged === true && gun.dbMode === "none" && gun.impaling === true && gun.mal === 96
+    && nonImpalingGun.ranged === true && nonImpalingGun.dbMode === "none" && nonImpalingGun.impaling === false
+    && thrown.ranged === true && thrown.dbMode === "half"
+    && spear.impaling === true && spear.dbMode === "full" && spear.formula === "1D8"
     && marked.dbMode === "half" && marked.impaling === true && marked.marker === true;
 })(), null);
 check("cocExtremeDamageBluntAndImpaling", (() => {
@@ -675,7 +739,7 @@ check("cocHalfDamageBonus", coc.combat.halfDamageBonus("+1D6") === "1D3"
 check("cocDerivedHalfDbIsHalved", (() => {
   const derived = coc.deriveSecondary({
     actorData: {},
-    systemData: { stats: { str: { total: 80 }, siz: { total: 80 }, con: { total: 50 }, pow: { total: 40 }, dex: { total: 55 } } },
+    systemData: nativeSystem({ str: 80, siz: 80, con: 50, pow: 40, dex: 55 }),
   });
   return derived.dmgBonus.full === "+1D4" && derived.dmgBonus.half === "1D2" && derived.build === 1;
 })(), null);
@@ -774,30 +838,33 @@ check("cocStarterUnarmedMarker", coc.starter.unarmed.damage === "1D3"
 
 const derived = coc.deriveSecondary({
   actorData,
-  systemData: { stats: stats({ con: 50, siz: 50, pow: 40, str: 60, dex: 55 }), health: { mod: 0 }, power: { mod: 0 } },
+  systemData: nativeSystem({ con: 50, siz: 50, pow: 40, str: 60, dex: 55 }),
 });
 check("cocHpMpBuildDb", derived.healthMax === 10 && derived.powerMax === 8
   && derived.build === 0 && derived.dmgBonus.full === "+0",
   derived);
 const odd = coc.deriveSecondary({
-  actorData: { system: { age: 20 } },
-  systemData: { stats: stats({ con: 55, siz: 50, pow: 43, str: 50, dex: 50 }) },
+  actorData: { system: { infos: { age: 20 } } },
+  systemData: nativeSystem({ con: 55, siz: 50, pow: 43, str: 50, dex: 50 }),
 });
 check("cocHpMpRoundDown", odd.healthMax === 10 && odd.powerMax === 8,
   { hp: odd.healthMax, mp: odd.powerMax });
 const movAt = (age) => coc.deriveSecondary({
-  actorData: { system: { age } },
-  systemData: { stats: stats({ con: 40, siz: 50, pow: 40, str: 40, dex: 40 }) },
+  actorData: { system: { infos: { age } } },
+  systemData: nativeSystem({ con: 40, siz: 50, pow: 40, str: 40, dex: 40 }),
 }).mov;
 const movEqual = coc.deriveSecondary({
-  actorData: { system: { age: 20 } },
-  systemData: { stats: stats({ con: 40, siz: 50, pow: 40, str: 50, dex: 50 }) },
+  actorData: { system: { infos: { age: 20 } } },
+  systemData: nativeSystem({ con: 40, siz: 50, pow: 40, str: 50, dex: 50 }),
 }).mov;
 check("cocMovAge", derived.mov === 8 && movAt(20) === 7 && movAt(40) === 6
   && movAt(50) === 5 && movAt(70) === 3 && movEqual === 9,
   { age20: movAt(20), age40: movAt(40), age50: movAt(50), age70: movAt(70), equalToSize: movEqual, dex55: derived.mov });
 
-const dbAt = (strSiz) => coc.deriveSecondary({ actorData, systemData: { stats: stats({ con: 50, siz: 0, pow: 40, str: strSiz, dex: 50 }) } });
+const dbAt = (strSiz) => coc.deriveSecondary({
+  actorData,
+  systemData: nativeSystem({ con: 50, siz: 0, pow: 40, str: strSiz, dex: 50 }),
+});
 check("cocBuildDbTableBoundaries", [
   [124, 0, "+0"], [125, 1, "+1D4"], [164, 1, "+1D4"], [165, 2, "+1D6"],
   [204, 2, "+1D6"], [205, 3, "+2D6"], [285, 4, "+3D6"], [365, 5, "+4D6"], [445, 6, "+5D6"],
@@ -813,8 +880,10 @@ const sanWithMythos = coc.sanity.prepare({ pow: 40, starting: 40, mythosPercent:
 check("cocSanMythosCap", sanWithMythos.max === 76 && sanWithMythos.value === undefined && sanWithMythos.tis === 8,
   sanWithMythos);
 check("cocLuckIndependentFormula", coc.luck.initial({ pow: 40 }).formula === "3D6*5"
-  && brp.luck.initial({ pow: 40 }).max === 200,
-  { coc: coc.luck.initial({ pow: 40 }), brp: brp.luck.initial({ pow: 40 }) });
+  && runtimeOctopus.luck.initial({ pow: 40 }).formula === "3D6*5"
+  && BRPRules.luck.initial({ pow: 40 }).max === 200,
+  { coc: coc.luck.initial({ pow: 40 }), octopus: runtimeOctopus.luck.initial({ pow: 40 }),
+    historical: BRPRules.luck.initial({ pow: 40 }) });
 
 const band = (rollVal, targetScore) => coc.check.successBand({ rollVal, targetScore }).band;
 const level = (rollVal, targetScore) => coc.check.successLevel({ rollVal, targetScore });
@@ -829,12 +898,12 @@ check("cocHundredAlwaysFumblesEvenAtHundredSkill", band(100, 100) === "fumble"
   && band(99, 100) === "regular" && band(96, 49) === "fumble" && band(95, 49) === "fail"
   && band(96, 50) === "fail" && band(50, 100) === "hard",
   { hundredHundred: band(100, 100), ninetyNineHundred: band(99, 100), low96: band(96, 49), fifty: band(50, 100) });
-check("brpSuccessBandsUnchanged", brp.check.successLevel({ rollVal: 3, targetScore: 60 }) === 4
-  && brp.check.successLevel({ rollVal: 12, targetScore: 60 }) === 3
-  && brp.check.successLevel({ rollVal: 13, targetScore: 60 }) === 2
-  && brp.check.successLevel({ rollVal: 96, targetScore: 60 }) === 1
-  && brp.check.successLevel({ rollVal: 98, targetScore: 60 }) === 0,
-  [3, 12, 13, 60, 96, 98].map((roll) => [roll, brp.check.successLevel({ rollVal: roll, targetScore: 60 })]));
+check("brpSuccessBandsUnchanged", BRPRules.check.successLevel({ rollVal: 3, targetScore: 60 }) === 4
+  && BRPRules.check.successLevel({ rollVal: 12, targetScore: 60 }) === 3
+  && BRPRules.check.successLevel({ rollVal: 13, targetScore: 60 }) === 2
+  && BRPRules.check.successLevel({ rollVal: 96, targetScore: 60 }) === 1
+  && BRPRules.check.successLevel({ rollVal: 98, targetScore: 60 }) === 0,
+  [3, 12, 13, 60, 96, 98].map((roll) => [roll, BRPRules.check.successLevel({ rollVal: roll, targetScore: 60 })]));
 
 check("cocGrowthNoIntBonus", coc.growth.bonus({ system: { xpBonus: 99 } }) === 0
   && coc.growth.formula({ xpFormula: "1D6" }) === "1D10"
@@ -848,25 +917,26 @@ check("cocGrowthNoIntBonus", coc.growth.bonus({ system: { xpBonus: 99 } }) === 0
     equal: coc.growth.check({ roll: 50, targetScore: 50 }),
     overHundred: coc.growth.check({ roll: 100, targetScore: 101 }),
   });
-check("cocXpGatesDifferFromOctopus", (() => {
-  // CoC never multiplies the target for difficulty, so an "easy" or raised-diff
-  // roll must still tick; Mythos is the only skill that never ticks. Octopus
-  // keeps its historical skip list and ticks any item.
+check("cocXpGatesSharedByRuntimeAliases", (() => {
+  // Every runtime id uses CoC growth gates; the direct BRP adapter remains only
+  // a historical pure-algorithm comparison.
   return coc.check.xpSkipsRaisedDifficulty === false && coc.check.xpSkipsNoXP === true
-    && brp.check.xpSkipsRaisedDifficulty === true && brp.check.xpSkipsNoXP === false;
+    && runtimeOctopus.check.xpSkipsRaisedDifficulty === false && runtimeOctopus.check.xpSkipsNoXP === true
+    && BRPRules.check.xpSkipsRaisedDifficulty === true && BRPRules.check.xpSkipsNoXP === false;
 })(), { coc: { raised: coc.check.xpSkipsRaisedDifficulty, noXP: coc.check.xpSkipsNoXP },
-  octopus: { raised: brp.check.xpSkipsRaisedDifficulty, noXP: brp.check.xpSkipsNoXP } });
-check("brpGrowthKeepsIntAndCap", brp.growth.bonus({ system: { xpBonus: 25 } }) === 25
-  && brp.growth.check({ roll: 80, targetScore: 100, bonus: 25 }) === true
-  && brp.growth.check({ roll: 75, targetScore: 100, bonus: 25 }) === false,
+  octopus: { raised: runtimeOctopus.check.xpSkipsRaisedDifficulty, noXP: runtimeOctopus.check.xpSkipsNoXP },
+  historical: { raised: BRPRules.check.xpSkipsRaisedDifficulty, noXP: BRPRules.check.xpSkipsNoXP } });
+check("brpGrowthKeepsIntAndCap", BRPRules.growth.bonus({ system: { xpBonus: 25 } }) === 25
+  && BRPRules.growth.check({ roll: 80, targetScore: 100, bonus: 25 }) === true
+  && BRPRules.growth.check({ roll: 75, targetScore: 100, bonus: 25 }) === false,
   {
-    bonus: brp.growth.bonus({ system: { xpBonus: 25 } }),
-    over: brp.growth.check({ roll: 80, targetScore: 100, bonus: 25 }),
-    equal: brp.growth.check({ roll: 75, targetScore: 100, bonus: 25 }),
+    bonus: BRPRules.growth.bonus({ system: { xpBonus: 25 } }),
+    over: BRPRules.growth.check({ roll: 80, targetScore: 100, bonus: 25 }),
+    equal: BRPRules.growth.check({ roll: 75, targetScore: 100, bonus: 25 }),
   });
 
 // --- M4 adapter contract: the CoC decision core is the only source of these
-// decisions, and octopus keeps the historical answers.
+// decisions, and every runtime id shares the same adapter.
 check("cocM4SanityContract", coc.sanity.core === CoCSanity
   && coc.sanity.core.singleLossTrigger({ loss: 4 }).trigger === false
   && coc.sanity.core.singleLossTrigger({ loss: 5 }).trigger === true
@@ -874,10 +944,11 @@ check("cocM4SanityContract", coc.sanity.core === CoCSanity
   && coc.sanity.singleLossThreshold === 5
   && coc.sanity.dailyBasis === "day-start"
   && coc.sanity.coexistingStates === true
-  && brp.sanity.core === null && brp.sanity.singleLossThreshold === null
-  && brp.sanity.coexistingStates === false,
+  && runtimeOctopus.sanity === coc.sanity
+  && runtimeOctopus.sanity.core === CoCSanity && runtimeOctopus.sanity.singleLossThreshold === 5
+  && runtimeOctopus.sanity.dailyBasis === "day-start" && runtimeOctopus.sanity.coexistingStates === true,
   { cocCore: coc.sanity.core === CoCSanity, cocThreshold: coc.sanity.singleLossThreshold,
-    brpCore: brp.sanity.core, brpThreshold: brp.sanity.singleLossThreshold });
+    octopusCore: runtimeOctopus.sanity.core === CoCSanity, octopusThreshold: runtimeOctopus.sanity.singleLossThreshold });
 
 check("cocM4LuckContract", coc.luck.canSpend({ purpose: "SK", rollVal: 50 }).allowed === true
   && coc.luck.canSpend({ purpose: "CH", rollVal: 50 }).allowed === true
@@ -892,10 +963,15 @@ check("cocM4LuckContract", coc.luck.canSpend({ purpose: "SK", rollVal: 50 }).all
   && coc.luck.canSpend({ purpose: "halve-san-loss" }).allowed === false
   && coc.luck.cap() === 99 && coc.luck.recoveryAction === "new-session"
   && coc.luck.resettlesSanLoss === false && coc.luck.recoveryNeedsRealRoll === true
-  && brp.luck.canSpend().allowed === true && brp.luck.resettlesSanLoss === true,
+  && runtimeOctopus.luck === coc.luck
+  && runtimeOctopus.luck.canSpend({ purpose: "SK", rollVal: 50 }).allowed === true
+  && runtimeOctopus.luck.canSpend({ purpose: "SN", rollVal: 50 }).allowed === false
+  && runtimeOctopus.luck.cap() === 99 && runtimeOctopus.luck.recoveryAction === "new-session"
+  && runtimeOctopus.luck.resettlesSanLoss === false && runtimeOctopus.luck.recoveryNeedsRealRoll === true,
   { cocSkill: coc.luck.canSpend({ purpose: "SK", rollVal: 50 }),
     cocSan: coc.luck.canSpend({ purpose: "SN", rollVal: 50 }),
-    brp: brp.luck.canSpend(), brpResettle: brp.luck.resettlesSanLoss });
+    octopusSkill: runtimeOctopus.luck.canSpend({ purpose: "SK", rollVal: 50 }),
+    octopusResettle: runtimeOctopus.luck.resettlesSanLoss });
 
 check("cocM4GrowthContract", coc.growth.canTick({ rollType: "SK", resultLevel: 2 }).allowed === true
   && coc.growth.canTick({ rollType: "SK", resultLevel: 2, luckSpent: 3 }).allowed === false
@@ -908,11 +984,13 @@ check("cocM4GrowthContract", coc.growth.canTick({ rollType: "SK", resultLevel: 2
   && coc.growth.settlement({ roll: 50, currentValue: 50, gainDie: 7 }).gained === 0
   && coc.growth.allowFixedTier === false && coc.growth.allowPowImprovement === false
   && coc.growth.ticksOnFailure === false && coc.growth.tickOnLuckSuccess === false
-  && brp.growth.allowFixedTier === true && brp.growth.allowPowImprovement === true
-  && brp.growth.ticksOnFailure === true && brp.growth.tickOnLuckSuccess === true,
+  && runtimeOctopus.growth === coc.growth
+  && runtimeOctopus.growth.canTick({ rollType: "SK", resultLevel: 2 }).allowed === true
+  && runtimeOctopus.growth.allowFixedTier === false && runtimeOctopus.growth.allowPowImprovement === false
+  && runtimeOctopus.growth.ticksOnFailure === false && runtimeOctopus.growth.tickOnLuckSuccess === false,
   { cocSuccess: coc.growth.canTick({ rollType: "SK", resultLevel: 2 }),
     cocLuck: coc.growth.canTick({ rollType: "SK", resultLevel: 2, luckSpent: 3 }),
-    brpFixed: brp.growth.allowFixedTier });
+    octopusFixed: runtimeOctopus.growth.allowFixedTier });
 
 check("cocM4MadnessTables", coc.madness.boutTable.length === 10
   && new Set(coc.madness.boutTable.map((entry) => entry.id)).size === 10
@@ -920,10 +998,11 @@ check("cocM4MadnessTables", coc.madness.boutTable.length === 10
   && coc.madness.durationUnit === "hours" && coc.madness.boutRoundsDie === "1D10"
   && coc.madness.autoExpiry === false
   && JSON.stringify(coc.madness.traitBouts) === JSON.stringify(["phobia", "mania"])
-  && brp.madness.manifestationDie === "1D6" && brp.madness.durationDie === "1D8"
-  && brp.madness.boutTable === null && brp.madness.autoExpiry === true,
+  && runtimeOctopus.madness === coc.madness
+  && runtimeOctopus.madness.manifestationDie === "1D10" && runtimeOctopus.madness.durationDie === "1D10"
+  && runtimeOctopus.madness.boutTable === coc.madness.boutTable && runtimeOctopus.madness.autoExpiry === false,
   { coc: { die: coc.madness.manifestationDie, entries: coc.madness.boutTable.length },
-    brp: { die: brp.madness.manifestationDie, entries: brp.madness.boutTable } });
+    octopus: { die: runtimeOctopus.madness.manifestationDie, entries: runtimeOctopus.madness.boutTable.length } });
 
 check("cocM4IntegrationUsesRealRollAndNoSecondRestPath", (() => {
   const files = [
@@ -942,7 +1021,7 @@ check("cocM4IntegrationUsesRealRollAndNoSecondRestPath", (() => {
     && /scope: "world"/.test(settingsSource);
 })(), null);
 
-check("cocM4I18nAndTemplateFacts", (() => {
+check("cocM4I18nFacts", (() => {
   const en = readJson("lang/en.json");
   const zh = readJson("lang/zh-CN.json");
   const ids = coc.madness.boutTable.map((entry) => entry.id);
@@ -950,44 +1029,101 @@ check("cocM4I18nAndTemplateFacts", (() => {
   const zhBouts = zh.BRP?.coc?.madness?.bouts ?? {};
   const enDesc = en.BRP?.coc?.madness?.boutsDesc ?? {};
   const zhDesc = zh.BRP?.coc?.madness?.boutsDesc ?? {};
-  const template = readJson("template.json");
-  const san = template.Actor?.templates?.base?.sanity ?? null;
   return ids.every((id) => typeof enBouts[id] === "string" && typeof zhBouts[id] === "string"
       && typeof enDesc[id] === "string" && typeof zhDesc[id] === "string")
     && new Set(ids.map((id) => zhBouts[id])).size === ids.length
     && en.BRP?.madness?.indefiniteInsane && zh.BRP?.madness?.indefiniteInsane
-    && typeof en.BRP?.coc?.madness?.durationHours === "string"
-    && san && san.singleLoss === 0 && san.dayId === null && san.dayStartSan === null
-    && san.insanity && san.insanity.permanent === false;
+    && typeof en.BRP?.coc?.madness?.durationHours === "string";
 })(), { ids: coc.madness.boutTable.map((entry) => entry.id) });
 
+// Native CoC actor schema: the real world pack (CoC7 8.16) stores investigator
+// and NPC data under characteristics/attribs/description/infos; vehicles keep
+// their own stats/crew/description. There is no BRP stats/health block.
+check("cocNativeTemplateContract", (() => {
+  const template = readJson("template.json");
+  const actor = template.Actor ?? {};
+  const item = template.Item ?? {};
+  const shared = actor.templates?.coc ?? {};
+  const character = actor.character ?? {};
+  const npc = actor.npc ?? {};
+  const vehicle = actor.vehicle ?? {};
+  const characteristics = shared.characteristics ?? {};
+  const attribs = shared.attribs ?? {};
+  const talent = item.talent ?? {};
+  const generic = item.item ?? {};
+  const noLegacyVitals = (data) => !Object.hasOwn(data, "stats") && !Object.hasOwn(data, "health");
+  return Array.isArray(actor.types)
+    && ["character", "npc", "vehicle"].every((type) => actor.types.includes(type))
+    && !Object.hasOwn(actor.templates ?? {}, "base")
+    && Object.keys(characteristics).join(",") === "str,con,siz,dex,app,int,pow,edu"
+    && !Object.hasOwn(characteristics, "cha")
+    && Object.values(characteristics).every((entry) => entry.value === 0 && entry.formula === "")
+    && ["hp", "mp", "mov", "san", "lck", "db", "build", "armor"].every((key) => Object.hasOwn(attribs, key))
+    && attribs.hp.auto === true && attribs.hp.value === null && attribs.hp.max === null
+    && attribs.mp.auto === true && attribs.mov.auto === true && attribs.mov.type === "walk"
+    && attribs.san.auto === false && attribs.san.max === 99 && attribs.san.dailyLoss === 0
+    && attribs.san.dailyLimit === 0 && attribs.lck.value === null
+    && attribs.db.auto === true && attribs.build.auto === true
+    && attribs.armor.notes === false && attribs.armor.value === null
+    && noLegacyVitals(shared) && noLegacyVitals(character) && noLegacyVitals(npc)
+    && character.templates?.includes("coc") && npc.templates?.includes("coc")
+    && Object.hasOwn(shared, "description") && Object.hasOwn(shared, "conditions")
+    && Object.hasOwn(character, "infos") && Object.hasOwn(character, "biography")
+    && Object.hasOwn(npc, "infos") && Object.hasOwn(npc, "special")
+    && npc.special.sanLoss?.checkPassed === null && npc.special.sanLoss?.checkFailled === null
+    && vehicle.templates === undefined
+    && Object.hasOwn(vehicle, "stats") && Object.hasOwn(vehicle, "crew") && Object.hasOwn(vehicle, "description")
+    && Object.hasOwn(vehicle.stats, "mov") && Object.hasOwn(vehicle.stats, "build")
+    && Object.hasOwn(vehicle.stats, "armor") && Object.hasOwn(vehicle.stats, "hp")
+    && vehicle.crew.total === "" && typeof vehicle.crew.count === "object"
+    && vehicle.description.value === "" && vehicle.description.keeper === ""
+    && Array.isArray(item.types) && item.types.includes("talent") && item.types.includes("item")
+    && talent.description?.value === "" && talent.description?.keeper === "" && talent.description?.notes === ""
+    && talent.source === "" && talent.type?.physical === false && talent.type?.other === false
+    && Array.isArray(talent.adjustments)
+    && generic.description?.value === "" && generic.description?.keeper === ""
+    && generic.quantity === 1 && generic.weight === 0 && typeof generic.price === "object";
+})(), (() => {
+  const template = readJson("template.json");
+  return {
+    actorTypes: template.Actor?.types,
+    actorTemplates: Object.keys(template.Actor?.templates ?? {}),
+    itemTalent: template.Item?.talent ? "registered" : "missing",
+    itemGeneric: template.Item?.item ? "registered" : "missing",
+  };
+})());
+
 const skillDoc = (key) => docsByKey.get(key);
-const skillStats = { dex: { base: 55, redist: 0, culture: 0 }, edu: { base: 60, redist: 0, culture: 0 } };
-check("cocSkillFormulaRoundsDown", coc.skillBase({ item: skillDoc("dodge"), stats: skillStats, useEDU: true }) === 27
-  && brp.skillBase({ item: skillDoc("dodge"), stats: skillStats, useEDU: true }) === 28
-  && coc.skillBase({ item: skillDoc("language-own"), stats: skillStats, useEDU: true }) === 60,
+const skillCharacteristics = { dex: { value: 55 }, edu: { value: 60 } };
+const brpDodge = { system: { variable: dodgeFact.variable, baseFormula: dodgeFact.baseFormula } };
+const brpSkillStats = { dex: { base: 55, redist: 0, culture: 0 }, edu: { base: 60, redist: 0, culture: 0 } };
+check("cocSkillFormulaRoundsDown", coc.skillBase({ item: skillDoc("dodge"), characteristics: skillCharacteristics, useEDU: true }) === 27
+  && BRPRules.skillBase({ item: brpDodge, stats: brpSkillStats, useEDU: true }) === 28
+  && coc.skillBase({ item: skillDoc("language-own"), characteristics: skillCharacteristics, useEDU: true }) === 60,
   {
-    cocDodge: coc.skillBase({ item: skillDoc("dodge"), stats: skillStats, useEDU: true }),
-    brpDodge: brp.skillBase({ item: skillDoc("dodge"), stats: skillStats, useEDU: true }),
-    own: coc.skillBase({ item: skillDoc("language-own"), stats: skillStats, useEDU: true }),
+    cocDodge: coc.skillBase({ item: skillDoc("dodge"), characteristics: skillCharacteristics, useEDU: true }),
+    brpDodge: BRPRules.skillBase({ item: brpDodge, stats: brpSkillStats, useEDU: true }),
+    own: coc.skillBase({ item: skillDoc("language-own"), characteristics: skillCharacteristics, useEDU: true }),
   });
-check("cocAppMapsToNativeCha", coc.characteristics.key("app") === "cha"
+check("cocAppKeepsNativeAppKey", coc.characteristics.key("app") === "app"
   && coc.characteristics.key("cha") === "cha"
-  && brp.characteristics.key("app") === "app",
-  { coc: coc.characteristics.key("app"), brp: brp.characteristics.key("app") });
-check("starterIsolationContract", coc.starter.source === "coc" && coc.starter.categories === false
+  && runtimeOctopus.characteristics.key("app") === "app",
+  { coc: coc.characteristics.key("app"), octopus: runtimeOctopus.characteristics.key("app") });
+check("starterRuntimeUnificationAndProvenanceContract", coc.starter.source === "coc" && coc.starter.categories === false
   && coc.starter.brawlBrpid === "i.skill.coc.fighting-brawl"
-  && brp.starter.source === "octopus" && brp.starter.categories === true
-  && brp.starter.brawlBrpid === "i.skill.brawl"
+  && runtimeOctopus.starter === coc.starter
+  && runtimeOctopus.starter.source === "coc" && runtimeOctopus.starter.categories === false
+  && runtimeOctopus.starter.brawlBrpid === "i.skill.coc.fighting-brawl"
   && Rules.contentSourceOf({ flags: { brp: { contentSource: "coc" } } }) === "coc"
   && Rules.contentSourceOf({ flags: { brp: { brpidFlag: { id: "i.skill.brawl" } } } }) === "octopus",
-  { coc: coc.starter, brp: brp.starter });
+  { coc: coc.starter, octopus: runtimeOctopus.starter,
+    octopusProvenance: Rules.contentSourceOf({ flags: { brp: { brpidFlag: { id: "i.skill.brawl" } } } }) });
 check("specialismIndependentGrowthContract", (() => {
   const handgun = skillDoc("firearms-handgun");
   const rifle = skillDoc("firearms-rifle-shotgun");
   return handgun.flags.brp.brpidFlag.id !== rifle.flags.brp.brpidFlag.id
     && handgun.flags.brp.coc.specKey !== rifle.flags.brp.coc.specKey
-    && coc.growth.check({ roll: handgun.system.base + 1, targetScore: handgun.system.base })
+    && coc.growth.check({ roll: Number(handgun.system.base) + 1, targetScore: handgun.system.base })
     && !coc.growth.check({ roll: rifle.system.base, targetScore: rifle.system.base });
 })());
 
@@ -1510,9 +1646,10 @@ check("scienceAstronomyIsPublishedInScienceFamily", (() => {
   const doc = docsByKey.get("science-astronomy");
   const family = professionFacts.skillFamilies?.science;
   if (!doc || !family) return false;
-  return doc.system.base === 1 && doc.system.variable === false
-    && doc.system.specialism === true && doc.system.mainName === "科学"
-    && doc.flags.brp.coc.specKey === "astronomy"
+  return doc.system.base === "1" && doc.system.variable === undefined
+    && doc.system.skillName === "科学" && doc.system.specialization === doc.name
+    && typeof doc.system.properties?.push === "boolean"
+    && doc.flags.brp.coc.parentKey === "science" && doc.flags.brp.coc.specKey === "astronomy"
     && doc.flags.brp.brpidFlag.id === "i.skill.coc.science-astronomy"
     && family.base === 1 && family.concrete.includes("science-astronomy")
     && (doc.flags.brp.coc.sourceRefs ?? []).length > 0
@@ -2023,7 +2160,7 @@ check("sealdiceSurvivalMountainKeepsPrintedBase", (() => {
   // family default must never overwrite a verified member value.
   const doc = docsByKey.get("survival-mountain");
   const fact = facts.skills.find((skill) => skill.key === "survival-mountain");
-  return doc?.system.base === 5
+  return doc?.system.base === "5"
     && fact?.base === 5
     && sealdiceFamilies.survival?.base === 10
     && provenance.skillsM8?.perSkill?.["survival-mountain"]?.base === 5
@@ -2099,8 +2236,11 @@ check("sealdiceImportedProfessionsResolveSkillRefsAndBases", (() => {
     const checkSkill = (key, where) => {
       const skill = docsByKey.get(key);
       if (!skill) { bad.push(`${where}: unknown skill ${key}`); return; }
-      if (!skill.system.variable && !Number.isFinite(skill.system.base)) bad.push(`${where}: ${key} has no base`);
-      if (!skill.system.variable && skill.system.base === 0 && !["credit-rating", "cthulhu-mythos"].includes(key)) {
+      const variable = factsByKey.get(key)?.variable === true;
+      if (!variable && (typeof skill.system.base !== "string" || !/^\d+$/.test(skill.system.base))) {
+        bad.push(`${where}: ${key} has no base`);
+      }
+      if (!variable && skill.system.base === "0" && !["credit-rating", "cthulhu-mythos"].includes(key)) {
         bad.push(`${where}: ${key} is fixed 0`);
       }
     };
@@ -2137,11 +2277,12 @@ check("sealdiceNewSkillsCarryVerifiedBases", (() => {
     const doc = docsByKey.get(key);
     if (!fact || !doc) { bad.push(`${key}: missing`); continue; }
     if (!Number.isInteger(base)) bad.push(`${key}: base is not an integer`);
-    if (fact.base !== base || doc.system.base !== base) bad.push(`${key}: base ${fact.base}/${doc.system.base} != ${base}`);
+    if (fact.base !== base || doc.system.base !== String(base)) bad.push(`${key}: base ${fact.base}/${doc.system.base} != ${base}`);
     if (!sourceRefs.length) bad.push(`${key}: no sourceRefs`);
     if (JSON.stringify(fact.sourceRefs) !== JSON.stringify(sourceRefs)) bad.push(`${key}: fact sources ${JSON.stringify(fact.sourceRefs)} != ${JSON.stringify(sourceRefs)}`);
     if (JSON.stringify(doc.flags.brp.coc.sourceRefs) !== JSON.stringify(sourceRefs)) bad.push(`${key}: doc sources`);
     if (doc.flags.brp.brpidFlag.id !== `i.skill.coc.${key}`) bad.push(`${key}: brpid`);
+    if (typeof doc.system.properties?.push !== "boolean") bad.push(`${key}: native properties missing`);
     if (fact.specialism) {
       const family = sealdiceFamilies[fact.parentKey];
       if (!family) bad.push(`${key}: family ${fact.parentKey}`);
@@ -2149,9 +2290,9 @@ check("sealdiceNewSkillsCarryVerifiedBases", (() => {
         if (!(family.concrete ?? []).includes(key)) bad.push(`${key}: not in family concrete`);
         if (doc.flags.brp.coc.parentKey !== fact.parentKey) bad.push(`${key}: parentKey`);
         if (doc.flags.brp.coc.specKey !== fact.specKey) bad.push(`${key}: specKey`);
-        if (doc.system.mainName !== family.label) bad.push(`${key}: mainName ${doc.system.mainName}`);
-        if (doc.system.specName !== doc.name) bad.push(`${key}: specName ${doc.system.specName}`);
-        if (doc.system.chosen !== true) bad.push(`${key}: chosen`);
+        if (doc.system.skillName !== family.label) bad.push(`${key}: skillName ${doc.system.skillName}`);
+        if (doc.system.specialization !== doc.name) bad.push(`${key}: specialization ${doc.system.specialization}`);
+        if (doc.system.specialism !== undefined || doc.system.chosen !== undefined) bad.push(`${key}: legacy specialism fields`);
         // Family-derived members (no same-name skills.py row) must use the
         // family's verified base. A same-name skills.py row may override it
         // (Mathematics 10, Survival (Mountain) 5, Fighting/Firearms members).
@@ -2159,7 +2300,7 @@ check("sealdiceNewSkillsCarryVerifiedBases", (() => {
           bad.push(`${key}: family-base skill ${base} != family ${family.base}`);
         }
       }
-    } else if (doc.system.specialism !== false || doc.system.chosen !== false) {
+    } else if (doc.system.specialization !== "" || doc.system.skillName !== doc.name) {
       bad.push(`${key}: standalone skill marked as specialism`);
     }
     if ((facts.pendingSpecialisms ?? []).some((pending) => pending.factId === fact.factId)) bad.push(`${key}: still pending`);

@@ -11,13 +11,13 @@ import { Rules } from '../rules/index.mjs'
 //Two deliberate v1 omissions: no Luck re-roll (spending lowers the die result,
 //push/re-roll is a separate future mechanism).
 //
-//Ruleset split (M4): octopus keeps the historical behaviour byte for byte. CoC
-//allows a spend on a skill or characteristic roll only - never on a Sanity roll,
-//the dice that decide how much Sanity is lost, a Luck roll, damage, weapon
+//CoC allows a spend on a skill or characteristic roll only - never on a Sanity
+//roll, the dice that decide how much Sanity is lost, a Luck roll, damage, weapon
 //malfunction, a pushed roll or a natural fumble - and never resettles a Sanity
 //loss. Both the card snapshot and the settlement ask
 //`Rules.active().luck.cardEligible` / `canSpend`, so no UI can offer a spend the
-//rules refuse.
+//rules refuse. Native Luck stores only attribs.lck.value; displays use the CoC
+//rules cap rather than a persisted max.
 export class BRPLuck {
 
   //Spend step-downs offered on every d100 check card (plus the custom dialog)
@@ -26,15 +26,19 @@ export class BRPLuck {
   //The chat template family that carries the spend buttons
   static get CHECK_TEMPLATE() { return 'systems/brp/templates/chat/roll-result.html' }
 
+  static luckCap() {
+    return Math.max(0, Math.floor(Number(Rules.for('coc').luck.cap()) || 0))
+  }
+
   //The settlement core: clamp the requested spend by both margins (the
   //remaining Luck budget and the d100 floor), lower the die result and
   //re-rate the success level in place. Pure with respect to the game
   //surface - no DOM, no chat, no actor writes; the caller applies the result.
   //entry is the card entry the driving surface picked by its card index.
   static async applyLuck(actor, entry, amount, cardType = 'NO', context = {}) {
-    const luckData = actor?.system?.luck ?? {}
+    const luckData = actor?.system?.attribs?.lck ?? {}
     const budget = Math.max(0, Math.floor(Number(luckData.value) || 0))
-    const max = Math.max(0, Math.floor(Number(luckData.max) || 0))
+    const displayMax = BRPLuck.luckCap()
     const rollVal = Math.max(1, Math.floor(Number(entry?.rollVal) || 0))
     const requested = Math.max(0, Math.floor(Number(amount) || 0))
     //Clamp by margin: never past the remaining budget, never below a d100 1
@@ -73,7 +77,6 @@ export class BRPLuck {
         band: entry?.band ?? null,
       })
       : null
-    const displayMax = Math.max(max, Math.floor(Number(luckData.cap) || 0))
     // Second gate: the ruleset can refuse the spend even though a card exists.
     // Nothing is deducted and the die/result stay exactly where they were.
     if (adjust && adjust.allowed !== true) {
@@ -121,7 +124,7 @@ export class BRPLuck {
   //decides eligibility: CoC refuses the Sanity card and fumbles outright.
   static cardLuck(actor, chatTemplate, context = {}) {
     if (chatTemplate !== BRPLuck.CHECK_TEMPLATE) { return null }
-    const luck = actor?.system?.luck
+    const luck = actor?.system?.attribs?.lck
     if (!luck || !(Number(luck.value) > 0)) { return null }
     const eligible = Rules.active().luck?.cardEligible
     if (eligible) {
@@ -136,12 +139,8 @@ export class BRPLuck {
     }
     return {
       value: Math.floor(Number(luck.value)),
-      // CoC's starting Luck is not a ceiling; show the rules cap (99) rather
-      // than the creation snapshot. Octopus has no separate cap.
-      max: Math.max(
-        Math.floor(Number(luck.max) || 0),
-        Math.floor(Number(luck.cap) || 0)
-      )
+      // Native Luck has only a value; the starting value is not a ceiling.
+      max: BRPLuck.luckCap()
     }
   }
 
@@ -187,7 +186,7 @@ export class BRPLuck {
       return
     }
     const actor = await BRPactorDetails._getParticipant(entry.particId, entry.particType)
-    if (!actor?.system?.luck) { return }
+    if (!actor?.system?.attribs?.lck) { return }
     //GM may spend for anyone; a player only for their own character
     if (!data.originGM) {
       const user = game.users.get(data.origin)
@@ -202,10 +201,9 @@ export class BRPLuck {
       ui.notifications.info(game.i18n.localize('BRP.luck.noneLeft'))
       return
     }
-    await actor.update({ 'system.luck.value': result.luck.value })
-    //SN cards spend too (octopus only): a spend that lifts the roll to success
-    //switches the paired loss to the small value - reconcile what settlement
-    //already wrote. CoC forbids Luck on the Sanity chain entirely.
+    await actor.update({ 'system.attribs.lck.value': result.luck.value })
+    //Only an adapter that explicitly enables SAN resettlement takes this branch.
+    //CoC forbids Luck on the Sanity chain entirely.
     const resettle = Rules.active().luck?.resettlesSanLoss === true
     if (card.rollType === 'SN' && resettle) {
       await BRPLuck._resettleSanLoss(actor, entry, result)
@@ -283,7 +281,7 @@ export class BRPLuck {
   //A Luck spend turned an SN fail into a success: the large loss already
   //applied gives way to the small value - refund the difference on both the
   //current SAN and the daily tally (the episode, if any, stays for the keeper).
-  //octopus only: CoC forbids spending Luck on the Sanity chain at all.
+  //CoC never enables this resettlement path.
   static async _resettleSanLoss(actor, entry, result) {
     if (Rules.active().luck?.resettlesSanLoss !== true) { return }
     const crossedToSuccess = (Number(entry.resultLevel) < 2) && (result.roll.resultLevel >= 2)
@@ -292,12 +290,12 @@ export class BRPLuck {
     const oldLoss = Math.max(0, Number(entry.sanLoss) || 0)
     const refund = Math.max(0, oldLoss - newLoss)
     if (refund < 1) { return }
-    const san = actor.system.sanity
+    const san = actor.system.attribs.san
     const value = Math.min(Number(san.value) + refund, Number(san.max))
     const dailyLoss = Math.max(0, Number(san.dailyLoss) - refund)
     await actor.update({
-      'system.sanity.value': value,
-      'system.sanity.dailyLoss': dailyLoss
+      'system.attribs.san.value': value,
+      'system.attribs.san.dailyLoss': dailyLoss
     })
     entry.sanLoss = newLoss
     entry.sanAfter = value

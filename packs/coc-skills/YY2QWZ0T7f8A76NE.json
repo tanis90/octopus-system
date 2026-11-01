@@ -24,27 +24,34 @@
   }
  },
  "system": {
-  "base": 1,
+  "skillName": "外语",
+  "specialization": "外语（拉丁语）",
+  "base": "1",
   "basic": true,
-  "combat": false,
-  "category": "none",
-  "baseFormula": {
-   "1": {
-    "stat": "fixed",
-    "value": 1
-   },
-   "2": {
-    "stat": "fixed",
-    "value": 0
-   },
-   "Func": "or"
+  "adjustments": {
+   "base": 0,
+   "personal": 0,
+   "occupation": 0,
+   "archetype": 0,
+   "experiencePackage": 0,
+   "experience": 0
   },
-  "variable": false,
-  "specialism": true,
-  "chosen": true,
-  "specName": "外语（拉丁语）",
-  "mainName": "外语",
-  "noXP": false,
-  "description": "理解、听说、阅读与书写拉丁语。"
+  "properties": {
+   "push": true,
+   "fighting": false,
+   "firearm": false,
+   "ranged": false,
+   "special": false,
+   "noxpgain": false,
+   "rarity": false,
+   "requiresname": false,
+   "picknameonly": false,
+   "own": false,
+   "keepbasevalue": false
+  },
+  "description": {
+   "value": "理解、听说、阅读与书写拉丁语。",
+   "keeper": ""
+  }
  }
 }

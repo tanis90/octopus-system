@@ -82,9 +82,8 @@ export function halfDamageBonus(formula) {
   return source || '0'
 }
 
-// Damage bonus for a weapon's DB mode. CoC lists the mode per weapon
-// (melee = full, thrown/bow = half, firearms = none); two-handed use does not
-// change it - that is a BRP rule, not a CoC one.
+// Damage bonus for a weapon's DB mode. Native addb/ahdb properties select full,
+// half or no DB; two-handed use does not change it - that is a BRP rule.
 export function damageBonusFor({ dbFull = '0', dbHalf = '0', mode = 'none' } = {}) {
   switch (String(mode)) {
     case 'full': return normalizeFormula(dbFull ?? '0')
@@ -122,35 +121,18 @@ export function weaponProfile(weapon, options = {}) {
   const system = weapon?.system ?? {}
   const marker = weapon?.flags?.brp?.coc?.weapon ?? null
   const unarmed = options.unarmed ?? weapon?.flags?.brp?.unarmed === true
-  const weaponType = String(system.weaponType ?? '')
+  const properties = system.properties ?? {}
+  const kind = marker?.kind
+    ?? (unarmed ? 'melee' : properties.thrown === true ? 'missile' : properties.rngd === true ? 'firearm' : 'melee')
+  const dbMode = marker?.dbMode
+    ?? (properties.ahdb === true ? 'half'
+      : properties.addb === true ? (kind === 'missile' ? 'half' : kind === 'firearm' ? 'none' : 'full') : 'none')
+  const impaling = marker?.impaling ?? properties.impl === true
 
-  let kind = marker?.kind ?? null
-  if (!kind) {
-    if (unarmed) { kind = 'melee' } else if (FIREARM_TYPES.has(weaponType)) {
-      kind = weaponType === 'firearm' ? 'firearm' : weaponType
-    } else if (weaponType === 'missile') { kind = 'missile' } else { kind = 'melee' }
-  }
-
-  const dbField = String(system.db ?? '').toLowerCase()
-  let dbMode = marker?.dbMode ?? null
-  if (!dbMode) {
-    dbMode = DB_MODE_BY_FIELD[dbField] ?? KIND_DEFAULT_DB[kind] ?? 'none'
-  }
-
-  let impaling = marker?.impaling
-  if (impaling === undefined || impaling === null) {
-    if (unarmed) { impaling = false } else {
-      impaling = String(system.special ?? '') === 'impale' || String(system.special ?? '') === 'impknock'
-    }
-  }
-  // Firearms never add the impaling damage die; the CoC weapon table marks
-  // piercing melee/thrown weapons, not guns.
-  if (FIREARM_TYPES.has(kind)) { impaling = false }
-
-  const ranges = [system.dmg1, system.dmg2, system.dmg3]
+  const ranges = [system.range?.normal?.damage, system.range?.long?.damage, system.range?.extreme?.damage]
     .filter((value) => value !== undefined && value !== null && String(value).trim() !== '')
     .map((value) => String(value))
-  const rangeBands = [system.range1, system.range2, system.range3]
+  const rangeBands = [system.range?.normal?.value, system.range?.long?.value, system.range?.extreme?.value]
     .filter((value) => value !== undefined && value !== null && String(value).trim() !== '' && String(value) !== 'S')
     .map((value) => String(value))
 
@@ -158,15 +140,15 @@ export function weaponProfile(weapon, options = {}) {
     kind,
     ranged: RANGED_KINDS.has(kind),
     dbMode,
-    dbField: dbField || 'none',
+    dbField: dbMode,
     impaling: !!impaling,
     blast: kind === 'firearm' && ranges.length > 1,
     formula: ranges[0] ?? '0',
     ranges,
     rangeBands,
-    mal: num(system.mal),
-    shots: Math.max(0, int(system.att)),
-    hands: String(system.hands ?? ''),
+    mal: num(system.malfunction),
+    shots: Math.max(0, int(system.usesPerRound?.normal)),
+    hands: '',
     marker: !!marker,
     unarmed: !!unarmed,
   }

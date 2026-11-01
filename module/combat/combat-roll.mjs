@@ -28,7 +28,7 @@ export class BRPCombatRoll {
     //If this is a weapon Damage Roll
     if (type === 'DM') {
       //Get the damage
-      damage = weapon.system.dmg1
+      damage = weapon.system.range?.normal?.damage ?? ''
 
       //Get weapon range Options
       rangeOptions = Object.assign(rangeOptions, await this.getRangeOptions(weapon));
@@ -36,7 +36,7 @@ export class BRPCombatRoll {
 
       //Het hand Options (CoC has no two-handed DB split; the weapon profile
       //decides full/half/none)
-      if (!Rules.active().combat) {
+      if (!Rules.for('coc').combat) {
         handOptions = Object.assign(handOptions, await this.getHandOptions(weapon));
         if (Object.keys(handOptions).length > 1) { askHands = true }
       }
@@ -76,7 +76,7 @@ export class BRPCombatRoll {
 
       //If you've asked the range then get adjust damage for it
       if (askRange) {
-        damage = weapon.system[range]
+        damage = weapon.system.range?.[range]?.damage ?? damage
       }
 
       //If you asked the spell level then adjust damage for it
@@ -111,7 +111,7 @@ export class BRPCombatRoll {
     //CoC: the damage tier follows the attack's success band and the weapon's
     //profile (blunt max+maxDB, impaling max+DB+another weapon die). Nothing is
     //asked from the roller, and `maximize` is never used.
-    const coc = Rules.active().combat
+    const coc = Rules.for('coc').combat
     if (coc?.damageFormula && type === 'DM') {
       const profile = coc.weaponProfile(weapon)
       const rank = success === "4" ? 4 : 2
@@ -163,18 +163,10 @@ export class BRPCombatRoll {
 
   //Get weapon Range Options
   static async getRangeOptions(weapon) {
-    let rangeOptions = {
-      dmg1: game.i18n.localize("BRP.range") + ":" + weapon.system.range1,
-    }
-    if (weapon.system.range2 != "") {
-      rangeOptions = Object.assign(rangeOptions, {
-        dmg2: game.i18n.localize("BRP.range") + ":" + weapon.system.range2
-      })
-    }
-    if (weapon.system.range3 != "") {
-      rangeOptions = Object.assign(rangeOptions, {
-        dmg3: game.i18n.localize("BRP.range") + ":" + weapon.system.range3
-      })
+    const rangeOptions = {}
+    for (const key of ['normal', 'long', 'extreme']) {
+      const value = weapon.system.range?.[key]?.value
+      if (value) rangeOptions[key] = `${game.i18n.localize("BRP.range")}:${value}`
     }
     return rangeOptions
   }
@@ -195,12 +187,12 @@ export class BRPCombatRoll {
   static async getDamageBonus(actor, weapon, hands) {
     //CoC reads the weapon's DB mode (melee full, thrown/bow half, firearms
     //none); two-handed use never changes it.
-    const coc = Rules.active().combat
+    const coc = Rules.for('coc').combat
     if (coc?.weaponProfile) {
       const profile = coc.weaponProfile(weapon)
       return coc.damageBonusFor({
-        dbFull: actor.system.dmgBonus?.full,
-        dbHalf: actor.system.dmgBonus?.half,
+        dbFull: actor.system.attribs?.db?.value,
+        dbHalf: actor.system.attribs?.db?.value,
         mode: profile.dbMode,
       })
     }

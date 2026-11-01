@@ -86,44 +86,33 @@ export const CoCRules = {
   },
 
   characteristics: {
-    // CoC APP is the native `cha` slot; never persist a second `app` field.
     key(name) {
-      return name === 'app' ? 'cha' : name
+      return name
     },
   },
 
-  // CoC percentages round down (half DEX, EDU, etc). The base formula still
-  // lives on the item; this only changes the arithmetic.
-  skillBase({ item, stats, useEDU }) {
-    if (!item?.system?.variable) { return item?.system?.base ?? 0 }
-    const term = (index) => {
-      const formula = item.system.baseFormula?.[index] ?? {}
-      const statKey = formula.stat
-      if (!statKey || statKey === 'fixed') { return 0 }
-      if (statKey === 'edu' && !useEDU) { return 0 }
-      const stat = stats?.[statKey]
-      if (!stat) { return 0 }
-      const total = num(stat.base) + num(stat.redist) + num(stat.culture)
-      return Math.floor(total * num(formula.value))
-    }
-    const first = term(1)
-    const second = term(2)
-    return item.system.baseFormula?.Func === 'and' ? first + second : Math.max(first, second)
+  skillBase({ item, characteristics, useEDU }) {
+    const system = item?.system ?? {}
+    if (system.properties?.keepbasevalue === true) return num(system.base)
+    const key = item?.flags?.brp?.coc?.key
+    if (key === 'dodge') return Math.floor(num(characteristics?.dex?.value) / 2)
+    if (key === 'language-own') return useEDU ? num(characteristics?.edu?.value) : 0
+    return num(system.base)
   },
 
   deriveSecondary({ actorData, systemData }) {
-    const stats = systemData?.stats ?? {}
-    const con = num(stats.con?.total)
-    const siz = num(stats.siz?.total)
-    const pow = num(stats.pow?.total)
-    const str = num(stats.str?.total)
-    const dex = num(stats.dex?.total)
+    const characteristics = systemData?.characteristics ?? {}
+    const con = num(characteristics.con?.value)
+    const siz = num(characteristics.siz?.value)
+    const pow = num(characteristics.pow?.value)
+    const str = num(characteristics.str?.value)
+    const dex = num(characteristics.dex?.value)
     const { build, damageBonus } = buildAndDamageBonus(str + siz)
     return {
       healthMax: Math.max(Math.floor((con + siz) / 10), 0),
       powerMax: Math.max(fifth(pow), 0),
       build,
-      mov: moveRate(dex, str, siz, actorData?.system?.age),
+      mov: moveRate(dex, str, siz, actorData?.system?.infos?.age),
       dmgBonus: damageBonusShape(damageBonus),
       dmgSpecBonus: damageBonusShape(damageBonus),
     }

@@ -2,234 +2,233 @@
   "Actor": {
     "types": [
       "character",
-      "npc"
+      "npc",
+      "vehicle"
     ],
     "templates": {
-      "base": {
-        "stats": {
+      "coc": {
+        "characteristics": {
           "str": {
-            "base": 0,
-            "redist": 0,
-            "culture": 0,
-            "exp": 0,
-            "age": 0,
-            "effects": 0,
-            "cost": 1,
+            "value": 0,
             "formula": ""
           },
           "con": {
-            "base": 0,
-            "redist": 0,
-            "culture": 0,
-            "exp": 0,
-            "age": 0,
-            "effects": 0,
-            "cost": 1,
-            "formula": ""
-          },
-          "int": {
-            "base": 0,
-            "redist": 0,
-            "culture": 0,
-            "exp": 0,
-            "age": 0,
-            "effects": 0,
-            "cost": 3,
+            "value": 0,
             "formula": ""
           },
           "siz": {
-            "base": 0,
-            "redist": 0,
-            "culture": 0,
-            "exp": 0,
-            "age": 0,
-            "effects": 0,
-            "cost": 1,
-            "formula": ""
-          },
-          "pow": {
-            "base": 0,
-            "redist": 0,
-            "culture": 0,
-            "exp": 0,
-            "age": 0,
-            "effects": 0,
-            "cost": 3,
-            "improve": false,
+            "value": 0,
             "formula": ""
           },
           "dex": {
-            "base": 0,
-            "redist": 0,
-            "culture": 0,
-            "exp": 0,
-            "age": 0,
-            "effects": 0,
-            "cost": 3,
+            "value": 0,
             "formula": ""
           },
-          "cha": {
-            "base": 0,
-            "redist": 0,
-            "culture": 0,
-            "exp": 0,
-            "age": 0,
-            "effects": 0,
-            "cost": 1,
+          "app": {
+            "value": 0,
+            "formula": ""
+          },
+          "int": {
+            "value": 0,
+            "formula": ""
+          },
+          "pow": {
+            "value": 0,
             "formula": ""
           },
           "edu": {
-            "base": 0,
-            "redist": 0,
-            "culture": 0,
-            "exp": 0,
-            "age": 0,
-            "effects": 0,
-            "cost": 3,
+            "value": 0,
             "formula": ""
           }
         },
-        "health": {
-          "value": 10,
-          "mod": 0,
-          "max": 10,
-          "mjrwnd": 5,
-          "daily": 0
-        },
-        "power": {
-          "value": 5,
-          "mod": 0,
-          "max": 5,
-          "battVal": 0,
-          "battMax": 0
-        },
-        "fatigue": {
-          "value": 5,
-          "max": 5,
-          "mod": 0
-        },
-        "sanity": {
-          "value": 5,
-          "max": 5,
-          "starting": null,
-          "tis": null,
-          "dailyLoss": 0,
-          "singleLoss": 0,
-          "dayId": null,
-          "dayStartSan": null,
-          "dayStartSource": null,
-          "lastLossAt": null,
-          "insanity": {
-            "temporary": null,
-            "indefinite": null,
-            "permanent": false,
-            "lastUpdatedAt": null
+        "attribs": {
+          "hp": {
+            "auto": true,
+            "value": null,
+            "max": null
+          },
+          "mp": {
+            "auto": true,
+            "value": null,
+            "max": null
+          },
+          "mov": {
+            "auto": true,
+            "value": null,
+            "type": "walk"
+          },
+          "san": {
+            "auto": false,
+            "value": null,
+            "max": 99,
+            "dailyLoss": 0,
+            "dailyLimit": 0
+          },
+          "lck": {
+            "value": null
+          },
+          "db": {
+            "auto": true,
+            "value": null
+          },
+          "build": {
+            "auto": true,
+            "value": null
+          },
+          "armor": {
+            "notes": false,
+            "value": null
           }
         },
-        "luck": {
-          "value": 0,
-          "max": null,
-          "cap": null
+        "conditions": {
+          "criticalWounds": {
+            "value": false
+          },
+          "unconscious": {
+            "value": false
+          },
+          "dying": {
+            "value": false
+          },
+          "dead": {
+            "value": false
+          },
+          "prone": {
+            "value": false
+          },
+          "tempoInsane": {
+            "value": false,
+            "realTime": false,
+            "duration": 0
+          },
+          "indefInsane": {
+            "value": false
+          }
         },
-        "res5": {
-          "value": 0,
-          "max": 0
+        "description": {
+          "keeper": ""
         },
-        "wealthValue": 0,
-        "build": 0,
-        "mov": 0
+        "config": {
+          "luckAvoidUnconsciousness": 1
+        },
+        "books": []
       }
     },
     "character": {
       "templates": [
-        "base"
+        "coc"
       ],
-      "biography": "",
-      "background": "",
+      "infos": {
+        "occupation": "",
+        "age": "",
+        "sex": "",
+        "residence": "",
+        "birthplace": "",
+        "archetype": "",
+        "organization": "",
+        "playername": ""
+      },
+      "biography": [],
+      "sanityLossEvents": [],
       "backstory": "",
-      "stories":[],
-      "gender": "",
-      "culture": "",
-      "religion": "",
-      "personalityName": "",
-      "professionName": "",
-      "age": 0,
-      "height": "",
-      "weight": "",
-      "wealth": 0,
-      "description": "",
-      "distincitve": "",
-      "majorWnd": false,
-      "minorWnd": false,
-      "move": 0,
-      "hand": "Right",
-      "lock": true,
-      "skillOrder": true,
-      "skillcategory": {}
+      "notes": "",
+      "development": {
+        "personal": 0,
+        "occupation": 0,
+        "archetype": 0,
+        "experiencePackage": 0
+      },
+      "monetary": {
+        "format": "decimalLeft",
+        "symbol": "$",
+        "values": [],
+        "spent": "",
+        "assetsDetails": "",
+        "spendingLevel": "",
+        "cash": "",
+        "assets": ""
+      },
+      "flags": {
+        "locked": true,
+        "manualCredit": false,
+        "mythosHardened": false,
+        "mythosInsanityExperienced": false,
+        "skillListMode": false,
+        "skillShowUncommon": true
+      }
     },
     "npc": {
       "templates": [
-        "base"
+        "coc"
       ],
-      "description": "",
-      "extDesc": "",
-      "majorWnd": false,
-      "minorWnd": false,
-      "moveTitle": "Move",
-      "move": 0,
-      "altMoveTitle":"Alt Move",
-      "altMove": 0,
-      "lock": false,
-      "viewTab": "2",
-      "showNotes": false,
-      "sanLoss": "",
-      "sanDesc": "",
-      "movDesc": "",
-      "ap": 0,
-      "bap": 0,
-      "apRnd": "",
-      "bapRnd": "",
-      "baseStats": {
-        "str": {
-          "random": "3D6",
-          "average": "1D2+9"
+      "special": {
+        "attacksPerRound": "1",
+        "sanLoss": {
+          "checkPassed": null,
+          "checkFailled": null
         },
-        "con": {
-          "random": "3D6",
-          "average": "1D2+9"
-        },
-        "int": {
-          "random": "3D6",
-          "average": "1D2+9"
-        },
-        "siz": {
-          "random": "3D6",
-          "average": "1D2+9"
-        },
-        "pow": {
-          "random": "3D6",
-          "average": "1D2+9"
-        },
-        "dex": {
-          "random": "3D6",
-          "average": "1D2+9"
-        },
-        "cha": {
-          "random": "3D6",
-          "average": "1D2+9"
-        },
-        "edu": {
-          "random": "3D6",
-          "average": "1D2+9"
+        "movement": [],
+        "macros": []
+      },
+      "biography": {
+        "personalDescription": {
+          "value": ""
         }
       },
-      "hp": {
-        "stat1": "siz",
-        "stat2": "con",
-        "multi": 0.5
+      "infos": {
+        "type": "",
+        "occupation": "",
+        "organization": "",
+        "age": ""
       },
-      "mod": {
-        "strdb": false
+      "flags": {
+        "locked": false,
+        "displayFormula": false,
+        "panelSkills": true,
+        "panelCombat": true,
+        "panelInventory": true,
+        "panelInventoryItems": true,
+        "panelInventoryBooks": true,
+        "panelInventorySpells": true,
+        "panelInventoryTalents": true,
+        "panelInventoryWeapons": true,
+        "panelInventoryArmor": true,
+        "panelInventoryStatuses": true,
+        "panelLuckSpend": false,
+        "panelNotes": true,
+        "panelMacros": true,
+        "panelEffects": false,
+        "panelKeeper": true
+      }
+    },
+    "vehicle": {
+      "stats": {
+        "mov": null,
+        "build": {
+          "value": null,
+          "current": null
+        },
+        "armor": {
+          "value": 0,
+          "localized": false,
+          "locations": []
+        },
+        "hp": null
+      },
+      "crew": {
+        "total": "",
+        "count": {}
+      },
+      "description": {
+        "value": "",
+        "keeper": ""
+      },
+      "infos": {
+        "type": "",
+        "origin": ""
+      },
+      "properties": {
+        "armed": false
       }
     }
   },
@@ -256,7 +255,9 @@
       "persTrait",
       "reputation",
       "skillcat",
-      "culture"
+      "culture",
+      "talent",
+      "item"
     ],
     "templates": {
       "base": {
@@ -276,44 +277,68 @@
       "pSCurr": 0,
       "pSMax": 0
     },
-    "skill": {
-      "templates": [
-        "base"
-      ],
-      "subType": "",
-      "base": 0,
-      "xp": 0,
-      "culture": 0,
-      "profession": 0,
-      "personality": 0,
-      "personal": 0,
-      "effects": 0,
-      "baseFormula": {
-        "1": {
-          "stat": "fixed",
-          "value": 0
-        },
-        "2": {
-          "stat": "fixed",
-          "value": 0
-        },
-        "Func": "or"
+    "talent": {
+      "description": {
+        "value": "",
+        "keeper": "",
+        "notes": ""
       },
-      "noXP": false,
-      "category": "cmmnmod",
-      "chosen": false,
-      "specialism": false,
-      "group": false,
-      "groupSkills": [],
-      "variable": false,
-      "specName": "",
-      "mainName": "",
-      "prsnlty": false,
-      "occupation": false,
-      "cultural": false,
-      "improve": false,
-      "basic": false,
-      "combat": false
+      "source": "",
+      "type": {
+        "physical": false,
+        "mental": false,
+        "combat": false,
+        "miscellaneous": false,
+        "basic": false,
+        "insane": false,
+        "other": false
+      },
+      "adjustments": []
+    },
+    "item": {
+      "description": {
+        "value": "",
+        "keeper": ""
+      },
+      "quantity": 1,
+      "weight": 0,
+      "price": {}
+    },
+    "skill": {
+      "skillName": "",
+      "specialization": "",
+      "base": "0",
+      "adjustments": {
+        "base": 0,
+        "personal": 0,
+        "occupation": 0,
+        "archetype": 0,
+        "experiencePackage": 0,
+        "experience": 0
+      },
+      "properties": {
+        "push": true,
+        "fighting": false,
+        "firearm": false,
+        "ranged": false,
+        "special": false,
+        "noxpgain": false,
+        "rarity": false,
+        "requiresname": false,
+        "picknameonly": false,
+        "own": false,
+        "keepbasevalue": false
+      },
+      "description": {
+        "value": "",
+        "keeper": ""
+      },
+      "flags": {
+        "archetype": false,
+        "developement": false,
+        "experiencePackage": false,
+        "occupation": false
+      }
     },
     "hit-location": {
       "displayName": "",
@@ -491,59 +516,64 @@
       "pSMax": 0
     },
     "weapon": {
-      "templates": [
-        "base"
-      ],
-      "weaponType": "",
-      "skill1": "none",
-      "skill2": "none",
-      "dmg1": "0",
-      "dmg2": "",
-      "dmg3": "",
-      "special":"",
-      "burst": false,
-      "stun": false,
-      "entangle": false,
-      "explosive": false,
-      "fire": false,
-      "pierce": false,
-      "sonic": false,
-      "choke": false,
-      "cold": false,
-      "emp": false,
-      "poison": false,
-      "disease": false,
-      "acid": false,
-      "constrict": false,
-      "spclDmg": false,
-      "db": 0,
-      "att": 0,
-      "range1": "S",
-      "range2": "",
-      "range3": "",
-      "hands": "1H",
-      "crew": "",
-      "hp": 0,
-      "ap": 0,
-      "hpCurr": 0,
-      "ammoType": "",
+      "range": {
+        "normal": {
+          "value": "",
+          "damage": "0"
+        },
+        "long": {
+          "value": "",
+          "damage": ""
+        },
+        "extreme": {
+          "value": "",
+          "damage": ""
+        }
+      },
+      "skill": {
+        "main": {
+          "name": "",
+          "id": ""
+        },
+        "alternativ": {
+          "name": "",
+          "id": ""
+        }
+      },
+      "description": {
+        "value": "",
+        "special": "",
+        "keeper": ""
+      },
+      "usesPerRound": {
+        "normal": "1",
+        "max": null,
+        "burst": null
+      },
+      "bullets": null,
       "ammo": 0,
-      "ammoCurr": 0,
-      "mal": 0,
-      "rof": 0,
-      "radius": 0,
-      "parry": true,
-      "str": 0,
-      "dex": 0,
-      "enc": 0,
-      "price": "",
-      "cost": 0,
-      "equipStatus": "carried",
-      "coverage": "",
-      "quantity": 1,
-      "npcVal": 0,
-      "pSCurr": 0,
-      "pSMax": 0
+      "malfunction": null,
+      "blastRadius": null,
+      "properties": {
+        "rngd": false,
+        "mnvr": false,
+        "thrown": false,
+        "shotgun": false,
+        "dbrl": false,
+        "impl": false,
+        "brst": false,
+        "auto": false,
+        "ahdb": false,
+        "addb": false,
+        "slnt": false,
+        "spcl": false,
+        "mont": false,
+        "blst": false,
+        "stun": false,
+        "rare": false,
+        "burn": false
+      },
+      "price": {}
     },
     "wound": {
       "value": 1,

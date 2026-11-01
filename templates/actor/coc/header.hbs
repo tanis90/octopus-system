@@ -1,0 +1,59 @@
+<section class="coc-header">
+  <div class="coc-identity">
+    <img class="coc-portrait" src="{{cocHeader.img}}" alt="{{cocHeader.name}}" {{#if isCoCEdit}}data-action="onEditImage" data-edit="img"{{/if}}>
+    <div class="coc-identity-main">
+      <div class="coc-name-row">
+        {{#if isCoCEdit}}<input class="coc-name" name="name" value="{{cocHeader.name}}">{{else}}<h1 class="coc-name">{{cocHeader.name}}</h1>{{/if}}
+        {{#if canEditSheet}}<button type="button" class="coc-interlude" data-action="cocInterlude">幕间结算</button>{{/if}}
+        {{#if isGM}}
+        <details class="coc-keeper">
+          <summary>守秘人</summary>
+          <div class="coc-keeper-menu">
+            <button type="button" data-action="cocKeeper" data-op="newDay">新的一天</button>
+            <button type="button" data-action="cocKeeper" data-op="advanceHour">+1 小时</button>
+            <button type="button" data-action="cocKeeper" data-op="advanceDay">+1 天</button>
+            <button type="button" data-action="cocKeeper" data-op="luckRecovery">新会话幸运恢复</button>
+            <button type="button" data-action="cocKeeper" data-op="endTemporary">结束临时疯狂</button>
+            <button type="button" data-action="cocKeeper" data-op="endIndefinite">复核结束不定疯狂</button>
+            <button type="button" data-action="cocKeeper" data-op="clearPermanent">按理由清除永久疯狂</button>
+            <input name="cocKeeperReason" placeholder="不定疯狂复核／永久疯狂清除需填写真实理由" aria-label="守秘人操作理由" data-coc-local>
+          </div>
+        </details>
+        {{/if}}
+      </div>
+      <div class="coc-subtitle">
+        {{#if isCoCEdit}}
+          <input name="system.infos.occupation" value="{{cocHeader.profession}}" aria-label="职业">
+          <input name="system.infos.age" value="{{cocHeader.age}}" data-dtype="Number" aria-label="年龄">
+        {{else}}
+          <span>{{cocHeader.profession}}</span><span>{{cocHeader.age}} 岁</span>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div class="coc-resources">
+    <div class="coc-resource hp"><span>生命</span>{{#if isCoCEdit}}<input name="system.attribs.hp.value" value="{{cocHeader.hp.value}}" data-dtype="Number">{{else}}<b>{{cocHeader.hp.value}}</b>{{/if}}<span>/ {{cocHeader.hp.max}}</span></div>
+    <div class="coc-resource mp"><span>魔法</span>{{#if isCoCEdit}}<input name="system.attribs.mp.value" value="{{cocHeader.mp.value}}" data-dtype="Number">{{else}}<b>{{cocHeader.mp.value}}</b>{{/if}}<span>/ {{cocHeader.mp.max}}</span></div>
+    <div class="coc-resource san"><span>理智</span>{{#if isCoCEdit}}<input name="system.attribs.san.value" value="{{cocHeader.san.value}}" data-dtype="Number">{{else}}<button type="button" data-action="sanityRoll">{{cocHeader.san.value}}</button>{{/if}}<span>/ {{cocHeader.san.max}}</span></div>
+    <div class="coc-resource luck"><span>幸运</span>{{#if isCoCEdit}}<input name="system.attribs.lck.value" value="{{cocHeader.luck.value}}" data-dtype="Number">{{else}}<b>{{cocHeader.luck.value}}</b>{{/if}}<span>/ {{cocHeader.luck.cap}}</span></div>
+  </div>
+
+  {{#if cocHeader.badges.length}}
+  <div class="coc-statuses">
+    {{#each cocHeader.badges as |badge|}}<span class="coc-status {{badge.id}}">{{badge.label}}</span>{{/each}}
+  </div>
+  {{/if}}
+
+  <div class="coc-stats">
+    {{#each cocHeader.stats as |stat|}}
+    <div class="coc-stat">
+      <span class="coc-stat-label">{{stat.label}}</span>
+      {{#if ../isCoCEdit}}<input name="system.characteristics.{{stat.id}}.value" value="{{stat.base}}" data-dtype="Number" aria-label="{{stat.label}}">
+      {{else}}<button type="button" class="coc-stat-value" data-action="cocStatRoll" data-characteristic="{{stat.id}}">{{stat.value}}</button>{{/if}}
+      <span class="coc-stat-thresholds">{{stat.half}} / {{stat.fifth}}</span>
+    </div>
+    {{/each}}
+  </div>
+  <div class="coc-derived"><span>伤害加值 {{cocHeader.db}}</span><span>体格 {{cocHeader.build}}</span><span>移动力 {{cocHeader.mov}}</span><span>护甲 {{cocHeader.armour}}</span></div>
+</section>

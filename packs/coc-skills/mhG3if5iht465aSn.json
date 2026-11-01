@@ -24,27 +24,34 @@
   }
  },
  "system": {
-  "base": 15,
+  "skillName": "恐吓",
+  "specialization": "",
+  "base": "15",
   "basic": true,
-  "combat": false,
-  "category": "none",
-  "baseFormula": {
-   "1": {
-    "stat": "fixed",
-    "value": 15
-   },
-   "2": {
-    "stat": "fixed",
-    "value": 0
-   },
-   "Func": "or"
+  "adjustments": {
+   "base": 0,
+   "personal": 0,
+   "occupation": 0,
+   "archetype": 0,
+   "experiencePackage": 0,
+   "experience": 0
   },
-  "variable": false,
-  "specialism": false,
-  "chosen": false,
-  "specName": "",
-  "mainName": "",
-  "noXP": false,
-  "description": "以身体或心理威胁迫使对方配合或吐露信息。"
+  "properties": {
+   "push": true,
+   "fighting": false,
+   "firearm": false,
+   "ranged": false,
+   "special": false,
+   "noxpgain": false,
+   "rarity": false,
+   "requiresname": false,
+   "picknameonly": false,
+   "own": false,
+   "keepbasevalue": false
+  },
+  "description": {
+   "value": "以身体或心理威胁迫使对方配合或吐露信息。",
+   "keeper": ""
+  }
  }
 }

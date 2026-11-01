@@ -1,0 +1,38 @@
+<section class="actor tab coc-skills {{tab.cssClass}}" data-group="primary" data-tab="skills">
+  <div class="coc-toolbar" data-coc-local>
+    <span>技能（{{cocSkillCount}}）</span>
+    <input type="search" placeholder="搜索技能" data-coc-skill-search aria-label="搜索技能">
+    <select data-coc-skill-sort aria-label="类内排序"><option value="value">当前值</option><option value="name">名称</option></select>
+  </div>
+  {{#each skillGroups as |group|}}
+  <section class="coc-skill-group" data-coc-skill-group="{{group.id}}">
+    <button type="button" class="coc-group-title" data-action="cocSkillGroup" data-group="{{group.id}}"><span>{{group.label}}（{{group.skills.length}}）</span></button>
+    <ol class="coc-skill-grid" data-coc-skill-list>
+      {{#each group.skills as |skill|}}
+      <li class="item coc-skill" data-item-id="{{skill.id}}" data-document-class="Item" data-coc-skill-row data-name="{{skill.name}}" data-total="{{skill.total}}">
+        <div class="coc-skill-line">
+          <button type="button" class="coc-skill-name" data-action="cocSkillToggle">{{skill.name}}</button>
+          {{#if ../../isCoCUse}}<button type="button" class="coc-skill-value" data-action="cocSkillRoll">{{skill.total}}%</button>
+          {{else}}<span class="coc-skill-value">{{skill.total}}%</span>{{/if}}
+        </div>
+        <div class="coc-skill-details" data-coc-skill-details hidden>
+          <div>{{#if skill.breakdownText}}{{skill.breakdownText}} = {{/if}}当前 {{skill.total}}</div>
+          <div>困难阈值 {{skill.half}}　极难阈值 {{skill.fifth}}</div>
+          {{#if ../../isCoCEdit}}
+          <div class="coc-edit-grid">
+            <label>基础<input class="inline-edit" data-field="base" type="number" value="{{skill.breakdown.base}}"></label>
+            <label>职业<input class="inline-edit" data-field="profession" type="number" value="{{skill.breakdown.profession}}"></label>
+            <label>兴趣<input class="inline-edit" data-field="personal" type="number" value="{{skill.breakdown.personal}}"></label>
+            <label>经验<input class="inline-edit" data-field="xp" type="number" value="{{skill.breakdown.xp}}"></label>
+            <label>效果<input class="inline-edit" data-field="effects" type="number" value="{{skill.breakdown.effects}}"></label>
+            <label>文化<input class="inline-edit" data-field="culture" type="number" value="{{skill.breakdown.culture}}"></label>
+            <label>人格<input class="inline-edit" data-field="personality" type="number" value="{{skill.breakdown.personality}}"></label>
+          </div>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/each}}
+</section>
