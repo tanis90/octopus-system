@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CoC NPC / 生物卡 — 纸墨档案</title>
+<link rel="stylesheet" href="design.css">
+<link rel="stylesheet" href="npc-design.css">
+<script>window.COC_DESIGN_DEFAULTS = /*EDITMODE-BEGIN*/{"variant":"classic","sidebar":true}/*EDITMODE-END*/;</script>
+<script src="npc-prototype.js" defer></script>
+</head>
+<body data-card="npc" data-variant="classic" data-active-tab="combat">
+<!-- 设计系统：沿用角色卡纸墨 token；全宽六页；战斗优先；墨底表头与墨线速览条。 -->
+<header class="design-tweaks" aria-label="设计评审选项">
+  <div class="tweaks-summary">
+    <div class="tweaks-title">CoC NPC / 生物卡 · 纸墨档案<small>信息排列参考 Tidy NPC · 无收藏侧栏 · 交互设计稿</small></div>
+    <div class="tweaks-controls"><button data-variant-button="classic" aria-pressed="true">A 经典档案</button><button data-variant-button="compact" aria-pressed="false">B 紧凑桌面</button><button data-variant-button="contrast" aria-pressed="false">C 墨印高对比</button><button class="reopen" id="reopen-sheet" hidden>重新打开卡面</button></div>
+  </div>
+</header>
+
+<main class="sheet" id="sheet" aria-label="深潜者的生物卡">
+  <header class="window-header"><span class="window-title">NPC：深潜者</span><button class="window-close" id="window-close" aria-label="关闭生物卡">×</button></header>
+  <section class="banner" aria-label="生物摘要">
+    <div class="identity-row">
+      <button class="portrait" data-demo="更换生物头像" aria-label="更换深潜者头像"><img src="assets/creature-portrait.jpg" alt="深潜者，来自深海的异界生物"></button>
+      <div class="identity">
+        <div class="name-line">
+          <div class="name-block"><h1 class="name">深潜者</h1><div class="subtitle"><span>类型：异界生物</span><span>眷族</span><span>深海栖息</span></div></div>
+          <div class="formula-controls edit-only"><button id="roll-characteristics" data-demo="按公式批量掷特性">掷特性</button><button id="average-characteristics" data-demo="按公式取特性平均值">取平均</button></div>
+          <button class="edit-toggle edit-only" id="formula-toggle" aria-pressed="false" title="公式模式">ƒ</button>
+          <button class="edit-toggle" id="edit-toggle" aria-pressed="false">编辑</button>
+        </div>
+        <div class="npc-resource-row">
+          <div class="vitals npc-vitals" aria-label="生物资源">
+            <div class="vital hp" style="--pct:100%"><div class="vital-top"><span class="vital-label">生命</span><span class="vital-value">13<small> / 13</small></span></div><span class="vital-track"><i></i></span></div>
+            <div class="vital mp" style="--pct:100%"><div class="vital-top"><span class="vital-label">魔法</span><span class="vital-value">16<small> / 16</small></span></div><span class="vital-track"><i></i></span></div>
+            <div class="vital san optional-vital" style="--pct:0%"><div class="vital-top"><span class="vital-label">理智</span><span class="vital-value">—<small> / 99</small></span></div><span class="vital-track"><i></i></span></div>
+            <div class="vital luck optional-vital" style="--pct:0%"><div class="vital-top"><span class="vital-label">幸运</span><span class="vital-value">—</span></div><span class="vital-track"><i></i></span></div>
+          </div>
+          <div class="derived npc-derived"><span>伤害加值 <b>1D4</b></span><span>体格 <b>1</b></span><span>移动力 <b>8</b></span><span>护甲 <b>1</b></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="abilities" aria-label="八项特性">
+      <div class="ability"><span class="ability-label">STR</span><button class="ability-value" data-demo="力量检定">70</button><input class="ability-input edit-only" value="70" aria-label="STR 数值"><input class="ability-formula formula-only" value="3D6*5" aria-label="STR 公式"><span class="ability-sub">35 / 14</span></div>
+      <div class="ability"><span class="ability-label">CON</span><button class="ability-value" data-demo="体质检定">65</button><input class="ability-input edit-only" value="65" aria-label="CON 数值"><input class="ability-formula formula-only" value="3D6*5" aria-label="CON 公式"><span class="ability-sub">32 / 13</span></div>
+      <div class="ability"><span class="ability-label">SIZ</span><button class="ability-value" data-demo="体型检定">80</button><input class="ability-input edit-only" value="80" aria-label="SIZ 数值"><input class="ability-formula formula-only" value="3D6*5" aria-label="SIZ 公式"><span class="ability-sub">40 / 16</span></div>
+      <div class="ability"><span class="ability-label">DEX</span><button class="ability-value" data-demo="敏捷检定">50</button><input class="ability-input edit-only" value="50" aria-label="DEX 数值"><input class="ability-formula formula-only" value="3D6*5" aria-label="DEX 公式"><span class="ability-sub">25 / 10</span></div>
+      <div class="ability"><span class="ability-label">APP</span><button class="ability-value" data-demo="外貌：无数据">—</button><input class="ability-input edit-only" placeholder="—" aria-label="APP 数值"><input class="ability-formula formula-only" placeholder="公式" aria-label="APP 公式"><span class="ability-sub"></span></div>
+      <div class="ability"><span class="ability-label">INT</span><button class="ability-value" data-demo="智力检定">65</button><input class="ability-input edit-only" value="65" aria-label="INT 数值"><input class="ability-formula formula-only" value="3D6*5" aria-label="INT 公式"><span class="ability-sub">32 / 13</span></div>
+      <div class="ability modified"><span class="ability-label">POW</span><button class="ability-value" data-demo="意志检定 · 受效果影响">80</button><input class="ability-input edit-only" value="80" aria-label="POW 数值"><input class="ability-formula formula-only" value="3D6*5" aria-label="POW 公式"><span class="ability-sub">40 / 16</span></div>
+      <div class="ability"><span class="ability-label">EDU</span><button class="ability-value" data-demo="教育：无数据">—</button><input class="ability-input edit-only" placeholder="—" aria-label="EDU 数值"><input class="ability-formula formula-only" placeholder="公式" aria-label="EDU 公式"><span class="ability-sub"></span></div>
+    </div>
+
+    <div class="condition-line"><div class="conditions"><button class="condition" aria-pressed="false">重伤</button><button class="condition" aria-pressed="false">昏迷</button><button class="condition" aria-pressed="false">濒死</button><button class="condition" aria-pressed="false">死亡</button><button class="condition" aria-pressed="false">倒地</button><button class="condition" aria-pressed="false">临时疯狂</button><button class="condition" aria-pressed="false">长期疯狂</button></div></div>
+    <div class="combat-banner-row">
+      <div class="combat-pill"><span class="label">每轮攻击</span><span class="value">1D3</span><button data-demo="掷每轮攻击次数" aria-label="掷每轮攻击次数">掷</button></div>
+      <div class="combat-pill san"><span class="label">SAN 损失</span><span class="value">0 / 1D6</span><button data-demo="生成 SAN 损失链接卡" aria-label="生成 SAN 损失链接卡">链接</button></div>
+      <div class="combat-pill"><span class="label">护甲</span><span class="value">1</span><button data-demo="护甲备注：厚皮" aria-label="查看护甲备注">注</button></div>
+    </div>
+
+    <nav class="tabs npc-tabs" role="tablist" aria-label="生物卡页签">
+      <button class="tab" id="tab-combat" role="tab" data-tab="combat" aria-controls="panel-combat" aria-selected="true">战斗</button>
+      <button class="tab" id="tab-skills" role="tab" data-tab="skills" aria-controls="panel-skills" aria-selected="false">技能</button>
+      <button class="tab" id="tab-inventory" role="tab" data-tab="inventory" aria-controls="panel-inventory" aria-selected="false">物品</button>
+      <button class="tab" id="tab-description" role="tab" data-tab="description" aria-controls="panel-description" aria-selected="false">描述</button>
+      <button class="tab" id="tab-keeper" role="tab" data-tab="keeper" aria-controls="panel-keeper" aria-selected="false">守秘<span class="gm-mark">GM</span></button>
+      <button class="tab" id="tab-effects" role="tab" data-tab="effects" aria-controls="panel-effects" aria-selected="false">效果<span class="tab-count">2</span></button>
+    </nav>
+  </section>
+
+  <div class="sheet-body npc-body" id="sheet-body"><div class="content">
+    <section class="panel active" id="panel-combat" data-panel="combat" role="tabpanel" aria-labelledby="tab-combat">
+      <div class="combat-strip">
+        <div class="strip-item"><span class="strip-label">每轮攻击次数</span><span class="strip-value">1D3</span><button class="strip-action" data-demo="掷每轮攻击次数">可掷</button></div>
+        <div class="strip-item san"><span class="strip-label">SAN 损失 · 通过 / 失败</span><span class="strip-value">0 / 1D6</span><button class="strip-action" data-demo="生成 SAN 损失链接卡">发起</button></div>
+        <div class="strip-item"><span class="strip-label">护甲</span><span class="strip-value">1</span><button class="strip-action" data-demo="护甲备注：厚皮">备注</button></div>
+      </div>
+      <div class="strip-note">伤害加值 DB 1D4 已计入下方伤害公式</div>
+      <div class="toolbar"><strong>武器与攻击</strong><span class="toolbar-spacer"></span><button class="small-button edit-only" data-demo="添加武器">＋ 添加武器</button></div>
+      <div class="table-scroll"><table class="npc-weapon-table"><thead><tr><th>武器</th><th>使用技能</th><th>备选技能</th><th>伤害</th><th>射程</th><th>子弹 / 弹容量</th><th>故障</th><th>操作</th></tr></thead><tbody>
+        <tr><td><button class="item-name" data-demo="打开咬击武器卡">咬击</button></td><td>格斗（撕咬）45%</td><td>—</td><td>1D4+DB</td><td>接触</td><td>—</td><td>—</td><td class="row-actions"><button data-demo="咬击攻击">攻击</button><button data-demo="咬击伤害">伤害</button><button data-demo="打开咬击武器卡">打开</button></td></tr>
+        <tr><td><button class="item-name" data-demo="打开爪击武器卡">爪击</button></td><td>格斗（爪击）55%</td><td>—</td><td>1D6+1D4</td><td>接触</td><td>—</td><td>—</td><td class="row-actions"><button data-demo="爪击攻击">攻击</button><button data-demo="爪击伤害">伤害</button><button data-demo="打开爪击武器卡">打开</button></td></tr>
+        <tr><td><button class="item-name" data-demo="打开投掷巨石武器卡">投掷巨石</button></td><td>投掷 35%</td><td>—</td><td>2D6+1D4</td><td>20 码</td><td>—</td><td>—</td><td class="row-actions"><button data-demo="投掷巨石攻击">攻击</button><button data-demo="投掷巨石伤害">伤害</button><button data-demo="打开投掷巨石武器卡">打开</button></td></tr>
+        <tr><td><button class="item-name" data-demo="打开鱼叉枪武器卡">鱼叉枪</button></td><td>射击（鱼叉）35%</td><td>—</td><td>1D10+2</td><td>30 码</td><td>0 / 1</td><td>95</td><td class="row-actions"><button data-demo="鱼叉枪攻击">攻击</button><button data-demo="鱼叉枪伤害">伤害</button><button data-demo="鱼叉枪装填">装填</button></td></tr>
+      </tbody></table></div>
+      <div class="section-heading"><strong>特殊能力</strong><small>天赋 · 3 项</small><div class="heading-actions"><button class="small-button edit-only" data-demo="添加特殊能力">＋</button></div></div>
+      <div class="talent-list"><button class="talent" data-demo="打开两栖能力卡"><strong>两栖</strong><span>可在水中自由行动；水下移动力等同于游泳移动力，无需呼吸。</span></button><button class="talent" data-demo="打开再生能力卡"><strong>再生</strong><span>每轮恢复 1 点 HP；火焰或魔法造成的伤害无法以此方式恢复。</span></button><button class="talent" data-demo="打开深渊凝视能力卡"><strong>深渊凝视</strong><span>与深潜者对视的调查员须进行 POW 检定；失败者损失 1 / 1D4 点 SAN。</span></button></div>
+      <div class="section-heading"><strong>移动方式</strong><small>主 MOV 在横幅显示</small><div class="heading-actions"><button class="small-button edit-only" data-demo="添加移动方式">＋ 添加</button></div></div>
+      <div class="movement-list"><div class="movement-row"><span>主移动力</span><span class="movement-value">8</span><span class="movement-type">步行</span><small>由系统派生</small></div><div class="movement-row"><span>额外移动</span><span class="movement-value">8</span><span class="movement-type">游泳</span><button class="edit-only" data-demo="移除游泳移动">移除</button></div></div>
+    </section>
+
+    <section class="panel" id="panel-skills" data-panel="skills" role="tabpanel" aria-labelledby="tab-skills" hidden>
+      <div class="toolbar"><label class="search"><span hidden>搜索技能</span><input id="skill-search" type="search" placeholder="搜索技能…"></label><div class="segment"><button data-sort="value" aria-pressed="true">按数值</button><button data-sort="name" aria-pressed="false">按名称</button><button data-sort="custom" aria-pressed="false">自定义</button></div><span class="toolbar-spacer"></span><button class="small-button edit-only" data-demo="添加技能">＋ 添加技能</button></div>
+      <table><colgroup><col style="width:48%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:10%"></colgroup><thead><tr><th>技能</th><th>当前</th><th>半值</th><th>1/5</th><th><span class="edit-only">操作</span></th></tr></thead><tbody id="skill-rows">
+        <tr data-skill-row data-name="格斗（爪击）" data-value="55"><td><button class="skill-name" data-demo="格斗（爪击）检定">格斗（爪击）</button></td><td class="current">55</td><td>27</td><td>11</td><td class="row-actions"><button class="edit-only" data-demo="删除爪击技能">删除</button></td></tr>
+        <tr data-skill-row data-name="格斗（撕咬）" data-value="45"><td><button class="skill-name" data-demo="格斗（撕咬）检定">格斗（撕咬）</button></td><td class="current">45</td><td>22</td><td>9</td><td class="row-actions"><button class="edit-only" data-demo="删除撕咬技能">删除</button></td></tr>
+        <tr data-skill-row data-name="潜行" data-value="40"><td><button class="skill-name" data-demo="潜行检定">潜行</button></td><td class="current">40</td><td>20</td><td>8</td><td class="row-actions"><button class="edit-only" data-demo="删除潜行技能">删除</button></td></tr>
+        <tr data-skill-row data-name="投掷" data-value="35"><td><button class="skill-name" data-demo="投掷检定">投掷</button></td><td class="current">35</td><td>17</td><td>7</td><td class="row-actions"><button class="edit-only" data-demo="删除投掷技能">删除</button></td></tr>
+        <tr data-skill-row data-name="射击（鱼叉）" data-value="35"><td><button class="skill-name" data-demo="射击（鱼叉）检定">射击（鱼叉）</button></td><td class="current">35</td><td>17</td><td>7</td><td class="row-actions"><button class="edit-only" data-demo="删除鱼叉技能">删除</button></td></tr>
+        <tr data-skill-row data-name="聆听" data-value="30"><td><button class="skill-name" data-demo="聆听检定">聆听</button></td><td class="current">30</td><td>15</td><td>6</td><td class="row-actions"><button class="edit-only" data-demo="删除聆听技能">删除</button></td></tr>
+      </tbody></table><div class="table-note"><span>6 项技能</span><span>点击技能名检定</span></div>
+    </section>
+
+    <section class="panel" id="panel-inventory" data-panel="inventory" role="tabpanel" aria-labelledby="tab-inventory" hidden>
+      <details class="item-section" open><summary>护甲 <span>1 项</span></summary><div class="item-row"><i class="item-symbol">护</i><button class="item-name" data-demo="打开厚皮护甲卡">厚皮</button><span class="item-meta">护甲 1</span></div></details>
+      <details class="item-section"><summary>书籍 <span>1 项</span></summary><div class="item-row"><i class="item-symbol">书</i><button class="item-name" data-demo="打开潮湿残页">潮湿残页</button><span class="item-meta">难以辨认</span></div></details>
+      <details class="item-section"><summary>法术 <span>1 项</span></summary><div class="item-row"><i class="item-symbol">术</i><button class="item-name" data-demo="打开深渊呼唤法术卡">深渊呼唤</button><span class="item-meta">消耗 8 MP</span></div></details>
+      <details class="item-section"><summary>天赋 <span>3 项</span></summary><div class="item-row"><i class="item-symbol">赋</i><button class="item-name" data-demo="打开两栖能力卡">两栖</button><span class="item-meta">被动</span></div><div class="item-row"><i class="item-symbol">赋</i><button class="item-name" data-demo="打开再生能力卡">再生</button><span class="item-meta">每轮</span></div><div class="item-row"><i class="item-symbol">赋</i><button class="item-name" data-demo="打开深渊凝视能力卡">深渊凝视</button><span class="item-meta">SAN 0 / 1D6</span></div></details>
+      <details class="item-section"><summary>道具 <span>1 项</span></summary><div class="item-row"><i class="item-symbol">物</i><button class="item-name" data-demo="打开鱼叉枪物品卡">备用鱼叉</button><span class="item-meta">2 支</span></div></details>
+      <details class="item-section"><summary>状态 <span>1 项</span></summary><div class="item-row"><i class="item-symbol">状</i><button class="item-name" data-demo="打开湿润状态卡">湿润</button><span class="item-meta">环境</span></div></details>
+    </section>
+
+    <section class="panel" id="panel-description" data-panel="description" role="tabpanel" aria-labelledby="tab-description" hidden>
+      <div class="description-meta"><div class="identity-field"><span>类型</span><b>异界生物</b></div><div class="identity-field"><span>栖息</span><b>深海</b></div><div class="identity-field"><span>分类</span><b>眷族</b></div></div>
+      <div class="section-heading"><strong>外貌、习性与栖息地</strong></div><div class="description-body prose">它们栖息在冰冷的海沟与沉没建筑中，以群体方式围猎。接近陆地时，湿润的鳞片和腐烂海藻气味往往比身影更早暴露它们。</div>
+    </section>
+
+    <section class="panel" id="panel-keeper" data-panel="keeper" role="tabpanel" aria-labelledby="tab-keeper" hidden>
+      <div class="section-heading"><strong>守秘笔记</strong><small>仅 GM 可见</small></div><textarea class="keeper-note">优先攻击携带光源的调查员；若生命值低于一半，会尝试退回水中。</textarea>
+      <div class="section-heading"><strong>骰子宏</strong><div class="heading-actions"><button class="small-button" data-demo="清除全部状态">清除全部状态</button></div></div>
+      <div class="macro-list"><div class="macro-row"><span class="macro-name">群体围攻</span><button data-demo="执行群体围攻宏">执行</button><button data-demo="删除群体围攻宏">删除</button></div><div class="macro-row"><span class="macro-name">深海威压</span><button data-demo="执行深海威压宏">执行</button><button data-demo="删除深海威压宏">删除</button></div></div><div class="drop-hint">把宏拖到卡面即可添加</div>
+    </section>
+
+    <section class="panel" id="panel-effects" data-panel="effects" role="tabpanel" aria-labelledby="tab-effects" hidden>
+      <div class="section-heading"><strong>效果</strong><div class="heading-actions"><button class="small-button edit-only" data-demo="新增效果">＋ 新增效果</button></div></div>
+      <div class="record"><div class="effect-row"><button class="item-name" data-demo="打开深渊凝视效果配置">深渊凝视</button><span class="item-meta">POW 80 · 持续 2 轮</span><button class="effect-toggle" data-effect aria-pressed="true" aria-label="启停深渊凝视"></button><button data-demo="删除深渊凝视效果">×</button></div><div class="effect-row disabled"><button class="item-name" data-demo="打开受伤效果配置">受伤</button><span class="item-meta">移动 −2</span><button class="effect-toggle" data-effect aria-pressed="false" aria-label="启停受伤"></button><button data-demo="删除受伤效果">×</button></div></div>
+    </section>
+  </div></div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
