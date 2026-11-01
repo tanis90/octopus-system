@@ -39,7 +39,6 @@ export default async function (document, options, userId) {
     if (askDialog) {
       let statCreateOptions = {
         "roll": game.i18n.localize('BRP.tokenCreationRoll.buttonRoll'),
-        "average": game.i18n.localize('BRP.tokenCreationRoll.buttonAverage'),
         "ignore": game.i18n.localize('BRP.buttonSkip')
       }
 
@@ -64,11 +63,6 @@ export default async function (document, options, userId) {
       case 'roll':
         document._object.actor.rollCharacteristicsValue()
         ui.notifications.info(game.i18n.format('BRP.tokenCreationRoll.rolled', { name: document.object.actor.name }))
-        document._object.actor.locked = true
-        break
-      case 'average':
-        document._object.actor.averageCharacteristicsValue()
-        ui.notifications.info(game.i18n.format('BRP.tokenCreationRoll.averaged', { name: document.object.actor.name }))
         document._object.actor.locked = true
         break
       case 'ignore':

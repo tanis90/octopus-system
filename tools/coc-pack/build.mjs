@@ -178,23 +178,25 @@ const skillDoc = (entry) => {
       },
     },
     system: {
-      base,
-      // Starter auto-attach reads `system.basic` across every registered pack.
-      // Expansion members must not leak into a core character's starter set when
-      // the module happens to be enabled, so only core pack skills are basic.
+      skillName: entry.mainName || entry.name,
+      specialization: entry.specialism ? entry.name : "",
+      base: String(base),
       basic: packOf(entry) === "core",
-      combat: isCombat(entry),
-      category: "none",
-      baseFormula: entry.variable
-        ? entry.baseFormula
-        : { 1: { stat: "fixed", value: base }, 2: { stat: "fixed", value: 0 }, Func: "or" },
-      variable: !!entry.variable,
-      specialism: !!entry.specialism,
-      chosen: !!entry.specialism,
-      specName: entry.specialism ? entry.name : "",
-      mainName: entry.mainName ?? "",
-      noXP: !!entry.noXP,
-      description: entry.description,
+      adjustments: { base: 0, personal: 0, occupation: 0, archetype: 0, experiencePackage: 0, experience: 0 },
+      properties: {
+        push: true,
+        fighting: isCombat(entry),
+        firearm: String(entry.key).startsWith("firearms-"),
+        ranged: false,
+        special: false,
+        noxpgain: !!entry.noXP,
+        rarity: false,
+        requiresname: false,
+        picknameonly: false,
+        own: false,
+        keepbasevalue: false,
+      },
+      description: { value: entry.description ?? "", keeper: "" },
     },
   };
 };
@@ -597,8 +599,8 @@ if (existsSync(MODULE_MANIFEST)) {
 }
 
 console.log(`扩展输出目录 ${EXPAND_DIR}`);
-console.log(`CoC 核心技能包 ${docsByPack.core.skills.length} 文档（专精 ${docsByPack.core.skills.filter((doc) => doc.system.specialism).length}）`);
-console.log(`CoC 扩展技能包 ${docsByPack.expand.skills.length} 文档（专精 ${docsByPack.expand.skills.filter((doc) => doc.system.specialism).length}）`);
+console.log(`CoC 核心技能包 ${docsByPack.core.skills.length} 文档（专精 ${docsByPack.core.skills.filter((doc) => doc.system.specialization).length}）`);
+console.log(`CoC 扩展技能包 ${docsByPack.expand.skills.length} 文档（专精 ${docsByPack.expand.skills.filter((doc) => doc.system.specialization).length}）`);
 console.log(`pending 未证实专精 ${(facts.pendingSpecialisms ?? []).length} 条已排除，未写入固定值`);
 console.log(`octopus 技能 brpid 冲突 ${collisions.length}`);
 console.log(`CoC 核心职业包 ${docsByPack.core.professions.length} 文档；扩展职业包 ${docsByPack.expand.professions.length} 文档`);

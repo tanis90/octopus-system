@@ -51,7 +51,7 @@ export class BRPCheck {
   // and never a cached hit score. Octopus keeps the sheet's resolved skillId.
   static weaponSkill(actor, weapon, skillId = false) {
     if (!actor || !weapon) { return null }
-    if (!Rules.active().combat?.skillRefFromBrpid) { return actor.items.get(skillId) ?? null }
+    if (!Rules.for('coc').combat?.skillRefFromBrpid) { return actor.items.get(skillId) ?? null }
     const refs = [weapon.system?.skill1, weapon.system?.skill2]
       .filter((brpid) => brpid && brpid !== 'none' && String(brpid).startsWith('i.skill.coc.'))
     const marker = weapon.flags?.brp?.coc?.weapon ?? null
@@ -110,7 +110,7 @@ export class BRPCheck {
       diffVal: options.diffVal ?? 1,
       //CoC's difficulty is a required band, not a target multiplier, so the
       //BRP numeric-difficulty setting must not replace the band dropdown.
-      useDiffValue: Rules.active().check.requiredBand?.() ? false : game.settings.get('brp', 'diffValue'),
+      useDiffValue: Rules.for('coc').check.requiredBand?.() ? false : game.settings.get('brp', 'diffValue'),
       rollFormula: options.rollFormula ?? "1D100",
       flatMod: options.flatMod ?? 0,
       diceMod: options.diceMod ?? 0,
@@ -170,29 +170,22 @@ export class BRPCheck {
     //Adjust Config based on roll type
     switch (options.rollType) {
       case 'CH':
-        config.label = particActor.system.stats[config.characteristic].labelShort ?? ""
-        config.rawScore = particActor.system.stats[config.characteristic].total
-        // CoC rolls a characteristic test against the value itself; the BRP
-        // adapter keeps the historical x5 arithmetic.
-        config.targetScore = Rules.active().check.characteristicTarget(config.rawScore)
+        config.label = config.characteristic.toUpperCase()
+        config.rawScore = particActor.system.characteristics?.[config.characteristic]?.value ?? 0
+        config.targetScore = Rules.for('coc').check.characteristicTarget(config.rawScore)
         break
       case 'SK':
         skill = particActor.items.get(config.skillId)
         config.label = skill.name ?? ""
         config.skillBrpid = skill.flags?.brp?.brpidFlag?.id ?? null
-        if (options.actor.type === 'npc') {
-          config.rawScore = skill.system.total
-          config.targetScore = skill.system.total
-        } else {
-          config.rawScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
-          config.targetScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
-        }
+        config.rawScore = skill.system.total
+        config.targetScore = skill.system.total
         if (["magic", "mutation", "psychic", "sorcery", "super", "failing"].includes(skill.type)) {
-          config.description = skill.system.description.replace(/(<([^>]+)>)/g, "");
+          config.description = (skill.system.description?.value ?? skill.system.description ?? "").replace(/(<([^>]+)>)/g, "");
         }
 
         //Check for First Aid
-        if (game.settings.get('brp', 'firstAidBRPID') != "" && game.settings.get('brp', 'firstAidBRPID') === skill.flags.brp.brpidFlag.id) {
+        if (game.settings.get('brp', 'firstAidBRPID') != "" && game.settings.get('brp', 'firstAidBRPID') === skill.flags?.brp?.brpidFlag?.id) {
           await BRPCheck.firstAid(config)
         }
 
@@ -220,9 +213,9 @@ export class BRPCheck {
         //Sanity check: target is the current SAN value itself (characteristic-style
         //channel, not a skill). Lazy creation snapshot for actors built by raw updates.
         await particActor.initSanity()
-        config.label = particActor.system.sanity.label ?? game.i18n.localize('BRP.sanity')
-        config.rawScore = particActor.system.sanity.value
-        config.targetScore = particActor.system.sanity.value
+        config.label = game.i18n.localize('BRP.sanity')
+        config.rawScore = particActor.system.attribs.san.value
+        config.targetScore = particActor.system.attribs.san.value
         break
       case 'DM':
       case 'IM':
@@ -233,13 +226,13 @@ export class BRPCheck {
         }
         let damageData = await BRPCombatRoll.damageFormula(weapon, particActor, options.rollType, "")
         if (options.rollType === 'DM') {
-          config.specLabel = game.i18n.localize('BRP.' + weapon.system.special)
+          config.specLabel = weapon.system.description?.special ?? ''
         } else {
           config.specLabel = ""
         }
         config.rollFormula = damageData.damage
         config.resultLevel = damageData.success
-        config.tier = Rules.active().combat?.damageTier
+        config.tier = Rules.for('coc').combat?.damageTier
           ? (damageData.success === "4" ? 'extreme' : 'regular')
           : null
         config.shiftKey = true
@@ -261,8 +254,8 @@ export class BRPCheck {
         config.malfunction = weapon.system.mal
         // CoC closes the attack: which defence the target declared and the
         // strike's own dice pool are decided here, not on a chat button.
-        if (Rules.active().combat?.weaponProfile) {
-          config.weaponProfile = Rules.active().combat.weaponProfile(weapon)
+        if (Rules.for('coc').combat?.weaponProfile) {
+          config.weaponProfile = Rules.for('coc').combat.weaponProfile(weapon)
           config.weaponId = weapon._id
           config.skillBrpid = skill?.flags?.brp?.brpidFlag?.id ?? null
         }
@@ -380,21 +373,19 @@ export class BRPCheck {
 
     //If this is a resistance roll and a second characteristic has been added updated chances and label
     if (config.addStat != 'none' && config.cardType === 'RE') {
-      config.label = config.label + ' & ' + actor.system.stats[config.addStat].labelShort
-      const add = actor.system.stats[config.addStat].total
-      config.targetScore = config.targetScore + (Rules.active().check.characteristicTarget
-        ? Rules.active().check.characteristicTarget(add)
-        : add * 5)
+      config.label = config.label + ' & ' + config.addStat.toUpperCase()
+      const add = actor.system.characteristics?.[config.addStat]?.value ?? 0
+      config.targetScore = config.targetScore + Rules.for('coc').check.characteristicTarget(add)
     }
 
     //Adjust the targetScore for Difficulty.
     //CoC turns difficulty into a required success band and never multiplies the
     //target - doing both would count the half/fifth thresholds twice.
-    const requiredBand = config.requiredBand ?? Rules.active().check.requiredBand?.(config.diff)
+    const requiredBand = config.requiredBand ?? Rules.for('coc').check.requiredBand?.(config.diff)
     if (requiredBand) {
       config.requiredBand = requiredBand
-      config.minimumRank = Rules.active().combat?.bandRank
-        ? Rules.active().combat.bandRank(requiredBand)
+      config.minimumRank = Rules.for('coc').combat?.bandRank
+        ? Rules.for('coc').combat.bandRank(requiredBand)
         : (config.resultLevel ?? 0)
       if (Number(config.flatMod)) { config.targetScore = Number(config.targetScore) + Number(config.flatMod) }
     } else if (config.useDiffValue) {
@@ -464,7 +455,7 @@ export class BRPCheck {
     //state machine (tempInsane at TIS, permaInsane at zero).
     //CoC settles *after* the card exists: the write belongs to the active GM and
     //it rewrites this card's flags and content in one go (see _settleCoCSanity).
-    const cocSanity = config.rollType === 'SN' && !!Rules.active().sanity?.core
+    const cocSanity = config.rollType === 'SN' && !!Rules.for('coc').sanity?.core
     if (config.rollType === 'SN' && !cocSanity) {
       await BRPCheck._settleSanity(config, actor)
     }
@@ -624,7 +615,7 @@ export class BRPCheck {
 
   //Call Dice Roll, calculate Result and store original results in rollVal
   static async makeRoll(config) {
-    const rules = Rules.active()
+    const rules = Rules.for('coc')
     // CoC bonus/penalty dice: one units die + (1 + net) tens dice in a single
     // real Roll; the percentile value is read from the faces (never from the
     // summed total, which is not a d100).
@@ -782,15 +773,15 @@ export class BRPCheck {
   //Apply a sanity loss to the actor: clamp at zero, never below, accumulate the
   //daily loss and return the resulting state
   static async _applySanLoss(actor, loss) {
-    const san = actor.system.sanity
+    const san = actor.system.attribs.san
     const applied = Math.max(0, Math.min(Math.floor(Number(loss) || 0), san.value))
     const value = san.value - applied
     const dailyLoss = (Number(san.dailyLoss) || 0) + applied
     await actor.update({
-      'system.sanity.value': value,
-      'system.sanity.dailyLoss': dailyLoss
+      'system.attribs.san.value': value,
+      'system.attribs.san.dailyLoss': dailyLoss
     })
-    return { loss: applied, value, dailyLoss, tis: actor.system.sanity.tis }
+    return { loss: applied, value, dailyLoss, tis: null }
   }
 
   //SN settlement after the roll. Octopus keeps the historical inline path (TIS
@@ -799,8 +790,8 @@ export class BRPCheck {
   //roll and only then a 1D10h episode; the per-game-day fifth is the separate
   //indefinite state.
   static async _settleSanity(config, actor) {
-    if (!Rules.active().settings.useSAN()) { return }
-    if (Rules.active().sanity?.core) {
+    if (!Rules.for('coc').settings.useSAN()) { return }
+    if (Rules.for('coc').sanity?.core) {
       return BRPCheck._settleCoCSanity(config, actor)
     }
     const result = await BRPCheck._applySanLoss(actor, config.sanLoss)
@@ -997,12 +988,12 @@ export class BRPCheck {
   // own official band thresholds.
   //
   static async successLevel(config) {
-    return Rules.active().check.successLevel(config)
+    return Rules.for('coc').check.successLevel(config)
   }
 
   // Full band label for callers that need CoC's Regular/Hard/Extreme split.
   static successBand(config) {
-    return Rules.active().check.successBand(config)
+    return Rules.for('coc').check.successBand(config)
   }
 
   // CoC is the only ruleset with the band vocabulary and the contact sheet is
@@ -1080,7 +1071,7 @@ export class BRPCheck {
     if (!['1', '2'].includes(String(autoXP))) { return }
     //CoC: only a success earns a tick. "Tick on failure" is a BRP option, so it
     //is read as the success-only setting here instead of ticking failures.
-    const growth = Rules.active().growth
+    const growth = Rules.for('coc').growth
     if (growth?.ticksOnFailure === false && String(autoXP) === '2') { autoXP = '1' }
     //Don't do XP check until card is closed
     if (msg.state != 'closed') { return }
@@ -1096,10 +1087,10 @@ export class BRPCheck {
         actor = await BRPactorDetails._getParticipant(msg.chatCard[0].particId, msg.chatCard[0].particType)
         //Only characters get XP checks (NPCs have no development phase)
         if (!actor || actor.type !== 'character') { return }
-        if (msg.chatCard[0].resistance <= actor.system.stats.pow.total) { return }
+        if (msg.chatCard[0].resistance <= actor.system.characteristics.pow.value) { return }
         if (String(autoXP) === '1' && msg.chatCard[0].resultLevel < 2) { return }
         if (String(autoXP) === '2' && msg.chatCard[0].resultLevel > 1) { return }
-        await actor.update({ 'system.stats.pow.improve': true })
+        await actor.update({ 'system.characteristics.pow.improve': true })
         break
       case "NO":
       case "GR":
@@ -1111,7 +1102,7 @@ export class BRPCheck {
         for (let i of msg.chatCard) {
           //CoC has no difficulty multiplication; only octopus skips easy/raised
           //rolls. A CoC roll that missed its required band never ticks.
-          if (Rules.active().check.xpSkipsRaisedDifficulty === true && (i.diff === 'easy' || i.diffVal > 1)) { continue }
+          if (Rules.for('coc').check.xpSkipsRaisedDifficulty === true && (i.diff === 'easy' || i.diffVal > 1)) { continue }
           if (i.taskSuccess === false) { continue }
           if (String(autoXP) === '1' && i.resultLevel < 2) { continue }
           if (String(autoXP) === '2' && i.resultLevel > 1) { continue }
@@ -1122,7 +1113,7 @@ export class BRPCheck {
           item = await actor.items.get(i.skillId)
           if (!item) { continue }
           //CoC: the Mythos skill can never be improved, so it never gets a tick.
-          if (Rules.active().check.xpSkipsNoXP === true && item.system?.noXP === true) { continue }
+          if (Rules.for('coc').check.xpSkipsNoXP === true && item.system?.noXP === true) { continue }
           //CoC: the decision core owns the tick condition - a success, no Luck
           //spent on it, no noXP marker, and only skill rolls.
           if (growth?.canTick) {
@@ -1341,7 +1332,7 @@ export class BRPCheck {
       const skill = BRPCheck.weaponSkill(actor, weapon, options.skillId ?? weapon.system?.skill1)
       if (!skill) { return { error: 'weapon-skill-missing', brpid: weapon.system?.skill1 ?? null } }
     }
-    const combat = Rules.active().combat
+    const combat = Rules.for('coc').combat
     const profile = combat.weaponProfile(weapon)
     let bonus = Math.max(0, Number(options.bonusDice ?? 0))
     let penalty = Math.max(0, Number(options.penaltyDice ?? 0))
@@ -1416,7 +1407,7 @@ export class BRPCheck {
       skill = BRPCheck.weaponSkill(actor, weapon, weapon.system?.skill1)
       if (!skill) { return { error: 'weapon-skill-missing', brpid: weapon.system?.skill1 ?? null } }
     }
-    const combat = Rules.active().combat
+    const combat = Rules.for('coc').combat
     const profile = combat.weaponProfile(weapon)
     const bonus = Math.max(0, Math.floor(Number(options.bonusDice ?? 0)))
     const penalty = Math.max(0, Math.floor(Number(options.penaltyDice ?? 0)))
@@ -1624,7 +1615,7 @@ export class BRPCheck {
       return { error: 'not-the-target' }
     }
     const choice = options.choice ?? 'dodge'
-    const combat = Rules.active().combat
+    const combat = Rules.for('coc').combat
     const dodgeItem = [...actor.items].find((item) => item.type === 'skill'
       && (item.flags?.brp?.brpidFlag?.id === 'i.skill.coc.dodge' || item.flags?.brp?.coc?.key === 'dodge'))
     const allowed = combat.defenseOptions({ kind, defenderHasDodge: !!dodgeItem })
@@ -1690,7 +1681,7 @@ export class BRPCheck {
     if (entries.length < 2 && message.flags?.brp?.cardType !== 'CB') {
       return { error: 'need-two-entries' }
     }
-    const combat = Rules.active().combat
+    const combat = Rules.for('coc').combat
     const applyDamage = options.applyDamage !== false
     // A roll that missed the task's required band counts as a failure for the
     // comparison (CoC difficulty is a required band, never a target multiplier).
@@ -1897,7 +1888,7 @@ export class BRPCheck {
   // One percentile pool as a real Roll. Used by the tie re-roll, which must not
   // recycle the dice that produced the tie.
   static async _cocRollPool({ formula = '1D100', bonus = 0, penalty = 0 } = {}) {
-    const dice = Rules.active().check.dice
+    const dice = Rules.for('coc').check.dice
     const pool = dice.dicePool({ bonus, penalty })
     const usedFormula = dice.d100Formula({ bonus, penalty })
     const roll = new Roll(usedFormula)
@@ -1956,8 +1947,8 @@ export class BRPCheck {
         bonus: Number(entry.diceDetail?.bonus ?? 0),
         penalty: Number(entry.diceDetail?.penalty ?? 0),
       })
-      const bandInfo = Rules.active().check.successBand({ rollVal: pool.rollVal, targetScore: entry.targetScore })
-      const bandRank = Rules.active().combat.bandRank(bandInfo.band)
+      const bandInfo = Rules.for('coc').check.successBand({ rollVal: pool.rollVal, targetScore: entry.targetScore })
+      const bandRank = Rules.for('coc').combat.bandRank(bandInfo.band)
       rolls.push(pool.roll)
       updated.push({
         ...entry,
@@ -1975,7 +1966,7 @@ export class BRPCheck {
         taskSuccess: bandRank >= Number(entry.minimumRank ?? 2),
       })
     }
-    const outcome = Rules.active().combat.compareOpposedReroll(updated[0], updated[1])
+    const outcome = Rules.for('coc').combat.compareOpposedReroll(updated[0], updated[1])
     if (outcome.reroll) {
       await message.update({
         'flags.brp.chatCard': updated,
@@ -2030,7 +2021,7 @@ export class BRPCheck {
   // Current wound state for a UI (does not write anything).
   static cocState(actor) {
     const wounds = actor?.flags?.brp?.coc?.wounds ?? {}
-    const state = Rules.active().wounds?.woundState?.({
+    const state = Rules.for('coc').wounds?.woundState?.({
       hpValue: actor?.system?.health?.value ?? 0,
       hpMax: actor?.system?.health?.max ?? 0,
       majorWound: wounds.majorWound === true,

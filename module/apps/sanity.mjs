@@ -11,17 +11,17 @@ import { Rules } from '../rules/index.mjs'
 //   2. serializes the actor read-modify-write on that single client,
 //   3. rolls the follow-up INT check and the 1D10h/1D10 bout/1D10 round dice as
 //      real Rolls on that same client,
-//   4. writes system.sanity.* + the ActiveEffect statuses, and
+//   4. writes native attribs.san / conditions plus the ActiveEffect statuses, and
 //   5. records the result on the chat card (flags + re-render).
 //
 // States are independent: temporary, indefinite and permanent can coexist as
 // data; permanent is terminal and nothing here ever clears it implicitly.
 // A temporary episode never stands in for an indefinite one.
 //
-// `system.sanity.insanity` is the persisted authority for what is active;
-// the ActiveEffects (`tempInsane` / `indefiniteInsane` / `permaInsane`) are the
-// visible status that the sheet, the card and the delete/disable hooks read.
-// Both are written together, so a refresh cannot lose or resurrect a state.
+// Native tempoInsane / indefInsane conditions mirror the active states. Extended
+// settlement details live only in flags.brp.coc.sanity; permanent remains an
+// extension plus its permaInsane ActiveEffect, not a native condition. State and
+// effects are written together, so a refresh cannot lose or resurrect a state.
 
 const NS = 'brp'
 const TEXT = {
@@ -102,8 +102,20 @@ export class BRPSanity {
     return BRPactorDetails._getParticipant(ref.actorId, ref.actorType ?? 'actor')
   }
 
+  static detailsOf(actor) {
+    return actor?.flags?.brp?.coc?.sanity ?? {}
+  }
+
   static insanityOf(actor) {
-    return normalizeInsanity(actor?.system?.sanity?.insanity)
+    const insanity = normalizeInsanity(this.detailsOf(actor).insanity)
+    const conditions = actor?.system?.conditions ?? {}
+    if (insanity.temporary) {
+      insanity.temporary.active = conditions.tempoInsane?.value === true
+    }
+    if (insanity.indefinite) {
+      insanity.indefinite.active = conditions.indefInsane?.value === true
+    }
+    return insanity
   }
 
   static hasStatus(actor, id) {
@@ -125,10 +137,11 @@ export class BRPSanity {
   // Public read surface for a card/adapter: current SAN, the day window and the
   // three independent insanity states. No writes, no dice.
   static state(actor) {
-    const san = actor?.system?.sanity ?? {}
+    const san = actor?.system?.attribs?.san ?? {}
+    const details = this.detailsOf(actor)
     const insanity = this.insanityOf(actor)
-    const dayId = san.dayId ?? null
-    const rawDayStart = san.dayStartSan
+    const dayId = details.dayId ?? null
+    const rawDayStart = details.dayStartSan
     const dayStartSan = rawDayStart === null || rawDayStart === undefined || rawDayStart === ''
       ? null
       : Number(rawDayStart)
@@ -144,12 +157,12 @@ export class BRPSanity {
     return {
       value: int(san.value, 0),
       max: int(san.max, 0),
-      starting: int(san.starting, 0),
-      singleLoss: int(san.singleLoss, 0),
+      starting: int(details.starting, 0),
+      singleLoss: int(details.singleLoss, 0),
       dailyLoss: int(san.dailyLoss, 0),
       dayId,
       dayStartSan,
-      dayStartSource: san.dayStartSource ?? null,
+      dayStartSource: details.dayStartSource ?? null,
       dailyThreshold: daily?.threshold ?? null,
       dailyReached: daily?.active === true,
       insanity,
@@ -183,15 +196,16 @@ export class BRPSanity {
   // declared the day yet, the first loss of the day becomes the snapshot and the
   // record says so (`dayStartSource`), because the threshold is a ratio of it.
   static dayWindow(actor, { keeperDayId = null } = {}) {
-    const san = actor?.system?.sanity ?? {}
+    const san = actor?.system?.attribs?.san ?? {}
+    const details = this.detailsOf(actor)
     const now = BRPWorldTime.now()
     const todayId = BRPWorldTime.dayId(now)
-    let dayId = san.dayId ?? null
-    const rawDayStart = san.dayStartSan
+    let dayId = details.dayId ?? null
+    const rawDayStart = details.dayStartSan
     let dayStartSan = rawDayStart === null || rawDayStart === undefined || rawDayStart === ''
       ? null
       : Number(rawDayStart)
-    let source = san.dayStartSource ?? null
+    let source = details.dayStartSource ?? null
     let dailyLoss = int(san.dailyLoss, 0)
     let rolled = false
 
@@ -272,6 +286,23 @@ export class BRPSanity {
     return this._serialize(() => this._settleNow(options))
   }
 
+  static _insanityWrites({ temporary = null, indefinite = null, permanent = false }) {
+    return {
+      'flags.brp.coc.sanity.insanity': {
+        temporary: temporary ?? null,
+        indefinite: indefinite ?? null,
+        permanent: permanent === true,
+        lastUpdatedAt: BRPWorldTime.now(),
+      },
+      'system.conditions.tempoInsane': {
+        value: temporary?.active === true,
+        realTime: false,
+        duration: temporary?.active === true ? Math.max(0, int(temporary.hours, 0)) : 0,
+      },
+      'system.conditions.indefInsane.value': indefinite?.active === true,
+    }
+  }
+
   static async _settleNow(options = {}) {
     if (!this.isCoC()) { return { error: 'ruleset-not-coc' } }
     if (!this.isWriter()) { return { error: 'not-active-gm' } }
@@ -294,8 +325,10 @@ export class BRPSanity {
     }
     const core = this.core()
     if (!core) { return { error: 'no-sanity-core' } }
-    const san = actor.system?.sanity ?? {}
-    if (san.permanent === true || this.hasStatus(actor, TEXT.permanent)) {
+    const san = actor.system?.attribs?.san ?? {}
+    const details = this.detailsOf(actor)
+    const insanity = this.insanityOf(actor)
+    if (insanity.permanent === true || this.hasStatus(actor, TEXT.permanent)) {
       // Terminal state: record the request, never open a new episode.
       return { applied: false, reason: 'permanent-insanity', state: this.state(actor) }
     }
@@ -311,7 +344,7 @@ export class BRPSanity {
       dayId: window.dayId,
       dayStartSan: window.dayStartSan,
       dailyBasis: 'day-start',
-      startingSan: int(san.starting, 0),
+      startingSan: int(details.starting, 0),
       currentSan: sanBefore,
     })
 
@@ -332,15 +365,14 @@ export class BRPSanity {
 
     // Apply the SAN numbers first: everything below reports the resulting state.
     const writes = {
-      'system.sanity.value': decision.san.after,
-      'system.sanity.dailyLoss': decision.dailyLoss.after,
-      'system.sanity.singleLoss': decision.loss.applied,
-      'system.sanity.dayId': window.dayId,
-      'system.sanity.dayStartSan': window.dayStartSan,
-      'system.sanity.dayStartSource': window.dayStartSource,
-      'system.sanity.lastLossAt': BRPWorldTime.now(),
+      'system.attribs.san.value': decision.san.after,
+      'system.attribs.san.dailyLoss': decision.dailyLoss.after,
+      'flags.brp.coc.sanity.singleLoss': decision.loss.applied,
+      'flags.brp.coc.sanity.dayId': window.dayId,
+      'flags.brp.coc.sanity.dayStartSan': window.dayStartSan,
+      'flags.brp.coc.sanity.dayStartSource': window.dayStartSource,
+      'flags.brp.coc.sanity.lastLossAt': BRPWorldTime.now(),
     }
-    const insanity = this.insanityOf(actor)
     const permanent = decision.permanentInsanity === true || insanity.permanent === true
     // Starting a fresh episode replaces the old one in the persisted state; the
     // old chat card must not keep offering buttons for an episode that is over.
@@ -379,12 +411,7 @@ export class BRPSanity {
         }
         : insanity.indefinite)
 
-    writes['system.sanity.insanity'] = {
-      temporary: temporary ?? null,
-      indefinite: indefinite ?? null,
-      permanent,
-      lastUpdatedAt: BRPWorldTime.now(),
-    }
+    Object.assign(writes, this._insanityWrites({ temporary, indefinite, permanent }))
     await actor.update(writes)
 
     // Effects: temporary replaces only a temporary episode; indefinite and
@@ -456,9 +483,9 @@ export class BRPSanity {
     return Math.max(1, Math.min(faces, int(roll.total, 1)))
   }
 
-  // INT is a characteristic test: the target is the INT value itself.
+  // INT is a characteristic test: the target is the native INT value itself.
   static async _rollIntCheck(actor) {
-    const target = Math.max(0, int(Rules.active().check.characteristicTarget(actor.system?.stats?.int?.total ?? 0), 0))
+    const target = Math.max(0, int(Rules.active().check.characteristicTarget(actor.system?.characteristics?.int?.value ?? 0), 0))
     const roll = new Roll('1D100')
     await roll.evaluate()
     const rollVal = Math.max(1, Math.min(100, int(roll.total, 100)))
@@ -476,12 +503,13 @@ export class BRPSanity {
       const actor = await this.resolveActor(options)
       if (!actor) { return { error: 'actor-missing' } }
       const insanity = this.insanityOf(actor)
+      const details = this.detailsOf(actor)
       if (insanity.permanent === true) { return { applied: false, reason: 'permanent-insanity' } }
-      const target = Math.max(0, int(Rules.active().check.characteristicTarget(actor.system?.stats?.int?.total ?? 0), 0))
+      const target = Math.max(0, int(Rules.active().check.characteristicTarget(actor.system?.characteristics?.int?.value ?? 0), 0))
       const passed = rollVal <= target
       const record = { intCheck: { roll: rollVal, target, passed }, at: BRPWorldTime.now() }
       if (passed) {
-        const loss = Math.max(0, int(actor.system.sanity.singleLoss, 0))
+        const loss = Math.max(0, int(details.singleLoss, 0))
         if (Rules.active().sanity.core.singleLossTrigger({ loss }).trigger !== true) {
           return { applied: false, reason: 'loss-below-threshold', ...record }
         }
@@ -491,7 +519,7 @@ export class BRPSanity {
           hoursDie: await this._rollDie(10),
           boutDie: await this._rollDie(10),
           roundsDie: await this._rollDie(10),
-          dayId: actor.system.sanity.dayId,
+          dayId: details.dayId,
         })
         // No unresolved single-loss episode: a successful INT roll on its own
         // must not open one (the loss that called for the check already
@@ -507,17 +535,14 @@ export class BRPSanity {
           bout: { index: episode.bout.index, id: episode.bout.id, label: episode.bout.zh },
           rounds: { value: episode.rounds.value, die: '1D10' },
           intCheck: { roll: rollVal, target, status: 'passed' },
-          dayId: actor.system.sanity.dayId ?? null,
+          dayId: details.dayId ?? null,
           endedAt: null,
         }
-        await actor.update({
-          'system.sanity.insanity': {
-            temporary,
-            indefinite: insanity.indefinite,
-            permanent: false,
-            lastUpdatedAt: BRPWorldTime.now(),
-          },
-        })
+        await actor.update(this._insanityWrites({
+          temporary,
+          indefinite: insanity.indefinite,
+          permanent: false,
+        }))
         await this._applyTemporaryEffect(actor, episode, { rollVal, target, passed })
         return { applied: true, ...record, temporary }
       }
@@ -584,14 +609,11 @@ export class BRPSanity {
       // the indefinite/permanent states are untouched.
       const end = this.core().endTemporaryInsanity({ reason, dayId: insanity.temporary.dayId ?? undefined })
       const temporary = { ...insanity.temporary, active: false, endedAt: BRPWorldTime.now(), endReason: reason }
-      await actor.update({
-        'system.sanity.insanity': {
-          temporary,
-          indefinite: insanity.indefinite,
-          permanent: insanity.permanent,
-          lastUpdatedAt: BRPWorldTime.now(),
-        },
-      })
+      await actor.update(this._insanityWrites({
+        temporary,
+        indefinite: insanity.indefinite,
+        permanent: insanity.permanent,
+      }))
       const effect = this.effectOf(actor, TEXT.tempInsane)
       if (effect) { await effect.delete() }
       // Deleting the effect normally ends the card via the hook, but an
@@ -614,14 +636,11 @@ export class BRPSanity {
       const insanity = this.insanityOf(actor)
       if (!insanity.indefinite) { return { ended: false, reason: 'no-indefinite-insanity' } }
       const indefinite = { ...insanity.indefinite, active: false, recoveredAt: BRPWorldTime.now(), recoveredBy: reason }
-      await actor.update({
-        'system.sanity.insanity': {
-          temporary: insanity.temporary,
-          indefinite,
-          permanent: insanity.permanent,
-          lastUpdatedAt: BRPWorldTime.now(),
-        },
-      })
+      await actor.update(this._insanityWrites({
+        temporary: insanity.temporary,
+        indefinite,
+        permanent: insanity.permanent,
+      }))
       const effect = this.effectOf(actor, TEXT.indefinite)
       if (effect) { await effect.delete() }
       await this._log(actor, { at: BRPWorldTime.now(), event: 'end-indefinite', reason })
@@ -641,14 +660,11 @@ export class BRPSanity {
       if (!actor) { return { error: 'actor-missing' } }
       const insanity = this.insanityOf(actor)
       if (!insanity.permanent) { return { ended: false, reason: 'not-permanent' } }
-      await actor.update({
-        'system.sanity.insanity': {
-          temporary: insanity.temporary,
-          indefinite: insanity.indefinite,
-          permanent: false,
-          lastUpdatedAt: BRPWorldTime.now(),
-        },
-      })
+      await actor.update(this._insanityWrites({
+        temporary: insanity.temporary,
+        indefinite: insanity.indefinite,
+        permanent: false,
+      }))
       const effect = this.effectOf(actor, TEXT.permanent)
       if (effect) { await effect.delete() }
       await this._log(actor, { at: BRPWorldTime.now(), event: 'clear-permanent', reason })
@@ -668,12 +684,12 @@ export class BRPSanity {
       if (!actor) { return { error: 'actor-missing' } }
       const day = await BRPWorldTime.newDayId()
       if (day.error) { return day }
-      const san = Math.max(0, int(actor.system?.sanity?.value, 0))
+      const san = Math.max(0, int(actor.system?.attribs?.san?.value, 0))
       await actor.update({
-        'system.sanity.dailyLoss': 0,
-        'system.sanity.dayId': day.dayId,
-        'system.sanity.dayStartSan': san,
-        'system.sanity.dayStartSource': DAY_START_SOURCES.keeper,
+        'system.attribs.san.dailyLoss': 0,
+        'flags.brp.coc.sanity.dayId': day.dayId,
+        'flags.brp.coc.sanity.dayStartSan': san,
+        'flags.brp.coc.sanity.dayStartSource': DAY_START_SOURCES.keeper,
       })
       await this._log(actor, { at: BRPWorldTime.now(), event: 'new-day', dayId: day.dayId, dayStartSan: san })
       return { started: true, dayId: day.dayId, dayStartSan: san, worldTime: day.worldTime }
@@ -729,8 +745,8 @@ export class BRPSanity {
     if (!this.isWriter()) { return { error: 'not-active-gm' } }
     return this._serialize(async () => {
       const actor = await this.resolveActor(options)
-      if (!actor?.system?.luck) { return { error: 'actor-missing' } }
-      const before = Math.max(0, int(actor.system.luck.value, 0))
+      if (!actor?.system?.attribs?.lck) { return { error: 'actor-missing' } }
+      const before = Math.max(0, int(actor.system.attribs.lck.value, 0))
       const roll = new Roll('1D100')
       await roll.evaluate()
       const rollVal = Math.max(1, Math.min(100, int(roll.total, 100)))
@@ -742,7 +758,7 @@ export class BRPSanity {
         try { return game.settings.get('brp', 'cocSessionSeq') } catch { return 0 }
       })(), 0)) + 1
       try { await game.settings.set('brp', 'cocSessionSeq', session) } catch { /* audit only */ }
-      await actor.update({ 'system.luck.value': decision.luck.after })
+      await actor.update({ 'system.attribs.lck.value': decision.luck.after })
       await this._log(actor, {
         at: BRPWorldTime.now(),
         event: 'luck-recovery',

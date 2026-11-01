@@ -24,27 +24,34 @@
   }
  },
  "system": {
-  "base": 0,
+  "skillName": "克苏鲁神话",
+  "specialization": "",
+  "base": "0",
   "basic": true,
-  "combat": false,
-  "category": "none",
-  "baseFormula": {
-   "1": {
-    "stat": "fixed",
-    "value": 0
-   },
-   "2": {
-    "stat": "fixed",
-    "value": 0
-   },
-   "Func": "or"
+  "adjustments": {
+   "base": 0,
+   "personal": 0,
+   "occupation": 0,
+   "archetype": 0,
+   "experiencePackage": 0,
+   "experience": 0
   },
-  "variable": false,
-  "specialism": false,
-  "chosen": false,
-  "specName": "",
-  "mainName": "",
-  "noXP": true,
-  "description": "对神话真相的理解；创建角色时不能投入点数，并会压低理智上限。"
+  "properties": {
+   "push": true,
+   "fighting": false,
+   "firearm": false,
+   "ranged": false,
+   "special": false,
+   "noxpgain": true,
+   "rarity": false,
+   "requiresname": false,
+   "picknameonly": false,
+   "own": false,
+   "keepbasevalue": false
+  },
+  "description": {
+   "value": "对神话真相的理解；创建角色时不能投入点数，并会压低理智上限。",
+   "keeper": ""
+  }
  }
 }

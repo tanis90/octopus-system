@@ -1,0 +1,38 @@
+<section class="coc-interlude-main">
+  {{#if result}}
+  <h2>幕间结算结果</h2>
+  <div class="coc-interlude-result-head"><span>技能</span><span>原值</span><span>成长掷骰</span><span>增加</span><span>现值</span></div>
+  {{#each result.settled as |row|}}
+  <div class="coc-interlude-result-row"><span>{{row.name}}</span><span>{{row.before}}</span><span>{{row.roll}} {{#if row.improved}}&gt;{{else}}≤{{/if}} {{row.target}}</span><span>+{{row.gain}}</span><span>{{row.after}}</span></div>
+  {{/each}}
+  {{#if result.rejected.length}}<div class="coc-interlude-rejected">{{result.rejected.length}} 项未处理</div>{{/if}}
+  <div class="coc-interlude-actions"><button type="button" data-action="done">完成</button></div>
+  {{else}}
+  <h2>幕间结算</h2>
+  <div class="coc-interlude-count">本幕清单（{{selected.length}}）</div>
+  <ol class="coc-interlude-selected">
+    {{#each selected as |skill|}}
+    <li class="item" data-item-id="{{skill.id}}" data-document-class="Item"><span>{{skill.name}}</span><b>{{skill.system.total}}%</b><button type="button" data-action="remove" aria-label="移除 {{skill.name}}">×</button></li>
+    {{else}}
+    <li class="coc-interlude-empty">暂无可结算技能</li>
+    {{/each}}
+  </ol>
+  <details class="coc-interlude-add">
+    <summary>+ 添加技能</summary>
+    <input type="search" placeholder="搜索技能" data-coc-interlude-search aria-label="搜索技能">
+    <div class="coc-interlude-options">
+      {{#each groups as |group|}}
+      <section data-coc-interlude-group>
+        <h3>{{group.label}}</h3>
+        <ol>
+          {{#each group.skills as |skill|}}
+          <li class="item" data-item-id="{{skill.id}}" data-document-class="Item" data-coc-interlude-skill data-name="{{skill.name}}"><span>{{skill.name}}</span><b>{{skill.total}}%</b><button type="button" data-action="add" aria-label="添加 {{skill.name}}">+</button></li>
+          {{/each}}
+        </ol>
+      </section>
+      {{/each}}
+    </div>
+  </details>
+  <div class="coc-interlude-actions"><button type="button" data-action="cancel">取消</button>{{#if canConfirm}}<button type="button" data-action="settle" {{#if busy}}disabled{{/if}}>开始结算</button>{{/if}}</div>
+  {{/if}}
+</section>

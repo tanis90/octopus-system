@@ -1,22 +1,20 @@
-import { BRPRules } from './brp.mjs'
 import { CoCRules } from './coc.mjs'
 
-export const RULESET_IDS = Object.freeze(['octopus', 'coc'])
+export const RULESET_IDS = Object.freeze(['coc'])
 
-// External catalogs use `coc7`; the adapter/registry key stays `coc`. Keep the
-// alias in this one place so `Rules.active()` and `Rules.for()` agree.
+// `brp` and `octopus` remain container/import identifiers. The live actor
+// schema and runtime rules are CoC; the old BRP adapter is not a fallback.
 export const RULESET_ALIASES = Object.freeze({
-  octopus: 'octopus',
+  octopus: 'coc',
   coc: 'coc',
   coc7: 'coc',
 })
 
 const REGISTRY = Object.freeze({
-  octopus: BRPRules,
   coc: CoCRules,
 })
 
-export const DEFAULT_RULESET = 'octopus'
+export const DEFAULT_RULESET = 'coc'
 
 export function normalizeRulesetId(value) {
   return RULESET_ALIASES[value] ?? DEFAULT_RULESET
@@ -32,7 +30,7 @@ export function getRulesetId() {
 
 export function getRules(value) {
   const id = value === undefined ? getRulesetId() : normalizeRulesetId(value)
-  return REGISTRY[id] ?? BRPRules
+  return REGISTRY[id] ?? CoCRules
 }
 
 // Content provenance: only CoC documents carry an explicit marker. Existing

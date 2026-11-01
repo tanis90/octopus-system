@@ -17,6 +17,16 @@ export class BRPactorItemDrop {
       let reqResult = 1;
       let errMsg = "";
 
+      const nativeSkill = nItm.type === 'skill' && nItm.system?.adjustments && nItm.system?.properties
+      const nativeWeapon = nItm.type === 'weapon' && nItm.system?.range && nItm.system?.skill
+      if (nativeSkill || nativeWeapon || nItm.type === 'item' || nItm.type === 'talent') {
+        if (nativeSkill && nItm.flags?.brp?.coc?.key) {
+          nItm.system.base = String(await this._calcBase(nItm, actor))
+        }
+        newItemData.push(nItm)
+        continue
+      }
+
       //Automatically allow gear to be added
       if (nItm.type != 'gear') {
 
@@ -235,12 +245,10 @@ export class BRPactorItemDrop {
 
   //Calculate Base Skill on Dropping the item on actor
   static async _calcBase(itm, actor) {
-    //Check the skill Category exists
-    await this._checkSkillCat(itm, actor)
-    return Rules.active().skillBase({
+    return Rules.for('coc').skillBase({
       item: itm,
-      stats: actor.system.stats,
-      useEDU: Rules.active().settings.useEDU()
+      characteristics: actor.system.characteristics,
+      useEDU: Rules.for('coc').settings.useEDU()
     })
   }
 

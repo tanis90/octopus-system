@@ -1,0 +1,294 @@
+<section class="coc-npc-sheet" data-coc-npc-sheet>
+  <header class="coc-npc-header">
+    <div class="coc-npc-identity">
+      {{#if isCoCEdit}}
+      <img class="coc-npc-portrait" src="{{cocNpc.header.img}}" alt="{{cocNpc.header.name}}"
+        data-action="onEditImage" data-edit="img">
+      {{else}}
+      <img class="coc-npc-portrait" src="{{cocNpc.header.img}}" alt="{{cocNpc.header.name}}">
+      {{/if}}
+      <div class="coc-npc-name-block">
+        {{#if isCoCEdit}}
+        <input class="coc-npc-name" name="name" value="{{cocNpc.header.name}}" aria-label="名称">
+        {{else}}
+        <h1 class="coc-npc-name">{{cocNpc.header.name}}</h1>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="coc-npc-resources">
+      <div class="coc-npc-resource hp" data-coc-npc-resource="hp">
+        <span class="coc-npc-resource-label">生命</span>
+        {{#if isCoCEdit}}
+        <input class="coc-npc-resource-value" name="system.attribs.hp.value" type="number" min="0"
+          max="{{cocNpc.header.hp.max}}" value="{{cocNpc.header.hp.value}}" data-dtype="Number" aria-label="当前生命">
+        {{else}}
+        <b class="coc-npc-resource-value">{{cocNpc.header.hp.value}}</b>
+        {{/if}}
+        <span class="coc-npc-resource-max">/ {{cocNpc.header.hp.max}}</span>
+        <span class="coc-npc-meter"><i style="width: {{cocNpc.header.hp.percent}}%"></i></span>
+      </div>
+      {{#if cocNpc.header.mp.show}}
+      <div class="coc-npc-resource mp" data-coc-npc-resource="mp">
+        <span class="coc-npc-resource-label">魔法</span>
+        {{#if isCoCEdit}}
+        <input class="coc-npc-resource-value" name="system.attribs.mp.value" type="number" min="0"
+          max="{{cocNpc.header.mp.max}}" value="{{cocNpc.header.mp.value}}" data-dtype="Number" aria-label="当前魔法">
+        {{else}}
+        <b class="coc-npc-resource-value">{{cocNpc.header.mp.value}}</b>
+        {{/if}}
+        <span class="coc-npc-resource-max">/ {{cocNpc.header.mp.max}}</span>
+        <span class="coc-npc-meter"><i style="width: {{cocNpc.header.mp.percent}}%"></i></span>
+      </div>
+      {{/if}}
+      {{#if cocNpc.header.san.show}}
+      <div class="coc-npc-resource san" data-coc-npc-resource="san">
+        <span class="coc-npc-resource-label">理智</span>
+        {{#if isCoCEdit}}
+        <input class="coc-npc-resource-value" name="system.attribs.san.value" type="number" min="0"
+          max="{{cocNpc.header.san.max}}" value="{{cocNpc.header.san.value}}" data-dtype="Number" aria-label="当前理智">
+        {{else}}
+        <b class="coc-npc-resource-value">{{cocNpc.header.san.value}}</b>
+        {{/if}}
+        <span class="coc-npc-resource-max">/ {{cocNpc.header.san.max}}</span>
+        <span class="coc-npc-meter"><i style="width: {{cocNpc.header.san.percent}}%"></i></span>
+      </div>
+      {{/if}}
+    </div>
+
+    {{#if cocNpc.header.badges.length}}
+    <div class="coc-npc-statuses" data-coc-npc-statuses>
+      <span class="coc-npc-status-label">状态</span>
+      {{#each cocNpc.header.badges as |badge|}}
+      <span class="coc-status {{badge.id}}" data-coc-npc-status="{{badge.id}}">{{badge.label}}</span>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    <div class="coc-npc-stats">
+      {{#each cocNpc.header.stats as |stat|}}
+      <div class="coc-npc-stat" data-coc-npc-stat="{{stat.id}}">
+        <span class="coc-npc-stat-label">{{stat.label}}</span>
+        {{#if ../isCoCEdit}}
+        <input class="coc-npc-stat-input" name="system.characteristics.{{stat.id}}.value" type="number"
+          value="{{stat.base}}" data-dtype="Number" aria-label="{{stat.label}} 基础值">
+        {{else}}
+        <button type="button" class="coc-npc-stat-value" data-action="cocNpcStatRoll"
+          data-characteristic="{{stat.id}}" aria-label="检定 {{stat.label}}">{{stat.value}}</button>
+        {{/if}}
+      </div>
+      {{/each}}
+    </div>
+
+    <div class="coc-npc-derived" data-coc-npc-derived>
+      <span>DB {{cocNpc.header.derived.db}}</span>
+      <span>体格 {{cocNpc.header.derived.build}}</span>
+      <span>MOV {{cocNpc.header.derived.mov}}</span>
+      <span>护甲 {{cocNpc.header.derived.armour}}</span>
+    </div>
+  </header>
+
+  <section class="coc-npc-attacks" data-coc-npc-attacks>
+    <h2>攻击</h2>
+    {{#if cocNpc.attacks.length}}
+    <div class="coc-npc-attack-head">
+      <span>名称</span><span>命中</span><span>伤害</span><span>DB</span><span>射程</span><span>次数</span><span>弹药</span><span></span>
+    </div>
+    <ol class="coc-npc-attack-list">
+      {{#each cocNpc.attacks as |weapon|}}
+      <li class="item coc-npc-attack" data-item-id="{{weapon.id}}" data-document-class="Item"
+        data-coc-npc-attack data-attack-mode="{{weapon.attackMode}}"
+        {{#if ../isCoCEdit}}data-coc-npc-item data-coc-npc-editable tabindex="0"{{/if}}>
+        <div class="coc-npc-attack-row">
+          <div class="coc-npc-attack-name">
+            <span class="coc-npc-item-name">{{weapon.name}}</span>
+            {{#if weapon.specialLabel}}<span class="coc-npc-tag">{{weapon.specialLabel}}</span>{{/if}}
+          </div>
+          {{#if ../isCoCUse}}
+            {{#if weapon.attackable}}
+            <button type="button" class="coc-npc-hit" data-action="cocNpcAttack">{{weapon.hitLabel}}</button>
+            {{else}}
+            <span class="coc-npc-dash" data-coc-npc-miss>—</span>
+            {{/if}}
+            {{#if weapon.damageRollable}}
+            <button type="button" class="coc-npc-damage" data-action="cocNpcDamage">{{weapon.damage}}</button>
+            {{else}}
+            <span class="coc-npc-dash" data-coc-npc-no-damage>—</span>
+            {{/if}}
+          {{else}}
+            <span class="coc-npc-dash">{{weapon.hitLabel}}</span>
+            <span class="coc-npc-dash">{{#if weapon.damage}}{{weapon.damage}}{{else}}—{{/if}}</span>
+          {{/if}}
+          <span>{{weapon.dbLabel}}</span>
+          <span>{{weapon.range}}</span>
+          <span>{{weapon.rof}}</span>
+          <span>{{weapon.ammo}}</span>
+          <span class="coc-npc-attack-actions">
+            {{#if ../isCoCEdit}}
+            <button type="button" class="coc-npc-delete" data-action="cocNpcDeleteItem"
+              aria-label="删除 {{weapon.name}}"><i class="fas fa-trash" aria-hidden="true"></i></button>
+            {{/if}}
+          </span>
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+    {{else}}
+    <p class="coc-npc-empty">—</p>
+    {{/if}}
+  </section>
+
+  {{#if cocNpc.skills.total}}
+  <section class="coc-npc-skills" data-coc-npc-skills>
+    <h2>常用技能</h2>
+    <ol class="coc-npc-skill-grid">
+      {{#each cocNpc.skills.common as |skill|}}
+      <li class="item coc-npc-skill" data-item-id="{{skill.id}}" data-document-class="Item" data-coc-npc-skill>
+        <span class="coc-npc-skill-name">{{skill.name}}</span>
+        {{#if ../isCoCEdit}}
+        <input class="inline-edit coc-npc-skill-base" data-field="base" type="number"
+          value="{{skill.base}}" data-dtype="Number" aria-label="{{skill.name}} 基础值">
+        <span class="coc-npc-skill-total">{{skill.total}}%</span>
+        {{else}}
+        <button type="button" class="coc-npc-skill-value" data-action="cocNpcSkillRoll">{{skill.total}}%</button>
+        {{/if}}
+      </li>
+      {{/each}}
+    </ol>
+    {{#if cocNpc.skills.moreCount}}
+    <details class="coc-npc-more-skills" data-coc-npc-more-skills>
+      <summary>其余技能（{{cocNpc.skills.moreCount}}）</summary>
+      <ol class="coc-npc-skill-grid">
+        {{#each cocNpc.skills.remaining as |skill|}}
+        <li class="item coc-npc-skill" data-item-id="{{skill.id}}" data-document-class="Item" data-coc-npc-skill>
+          <span class="coc-npc-skill-name">{{skill.name}}</span>
+          {{#if ../isCoCEdit}}
+          <input class="inline-edit coc-npc-skill-base" data-field="base" type="number"
+            value="{{skill.base}}" data-dtype="Number" aria-label="{{skill.name}} 基础值">
+          <span class="coc-npc-skill-total">{{skill.total}}%</span>
+          {{else}}
+          <button type="button" class="coc-npc-skill-value" data-action="cocNpcSkillRoll">{{skill.total}}%</button>
+          {{/if}}
+        </li>
+        {{/each}}
+      </ol>
+    </details>
+    {{/if}}
+  </section>
+  {{/if}}
+
+  {{#if cocNpc.powers.length}}
+  <section class="coc-npc-powers" data-coc-npc-powers>
+    <h2>特殊能力</h2>
+    <ol class="coc-npc-power-list">
+      {{#each cocNpc.powers as |power|}}
+      <li class="item coc-npc-power" data-item-id="{{power.id}}" data-document-class="Item"
+        data-coc-npc-power data-coc-npc-power-type="{{power.type}}"
+        {{#if ../isCoCEdit}}data-coc-npc-item data-coc-npc-editable tabindex="0"{{/if}}>
+        <div class="coc-npc-power-head">
+          <span class="coc-npc-tag">{{power.typeLabel}}</span>
+          <b class="coc-npc-item-name">{{power.name}}</b>
+          {{#if power.rollable}}
+            {{#if ../isCoCUse}}
+            <button type="button" class="coc-npc-skill-value" data-action="cocNpcSkillRoll">{{power.rollLabel}}</button>
+            {{else}}
+            <span class="coc-npc-skill-total">{{power.rollLabel}}</span>
+            {{/if}}
+          {{/if}}
+          {{#if ../isCoCEdit}}
+          <button type="button" class="coc-npc-delete" data-action="cocNpcDeleteItem"
+            aria-label="删除 {{power.name}}"><i class="fas fa-trash" aria-hidden="true"></i></button>
+          {{/if}}
+        </div>
+        {{#if power.meta.length}}
+        <div class="coc-npc-meta">
+          {{#each power.meta as |entry|}}
+          <span data-coc-npc-power-meta="{{entry.key}}">{{entry.label}} {{entry.value}}</span>
+          {{/each}}
+        </div>
+        {{/if}}
+        {{#if power.descriptionHtml}}
+        <div class="coc-npc-power-desc">{{{power.descriptionHtml}}}</div>
+        {{/if}}
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+
+  {{#if cocNpc.equipment.count}}
+  <section class="coc-npc-equipment" data-coc-npc-equipment>
+    <h2>装备</h2>
+    <ol class="coc-npc-equipment-grid">
+      {{#each cocNpc.equipment.armours as |equipment|}}
+      <li class="item coc-npc-equipment-item" data-item-id="{{equipment.id}}" data-document-class="Item"
+        data-coc-npc-equipment-item data-coc-npc-equipment-type="{{equipment.type}}"
+        {{#if ../isCoCEdit}}data-coc-npc-item data-coc-npc-editable tabindex="0"{{/if}}>
+        <img src="{{equipment.img}}" alt="{{equipment.name}}">
+        <div class="coc-npc-equipment-main">
+          <div class="coc-npc-equipment-title">
+            <b class="coc-npc-item-name">{{equipment.name}}</b>
+            <span class="coc-npc-tag">{{equipment.typeLabel}}</span>
+            <span>×{{equipment.quantity}}</span>
+            <span>{{equipment.equipStatusLabel}}</span>
+          </div>
+          {{#if equipment.meta.length}}
+          <div class="coc-npc-meta">
+            {{#each equipment.meta as |entry|}}
+            <span data-coc-npc-equipment-meta="{{entry.key}}">{{entry.label}} {{entry.value}}</span>
+            {{/each}}
+          </div>
+          {{/if}}
+          {{#if equipment.description}}<div class="coc-npc-equipment-desc">{{equipment.description}}</div>{{/if}}
+        </div>
+        {{#if ../isCoCEdit}}
+        <button type="button" class="coc-npc-delete" data-action="cocNpcDeleteItem"
+          aria-label="删除 {{equipment.name}}"><i class="fas fa-trash" aria-hidden="true"></i></button>
+        {{/if}}
+      </li>
+      {{/each}}
+      {{#each cocNpc.equipment.gears as |equipment|}}
+      <li class="item coc-npc-equipment-item" data-item-id="{{equipment.id}}" data-document-class="Item"
+        data-coc-npc-equipment-item data-coc-npc-equipment-type="{{equipment.type}}"
+        {{#if ../isCoCEdit}}data-coc-npc-item data-coc-npc-editable tabindex="0"{{/if}}>
+        <img src="{{equipment.img}}" alt="{{equipment.name}}">
+        <div class="coc-npc-equipment-main">
+          <div class="coc-npc-equipment-title">
+            <b class="coc-npc-item-name">{{equipment.name}}</b>
+            <span class="coc-npc-tag">{{equipment.typeLabel}}</span>
+            <span>×{{equipment.quantity}}</span>
+            <span>{{equipment.equipStatusLabel}}</span>
+          </div>
+          {{#if equipment.meta.length}}
+          <div class="coc-npc-meta">
+            {{#each equipment.meta as |entry|}}
+            <span data-coc-npc-equipment-meta="{{entry.key}}">{{entry.label}} {{entry.value}}</span>
+            {{/each}}
+          </div>
+          {{/if}}
+          {{#if equipment.description}}<div class="coc-npc-equipment-desc">{{equipment.description}}</div>{{/if}}
+        </div>
+        {{#if ../isCoCEdit}}
+        <button type="button" class="coc-npc-delete" data-action="cocNpcDeleteItem"
+          aria-label="删除 {{equipment.name}}"><i class="fas fa-trash" aria-hidden="true"></i></button>
+        {{/if}}
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+
+  {{#if isCoCEdit}}
+  <section class="coc-npc-notes" data-coc-npc-notes>
+    <h2>守秘人备注</h2>
+    <textarea name="system.description.keeper" aria-label="守秘人备注">{{cocNpc.note}}</textarea>
+  </section>
+  {{else}}
+  {{#if cocNpc.noteHtml}}
+  <section class="coc-npc-notes" data-coc-npc-notes>
+    <h2>守秘人备注</h2>
+    <div class="coc-npc-note-doc">{{{cocNpc.noteHtml}}}</div>
+  </section>
+  {{/if}}
+  {{/if}}
+</section>

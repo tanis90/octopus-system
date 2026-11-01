@@ -1,0 +1,33 @@
+<section class="actor tab coc-attributes {{tab.cssClass}}" data-group="primary" data-tab="attributes">
+  <section class="coc-san-panel">
+    <div class="coc-section-title"><h2>理智详情</h2>{{#if isCoCUse}}<button type="button" data-action="cocSanityRoll">掷理智</button>{{/if}}</div>
+    <div class="coc-san-summary"><b>当前 SAN {{cocHeader.san.value}} / {{cocHeader.san.max}}</b><span>起始 {{cocHeader.san.starting}}</span><span>克苏鲁神话 {{cocHeader.san.mythosPercent}}</span></div>
+    <div class="coc-meter"><i style="width:{{cocHeader.san.percent}}%"></i></div>
+    <div class="coc-san-inputs" data-coc-local>
+      <select name="cocSanLossPreset" aria-label="理智损失预设">
+        <option value="0/0">0 / 0</option>
+        <option value="1/1D3">1 / 1D3</option>
+        <option value="1/1D6" selected>1 / 1D6</option>
+        <option value="1/1D10">1 / 1D10</option>
+        <option value="1D6/1D20">1D6 / 1D20</option>
+        <option value="custom">自定义</option>
+      </select>
+      <input name="cocSanLossSuccess" value="1" aria-label="成功损失">
+      <input name="cocSanLossFail" value="1D6" aria-label="失败损失">
+    </div>
+    <div class="coc-san-day"><span>当日起始 SAN {{cocHeader.san.dayStartSanLabel}}</span><span>当日阈值（1/5） {{cocHeader.san.dayThresholdLabel}}</span><span>当日损失 {{cocHeader.san.dailyLoss}}</span><span>最近损失 {{cocHeader.san.singleLoss}}</span></div>
+    <div class="coc-meter coc-day-meter" aria-label="当日理智损失进度"><i style="width:{{cocHeader.san.dailyLossPercent}}%"></i></div>
+  </section>
+
+  {{#if cocHeader.badges.length}}
+  <section class="coc-status-details">
+    {{#each cocHeader.badges as |badge|}}<div><b>{{badge.label}}</b>{{#if badge.detail}}<span>{{badge.detail}}</span>{{/if}}</div>{{/each}}
+  </section>
+  {{/if}}
+
+  <div class="coc-attribute-grid">
+    <section><h2>生命与魔法</h2><div>生命 {{cocHeader.hp.value}} / {{cocHeader.hp.max}}</div><div>魔法 {{cocHeader.mp.value}} / {{cocHeader.mp.max}}</div></section>
+    <section><h2>幸运</h2><div>当前 {{cocHeader.luck.value}}</div><div>创建快照 {{cocHeader.luck.max}}</div><div>规则上限 {{cocHeader.luck.cap}}</div></section>
+  </div>
+  <div class="coc-derived-details"><span>伤害加值 {{cocHeader.db}}</span><span>体格 {{cocHeader.build}}</span><span>移动力 {{cocHeader.mov}}</span><span>护甲 {{cocHeader.armour}}</span></div>
+</section>

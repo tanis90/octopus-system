@@ -28,7 +28,9 @@
   ],
   "styles": [
     "css/brp.css",
-    "css/npc.css"
+    "css/npc.css",
+    "css/coc-card.css",
+    "css/coc-npc-card.css"
   ],
   "languages": [
     {
@@ -76,8 +78,8 @@
       "ChaosiumCanvasInterfaceTileToggle": {}
     }
   },
-  "primaryTokenAttribute": "health",
-  "secondaryTokenAttribute": "power",
+  "primaryTokenAttribute": "attribs.hp",
+  "secondaryTokenAttribute": "attribs.san",
   "socket": true,
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md",

@@ -1,5 +1,5 @@
-// Default "octopus" ruleset: the existing BRP/UGE behaviour, unchanged.
-// Every method here is a delegation seam. Keep the old arithmetic exact.
+// Historical BRP arithmetic, kept only for direct source-level comparisons.
+// It is not the active runtime ruleset and is not a native-data fallback.
 
 const num = (value, fallback = 0) => {
   const parsed = Number(value)

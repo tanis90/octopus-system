@@ -24,27 +24,34 @@
   }
  },
  "system": {
-  "base": 1,
+  "skillName": "科学",
+  "specialization": "科学（化学）",
+  "base": "1",
   "basic": true,
-  "combat": false,
-  "category": "none",
-  "baseFormula": {
-   "1": {
-    "stat": "fixed",
-    "value": 1
-   },
-   "2": {
-    "stat": "fixed",
-    "value": 0
-   },
-   "Func": "or"
+  "adjustments": {
+   "base": 0,
+   "personal": 0,
+   "occupation": 0,
+   "archetype": 0,
+   "experiencePackage": 0,
+   "experience": 0
   },
-  "variable": false,
-  "specialism": true,
-  "chosen": true,
-  "specName": "科学（化学）",
-  "mainName": "科学",
-  "noXP": false,
-  "description": "化学理论与实践能力。"
+  "properties": {
+   "push": true,
+   "fighting": false,
+   "firearm": false,
+   "ranged": false,
+   "special": false,
+   "noxpgain": false,
+   "rarity": false,
+   "requiresname": false,
+   "picknameonly": false,
+   "own": false,
+   "keepbasevalue": false
+  },
+  "description": {
+   "value": "化学理论与实践能力。",
+   "keeper": ""
+  }
  }
 }

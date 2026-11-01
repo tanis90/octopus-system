@@ -1,0 +1,27 @@
+<section class="actor tab coc-items {{tab.cssClass}}" data-group="primary" data-tab="items">
+  <div class="coc-toolbar" data-coc-local><span>物品（{{cocItemCount}}）</span><input type="search" placeholder="搜索物品" data-coc-item-search aria-label="搜索物品"><select data-coc-item-status aria-label="携带状态"><option value="">全部</option>{{#each @root.cocEquipStatusOptions as |status|}}<option value="{{status.value}}">{{status.label}}</option>{{/each}}</select></div>
+
+  {{#if weapons.length}}<section class="coc-item-group"><h2>武器（{{weapons.length}}）</h2><ol>
+    {{#each weapons as |weapon|}}<li class="item coc-item-card" data-item-id="{{weapon.id}}" data-document-class="Item" data-coc-item-card data-name="{{weapon.name}}" data-status="{{weapon.equipStatus}}"{{#if (and ../isCoCEdit ../canEditSheet)}} data-coc-item-editable tabindex="0"{{/if}}>
+      <img src="{{weapon.img}}" alt="{{weapon.name}}"><div class="coc-item-main"><div class="coc-item-title"><b>{{weapon.name}}</b><span>{{weapon.equipStatusLabel}}　×{{weapon.quantity}}</span></div>
+      <div>{{weapon.skillName}}　伤害 {{weapon.damage}}　DB {{weapon.dbLabel}}　射程 {{weapon.range}}　攻击次数 {{weapon.rof}}　弹药 {{weapon.ammo}}　故障 {{weapon.mal}}</div>
+      <div class="coc-weapon-meta">{{#each weapon.meta as |entry|}}<span data-coc-weapon-meta="{{entry.key}}">{{entry.label}}</span>{{/each}}</div>
+      <div>{{weapon.description}}</div>
+      {{#if ../isCoCEdit}}<div class="coc-item-actions"><button type="button" data-action="cocDeleteItem">删除</button></div>{{/if}}</div>
+    </li>{{/each}}
+  </ol></section>{{/if}}
+
+  {{#if armours.length}}<section class="coc-item-group"><h2>护具（{{armours.length}}）</h2><ol>
+    {{#each armours as |armour|}}<li class="item coc-item-card" data-item-id="{{armour.id}}" data-document-class="Item" data-coc-item-card data-name="{{armour.name}}" data-status="{{armour.equipStatus}}"{{#if (and ../isCoCEdit ../canEditSheet)}} data-coc-item-editable tabindex="0"{{/if}}>
+      <img src="{{armour.img}}" alt="{{armour.name}}"><div class="coc-item-main"><div class="coc-item-title"><b>{{armour.name}}</b><span>{{armour.equipStatusLabel}}　×{{armour.quantity}}</span></div><div>护甲 {{armour.av1}}　{{armour.coverage}}</div><div>{{armour.description}}</div>
+      {{#if ../isCoCEdit}}<div class="coc-item-actions"><button type="button" data-action="cocDeleteItem">删除</button></div>{{/if}}</div>
+    </li>{{/each}}
+  </ol></section>{{/if}}
+
+  {{#if gears.length}}<section class="coc-item-group"><h2>随身装备（{{gears.length}}）</h2><ol>
+    {{#each gears as |gear|}}<li class="item coc-item-card" data-item-id="{{gear.id}}" data-document-class="Item" data-coc-item-card data-name="{{gear.name}}" data-status="{{gear.equipStatus}}"{{#if (and ../isCoCEdit ../canEditSheet)}} data-coc-item-editable tabindex="0"{{/if}}>
+      <img src="{{gear.img}}" alt="{{gear.name}}"><div class="coc-item-main"><div class="coc-item-title"><b>{{gear.name}}</b><span>{{gear.equipStatusLabel}}　×{{gear.quantity}}</span></div><div>{{gear.description}}</div>
+      {{#if ../isCoCEdit}}<div class="coc-item-actions"><button type="button" data-action="cocDeleteItem">删除</button></div>{{/if}}</div>
+    </li>{{/each}}
+  </ol></section>{{/if}}
+</section>

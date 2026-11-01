@@ -1,5 +1,6 @@
-import { BRPCharacterSheet } from '../actor/sheets/character.mjs';
-import { BRPNPCSheetV2 } from '../actor/sheets/npcV2.mjs';
+import { CocCharacterSheet } from '../actor/sheets/coc/character.mjs';
+import { CocNpcSheet } from '../actor/sheets/coc/npc.mjs';
+import { CocVehicleSheet } from '../actor/sheets/coc/vehicle.mjs';
 import { BRPGearSheet } from '../item/sheets/gear.mjs';
 import { BRPSkillSheet } from '../item/sheets/skill.mjs';
 import { BRPHitLocSheet } from '../item/sheets/hit-location.mjs';
@@ -33,13 +34,18 @@ export function registerSheets() {
 
 
   foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
-  foundry.documents.collections.Actors.registerSheet('brp', BRPCharacterSheet, {
+  foundry.documents.collections.Actors.registerSheet('brp', CocCharacterSheet, {
     types: ['character'],
     makeDefault: true
   })
 
-  foundry.documents.collections.Actors.registerSheet('brp', BRPNPCSheetV2, {
+  foundry.documents.collections.Actors.registerSheet('brp', CocNpcSheet, {
     types: ['npc'],
+    makeDefault: true
+  })
+
+  foundry.documents.collections.Actors.registerSheet('brp', CocVehicleSheet, {
+    types: ['vehicle'],
     makeDefault: true
   })
 
