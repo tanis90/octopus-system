@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CoC 角色卡 — 纸墨档案</title>
+<link rel="stylesheet" href="design.css">
+<script>
+window.COC_DESIGN_DEFAULTS = /*EDITMODE-BEGIN*/{"variant":"classic","sidebar":true}/*EDITMODE-END*/;
+</script>
+<script src="prototype.js" defer></script>
+</head>
+<body data-variant="classic" data-active-tab="skills">
+<!-- 设计系统：13/14/16/22px 字阶；#f2ede1 / #faf7ee 纸面；4/8/12/16px 节奏；墨底表头；2px 墨框与零圆角。 -->
+<header class="design-tweaks" aria-label="设计评审选项">
+  <div class="tweaks-summary">
+    <div class="tweaks-title">CoC 角色卡 · 纸墨档案<small>信息排列参考 Tidy Investigator · 交互设计稿</small></div>
+    <div class="tweaks-controls" aria-label="三种视觉变体">
+      <button type="button" data-variant-button="classic" aria-pressed="true">A 经典档案</button>
+      <button type="button" data-variant-button="compact" aria-pressed="false">B 紧凑桌面</button>
+      <button type="button" data-variant-button="contrast" aria-pressed="false">C 墨印高对比</button>
+      <button type="button" class="reopen" id="reopen-sheet" hidden>重新打开卡面</button>
+    </div>
+  </div>
+</header>
+
+<main class="sheet" id="sheet" aria-label="埃莉诺·万斯的调查员角色卡">
+  <header class="window-header">
+    <span class="window-title">角色：埃莉诺·万斯</span>
+    <button class="window-close" id="window-close" type="button" aria-label="关闭角色卡">×</button>
+  </header>
+
+  <section class="banner" aria-label="角色摘要">
+    <div class="identity-row">
+      <button class="portrait" type="button" data-demo="更换头像设计入口" aria-label="更换埃莉诺·万斯的头像">
+        <img src="assets/investigator-portrait.jpg" alt="埃莉诺·万斯，深色长发的女性调查员">
+      </button>
+      <div class="identity">
+        <div class="name-line">
+          <div class="name-block">
+            <h1 class="name">埃莉诺·万斯</h1>
+            <div class="subtitle"><span>记者</span><span>32 岁</span><span>女</span><span>居住地：波士顿</span><span>玩家：小明</span></div>
+          </div>
+          <button class="edit-toggle" id="edit-toggle" type="button" aria-pressed="false">编辑</button>
+        </div>
+
+        <div class="vitals" aria-label="当前资源">
+          <div class="vital hp" style="--pct:43%">
+            <div class="vital-top"><span class="vital-label">生命</span><span class="vital-value">6<small> / 14</small></span></div>
+            <span class="vital-track"><i></i></span>
+          </div>
+          <div class="vital mp" style="--pct:100%">
+            <div class="vital-top"><span class="vital-label">魔法</span><span class="vital-value">10<small> / 10</small></span></div>
+            <span class="vital-track"><i></i></span>
+          </div>
+          <button class="vital san" style="--pct:56%" type="button" data-demo="理智检定">
+            <div class="vital-top"><span class="vital-label">理智</span><span class="vital-value">55<small> / 99</small></span></div>
+            <span class="vital-track"><i></i></span>
+          </button>
+          <button class="vital luck" style="--pct:61%" type="button" data-demo="幸运检定">
+            <div class="vital-top"><span class="vital-label">幸运</span><span class="vital-value">60<small> / 99</small></span></div>
+            <span class="vital-track"><i></i></span>
+          </button>
+        </div>
+        <div class="derived" aria-label="派生属性">
+          <span>伤害加值 <b>0</b></span><span>体格 <b>0</b></span><span>移动力 <b>8</b></span><span>护甲 <b>0</b></span><span>灵感 <b>70</b></span><span>知识 <b>75</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="abilities" aria-label="八项特性">
+      <button class="ability" type="button" data-demo="力量检定"><span class="ability-label">STR</span><span class="ability-value">60</span><span class="ability-sub">30 / 12</span></button>
+      <button class="ability" type="button" data-demo="体质检定"><span class="ability-label">CON</span><span class="ability-value">55</span><span class="ability-sub">27 / 11</span></button>
+      <button class="ability" type="button" data-demo="体型检定"><span class="ability-label">SIZ</span><span class="ability-value">55</span><span class="ability-sub">27 / 11</span></button>
+      <button class="ability modified" type="button" data-demo="敏捷检定 · 受效果影响"><span class="ability-label">DEX</span><span class="ability-value">65</span><span class="ability-sub">32 / 13</span></button>
+      <button class="ability" type="button" data-demo="外貌检定"><span class="ability-label">APP</span><span class="ability-value">45</span><span class="ability-sub">22 / 9</span></button>
+      <button class="ability" type="button" data-demo="智力检定"><span class="ability-label">INT</span><span class="ability-value">70</span><span class="ability-sub">35 / 14</span></button>
+      <button class="ability" type="button" data-demo="意志检定"><span class="ability-label">POW</span><span class="ability-value">50</span><span class="ability-sub">25 / 10</span></button>
+      <button class="ability" type="button" data-demo="教育检定"><span class="ability-label">EDU</span><span class="ability-value">75</span><span class="ability-sub">37 / 15</span></button>
+    </div>
+
+    <div class="condition-line">
+      <div class="conditions" aria-label="角色状态">
+        <button class="condition" type="button" aria-pressed="true">重伤</button>
+        <button class="condition" type="button" aria-pressed="false">昏迷</button>
+        <button class="condition" type="button" aria-pressed="false">濒死</button>
+        <button class="condition" type="button" aria-pressed="false">死亡</button>
+        <button class="condition" type="button" aria-pressed="false">倒地</button>
+        <button class="condition" type="button" aria-pressed="false">临时疯狂</button>
+        <button class="condition" type="button" aria-pressed="false">长期疯狂</button>
+      </div>
+      <div class="daily-san">今日 SAN <b>3</b> / <b>5</b><button type="button" data-demo="重置今日 SAN 损失" aria-label="重置今日 SAN 损失">↺</button></div>
+    </div>
+
+    <nav class="tabs" role="tablist" aria-label="角色卡页签">
+      <button class="tab" id="tab-skills" type="button" role="tab" data-tab="skills" aria-controls="panel-skills" aria-selected="true">技能</button>
+      <button class="tab" id="tab-summary" type="button" role="tab" data-tab="summary" aria-controls="panel-summary" aria-selected="false">简表</button>
+      <button class="tab" id="tab-possessions" type="button" role="tab" data-tab="possessions" aria-controls="panel-possessions" aria-selected="false">物品</button>
+      <button class="tab" id="tab-background" type="button" role="tab" data-tab="background" aria-controls="panel-background" aria-selected="false">背景</button>
+      <button class="tab" id="tab-growth" type="button" role="tab" data-tab="growth" aria-controls="panel-growth" aria-selected="false">成长</button>
+      <button class="tab" id="tab-notes" type="button" role="tab" data-tab="notes" aria-controls="panel-notes" aria-selected="false">笔记</button>
+      <button class="tab" id="tab-effects" type="button" role="tab" data-tab="effects" aria-controls="panel-effects" aria-selected="false">效果<span class="tab-count">2</span></button>
+    </nav>
+  </section>
+
+  <div class="sheet-body" id="sheet-body">
+    <aside class="favorites" aria-label="收藏栏">
+      <div class="favorites-head"><span>收藏</span><button class="favorites-toggle" id="favorites-toggle" type="button" aria-label="收起收藏栏" aria-expanded="true">−</button></div>
+      <div class="favorites-list">
+        <button class="favorite" type="button" data-demo="收藏：侦查检定"><span>侦查</span><b>65</b></button>
+        <button class="favorite" type="button" data-demo="收藏：闪避检定"><span>闪避</span><b>32</b></button>
+        <button class="favorite" type="button" data-demo="收藏：图书馆使用检定"><span>图书馆使用</span><b>55</b></button>
+        <button class="favorite" type="button" data-demo="收藏：.45 自动手枪攻击"><span>.45 自动手枪</span><b>40</b></button>
+        <button class="favorite" type="button" data-demo="收藏：精神分析检定"><span>精神分析</span><b>1</b></button>
+      </div>
+      <div class="favorites-foot">常用技能与武器可置顶到这里</div>
+    </aside>
+
+    <div class="content">
+      <section class="panel active" id="panel-skills" data-panel="skills" role="tabpanel" aria-labelledby="tab-skills">
+        <div class="toolbar">
+          <label class="search"><span hidden>搜索技能</span><input id="skill-search" type="search" placeholder="搜索技能…" autocomplete="off"></label>
+          <div class="segment" aria-label="技能排序">
+            <button type="button" data-sort="value" aria-pressed="true">按数值</button>
+            <button type="button" data-sort="name" aria-pressed="false">按名称</button>
+          </div>
+          <label class="check"><input id="show-uncommon" type="checkbox"> 显示罕见技能</label>
+          <span class="toolbar-spacer"></span>
+          <button class="small-button edit-only" type="button" data-demo="新增技能">＋ 新增技能</button>
+        </div>
+        <div class="table-scroll">
+          <table class="skills-table" id="skills-table">
+            <colgroup><col style="width:35%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:15%"></colgroup>
+            <thead><tr><th>技能</th><th>基础</th><th>当前</th><th>半值</th><th>1/5</th><th>成长</th><th><span class="edit-only">操作</span></th></tr></thead>
+            <tbody id="skill-rows">
+              <tr data-skill-row data-name="母语（英语）" data-value="75"><td><button class="skill-name" data-demo="母语（英语）检定">母语（英语）</button></td><td>75</td><td class="current">75</td><td>37</td><td>15</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记母语成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏母语">☆</button><button class="edit-only" data-demo="编辑母语" aria-label="编辑母语">编辑</button></td></tr>
+              <tr data-skill-row data-name="侦查" data-value="65"><td><button class="skill-name" data-demo="侦查检定">侦查</button></td><td>25</td><td class="current">65</td><td>32</td><td>13</td><td><button class="mark" data-growth aria-pressed="true" aria-label="取消侦查成长标记">×</button></td><td class="row-actions"><button data-favorite aria-label="收藏侦查">★</button><button class="edit-only" data-demo="编辑侦查" aria-label="编辑侦查">编辑</button></td></tr>
+              <tr data-skill-row data-name="图书馆使用" data-value="55"><td><button class="skill-name" data-demo="图书馆使用检定">图书馆使用</button></td><td>20</td><td class="current">55</td><td>27</td><td>11</td><td><button class="mark" data-growth aria-pressed="true" aria-label="取消图书馆使用成长标记">×</button></td><td class="row-actions"><button data-favorite aria-label="收藏图书馆使用">★</button><button class="edit-only" data-demo="编辑图书馆使用" aria-label="编辑图书馆使用">编辑</button></td></tr>
+              <tr data-skill-row data-name="英语" data-value="50"><td><button class="skill-name" data-demo="英语检定">英语</button></td><td>1</td><td class="current">50</td><td>25</td><td>10</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记英语成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏英语">☆</button><button class="edit-only" data-demo="编辑英语" aria-label="编辑英语">编辑</button></td></tr>
+              <tr data-skill-row data-name="信用评级" data-value="45"><td><button class="skill-name" data-demo="信用评级检定">信用评级</button></td><td>0</td><td class="current">45</td><td>22</td><td>9</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记信用评级成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏信用评级">☆</button><button class="edit-only" data-demo="编辑信用评级" aria-label="编辑信用评级">编辑</button></td></tr>
+              <tr data-skill-row data-name="聆听" data-value="45"><td><button class="skill-name" data-demo="聆听检定">聆听</button></td><td>20</td><td class="current">45</td><td>22</td><td>9</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记聆听成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏聆听">☆</button><button class="edit-only" data-demo="编辑聆听" aria-label="编辑聆听">编辑</button></td></tr>
+              <tr data-skill-row data-name="潜行" data-value="40"><td><button class="skill-name" data-demo="潜行检定">潜行</button></td><td>20</td><td class="current">40</td><td>20</td><td>8</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记潜行成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏潜行">☆</button><button class="edit-only" data-demo="编辑潜行" aria-label="编辑潜行">编辑</button></td></tr>
+              <tr data-skill-row data-name="说服" data-value="40"><td><button class="skill-name" data-demo="说服检定">说服</button></td><td>10</td><td class="current">40</td><td>20</td><td>8</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记说服成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏说服">☆</button><button class="edit-only" data-demo="编辑说服" aria-label="编辑说服">编辑</button></td></tr>
+              <tr data-skill-row data-name="心理学" data-value="35"><td><button class="skill-name" data-demo="心理学检定">心理学</button></td><td>10</td><td class="current">35</td><td>17</td><td>7</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记心理学成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏心理学">☆</button><button class="edit-only" data-demo="编辑心理学" aria-label="编辑心理学">编辑</button></td></tr>
+              <tr data-skill-row data-name="闪避" data-value="32"><td><button class="skill-name" data-demo="闪避检定">闪避</button></td><td>32</td><td class="current">32</td><td>16</td><td>6</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记闪避成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏闪避">★</button><button class="edit-only" data-demo="编辑闪避" aria-label="编辑闪避">编辑</button></td></tr>
+              <tr data-skill-row data-name="神秘学" data-value="31"><td><button class="skill-name" data-demo="神秘学检定">神秘学</button></td><td>5</td><td class="current">31</td><td>15</td><td>6</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记神秘学成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏神秘学">☆</button><button class="edit-only" data-demo="编辑神秘学" aria-label="编辑神秘学">编辑</button></td></tr>
+              <tr data-skill-row data-name="克苏鲁神话" data-value="12" data-uncommon="true"><td><button class="skill-name" data-demo="克苏鲁神话检定">克苏鲁神话</button></td><td>0</td><td class="current">12</td><td>6</td><td>2</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记克苏鲁神话成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏克苏鲁神话">☆</button><button class="edit-only" data-demo="编辑克苏鲁神话" aria-label="编辑克苏鲁神话">编辑</button></td></tr>
+              <tr class="group-row" data-group="射击"><td colspan="7"><button class="group-toggle" type="button" aria-expanded="true"><strong>⌄ 射击</strong><span>专长 · 2 项</span></button></td></tr>
+              <tr data-specialty-row data-name="射击（手枪）" data-value="40"><td><button class="skill-name" data-demo="射击（手枪）检定">射击（手枪）</button></td><td>20</td><td class="current">40</td><td>20</td><td>8</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记手枪成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏手枪">☆</button><button class="edit-only" data-demo="编辑手枪" aria-label="编辑手枪">编辑</button></td></tr>
+              <tr data-specialty-row data-name="射击（步枪/霰弹枪）" data-value="30"><td><button class="skill-name" data-demo="射击（步枪/霰弹枪）检定">射击（步枪/霰弹枪）</button></td><td>25</td><td class="current">30</td><td>15</td><td>6</td><td><button class="mark" data-growth aria-pressed="false" aria-label="标记步枪成长"></button></td><td class="row-actions"><button data-favorite aria-label="收藏步枪">☆</button><button class="edit-only" data-demo="编辑步枪" aria-label="编辑步枪">编辑</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-note"><span>共 43 项技能 · 已标记成长 2 项</span><span>点击技能名检定 · 右键对抗</span></div>
+      </section>
+
+      <section class="panel" id="panel-summary" data-panel="summary" role="tabpanel" aria-labelledby="tab-summary" hidden>
+        <div class="toolbar"><strong>武器速查</strong><span class="toolbar-spacer"></span><label class="check"><input type="checkbox" checked> 仅显示已投入</label><button class="small-button edit-only" data-demo="新增武器">＋ 新增武器</button></div>
+        <div class="table-scroll">
+          <table class="weapon-table">
+            <thead><tr><th>武器</th><th>技能</th><th>伤害</th><th>射程</th><th>每轮</th><th>子弹 / 弹容量</th><th>故障</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td><button class="item-name" data-demo="打开 .45 自动手枪物品卡">.45 自动手枪</button></td><td>40%</td><td>1D10+2</td><td>15 码</td><td>2</td><td>3 / 7</td><td>100</td><td class="row-actions"><button data-demo="手枪攻击">攻击</button><button data-demo="手枪伤害">伤害</button><button data-demo="手枪装填">装填</button></td></tr>
+              <tr><td><button class="item-name" data-demo="打开折叠刀物品卡">折叠刀</button></td><td>45%</td><td>1D4+DB</td><td>接触</td><td>1</td><td>—</td><td>—</td><td class="row-actions"><button data-demo="折叠刀攻击">攻击</button><button data-demo="折叠刀伤害">伤害</button></td></tr>
+              <tr><td><button class="item-name" data-demo="打开李-恩菲尔德步枪物品卡">李-恩菲尔德步枪</button></td><td>30%</td><td>1D10+4</td><td>110 码</td><td>1</td><td>10 / 10</td><td>100</td><td class="row-actions"><button data-demo="步枪攻击">攻击</button><button data-demo="步枪伤害">伤害</button><button data-demo="步枪装填">装填</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="quick-group"><h3>战斗技能 <span>4</span></h3><div class="quick-chips"><button class="quick-chip" data-demo="格斗（斗殴）检定">格斗（斗殴）<b>45</b><small>22 / 9</small></button><button class="quick-chip" data-demo="射击（手枪）检定">射击（手枪）<b>40</b><small>20 / 8</small></button><button class="quick-chip" data-demo="投掷检定">投掷<b>35</b><small>17 / 7</small></button><button class="quick-chip" data-demo="闪避检定">闪避<b>32</b><small>16 / 6</small></button></div></div>
+        <div class="quick-group"><h3>调查技能 <span>6</span></h3><div class="quick-chips"><button class="quick-chip" data-demo="侦查检定">侦查<b>65</b><small>32 / 13</small></button><button class="quick-chip" data-demo="图书馆使用检定">图书馆使用<b>55</b><small>27 / 11</small></button><button class="quick-chip" data-demo="聆听检定">聆听<b>45</b><small>22 / 9</small></button><button class="quick-chip" data-demo="心理学检定">心理学<b>35</b><small>17 / 7</small></button><button class="quick-chip" data-demo="神秘学检定">神秘学<b>31</b><small>15 / 6</small></button><button class="quick-chip" data-demo="克苏鲁神话检定">克苏鲁神话<b>12</b><small>6 / 2</small></button></div></div>
+        <div class="quick-group"><h3>社交技能 <span>2</span></h3><div class="quick-chips"><button class="quick-chip" data-demo="信用评级检定">信用评级<b>45</b><small>22 / 9</small></button><button class="quick-chip" data-demo="说服检定">说服<b>40</b><small>20 / 8</small></button></div></div>
+        <div class="quick-group"><h3>生存技能 <span>2</span></h3><div class="quick-chips"><button class="quick-chip" data-demo="潜行检定">潜行<b>40</b><small>20 / 8</small></button><button class="quick-chip" data-demo="骑术检定">骑术<b>25</b><small>12 / 5</small></button></div></div>
+        <div class="quick-group"><h3>技艺技能 <span>2</span></h3><div class="quick-chips"><button class="quick-chip" data-demo="摄影检定">摄影<b>21</b><small>10 / 4</small></button><button class="quick-chip" data-demo="电气维修检定">电气维修<b>21</b><small>10 / 4</small></button></div></div>
+        <div class="quick-group"><h3>医疗与精神 <span>2</span></h3><div class="quick-chips"><button class="quick-chip" data-demo="急救检定">急救<b>30</b><small>15 / 6</small></button><button class="quick-chip" data-demo="医学检定">医学<b>21</b><small>10 / 4</small></button></div></div>
+      </section>
+
+      <section class="panel" id="panel-possessions" data-panel="possessions" role="tabpanel" aria-labelledby="tab-possessions" hidden>
+        <div class="money"><div><span>信用评级</span><strong>45</strong><small>小康</small></div><div><span>现金</span><strong>$ 120</strong></div><div><span>资产</span><strong>$ 2,500</strong></div><div><span>消费水平</span><strong>$ 10</strong></div></div>
+        <details class="item-section" open><summary>武器 <span>2 项</span></summary><div class="item-row"><i class="item-symbol">武</i><button class="item-name" data-demo="打开 .45 自动手枪物品卡">.45 自动手枪</button><span class="item-meta">随身 · 3 / 7</span></div><div class="item-row"><i class="item-symbol">武</i><button class="item-name" data-demo="打开折叠刀物品卡">折叠刀</button><span class="item-meta">随身</span></div></details>
+        <details class="item-section" open><summary>护甲 <span>1 项</span></summary><div class="item-row"><i class="item-symbol">护</i><button class="item-name" data-demo="打开厚呢大衣物品卡">厚呢大衣</button><span class="item-meta">护甲 1</span></div></details>
+        <details class="item-section" open><summary>书籍 <span>2 项</span></summary><div class="item-row"><i class="item-symbol">书</i><button class="item-name" data-demo="打开《黄衣之王》残卷">《黄衣之王》残卷</button><span class="item-meta">阅读 3 / 40</span></div><div class="item-row"><i class="item-symbol">书</i><button class="item-name" data-demo="打开《新英格兰民俗志》">《新英格兰民俗志》</button><span class="item-meta">阅读 12 / 20</span></div></details>
+        <details class="item-section"><summary>法术 <span>1 项</span></summary><div class="item-row"><i class="item-symbol">术</i><button class="item-name" data-demo="打开精神转移法术卡">精神转移</button><span class="item-meta">消耗 10 MP</span></div></details>
+        <details class="item-section"><summary>天赋 <span>1 项</span></summary><div class="item-row"><i class="item-symbol">赋</i><button class="item-name" data-demo="打开敏锐直觉天赋卡">敏锐直觉</button><span class="item-meta">被动</span></div></details>
+        <details class="item-section"><summary>道具 <span>3 项</span></summary><div class="item-row"><i class="item-symbol">物</i><button class="item-name" data-demo="打开记者证与笔记本">记者证与笔记本</button><span class="item-meta">随身</span></div><div class="item-row"><i class="item-symbol">物</i><button class="item-name" data-demo="打开柯达便携相机">柯达便携相机</button><span class="item-meta">1 台</span></div><div class="item-row"><i class="item-symbol">物</i><button class="item-name" data-demo="打开手电筒与备用电池">手电筒与备用电池</button><span class="item-meta">2 组</span></div></details>
+        <details class="item-section"><summary>状态 <span>1 项</span></summary><div class="item-row"><i class="item-symbol">状</i><button class="item-name" data-demo="打开轻微恐惧状态卡">轻微恐惧</button><span class="item-meta">持续 3 轮</span></div></details>
+      </section>
+
+      <section class="panel" id="panel-background" data-panel="background" role="tabpanel" aria-labelledby="tab-background" hidden>
+        <div class="identity-grid"><div class="identity-field"><span>职业</span><b>记者</b></div><div class="identity-field"><span>年龄</span><b>32</b></div><div class="identity-field"><span>性别</span><b>女</b></div><div class="identity-field"><span>出生地</span><b>阿卡姆</b></div><div class="identity-field"><span>居住地</span><b>波士顿</b></div><div class="identity-field"><span>组织 / 团体</span><b>《阿卡姆广告人报》</b></div></div>
+        <div class="section-heading"><strong>背景要素</strong><span class="key-summary" id="key-summary">关键链接：外貌形象、重要之人</span></div>
+        <div class="bio-grid">
+          <section class="bio-card wide" data-bio="外貌形象"><header class="bio-head"><h3>外貌形象</h3><button class="key-toggle" data-key aria-pressed="true">关键链接</button></header><div class="prose">身形清瘦，总穿着男式风衣；左眼下方有一道细长的疤，笔记本永远放在右侧口袋。</div></section>
+          <section class="bio-card" data-bio="思想信念"><header class="bio-head"><h3>思想信念</h3><button class="key-toggle" data-key aria-pressed="false">关键链接</button></header><div class="prose">真相必须被记录，哪怕最后只能留在自己的档案里。</div></section>
+          <section class="bio-card" data-bio="宝贵之物"><header class="bio-head"><h3>宝贵之物</h3><button class="key-toggle" data-key aria-pressed="false">关键链接</button></header><div class="prose">父亲留下的黄铜怀表，表盖内侧刻着一行已经无法辨认的小字。</div></section>
+          <section class="bio-card" data-bio="意义非凡之地"><header class="bio-head"><h3>意义非凡之地</h3><button class="key-toggle" data-key aria-pressed="false">关键链接</button></header><div class="prose">报社地下档案室。油墨、旧纸和霉味让她感到安心。</div></section>
+          <section class="bio-card" data-bio="重要之人"><header class="bio-head"><h3>重要之人</h3><button class="key-toggle" data-key aria-pressed="true">关键链接</button></header><div class="prose">老编辑霍尔曼先生——在一场火灾后变得沉默寡言，却仍替她保留调查版面。</div></section>
+          <section class="bio-card wide" data-bio="特质"><header class="bio-head"><h3>特质</h3><button class="key-toggle" data-key aria-pressed="false">关键链接</button></header><div class="prose">好奇心压过恐惧；对同行有近乎固执的义气；习惯用玩笑掩饰不安。</div></section>
+          <section class="bio-card wide" data-bio="伤疤和恐惧症"><header class="bio-head"><h3>伤疤和恐惧症</h3><button class="key-toggle" data-key aria-pressed="false">关键链接</button></header><div class="prose">伤疤：左前臂的烧伤疤痕。<br>恐惧症：黑暗、密闭空间。<br>狂热症：收集旧报纸。</div></section>
+        </div>
+        <section class="story"><h3>背景故事</h3><div class="prose">跑社会新闻的第五年，埃莉诺开始收到无法见报的匿名信。信中反复出现的旧宅地址，与她童年记忆里的一场火灾有关。</div></section>
+        <section class="story"><h3>遭遇记录</h3><div class="prose">1925 年春，阿卡姆码头仓库——目击不可名状的阴影，SAN −4。</div></section>
+      </section>
+
+      <section class="panel" id="panel-growth" data-panel="growth" role="tabpanel" aria-labelledby="tab-growth" hidden>
+        <div class="points"><div class="point"><span>兴趣</span><strong>100</strong><small>已花 40</small></div><div class="point"><span>职业</span><strong>200</strong><small>已花 120</small></div><div class="point"><span>原型</span><strong>0</strong><small>已花 0</small></div><div class="point"><span>经验包</span><strong>0</strong><small>已花 0</small></div></div>
+        <div class="section-heading"><strong>可以成长的技能</strong><div class="heading-actions"><button class="small-button" data-demo="手动调整技能数值">手动调整</button><button class="small-button primary" data-demo="一键成长：2 项技能">一键成长</button></div></div>
+        <table><thead><tr><th>技能</th><th>基础</th><th>当前</th><th>半值</th><th>1/5</th><th>成长</th><th>成长后</th></tr></thead><tbody><tr><td>侦查</td><td>25</td><td class="current">65</td><td>32</td><td>13</td><td>已标记</td><td><button data-demo="单独成长：侦查">65 ↗</button></td></tr><tr><td>闪避</td><td>32</td><td class="current">32</td><td>16</td><td>6</td><td>已标记</td><td><button data-demo="单独成长：闪避">32 ↗</button></td></tr></tbody></table>
+        <div class="section-heading"><strong>成长记录</strong><div class="heading-actions"><small>当前模组：奈亚拉托提普的面具</small><button class="small-button" data-demo="新建成长模组">＋ 新建模组</button></div></div>
+        <div class="record"><div class="record-head"><strong>奈亚拉托提普的面具</strong><span>2</span></div><div class="record-row"><time>2024/10/28 08:20</time><span>闪避</span><span class="num">30 → 32</span><span class="delta">+2</span><button data-demo="撤销闪避成长" aria-label="撤销闪避成长">↺</button></div><div class="record-row"><time>2024/10/27 04:33</time><span>侦查</span><span class="num">60 → 65</span><span class="delta">+5</span><button data-demo="撤销侦查成长" aria-label="撤销侦查成长">↺</button></div></div>
+      </section>
+
+      <section class="panel" id="panel-notes" data-panel="notes" role="tabpanel" aria-labelledby="tab-notes" hidden>
+        <div class="section-heading"><strong>守秘笔记</strong><small>仅 GM 可见</small></div>
+        <textarea class="keeper-note" aria-label="守秘笔记">埃莉诺尚未意识到，那封匿名信使用的是旧宅火灾前留下的信纸。</textarea>
+        <div class="section-heading"><strong>书籍研究</strong></div>
+        <section class="note-section"><div class="note-line"><span>《黄衣之王》残卷</span><span>阅读进度 3 / 40</span></div><div class="note-line"><span>《新英格兰民俗志》</span><span>阅读进度 12 / 20</span></div></section>
+        <div class="section-heading"><strong>SAN 损失事件</strong></div>
+        <section class="note-section"><div class="note-line"><span>目击深潜者群</span><span>−5 SAN</span></div><div class="note-line"><span>阅读《黄衣之王》</span><span>−8 SAN</span></div><div class="note-line"><span>地下墓穴遭遇</span><span>−3 SAN · 免疫</span></div></section>
+        <div class="section-heading"><strong>神话标记与状态</strong><div class="heading-actions"><button class="small-button" data-demo="清除全部状态">清除全部状态</button></div></div>
+        <div class="mythos-flags"><button data-mythos aria-pressed="true">神话淬炼</button><button data-mythos aria-pressed="false">神话疯狂经历</button></div>
+        <div class="section-heading"><strong>货币配置</strong></div>
+        <section class="note-section"><div class="note-line"><span>现金与资产档位</span><span>1920 年代 · 美元</span></div><div class="note-line"><span>消费水平</span><span>$ 10 / 日</span></div></section>
+      </section>
+
+      <section class="panel" id="panel-effects" data-panel="effects" role="tabpanel" aria-labelledby="tab-effects" hidden>
+        <div class="section-heading"><strong>效果</strong><div class="heading-actions"><button class="small-button edit-only" data-demo="新增效果">＋ 新增效果</button></div></div>
+        <div class="record">
+          <div class="effect-row"><button class="item-name" data-demo="打开轻微恐惧效果配置">轻微恐惧</button><span class="item-meta">所有检定 −1 惩罚骰</span><button class="effect-toggle" data-effect aria-pressed="true" aria-label="启用或禁用轻微恐惧"></button><button data-demo="删除轻微恐惧" aria-label="删除轻微恐惧">×</button></div>
+          <div class="effect-row disabled"><button class="item-name" data-demo="打开肾上腺素效果配置">肾上腺素</button><span class="item-meta">力量 +10 · 持续 3 轮</span><button class="effect-toggle" data-effect aria-pressed="false" aria-label="启用或禁用肾上腺素"></button><button data-demo="删除肾上腺素" aria-label="删除肾上腺素">×</button></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

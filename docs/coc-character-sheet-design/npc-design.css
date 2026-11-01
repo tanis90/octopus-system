@@ -1,0 +1,81 @@
+.npc-resource-row { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 8px; align-items: end; margin-top: 12px; }
+.npc-resource-row .vitals { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 0; }
+.npc-resource-row .derived { margin: 0 0 1px; }
+.optional-vital { display: none; }
+.is-editing .optional-vital { display: block; }
+.ability-value { padding: 0; border: 0; background: transparent; }
+.is-editing .ability-value { display: none; }
+.ability-input, .ability-formula { width: 58px; padding: 2px; border: 1px solid var(--soft-line); background: var(--paper); text-align: center; font-family: var(--num); font-size: 18px; }
+.ability-formula { width: 76px; font-size: 12px; }
+.ability-sub:empty::after { content: "—"; }
+.formula-only { display: none; }
+.is-editing.show-formula .formula-only { display: inline-flex; }
+.is-editing.show-formula .ability-input, .is-editing.show-formula .ability-sub { display: none; }
+.formula-controls { gap: 5px; margin-left: 6px; }
+.formula-controls.edit-only { display: none; }
+.is-editing .formula-controls.edit-only { display: inline-flex; }
+.formula-controls button { padding: 3px 7px; border: 1px solid var(--soft-line); background: var(--raised); font-size: 11px; }
+.combat-banner-row { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.combat-pill { display: inline-flex; align-items: baseline; gap: 7px; padding: 5px 8px; border: 1px solid var(--ink); background: var(--raised); }
+.combat-pill .label { color: var(--muted); font-size: 11px; }
+.combat-pill .value { font-family: var(--num); font-size: 15px; font-weight: 700; }
+.combat-pill.san { border-color: var(--accent); color: var(--accent); }
+.combat-pill button { padding: 0 2px; border: 0; background: transparent; color: inherit; }
+.npc-tabs { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.gm-mark { margin-left: 4px; padding: 0 3px; border: 1px solid currentColor; font-family: var(--num); font-size: 9px; }
+.npc-body { display: block; min-height: 0; }
+.npc-body .content { height: 100%; }
+.combat-strip { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, .65fr); gap: 8px; margin-bottom: 12px; }
+.strip-item { position: relative; min-width: 0; padding: 7px 9px; border: 1px solid var(--ink); background: var(--raised); }
+.strip-item .strip-label { display: block; color: var(--muted); font-size: 11px; }
+.strip-item .strip-value { font-family: var(--num); font-size: 20px; font-weight: 700; }
+.strip-item.san .strip-value { color: var(--accent); }
+.strip-item .strip-action { position: absolute; top: 8px; right: 8px; padding: 2px 5px; border: 1px solid var(--soft-line); background: var(--deep); font-size: 11px; }
+.strip-note { margin: -6px 0 12px; color: var(--muted); font-size: 11px; text-align: right; }
+.npc-weapon-table { min-width: 880px; }
+.npc-weapon-table .row-actions { display: flex; gap: 3px; }
+.talent-list { border: 1px solid var(--ink); background: var(--raised); }
+.talent { width: 100%; display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 12px; padding: 9px 10px; border: 0; border-bottom: 1px solid var(--faint-line); background: transparent; text-align: left; }
+.talent:last-child { border-bottom: 0; }
+.talent:hover { background: var(--hover); }
+.talent strong { color: var(--accent); }
+.talent span { color: var(--muted); line-height: 1.6; }
+.movement-list { border: 1px solid var(--ink); background: var(--raised); }
+.movement-row { display: grid; grid-template-columns: 120px 80px 120px minmax(0, 1fr); align-items: center; gap: 9px; padding: 8px 10px; border-bottom: 1px solid var(--faint-line); }
+.movement-row:last-child { border-bottom: 0; }
+.movement-row .movement-value { font-family: var(--num); font-weight: 700; }
+.movement-row .movement-type { padding: 2px 6px; border: 1px solid var(--soft-line); background: var(--deep); text-align: center; }
+.movement-row small { color: var(--muted); }
+.description-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin-bottom: 12px; }
+.description-body { min-height: 180px; border: 1px solid var(--ink); background: var(--raised); }
+.macro-list { border: 1px solid var(--ink); background: var(--raised); }
+.macro-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-bottom: 1px solid var(--faint-line); }
+.macro-row:last-child { border-bottom: 0; }
+.macro-row .macro-name { flex: 1; }
+.macro-row button { padding: 3px 7px; border: 1px solid var(--soft-line); background: var(--deep); }
+.drop-hint { margin-top: 6px; color: var(--muted); font-size: 11px; }
+
+.vehicle-sheet { width: min(900px, calc(100vw - 48px)); height: auto; min-height: 0; max-height: none; }
+.vehicle-banner { padding-bottom: 14px; }
+.vehicle-banner .portrait { flex-basis: 144px; width: 144px; height: 124px; }
+.vehicle-summary { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 10px; align-items: end; margin-top: 12px; }
+.vehicle-summary .vitals { grid-template-columns: minmax(0, 1fr); margin-top: 0; }
+.vehicle-summary .derived { margin-bottom: 2px; }
+.vehicle-badge { display: inline-block; margin-left: 8px; padding: 3px 7px; border: 1px solid var(--accent); color: var(--accent); font-size: 11px; letter-spacing: .08em; vertical-align: middle; }
+.vehicle-content { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.25fr); gap: 12px; padding: 14px; }
+.vehicle-section { border: 1px solid var(--ink); background: var(--raised); }
+.vehicle-section h2 { margin: 0; padding: 7px 9px; color: var(--paper); background: var(--ink); font-size: 13px; }
+.vehicle-section .prose { min-height: 94px; }
+.vehicle-section.crew .prose { font-size: 16px; line-height: 1.8; }
+.vehicle-section.keeper { grid-column: 1 / -1; }
+.vehicle-section.keeper .prose { min-height: 60px; color: var(--muted); }
+.vehicle-meta { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 10px; border-top: 1px solid var(--faint-line); }
+.vehicle-meta span { padding: 2px 6px; border: 1px solid var(--soft-line); color: var(--muted); font-size: 11px; }
+
+@container (max-width: 760px) {
+  .npc-resource-row, .vehicle-summary { grid-template-columns: minmax(0, 1fr); }
+  .combat-strip { grid-template-columns: minmax(0, 1fr); }
+  .movement-row { grid-template-columns: 100px 55px 90px minmax(0, 1fr); }
+  .vehicle-content { grid-template-columns: minmax(0, 1fr); }
+  .vehicle-section.keeper { grid-column: auto; }
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CoC 载具卡 — 纸墨档案</title>
+<link rel="stylesheet" href="design.css">
+<link rel="stylesheet" href="npc-design.css">
+<script>window.COC_DESIGN_DEFAULTS = /*EDITMODE-BEGIN*/{"variant":"classic","sidebar":true}/*EDITMODE-END*/;</script>
+<script src="npc-prototype.js" defer></script>
+</head>
+<body data-card="vehicle" data-variant="classic">
+<!-- 设计系统：同一纸墨 token；原生载具字段单页呈现；无人物特性、技能、武器或状态区块。 -->
+<header class="design-tweaks" aria-label="设计评审选项">
+  <div class="tweaks-summary">
+    <div class="tweaks-title">CoC 载具卡 · 纸墨档案<small>按现有原生字段设计 · 单页摘要 · 交互设计稿</small></div>
+    <div class="tweaks-controls"><button data-variant-button="classic" aria-pressed="true">A 经典档案</button><button data-variant-button="compact" aria-pressed="false">B 紧凑桌面</button><button data-variant-button="contrast" aria-pressed="false">C 墨印高对比</button><button class="reopen" id="reopen-sheet" hidden>重新打开卡面</button></div>
+  </div>
+</header>
+
+<main class="sheet vehicle-sheet" id="sheet" aria-label="黑齿岛改装越野车的载具卡">
+  <header class="window-header"><span class="window-title">载具：黑齿岛改装越野车</span><button class="window-close" id="window-close" aria-label="关闭载具卡">×</button></header>
+  <section class="banner vehicle-banner" aria-label="载具摘要">
+    <div class="identity-row">
+      <div class="portrait"><img src="assets/vehicle-portrait.jpg" alt="装有履带与加固钢板的改装越野车"></div>
+      <div class="identity">
+        <div class="name-line"><div class="name-block"><h1 class="name">黑齿岛改装越野车<span class="vehicle-badge">武装</span></h1><div class="subtitle"><span>类型：重型越野车</span><span>来源：岛民改装</span></div></div></div>
+        <div class="vehicle-summary">
+          <div class="vitals" aria-label="载具耐久"><div class="vital hp" style="--pct:70%"><div class="vital-top"><span class="vital-label">耐久</span><span class="vital-value">42<small> / 60</small></span></div><span class="vital-track"><i></i></span></div></div>
+          <div class="derived" aria-label="载具性能"><span>体格 <b>2</b></span><span>移动力 <b>10</b></span><span>护甲 <b>3</b></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="vehicle-content">
+    <section class="vehicle-section crew"><h2>乘员与机组</h2><div class="prose">驾驶员 1 人；机组 1 人；额外乘员 4 人。</div><div class="vehicle-meta"><span>重型越野车</span><span>岛民改装</span><span>武装</span></div></section>
+    <section class="vehicle-section"><h2>载具描述</h2><div class="prose">为黑齿岛林间道路改装的履带式越野车。车身加装钢板，后部保留装备固定架，可在恶劣天气下穿过泥泞与浅滩。</div></section>
+    <section class="vehicle-section keeper"><h2>守秘笔记</h2><div class="prose">发动机受损后会发出很大的噪声，可能惊动附近营地。后备箱内仍留有一张手绘停机坪路线图。</div></section>
+  </div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

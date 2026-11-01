@@ -113,25 +113,32 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
     toggle.dataset.mode = useMode ? "use" : "edit";
   }
 
-  //Add BRPID Editor Button as seperate icon on the Window header
   async _renderFrame(options) {
     const frame = await super._renderFrame(options);
-    //define button
-    const sheetBRPID = this.actor.flags?.brp?.brpidFlag;
-    const noId = (typeof sheetBRPID === 'undefined' || typeof sheetBRPID.id === 'undefined' || sheetBRPID.id === '');
-    //add button
-    const label = game.i18n.localize("BRP.BRPIDFlag.id");
-    const brpidEditor = `<button type="button" class="header-control icon fa-solid fa-fingerprint ${noId ? 'edit-brpid-warning' : 'edit-brpid-exisiting'}"
-        data-action="editBRPid" data-tooltip="${label}" aria-label="${label}"></button>`;
-    let el = this.window.close;
-    while (el.previousElementSibling.localName === 'button') {
-      el = el.previousElementSibling;
+    if (this.options.classes?.includes('coc-card')) {
+      frame.querySelector('.window-header [data-action="copyUuid"]')?.remove();
+    } else {
+      const sheetBRPID = this.actor.flags?.brp?.brpidFlag;
+      const noId = (typeof sheetBRPID === 'undefined' || typeof sheetBRPID.id === 'undefined' || sheetBRPID.id === '');
+      const label = game.i18n.localize("BRP.BRPIDFlag.id");
+      const brpidEditor = `<button type="button" class="header-control icon fa-solid fa-fingerprint ${noId ? 'edit-brpid-warning' : 'edit-brpid-exisiting'}"
+          data-action="editBRPid" data-tooltip="${label}" aria-label="${label}"></button>`;
+      let el = this.window.close;
+      while (el.previousElementSibling.localName === 'button') {
+        el = el.previousElementSibling;
+      }
+      el.insertAdjacentHTML("beforebegin", brpidEditor);
     }
-    el.insertAdjacentHTML("beforebegin", brpidEditor);
     this._syncCharacterModeToggle(frame);
     return frame;
   }
 
+  _updateFrame(options = {}) {
+    super._updateFrame(options);
+    if (this.options.classes?.includes('coc-card')) {
+      this.element?.querySelector('.window-header [data-action="copyUuid"]')?.remove();
+    }
+  }
 
   async _prepareContext(options) {
     return {

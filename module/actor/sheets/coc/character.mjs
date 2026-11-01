@@ -90,6 +90,7 @@ export class CocCharacterSheet extends BRPCharacterSheet {
   static DEFAULT_OPTIONS = foundry.utils.mergeObject(BASE_OPTIONS, {
     classes: ['coc-card'],
     position: { width: 900, height: 850 },
+    window: { minimizable: false },
     actions: {
       cocReaction: CocCharacterSheet._onCocReaction,
       cocSkillRoll: CocCharacterSheet._onCocSkillRoll,

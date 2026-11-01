@@ -22,6 +22,7 @@ export class CocNpcSheet extends BRPNPCSheetV2 {
   static DEFAULT_OPTIONS = foundry.utils.mergeObject(BASE_OPTIONS, {
     classes: ['coc-card', 'coc-npc-card'],
     position: { width: 760, height: 840 },
+    window: { minimizable: false },
     form: {
       handler: CocNpcSheet._updateObject,
       submitOnChange: true,

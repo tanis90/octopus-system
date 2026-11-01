@@ -9,6 +9,7 @@
 
 .brp.coc-card .window-content { padding: 0; background: var(--coc-paper); }
 .brp.coc-card button { font: inherit; color: inherit; }
+.brp.coc-card .window-header > .control-close { font-family: "Font Awesome 6 Free"; font-weight: 900; }
 .brp.coc-card input, .brp.coc-card textarea, .brp.coc-card select { color: var(--coc-ink); background: color-mix(in srgb, var(--coc-paper) 88%, white); border: 1px solid var(--coc-line); border-radius: 2px; min-width: 0; }
 .brp.coc-card textarea { width: 100%; min-height: 74px; resize: vertical; }
 .brp.coc-card [hidden] { display: none !important; }
