@@ -1,14 +1,11 @@
-<section class="actor tab coc-background {{tab.cssClass}}" data-group="primary" data-tab="background">
-  <section class="coc-background-identity">
-    <div><b>{{background.profession.name}}</b>{{#if background.creditRating}}<span>信用评级 {{background.creditRating.value}}%{{#if background.creditRating.min}}（职业范围 {{background.creditRating.min}}–{{background.creditRating.max}}）{{/if}}</span>{{/if}}</div>
-    <div class="coc-background-fields">
-      {{#each background.identity as |field|}}<label>{{field.label}}{{#if ../isCoCEdit}}<input name="system.infos.{{field.key}}" value="{{field.value}}">{{else}}<span>{{field.value}}</span>{{/if}}</label>{{/each}}
-    </div>
-  </section>
-  <div class="coc-background-grid">
+<section class="tab" data-application-part="background">
+  <div class="identity-grid">{{#each paperIdentity as |field|}}<div class="identity-field"><span>{{field.label}}</span><b>{{field.value}}</b></div>{{/each}}</div>
+  <div class="section-heading"><strong>背景要素</strong><span class="key-summary">关键链接：{{cocPaper.keySummary}}</span></div>
+  <div class="bio-grid">
     {{#each background.fields as |field|}}
-    <section class="coc-background-field"><h2>{{field.label}}</h2>{{#if ../isCoCEdit}}<textarea data-coc-background-key="{{field.key}}">{{field.value}}</textarea>{{else}}<div>{{field.value}}</div>{{/if}}</section>
+    <section class="bio-card {{field.wide}}" data-bio="{{field.key}}"><header class="bio-head"><h3>{{field.label}}</h3>{{#if ../canEditSheet}}<button type="button" class="key-toggle" data-action="cocBackgroundKeyLink" data-key="{{field.key}}" aria-pressed="{{field.keyLink}}">关键链接</button>{{/if}}</header>{{#if ../isCoCEdit}}<textarea class="prose" data-coc-background-key="{{field.key}}">{{field.value}}</textarea>{{else}}<div class="prose">{{field.value}}</div>{{/if}}</section>
     {{/each}}
   </div>
-  {{#if background.legacy}}<section class="coc-background-legacy"><h2>背景故事</h2>{{#if isCoCEdit}}<textarea name="system.backstory">{{background.legacy}}</textarea>{{else}}<div>{{background.legacy}}</div>{{/if}}</section>{{/if}}
+  {{#if background.story.value}}<section class="story"><h3>{{background.story.label}}</h3>{{#if isCoCEdit}}<textarea class="prose" data-coc-background-key="{{background.story.key}}">{{background.story.value}}</textarea>{{else}}<div class="prose">{{background.story.value}}</div>{{/if}}</section>{{/if}}
+  {{#if background.encounters.value}}<section class="story"><h3>{{background.encounters.label}}</h3>{{#if isCoCEdit}}<textarea class="prose" data-coc-background-key="{{background.encounters.key}}">{{background.encounters.value}}</textarea>{{else}}<div class="prose">{{background.encounters.value}}</div>{{/if}}</section>{{/if}}
 </section>

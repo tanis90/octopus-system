@@ -1,0 +1,28 @@
+<section class="banner" data-coc-paper-header>
+  <div class="identity-row">
+    {{#if isCoCEdit}}<img class="portrait" src="{{cocHeader.img}}" alt="{{cocHeader.name}}" data-action="onEditImage" data-edit="img">
+    {{else}}<img class="portrait" src="{{cocHeader.img}}" alt="{{cocHeader.name}}">{{/if}}
+    <div class="identity">
+      <div class="name-line">
+        <div class="name-block">
+          {{#if isCoCEdit}}<input class="name name-input" name="name" value="{{cocHeader.name}}" aria-label="名称">
+          {{else}}<h1 class="name">{{cocHeader.name}}</h1>{{/if}}
+          <div class="subtitle"><span>{{cocHeader.profession}}</span><span>{{cocHeader.age}} 岁</span><span>{{cocHeader.sex}}</span><span>居住地：{{cocHeader.residence}}</span><span>玩家：{{cocHeader.playername}}</span></div>
+        </div>
+      </div>
+      <div class="vitals">
+        <div class="vital hp" style="--pct:{{cocHeader.hp.percent}}%"><div class="vital-top"><span class="vital-label">生命</span><span class="vital-value">{{#if isCoCEdit}}<input name="system.attribs.hp.value" type="number" value="{{cocHeader.hp.value}}" data-dtype="Number"> <small>/ {{cocHeader.hp.max}}</small>{{else}}{{cocHeader.hp.value}}<small> / {{cocHeader.hp.max}}</small>{{/if}}</span></div><span class="vital-track"><i style="width:{{cocHeader.hp.percent}}%"></i></span></div>
+        <div class="vital mp" style="--pct:{{cocHeader.mp.percent}}%"><div class="vital-top"><span class="vital-label">魔法</span><span class="vital-value">{{#if isCoCEdit}}<input name="system.attribs.mp.value" type="number" value="{{cocHeader.mp.value}}" data-dtype="Number"> <small>/ {{cocHeader.mp.max}}</small>{{else}}{{cocHeader.mp.value}}<small> / {{cocHeader.mp.max}}</small>{{/if}}</span></div><span class="vital-track"><i style="width:{{cocHeader.mp.percent}}%"></i></span></div>
+        <button type="button" class="vital san" data-action="cocSanityRoll" style="--pct:{{cocHeader.san.percent}}%"><div class="vital-top"><span class="vital-label">理智</span><span class="vital-value">{{cocHeader.san.value}}<small> / {{cocHeader.san.max}}</small></span></div><span class="vital-track"><i style="width:{{cocHeader.san.percent}}%"></i></span></button>
+        <button type="button" class="vital luck" data-action="cocLuckRoll" style="--pct:{{cocHeader.luck.percent}}%"><div class="vital-top"><span class="vital-label">幸运</span><span class="vital-value">{{cocHeader.luck.value}}<small> / 99</small></span></div><span class="vital-track"><i style="width:{{cocHeader.luck.percent}}%"></i></span></button>
+      </div>
+      <div class="derived"><span>伤害加值 <b>{{cocHeader.db}}</b></span><span>体格 <b>{{cocHeader.build}}</b></span><span>移动力 <b>{{cocHeader.mov}}</b></span><span>护甲 <b>{{cocHeader.armour}}</b></span><span>灵感 <b>{{cocHeader.idea}}</b></span><span>知识 <b>{{cocHeader.know}}</b></span></div>
+    </div>
+  </div>
+  <div class="abilities">
+    {{#each cocHeader.stats as |stat|}}
+    <div class="ability" data-characteristic="{{stat.id}}"><span class="ability-label">{{stat.label}}</span>{{#if ../isCoCEdit}}<input class="ability-input" name="system.characteristics.{{stat.id}}.value" type="number" value="{{stat.base}}" data-dtype="Number" aria-label="{{stat.label}}">{{else}}<button type="button" class="ability-value" data-action="cocStatRoll" data-characteristic="{{stat.id}}">{{stat.value}}</button>{{/if}}<span class="ability-sub">{{stat.half}} / {{stat.fifth}}</span></div>
+    {{/each}}
+  </div>
+  <div class="condition-line"><div class="conditions">{{#each cocHeader.conditions as |condition|}}<button type="button" class="condition" data-action="paperToggleCondition" data-condition="{{condition.id}}" aria-pressed="{{condition.active}}">{{condition.label}}</button>{{/each}}</div><div class="daily-san">今日 SAN <b>{{cocHeader.san.dailyLoss}}</b> / <b>{{cocHeader.san.dayThresholdLabel}}</b>{{#if @root.isGM}}<button type="button" data-action="cocKeeper" data-op="newDay" aria-label="重置今日 SAN">↺</button>{{/if}}</div></div>
+</section>

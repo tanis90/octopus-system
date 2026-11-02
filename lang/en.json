@@ -1311,5 +1311,20 @@
       "ChaosiumCanvasInterfaceToScene": "CCI: To Scene",
       "ChaosiumCanvasInterfaceTileToggle": "CCI: Tile Toggle"
     }
+  },
+  "CoCCard": {
+    "Tabs": {
+      "skills": "Skills",
+      "summary": "Summary",
+      "items": "Possessions",
+      "background": "Background",
+      "growth": "Development",
+      "notes": "Keeper Notes",
+      "effects": "Effects",
+      "combat": "Combat",
+      "inventory": "Possessions",
+      "description": "Description",
+      "keeper": "Keeper"
+    }
   }
 }

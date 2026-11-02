@@ -23,7 +23,7 @@ for (const type of ['character', 'npc', 'vehicle']) {
     check(`${type}CloseOnly`, rightControls.length === 1 && rightControls[0]?.dataset.action === 'close', detail);
     check(`${type}NoUtilityControls`, sheet.options.window?.minimizable === false
       && !detail.minimize && !detail.copyUuid && !detail.brpid, detail);
-    check(`${type}ModeToggle`, type === 'character' ? detail.modeToggles === 1 : detail.modeToggles === 0, detail);
+    check(`${type}ModeToggle`, type === 'vehicle' ? detail.modeToggles === 0 : detail.modeToggles === 1, detail);
     if (type === 'character') {
       const CocSheet = sheet.constructor;
       const NonCocFrameSheet = class extends CocSheet {};

@@ -13,6 +13,20 @@ import {
   buildCocWeaponView,
   resolveCocWeaponSkill,
 } from './view-data.mjs'
+import { buildPaperBooks, buildPaperEffects, buildPaperMonetary, paperConditionValue } from './paper-view.mjs'
+import {
+  paperClearConditions,
+  paperCreateEffect,
+  paperDeleteEffect,
+  paperFavoriteItems,
+  paperIsFavorite,
+  paperOpenEffect,
+  paperOpenItem,
+  paperReloadWeapon,
+  paperToggleCondition,
+  paperToggleEffect,
+  paperToggleFavorite,
+} from './paper-actions.mjs'
 
 const BASE_OPTIONS = foundry.utils.mergeObject(
   BRPActorSheetV2.DEFAULT_OPTIONS,
@@ -20,7 +34,7 @@ const BASE_OPTIONS = foundry.utils.mergeObject(
   { inplace: false },
 )
 
-const TAB_IDS = ['attributes', 'skills', 'combat', 'items', 'background']
+const TAB_IDS = ['skills', 'summary', 'items', 'background', 'growth', 'notes', 'effects']
 const STAT_IDS = ['str', 'con', 'siz', 'dex', 'app', 'int', 'pow', 'edu']
 const BACKGROUND_KEYS = ['gender', 'culture', 'religion', 'hand', 'height', 'weight']
 const BACKGROUND_STORIES = {
@@ -54,6 +68,7 @@ function statusBadges(actor) {
 function headerData(actor) {
   const system = actor.system
   const attribs = system.attribs ?? {}
+  const percent = (resource) => Number(resource?.max) > 0 ? Math.max(0, Math.min(100, Math.round(Number(resource?.value ?? 0) / Number(resource.max) * 100))) : 0
   const stats = STAT_IDS.map((id) => {
     const source = system.characteristics?.[id] ?? {}
     const value = Number(source.value ?? 0)
@@ -66,21 +81,33 @@ function headerData(actor) {
       base: value,
       formula: source.formula ?? '',
     }
-  }).filter((stat) => stat.value > 0)
+  })
+  const conditions = [
+    ['criticalWounds', '重伤'], ['unconscious', '昏迷'], ['dying', '濒死'], ['dead', '死亡'],
+    ['prone', '倒地'], ['tempoInsane', '临时疯狂'], ['indefInsane', '长期疯狂'],
+  ].map(([id, label]) => ({ id, label, active: paperConditionValue(actor, id) }))
+  const luck = { ...(attribs.lck ?? {}), cap: 99 }
+  luck.percent = Math.max(0, Math.min(100, Math.round(Number(luck.value ?? 0) / 99 * 100)))
   return {
     img: actor.img,
     name: actor.name,
     profession: system.infos?.occupation ?? '',
     age: system.infos?.age ?? null,
-    hp: attribs.hp ?? {},
-    mp: attribs.mp ?? {},
+    sex: system.infos?.sex ?? '',
+    residence: system.infos?.residence ?? '',
+    playername: system.infos?.playername ?? '',
+    hp: { ...(attribs.hp ?? {}), percent: percent(attribs.hp) },
+    mp: { ...(attribs.mp ?? {}), percent: percent(attribs.mp) },
     san: buildCocSanityView(attribs.san),
-    luck: { ...(attribs.lck ?? {}), cap: 99 },
+    luck,
     db: attribs.db?.value ?? '—',
     build: attribs.build?.value ?? 0,
     mov: attribs.mov?.value ?? 0,
     armour: attribs.armor?.value ?? 0,
+    idea: stats.find((stat) => stat.id === 'int')?.value ?? 0,
+    know: stats.find((stat) => stat.id === 'edu')?.value ?? 0,
     stats,
+    conditions,
     badges: statusBadges(actor),
     identity: BACKGROUND_KEYS.map((key) => ({ key, value: actor.system[key] ?? '' })),
   }
@@ -89,7 +116,7 @@ function headerData(actor) {
 export class CocCharacterSheet extends BRPCharacterSheet {
   static DEFAULT_OPTIONS = foundry.utils.mergeObject(BASE_OPTIONS, {
     classes: ['coc-card'],
-    position: { width: 900, height: 850 },
+    position: { width: 1120, height: 860 },
     window: { minimizable: false },
     actions: {
       cocReaction: CocCharacterSheet._onCocReaction,
@@ -104,22 +131,40 @@ export class CocCharacterSheet extends BRPCharacterSheet {
       cocKeeper: CocCharacterSheet._onCocKeeper,
       cocInterlude: CocCharacterSheet._onCocInterlude,
       cocDeleteItem: CocCharacterSheet._onCocDeleteItem,
+      cocLuckRoll: CocCharacterSheet._onCocLuckRoll,
+      cocToggleGrowth: CocCharacterSheet._onCocToggleGrowth,
+      cocGrowthModule: CocCharacterSheet._onCocGrowthModule,
+      cocUndoGrowth: CocCharacterSheet._onCocUndoGrowth,
+      cocBackgroundKeyLink: CocCharacterSheet._onCocBackgroundKeyLink,
+      cocPaperFavorites: CocCharacterSheet._onCocPaperFavorites,
+      paperToggleFavorite,
+      paperOpenItem,
+      paperReloadWeapon,
+      paperToggleCondition,
+      paperToggleEffect,
+      paperOpenEffect,
+      paperCreateEffect,
+      paperDeleteEffect,
+      paperClearConditions,
     },
   }, { inplace: false })
 
   static PARTS = {
-    header: { template: 'systems/brp/templates/actor/coc/header.hbs' },
+    header: { template: 'systems/brp/templates/actor/coc/paper-header.hbs' },
     tabs: { template: 'systems/brp/templates/global/parts/actor-tab-navigation.hbs' },
-    attributes: { template: 'systems/brp/templates/actor/coc/attributes.hbs', scrollable: [''] },
+    favorites: { template: 'systems/brp/templates/actor/coc/paper-favorites.hbs' },
     skills: { template: 'systems/brp/templates/actor/coc/skills.hbs', scrollable: [''] },
-    combat: { template: 'systems/brp/templates/actor/coc/combat.hbs', scrollable: [''] },
+    summary: { template: 'systems/brp/templates/actor/coc/summary.hbs', scrollable: [''] },
     items: { template: 'systems/brp/templates/actor/coc/items.hbs', scrollable: [''] },
     background: { template: 'systems/brp/templates/actor/coc/background.hbs', scrollable: [''] },
+    growth: { template: 'systems/brp/templates/actor/coc/growth.hbs', scrollable: [''] },
+    notes: { template: 'systems/brp/templates/actor/coc/notes.hbs', scrollable: [''] },
+    effects: { template: 'systems/brp/templates/actor/coc/paper-effects.hbs', scrollable: [''] },
   }
 
   _configureRenderOptions(options) {
     super._configureRenderOptions(options)
-    options.parts = ['header', 'tabs', ...TAB_IDS]
+    options.parts = ['header', 'tabs', 'favorites', ...TAB_IDS]
   }
 
   _getTabs(parts) {
@@ -132,7 +177,6 @@ export class CocCharacterSheet extends BRPCharacterSheet {
           group,
           cssClass: this.tabGroups[group] === partId ? 'item active' : 'item',
           label: `CoCCard.Tabs.${partId}`,
-          tooltip: `CoCCard.Tabs.${partId}`,
         }
       }
       return tabs
@@ -150,31 +194,149 @@ export class CocCharacterSheet extends BRPCharacterSheet {
     const context = await super._prepareContext(options)
     const actor = this.actor
     const items = [...actor.items]
-    const weapons = items.filter((item) => item.type === 'weapon').map((item) => buildCocWeaponView(item, actor))
-    const skillGroups = buildCocSkillGroups(items)
+    const weapons = items.filter((item) => item.type === 'weapon').map((item) => ({
+      ...buildCocWeaponView(item, actor), favorite: paperIsFavorite(actor, item.id),
+    }))
+    const skillGroups = buildCocSkillGroups(items).map((group) => ({
+      ...group,
+      skills: group.skills.map((skill) => ({ ...skill, favorite: paperIsFavorite(actor, skill.id) })),
+    }))
     const skills = skillGroups.flatMap((group) => group.skills)
     const dodge = skills.find((skill) => skill.brpid === 'i.skill.coc.dodge') ?? null
     const counterWeapons = weapons.filter((weapon) => weapon.melee && weapon.attackable)
-    const background = buildCocBackground(actor)
+    const baseBackground = buildCocBackground(actor)
     const header = headerData(actor)
     const mythos = skills.find((skill) => skill.brpid === 'i.skill.coc.cthulhu-mythos')?.total ?? 0
     header.san.mythosPercent = mythos
+    const gears = items.filter((item) => ['gear', 'item', 'talent'].includes(item.type)).map((item) => ({
+      ...buildCocGearView(item), isTalent: item.type === 'talent',
+    }))
+    const keyConnections = actor.flags?.brp?.coc?.keyConnections ?? []
+    const fieldMap = new Map(baseBackground.fields.map((field) => [field.key, field]))
+    const backgroundFields = [
+      ['personalDescription', '外貌形象', 'wide'], ['beliefs', '思想信念', ''],
+      ['treasuredPossessions', '宝贵之物', ''], ['meaningfulLocations', '意义非凡之地', ''],
+      ['significantPeople', '重要之人', ''], ['traits', '特质', 'wide'],
+    ].map(([key, label, wide]) => ({
+      key, label, wide, value: fieldMap.get(key)?.value ?? '', keyLink: keyConnections.includes(key),
+    }))
+    const scars = [fieldMap.get('injuriesScars')?.value, fieldMap.get('phobiasManias')?.value].filter(Boolean).join('\n')
+    backgroundFields.push({ key: 'injuriesScars', label: '伤疤和恐惧症', wide: 'wide', value: scars, keyLink: keyConnections.includes('injuriesScars') })
+    const background = {
+      ...baseBackground,
+      fields: backgroundFields,
+      story: { key: 'arcaneTomesSpells', label: '背景故事', value: fieldMap.get('arcaneTomesSpells')?.value || baseBackground.legacy },
+      encounters: { key: 'strangeEncounters', label: '遭遇记录', value: fieldMap.get('strangeEncounters')?.value ?? '' },
+    }
+    const paperIdentity = [
+      ['occupation', '职业'], ['age', '年龄'], ['sex', '性别'],
+      ['birthplace', '出生地'], ['residence', '居住地'], ['organization', '组织 / 团体'],
+    ].map(([key, label]) => ({ key, label, value: actor.system.infos?.[key] ?? '' }))
+    const keySummary = backgroundFields.filter((field) => field.keyLink).map((field) => field.label).join('、') || '无'
+    const editor = foundry.applications.ux.TextEditor.implementation
+    const keeper = actor.system.description?.keeper ?? ''
+    const keeperHtml = keeper ? await editor.enrichHTML(keeper, { async: true, secrets: this.document.isOwner, rollData: actor.getRollData(), relativeTo: actor }) : ''
+    const development = { personal: 0, occupation: 0, archetype: 0, experiencePackage: 0, ...(actor.system.development ?? {}) }
     return Object.assign(context, {
       cocHeader: header,
       cocSkillCount: skills.length,
       cocItemCount: items.filter((item) => ['weapon', 'armour', 'gear', 'item', 'talent'].includes(item.type)).length,
       skillGroups,
+      quickGroups: skillGroups.map((group) => ({ ...group, skills: group.skills.filter((skill) => skill.total > skill.base) })).filter((group) => group.skills.length),
       weapons,
       armours: items.filter((item) => item.type === 'armour').map(buildCocArmourView),
-      gears: items.filter((item) => ['gear', 'item', 'talent'].includes(item.type)).map(buildCocGearView),
+      gears,
       cocEquipStatusOptions: COC_EQUIP_STATUS_OPTIONS,
       background,
+      paperIdentity,
+      paperBooks: buildPaperBooks(actor),
+      paperMoney: buildPaperMonetary(actor, skills),
+      paperEffects: buildPaperEffects(actor),
       dodge,
       counterWeapons,
-      isCoCUse: this.actor.system.flags?.locked === true,
-      isCoCEdit: this.actor.system.flags?.locked !== true,
-      canEditSheet: this.isEditable,
+      cocPaper: {
+        showUncommon: actor.system.flags?.skillShowUncommon !== false,
+        favorites: paperFavoriteItems(actor).map((item) => ({ ...item, action: item.type === 'skill' ? 'cocSkillRoll' : item.type === 'weapon' ? 'cocWeaponSkill' : 'paperOpenItem' })),
+        favoritesExpanded: this._favoritesExpanded !== false,
+        development,
+        growthSkills: skills.filter((skill) => skill.improve === true || items.find((item) => item.id === skill.id)?.system.improve === true),
+        growthLog: actor.flags?.brp?.coc?.growthLog ?? [],
+        growthModule: actor.flags?.brp?.coc?.growthModule ?? '默认模组',
+        keySummary,
+        talentCount: gears.filter((gear) => gear.isTalent).length,
+        gearCount: gears.filter((gear) => !gear.isTalent).length,
+        keeper,
+        keeperHtml,
+        sanityLossEvents: (actor.system.sanityLossEvents ?? []).map((entry) => ({
+          label: entry.reason ?? entry.label ?? entry.name ?? 'SAN 损失',
+          lossLabel: `−${entry.sanLoss ?? entry.loss ?? 0} SAN${entry.immune ? ' · 免疫' : ''}`,
+        })),
+        mythosHardened: actor.system.flags?.mythosHardened === true,
+        mythosInsanityExperienced: actor.system.flags?.mythosInsanityExperienced === true,
+      },
+      isCoCUse: !this.isEditable || this.actor.system.lock === true,
+      isCoCEdit: this.isEditable && this.actor.system.lock !== true,
+      canEditSheet: this.isEditable && this.actor.system.lock !== true,
     })
+  }
+
+  static async _onCocLuckRoll(event) {
+    event.preventDefault()
+    const value = Number(this.actor.system.attribs?.lck?.value ?? 0)
+    await BRPCheck._trigger({
+      rollType: 'LK', cardType: 'NO', label: '幸运', rawScore: value, targetScore: value,
+      shiftKey: true, actor: this.document, token: this.document.token,
+    })
+  }
+
+  static async _onCocToggleGrowth(event, target) {
+    event.preventDefault()
+    if (!this.isEditable || this.actor.system.lock === true) return
+    const item = this.actor.items.get(target.closest('.item')?.dataset.itemId)
+    if (!item || item.type !== 'skill' || item.system.noXP === true) return
+    await item.update({ 'system.improve': item.system.improve !== true })
+  }
+
+  static async _onCocGrowthModule(event) {
+    event.preventDefault()
+    if (!this.isEditable || this.actor.system.lock === true) return
+    const name = this.element.querySelector('[name="cocGrowthModuleName"]')?.value.trim()
+    if (!name) return
+    await this.actor.update({ 'flags.brp.coc.growthModule': name })
+  }
+
+  static async _onCocUndoGrowth(event, target) {
+    event.preventDefault()
+    if (!this.isEditable || this.actor.system.lock === true) return
+    const log = [...(this.actor.flags?.brp?.coc?.growthLog ?? [])]
+    const index = log.findIndex((entry) => entry.id === target.dataset.entryId)
+    const entry = log[index]
+    if (!entry || entry.undone) return
+    const item = this.actor.items.get(entry.skillId)
+    const gain = Number(entry.gain ?? (Number(entry.after) - Number(entry.before))) || 0
+    const xp = Number(item?.system.xp ?? 0)
+    if (!item || xp < gain) {
+      ui.notifications.warn('技能此后已被其他调整修改，不能按原成长记录撤销。')
+      return
+    }
+    await item.update({ 'system.xp': xp - gain })
+    log[index] = { ...entry, undone: true }
+    await this.actor.update({ 'flags.brp.coc.growthLog': log })
+  }
+
+  static async _onCocBackgroundKeyLink(event, target) {
+    event.preventDefault()
+    if (!this.isEditable || this.actor.system.lock === true) return
+    const key = target.dataset.key
+    const current = this.actor.flags?.brp?.coc?.keyConnections ?? []
+    const next = current.includes(key) ? current.filter((entry) => entry !== key) : [...current, key]
+    await this.actor.update({ 'flags.brp.coc.keyConnections': next })
+  }
+
+  static async _onCocPaperFavorites(event) {
+    event.preventDefault()
+    this._favoritesExpanded = this._favoritesExpanded === false
+    await this.render(false)
   }
 
   static async _onCocSkillRoll(event, target) {
@@ -260,24 +422,31 @@ export class CocCharacterSheet extends BRPCharacterSheet {
   }
 
   _onChangeForm(formConfig, event) {
-    if (event.target.closest('[data-coc-local]')) return
+    if (this.actor.system.lock === true || event.target.closest('[data-coc-local]')) return
     return super._onChangeForm(formConfig, event)
   }
 
   _onRender(context, options) {
     super._onRender(context, options)
     const root = this.element
-    root.querySelector('[data-coc-skill-search]')?.addEventListener('input', (event) => {
-      const query = event.target.value.trim().toLowerCase()
+    const filterSkills = () => {
+      const query = root.querySelector('[data-coc-skill-search]')?.value.trim().toLowerCase() ?? ''
+      const showUncommon = root.querySelector('[data-coc-uncommon]')?.checked ?? true
       root.querySelectorAll('[data-coc-skill-group]').forEach((group) => {
         let visible = 0
         group.querySelectorAll('[data-coc-skill-row]').forEach((row) => {
-          row.hidden = query.length > 0 && !row.dataset.name.toLowerCase().includes(query)
+          row.hidden = (!showUncommon && row.dataset.uncommon === 'true') || (query.length > 0 && !row.dataset.name.toLowerCase().includes(query))
           if (!row.hidden) visible += 1
         })
-        group.hidden = query.length > 0 && visible === 0
+        group.hidden = visible === 0
       })
+    }
+    root.querySelector('[data-coc-skill-search]')?.addEventListener('input', filterSkills)
+    root.querySelector('[data-coc-uncommon]')?.addEventListener('change', async (event) => {
+      filterSkills()
+      if (this.isEditable) await this.actor.update({ 'system.flags.skillShowUncommon': event.target.checked })
     })
+    filterSkills()
     root.querySelector('[data-coc-skill-sort]')?.addEventListener('change', (event) => {
       root.querySelectorAll('[data-coc-skill-list]').forEach((list) => {
         const rows = [...list.querySelectorAll('[data-coc-skill-row]')]
@@ -323,8 +492,19 @@ export class CocCharacterSheet extends BRPCharacterSheet {
       const button = root.querySelector('[data-action="cocReaction"]')
       if (button) button.textContent = `${total}%`
     })
+    root.querySelectorAll('[data-coc-book-progress]').forEach((input) => {
+      input.addEventListener('change', async () => {
+        if (!this.isEditable || this.actor.system.lock === true) return
+        const index = Number(input.dataset.cocBookProgress)
+        const books = foundry.utils.duplicate(this.actor.system.books ?? [])
+        if (!Number.isInteger(index) || !books[index]) return
+        books[index].progress = Math.max(0, Number(input.value) || 0)
+        await this.actor.update({ 'system.books': books })
+      })
+    })
     root.querySelectorAll('[data-coc-background-key]').forEach((field) => {
       field.addEventListener('change', async () => {
+        if (!this.isEditable || this.actor.system.lock === true) return
         const key = field.dataset.cocBackgroundKey
         const titles = BACKGROUND_STORIES[key] ?? []
         const biography = foundry.utils.duplicate(this.actor.system.biography ?? [])
@@ -378,7 +558,7 @@ export class CocCharacterSheet extends BRPCharacterSheet {
 
   static async _onCocInterlude(event) {
     event.preventDefault()
-    if (!this.isEditable) return
+    if (!this.isEditable || this.actor.system.lock === true) return
     const { CocInterludeSheet } = await import('./interlude.mjs')
     new CocInterludeSheet({ document: this.document }).render(true)
   }

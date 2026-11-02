@@ -1311,5 +1311,20 @@
       "ChaosiumCanvasInterfaceToScene": "CCI：跳转场景",
       "ChaosiumCanvasInterfaceTileToggle": "CCI：图块切换"
     }
+  },
+  "CoCCard": {
+    "Tabs": {
+      "skills": "技能",
+      "summary": "简表",
+      "items": "物品",
+      "background": "背景",
+      "growth": "成长",
+      "notes": "笔记",
+      "effects": "效果",
+      "combat": "战斗",
+      "inventory": "物品",
+      "description": "描述",
+      "keeper": "守秘"
+    }
   }
 }

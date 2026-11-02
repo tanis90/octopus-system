@@ -1,0 +1,12 @@
+<section class="tab" data-application-part="notes">
+  <div class="section-heading"><strong>守秘笔记</strong><small>仅 GM 可见</small></div>
+  {{#if isCoCEdit}}<textarea class="keeper-note" name="system.description.keeper">{{cocPaper.keeper}}</textarea>{{else}}<div class="note-section prose">{{{cocPaper.keeperHtml}}}</div>{{/if}}
+  <div class="section-heading"><strong>书籍研究</strong></div>
+  <section class="note-section">{{#each paperBooks as |book|}}<div class="note-line"><span>{{book.name}}</span>{{#if ../isCoCEdit}}<span>阅读 <input type="number" min="0" value="{{book.progress}}" data-coc-book-progress="{{book.id}}" aria-label="{{book.name}} 阅读进度"> / {{book.total}}</span>{{else}}<span>阅读进度 {{book.progress}} / {{book.total}}</span>{{/if}}</div>{{else}}<div class="note-line">暂无书籍</div>{{/each}}</section>
+  <div class="section-heading"><strong>SAN 损失事件</strong></div>
+  <section class="note-section">{{#each cocPaper.sanityLossEvents as |entry|}}<div class="note-line"><span>{{entry.label}}</span><span>{{entry.lossLabel}}</span></div>{{else}}<div class="note-line">暂无事件</div>{{/each}}</section>
+  <div class="section-heading"><strong>神话标记与状态</strong><div class="heading-actions">{{#if isCoCEdit}}<button type="button" class="small-button" data-action="paperClearConditions">清除全部状态</button>{{/if}}</div></div>
+  <div class="mythos-flags"><label class="check"><input type="checkbox" name="system.flags.mythosHardened" data-dtype="Boolean" {{checked cocPaper.mythosHardened}} {{#unless isCoCEdit}}disabled{{/unless}}> 神话淬炼</label><label class="check"><input type="checkbox" name="system.flags.mythosInsanityExperienced" data-dtype="Boolean" {{checked cocPaper.mythosInsanityExperienced}} {{#unless isCoCEdit}}disabled{{/unless}}> 神话疯狂经历</label></div>
+  <div class="section-heading"><strong>货币配置</strong></div>
+  <section class="note-section"><div class="note-line"><span>货币符号</span>{{#if isCoCEdit}}<input name="system.monetary.symbol" value="{{paperMoney.symbol}}" aria-label="货币符号">{{else}}<span>{{paperMoney.symbol}}</span>{{/if}}</div><div class="note-line"><span>现金</span>{{#if isCoCEdit}}<input name="system.monetary.cash" value="{{paperMoney.cash}}" aria-label="现金">{{else}}<span>{{paperMoney.cash}}</span>{{/if}}</div><div class="note-line"><span>消费水平</span>{{#if isCoCEdit}}<input name="system.monetary.spendingLevel" value="{{paperMoney.spendingLevel}}" aria-label="消费水平">{{else}}<span>{{paperMoney.spendingLevel}}</span>{{/if}}</div></section>
+</section>

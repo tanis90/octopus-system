@@ -259,6 +259,8 @@ const skillRowOf = (item) => {
     half: Math.floor(total / 2),
     fifth: Math.floor(total / 5),
     specialism: system.specialism === true || specKey !== null,
+    improve: system.improve === true,
+    uncommon: brpidOf(item) === 'i.skill.coc.cthulhu-mythos',
     specKey,
     parentKey,
     breakdown,

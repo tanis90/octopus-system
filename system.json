@@ -30,7 +30,8 @@
     "css/brp.css",
     "css/npc.css",
     "css/coc-card.css",
-    "css/coc-npc-card.css"
+    "css/coc-npc-card.css",
+    "css/coc-paper.css"
   ],
   "languages": [
     {
