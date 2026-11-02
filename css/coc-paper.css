@@ -13,6 +13,7 @@
   --hover: color-mix(in srgb, var(--ink) 7%, var(--raised));
   --num: var(--av-font-num, monospace);
   container-type: inline-size;
+  box-shadow: none !important;
   color: var(--ink);
   font-family: var(--av-font, Georgia, serif);
   font-size: 14px;

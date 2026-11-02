@@ -19,11 +19,13 @@ for (const type of ['character', 'npc', 'vehicle']) {
       copyUuid: !!header?.querySelector('[data-action="copyUuid"]'),
       brpid: !!header?.querySelector('[data-action="editBRPid"]'),
       modeToggles: header?.querySelectorAll('[data-brp-mode-toggle]').length ?? 0,
+      boxShadow: getComputedStyle(sheet.element).boxShadow,
     };
     check(`${type}CloseOnly`, rightControls.length === 1 && rightControls[0]?.dataset.action === 'close', detail);
     check(`${type}NoUtilityControls`, sheet.options.window?.minimizable === false
       && !detail.minimize && !detail.copyUuid && !detail.brpid, detail);
     check(`${type}ModeToggle`, type === 'vehicle' ? detail.modeToggles === 0 : detail.modeToggles === 1, detail);
+    check(`${type}NoOuterShadow`, !detail.boxShadow || detail.boxShadow === 'none', detail.boxShadow);
     const expectedSize = { character: [1040, 780], npc: [960, 720], vehicle: [680, 600] }[type];
     check(`${type}CompactDefaultSize`, sheet.options.position?.width === expectedSize[0]
       && sheet.options.position?.height === expectedSize[1], sheet.options.position);
