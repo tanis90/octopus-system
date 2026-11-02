@@ -38,7 +38,7 @@ const hasOwn = (object, key) => Object.prototype.hasOwnProperty.call(object ?? {
 export class CocNpcSheet extends BRPNPCSheetV2 {
   static DEFAULT_OPTIONS = foundry.utils.mergeObject(BASE_OPTIONS, {
     classes: ['coc-card', 'coc-npc-card'],
-    position: { width: 1000, height: 860 },
+    position: { width: 960, height: 720 },
     window: { minimizable: false },
     form: {
       handler: CocNpcSheet._updateObject,

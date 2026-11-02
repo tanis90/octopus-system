@@ -116,7 +116,7 @@ function headerData(actor) {
 export class CocCharacterSheet extends BRPCharacterSheet {
   static DEFAULT_OPTIONS = foundry.utils.mergeObject(BASE_OPTIONS, {
     classes: ['coc-card'],
-    position: { width: 1120, height: 860 },
+    position: { width: 1040, height: 780 },
     window: { minimizable: false },
     actions: {
       cocReaction: CocCharacterSheet._onCocReaction,

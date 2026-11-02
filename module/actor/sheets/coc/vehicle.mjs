@@ -5,7 +5,7 @@ import { buildCocVehicleView } from './vehicle-view-data.mjs'
 export class CocVehicleSheet extends CocNpcSheet {
   static DEFAULT_OPTIONS = foundry.utils.mergeObject(CocNpcSheet.DEFAULT_OPTIONS, {
     classes: ['coc-card', 'coc-npc-card', 'coc-vehicle-card'],
-    position: { width: 760, height: 640 },
+    position: { width: 680, height: 600 },
   }, { inplace: false })
 
   static PARTS = {
