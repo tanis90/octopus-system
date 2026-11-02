@@ -182,7 +182,7 @@
         "age": ""
       },
       "flags": {
-        "locked": false,
+        "locked": true,
         "displayFormula": false,
         "panelSkills": true,
         "panelCombat": true,

@@ -1,0 +1,12 @@
+<section class="banner vehicle-banner" data-coc-paper-header>
+  <div class="identity-row">
+    <img class="portrait" src="{{cocNpc.header.img}}" alt="{{cocNpc.header.name}}">
+    <div class="identity">
+      <div class="name-line"><div class="name-block"><h1 class="name">{{cocNpc.header.name}}{{#if cocNpc.vehicle.armed}}<span class="vehicle-badge">武装</span>{{/if}}</h1><div class="subtitle">{{#if cocNpc.vehicle.type}}<span>类型：{{cocNpc.vehicle.type}}</span>{{/if}}{{#if cocNpc.vehicle.origin}}<span>来源：{{cocNpc.vehicle.origin}}</span>{{/if}}</div></div></div>
+      <div class="npc-resource-row">
+        <div class="vitals">{{#if cocNpc.header.hp.show}}<div class="vital hp" style="--pct:{{cocNpc.header.hp.percent}}%"><div class="vital-top"><span class="vital-label">耐久</span><span class="vital-value">{{cocNpc.header.hp.value}}<small> / {{cocNpc.header.hp.max}}</small></span></div><span class="vital-track"><i style="width:{{cocNpc.header.hp.percent}}%"></i></span></div>{{/if}}</div>
+        <div class="derived"><span>体格 <b>{{cocNpc.header.derived.build}}</b></span><span>移动力 <b>{{cocNpc.header.derived.mov}}</b></span><span>护甲 <b>{{cocNpc.header.derived.armour}}</b></span></div>
+      </div>
+    </div>
+  </div>
+</section>

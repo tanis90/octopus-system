@@ -1,0 +1,6 @@
+<section class="tab" data-application-part="keeper">
+  <div class="section-heading"><strong>守秘笔记</strong><small>仅 GM 可见</small></div>
+  {{#if isCoCEdit}}<textarea class="keeper-note" name="system.description.keeper">{{cocNpc.note}}</textarea>{{else}}<div class="note-section prose">{{{cocNpc.noteHtml}}}</div>{{/if}}
+  <div class="section-heading"><strong>骰子宏</strong><div class="heading-actions"><button type="button" class="small-button" data-action="paperClearConditions">清除全部状态</button></div></div>
+  <div class="macro-list">{{#each cocNpc.macros as |macro|}}<div class="macro-row"><span class="macro-name">{{macro.name}}</span>{{#if macro.valid}}<button type="button" data-action="paperExecuteMacro" data-macro-uuid="{{macro.uuid}}">执行</button>{{else}}<span class="item-meta">失效</span>{{/if}}<button type="button" data-action="paperDeleteMacro" data-macro-uuid="{{macro.uuid}}">删除</button></div>{{else}}<div class="note-line">把宏拖到卡面即可添加</div>{{/each}}</div>
+</section>

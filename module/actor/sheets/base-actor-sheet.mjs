@@ -76,21 +76,22 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       redistStat: this._onRedisttibuteStats,
       xpRolls: this._onXPRolls,
       powImprove: this._onPowImprove,
+      cocPaperVariant: this._onCocPaperVariant,
     }
   }
 
 
-  // PC window-header mode toggle: one native button at the far left, backed by the
-  // existing actorToggle/lock action. Use mode (lock=true) offers "Edit"; edit mode
-  // offers "Use". Synced on every render (frame creation and _onRender) so
-  // re-renders cannot duplicate it or leave stale labels/state behind.
+  // PC and CoC NPC window-header mode toggle: one native button at the far left.
+  // PC uses system.lock; CoC NPC retains system.flags.locked. Sync on every render
+  // so re-renders cannot duplicate it or leave stale labels/state behind.
   _syncCharacterModeToggle(frame) {
     const header = frame?.querySelector?.(".window-header") ?? this.window.header;
     if (!header) return;
     const existing = [...header.querySelectorAll("[data-brp-mode-toggle]")];
     let toggle = existing.shift() ?? null;
     for (const extra of existing) extra.remove();
-    if (this.actor.type !== "character" || !this.isEditable) {
+    const isPaperNpc = this.actor.type === "npc" && this.options.classes?.includes("coc-card");
+    if ((this.actor.type !== "character" && !isPaperNpc) || !this.isEditable) {
       toggle?.remove();
       return;
     }
@@ -100,10 +101,10 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       toggle.className = "brp-mode-toggle";
       toggle.dataset.brpModeToggle = "";
       toggle.dataset.action = "actorToggle";
-      toggle.dataset.property = "lock";
       header.prepend(toggle);
     }
-    const useMode = this.actor.system.lock === true;
+    toggle.dataset.property = isPaperNpc ? "locked" : "lock";
+    const useMode = isPaperNpc ? this.actor.system.flags?.locked === true : this.actor.system.lock === true;
     const label = game.i18n.localize(useMode ? "BRP.sheetModeEdit" : "BRP.sheetModeUse");
     const hint = game.i18n.localize(useMode ? "BRP.sheetModeEditHint" : "BRP.sheetModeUseHint");
     toggle.textContent = label;
@@ -111,6 +112,21 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
     toggle.setAttribute("aria-label", `${label}: ${hint}`);
     toggle.setAttribute("aria-pressed", String(!useMode));
     toggle.dataset.mode = useMode ? "use" : "edit";
+  }
+
+  _syncPaperVariant(frame) {
+    if (!this.options.classes?.includes('coc-card')) return;
+    this._paperVariant = 'classic';
+    frame.dataset.variant = this._paperVariant;
+    frame.style.setProperty('--tab-count', this.actor.type === 'character' ? '7' : '6');
+  }
+
+  static _onCocPaperVariant(event) {
+    event.preventDefault();
+    const variants = ['classic', 'compact', 'contrast'];
+    const current = this.element.dataset.variant ?? 'classic';
+    this._paperVariant = variants[(variants.indexOf(current) + 1) % variants.length];
+    this.element.dataset.variant = this._paperVariant;
   }
 
   async _renderFrame(options) {
@@ -130,6 +146,10 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       el.insertAdjacentHTML("beforebegin", brpidEditor);
     }
     this._syncCharacterModeToggle(frame);
+    this._syncPaperVariant(frame);
+    if (this.options.classes?.includes('coc-card')) {
+      frame.querySelectorAll('button:not([type])').forEach((button) => { button.type = 'button'; });
+    }
     return frame;
   }
 
@@ -141,6 +161,13 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
   }
 
   async _prepareContext(options) {
+    if (options.isFirstRender && this.options.classes?.includes("coc-card") && this.isEditable) {
+      const lockPath = this.actor.type === "character" ? "system.lock"
+        : this.actor.type === "npc" ? "system.flags.locked" : null;
+      if (lockPath && foundry.utils.getProperty(this.actor, lockPath) !== true) {
+        await this.actor.update({ [lockPath]: true }, { renderSheet: false });
+      }
+    }
     return {
       editable: this.isEditable,
       owner: this.document.isOwner,
@@ -244,7 +271,9 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
     const prop = target.dataset.property;
     let checkProp = {};
     let checkVal = ""
-    if (['lock','showNotes','skillOrder'].includes(prop)) {
+    if (prop === 'locked') {
+      checkProp = { 'system.flags.locked': !this.actor.system.flags?.locked }
+    } else if (['lock','showNotes','skillOrder'].includes(prop)) {
       checkProp = { [`system.${prop}`]: !this.actor.system[prop] }
     } else     if (['strdb'].includes(prop)) {
       checkProp = { [`system.mod.${prop}`]: !this.actor.system.mod[prop] }
@@ -777,7 +806,7 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
     }
 
 
-    if (event.target) {
+    if (event?.target) {
       if (event.target.classList) {
         if (event.target.classList.contains('bio-section-value')) {
           const index = parseInt(

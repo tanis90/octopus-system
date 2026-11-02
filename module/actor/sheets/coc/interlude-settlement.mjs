@@ -46,6 +46,26 @@ export async function settleCocInterlude(actor, token, itemIds, { manualIds = []
     })
   }
   if (settled.length) await BRPCharDev.xpOutput(settled, actor)
+  if (settled.length) {
+    const settlementId = requestId ?? foundry.utils.randomID()
+    const module = actor.flags?.brp?.coc?.growthModule ?? '默认模组'
+    const timeLabel = new Date().toISOString().slice(0, 16).replace('T', ' ')
+    const entries = settled.map((entry) => ({
+      id: `${settlementId}:${entry.itemId}`,
+      requestId: settlementId,
+      module,
+      timeLabel,
+      skillId: entry.itemId,
+      skillName: entry.name,
+      before: entry.before,
+      after: entry.after,
+      gain: entry.gain,
+      deltaLabel: `+${entry.gain}`,
+      undone: false,
+    }))
+    const previousLog = actor.flags?.brp?.coc?.growthLog ?? []
+    await actor.update({ 'flags.brp.coc.growthLog': [...entries.reverse(), ...previousLog].slice(0, 100) })
+  }
   if (requestId) {
     await actor.update({ 'flags.brp.coc.interludeRequests': [...previousRequests, requestId].slice(-20) })
   }

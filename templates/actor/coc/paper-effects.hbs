@@ -1,0 +1,10 @@
+<section class="tab" data-application-part="effects">
+  <div class="section-heading"><strong>效果</strong><div class="heading-actions">{{#if isCoCEdit}}<button type="button" class="small-button" data-action="paperCreateEffect">＋ 新增效果</button>{{/if}}</div></div>
+  <div class="record">
+    {{#each paperEffects as |effect|}}
+    <div class="effect-row {{#if effect.disabled}}disabled{{/if}}" data-effect-id="{{effect.id}}"><button type="button" class="item-name" data-action="paperOpenEffect">{{effect.name}}</button><span class="item-meta">{{effect.duration}}</span><button type="button" class="effect-toggle" data-action="paperToggleEffect" aria-pressed="{{#if effect.disabled}}false{{else}}true{{/if}}" aria-label="启用或禁用 {{effect.name}}"></button>{{#if ../isCoCEdit}}<button type="button" data-action="paperDeleteEffect" aria-label="删除 {{effect.name}}">×</button>{{else}}<span></span>{{/if}}</div>
+    {{else}}
+    <div class="note-line">暂无效果</div>
+    {{/each}}
+  </div>
+</section>

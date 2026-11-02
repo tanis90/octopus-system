@@ -1,0 +1,27 @@
+<section class="banner" data-coc-paper-header>
+  <div class="identity-row">
+    {{#if isCoCEdit}}<img class="portrait" src="{{cocNpc.header.img}}" alt="{{cocNpc.header.name}}" data-action="onEditImage" data-edit="img">{{else}}<img class="portrait" src="{{cocNpc.header.img}}" alt="{{cocNpc.header.name}}">{{/if}}
+    <div class="identity">
+      <div class="name-line">
+        <div class="name-block">{{#if isCoCEdit}}<input class="name name-input" name="name" value="{{cocNpc.header.name}}" aria-label="名称">{{else}}<h1 class="name">{{cocNpc.header.name}}</h1>{{/if}}<div class="subtitle"><span>{{cocNpc.identity.typeLabel}}</span>{{#if cocNpc.identity.occupation}}<span>{{cocNpc.identity.occupation}}</span>{{/if}}{{#if cocNpc.identity.age}}<span>{{cocNpc.identity.age}} 岁</span>{{/if}}{{#if cocNpc.identity.organization}}<span>{{cocNpc.identity.organization}}</span>{{/if}}</div></div>
+        <div class="formula-controls"><button type="button" class="small-button" data-action="paperRollCharacteristics">掷特性</button><button type="button" class="small-button" data-action="paperAverageCharacteristics">取平均</button></div>
+      </div>
+      <div class="npc-resource-row">
+        <div class="vitals">
+          <div class="vital hp" style="--pct:{{cocNpc.header.hp.percent}}%"><div class="vital-top"><span class="vital-label">生命</span><span class="vital-value">{{#if isCoCEdit}}<input name="system.attribs.hp.value" type="number" value="{{cocNpc.header.hp.value}}" data-dtype="Number"><small>/ {{cocNpc.header.hp.max}}</small>{{else}}{{cocNpc.header.hp.value}}<small> / {{cocNpc.header.hp.max}}</small>{{/if}}</span></div><span class="vital-track"><i style="width:{{cocNpc.header.hp.percent}}%"></i></span></div>
+          {{#if cocNpc.header.mp.show}}<div class="vital mp" style="--pct:{{cocNpc.header.mp.percent}}%"><div class="vital-top"><span class="vital-label">魔法</span><span class="vital-value">{{#if isCoCEdit}}<input name="system.attribs.mp.value" type="number" value="{{cocNpc.header.mp.value}}" data-dtype="Number"><small>/ {{cocNpc.header.mp.max}}</small>{{else}}{{cocNpc.header.mp.value}}<small> / {{cocNpc.header.mp.max}}</small>{{/if}}</span></div><span class="vital-track"><i style="width:{{cocNpc.header.mp.percent}}%"></i></span></div>{{/if}}
+          {{#if cocNpc.header.san.show}}<button type="button" class="vital san" data-action="cocSanityRoll" style="--pct:{{cocNpc.header.san.percent}}%"><div class="vital-top"><span class="vital-label">理智</span><span class="vital-value">{{cocNpc.header.san.value}}<small> / {{cocNpc.header.san.max}}</small></span></div><span class="vital-track"><i style="width:{{cocNpc.header.san.percent}}%"></i></span></button>{{/if}}
+          {{#if cocNpc.header.luck.show}}<button type="button" class="vital luck" data-action="cocLuckRoll" style="--pct:{{cocNpc.header.luck.percent}}%"><div class="vital-top"><span class="vital-label">幸运</span><span class="vital-value">{{cocNpc.header.luck.value}}<small> / 99</small></span></div><span class="vital-track"><i style="width:{{cocNpc.header.luck.percent}}%"></i></span></button>{{/if}}
+        </div>
+        <div class="derived"><span>伤害加值 <b>{{cocNpc.header.derived.db}}</b></span><span>体格 <b>{{cocNpc.header.derived.build}}</b></span><span>移动力 <b>{{cocNpc.header.derived.mov}}</b></span><span>护甲 <b>{{cocNpc.header.derived.armour}}</b></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="abilities">
+    {{#each cocNpc.header.stats as |stat|}}
+    <div class="ability" data-characteristic="{{stat.id}}"><span class="ability-label">{{stat.label}}</span>{{#if ../isCoCEdit}}<input class="ability-input" name="system.characteristics.{{stat.id}}.value" type="number" value="{{stat.base}}" data-dtype="Number" aria-label="{{stat.label}}">{{else}}<button type="button" class="ability-value" data-action="cocNpcStatRoll" data-characteristic="{{stat.id}}">{{#if stat.hasValue}}{{stat.value}}{{else}}—{{/if}}</button>{{/if}}<span class="ability-sub">{{#if stat.hasValue}}{{stat.half}} / {{stat.fifth}}{{else}}—{{/if}}</span></div>
+    {{/each}}
+  </div>
+  <div class="condition-line"><div class="conditions">{{#each cocNpc.conditions as |condition|}}<button type="button" class="condition" data-action="paperToggleCondition" data-condition="{{condition.id}}" aria-pressed="{{condition.active}}">{{condition.label}}</button>{{/each}}</div></div>
+  <div class="condition-line combat-pills"><span class="combat-pill">每轮攻击 <b>{{cocNpc.special.attacksPerRound}}</b>{{#if cocPaper.canRollAttacksPerRound}}<button type="button" data-action="paperRollAttacksPerRound">掷</button>{{/if}}</span><button type="button" class="combat-pill san" data-action="cocSanityRoll">SAN 损失 <b>{{cocNpc.special.sanLoss.checkPassed}} / {{cocNpc.special.sanLoss.checkFailled}}</b></button><span class="combat-pill">护甲 <b>{{cocNpc.header.derived.armour}}</b></span></div>
+</section>

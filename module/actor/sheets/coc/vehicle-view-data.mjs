@@ -31,6 +31,14 @@ export function buildCocVehicleView(actor) {
       description: crew, total: null, rollable: false, rollLabel: '—', meta: [],
     }] : [],
     equipment: { armours: [], gears: [], count: 0 },
+    vehicle: {
+      crew,
+      type: text(system.infos?.type),
+      origin: text(system.infos?.origin),
+      armed: system.properties?.armed === true,
+      description: text(system.description?.value),
+      keeper: text(system.description?.keeper),
+    },
     note: text(system.description?.value),
   }
 }

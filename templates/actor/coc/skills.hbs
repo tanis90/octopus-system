@@ -1,38 +1,22 @@
-<section class="actor tab coc-skills {{tab.cssClass}}" data-group="primary" data-tab="skills">
-  <div class="coc-toolbar" data-coc-local>
-    <span>技能（{{cocSkillCount}}）</span>
-    <input type="search" placeholder="搜索技能" data-coc-skill-search aria-label="搜索技能">
-    <select data-coc-skill-sort aria-label="类内排序"><option value="value">当前值</option><option value="name">名称</option></select>
+<section class="tab" data-application-part="skills">
+  <div class="toolbar" data-coc-local>
+    <label class="search"><input type="search" placeholder="搜索技能…" data-coc-skill-search aria-label="搜索技能"></label>
+    <label class="select-shell"><select data-coc-skill-sort aria-label="类内排序"><option value="value">按数值</option><option value="name">按名称</option></select></label>
+    <label class="check"><input type="checkbox" data-coc-uncommon {{checked cocPaper.showUncommon}}> 显示罕见技能</label>
+    <span class="toolbar-spacer"></span><span>技能（{{cocSkillCount}}）</span>
+    {{#if isCoCEdit}}<button type="button" class="small-button" data-action="createDoc" data-document-class="Item" data-type="skill">＋ 新增技能</button>{{/if}}
   </div>
   {{#each skillGroups as |group|}}
   <section class="coc-skill-group" data-coc-skill-group="{{group.id}}">
-    <button type="button" class="coc-group-title" data-action="cocSkillGroup" data-group="{{group.id}}"><span>{{group.label}}（{{group.skills.length}}）</span></button>
-    <ol class="coc-skill-grid" data-coc-skill-list>
+    <button type="button" class="group-toggle" data-action="cocSkillGroup" data-group="{{group.id}}"><strong>⌄ {{group.label}}</strong><span>{{group.skills.length}} 项</span></button>
+    <div class="table-scroll"><table data-coc-skill-list><thead><tr><th>技能</th><th>基础</th><th>当前</th><th>半值</th><th>1/5</th><th>成长</th><th>收藏</th></tr></thead>
       {{#each group.skills as |skill|}}
-      <li class="item coc-skill" data-item-id="{{skill.id}}" data-document-class="Item" data-coc-skill-row data-name="{{skill.name}}" data-total="{{skill.total}}">
-        <div class="coc-skill-line">
-          <button type="button" class="coc-skill-name" data-action="cocSkillToggle">{{skill.name}}</button>
-          {{#if ../../isCoCUse}}<button type="button" class="coc-skill-value" data-action="cocSkillRoll">{{skill.total}}%</button>
-          {{else}}<span class="coc-skill-value">{{skill.total}}%</span>{{/if}}
-        </div>
-        <div class="coc-skill-details" data-coc-skill-details hidden>
-          <div>{{#if skill.breakdownText}}{{skill.breakdownText}} = {{/if}}当前 {{skill.total}}</div>
-          <div>困难阈值 {{skill.half}}　极难阈值 {{skill.fifth}}</div>
-          {{#if ../../isCoCEdit}}
-          <div class="coc-edit-grid">
-            <label>基础<input class="inline-edit" data-field="base" type="number" value="{{skill.breakdown.base}}"></label>
-            <label>职业<input class="inline-edit" data-field="profession" type="number" value="{{skill.breakdown.profession}}"></label>
-            <label>兴趣<input class="inline-edit" data-field="personal" type="number" value="{{skill.breakdown.personal}}"></label>
-            <label>经验<input class="inline-edit" data-field="xp" type="number" value="{{skill.breakdown.xp}}"></label>
-            <label>效果<input class="inline-edit" data-field="effects" type="number" value="{{skill.breakdown.effects}}"></label>
-            <label>文化<input class="inline-edit" data-field="culture" type="number" value="{{skill.breakdown.culture}}"></label>
-            <label>人格<input class="inline-edit" data-field="personality" type="number" value="{{skill.breakdown.personality}}"></label>
-          </div>
-          {{/if}}
-        </div>
-      </li>
+      <tbody class="item" data-item-id="{{skill.id}}" data-coc-skill-row data-name="{{skill.name}}" data-total="{{skill.total}}" data-uncommon="{{skill.uncommon}}">
+        <tr><td><button type="button" class="skill-name" data-action="cocSkillToggle">{{skill.name}}</button></td><td>{{skill.base}}</td><td class="current">{{#if ../../isCoCUse}}<button type="button" class="skill-name" data-action="cocSkillRoll">{{skill.total}}%</button>{{else}}{{skill.total}}%{{/if}}</td><td>{{skill.half}}</td><td>{{skill.fifth}}</td><td>{{#if ../../isCoCEdit}}<button type="button" class="mark" data-action="cocToggleGrowth" aria-pressed="{{skill.improve}}">{{#if skill.improve}}×{{/if}}</button>{{else}}{{#if skill.improve}}×{{/if}}{{/if}}</td><td><button type="button" data-action="paperToggleFavorite" aria-label="收藏 {{skill.name}}">{{#if skill.favorite}}★{{else}}☆{{/if}}</button></td></tr>
+        <tr data-coc-skill-details hidden><td colspan="7"><div>困难 {{skill.half}} · 极难 {{skill.fifth}}</div><div>{{#if skill.breakdownText}}{{skill.breakdownText}} = {{/if}}{{skill.total}}</div>{{#if ../../isCoCEdit}}<div class="coc-edit-grid"><label>基础<input class="inline-edit" data-field="base" type="number" value="{{skill.breakdown.base}}"></label><label>职业<input class="inline-edit" data-field="profession" type="number" value="{{skill.breakdown.profession}}"></label><label>兴趣<input class="inline-edit" data-field="personal" type="number" value="{{skill.breakdown.personal}}"></label><label>经验<input class="inline-edit" data-field="xp" type="number" value="{{skill.breakdown.xp}}"></label><label>效果<input class="inline-edit" data-field="effects" type="number" value="{{skill.breakdown.effects}}"></label><label>文化<input class="inline-edit" data-field="culture" type="number" value="{{skill.breakdown.culture}}"></label><label>人格<input class="inline-edit" data-field="personality" type="number" value="{{skill.breakdown.personality}}"></label></div>{{/if}}</td></tr>
+      </tbody>
       {{/each}}
-    </ol>
+    </table></div>
   </section>
   {{/each}}
 </section>

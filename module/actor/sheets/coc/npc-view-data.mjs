@@ -169,13 +169,26 @@ export function buildCocNpcHeader(actor, { useSAN = true } = {}) {
   const hp = resourceView(attribs.hp, hpMax, { clampValue: true })
   const mp = resourceView(attribs.mp, mpMax, { clampValue: true, show: mpMax > 0 })
   const sanShow = useSAN === true && numberOr(attribs.san?.value) > 0
+  const luckValue = attribs.lck?.value
+  const luck = {
+    show: luckValue !== null && luckValue !== undefined && luckValue !== '',
+    value: numberOr(luckValue),
+    percent: Math.max(0, Math.min(100, Math.round(numberOr(luckValue) / 99 * 100))),
+  }
   const stats = COC_NPC_STAT_IDS.map((id) => {
-    const value = numberOr(system.characteristics?.[id]?.value)
+    const source = system.characteristics?.[id] ?? {}
+    const rawValue = source.value
+    const hasValue = rawValue !== null && rawValue !== undefined && rawValue !== ''
+    const value = numberOr(rawValue)
     return {
       id,
       label: COC_NPC_STAT_LABELS[id],
       value,
       base: value,
+      formula: text(source.formula),
+      hasValue,
+      half: hasValue ? Math.floor(value / 2) : null,
+      fifth: hasValue ? Math.floor(value / 5) : null,
     }
   })
   return {
@@ -189,6 +202,7 @@ export function buildCocNpcHeader(actor, { useSAN = true } = {}) {
       max: san.max,
       percent: san.percent,
     },
+    luck,
     stats,
     derived: {
       db: text(attribs.db?.value) || '—',
@@ -467,8 +481,34 @@ export function buildCocNpcWoundsAfterHpEdit({ wounds = {}, hpValue, hpMax, prev
  */
 export function buildCocNpcView(actor, options = {}) {
   const items = actor?.items
+  const system = actor?.system ?? {}
+  const infos = system.infos ?? {}
+  const special = system.special ?? {}
+  const conditions = [
+    ['criticalWounds', '重伤'], ['unconscious', '昏迷'], ['dying', '濒死'], ['dead', '死亡'],
+    ['prone', '倒地'], ['tempoInsane', '临时疯狂'], ['indefInsane', '长期疯狂'],
+  ].map(([id, label]) => ({ id, label, active: system.conditions?.[id]?.value === true }))
   return {
     header: buildCocNpcHeader(actor, options),
+    identity: {
+      type: text(infos.type) || (text(infos.occupation) ? '' : 'NPC'),
+      typeLabel: text(infos.type) ? '类型' : text(infos.occupation) ? '职业' : '类型',
+      occupation: text(infos.occupation),
+      organization: text(infos.organization),
+      age: text(infos.age),
+    },
+    conditions,
+    special: {
+      attacksPerRound: text(special.attacksPerRound) || '1',
+      sanLoss: {
+        checkPassed: text(special.sanLoss?.checkPassed) || '—',
+        checkFailled: text(special.sanLoss?.checkFailled) || '—',
+      },
+      movement: Array.isArray(special.movement) ? special.movement : [],
+      movType: text(system.attribs?.mov?.type) || 'walk',
+      movAuto: system.attribs?.mov?.auto === true,
+    },
+    description: text(system.biography?.personalDescription?.value),
     attacks: buildCocNpcAttacks(items, actor),
     skills: buildCocNpcSkills(items),
     powers: buildCocNpcPowers(items),

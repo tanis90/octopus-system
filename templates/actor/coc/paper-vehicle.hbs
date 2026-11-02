@@ -1,0 +1,5 @@
+<div class="vehicle-content" data-application-part="vehicle">
+  {{#if cocNpc.vehicle.crew}}<section class="vehicle-section crew"><h2>乘员与机组</h2><div class="prose">{{cocNpc.vehicle.crew}}</div><div class="vehicle-meta"><span>{{cocNpc.vehicle.type}}</span><span>{{cocNpc.vehicle.origin}}</span>{{#if cocNpc.vehicle.armed}}<span>武装</span>{{/if}}</div></section>{{/if}}
+  {{#if cocNpc.vehicle.description}}<section class="vehicle-section"><h2>载具描述</h2><div class="prose">{{{cocNpc.vehicle.descriptionHtml}}}</div></section>{{/if}}
+  {{#if cocNpc.vehicle.keeper}}<section class="vehicle-section keeper"><h2>守秘笔记</h2><div class="prose">{{{cocNpc.vehicle.keeperHtml}}}</div></section>{{/if}}
+</div>

@@ -1,0 +1,11 @@
+<section class="tab" data-application-part="summary">
+  <div class="toolbar"><strong>武器速查</strong><span class="toolbar-spacer"></span>{{#if isCoCEdit}}<button type="button" class="small-button" data-action="createDoc" data-document-class="Item" data-type="weapon">＋ 新增武器</button>{{/if}}</div>
+  <div class="table-scroll"><table class="weapon-table"><thead><tr><th>武器</th><th>技能</th><th>备选技能</th><th>伤害</th><th>射程</th><th>每轮</th><th>子弹 / 弹容量</th><th>故障</th><th>操作</th></tr></thead><tbody>
+    {{#each weapons as |weapon|}}
+    <tr class="item" data-item-id="{{weapon.id}}"><td><button type="button" class="item-name" data-action="paperOpenItem">{{weapon.name}}</button></td><td>{{#if weapon.skillName}}{{weapon.skillName}} {{weapon.skillTotal}}%{{else}}—{{/if}}</td><td>—</td><td>{{weapon.damage}}</td><td>{{weapon.range}}</td><td>{{weapon.rof}}</td><td><button type="button" data-action="paperReloadWeapon" title="单击装满，Shift 装 1 发，双击卸空">{{weapon.ammo}}</button></td><td>{{weapon.mal}}</td><td class="row-actions">{{#if weapon.attackable}}<button type="button" data-action="cocWeaponSkill">攻击</button>{{/if}}<button type="button" data-action="cocDamage">伤害</button><button type="button" data-action="paperToggleFavorite" aria-label="收藏 {{weapon.name}}">{{#if weapon.favorite}}★{{else}}☆{{/if}}</button></td></tr>
+    {{else}}<tr><td colspan="9">暂无武器</td></tr>{{/each}}
+  </tbody></table></div>
+  {{#each quickGroups as |group|}}
+  <div class="quick-group"><h3>{{group.label}}技能 <span>{{group.skills.length}}</span></h3><div class="quick-chips">{{#each group.skills as |skill|}}<button type="button" class="quick-chip item" data-action="cocSkillRoll" data-item-id="{{skill.id}}">{{skill.name}}<b>{{skill.total}}</b><small>{{skill.half}} / {{skill.fifth}}</small></button>{{/each}}</div></div>
+  {{/each}}
+</section>

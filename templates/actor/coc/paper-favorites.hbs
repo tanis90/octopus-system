@@ -1,0 +1,13 @@
+<aside class="favorites" aria-label="收藏栏">
+  <div class="favorites-head"><span>收藏</span><button type="button" class="favorites-toggle" data-action="cocPaperFavorites" aria-expanded="{{cocPaper.favoritesExpanded}}" aria-label="收起或展开收藏栏">{{#if cocPaper.favoritesExpanded}}−{{else}}+{{/if}}</button></div>
+  {{#if cocPaper.favoritesExpanded}}
+  <div class="favorites-list">
+    {{#each cocPaper.favorites as |favorite|}}
+    <button type="button" class="favorite" data-action="{{favorite.action}}" data-item-id="{{favorite.id}}"><span>{{favorite.name}}</span>{{#if favorite.total}}<b>{{favorite.total}}</b>{{/if}}</button>
+    {{else}}
+    <div class="table-note">还没有收藏</div>
+    {{/each}}
+  </div>
+  <div class="favorites-foot">常用技能与武器可置顶到这里</div>
+  {{/if}}
+</aside>

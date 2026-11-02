@@ -1,0 +1,5 @@
+<section class="tab" data-application-part="description">
+  <div class="description-meta identity-grid"><div class="identity-field"><span>{{cocNpc.identity.typeLabel}}</span><b>{{cocNpc.identity.type}}</b></div>{{#if cocNpc.identity.occupation}}<div class="identity-field"><span>职业</span><b>{{cocNpc.identity.occupation}}</b></div>{{/if}}{{#if cocNpc.identity.age}}<div class="identity-field"><span>年龄</span><b>{{cocNpc.identity.age}}</b></div>{{/if}}{{#if cocNpc.identity.organization}}<div class="identity-field"><span>组织</span><b>{{cocNpc.identity.organization}}</b></div>{{/if}}</div>
+  <div class="section-heading"><strong>外貌、习性与栖息地</strong></div>
+  {{#if isCoCEdit}}<textarea class="keeper-note description-body" name="system.biography.personalDescription.value">{{cocNpc.description}}</textarea>{{else}}<div class="description-body prose">{{{cocNpc.descriptionHtml}}}</div>{{/if}}
+</section>
