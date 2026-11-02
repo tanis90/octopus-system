@@ -24,6 +24,9 @@ for (const type of ['character', 'npc', 'vehicle']) {
     check(`${type}NoUtilityControls`, sheet.options.window?.minimizable === false
       && !detail.minimize && !detail.copyUuid && !detail.brpid, detail);
     check(`${type}ModeToggle`, type === 'vehicle' ? detail.modeToggles === 0 : detail.modeToggles === 1, detail);
+    const expectedSize = { character: [1040, 780], npc: [960, 720], vehicle: [680, 600] }[type];
+    check(`${type}CompactDefaultSize`, sheet.options.position?.width === expectedSize[0]
+      && sheet.options.position?.height === expectedSize[1], sheet.options.position);
     if (type === 'character') {
       const CocSheet = sheet.constructor;
       const NonCocFrameSheet = class extends CocSheet {};

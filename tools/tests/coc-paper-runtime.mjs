@@ -95,6 +95,7 @@ try {
   check('npcNoFavorites', !npc.sheet.element.querySelector('.favorites'))
   check('npcResourceValuesValid', !/NaN|undefined/.test(npc.sheet.element.querySelector('.banner')?.textContent ?? ''))
   check('npcCombatFields', npc.sheet.element.textContent.includes('1D3') && npc.sheet.element.textContent.includes('异界生物'))
+  check('npcCompactNoDuplicateSummary', npc.sheet.element.querySelectorAll('.combat-strip').length === 0 && npc.sheet.element.querySelectorAll('.banner .condition-line').length === 1 && npc.sheet.element.querySelectorAll('.weapon-table th').length === 8)
   check('npcDefaultsToUse', npc.system.flags.locked === true && !npc.sheet.element.querySelector('input[name="name"]'))
   check('npcHasModeToggle', npc.sheet.element.querySelectorAll('[data-brp-mode-toggle]').length === 1)
   check('npcNoFormulaControls', !npc.sheet.element.querySelector('[data-action="cocPaperFormula"], .ability-formula'))
