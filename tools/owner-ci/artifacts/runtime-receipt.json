@@ -1,0 +1,21 @@
+{
+  "schema": "octopus-owner-ci-receipt/1",
+  "kind": "runtime",
+  "repo": "https://github.com/tanis90/octopus-system.git",
+  "testedCommit": "268211ebb73d39b7157d3fd4efc3f191b57e109a",
+  "result": "passed",
+  "commands": [
+    "node tools/check-zh-cn.mjs",
+    "node tools/tests/base-pack-determinism.mjs",
+    "node tools/tests/coc-sanity-regressions.mjs",
+    "node tools/tests/coc-rules-regressions.mjs",
+    "node owner-meta/tools/tests/owner-ci-verify-negative.mjs"
+  ],
+  "runUrl": null,
+  "manifest": "tools/owner-ci/artifacts/runtime-manifest.json",
+  "manifestSha256": "f7a61928051197826ad18204255c90adfb0a2423878b269e230ef2d60a01aa10",
+  "setHash": "dc7dfbfa3af1c31879e5e2a04bb5beca408d1b969f9a50b1a49c41987d5a02d5",
+  "artifactHash": "dc7dfbfa3af1c31879e5e2a04bb5beca408d1b969f9a50b1a49c41987d5a02d5",
+  "fileCount": 329,
+  "generatedBy": "tools/owner-ci/manifest.mjs"
+}

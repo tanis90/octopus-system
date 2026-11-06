@@ -1,0 +1,14 @@
+{
+  "kind": "octopus-owner-ci-content-pin/1",
+  "contentRef": "95d984dbc64a0d5631f736bda7bb613ce98128cf",
+  "contentRefNote": "旧 M8 内容集：已发布组合的 packs/packs-index/packs-json 基线（362 个文件，setHash 见 contentSetHashSha256）。owner CI 的 content job 用 actions/checkout 的这个 ref 出内容 manifest。内容升级必须显式修改本文件并用 tools/owner-ci/manifest.mjs set-hash 重新计算 hash；main 上的内容漂移不会被 CI 悄悄当成升级。",
+  "contentSetScope": [
+    "packs/",
+    "packs-index/",
+    "packs-json/"
+  ],
+  "contentSetHashAlgo": "sha256 over \"<path>\\n<size>\\n<sha256hex>\\n\" of entries sorted by path (code-unit order), git ls-tree -r --full-tree <contentRef>",
+  "contentSetHashSha256": "9bf07932e3bcbc68418294927a996e1161d914f393de44cb8a9f3419d87cad08",
+  "expansionRef": "3ed8204369acf5586769c50ccab1829307605333",
+  "expansionRefNote": "arcane-investigator-options 分发仓的已发布基线。runtime job 按 tools/tests/coc-rules-regressions.mjs 的文档化开发流程先在这个 ref 的 checkout 上用主仓 facts 重建扩展，再跑语义回归；分发仓如需对齐主仓最新 doc 形态，请在分发仓重新构建发布。"
+}

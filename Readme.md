@@ -343,6 +343,20 @@ MT_SYSTEM_ID=brp MT_SPIKE_EVAL=tools/tests/rules-regressions.mjs \
   node --experimental-vm-modules tools/run-headless.mjs
 ```
 
+### Owner CI
+
+Source-repo owner CI (`.github/workflows/owner-ci.yml`) accepts the release
+candidate in two separate lines, never merged: the **runtime job** runs the
+source repo's own semantic suites at the tested commit and emits a runtime
+manifest + receipt; the **content job** checks out the released content
+baseline pinned in `tools/owner-ci/content-pin.json` (currently the old M8
+content set) and emits a content manifest + receipt. Content drift on main is
+never silently treated as an upgrade — bumping the pin (with a recomputed set
+hash) is the explicit upgrade path. `workflow_dispatch` accepts
+`runtimeRef` / `contentRef` to re-verify any historical published combination.
+Manifests/receipts are uploaded as artifacts only: no auto-Release, no push
+back. Rules, commands, file-set rules and receipts: [docs/owner-ci.md](docs/owner-ci.md).
+
 ---
 
 # 中文说明
@@ -580,3 +594,15 @@ node tools/tests/base-pack-determinism.mjs
 MT_SYSTEM_ID=brp MT_SPIKE_EVAL=tools/tests/rules-regressions.mjs \
   node --experimental-vm-modules tools/run-headless.mjs
 ```
+
+### Owner CI
+
+源仓自有 owner CI（`.github/workflows/owner-ci.yml`）分两条独立线验收发布候选，
+不合并：**runtime job** 对被测 commit 跑源仓自有语义测试并出 runtime
+manifest + receipt；**content job** 用 `actions/checkout` 钉住
+`tools/owner-ci/content-pin.json` 里的已发布内容基线（当前是旧 M8 内容集）
+出 content manifest + receipt。main 上的内容漂移不会被悄悄当成升级——显式
+改 pin（并重算集合 hash）才是升级路径。`workflow_dispatch` 可指定
+`runtimeRef` / `contentRef` 复核任意历史已发布组合。manifest/receipt 只作为
+artifacts 上传：不自动 Release、不推回。规则、命令、file set 与 receipt 口径
+见 [docs/owner-ci.md](docs/owner-ci.md)。

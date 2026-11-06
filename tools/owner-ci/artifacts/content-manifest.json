@@ -1,0 +1,1829 @@
+{
+  "schema": "octopus-owner-ci-manifest/1",
+  "kind": "content",
+  "testedCommit": "95d984dbc64a0d5631f736bda7bb613ce98128cf",
+  "fileSetRule": {
+    "source": "git ls-tree -r --full-tree <testedCommit>",
+    "include": [
+      "packs/",
+      "packs-index/",
+      "packs-json/"
+    ]
+  },
+  "setHashAlgo": "sha256 over \"<path>\\n<size>\\n<sha256hex>\\n\" of entries sorted by path (code-unit order)",
+  "hashNamespace": "octopus-owner-ci-set-hash/1",
+  "setHash": "9bf07932e3bcbc68418294927a996e1161d914f393de44cb8a9f3419d87cad08",
+  "fileCount": 362,
+  "files": [
+    {
+      "path": "packs-index/coc-professions.json",
+      "size": 40210,
+      "sha256": "eee4882802918b8b826a765c68021dac8e6faa2475d9e771fb64676f2dc042e9"
+    },
+    {
+      "path": "packs-index/coc-skills.json",
+      "size": 23025,
+      "sha256": "1dfc3d1623487e4c31acb95ca915ed1ec62dcaf38afb9cf7f7af91c1bbb7203c"
+    },
+    {
+      "path": "packs-index/octopus-professions.json",
+      "size": 10752,
+      "sha256": "520edcf7789fbfc9df9ee5ec25d8f8faeaf707d4979c98a62562656b1a0630da"
+    },
+    {
+      "path": "packs-index/octopus-skills.json",
+      "size": 15081,
+      "sha256": "3053d5a174b785fd90d4910b0ea509f8e754476f0811bf7aa65bb44b7d9ec871"
+    },
+    {
+      "path": "packs-json/coc-professions.json",
+      "size": 568041,
+      "sha256": "47c991067c41b800f33cb0f4569f938e0e2a9e4e27bb653294afb437efdc86ad"
+    },
+    {
+      "path": "packs-json/coc-skills.json",
+      "size": 85697,
+      "sha256": "db6e959e610ef685736aa83f8df4cb5593e61da0d4d57f72de3f41fe43869dac"
+    },
+    {
+      "path": "packs-json/octopus-professions.json",
+      "size": 90612,
+      "sha256": "2a8edac5762090f7fc42e6ed5d7c083b94014d9967f9bb3873359add95c5c575"
+    },
+    {
+      "path": "packs-json/octopus-skills.json",
+      "size": 53211,
+      "sha256": "539900f2ac9d47c2ee76945ee9dc027f71a6249dfbc51f9e9d7878cc36fbe171"
+    },
+    {
+      "path": "packs/coc-professions/07qTP2J1kuF5ASSb.json",
+      "size": 6403,
+      "sha256": "1631077306d38512fbf2f3003418947cc83fb1b5ae1ea8e614c1e1997b85144f"
+    },
+    {
+      "path": "packs/coc-professions/09FKbcj9uaT6YMPl.json",
+      "size": 3262,
+      "sha256": "c8c19f7a8ad05c3e70b8c39eef33557727b63e16772c845b6e0d4b36cfa79ae3"
+    },
+    {
+      "path": "packs/coc-professions/14mc4Fk4QmbtlG6F.json",
+      "size": 4406,
+      "sha256": "44e31c7b59931af386887995612d0628926ca897988ea810341fda8d25c60cb0"
+    },
+    {
+      "path": "packs/coc-professions/15J1ZjRVYzU4sbOT.json",
+      "size": 1985,
+      "sha256": "1783906361d168a14d07dfc20d03c9b690094c1f30fc827b5d94e92460c4c5ab"
+    },
+    {
+      "path": "packs/coc-professions/1fhOrh7vu0JNF38p.json",
+      "size": 6292,
+      "sha256": "9808e08e45ee93db5bb535d5e4ad7f88b29cb8a204f481a050f3f6b47e31c082"
+    },
+    {
+      "path": "packs/coc-professions/1qfOmfxSx81aniWH.json",
+      "size": 4445,
+      "sha256": "29d4e10d02649f35af201df97460b5b2b3f0c97ebc9e4ad48ea50444f7a1e8d3"
+    },
+    {
+      "path": "packs/coc-professions/2Dx3FGOjqk4qeJdq.json",
+      "size": 3451,
+      "sha256": "dd6f95010e410d6cf095e997002ef61aa7eb5629f43f1d54c0d467ce8e93535d"
+    },
+    {
+      "path": "packs/coc-professions/2ObhLApmNFThnnA4.json",
+      "size": 3661,
+      "sha256": "c5e32476c9fb411020b914f6ebefa39e2e88f0696e256906c04eb67542e62c9f"
+    },
+    {
+      "path": "packs/coc-professions/2TnXyzeOkouVrgp9.json",
+      "size": 2690,
+      "sha256": "b25730b4659f4b5b86eeab4441f9010d8245016daadedb7ee76f714d76b7e31f"
+    },
+    {
+      "path": "packs/coc-professions/2VZP2l3DsJfVKhIT.json",
+      "size": 3311,
+      "sha256": "ab49e8f235c8ead028040d9b7c1b9888edf3faa1898d6f71259ac76d634ccb13"
+    },
+    {
+      "path": "packs/coc-professions/2jeEA5szCGZv2PBc.json",
+      "size": 2696,
+      "sha256": "9484e5bc4f6ee713129e37d559554524fe45f024ee2be63b7d4617ea5f269dfb"
+    },
+    {
+      "path": "packs/coc-professions/3rLI8HRIAtwDeFvy.json",
+      "size": 6881,
+      "sha256": "20981f761cb061c519478e609af343e731df3be12f59790e1a6b4c138307aee2"
+    },
+    {
+      "path": "packs/coc-professions/3t2u33hTGx9laCYq.json",
+      "size": 4061,
+      "sha256": "0b521049dcb3107760dbd405eae5ea8b953a8aaacf130bb0cfed7100793c4e1b"
+    },
+    {
+      "path": "packs/coc-professions/4EF0lVfIGIfEYN9K.json",
+      "size": 2681,
+      "sha256": "ab247b8cca9c30cf536a00897f3852355b7990b7f531b26056b8ff4638a223f8"
+    },
+    {
+      "path": "packs/coc-professions/4ZMx3dMLwBGuhhuw.json",
+      "size": 2748,
+      "sha256": "54553df6b8138208b05a632dbc236379e36bcfc1d120b83d2872c75713d37667"
+    },
+    {
+      "path": "packs/coc-professions/4l9zNFl8bD8OmPuW.json",
+      "size": 2322,
+      "sha256": "e54463078a62923ffd20de1e72ffe46eb8d92fb56112633b1d28ef90c2eaf1d3"
+    },
+    {
+      "path": "packs/coc-professions/65QF22IhBgXJJZ9r.json",
+      "size": 4448,
+      "sha256": "e47c7fe92af9b98d11d3cccb8bccabde5241a3860ecbf678a15b202e403c399c"
+    },
+    {
+      "path": "packs/coc-professions/6dOvLpbvaaAu52OX.json",
+      "size": 4381,
+      "sha256": "e5df29954e80d3b94e9f172ef5b7f1bde52d57d46bbc9311c6efa8084d7e22bb"
+    },
+    {
+      "path": "packs/coc-professions/94b2aTzTuFb2yYul.json",
+      "size": 6161,
+      "sha256": "2fc4d3aaf80228144616231c30757884038620e083a250e7aaaef33986d53bb6"
+    },
+    {
+      "path": "packs/coc-professions/9Llbqcdkza626sjS.json",
+      "size": 2988,
+      "sha256": "e5d5182ba5a5a2e1f652906e8559d128e96565b3e6488a5d3aee4d0f169aa9bb"
+    },
+    {
+      "path": "packs/coc-professions/9NZ0Amdo29g5qE4G.json",
+      "size": 1902,
+      "sha256": "d9e232f2c92c653d39c1a08f63159ee4e1b022e338c34afb746817baa4c74361"
+    },
+    {
+      "path": "packs/coc-professions/ACBfBFtYJT7AaRLb.json",
+      "size": 2386,
+      "sha256": "fdac2ffbe948a5ecf5eca35976bfae25217607b3bf7acd2c4c611d22f4b4ef1d"
+    },
+    {
+      "path": "packs/coc-professions/AfP5ag5Xa9gQHXh6.json",
+      "size": 6458,
+      "sha256": "2a58d558016414ee1fa2108d5b3d5fc3f1b5db7c60a671a4e459882b25b65906"
+    },
+    {
+      "path": "packs/coc-professions/BelJh6g6r2JukrCq.json",
+      "size": 3553,
+      "sha256": "fa23cf40890eaa1af9d29dc73b3283ea5cb005f512d4057fe9363a094062ce94"
+    },
+    {
+      "path": "packs/coc-professions/BmMCPW9PiFA2XMqb.json",
+      "size": 2711,
+      "sha256": "b33cdd478b51ac3cf88b2e8c0f61b0db67607e79f11731fdc7560eda22dc42c8"
+    },
+    {
+      "path": "packs/coc-professions/CRgABlY0G5Nw5Qja.json",
+      "size": 2645,
+      "sha256": "e8d3fb87cfe74c0242f781523319e81ab6a46fffa8ff4e3880af3daeccd78455"
+    },
+    {
+      "path": "packs/coc-professions/CrMTtDD8ELb8IOzK.json",
+      "size": 1892,
+      "sha256": "a269b583c72e0c53a9d1d1d17f9565047921681449075c2c731da2427fdb81a3"
+    },
+    {
+      "path": "packs/coc-professions/DBTtkGHouAdA3UZo.json",
+      "size": 3384,
+      "sha256": "996883f0eee503c513ce2025ca1a8a48a231e6afe01999bbba4110aa057981aa"
+    },
+    {
+      "path": "packs/coc-professions/E0jNP44FlIhio4Wa.json",
+      "size": 2857,
+      "sha256": "bb7f86baf1d53ebf12ced8f3b5e14305401d9bb8fca79153cb84ed0962095998"
+    },
+    {
+      "path": "packs/coc-professions/E2E8WCelQP1gIcLt.json",
+      "size": 3031,
+      "sha256": "2d4643ecf883334b9f9598c13ce816c69f8ec8090ad96f32050151635f0fe96b"
+    },
+    {
+      "path": "packs/coc-professions/E4MhneeaZ5k4oWFq.json",
+      "size": 6358,
+      "sha256": "ab71fe8cc440209a3fe3d817f3003f1ca0d5f43455edd24c1865d4079d8a86ae"
+    },
+    {
+      "path": "packs/coc-professions/EFUcNVDQ61qJ0siK.json",
+      "size": 2791,
+      "sha256": "7e540c6a9772dd46aa13a4a5069144034d4e30ca56ceaf9865666c3c5c097408"
+    },
+    {
+      "path": "packs/coc-professions/EKX3pk0E6rT1ecJP.json",
+      "size": 6356,
+      "sha256": "e7038b8411662b56ebc8e92940e5dc616b56026afcd3b7a7deebf16881e6457d"
+    },
+    {
+      "path": "packs/coc-professions/EZSBbjlGF8D8cmxN.json",
+      "size": 5369,
+      "sha256": "c73e88a9fdc39b8b66dfa4a639b0c8700724dd0341da7d07632e75a0fd09bc41"
+    },
+    {
+      "path": "packs/coc-professions/FKsKVjt6EUS7dbGN.json",
+      "size": 2701,
+      "sha256": "f5d36a84e216ca210efcdd83711e0d3a5f8275c304ce5a381f5a02a1ad87fc92"
+    },
+    {
+      "path": "packs/coc-professions/FRhMwVOvl4vfdjS0.json",
+      "size": 4734,
+      "sha256": "aa6bef5cff7bb16a44364e0688170a081b293b49c682805c7189059998d0d7dc"
+    },
+    {
+      "path": "packs/coc-professions/Fi8glJMa5VLlc5sk.json",
+      "size": 3814,
+      "sha256": "f55d93b6dbb613d8eb4b25410d36c645fd551b7e83481eb2fc82a397c8d704b2"
+    },
+    {
+      "path": "packs/coc-professions/G6YX8tqOfspX8WsI.json",
+      "size": 3202,
+      "sha256": "59178863bb2fe59d656cbefcb7df4e09471a282d553e9a0852049d12ec58a38f"
+    },
+    {
+      "path": "packs/coc-professions/GQxi5kSeoS4fHAtQ.json",
+      "size": 1979,
+      "sha256": "69b658ef32f736ca5c04571362ad783d3d562679cae4940e7e702fc05471eb5e"
+    },
+    {
+      "path": "packs/coc-professions/GURn5YYK3uZHSMhV.json",
+      "size": 5938,
+      "sha256": "ade2171f023e1cfc79d4d0431ceec200c8aabddbe1b292b0efe2ff457e2af025"
+    },
+    {
+      "path": "packs/coc-professions/GmygFgIpKKTe8wk7.json",
+      "size": 3285,
+      "sha256": "13154943ed1b8fc63024c37bc8a4655ff4086b89545459b3f7e6cdcfabb13bb6"
+    },
+    {
+      "path": "packs/coc-professions/IDB0huTGTiLCTVwV.json",
+      "size": 2190,
+      "sha256": "5828822710689f6be6c5ee73fa5d121382b1038994d479804ddffb8d06808ded"
+    },
+    {
+      "path": "packs/coc-professions/IQjTTRFJDwFcpw1h.json",
+      "size": 1796,
+      "sha256": "0a0a0170e3577b06ee4efd998124b705513b4dc6c65013051d6b4604bda95d34"
+    },
+    {
+      "path": "packs/coc-professions/Irmazn8Hx9AKsZk2.json",
+      "size": 3590,
+      "sha256": "601ef70c2a3422edcfa5b8717b432d70092a961253ca16856679588e471b0d28"
+    },
+    {
+      "path": "packs/coc-professions/JpkZqagpPRadBcgY.json",
+      "size": 3259,
+      "sha256": "bcb3c2849599b53fd7f51427747780126f3bdb81b737f76d5b152d5d63dfb47c"
+    },
+    {
+      "path": "packs/coc-professions/LrIG0aMnxmceiQ6X.json",
+      "size": 3758,
+      "sha256": "cdc62f87754d4ce4e87766475d8f45a2f7c2bb719be9e4160839c2cd826713bb"
+    },
+    {
+      "path": "packs/coc-professions/MHQMQoPi6ghQNKbp.json",
+      "size": 2307,
+      "sha256": "c4e67a5129c5ff2399993307a8250501b54e782cc466466b035e01f24a42513e"
+    },
+    {
+      "path": "packs/coc-professions/N98krpHdgVpGPxMO.json",
+      "size": 2782,
+      "sha256": "f055d60590a77210496b9f7bebd596c13e4ae65719345a397c6ba64e1d997eac"
+    },
+    {
+      "path": "packs/coc-professions/NTct5yZPFukmUbt5.json",
+      "size": 2762,
+      "sha256": "38b980cc2778e5137d008953b4d515ccc0f26a09debcea9884af2b9463819b35"
+    },
+    {
+      "path": "packs/coc-professions/Nbl05FloqzgjrUaQ.json",
+      "size": 2680,
+      "sha256": "50365583088b8bab2dd7e64c85fe2045ef4f722189c68e4c124573323f73c41c"
+    },
+    {
+      "path": "packs/coc-professions/OY0bUT1nbqUblueI.json",
+      "size": 2698,
+      "sha256": "dc01794c869eda9085c9dbcf37c774aca949b69630cae95d8bb4d8c43407bb26"
+    },
+    {
+      "path": "packs/coc-professions/PSd9u1xBjhwBPufu.json",
+      "size": 1922,
+      "sha256": "7e1d10e7edeace093a1d4d1d3f52492df8f4a72cca268b902acb0a81b763b901"
+    },
+    {
+      "path": "packs/coc-professions/PfLhVGlLfE2ffcEL.json",
+      "size": 3408,
+      "sha256": "af5ecaf11558c3a2ac12a0a6ffcd47852d57e271e11416a2a82ed4a4d41a5d47"
+    },
+    {
+      "path": "packs/coc-professions/QQah4eWURRxniTv2.json",
+      "size": 3081,
+      "sha256": "8653d29c28db789fe5acabedaf04b7d24231496bb62c338efe461227fb670b18"
+    },
+    {
+      "path": "packs/coc-professions/QSxHBOELO3HJUEEY.json",
+      "size": 1749,
+      "sha256": "e2bc279659048dba6041a0a3c322fa841b349fc7c8687fb5bb56ac13d0761566"
+    },
+    {
+      "path": "packs/coc-professions/QqQEKhLGkQs0YWQW.json",
+      "size": 1692,
+      "sha256": "89cd753321914e277e9872d54ce683bd3a1da63b5be2b81ad8ae5978f36ff8dd"
+    },
+    {
+      "path": "packs/coc-professions/S647MSQoodyxh7AP.json",
+      "size": 2831,
+      "sha256": "78a9b075bf5e9d923fba5425c1564b22b94aae93ed9d188e3f12c109a7e9d5fd"
+    },
+    {
+      "path": "packs/coc-professions/SIodylYHyVdFYzjY.json",
+      "size": 1847,
+      "sha256": "b9b63826180b3903888fbc077987c6c7a4be0d5f35af3fa11e6ed970fef4cdfe"
+    },
+    {
+      "path": "packs/coc-professions/SNMxII6WapwNcG6I.json",
+      "size": 3302,
+      "sha256": "59b771b8b7ea687da9c13b269c9dd5ed375faa26aee53fc428007dc85658f396"
+    },
+    {
+      "path": "packs/coc-professions/SqhdUdPMj8ksoIkp.json",
+      "size": 7453,
+      "sha256": "16d37178e24f2883564ce90a71d8daf49accf594a9e4fc51e4b2363c7fa9a38e"
+    },
+    {
+      "path": "packs/coc-professions/SuueXQImV7Ot9yap.json",
+      "size": 2816,
+      "sha256": "15a184b2f5d93c8baec77c3ae026cca7329bd2583c313eba671af23d4839edb5"
+    },
+    {
+      "path": "packs/coc-professions/T4x1XBuQk5LnhCKr.json",
+      "size": 3107,
+      "sha256": "f5e50c16da137b759105c8ec551612a2eaf03d28be11e108dc371864374a00fd"
+    },
+    {
+      "path": "packs/coc-professions/Tf7bg99tjM8BpYM2.json",
+      "size": 3545,
+      "sha256": "2edfe6c15afade638ea490e06679a29ef74e5e848784cd690e01aa528079c42d"
+    },
+    {
+      "path": "packs/coc-professions/Urzd6Xfcx7SNpkXc.json",
+      "size": 1983,
+      "sha256": "ee88f14bcfbb015e8a400c214e1ea351d31497297029719a22bf7b2a0de33a33"
+    },
+    {
+      "path": "packs/coc-professions/UzOTyVKiCGSYduqQ.json",
+      "size": 6792,
+      "sha256": "454fe8b7029b1647f84a9d16a47c98d3466278defc09eceab7e7892a75ee5bc0"
+    },
+    {
+      "path": "packs/coc-professions/W3nzhXNQy2Lqz4kT.json",
+      "size": 4728,
+      "sha256": "47f9ead6ef2f64fdbec8ff1a14461ef31a796fcc864815250b34d9ceda859df8"
+    },
+    {
+      "path": "packs/coc-professions/W8txF6GY9RzdxJ0y.json",
+      "size": 4563,
+      "sha256": "c18edf56cd116947f4584587185dfe18338ce85dc70ee8bdb77abc03a8a43830"
+    },
+    {
+      "path": "packs/coc-professions/WNZf8qKPLTv1cJBL.json",
+      "size": 2949,
+      "sha256": "9519e537510bb334e4312fb792cdab06ecf80ecf52a6b6b21f16feca0fd847c8"
+    },
+    {
+      "path": "packs/coc-professions/WO5KVaaCPTGE8HRW.json",
+      "size": 3529,
+      "sha256": "1f5476ad00f06f8262e5241c56f57a65f1179dcbc8185eb44ecec4e35eed5c23"
+    },
+    {
+      "path": "packs/coc-professions/WPM5MVbMB742gpcn.json",
+      "size": 1987,
+      "sha256": "94636d27f4c6072cfb5cb82584ecac39f0d22f2b2f1320857fb15344b8dd3161"
+    },
+    {
+      "path": "packs/coc-professions/WTSiAO2aNqRZ3Hy4.json",
+      "size": 6985,
+      "sha256": "518d9b727afed6b9e1401caa20c7ca2e9e9972a503fcda58dee8b927210c1c1c"
+    },
+    {
+      "path": "packs/coc-professions/WdAZeu1rg8PELKlp.json",
+      "size": 2485,
+      "sha256": "288751d59615e337d0112aa3e940f453d501d7b3dffc5e5f5bec5104ec1eda50"
+    },
+    {
+      "path": "packs/coc-professions/WxJrFSnF59nTXSy9.json",
+      "size": 2794,
+      "sha256": "491a346b52779a1156f807b6bfd1f40e919d6cb2b9eedc0f68a6e581b0b9883e"
+    },
+    {
+      "path": "packs/coc-professions/Y3JcbfIwFm7e6mxn.json",
+      "size": 3604,
+      "sha256": "d379bd9ec8ab7c98e7776bee85d3d5199e3a6de0b5fbe125eb120ad6f845fad4"
+    },
+    {
+      "path": "packs/coc-professions/YJvuElBfmxmqJhHO.json",
+      "size": 3432,
+      "sha256": "c7909f86bc245ba1b23d9c784f9ddcd50f14f4a2a525f696be00ea951011c29d"
+    },
+    {
+      "path": "packs/coc-professions/YLta1rJdRbF5y0fO.json",
+      "size": 2046,
+      "sha256": "9bc020e7269b5eafac11078f4ad3ee064f6c52fd0f32499b4dfcddaafdbe47f1"
+    },
+    {
+      "path": "packs/coc-professions/YdcxepH6c2NadT41.json",
+      "size": 4429,
+      "sha256": "599f25fb65c92db046af398a0542aa524cf1c1230fd83d1f8d05663a82cc32e8"
+    },
+    {
+      "path": "packs/coc-professions/YeabJb2DfY217c00.json",
+      "size": 1770,
+      "sha256": "573422b78d26aff43ebaa438c3eb111520f637c92c931344da713174bc9a82dd"
+    },
+    {
+      "path": "packs/coc-professions/a7MmSNAnxCWOi8ko.json",
+      "size": 2746,
+      "sha256": "c35473a0558589faf9b44d2a2eac012d5d9e58238ea15308a4d2851a4ae7647b"
+    },
+    {
+      "path": "packs/coc-professions/aPfEzoeTkmWJ9r91.json",
+      "size": 5967,
+      "sha256": "70cc531dd3797ca146599eb7c7b6b3ad8854fb1cbefeeacccdb37ff289099ac1"
+    },
+    {
+      "path": "packs/coc-professions/aPwoDKFz9EGmlrSP.json",
+      "size": 2554,
+      "sha256": "7265cc773d282c2c7f924dcb2c4fe9190b565d63f1a11ee125cab280eb6734e2"
+    },
+    {
+      "path": "packs/coc-professions/bJkXzPPuDWsneBll.json",
+      "size": 3854,
+      "sha256": "f2a78ce5d3da68a68f11a4c0b13760edad199f31e530839c6a81db4b7de72b92"
+    },
+    {
+      "path": "packs/coc-professions/bW1CKAkfNYhQozCX.json",
+      "size": 6279,
+      "sha256": "14cc208058b2fd34d05e0031177abe0dc183fb085b148d975ae0cbd97bd9beaf"
+    },
+    {
+      "path": "packs/coc-professions/br7X5CbX7NqC17XM.json",
+      "size": 2709,
+      "sha256": "0b30e95b74640c2d5f892ca69923a23b1c3bc3f0dad8624d6915eff729401e1c"
+    },
+    {
+      "path": "packs/coc-professions/btDVRr280i4cG87Z.json",
+      "size": 1794,
+      "sha256": "ada52e9ab64cc8fe81e809ec1444d4ae4926076900b4002ac83e65ac5a14f615"
+    },
+    {
+      "path": "packs/coc-professions/bwjtx7ypEryAwfwp.json",
+      "size": 3597,
+      "sha256": "c7407b37d8aa77a83a0c03f5053a25d53ec8334a4641da406f50edc1b8504a37"
+    },
+    {
+      "path": "packs/coc-professions/bzobjmjtjSCqvVn2.json",
+      "size": 1708,
+      "sha256": "203f6532fde8f2de8af811cccc4732413ea600e1608080b0ee00e344710baf9b"
+    },
+    {
+      "path": "packs/coc-professions/cI5y6arjag6KNLs0.json",
+      "size": 3456,
+      "sha256": "c13edf95f4209c9df7326733f80801313375740284638e9cdd33a5cee0c9db2a"
+    },
+    {
+      "path": "packs/coc-professions/cgBCkKmp70MoGonV.json",
+      "size": 3228,
+      "sha256": "685a8016aef99826ac463e2822852eedcb9d4b98d77db10fef00fd305d1be729"
+    },
+    {
+      "path": "packs/coc-professions/cuGhSLa5UrZhdG4A.json",
+      "size": 2812,
+      "sha256": "fe1cb2905218d739bfee249c590e43a2bbdd3f000556e6b0742e50f1da839e2a"
+    },
+    {
+      "path": "packs/coc-professions/dHW0LKta6amMt0IW.json",
+      "size": 2806,
+      "sha256": "7dc02e7d052f4fd6aa42f4cf96f5b1152e4c5cc1270fa7e39063dd909ddcadcc"
+    },
+    {
+      "path": "packs/coc-professions/dZGMenIIh1pzyzef.json",
+      "size": 2131,
+      "sha256": "ffbb21ed4a755016e0307cd553fc41a019f2ee46b72efab71d0ef1e5563158a6"
+    },
+    {
+      "path": "packs/coc-professions/db0kvCYRfamVehLc.json",
+      "size": 2859,
+      "sha256": "5c752b201a38e6b7ed7fefcbd2d8f468bb3c2acea126d9a8677d5d53f45de921"
+    },
+    {
+      "path": "packs/coc-professions/e7iLAuyGpunZ5XyG.json",
+      "size": 3305,
+      "sha256": "24e8f2ce5cadbebf0ecbb54e818b8b1c8ff4fa0856d9d53e5523cb6f616d061d"
+    },
+    {
+      "path": "packs/coc-professions/fYe28qVW3seOazkV.json",
+      "size": 2379,
+      "sha256": "809eff6ef9b4e607dc36001589e015d7952c60a76e56372439a4cf516b8c0f0e"
+    },
+    {
+      "path": "packs/coc-professions/fnuUphEizOCru9IF.json",
+      "size": 2400,
+      "sha256": "ab92e45094f7f6335df027fccda0eea2294808bdd07cc400592768aca59d4e80"
+    },
+    {
+      "path": "packs/coc-professions/g8e4y3PuDN8hILst.json",
+      "size": 2507,
+      "sha256": "a57deafff1b38f8d589e9d93e63d535c2178ea49d41a97e3b833aa0574cd5b10"
+    },
+    {
+      "path": "packs/coc-professions/h9pXQE0S9U4gM8ny.json",
+      "size": 5912,
+      "sha256": "408bb4d21b47befc181bb6c76b19d3aa61393d4d1c1080b55ec73324d6d0083d"
+    },
+    {
+      "path": "packs/coc-professions/hJG0kfZ7Tr00FXkE.json",
+      "size": 2811,
+      "sha256": "25c0a3ac8f4df5e64740944c17b5205d35d4b5c7b2f83476c6735f4ea05f951f"
+    },
+    {
+      "path": "packs/coc-professions/ho2YQArqc258NGye.json",
+      "size": 2635,
+      "sha256": "df641c236071284983967f98f89d8c56073c2e9795d5d9dd7eba576d7d4a9704"
+    },
+    {
+      "path": "packs/coc-professions/i7TCeSqlHcNNMjRA.json",
+      "size": 6309,
+      "sha256": "fab9842770c925c4ab1ced00cd271f9a21a898f432bf1924da20187f7d231aec"
+    },
+    {
+      "path": "packs/coc-professions/iEDcCHlc0qxB4tHI.json",
+      "size": 2764,
+      "sha256": "3db1e5e7ce3af688f887e2263b811578c4db11290cb31629c03503ceeb5b2245"
+    },
+    {
+      "path": "packs/coc-professions/j1RSJ59Uem2b34Ix.json",
+      "size": 3940,
+      "sha256": "c3415f67f9e4440bc027b76bb5711e9d820fd05f29e112f1cff6e4a3a7b55da4"
+    },
+    {
+      "path": "packs/coc-professions/jOR4HfdTG3RNn4Am.json",
+      "size": 1828,
+      "sha256": "16b8e5f66e092947e8359c8645eb0836da84935b965a381ff5d12ada2a4ed359"
+    },
+    {
+      "path": "packs/coc-professions/jQuzvBGtcueBdctI.json",
+      "size": 2756,
+      "sha256": "db251194420b369f3afcb068d9abd87746d78f0bc3e700b541c5c28573940f0d"
+    },
+    {
+      "path": "packs/coc-professions/juIDoAvyisEPkxeP.json",
+      "size": 2798,
+      "sha256": "040dd5d06800d7680021bcc73e51574a769cb0fbe1803aeaa0ae222eea2c44ff"
+    },
+    {
+      "path": "packs/coc-professions/k5RWj5hYwCNAxcUh.json",
+      "size": 3321,
+      "sha256": "f38f3f07bfdd05ced7a8fb7f381cd254fb1736f973e2c26018623aedcf69c126"
+    },
+    {
+      "path": "packs/coc-professions/l2qwcPd6aknl05Eo.json",
+      "size": 2860,
+      "sha256": "6205e149e4a6649e88a619ae87a70701557dd5477ab870e94e9d9c4006b8035c"
+    },
+    {
+      "path": "packs/coc-professions/lIbPrxuEnPMHhQBi.json",
+      "size": 1768,
+      "sha256": "4105a0b47e0b9dcece43e2debc0849c9a8f4361bae3531412e3c36eff7e57fee"
+    },
+    {
+      "path": "packs/coc-professions/lZx0nNh0jzNvT4BN.json",
+      "size": 2419,
+      "sha256": "7a385fc09b1b8ce76541e15da643fd7e296ef7bf62ea502fa6ff045a0b059d77"
+    },
+    {
+      "path": "packs/coc-professions/mSOkE3StiMr409Pz.json",
+      "size": 3965,
+      "sha256": "4530c04565d78dd92ff709ca2b7f7f127c09d6f7e53c10cc2dd3e4a213da49b0"
+    },
+    {
+      "path": "packs/coc-professions/mgvjWkQXu9QftDBA.json",
+      "size": 1900,
+      "sha256": "74dad5cc5b5384c9c7b0e20f64b348bea3793e136331240c79d54f3af88ce991"
+    },
+    {
+      "path": "packs/coc-professions/ndw55DD29zr3hu4Z.json",
+      "size": 5262,
+      "sha256": "765fa0e17be44349ce2bb054a1e839c827b8b03268523f2023cef6e3079123f5"
+    },
+    {
+      "path": "packs/coc-professions/o4poryCQ9TXoj6E8.json",
+      "size": 2360,
+      "sha256": "8ad85211828b845a2e51c64cc825cd16c0321d4b6cabfbbd02a7954f1ddc7453"
+    },
+    {
+      "path": "packs/coc-professions/obfiw9ThHZnZwYqP.json",
+      "size": 3568,
+      "sha256": "80448d0161c46e8d6085f8a216d9d19e459ea9ae5a9fceaa4d430963c8619c47"
+    },
+    {
+      "path": "packs/coc-professions/pa6blCM6X60m0A6e.json",
+      "size": 5305,
+      "sha256": "dd0dd20ee9ded402f44e4b41c821e3b4268b00a83d67469b108162a567cb07df"
+    },
+    {
+      "path": "packs/coc-professions/peRQpAv0NKJIVt0M.json",
+      "size": 2677,
+      "sha256": "389f23e2a296623c9ef872b3403a80dc3e536d32acd6dd2b375500a2ab45fd38"
+    },
+    {
+      "path": "packs/coc-professions/q3ZpofCZ19IfNzyZ.json",
+      "size": 3595,
+      "sha256": "1f487cb212f7c93dd9ec0aa9dbeff6ca1f2ef7dfd7730db8e64113708b6d02ae"
+    },
+    {
+      "path": "packs/coc-professions/q6iDyd4riEIMbpVw.json",
+      "size": 4373,
+      "sha256": "78d0902c98f90edecc51c12701906948f2b3743207656695f270c1b8b84b99c8"
+    },
+    {
+      "path": "packs/coc-professions/q6r7ej5hvAlZRm2X.json",
+      "size": 1999,
+      "sha256": "a02e3b21f4eb09e04f912f81d09a95b31686bf4b4cb86b5d1d734ef8773a9217"
+    },
+    {
+      "path": "packs/coc-professions/qMuw4Bm4AZsyj3eg.json",
+      "size": 4384,
+      "sha256": "8739016d9714b18c8426ba1942e897df5da7a1b49e94d72fd554fa2d627e5a90"
+    },
+    {
+      "path": "packs/coc-professions/qrrmfAf8QaFVlNkt.json",
+      "size": 3559,
+      "sha256": "05b7e333b60c56be37ad6a38c6df0cf46830d1fbacbd01c05cb9d3fe52062044"
+    },
+    {
+      "path": "packs/coc-professions/rdGNcpej3zPqS8cI.json",
+      "size": 7583,
+      "sha256": "c552710732592216e4ebc2d3776588ecdfb8cd06b7891befceaa760e68ba355a"
+    },
+    {
+      "path": "packs/coc-professions/rdHe4NVOr5JbyEhi.json",
+      "size": 1985,
+      "sha256": "6959b5a5424a3c6e732839eb9c7eb8c9f9bc42fdec2622a813f1c63cfe3b9f44"
+    },
+    {
+      "path": "packs/coc-professions/rzx2O03qZuCBjjz3.json",
+      "size": 4185,
+      "sha256": "90e915722a259165e47b9a1bec8116eec8c3a103df735354b1356353e4826d64"
+    },
+    {
+      "path": "packs/coc-professions/sFueT2iKcusFpLUr.json",
+      "size": 2540,
+      "sha256": "04a8519932c497062f5f75c66b1af48ce20e98844742fed9b821b23300c8ddef"
+    },
+    {
+      "path": "packs/coc-professions/sMrqWBgy7qJ4zoYF.json",
+      "size": 4108,
+      "sha256": "8e7e0894cdb43a00c49f6fa0cdeddfaa2c23a4af6ee9b613d5cdbc84d471ee3b"
+    },
+    {
+      "path": "packs/coc-professions/sORSqWabmV2tOsZd.json",
+      "size": 4312,
+      "sha256": "c2db4d289b0d81c0b136b9b2d94af25271c073a703c5a36c96b824b9e8ee2c49"
+    },
+    {
+      "path": "packs/coc-professions/sirEKCEcF5GqcCq0.json",
+      "size": 2454,
+      "sha256": "3f7240483c97ef737238af5b88e21b3c6e8e1b4bd8afaa5781fdfecc77b23d65"
+    },
+    {
+      "path": "packs/coc-professions/sxDQieFwR6FMBG9v.json",
+      "size": 5577,
+      "sha256": "6ec697278d7f4cce4977f15cb3238fc082e2eae3d4582f1234187217f676a92f"
+    },
+    {
+      "path": "packs/coc-professions/syhiqt3SFoF5lIg8.json",
+      "size": 2520,
+      "sha256": "50848cdee755eafe153262bbaf0496ea5457a9803b2bfb0edb4f0bc9776673a9"
+    },
+    {
+      "path": "packs/coc-professions/syosejECYvsAnQke.json",
+      "size": 2770,
+      "sha256": "adaeda6a043f5db829b19828ceefbda3ef9268963cf17deba14eb596eb2d0fcf"
+    },
+    {
+      "path": "packs/coc-professions/tMFc1LPYIoipAnhP.json",
+      "size": 1813,
+      "sha256": "9e0eb9a3db6c06396a911e65af3e2b0ead384a5a56a2621c756b4f432be93a39"
+    },
+    {
+      "path": "packs/coc-professions/tXgwOU0A1ZxJ0hRd.json",
+      "size": 2801,
+      "sha256": "b7a4e2cc62d126a9532a0292d5452a19f00b975047cb6605a0eb8129ce87f211"
+    },
+    {
+      "path": "packs/coc-professions/u5OeOF4AbyDPKJfe.json",
+      "size": 2910,
+      "sha256": "879dac62d6e6c952ad77843d47f1a66c7f5e46671ab0587e581549bf843d60ef"
+    },
+    {
+      "path": "packs/coc-professions/uRMLwmqsqHEmh70q.json",
+      "size": 3919,
+      "sha256": "ab83384263f41c1c1bb53ce84124b5bcd8d2e6df07f71f54d853c19e38a31ab3"
+    },
+    {
+      "path": "packs/coc-professions/uh471TVQ6tYvA4Vo.json",
+      "size": 3393,
+      "sha256": "898aae961fabb6970b397fc45e342c680c1cd8615f1cd135f58e9c3d82e6525a"
+    },
+    {
+      "path": "packs/coc-professions/v97V0LwNaMJACxWp.json",
+      "size": 3484,
+      "sha256": "f56f3ec7747f350e140734a6b261c52e7f8995f2a52c2fc61c1dde040c461d30"
+    },
+    {
+      "path": "packs/coc-professions/vnrzg2czN1KTc5ZU.json",
+      "size": 5705,
+      "sha256": "0dd4f1b841f74e964f437343b0ebef0a5609da02344ae8027319faa3f3a774b6"
+    },
+    {
+      "path": "packs/coc-professions/vopOC9KdtiafaZkm.json",
+      "size": 6923,
+      "sha256": "634e0b7684de4d55eccf1906ccf648b6237a08f59b8ad558085350546d775042"
+    },
+    {
+      "path": "packs/coc-professions/wEE5Qtv7fxinPLfL.json",
+      "size": 4240,
+      "sha256": "9d115f91f608e5a02b6e0dafad4d596f23d142b3db019328b45ca9fa51829ad6"
+    },
+    {
+      "path": "packs/coc-professions/wXS1joZtAGI9UYmQ.json",
+      "size": 3450,
+      "sha256": "1428b469c3d8458d752681437c24a6b63bb2bf49d0ea04eaf4b64b46c9ceb992"
+    },
+    {
+      "path": "packs/coc-professions/wr62xs5DjpnP5yoI.json",
+      "size": 2992,
+      "sha256": "755d54e320408b0f1bb717a09aa16d064ee8e4ce8f05b3c6ff87cfac99b44fb1"
+    },
+    {
+      "path": "packs/coc-professions/x0cf16ZjDZaQMiEf.json",
+      "size": 3744,
+      "sha256": "8710bb803ec8d01d6cec60f4adac1e30ba0a3fc2afe8f9b527d37ecb144dca71"
+    },
+    {
+      "path": "packs/coc-professions/x3mPowFae8Zco8g1.json",
+      "size": 2928,
+      "sha256": "e7780b106edd96401360b6bb8452f2602d97823868c78d7451a71891ea39327e"
+    },
+    {
+      "path": "packs/coc-professions/x5lyk8rr6IRlEI2E.json",
+      "size": 1832,
+      "sha256": "c6f44e083673fa8dabd469868938070c04f51b0d8fe54be8e97e68f7efcdcba1"
+    },
+    {
+      "path": "packs/coc-professions/xGhfOdAggRSgGZAx.json",
+      "size": 2912,
+      "sha256": "adcb6fd2c6e61017992119e8c6ff4da8d3c3dbb9745e787cdb7ca5591f4d7218"
+    },
+    {
+      "path": "packs/coc-professions/xuVIJ9GFXJd24WF6.json",
+      "size": 3464,
+      "sha256": "9a4fe1e1794862d492cdffd8b9e612b4a66222fcd3e25eab6f5747ee7c03b6e0"
+    },
+    {
+      "path": "packs/coc-professions/yJYhiKwtK7qUzT0K.json",
+      "size": 6481,
+      "sha256": "78e4ed419b1843a658f0f416f4a1351d35dac57dfbd0c9558a8878f2e7bb40ea"
+    },
+    {
+      "path": "packs/coc-professions/ySjSa1cloDtKGbLB.json",
+      "size": 1885,
+      "sha256": "1bae59382395eaf787edbd2b7d7c38d133e48fa3d13aa28f75c7d7267389e40b"
+    },
+    {
+      "path": "packs/coc-professions/yYZsH5MdN1phJMhX.json",
+      "size": 2906,
+      "sha256": "1c7f5c1be2138c332be7c86ffcc28feecc019fc543f0a15d52a7b8b4783f2439"
+    },
+    {
+      "path": "packs/coc-professions/zFFIoTqdYK5xbK4g.json",
+      "size": 2450,
+      "sha256": "48e405a8174950cffab5a4b79049ce170929327112e5da22c0619a84e2bc810f"
+    },
+    {
+      "path": "packs/coc-professions/zXCvslyCN6mgkWx8.json",
+      "size": 4997,
+      "sha256": "ab83ba26a747dc79a06eb1e318d18beaa6918fb5934bfd4fadcbbbe07fcb0d82"
+    },
+    {
+      "path": "packs/coc-professions/za5pjEIuIhZ6R3qJ.json",
+      "size": 2934,
+      "sha256": "f3cc6e7106d3b4526b0c086e348fa047272deb703fbb72726a12ba83c18640c2"
+    },
+    {
+      "path": "packs/coc-professions/zqCbeaCaymj6SQm7.json",
+      "size": 4441,
+      "sha256": "172b4abbcfe7133a5dd2031e068dc61a01664648769adf8dfc0fe928d04b9a2a"
+    },
+    {
+      "path": "packs/coc-professions/zqi4Lz4L9ZavXwBG.json",
+      "size": 2782,
+      "sha256": "4d62353779d7ff123f313b6849affcef6eadfed85e224f7f825c554c035a3269"
+    },
+    {
+      "path": "packs/coc-skills/03IOJtCr9psfhkLg.json",
+      "size": 922,
+      "sha256": "09530c8480d52a09f7e862f5c3cdefef7eef1471754302c8f825f76b0cb74625"
+    },
+    {
+      "path": "packs/coc-skills/0AAlWrrgIC6iZezX.json",
+      "size": 917,
+      "sha256": "86b1c372d531e02ae0dffa2bdff250a6ab1f3d0b0f64dac7ed6789165f67b84c"
+    },
+    {
+      "path": "packs/coc-skills/0ysoEiETgRDwqDll.json",
+      "size": 953,
+      "sha256": "276cc47b44bc7b1fc353e751a3a403c8d8c32bc3a3329f5aad16c360e7b75967"
+    },
+    {
+      "path": "packs/coc-skills/11sRAhrEnc92m05E.json",
+      "size": 948,
+      "sha256": "1bb52cfce470602bb68f4248694e5c1f2958544ef2ffa4000218f405d142f520"
+    },
+    {
+      "path": "packs/coc-skills/1GMNDl2j6zfGXyI3.json",
+      "size": 902,
+      "sha256": "2fec7f5b20017974e9e5bd7ef27550af1fb009ed7e83077f3d505b16aedd35dc"
+    },
+    {
+      "path": "packs/coc-skills/7BNMWqPVJyA0sReg.json",
+      "size": 860,
+      "sha256": "bb34f401b2f05ff59e5d599ec846e8a7006d427a51c57f7439143b902f48e61f"
+    },
+    {
+      "path": "packs/coc-skills/7WwKSOQFVJeDC4hr.json",
+      "size": 844,
+      "sha256": "a3e7a90d62aa8872d86ee887422fffce971d7f30a8f04d6f16f3c74d22952ac2"
+    },
+    {
+      "path": "packs/coc-skills/7zQTHnGe7rHoRnjC.json",
+      "size": 842,
+      "sha256": "c4b197646f36ae5724347c128679e1468f6b1cdc45be8e2b88f431b5a1aa52cc"
+    },
+    {
+      "path": "packs/coc-skills/9WclC1qp9ZYdl1pf.json",
+      "size": 915,
+      "sha256": "60fb3a0e0e47bb83af8012e0c61d2be26a9e10904422daac36256c0215a22e07"
+    },
+    {
+      "path": "packs/coc-skills/9dh2bNvAxHd55Jrw.json",
+      "size": 1001,
+      "sha256": "f2a6ebe8754d13ec42cb0a0fd8ce075c45e1c1696d3126ff3a2329ab90e31e4b"
+    },
+    {
+      "path": "packs/coc-skills/9vt3o8IIdMi9HXZ5.json",
+      "size": 953,
+      "sha256": "566fca697e79dbba6a1ff6c955cc9c51e9606bd38689282aeab9b68035e264b5"
+    },
+    {
+      "path": "packs/coc-skills/AbFYN5iZK5ocm7gQ.json",
+      "size": 910,
+      "sha256": "6d576f5ea998c46a89ec412c4e809449b8f537f723e5572bab680d465c6cf3d8"
+    },
+    {
+      "path": "packs/coc-skills/AwLPg18IRN57w0fB.json",
+      "size": 835,
+      "sha256": "c0e6252b38f8b48bd740fcc37f26cb692faca601c45f55ebaed100e36b7ba2b3"
+    },
+    {
+      "path": "packs/coc-skills/Bs1gkNxebfcMmEem.json",
+      "size": 871,
+      "sha256": "371ecaebb2fbd0287ec809a8f0aadf9443f1ef02ea1f02346328752c33378a21"
+    },
+    {
+      "path": "packs/coc-skills/EFVIz8qOdZvW2Rej.json",
+      "size": 847,
+      "sha256": "2f9196a076ae0dc44a11eb5f9ca7bd3879d7c2b9c651f90f462f574dfec347ed"
+    },
+    {
+      "path": "packs/coc-skills/FYszZeEWTX2DBFSd.json",
+      "size": 904,
+      "sha256": "e16b317a748d2803e080efde99ed4ebeb7ebbe3656c206d75d0424d9daadc1c5"
+    },
+    {
+      "path": "packs/coc-skills/FcXGDagoFY3CsOZi.json",
+      "size": 849,
+      "sha256": "fdbc7887150b5ed23576b708359f678ebf047521f741bcb540cbd614e2de0f4a"
+    },
+    {
+      "path": "packs/coc-skills/Fzj3HEWBr9SsyNvS.json",
+      "size": 938,
+      "sha256": "0175bc9acf5e3f8bddfc1dd846532b769842ac06de0b4f175cae75b99445569b"
+    },
+    {
+      "path": "packs/coc-skills/GduMYPbct7oMJEt8.json",
+      "size": 849,
+      "sha256": "c6266f873d973d5c0d1450bdc54ecd3baa25c13816578be88962bc151cd98cc2"
+    },
+    {
+      "path": "packs/coc-skills/GgBauywhcx3bJVG3.json",
+      "size": 878,
+      "sha256": "689345e65148db564e58219b6fdc676b89548247c0332ece4d4e456f23488c6f"
+    },
+    {
+      "path": "packs/coc-skills/GyfbAWiGp3GBa1MR.json",
+      "size": 814,
+      "sha256": "b2b1974790a7e174849feee3251803ff50794d76d38f4bd553a350f91d90ca72"
+    },
+    {
+      "path": "packs/coc-skills/HDWgdIhpGGLSC0Ns.json",
+      "size": 908,
+      "sha256": "ddaf10af376d2fabb42c62deea58ff01ad7368a68b0b9983565e5fc2e7b0be63"
+    },
+    {
+      "path": "packs/coc-skills/HFQd7DHbU0brVL3d.json",
+      "size": 945,
+      "sha256": "5f379d543b3f06e5575200ef12a8b9161f2d643b47db98b0fa9e8774ea13fa1f"
+    },
+    {
+      "path": "packs/coc-skills/KAT6rXWeJrlD9MOD.json",
+      "size": 820,
+      "sha256": "b3df8acc934c4b8d88230907711b8408424afaad22bfc8331cd1714e2b14ff91"
+    },
+    {
+      "path": "packs/coc-skills/KToPfyAmRHbJUbRJ.json",
+      "size": 920,
+      "sha256": "6831c2fd223da59e8a1d81004f917ef133714a907d9fd801a440df558bc5ced8"
+    },
+    {
+      "path": "packs/coc-skills/LvXnqaAxwiyzyWTg.json",
+      "size": 906,
+      "sha256": "0b5676452ca64dc167304cd1d192aed72095de6d1d8c2d76df2e21afe8152612"
+    },
+    {
+      "path": "packs/coc-skills/MXi7qoAGbFhDFGJ7.json",
+      "size": 962,
+      "sha256": "02809916e906b61d05810b404ede24954d74e197826a5627e9a76194c40d4758"
+    },
+    {
+      "path": "packs/coc-skills/MucNS8Gpk9jXxcg1.json",
+      "size": 946,
+      "sha256": "f4f923fde434e303f1b0d07ffb3ce704d0d760beb8751753318f20a6ea60540e"
+    },
+    {
+      "path": "packs/coc-skills/NEiczXQzhWgyrtzI.json",
+      "size": 890,
+      "sha256": "669573f767918654f72cbc412a6261bd6491df08d600a6c7e51032a5da9367e4"
+    },
+    {
+      "path": "packs/coc-skills/NeiLzxM7dLr6hC5r.json",
+      "size": 855,
+      "sha256": "41716d01b1ad55914dd15d98a8c0cf2df93fa0eb3b84ade46e2c2b5a5865bf8f"
+    },
+    {
+      "path": "packs/coc-skills/OdugCGiQt5WkewJ5.json",
+      "size": 870,
+      "sha256": "4504fa2995f42be61a6bf4747f49e648898d4033161a3d2a2bf63425f2d12b01"
+    },
+    {
+      "path": "packs/coc-skills/OlX1keGDxhw1KCIe.json",
+      "size": 903,
+      "sha256": "24d4bf690afaff6e5ef8266ba5cdccf317ce1b882be1f048876db5d16cf1cc54"
+    },
+    {
+      "path": "packs/coc-skills/OprgKpztxOCjv9MA.json",
+      "size": 848,
+      "sha256": "c26bacc7d9b6815f5813c698ee7d52c4e5673160c3543689e14f0cdf17b5cb3b"
+    },
+    {
+      "path": "packs/coc-skills/P5i3vrcbbMomODZW.json",
+      "size": 945,
+      "sha256": "fd143d4d9a6d3adb4852052a70e82bbce230b15673e708e8ae0b41c5d77fe8bf"
+    },
+    {
+      "path": "packs/coc-skills/PbKsNi34CVtdcZEX.json",
+      "size": 858,
+      "sha256": "491c0b62e92decc5190bb968c7d028e7c6ed2f56184d885825f4950b2bde919e"
+    },
+    {
+      "path": "packs/coc-skills/Q99xKqgzylVeB7aR.json",
+      "size": 888,
+      "sha256": "ee66fb0b11a7b2ff777ccb4d39e730e54e3b8d099700da70260aa46711994cf7"
+    },
+    {
+      "path": "packs/coc-skills/RS6e1ho0S4LXuWBc.json",
+      "size": 868,
+      "sha256": "1b133779c1e74158f2c69bb2ea0e16979fd83b4584787b4b6e73a8b961a13e04"
+    },
+    {
+      "path": "packs/coc-skills/Tc2MdQ7QKDUCns5v.json",
+      "size": 956,
+      "sha256": "419e48a90c2073168ddf12dce86ff48f8823dad14aa5992e3b28db35b19a9e07"
+    },
+    {
+      "path": "packs/coc-skills/TeGTcKFHKUjPCzxi.json",
+      "size": 929,
+      "sha256": "cbfbd832415a22f5aea48dd45792590e435dda6a96ca1d555054fc388d5530c5"
+    },
+    {
+      "path": "packs/coc-skills/VcW0QSmva65xYMUF.json",
+      "size": 946,
+      "sha256": "346452a4d7dc298d7cb0b8f38fdedb6d4eac5e28d72bd04aaaad0cd1df985389"
+    },
+    {
+      "path": "packs/coc-skills/VkTPXjdacqcNy7IK.json",
+      "size": 898,
+      "sha256": "24a05473f5d4ebfc45509adc12c50b5dff10076185892ac171717274c0503d04"
+    },
+    {
+      "path": "packs/coc-skills/VvQ3kwJkRmfwdxZr.json",
+      "size": 828,
+      "sha256": "2e1707bbca797910690947ce6fc20ad88e49fc9556caba8e7c5017a79b6516a5"
+    },
+    {
+      "path": "packs/coc-skills/XBPmBl9yAuJ1Peo9.json",
+      "size": 827,
+      "sha256": "87a4414dacee0677d17f9610dc1c4315570cfe97e7be523b69cee6dbf3fdb151"
+    },
+    {
+      "path": "packs/coc-skills/XDEPC1hKNzOnH3Zg.json",
+      "size": 943,
+      "sha256": "789c51025ac1e63cf08f93ac743d956a6b37c319fee7e3c3ff093057006ccfb3"
+    },
+    {
+      "path": "packs/coc-skills/XFTLEmt7ULlfiVWT.json",
+      "size": 854,
+      "sha256": "bb4e03e58c1256df8ded7e73e442e5bafe2645652f271c4a7bb86ebbccc6b312"
+    },
+    {
+      "path": "packs/coc-skills/YY2QWZ0T7f8A76NE.json",
+      "size": 932,
+      "sha256": "5fb6dc941463a5c0ff7081c4d0a8aa295ab09087f15457b31a516050f1f0a7e5"
+    },
+    {
+      "path": "packs/coc-skills/Ya78rigufztVtROW.json",
+      "size": 951,
+      "sha256": "8d1f64b35db1c6da302195fe4628a885c07ce5acb9bf94e677d068955c61838c"
+    },
+    {
+      "path": "packs/coc-skills/YdgqZpurYRRtmgip.json",
+      "size": 879,
+      "sha256": "25f15f8d1b6c35e69adb5c32fb245521b07a1a1b3b32b9077333ed6ee9258af9"
+    },
+    {
+      "path": "packs/coc-skills/ZWPHsfsnvxzgcwPF.json",
+      "size": 949,
+      "sha256": "41dcec137fe6e5ae99dd4d8d269c976aff19b2b989ca64fb25b9879f0b777e49"
+    },
+    {
+      "path": "packs/coc-skills/ZsbrYPHoyqIA6fGF.json",
+      "size": 833,
+      "sha256": "b5f203b6cfb0134003bf5c26f1cd3f806f2a2eaedfca23d192d199d986fd77d0"
+    },
+    {
+      "path": "packs/coc-skills/a1dJxqAXYqYlWsqc.json",
+      "size": 856,
+      "sha256": "4ae64e15baf58e9966877844daefdc8697cc10336fecd06368cc8c5357e1dd82"
+    },
+    {
+      "path": "packs/coc-skills/a3rpM1u0kGnmqesi.json",
+      "size": 936,
+      "sha256": "eb2db120b504c9aed83b66514e5c197a477cde58832bcd8266a53a5b191d388e"
+    },
+    {
+      "path": "packs/coc-skills/acDj9JcQQNbsARhC.json",
+      "size": 820,
+      "sha256": "79002d54255169c1bb44d0ab7cfe99000aaf07d7578b7b16735e65898d7a2c0b"
+    },
+    {
+      "path": "packs/coc-skills/bOIhegZL1iqyb8S1.json",
+      "size": 829,
+      "sha256": "2aeaca4609cce97cc77580e2f69839bf45eb6b456c001f972a00549f8ca022a4"
+    },
+    {
+      "path": "packs/coc-skills/dJFv4Qd5vqg7tqXC.json",
+      "size": 905,
+      "sha256": "ced53561aa316f1963fc124a8d319d5785defc4ccce06323e1318b67b775bef9"
+    },
+    {
+      "path": "packs/coc-skills/dbPdKXNf1Ccm2J0a.json",
+      "size": 818,
+      "sha256": "9e090ebc1b84cc9d93c4725b0851365dc1a4f5d2fd175fb73218f45720fe1fc1"
+    },
+    {
+      "path": "packs/coc-skills/diY0vuZhfduvl3kK.json",
+      "size": 902,
+      "sha256": "596e6c2fe8d80a437afd664ed2bafe28dc8af2137f8b56a2d9bc986ad71580ee"
+    },
+    {
+      "path": "packs/coc-skills/eKnqrVHDFmGDtEYg.json",
+      "size": 841,
+      "sha256": "51dbecd5691b58ad285ca032fb81901c8b59d5fe6e10780c77709513b0aac8d8"
+    },
+    {
+      "path": "packs/coc-skills/ebCHph0biyJ2AG3j.json",
+      "size": 824,
+      "sha256": "1cc9fd708e16d4e0d2534a3bcb6ee3d3f891149318cfd14f2f479d60c0dbeadb"
+    },
+    {
+      "path": "packs/coc-skills/ehKcuxiTWOk0GDgA.json",
+      "size": 860,
+      "sha256": "67848b276d7b9b44ea9d5adcc48f41fbaaa82b6af4ae1662ff3df65c3a42d3b1"
+    },
+    {
+      "path": "packs/coc-skills/f7bsCdzSlFXbREZB.json",
+      "size": 942,
+      "sha256": "e63cdc371180a506d96d68e48e0a5ef6ccdbc0b54499d26a19f9a590f69b41f7"
+    },
+    {
+      "path": "packs/coc-skills/fHdlJ2r8hzJAHBnx.json",
+      "size": 828,
+      "sha256": "e706acef00db09f67a1e85560d036a4fe2acf875b7ac0c65d3e5bae0b7d3c20f"
+    },
+    {
+      "path": "packs/coc-skills/fwjXSgaOTh0oh0fj.json",
+      "size": 937,
+      "sha256": "b4fe58e68abb97dabc388112b42a4f27d613ac4c420ce5cfe7948f1a13a41a30"
+    },
+    {
+      "path": "packs/coc-skills/icEnsbSORKp1qZtF.json",
+      "size": 964,
+      "sha256": "e1c3f1d6ae4ebdeba6a0222c53b2f370c0dbaa22462d27ce59403b30c31eca1a"
+    },
+    {
+      "path": "packs/coc-skills/iyGal5hstQ2SefS0.json",
+      "size": 852,
+      "sha256": "65f11b254c81c6b82ca7cee2afb9086ccc4541af03f69e733c22b80deaf48c01"
+    },
+    {
+      "path": "packs/coc-skills/lciqRkvUQH0jYqq2.json",
+      "size": 822,
+      "sha256": "b65a9b18b262ac66545e937f66e461eba6337aa443b94bece914b14c413a22e6"
+    },
+    {
+      "path": "packs/coc-skills/lfaJ9sfEpwhlrVph.json",
+      "size": 808,
+      "sha256": "1f4fd1c4dc7a15a8ac76335d83885d3981f6d701a2addd6a0872bf17d4317044"
+    },
+    {
+      "path": "packs/coc-skills/mFYJcDBHmADhKRNW.json",
+      "size": 870,
+      "sha256": "27c17aa54082c8f08ce9e9024347d6bd5a96f1532adbd5b005fb6435100c3732"
+    },
+    {
+      "path": "packs/coc-skills/mTXA1OJqEe8jdrgk.json",
+      "size": 898,
+      "sha256": "b6c14c17d11bdb77ddf7062a29420b8a972dca02c96ab2bda95a75ff23fbc0b3"
+    },
+    {
+      "path": "packs/coc-skills/mhG3if5iht465aSn.json",
+      "size": 850,
+      "sha256": "11f27d404c412d30d66e114d1a197302f52b79504d74688ff3cd4c49ea2b41c9"
+    },
+    {
+      "path": "packs/coc-skills/n8ACQitSLni4geaF.json",
+      "size": 841,
+      "sha256": "835cecf4e7d493252306dcf6972261e959db2abfc524a09709870ec7ad1a512e"
+    },
+    {
+      "path": "packs/coc-skills/oJeEiHzOXS9AO4Fi.json",
+      "size": 958,
+      "sha256": "c07cffef6cebae4ffc05c3a66722bbfee06df370cb736a059fb4a14bef3e0a89"
+    },
+    {
+      "path": "packs/coc-skills/oNzu3fHKqOJ5FVVq.json",
+      "size": 862,
+      "sha256": "a57a6fd2ccde79454e23729eb563188d6329f89441bf5afedfcf11f6678d4749"
+    },
+    {
+      "path": "packs/coc-skills/ojfHa6wDmmM5s0ey.json",
+      "size": 893,
+      "sha256": "b32166f8062afc378d0d8f0df2c0f10a16d6eb00ea65ba50f7af1346a7f9508a"
+    },
+    {
+      "path": "packs/coc-skills/okghi72jSCDGA3Hz.json",
+      "size": 812,
+      "sha256": "ebc836c53fcd114d9ee0677ac51ce79e38e3aa0ba781eec9363273e7cf50ed5f"
+    },
+    {
+      "path": "packs/coc-skills/paZT2vSGfhlTBGSZ.json",
+      "size": 901,
+      "sha256": "040fb4fec42c2ced4ed1426f14eb452012fd064b4ba28a099b5a542de06c84b0"
+    },
+    {
+      "path": "packs/coc-skills/qg1EZMCkC7VLFVcy.json",
+      "size": 894,
+      "sha256": "214f9799f89ddde9ebf7fb6da27e56e3575ffd3b5fc7b20ed106083412b2e74d"
+    },
+    {
+      "path": "packs/coc-skills/rBRaqMQqBCws4gOS.json",
+      "size": 939,
+      "sha256": "62ccb8a8386bfef8e1971ac0b4eea96dfa1f5bde0ae08d9be19fb9c3b149e5d2"
+    },
+    {
+      "path": "packs/coc-skills/sWk9oCrzamoVHGzn.json",
+      "size": 903,
+      "sha256": "e49dfa0c0dfb0ca2251b33abc91588d2cc607b45d99057a0024187e9440a85c2"
+    },
+    {
+      "path": "packs/coc-skills/sxKcGlBfdQ5R0SDt.json",
+      "size": 892,
+      "sha256": "dddd711d2f0872e63767ac7bc8e2e819ad25529c47eb6eadb2f22c385ba30051"
+    },
+    {
+      "path": "packs/coc-skills/tYFug7dklIQrgfZC.json",
+      "size": 821,
+      "sha256": "17138c5652ea94e5857a4399996afa7ea06f68d076c4a60dbde7447fb477611a"
+    },
+    {
+      "path": "packs/coc-skills/u7i5VkGXGst2vopx.json",
+      "size": 826,
+      "sha256": "03d846cfeaaf71153af3e60f0918869915918f579eb49fae23a500d6c34c2eb8"
+    },
+    {
+      "path": "packs/coc-skills/uYxt94ftQiHbwajm.json",
+      "size": 940,
+      "sha256": "008d08e4b2fca46bd7de7256e921cf81b8fcf5348b1efde4bc16f60ca8305f4a"
+    },
+    {
+      "path": "packs/coc-skills/vTV5x2qMctnhDm14.json",
+      "size": 927,
+      "sha256": "0dd9240c0444b391652aac2655eef7a123a4ca683472c7a2d5195afd7d838d72"
+    },
+    {
+      "path": "packs/coc-skills/ve3J9iJVEmEvjtO6.json",
+      "size": 931,
+      "sha256": "7991ad61b328005a341edc7538ba73059c08dea3195bf76f69a3b5ec4378a340"
+    },
+    {
+      "path": "packs/coc-skills/vtzRQOCNjhk0mzRK.json",
+      "size": 1011,
+      "sha256": "eb185a9742c8a55db61b22538692adedee391699a347604d55b81dbdf68e8932"
+    },
+    {
+      "path": "packs/coc-skills/wnVkcgYRKa02xsc0.json",
+      "size": 926,
+      "sha256": "a7c026ee78457638b0bb92dbc392d7772e8d9cd241f3878fb4d0f3c31cc0040d"
+    },
+    {
+      "path": "packs/coc-skills/xIaLauIBdQRcWVsQ.json",
+      "size": 940,
+      "sha256": "96ce757891479c9dc0ae882ba5ad5ceb060ae82c97640e656feab823d17cec77"
+    },
+    {
+      "path": "packs/coc-skills/yRoJ2aGTZ6XAmQbg.json",
+      "size": 932,
+      "sha256": "3c2393f2361946fb305a364258206a2af5dc9de5b2eccf574e9d67210cb4c21f"
+    },
+    {
+      "path": "packs/coc-skills/zp9eYH1FLjd04b0T.json",
+      "size": 890,
+      "sha256": "2e9b56136a283c497246dfc1db2368c6373415cd0b08831a23ec8e54fbb36ff9"
+    },
+    {
+      "path": "packs/coc-skills/zxbzRO9P1dqY9jzD.json",
+      "size": 932,
+      "sha256": "81762d2582641224b5f98f453ba23a107f1adf2adc3d5ec4cc0adc6016871165"
+    },
+    {
+      "path": "packs/octopus-professions/1Ts3NpLO58jca23v.json",
+      "size": 2290,
+      "sha256": "d6bd80014adae562a20afe09d9945571758afe8e6ab355cd5d3d96433011f05c"
+    },
+    {
+      "path": "packs/octopus-professions/33xJY5fXrDwaDVbw.json",
+      "size": 1704,
+      "sha256": "1fae3b08535ac8e13b0af5d6b2a7bde0deefc0bece2e5e893c06ed128640919f"
+    },
+    {
+      "path": "packs/octopus-professions/4caxaSc5DQLXcpuE.json",
+      "size": 2316,
+      "sha256": "434d066f3c0fbe9322e90724e60cb2b142037c0c58b6b275d35b4f65b18452f4"
+    },
+    {
+      "path": "packs/octopus-professions/8PhhKXm4Xr6ev9no.json",
+      "size": 1515,
+      "sha256": "44dbed3f4b4fbd36666c2f85386a3cb68f706d1a004da09918438d033c1e3765"
+    },
+    {
+      "path": "packs/octopus-professions/A3fxYTHeqyZA9H5j.json",
+      "size": 1893,
+      "sha256": "d33c325ac795c000ba08bf91952efef14891aaa526f3a449481791350e44bf1d"
+    },
+    {
+      "path": "packs/octopus-professions/ASr4Ke8QdgTCQ9VQ.json",
+      "size": 1747,
+      "sha256": "62d6076fe1fbae239573f2609fb7fa94b834554da6a626e131f87c1ad314b132"
+    },
+    {
+      "path": "packs/octopus-professions/Bzd73mFjhRTwWc8j.json",
+      "size": 1930,
+      "sha256": "b322f8dde44d2b88d7d4d3ef58f574715d4c5a9b2712e6a6e3515cf4fc9eab55"
+    },
+    {
+      "path": "packs/octopus-professions/H77mYXXh3QPTHwcJ.json",
+      "size": 2269,
+      "sha256": "5684a61ef87c465329d92badec77bf320eb99f6b64514c4b777345bd046932fb"
+    },
+    {
+      "path": "packs/octopus-professions/HcRkrgkHdk24He4h.json",
+      "size": 3093,
+      "sha256": "4a0746772b2b0fc8e309d9b8777f9a70fc838af03b9d857151c5ee61b1438ace"
+    },
+    {
+      "path": "packs/octopus-professions/IAsrePyROqe858cV.json",
+      "size": 2436,
+      "sha256": "7f170d6e0ef488325a3e8998086815146c0460aca73e686f387bfbc04d24d55e"
+    },
+    {
+      "path": "packs/octopus-professions/JSRjxzsur5xm41cf.json",
+      "size": 1643,
+      "sha256": "baf217868bc9f64ba508c59d05794c62e10a1431619a639a12bdf23b583b7830"
+    },
+    {
+      "path": "packs/octopus-professions/Ph44sy8CLBktaByo.json",
+      "size": 1468,
+      "sha256": "bf20295ce09924c717c0ac2ec614012816a9f9f05395ced86411400d2e123eda"
+    },
+    {
+      "path": "packs/octopus-professions/RMGRmZ8tIrQbBGZc.json",
+      "size": 1409,
+      "sha256": "addad75654dcd49ee1b73057f652bebaf8c0a93f1b66c7aefc375582b7c8dcff"
+    },
+    {
+      "path": "packs/octopus-professions/TZ1XgGgYqMsAwGKN.json",
+      "size": 1807,
+      "sha256": "df5505148233af16cab3d3eba05a68b32ee1d030955ce27258b4a4fc15a4d754"
+    },
+    {
+      "path": "packs/octopus-professions/Tv8edWRdKuaNXcQ1.json",
+      "size": 2745,
+      "sha256": "639406f7ec1b0e6b2dd637fee4deca69f4b175545bb2603cef98947e427a038b"
+    },
+    {
+      "path": "packs/octopus-professions/VhwvjtJnaM4p9y5Q.json",
+      "size": 1599,
+      "sha256": "2bff82d60c872e67c947d70e2d418ba10dff6265961cb83222e14ab3f0b04196"
+    },
+    {
+      "path": "packs/octopus-professions/WOYFvssU7nR0sf7X.json",
+      "size": 1470,
+      "sha256": "4888d2df765541885a5a4923e67b4e9180f7653f6a01e265a72f7ddabf83934c"
+    },
+    {
+      "path": "packs/octopus-professions/WStxAquddqSPhq0V.json",
+      "size": 2202,
+      "sha256": "435bcb36401bcb76b5452c7132ad67f441f421a13cb116eb21c53d4cf7d7e3d6"
+    },
+    {
+      "path": "packs/octopus-professions/WpL4RNjtWdVtdP8Z.json",
+      "size": 1559,
+      "sha256": "75c1605aeb1cde39b59d9b31eb201e9f4cdfbef0c3c60cc4d48f65b49a9b1373"
+    },
+    {
+      "path": "packs/octopus-professions/ZHzAGKvZ9NXgbVaX.json",
+      "size": 1929,
+      "sha256": "f75667f581a484244f8b5f60577330570e6baaf80136386c7232cd966ac6ba62"
+    },
+    {
+      "path": "packs/octopus-professions/a3ABJERgwGeots8p.json",
+      "size": 1617,
+      "sha256": "f56134e398b9d87bf433e759ebae072f2e4b1c7c3cc19f48821ac4156aed2ac8"
+    },
+    {
+      "path": "packs/octopus-professions/bJ701VoNaJ5qCSFA.json",
+      "size": 1201,
+      "sha256": "ff3a3814e979a75e7bc8112918e132dff8f7eb03f8bde29abceb2c719a38dbc5"
+    },
+    {
+      "path": "packs/octopus-professions/bYZl1BFyBRIwiljx.json",
+      "size": 1864,
+      "sha256": "cc748932d1a503a6b68b319648eee797a6ded2ce982fd6fed208963e59a03742"
+    },
+    {
+      "path": "packs/octopus-professions/d1pHHVLFDDNCqk96.json",
+      "size": 2248,
+      "sha256": "8d64f9c8517389f519832a0adf3922c03d5bdc71f84692dac60ec232334073f7"
+    },
+    {
+      "path": "packs/octopus-professions/dntQLU5JsFedTqsv.json",
+      "size": 1448,
+      "sha256": "a417c5e7ba3fba20e121e4115f7f84ea016880eb9d48abaf988c47c5c15ed215"
+    },
+    {
+      "path": "packs/octopus-professions/eUzqbU6RAb3tmeuK.json",
+      "size": 2615,
+      "sha256": "7766e53d4f99faa3ea1f13ca65366f81e0130f9f1a3782b5b90b0fbd8a3daa3f"
+    },
+    {
+      "path": "packs/octopus-professions/fNO77YJHawMnBnTt.json",
+      "size": 1441,
+      "sha256": "cf5ec57bf1794820716bce1a86524c13f49307254e9c37f624b8d8fc4770af13"
+    },
+    {
+      "path": "packs/octopus-professions/gCBcbIMrJy73kGZO.json",
+      "size": 2204,
+      "sha256": "cf2c6fd753231d6f5af56fd8983e8c7005b39ac1d3e3cb53e576b5c3ccb25d18"
+    },
+    {
+      "path": "packs/octopus-professions/gW7Exds3Rablpd0b.json",
+      "size": 1929,
+      "sha256": "5a0ca6f778189fa63b03cfe05783261def74771f8ff9f839c5c1074c068dda97"
+    },
+    {
+      "path": "packs/octopus-professions/iLxuazbVyNDjwaci.json",
+      "size": 1457,
+      "sha256": "64a7fa8a797ce607d932103443db5a47d1fcd23903ea2712ebf5240a13b2e7f7"
+    },
+    {
+      "path": "packs/octopus-professions/iO0vhJVMipDQOCos.json",
+      "size": 1831,
+      "sha256": "761fed41b8a3b95b4c3017a3964154e7c7d3c0cdefab1f9de77e0935aefc618a"
+    },
+    {
+      "path": "packs/octopus-professions/jrIZnhd9HZQ5k1JR.json",
+      "size": 3010,
+      "sha256": "c9238a894a64af86e8c595f9ce6a5ac69d6d59be1e8282b17e252df880302a79"
+    },
+    {
+      "path": "packs/octopus-professions/kuqmiOPTm2mhDqfq.json",
+      "size": 1287,
+      "sha256": "f8c7af2c5dacf41077e9d50a70fa777dc0de4b819dd791579f62b8e655079ebd"
+    },
+    {
+      "path": "packs/octopus-professions/mIY6pCN3EOlRedHa.json",
+      "size": 3046,
+      "sha256": "d5414c1c81d90b3ff91ada3e6c011990d35ce57a3efb0332fee6492b5b649519"
+    },
+    {
+      "path": "packs/octopus-professions/plzeouwBesvAeqdE.json",
+      "size": 1869,
+      "sha256": "720ccdd7bc12c3082b0288d4995aeee4413c015f894743bb96985d07d975df7e"
+    },
+    {
+      "path": "packs/octopus-professions/qJvsEd6OG93j0ZWK.json",
+      "size": 2163,
+      "sha256": "4930cdf79da2e03b9e9889c04beb50474df20a2d52e4016a4643654473b1ffb0"
+    },
+    {
+      "path": "packs/octopus-professions/qOpPbJY7KVlhYe1b.json",
+      "size": 2654,
+      "sha256": "2fc970c105cdbb50bb9ee5cb8f97e19a7e3e9f0ff67d5c9e81edb22da6909015"
+    },
+    {
+      "path": "packs/octopus-professions/qdbzCWj2FVjph9bV.json",
+      "size": 1969,
+      "sha256": "1f5c32f61601fd90db4a93dcf9fae3d1703ae876ef9d0d27619354710f3ef631"
+    },
+    {
+      "path": "packs/octopus-professions/qyHfRkEdJWHA5Byb.json",
+      "size": 2201,
+      "sha256": "5fe8b47868f7c386b679e5716247bdb0ededd71a4d5b44a8fd4f834c5f2fa14b"
+    },
+    {
+      "path": "packs/octopus-professions/vGQ8rm2obrvCKxmY.json",
+      "size": 2310,
+      "sha256": "f0bb11026a1de885b086fd7346c72b5b1654b3664585316b9b32a1130e2c6c18"
+    },
+    {
+      "path": "packs/octopus-professions/vnMs7lsIAoEpeaW5.json",
+      "size": 2180,
+      "sha256": "c5e4cc86d8c228b7c8d4e0f0c8bd9c2b007c3c09a2e970b0272460275f90bcae"
+    },
+    {
+      "path": "packs/octopus-professions/ydEWnWwAs9HD36Gh.json",
+      "size": 1235,
+      "sha256": "0848c82853dd9474efa615025550d704fecfdbd753970482776baf41558089a4"
+    },
+    {
+      "path": "packs/octopus-professions/z4Hpcv710Fy20Ps4.json",
+      "size": 1509,
+      "sha256": "22d37da44825effb0f3f22421fd24678267ba9f8447ccca351068d3385b244dc"
+    },
+    {
+      "path": "packs/octopus-professions/zlCebr0VuvTahGl1.json",
+      "size": 2661,
+      "sha256": "cd15a36ae0485890edc26b4c3f61ee8fe4bdd031b6b0d5312dc07708ca3be5db"
+    },
+    {
+      "path": "packs/octopus-skills/08isdXxNUiZpzPwB.json",
+      "size": 763,
+      "sha256": "d5ec04b1d5298a64c586329a6e6d13f1f86105246adfb6737ac863658da23e08"
+    },
+    {
+      "path": "packs/octopus-skills/0Sxq52N3I5ZeYj9U.json",
+      "size": 1110,
+      "sha256": "0fe125c40228abe4f0c979b224d5f768a59c40e843e01b2b79478f0ac96f703d"
+    },
+    {
+      "path": "packs/octopus-skills/1Z9MxPotMCGDnzDF.json",
+      "size": 794,
+      "sha256": "130684d494674a3bf78b4a2c6cf687b3ccf90323ebe4613f03bdf1a7f3500fc7"
+    },
+    {
+      "path": "packs/octopus-skills/2q1Ot1K98d57jJ5V.json",
+      "size": 323,
+      "sha256": "38dd9b5491570e6bacfcdba841c61bcb0bbf01f92bd3a395397f35223e0beedf"
+    },
+    {
+      "path": "packs/octopus-skills/5PSLQFjWJeqdLnG6.json",
+      "size": 921,
+      "sha256": "8fbf2052e0be0ed1e60eb473d6ab2f56697959df3bb00a1c63c7747cff84c41e"
+    },
+    {
+      "path": "packs/octopus-skills/5gn3x27Xlvx5iaAI.json",
+      "size": 723,
+      "sha256": "c098c276f6fd001c501ba6a40161afdaf8f2847470f7ad96e496686556a2ad6a"
+    },
+    {
+      "path": "packs/octopus-skills/6jquq5bDSJjUXVyv.json",
+      "size": 701,
+      "sha256": "a996b51f91ae51a35f7db642dcb45a003fd1f083ce822ec3fd4b3012978fde37"
+    },
+    {
+      "path": "packs/octopus-skills/7ZDNby3wkO5yKR6R.json",
+      "size": 698,
+      "sha256": "2603b2522491c362320caf246b033f6a25feb305418e37f1504f57e37cf05249"
+    },
+    {
+      "path": "packs/octopus-skills/827zLN8mPev2Kcq8.json",
+      "size": 972,
+      "sha256": "d71e82d9f36f46c0b31cfa9a453244166fe8b648f461c7d081eaa7b4caa764f3"
+    },
+    {
+      "path": "packs/octopus-skills/CNXCEd7WLEGnhLRa.json",
+      "size": 1032,
+      "sha256": "dd7dfcf27dd489cd91b8d21c89c26b6d4bdabe4aa6918e042c64b8bda739f0b0"
+    },
+    {
+      "path": "packs/octopus-skills/DBb4AG7NkdHzy4zB.json",
+      "size": 1014,
+      "sha256": "5574140f6cc15e3346661ae2c24e9e4f0a313523f4ae7ca3fc9c531fd6d31d2f"
+    },
+    {
+      "path": "packs/octopus-skills/DO4jgWKB72CasutE.json",
+      "size": 961,
+      "sha256": "aaa0524f256ed1040976b8f95aaead53b246af647a61ce2aea5c82ea40dfcc4d"
+    },
+    {
+      "path": "packs/octopus-skills/H5njckbcuISoq6fK.json",
+      "size": 669,
+      "sha256": "cff90c4ee639144c2501b03a3ba9a1e323a14491bba77bf83f580c425525388f"
+    },
+    {
+      "path": "packs/octopus-skills/L2BVy3ibNvgMRHde.json",
+      "size": 635,
+      "sha256": "3c2bfca8af9641a7bf9bf812f24318a0aefbc537624128e85a4df4a8a39f2ee0"
+    },
+    {
+      "path": "packs/octopus-skills/MjoXd2IifE8GGzKc.json",
+      "size": 637,
+      "sha256": "f6d89e0343f9e0c5589b2a2e0387b06a646bb0ab1374129f8f983be60b652327"
+    },
+    {
+      "path": "packs/octopus-skills/OWwQ7ftg49A0ND7w.json",
+      "size": 816,
+      "sha256": "31c952837dfef1dc48e3d8155639d9f52ac56551c6a9514f89f9d52c70c43f79"
+    },
+    {
+      "path": "packs/octopus-skills/Os0wR7dEQwivh8RA.json",
+      "size": 824,
+      "sha256": "63fc6fc5bdd3bb2cf7353028982e9c61fd6f9553d7c12449a9c4e28a9afb3886"
+    },
+    {
+      "path": "packs/octopus-skills/PGQ53rUk5iA0DIZd.json",
+      "size": 849,
+      "sha256": "c9001b19a1a012b87e0b1562da6e7ce4a0160b5890ba1c330448408b1d58f548"
+    },
+    {
+      "path": "packs/octopus-skills/PanZJ6GDboYhZ8im.json",
+      "size": 683,
+      "sha256": "1b27b8362294b94e2797c2db6e1ff57eda199da2f3ad5150b86ec1ab99ddb788"
+    },
+    {
+      "path": "packs/octopus-skills/QMK9jjTovd4nnBhm.json",
+      "size": 1040,
+      "sha256": "b8248e33af1c2b177a8c96fb9002b6396e640e8902435d256ed33ae596c175dc"
+    },
+    {
+      "path": "packs/octopus-skills/VJdkyRPdNzcSieCJ.json",
+      "size": 341,
+      "sha256": "6093f832a91edef8ba26c463fda395fb5bba7587ad790064e4986e9449f62b4e"
+    },
+    {
+      "path": "packs/octopus-skills/W3BJlFzStPknruLi.json",
+      "size": 741,
+      "sha256": "77f93969d328f7babb455005473638694bb2c77aee59cba3714ff277f3a7dd71"
+    },
+    {
+      "path": "packs/octopus-skills/Wk20PaWR2ypP2roz.json",
+      "size": 823,
+      "sha256": "b565330fc495c5d649746445be61b114cf65a4eb6f6643ae0b8a1f10abb00b09"
+    },
+    {
+      "path": "packs/octopus-skills/X0i5jzwDUO0CT3d9.json",
+      "size": 550,
+      "sha256": "e71da444a85f22b225885d256823008866777330ad62ea484042a45f675d02c8"
+    },
+    {
+      "path": "packs/octopus-skills/XVNRYwY6zlDt3dVL.json",
+      "size": 733,
+      "sha256": "2cc2e858ca69777e222b3edddc2b6d2dd4e749e076aec3e74a24589858d3e7fd"
+    },
+    {
+      "path": "packs/octopus-skills/XZvcdOp0rHyahHhL.json",
+      "size": 839,
+      "sha256": "9a4fe1ff48a58687ca84f05f72b6c21aa1cd16fb43b4bfa9257d4829d4586003"
+    },
+    {
+      "path": "packs/octopus-skills/XluO5TIU8uRx52kE.json",
+      "size": 1180,
+      "sha256": "7909d571811fb50da7e470392235f2a0c1bee3e4827e82219d1102af51ba044d"
+    },
+    {
+      "path": "packs/octopus-skills/Ygos5rt8yBB4Ohiy.json",
+      "size": 666,
+      "sha256": "ed6bb86bdd5e0b4da8a5a3782f8af2f47097424e87664ecf0c5eccbf85800867"
+    },
+    {
+      "path": "packs/octopus-skills/aKWgjFTm4SiaH1v3.json",
+      "size": 1019,
+      "sha256": "5c2db82797cc6c0fa0a51a116892d575592fb7ebbf85a1c25c795e323c74a1a5"
+    },
+    {
+      "path": "packs/octopus-skills/bFdrpvv4KaFc0hqs.json",
+      "size": 919,
+      "sha256": "b2a73cdc59fe12ea2cfb55292d3991f73b18009baf5229189fc56155443d23e5"
+    },
+    {
+      "path": "packs/octopus-skills/dfvm3OdvEb3Yzg7d.json",
+      "size": 993,
+      "sha256": "35b954f0d6f4f20afed105dd398b669b0e9fdb724616b0cb482073256b2160b3"
+    },
+    {
+      "path": "packs/octopus-skills/gMRG6rfAE3SuVgWB.json",
+      "size": 953,
+      "sha256": "683c73cdc3f98bc83c864cba353397a2fb421471db43e49fd8beb6151db5f628"
+    },
+    {
+      "path": "packs/octopus-skills/gzwMY2dgCQ1AXgsR.json",
+      "size": 1117,
+      "sha256": "7cda1180e6436eb3bd0d8af4252fa81c0f538c87b8c6cbe5130e81648eb8cac1"
+    },
+    {
+      "path": "packs/octopus-skills/icl9ofpKjGaSAblF.json",
+      "size": 825,
+      "sha256": "b40a18ea29a48a1153af1faa1fe30137bd734a49d8b6a7a1c9ac7852c1dac060"
+    },
+    {
+      "path": "packs/octopus-skills/iegheOHVnHsGxfNT.json",
+      "size": 813,
+      "sha256": "b6134c0f071ac8573fa0afdbf7a1aa47e0c42d8bc974ff39d43943c40b4c0282"
+    },
+    {
+      "path": "packs/octopus-skills/jBQGJigm1nmTQaOG.json",
+      "size": 898,
+      "sha256": "838fc1a2e126e9f9b590572487f1407b2df6f26491dea0cb751776a69088fb50"
+    },
+    {
+      "path": "packs/octopus-skills/jZ0hFJMq4AVVQNDk.json",
+      "size": 1009,
+      "sha256": "458f145070389f409f8e4d0ffbc713208434a2d2517d83bfd05ce003b0e7647a"
+    },
+    {
+      "path": "packs/octopus-skills/jhmZB2akZJu3VHVf.json",
+      "size": 335,
+      "sha256": "e3de0421a0226c07547f6cdd21324a967806ada93d089b26cf418d51787387cf"
+    },
+    {
+      "path": "packs/octopus-skills/jhv6AiGBbrwgzKJz.json",
+      "size": 663,
+      "sha256": "4ffebfac4d44b463a41901b98f566af8f44c69e05b8641f323dba65cb1ff2f2d"
+    },
+    {
+      "path": "packs/octopus-skills/lep9W3b5Ha0y3DOw.json",
+      "size": 832,
+      "sha256": "f1b3a8144e171f6ea9a1527ff4a979d8adcd4e4101238d4722bfd359431349c7"
+    },
+    {
+      "path": "packs/octopus-skills/ma5cQiSJFhGjW340.json",
+      "size": 982,
+      "sha256": "5df007d8475452fe3578cd8243f1b986ddeecf37457734b7cdabf4f0b85c788d"
+    },
+    {
+      "path": "packs/octopus-skills/nzSszFqYacIpN0Os.json",
+      "size": 344,
+      "sha256": "a33135e03b42dc20492274b1445d0d985087b7d4d6df1410e675751d5bdecd23"
+    },
+    {
+      "path": "packs/octopus-skills/o39whzL9pTHYSGde.json",
+      "size": 872,
+      "sha256": "9aa0ff8b368d32c39b9f152ae74c51e1417faa7461c20a3a801dbe660cd2a6ac"
+    },
+    {
+      "path": "packs/octopus-skills/o63pE9cOlgCGQjsI.json",
+      "size": 817,
+      "sha256": "11060aa3b92a6d2e9dbdc6cb472659d10db6725233ff384922071d293d37b954"
+    },
+    {
+      "path": "packs/octopus-skills/ooObKRoryCyhMJPb.json",
+      "size": 824,
+      "sha256": "d9bcd0153c3ee56b18d927996e6c1afb828fa038e8b0ce300cc33809920a0ba7"
+    },
+    {
+      "path": "packs/octopus-skills/pCkheGcmSFDtEBhi.json",
+      "size": 668,
+      "sha256": "48280d0f59a3c96e419491b384a7acc636f13d2c0069bd8edf630c19c066985d"
+    },
+    {
+      "path": "packs/octopus-skills/pdhi907RD2WcWlos.json",
+      "size": 921,
+      "sha256": "54cf83ba7686d988d1cf616ca1ffce5d9fd7abdb5bc726ff40f72aaf1da55993"
+    },
+    {
+      "path": "packs/octopus-skills/qiJYqyiZag1BIqmE.json",
+      "size": 816,
+      "sha256": "c9519d3104aa062e6040369806426e3fc7f3aabe7ad04275b480125b6c4cc41b"
+    },
+    {
+      "path": "packs/octopus-skills/rgJrzBODyZ8VEJOy.json",
+      "size": 1002,
+      "sha256": "57294c3006161a8c8342497ad4d3635a575a99b681eb75f01f1a155d5d589385"
+    },
+    {
+      "path": "packs/octopus-skills/spwG1UO8hC12YbcM.json",
+      "size": 1045,
+      "sha256": "f9b4c4f867392dc9ff060c25c6d62822dd1e6ef99f523352e86c46f65cab6a32"
+    },
+    {
+      "path": "packs/octopus-skills/uYOcdWjNOcRrpRdG.json",
+      "size": 851,
+      "sha256": "2bfbbe83c70041c1effd3f3ebdba5a6abd85d30d9447eec5fb7e77c78aee7703"
+    },
+    {
+      "path": "packs/octopus-skills/uotZzGlQ3yzLgBwJ.json",
+      "size": 921,
+      "sha256": "87058ae7b2460cf6125ec6abe72097a715a936d4efdf22318818289927e6f11e"
+    },
+    {
+      "path": "packs/octopus-skills/usPx5ZdFEaiFPqnA.json",
+      "size": 839,
+      "sha256": "01d8d4b19131fa5523621e6c344879e0bfa78a218143d97e8024fada4a6fab87"
+    },
+    {
+      "path": "packs/octopus-skills/wb0DAgbZdbbuDGfd.json",
+      "size": 323,
+      "sha256": "7ac30131b9438a71c6a2b7db27481eba86970864f01053582882213ca3eec39f"
+    },
+    {
+      "path": "packs/octopus-skills/wfeFTvcNaZzkVZxc.json",
+      "size": 901,
+      "sha256": "b935ccbe78b8e4b2839c326ea559203bb5059cc924e0f294532d0f54fef20105"
+    },
+    {
+      "path": "packs/octopus-skills/ws5xUwxhxvaHt2r7.json",
+      "size": 862,
+      "sha256": "90e40d11a0d7543c6e23ff6d00685acf239624f244f77b2bbba21e9d594d28e4"
+    },
+    {
+      "path": "packs/octopus-skills/xFQazkArcacRM5Do.json",
+      "size": 1150,
+      "sha256": "333203971c7fc8132aa1e361f8745ac1478e21d5d7bcf70191a1dc8133b73738"
+    },
+    {
+      "path": "packs/octopus-skills/xklP6U1fItSyLz9d.json",
+      "size": 751,
+      "sha256": "c075cdc2bcdfc7759dafe40b0e289ee952c3acd02a1f8bab28409552a66737b6"
+    },
+    {
+      "path": "packs/octopus-skills/y6IZaCP3pEnfJ2wT.json",
+      "size": 869,
+      "sha256": "4a5a59ab6874d9c294cb5a9212ea8f09c11a621665a52cf434c45f299519c3f2"
+    },
+    {
+      "path": "packs/octopus-skills/z8IVwWENE3eLTlD6.json",
+      "size": 816,
+      "sha256": "7b3d306225a50b1db0f04f69004cf5e65474078f94927d19eec849cfc0c776a8"
+    },
+    {
+      "path": "packs/octopus-skills/zLnOzVbf3KnS2AZn.json",
+      "size": 859,
+      "sha256": "feffe9b0b3fef4899e22ab71dff5ad6170845430af59a7affc798dbe87042b62"
+    },
+    {
+      "path": "packs/octopus-skills/zjZyHHoXPQNxPb9p.json",
+      "size": 926,
+      "sha256": "bed952db6133870880fef6585cbc02408de0bed63337d960c6feb5d31c74517e"
+    },
+    {
+      "path": "packs/octopus-skills/znFbzM2E5qaSAS5h.json",
+      "size": 320,
+      "sha256": "ba17148c137db801c2cb34ed753e251eb39ec7e9b4693f1789ae43eb3df5743f"
+    }
+  ]
+}
