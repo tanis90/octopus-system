@@ -163,10 +163,11 @@ jobs:
             --command "node owner-meta/tools/tests/owner-ci-verify-negative.mjs"
 
       - name: verify runtime manifest + receipt (tool from owner-meta)
-        run: node "$GITHUB_WORKSPACE/owner-meta/tools/owner-ci/manifest.mjs" verify \
-          --manifest "$GITHUB_WORKSPACE/artifacts/runtime-manifest.json" \
-          --receipt "$GITHUB_WORKSPACE/artifacts/runtime-receipt.json" \
-          --root "$GITHUB_WORKSPACE/src"
+        run: |
+          node "$GITHUB_WORKSPACE/owner-meta/tools/owner-ci/manifest.mjs" verify \
+            --manifest "$GITHUB_WORKSPACE/artifacts/runtime-manifest.json" \
+            --receipt "$GITHUB_WORKSPACE/artifacts/runtime-receipt.json" \
+            --root "$GITHUB_WORKSPACE/src"
 
       - name: upload runtime manifest artifact
         uses: actions/upload-artifact@v4
@@ -272,10 +273,11 @@ jobs:
             "${ARGS[@]+${ARGS[@]}}"
 
       - name: verify content manifest + receipt
-        run: node "$GITHUB_WORKSPACE/owner-meta/tools/owner-ci/manifest.mjs" verify \
-          --manifest "$GITHUB_WORKSPACE/artifacts/content-manifest.json" \
-          --receipt "$GITHUB_WORKSPACE/artifacts/content-receipt.json" \
-          --root "$GITHUB_WORKSPACE/content-src"
+        run: |
+          node "$GITHUB_WORKSPACE/owner-meta/tools/owner-ci/manifest.mjs" verify \
+            --manifest "$GITHUB_WORKSPACE/artifacts/content-manifest.json" \
+            --receipt "$GITHUB_WORKSPACE/artifacts/content-receipt.json" \
+            --root "$GITHUB_WORKSPACE/content-src"
 
       - name: upload content manifest artifact
         uses: actions/upload-artifact@v4

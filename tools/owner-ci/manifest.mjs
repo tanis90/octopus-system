@@ -36,7 +36,7 @@
 // 绑定（manifestSha256/setHash/artifactHash 三向）、集合 hash、HEAD 绑定与
 // 逐文件 hash；任何一项不符都以非零退出。
 import { createHash } from "node:crypto";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { spawnSync } from "node:child_process";
@@ -397,7 +397,10 @@ const main = () => {
     fail([error.message]);
   }
 };
-const invokedDirectly = process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href;
+// 直调判定两边都按 realpath 比较：node 默认对模块路径取 realpath，argv[1] 若
+// 经符号链接调用不作 realpath 会让 main() 静默不执行（fail-open），这里必须一致。
+const invokedDirectly = process.argv[1]
+  && import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href;
 if (invokedDirectly) main();
 
 export { canonicalSetHash, fileSetRule, inSet, setFromGit };

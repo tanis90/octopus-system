@@ -11,9 +11,11 @@
 //   5. receipt 绑定：回到被测 commit 后改 manifest 字节 → manifestSha256 不符 → 非零
 //   6. 非绿 receipt：result != passed → 非零
 //   7. artifactHash 绑定：receipt 只改 artifactHash → 与 manifest.setHash 不符 → 非零
+//   8. 直调守卫：经符号链接路径调用工具 → 必须真的执行（缺 manifest 报错非零），
+//      不允许因 realpath 不匹配而静默 exit 0
 // 每个负例同时断言退出码非零与具体错误信息；任何正例失败或负例意外通过
 // 都以非零退出。
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync, mkdirSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync, mkdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -120,6 +122,18 @@ try {
   receiptJson2.artifactHash = "f".repeat(64);
   writeFileSync(receipt, `${JSON.stringify(receiptJson2, null, 2)}\n`);
   failIn(verify(), "receipt.artifactHash", "tamperedArtifactHash");
+
+  // 8) 直调守卫：经符号链接调用也必须真的执行（缺文件 → 非零），
+  //    禁止 realpath 不匹配导致的静默 exit 0
+  const link = join(outDir, "manifest-via-link.mjs");
+  symlinkSync(TOOL, link);
+  const viaLink = spawnSync(process.execPath, [link, "verify",
+    "--manifest", join(outDir, "no-such-manifest.json"),
+    "--receipt", join(outDir, "no-such-receipt.json")], { encoding: "utf8" });
+  check("symlinkedToolStillExecutesExitNonZero", viaLink.status !== 0,
+    { status: viaLink.status, stderr: viaLink.stderr.slice(0, 200) });
+  check("symlinkedToolNamesCause", viaLink.stderr.includes("manifest 无法读取"),
+    { stderr: viaLink.stderr.slice(0, 400) });
 } finally {
   rmSync(temp, { recursive: true, force: true });
   rmSync(outDir, { recursive: true, force: true });
