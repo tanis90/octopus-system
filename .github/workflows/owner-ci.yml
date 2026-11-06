@@ -1,0 +1,289 @@
+# Owner CI：源仓自有的发布候选验收。
+#
+# 两条独立的验收线，绝不合并：
+#   runtime job —— 对被测 commit（push/PR = 当前源；workflow_dispatch 可指定 runtimeRef）
+#     跑源仓已有的语义测试（i18n / base pack 确定性 / CoC SAN / CoC 规则+内容+卡牌契约），
+#     并生成 runtime manifest + receipt。
+#   content job —— 用 actions/checkout 钉住 tools/owner-ci/content-pin.json 里的
+#     已发布内容基线（旧 M8 内容集；workflow_dispatch 可用 inputs.contentRef 复核任意
+#     历史组合），跑内容/包构建与确定性测试，并生成 content manifest + receipt。
+#     main 上的内容漂移不会被悄悄当成升级：内容升级必须显式修改 content-pin.json
+#     （含重新计算的集合 hash），否则 content job 按红处理。
+#
+# 产物：两个 job 各自上传 manifest/receipt artifacts。不自动 Release，不推回
+# （persist-credentials: false）。manifest 的 runUrl 只在全绿后由 collect 写入实际
+# run URL；本地出证 runUrl 为 null。
+#
+# owner-meta 模式：出证工具（tools/owner-ci/manifest.mjs）、负例脚本与 pin 都从
+# owner-meta（github.sha = workflow 自身源树）调用，root 指向被测 checkout。
+# 因此被测 ref 可以是任何历史 commit（不含 owner CI 工具），runtime/content
+# 两路历史复核都不依赖被测树携带这些工具。receipt 的 setHash 与 artifactHash
+# 是同一集合 hash 的双字段（后者供前端 strict ci.binds.artifactHash 消费），
+# verify 强校验两者与 manifest 一致；命名空间 octopus-owner-ci-set-hash/1，
+# 与前端 live-file-set-v1 不同，映射不得混用。
+name: owner-ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      runtimeRef:
+        description: "运行集被测 commit（留空 = 触发时的当前源）"
+        required: false
+        default: ""
+        type: string
+      contentRef:
+        description: "内容集被测 commit（留空 = content-pin.json 钉住的已发布基线）"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: owner-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  EXPAND_DIR: ${{ github.workspace }}/arcane-investigator-options
+
+jobs:
+  runtime:
+    name: runtime semantic tests + runtime manifest
+    runs-on: ubuntu-latest
+    steps:
+      # owner-meta = 当前 workflow 源（github.sha，不随 runtimeRef 漂移）。
+      # 出证工具、负例脚本与 pin 都从这里调用：被测 ref 可以是不含 owner CI
+      # 工具的历史树（如 268211e），工具存在性绝不寄托在被测 commit 上。
+      - name: checkout owner-ci tooling (workflow source)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: owner-meta
+          sparse-checkout: |
+            tools/owner-ci
+            tools/tests/owner-ci-verify-negative.mjs
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+
+      - name: checkout runtime source (tested ref)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.runtimeRef || github.sha }}
+          path: src
+          persist-credentials: false
+
+      - name: read content/expansion pins (from owner-meta)
+        id: pins
+        run: |
+          PIN="owner-meta/tools/owner-ci/content-pin.json"
+          if [ -f "$PIN" ]; then
+            echo "expansionRef=$(node -p "require('./$PIN').expansionRef")" >> "$GITHUB_OUTPUT"
+            echo "contentRef=$(node -p "require('./$PIN').contentRef")" >> "$GITHUB_OUTPUT"
+            echo "contentSetHash=$(node -p "require('./$PIN').contentSetHashSha256")" >> "$GITHUB_OUTPUT"
+          else
+            echo "expansionRef=" >> "$GITHUB_OUTPUT"
+            echo "contentRef=" >> "$GITHUB_OUTPUT"
+            echo "contentSetHash=" >> "$GITHUB_OUTPUT"
+            echo "::warning::workflow 源树里没有 tools/owner-ci/content-pin.json；分发仓步骤跳过，content job 需要显式 inputs.contentRef"
+          fi
+
+      - name: checkout expansion distribution repo (pinned)
+        if: steps.pins.outputs.expansionRef != ''
+        uses: actions/checkout@v4
+        with:
+          repository: tanis90/arcane-investigator-options
+          ref: ${{ steps.pins.outputs.expansionRef }}
+          path: arcane-investigator-options
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # 文档化的开发流程：扩展产物由主仓 facts 构建进分发仓 checkout。
+      # 重建后 git status 的差异 = 已发布分发仓相对主仓 facts 的漂移，只报告不阻塞。
+      - name: rebuild expansion into distribution checkout + drift note
+        if: steps.pins.outputs.expansionRef != ''
+        working-directory: src
+        run: |
+          node tools/coc-pack/build.mjs
+          DRIFT="$(git -C "$EXPAND_DIR" status --porcelain | wc -l)"
+          {
+            echo "### 分发仓漂移（informational）"
+            echo ""
+            echo "pinned expansionRef \`$(git -C "$EXPAND_DIR" rev-parse HEAD)\` 相对主仓 facts 重建后，$DRIFT 个路径有差异："
+            echo '```'
+            git -C "$EXPAND_DIR" status --porcelain | head -20
+            echo '```'
+            echo "如需对齐，请在 arcane-investigator-options 仓重新构建发布；本报告不阻塞 owner-ci。"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: zh-CN i18n consistency
+        working-directory: src
+        run: node tools/check-zh-cn.mjs
+
+      - name: base pack determinism
+        working-directory: src
+        run: node tools/tests/base-pack-determinism.mjs
+
+      - name: CoC sanity regressions
+        working-directory: src
+        run: node tools/tests/coc-sanity-regressions.mjs
+
+      - name: CoC rules + pack + card regressions
+        if: steps.pins.outputs.expansionRef != ''
+        working-directory: src
+        run: node tools/tests/coc-rules-regressions.mjs
+        env:
+          ARCANE_INVESTIGATOR_OPTIONS_DIR: ${{ env.EXPAND_DIR }}
+
+      # 负例脚本从 owner-meta 调用（fixture 在临时目录，与被测树无关）。
+      - name: owner-ci verifier negative tests
+        working-directory: src
+        run: node "$GITHUB_WORKSPACE/owner-meta/tools/tests/owner-ci-verify-negative.mjs"
+
+      - name: collect runtime manifest + receipt (tool from owner-meta)
+        run: |
+          RUNTIME_COMMIT="$(git -C "$GITHUB_WORKSPACE/src" rev-parse HEAD)"
+          node "$GITHUB_WORKSPACE/owner-meta/tools/owner-ci/manifest.mjs" collect \
+            --kind runtime \
+            --commit "$RUNTIME_COMMIT" \
+            --root "$GITHUB_WORKSPACE/src" \
+            --out "$GITHUB_WORKSPACE/artifacts/runtime-manifest.json" \
+            --receipt "$GITHUB_WORKSPACE/artifacts/runtime-receipt.json" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --command "node tools/check-zh-cn.mjs" \
+            --command "node tools/tests/base-pack-determinism.mjs" \
+            --command "node tools/tests/coc-sanity-regressions.mjs" \
+            --command "node tools/tests/coc-rules-regressions.mjs" \
+            --command "node owner-meta/tools/tests/owner-ci-verify-negative.mjs"
+
+      - name: verify runtime manifest + receipt (tool from owner-meta)
+        run: |
+          node "$GITHUB_WORKSPACE/owner-meta/tools/owner-ci/manifest.mjs" verify \
+            --manifest "$GITHUB_WORKSPACE/artifacts/runtime-manifest.json" \
+            --receipt "$GITHUB_WORKSPACE/artifacts/runtime-receipt.json" \
+            --root "$GITHUB_WORKSPACE/src"
+
+      - name: upload runtime manifest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-manifest
+          path: |
+            artifacts/runtime-manifest.json
+            artifacts/runtime-receipt.json
+          if-no-files-found: error
+
+  content:
+    name: content build/determinism @ pinned release + content manifest
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout owner-ci tooling (workflow source, never runtimeRef)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: owner-meta
+          sparse-checkout: |
+            tools/owner-ci
+          persist-credentials: false
+
+      - name: read content pin
+        id: pins
+        run: |
+          PIN="owner-meta/tools/owner-ci/content-pin.json"
+          if [ -f "$PIN" ]; then
+            echo "contentRef=$(node -p "require('./$PIN').contentRef")" >> "$GITHUB_OUTPUT"
+            echo "contentSetHash=$(node -p "require('./$PIN').contentSetHashSha256")" >> "$GITHUB_OUTPUT"
+          else
+            echo "contentRef=" >> "$GITHUB_OUTPUT"
+            echo "contentSetHash=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: resolve content ref (input overrides pin)
+        id: refs
+        run: |
+          REF="${{ inputs.contentRef || steps.pins.outputs.contentRef }}"
+          if [ -z "$REF" ]; then
+            echo "::error::内容基线未钉：inputs.contentRef 未指定，且 workflow 源树里没有 content-pin.json"
+            exit 1
+          fi
+          echo "contentRef=$REF" >> "$GITHUB_OUTPUT"
+
+      - name: checkout pinned content source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.refs.outputs.contentRef }}
+          path: content-src
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # 内容/包构建 + 确定性测试（跑被测 commit 自带的脚本）。
+      # git diff --exit-code 是确定性口径：重建后的字节必须与已提交产物逐字节一致。
+      - name: build base pack
+        working-directory: content-src
+        run: node tools/base-pack/build.mjs
+
+      - name: build CoC packs
+        working-directory: content-src
+        run: node tools/coc-pack/build.mjs
+
+      - name: base pack determinism
+        working-directory: content-src
+        run: node tools/tests/base-pack-determinism.mjs
+
+      - name: CoC rules + pack regressions (pinned tree)
+        working-directory: content-src
+        run: node tools/tests/coc-rules-regressions.mjs
+
+      - name: CoC sanity regressions (pinned tree)
+        working-directory: content-src
+        run: node tools/tests/coc-sanity-regressions.mjs
+
+      - name: rebuild equals committed bytes
+        working-directory: content-src
+        run: git diff --exit-code
+
+      - name: collect content manifest + receipt
+        run: |
+          CONTENT_REF="${{ steps.refs.outputs.contentRef }}"
+          ARGS=()
+          if [ -n "${{ steps.pins.outputs.contentSetHash }}" ]; then
+            ARGS+=(--expect-set-hash "${{ steps.pins.outputs.contentSetHash }}")
+          fi
+          node "$GITHUB_WORKSPACE/owner-meta/tools/owner-ci/manifest.mjs" collect \
+            --kind content \
+            --commit "$CONTENT_REF" \
+            --root "$GITHUB_WORKSPACE/content-src" \
+            --out "$GITHUB_WORKSPACE/artifacts/content-manifest.json" \
+            --receipt "$GITHUB_WORKSPACE/artifacts/content-receipt.json" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --command "node tools/base-pack/build.mjs" \
+            --command "node tools/coc-pack/build.mjs" \
+            --command "node tools/tests/base-pack-determinism.mjs" \
+            --command "node tools/tests/coc-rules-regressions.mjs" \
+            --command "node tools/tests/coc-sanity-regressions.mjs" \
+            --command "git diff --exit-code" \
+            "${ARGS[@]+${ARGS[@]}}"
+
+      - name: verify content manifest + receipt
+        run: |
+          node "$GITHUB_WORKSPACE/owner-meta/tools/owner-ci/manifest.mjs" verify \
+            --manifest "$GITHUB_WORKSPACE/artifacts/content-manifest.json" \
+            --receipt "$GITHUB_WORKSPACE/artifacts/content-receipt.json" \
+            --root "$GITHUB_WORKSPACE/content-src"
+
+      - name: upload content manifest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-manifest
+          path: |
+            artifacts/content-manifest.json
+            artifacts/content-receipt.json
+          if-no-files-found: error
