@@ -529,6 +529,7 @@
     "sanLossPair": "理智损失（成功/失败）",
     "sanLossPairHint": "成功/失败时损失的理智，如 1/1D6",
     "sanLossCard": "SAN -{loss} ({formula}) → {after}",
+    "sanLossCardPlain": "SAN -{loss} → {after}",
     "sanLossPresets": {
       "custom": "自定义"
     },

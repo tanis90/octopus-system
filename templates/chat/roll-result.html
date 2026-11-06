@@ -1,153 +1,136 @@
-<form class="brp gr-card">
-  <div class="">
-    {{#if (eq rollType 'CM')}}
-      <div class="bold">{{localize 'BRP.card.CM'}}</div>
-    {{else}}
-      {{#if (eq cardType 'RE')}}
-        <div class="bold">{{localize 'BRP.card.RE'}}</div>
-      {{else}}
-        {{#if (eq cardType 'PP')}}
-          <div class="bold">{{localize 'BRP.card.PP'}}</div>
-        {{else}}
-          <div class="bold">{{localize 'BRP.card.NO'}}</div>
-        {{/if}}
-      {{/if}}
-    {{/if}}
-    <ol class="gr-list">
-      {{#each chatCard as |c key|}}
-        <div class="dice-roll" data-action="expandRoll">
-          <li class='actor-roll'>
-            <img class="open-actor" src="{{c.particImg}}" height="60" width="60" data-tooltip="{{c.particName}}" />
-            <div class="roll-details">
-              <div class="header roll-truncate">
-                <div class='name'>
-                  <span class="tag">{{c.label}} ({{c.targetScore}}%)</span>
-                </div>
+<form class="brp gr-card brp-seal-card">
+  <ol class="gr-list">
+    {{#each chatCard as |c key|}}
+      <div class="dice-roll" data-action="expandRoll">
+        <li class='actor-roll brp-seal'>
+          <div class="brp-seal-head">
+            <img class="open-actor" src="{{c.particImg}}" height="26" width="26" data-tooltip="{{c.particName}}" />
+            <span class="brp-seal-name">{{c.particName}}</span>
+            {{#if (eq ../rollType 'CM')}}
+              <span class="brp-seal-kind">{{localize 'BRP.card.CM'}}</span>
+            {{else}}
+              {{#if (eq ../cardType 'RE')}}
+                <span class="brp-seal-kind">{{localize 'BRP.card.RE'}}</span>
+              {{else}}
+                {{#if (eq ../cardType 'PP')}}
+                  <span class="brp-seal-kind">{{localize 'BRP.card.PP'}}</span>
+                {{else}}
+                  <span class="brp-seal-kind">{{localize 'BRP.card.NO'}}</span>
+                {{/if}}
+              {{/if}}
+            {{/if}}
+          </div>
+          <div class="brp-seal-body">
+            <div class="brp-seal-left">
+              <div class="brp-seal-skill">{{c.label}}<span class="brp-seal-pct">{{c.targetScore}}%</span></div>
+              <div class="brp-seal-meta">
+                {{#if c.requiredBandLabel}}
+                  <div class="brp-seal-line">{{localize 'BRP.coc.requiredBand'}}: {{c.requiredBandLabel}}{{#if (eq c.taskSuccess false)}} — {{localize 'BRP.coc.taskFailed'}} {{c.requiredBandLabel}}{{/if}}</div>
+                {{/if}}
+                {{#if c.diceDetail}}
+                  {{#isOr c.diceDetail.bonus c.diceDetail.penalty}}
+                    <div class="brp-seal-line">{{localize 'BRP.coc.dicePool'}}: {{c.diceDetail.formula}} [{{c.diceDetail.faces}}]{{#if c.diceDetail.bonus}} +{{c.diceDetail.bonus}} {{localize 'BRP.coc.bonusDie'}}{{/if}}{{#if c.diceDetail.penalty}} +{{c.diceDetail.penalty}} {{localize 'BRP.coc.penaltyDie'}}{{/if}} — {{localize 'BRP.coc.chosenTens'}}: {{c.diceDetail.chosenTens}}</div>
+                  {{/isOr}}
+                {{/if}}
+                {{#if c.cocTreatment}}
+                  <div class="brp-seal-line">{{#if (eq c.cocTreatment.skill 'first-aid')}}{{localize 'BRP.coc.firstAid'}}{{else}}{{localize 'BRP.coc.medicine'}}{{/if}}: {{#if c.cocTreatment.applied}}+{{c.healing}}{{else}}{{localize 'BRP.coc.treatmentFailed'}}{{/if}}</div>
+                {{/if}}
+                {{#if (lt c.malfunction 0)}}
+                  <div class="brp-seal-line brp-seal-alert">{{localize 'BRP.malfunction'}}</div>
+                {{/if}}
+                {{#if (eq ../rollType 'SN')}}
+                  <div class="brp-seal-line brp-seal-san">{{#if c.sanLossFormulaUsed}}{{localize 'BRP.sanLossCard' formula=c.sanLossFormulaUsed loss=c.sanLoss after=c.sanAfter}}{{else}}{{localize 'BRP.sanLossCardPlain' loss=c.sanLoss after=c.sanAfter}}{{/if}}</div>
+                {{/if}}
+                {{#if c.permaInsane}}
+                  <div class="brp-seal-line brp-seal-alert">{{localize 'BRP.madness.permaInsane'}}</div>
+                {{/if}}
               </div>
-              {{#if (eq c.resultLevel 4)}}
-                <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} {{#unless (eq healing 0)}} [{{healing}}]{{/unless}}<i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i>
-              {{/if}}
-
-              {{#if (eq c.resultLevel 3)}}
-                <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} {{#unless (eq healing 0)}} [{{healing}}]{{/unless}}<i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i>
-              {{/if}}
-
-              {{#if (eq c.resultLevel 2)}}
-                <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} {{#unless (eq healing 0)}} [{{healing}}]{{/unless}}<i class="result-success fas fa-certificate"></i>
-              {{/if}}
-
-              {{#if (eq c.resultLevel 1)}}
-                <span class="pending roll-fail">{{c.resultLabel}}: {{c.rollVal}} <i class="result-fail fas fa-skull"></i>
-              {{/if}}
-
-              {{#if (eq c.resultLevel 0)}}
-                <span class="pending roll-fumb">{{c.resultLabel}}: {{c.rollVal}} {{#unless (eq healing 0)}} [{{healing}}]{{/unless}}<i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i>
-              {{/if}}
-              {{#if c.requiredBandLabel}}
-                <span class="pending">{{localize 'BRP.coc.requiredBand'}}: {{c.requiredBandLabel}}{{#if (eq c.taskSuccess false)}} — {{localize 'BRP.coc.taskFailed'}} {{c.requiredBandLabel}}{{/if}}</span>
-              {{/if}}
-              {{#if c.diceDetail}}
-                {{#isOr c.diceDetail.bonus c.diceDetail.penalty}}
-                  <span class="pending">{{localize 'BRP.coc.dicePool'}}: {{c.diceDetail.formula}} [{{c.diceDetail.faces}}]{{#if c.diceDetail.bonus}} +{{c.diceDetail.bonus}} {{localize 'BRP.coc.bonusDie'}}{{/if}}{{#if c.diceDetail.penalty}} +{{c.diceDetail.penalty}} {{localize 'BRP.coc.penaltyDie'}}{{/if}} — {{localize 'BRP.coc.chosenTens'}}: {{c.diceDetail.chosenTens}}</span>
-                {{/isOr}}
-              {{/if}}
-              {{#if c.cocTreatment}}
-                <span class="pending">{{#if (eq c.cocTreatment.skill 'first-aid')}}{{localize 'BRP.coc.firstAid'}}{{else}}{{localize 'BRP.coc.medicine'}}{{/if}}: {{#if c.cocTreatment.applied}}+{{c.healing}}{{else}}{{localize 'BRP.coc.treatmentFailed'}}{{/if}}</span>
-              {{/if}}
-              {{#if (lt c.malfunction 0)}}
-                <span class="bold result-fail"> {{localize 'BRP.malfunction'}}</span>
-              {{/if}}
-              {{#if (eq ../rollType 'SN')}}
-                <span class="pending">{{localize 'BRP.sanLossCard' formula=c.sanLossFormulaUsed loss=c.sanLoss after=c.sanAfter}}</span>
-              {{/if}}
-              {{#if c.permaInsane}}
-                <span class="bold result-fail"> {{localize 'BRP.madness.permaInsane'}}</span>
-              {{/if}}
-              </span>
             </div>
-
-
-          </li>
-          <div class="actor-roll dice-tooltip">
-            <div class="owner-only" data-partic-id="{{c.particId}}" data-partic-type="{{c.particType}}">
-              <div class="rollHidden">{{localize 'BRP.targetScore'}}: {{c.targetScore}}</div>
-              <div class="rollHidden">{{localize 'BRP.rawScore'}}: {{c.rawScore}}</div>
-              {{#if c.originalRawScore}}
-                <div class="rollHidden">{{localize 'BRP.luck.originalScore'}}: {{c.originalRawScore}}</div>
-              {{/if}}
-              {{#isOr (eq ../cardType 'RE') (eq ../cardType 'PP')}}
-                <div class="rollHidden">{{localize 'BRP.resistVal'}}: {{c.resistance}}</div>
+            <div class="brp-seal-stamp{{#if (eq c.resultLevel 0)}} fumble{{/if}}{{#if (eq c.resultLevel 1)}} fail{{/if}}">
+              <span class="brp-seal-stamp-label">{{c.resultLabel}}</span>
+              <span class="brp-seal-stamp-value">{{c.rollVal}}{{#unless (eq healing 0)}}<small> [{{healing}}]</small>{{/unless}}</span>
+            </div>
+          </div>
+        </li>
+        <div class="actor-roll dice-tooltip">
+          <div class="owner-only" data-partic-id="{{c.particId}}" data-partic-type="{{c.particType}}">
+            <div class="rollHidden">{{localize 'BRP.targetScore'}}: {{c.targetScore}}</div>
+            <div class="rollHidden">{{localize 'BRP.rawScore'}}: {{c.rawScore}}</div>
+            {{#if c.originalRawScore}}
+              <div class="rollHidden">{{localize 'BRP.luck.originalScore'}}: {{c.originalRawScore}}</div>
+            {{/if}}
+            {{#isOr (eq ../cardType 'RE') (eq ../cardType 'PP')}}
+              <div class="rollHidden">{{localize 'BRP.resistVal'}}: {{c.resistance}}</div>
       {{else}}
         <div class="rollHidden">{{localize 'BRP.difficulty'}}: {{c.diffLabel}}</div>
               {{/isOr}}
-              <div class="rollHidden"> {{localize 'BRP.flatMod'}}:
-                {{#if (lt c.flatMod 0)}}
-                  {{c.flatMod}}
-                {{else}}
-                  +{{c.flatMod}}
-                {{/if}}
-              </div>
-              {{#unless (eq c.healingLabel "")}}
-                <div class="rollHidden">{{localize 'BRP.healing'}}: {{c.healingLabel}}[{{c.healing}}]</div>
-              {{/unless}}
-              {{#if (eq c.description "")}}
-                <div class="rollHidden bottom-line">{{localize 'BRP.diceRoll'}}: {{c.diceRolled}}</div>
+            <div class="rollHidden"> {{localize 'BRP.flatMod'}}:
+              {{#if (lt c.flatMod 0)}}
+                {{c.flatMod}}
               {{else}}
-                <div class="rollHidden">{{localize 'BRP.diceRoll'}}: {{c.diceRolled}}</div>
-                <div class="rollHidden bottom-line"> {{localize 'BRP.description'}}: {{c.description}}</div>
-              {{/if}}
-              {{#if (eq ../rollType 'SN')}}
-                <div class="rollHidden">{{localize 'BRP.sanLossPair'}}: {{c.sanLossSuccess}} / {{c.sanLossFail}}</div>
+                +{{c.flatMod}}
               {{/if}}
             </div>
+            {{#unless (eq c.healingLabel "")}}
+              <div class="rollHidden">{{localize 'BRP.healing'}}: {{c.healingLabel}}[{{c.healing}}]</div>
+            {{/unless}}
+            {{#if (eq c.description "")}}
+              <div class="rollHidden bottom-line">{{localize 'BRP.diceRoll'}}: {{c.diceRolled}}</div>
+            {{else}}
+              <div class="rollHidden">{{localize 'BRP.diceRoll'}}: {{c.diceRolled}}</div>
+              <div class="rollHidden bottom-line"> {{localize 'BRP.description'}}: {{c.description}}</div>
+            {{/if}}
+            {{#if (eq ../rollType 'SN')}}
+              <div class="rollHidden">{{localize 'BRP.sanLossPair'}}: {{c.sanLossSuccess}} / {{c.sanLossFail}}</div>
+            {{/if}}
           </div>
-          {{!-- Luck spend row: owners of the rolling actor only (GM anyone) --}}
-          {{#if c.luck}}
-            <div class="owner-only luck-controls" data-partic-id="{{c.particId}}" data-partic-type="{{c.particType}}">
-              {{#if c.originalRawScore}}
-                <span class="pending bold">{{localize 'BRP.luck.adjusted' original=c.originalRawScore}}</span>
+        </div>
+        {{!-- Luck spend row: owners of the rolling actor only (GM anyone) --}}
+        {{#if c.luck}}
+          <div class="owner-only luck-controls brp-seal-luck" data-partic-id="{{c.particId}}" data-partic-type="{{c.particType}}">
+            {{#if c.originalRawScore}}
+              <span class="brp-seal-luck-note">{{localize 'BRP.luck.adjusted' original=c.originalRawScore}}</span>
+            {{/if}}
+            {{#unless c.permaInsane}}
+              {{#if (gt c.luck.value 0)}}
+                <span class="brp-seal-luck-note">{{localize 'BRP.luck.remaining' value=c.luck.value max=c.luck.max}}</span>
+                <div class="flexrow" data-tooltip="{{localize 'BRP.luck.spendHint'}}">
+                  <button type="button" class="cardbutton" data-preset="luck-spend-1" data-index="{{key}}">-1</button>
+                  <button type="button" class="cardbutton" data-preset="luck-spend-5" data-index="{{key}}">-5</button>
+                  <button type="button" class="cardbutton" data-preset="luck-spend-10" data-index="{{key}}">-10</button>
+                  <button type="button" class="cardbutton" data-preset="luck-spend-custom" data-index="{{key}}">{{localize 'BRP.luck.custom'}}</button>
+                </div>
               {{/if}}
-              {{#unless c.permaInsane}}
-                {{#if (gt c.luck.value 0)}}
-                  <span class="pending">{{localize 'BRP.luck.remaining' value=c.luck.value max=c.luck.max}}</span>
-                  <div class="flexrow" data-tooltip="{{localize 'BRP.luck.spendHint'}}">
-                    <button type="button" class="cardbutton" data-preset="luck-spend-1" data-index="{{key}}">-1</button>
-                    <button type="button" class="cardbutton" data-preset="luck-spend-5" data-index="{{key}}">-5</button>
-                    <button type="button" class="cardbutton" data-preset="luck-spend-10" data-index="{{key}}">-10</button>
-                    <button type="button" class="cardbutton" data-preset="luck-spend-custom" data-index="{{key}}">{{localize 'BRP.luck.custom'}}</button>
-                  </div>
-                {{/if}}
-              {{/unless}}
-            </div>
-          {{/if}}
-        </div>
-      {{/each}}
-    </ol>
-
-    {{#if madness}}
-      <div class="madness-section">
-        <div class="bold">{{localize 'BRP.madness.title'}} — {{madness.particName}}</div>
-        <div>{{localize 'BRP.madness.manifestation'}}: {{madness.manifestation.name}}</div>
-        <div class="bottom-line">{{madness.manifestation.description}}</div>
-        <div class="gm-visible-only">
-          <div>{{localize 'BRP.madness.duration'}}: {{madness.duration.label}}</div>
-          {{#if madness.ended}}
-            <div class="bold">{{localize 'BRP.madness.ended'}}</div>
-          {{else}}
-            <div class="flexrow">
-              <button type="button" class="cardbutton" data-preset="madness-reroll-manifestation">{{localize 'BRP.madness.rerollManifestation'}}</button>
-              <button type="button" class="cardbutton" data-preset="madness-reroll-duration">{{localize 'BRP.madness.rerollDuration'}}</button>
-              <button type="button" class="cardbutton" data-preset="madness-set-duration">{{localize 'BRP.madness.setDuration'}}</button>
-              <button type="button" class="cardbutton" data-preset="madness-end">{{localize 'BRP.madness.endMadness'}}</button>
-            </div>
-          {{/if}}
-          {{#isOr (eq madness.manifestation.key 'phobia') (eq madness.manifestation.key 'mania')}}
-            <div class="flexrow">
-              <button type="button" class="cardbutton" data-preset="madness-add-trait">{{localize 'BRP.madness.addTrait' type=(localize (concat 'BRP.traitTypes.' madness.manifestation.key))}}</button>
-            </div>
-          {{/isOr}}
-        </div>
+            {{/unless}}
+          </div>
+        {{/if}}
       </div>
-    {{/if}}
-  </div>
+    {{/each}}
+  </ol>
+
+  {{#if madness}}
+    <div class="madness-section">
+      <div class="bold">{{localize 'BRP.madness.title'}} — {{madness.particName}}</div>
+      <div>{{localize 'BRP.madness.manifestation'}}: {{madness.manifestation.name}}</div>
+      <div class="bottom-line">{{madness.manifestation.description}}</div>
+      <div class="gm-visible-only">
+        <div>{{localize 'BRP.madness.duration'}}: {{madness.duration.label}}</div>
+        {{#if madness.ended}}
+          <div class="bold">{{localize 'BRP.madness.ended'}}</div>
+        {{else}}
+          <div class="flexrow">
+            <button type="button" class="cardbutton" data-preset="madness-reroll-manifestation">{{localize 'BRP.madness.rerollManifestation'}}</button>
+            <button type="button" class="cardbutton" data-preset="madness-reroll-duration">{{localize 'BRP.madness.rerollDuration'}}</button>
+            <button type="button" class="cardbutton" data-preset="madness-set-duration">{{localize 'BRP.madness.setDuration'}}</button>
+            <button type="button" class="cardbutton" data-preset="madness-end">{{localize 'BRP.madness.endMadness'}}</button>
+          </div>
+        {{/if}}
+        {{#isOr (eq madness.manifestation.key 'phobia') (eq madness.manifestation.key 'mania')}}
+          <div class="flexrow">
+            <button type="button" class="cardbutton" data-preset="madness-add-trait">{{localize 'BRP.madness.addTrait' type=(localize (concat 'BRP.traitTypes.' madness.manifestation.key))}}</button>
+          </div>
+        {{/isOr}}
+      </div>
+    </div>
+  {{/if}}
 </form>
