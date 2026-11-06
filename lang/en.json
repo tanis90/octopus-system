@@ -529,6 +529,7 @@
     "sanLossPair": "SAN Loss (Success/Fail)",
     "sanLossPairHint": "Loss applied on success / on failure, e.g. 1/1D6",
     "sanLossCard": "SAN -{loss} ({formula}) -> {after}",
+    "sanLossCardPlain": "SAN -{loss} -> {after}",
     "sanLossPresets": {
       "custom": "Custom"
     },
