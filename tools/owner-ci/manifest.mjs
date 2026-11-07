@@ -18,7 +18,8 @@
 //   runtime = git ls-tree -r --full-tree <commit> 的全部 tracked 文件，
 //             剔除内容产物目录 packs/ packs-index/ packs-json/ 与 owner CI
 //             自有文件（.github/、tools/owner-ci/、
-//             tools/tests/owner-ci-verify-negative.mjs、docs/owner-ci.md）。
+//             tools/tests/owner-ci-verify-negative.mjs、
+//             tools/tests/owner-ci-artifact-negative.mjs、docs/owner-ci.md）。
 //             排除项是精确路径/目录：owner CI 自身合入与否不影响部署运行面的
 //             集合口径，而 Readme/CHANGELOG 等真实仓文件的修改仍属漂移、不会被
 //             这些排除项掩盖；
@@ -50,6 +51,7 @@ const RUNTIME_OWNER_ONLY_EXCLUDES = [
   ".github/",
   "tools/owner-ci/",
   "tools/tests/owner-ci-verify-negative.mjs",
+  "tools/tests/owner-ci-artifact-negative.mjs",
   "docs/owner-ci.md",
 ];
 

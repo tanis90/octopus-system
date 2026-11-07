@@ -9,18 +9,22 @@
 #     历史组合），跑内容/包构建与确定性测试，并生成 content manifest + receipt。
 #     main 上的内容漂移不会被悄悄当成升级：内容升级必须显式修改 content-pin.json
 #     （含重新计算的集合 hash），否则 content job 按红处理。
+#   system-artifact job —— needs 两条线都 success 才启动；按两条线实际被测的
+#     精确 commit 重新 checkout，复核两份 receipt 后组装 BRP system artifact
+#     （system.zip + manifest + receipt），再从源树重建 zip 做字节复核。
 #
-# 产物：两个 job 各自上传 manifest/receipt artifacts。不自动 Release，不推回
+# 产物：两个验收 job 各自上传 manifest/receipt artifacts；全绿后第三个 job 上传
+# 私有 brp-system-artifact（retention 30d）。不自动 Release、不推回
 # （persist-credentials: false）。manifest 的 runUrl 只在全绿后由 collect 写入实际
-# run URL；本地出证 runUrl 为 null。
+# run URL；本地出证 runUrl 为 null，system artifact 的 receipt 同样不伪造 CI。
 #
-# owner-meta 模式：出证工具（tools/owner-ci/manifest.mjs）、负例脚本与 pin 都从
-# owner-meta（github.sha = workflow 自身源树）调用，root 指向被测 checkout。
-# 因此被测 ref 可以是任何历史 commit（不含 owner CI 工具），runtime/content
-# 两路历史复核都不依赖被测树携带这些工具。receipt 的 setHash 与 artifactHash
-# 是同一集合 hash 的双字段（后者供前端 strict ci.binds.artifactHash 消费），
-# verify 强校验两者与 manifest 一致；命名空间 octopus-owner-ci-set-hash/1，
-# 与前端 live-file-set-v1 不同，映射不得混用。
+# owner-meta 模式：出证工具（tools/owner-ci/manifest.mjs、artifact.mjs）、负例
+# 脚本与 pin 都从 owner-meta（github.sha = workflow 自身源树）调用，root 指向
+# 被测 checkout。因此被测 ref 可以是任何历史 commit（不含 owner CI 工具），
+# runtime/content 两路历史复核都不依赖被测树携带这些工具。receipt 的 setHash 与
+# artifactHash 是同一集合 hash 的双字段（后者供前端 strict ci.binds.artifactHash
+# 消费），verify 强校验两者与 manifest 一致；命名空间
+# octopus-owner-ci-set-hash/1，与前端 live-file-set-v1 不同，映射不得混用。
 name: owner-ci
 
 on:
@@ -54,6 +58,8 @@ jobs:
   runtime:
     name: runtime semantic tests + runtime manifest
     runs-on: ubuntu-latest
+    outputs:
+      runtimeCommit: ${{ steps.commit.outputs.runtimeCommit }}
     steps:
       # owner-meta = 当前 workflow 源（github.sha，不随 runtimeRef 漂移）。
       # 出证工具、负例脚本与 pin 都从这里调用：被测 ref 可以是不含 owner CI
@@ -75,6 +81,10 @@ jobs:
           ref: ${{ inputs.runtimeRef || github.sha }}
           path: src
           persist-credentials: false
+
+      - name: resolve runtime commit
+        id: commit
+        run: echo "runtimeCommit=$(git -C "$GITHUB_WORKSPACE/src" rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: read content/expansion pins (from owner-meta)
         id: pins
@@ -181,6 +191,8 @@ jobs:
   content:
     name: content build/determinism @ pinned release + content manifest
     runs-on: ubuntu-latest
+    outputs:
+      contentCommit: ${{ steps.commit.outputs.contentCommit }}
     steps:
       - name: checkout owner-ci tooling (workflow source, never runtimeRef)
         uses: actions/checkout@v4
@@ -219,6 +231,10 @@ jobs:
           ref: ${{ steps.refs.outputs.contentRef }}
           path: content-src
           persist-credentials: false
+
+      - name: resolve content commit
+        id: commit
+        run: echo "contentCommit=$(git -C "$GITHUB_WORKSPACE/content-src" rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - uses: actions/setup-node@v4
         with:
@@ -287,3 +303,94 @@ jobs:
             artifacts/content-manifest.json
             artifacts/content-receipt.json
           if-no-files-found: error
+
+  # 只有 runtime/content 两条验收线都绿（且各自 receipt 已上传）才允许组装。
+  # 组装工具从 owner-meta 调用，两个 root 分别停在两条线实际被测的 commit；
+  # 产物只作为本 workflow run 的私有 artifact 上传，不建 Release、不推回。
+  system-artifact:
+    name: assemble + verify BRP system artifact
+    runs-on: ubuntu-latest
+    needs: [runtime, content]
+    if: needs.runtime.result == 'success' && needs.content.result == 'success'
+    steps:
+      - name: checkout owner-ci tooling (workflow source)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: owner-meta
+          sparse-checkout: |
+            tools/owner-ci
+            tools/tests/owner-ci-artifact-negative.mjs
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+
+      - name: checkout runtime source (exact tested commit)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.runtime.outputs.runtimeCommit }}
+          path: src
+          persist-credentials: false
+
+      - name: checkout content source (exact tested commit)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.content.outputs.contentCommit }}
+          path: content-src
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: download runtime manifest + receipt
+        uses: actions/download-artifact@v4
+        with:
+          name: runtime-manifest
+          path: artifacts/runtime
+
+      - name: download content manifest + receipt
+        uses: actions/download-artifact@v4
+        with:
+          name: content-manifest
+          path: artifacts/content
+
+      - name: owner-ci artifact verifier negative tests
+        run: node "$GITHUB_WORKSPACE/owner-meta/tools/tests/owner-ci-artifact-negative.mjs"
+
+      - name: assemble system artifact (runtime @ tested commit + content @ pinned commit)
+        run: |
+          node "$GITHUB_WORKSPACE/owner-meta/tools/owner-ci/artifact.mjs" assemble \
+            --runtime-root "$GITHUB_WORKSPACE/src" \
+            --content-root "$GITHUB_WORKSPACE/content-src" \
+            --runtime-manifest "$GITHUB_WORKSPACE/artifacts/runtime/runtime-manifest.json" \
+            --runtime-receipt "$GITHUB_WORKSPACE/artifacts/runtime/runtime-receipt.json" \
+            --content-manifest "$GITHUB_WORKSPACE/artifacts/content/content-manifest.json" \
+            --content-receipt "$GITHUB_WORKSPACE/artifacts/content/content-receipt.json" \
+            --out-dir "$RUNNER_TEMP/octopus-system-artifact" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+      - name: verify system artifact (zip ↔ manifest ↔ both source commits)
+        run: |
+          node "$GITHUB_WORKSPACE/owner-meta/tools/owner-ci/artifact.mjs" verify \
+            --artifact "$RUNNER_TEMP/octopus-system-artifact/system.zip" \
+            --manifest "$RUNNER_TEMP/octopus-system-artifact/system-manifest.json" \
+            --receipt "$RUNNER_TEMP/octopus-system-artifact/system-receipt.json" \
+            --runtime-root "$GITHUB_WORKSPACE/src" \
+            --content-root "$GITHUB_WORKSPACE/content-src" \
+            --runtime-manifest "$GITHUB_WORKSPACE/artifacts/runtime/runtime-manifest.json" \
+            --runtime-receipt "$GITHUB_WORKSPACE/artifacts/runtime/runtime-receipt.json" \
+            --content-manifest "$GITHUB_WORKSPACE/artifacts/content/content-manifest.json" \
+            --content-receipt "$GITHUB_WORKSPACE/artifacts/content/content-receipt.json"
+
+      # 私有的 workflow-run artifact（非公开 Release / 非全局 vendor tarball），
+      # 30 天保留；前端后续按 zip sha256 + manifest 的 commit/setHash 绑定消费。
+      - name: upload BRP system artifact (private, retention 30d)
+        uses: actions/upload-artifact@v4
+        with:
+          name: brp-system-artifact
+          path: |
+            ${{ runner.temp }}/octopus-system-artifact/system.zip
+            ${{ runner.temp }}/octopus-system-artifact/system-manifest.json
+            ${{ runner.temp }}/octopus-system-artifact/system-receipt.json
+          if-no-files-found: error
+          retention-days: 30
