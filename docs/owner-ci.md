@@ -1,8 +1,11 @@
 # Owner CI（源仓自有验收）
 
 本文描述 `octopus-system` 源仓的 owner CI：两条互相独立的验收线，分别对应
-**BRP 运行集**与**旧 M8 内容集**，各自出 manifest + receipt。工作流在
-`.github/workflows/owner-ci.yml`，出证工具在 `tools/owner-ci/manifest.mjs`。
+**BRP 运行集**与**旧 M8 内容集**，各自出 manifest + receipt。两线全绿后，第三个
+job 用这两份 receipt 组装前端可直接消费的 **BRP system artifact**
+（`system.zip`、manifest、receipt 三件套），只作为 workflow run 的私有 artifact
+上传，不建 Release。工作流在 `.github/workflows/owner-ci.yml`，出证工具在
+`tools/owner-ci/manifest.mjs`，产物组装/复核工具在 `tools/owner-ci/artifact.mjs`。
 
 ## 为什么要分两条线
 
@@ -23,8 +26,9 @@ main 上的内容漂移不会被 CI 悄悄当成升级：content job 永远测�
 
 | kind | 集合 | 268211e / 95d984d 实测 |
 | --- | --- | --- |
-| `runtime` | 全部 tracked 文件，剔除内容产物目录 `packs/`、`packs-index/`、`packs-json/`，以及 owner CI 自有文件 `.github/`、`tools/owner-ci/`、`tools/tests/owner-ci-verify-negative.mjs`、`docs/owner-ci.md` | 329 文件 |
+| `runtime` | 全部 tracked 文件，剔除内容产物目录 `packs/`、`packs-index/`、`packs-json/`，以及 owner CI 自有文件 `.github/`、`tools/owner-ci/`、`tools/tests/owner-ci-verify-negative.mjs`、`tools/tests/owner-ci-artifact-negative.mjs`、`docs/owner-ci.md` | 329 文件 |
 | `content` | 位于 `packs/`、`packs-index/`、`packs-json/` 之下的 tracked 文件 | 362 文件 |
+| `system-artifact` | `runtime ∪ content`（system root 布局，见下节） | 691 文件（329 + 362） |
 
 owner CI 自身的排除项是精确路径/目录：这些文件合入源仓与否不改变部署运行面
 的集合口径（329 不会因 CI 工具/文档合入而变成别的数字）。真实仓文件的修改
@@ -74,11 +78,70 @@ node tools/owner-ci/manifest.mjs set-hash --kind content --commit <rev>
 - `verify` 是 fail-closed 的：任一缺件、字节漂移、集合外多文件、HEAD 漂移、
   receipt/manifest 绑定断裂（含 `artifactHash`）、`result != passed` 都非零
   退出。负例覆盖见 `tools/tests/owner-ci-verify-negative.mjs`（改字节/缺件/
-  集合漂移/commit 漂移/manifest 篡改/非绿 receipt/artifactHash 篡改七类）。
+  集合漂移/commit 漂移/manifest 篡改/非绿 receipt/artifactHash 篡改/符号链接
+  直调八类）。
 - manifest 只描述**本源仓 git 树**，不含任何前端仓或台账目录的 hash；
   前端侧的逐字节对照是验收手段，不进入源仓 provenance。
 
-## CI 两条 job
+## System artifact（BRP 系统产物）
+
+`tools/owner-ci/artifact.mjs` 只在 runtime/content 两份 owner receipt 都
+`result=passed` 后组装 `system.zip`。它不重新编文件集：两个轴的文件列表以
+receipt 绑定的 manifest 为唯一来源，并逐项与对应 root 的 git 对象、工作树字节、
+集合 hash 复核；任一项不符即非零退出。
+
+```bash
+# assemble：两轴 owner 出证 → 两次独立构建（必须逐字节一致）→ 写产物
+node tools/owner-ci/artifact.mjs assemble \
+  --runtime-root <runtime checkout> --content-root <content checkout> \
+  --runtime-manifest <runtime-manifest.json> --runtime-receipt <runtime-receipt.json> \
+  --content-manifest <content-manifest.json> --content-receipt <content-receipt.json> \
+  --out-dir <目录> [--run-url <url>]
+
+# verify：zip ↔ manifest ↔ receipt ↔ 两轴源 commit 全链路复核，
+# 并从源树重建 zip 要求与提交的 zip 逐字节一致
+node tools/owner-ci/artifact.mjs verify \
+  --artifact <system.zip> --manifest <system-manifest.json> --receipt <system-receipt.json> \
+  --runtime-root <runtime checkout> --content-root <content checkout> \
+  [--runtime-manifest ... --runtime-receipt ... \
+   --content-manifest ... --content-receipt ...]
+```
+
+产物口径：
+
+- **两轴不合并**：`axes.runtime.commit` 是实际被测的 runtime 源 commit（默认
+  触发 run 的当前源），`axes.content.commit` 是 `content-pin.json` 钉住的
+  M8 基线 `95d984dbc64a0d5631f736bda7bb613ce98128cf`。两个 commit、
+  两个 `octopus-owner-ci-set-hash/1` setHash、逐文件 `path/size/sha256` 都
+  原样写入 manifest；不会用 main 的内容或旧 worktree 替换任一轴。manifest 的
+  扁平 `binding` 再汇总 `runtimeCommit` / `contentCommit` / 两轴 setHash /
+  `artifactSha256`，与 `axes`、`artifact` 逐字段一致（verify 强校验）。
+- **确定性 zip**：system root 布局（`system.json` 在根）；store 无压缩；
+  条目按 path（UTF-16 code unit）升序；固定 1980-01-01 时间戳；0644 普通文件；
+  UTF-8 文件名。同一 run 内两次构建的 zip、manifest 逐字节一致；manifest 只含
+  跨 run 可复现的源事实（不含 runUrl / owner receipt hash），run 级绑定只在
+  receipt。
+- **文件集**：当前为 329 runtime + 362 content = **691 文件**。默认拒绝
+  `modules/arcane-investigator-options/`：上一版前端产物里的 187 个嵌套派生
+  文件没有源仓 commit 证明，不进入本 artifact（`forbiddenPrefixes` 记录该口径）。
+- **system.json 门**：必须位于 runtime 集合；`id`（默认须为 `brp`）、`version`、
+  `compatibility` 推导出的 host generation、`esmodules` 入口点，以及 styles /
+  languages / packs / license / changelog 声明的路径都要能在产物内找到。
+- **许可/声明**：`LICENSE.txt` 与 `ORC-NOTICE.md` 必须存在且非空；manifest
+  `notices` 记录其 size/sha256。不收 runtimeHost、不引入 Runtime SDK 依赖，
+  也不做内容迁移。
+- **receipt**：绑定两轴 commit/setHash/manifestSha256/receiptSha256 与 zip
+  sha256/size/fileCount；命令列表来自两份 owner receipt。本地 `runUrl: null`；
+  只有真实 CI run 才写实际 URL，不得伪造。
+- manifest/receipt schema 分别是 `octopus-system-artifact/1` /
+  `octopus-system-artifact-receipt/1`；zip recipe 命名空间是
+  `octopus-system-artifact-zip/1`。
+
+`verify` 的负例覆盖见 `tools/tests/owner-ci-artifact-negative.mjs`（zip 字节
+漂移、manifest 字节漂移、内容树漂移、未知派生目录、缺失入口点、符号链接直调
+共 18 项断言）。
+
+## CI 三个 job
 
 **runtime job**（被测 ref：push/PR = 触发时的当前源；dispatch 可用
 `inputs.runtimeRef` 复核历史）：
@@ -119,8 +182,24 @@ runtime/content 两路历史复核都不依赖被测树携带这些工具。
 3. 全绿后 collect（带 `--expect-set-hash` 对照 pin 里的基线 hash）+ verify，
    上传 artifact。
 
-CI 只上传 manifest/receipt artifacts：不自动 Release、不推回
-（所有 checkout 都 `persist-credentials: false`）。
+**system-artifact job**（`needs: [runtime, content]`，只有两线都 `success`
+才会启动）：
+
+1. 从 owner-meta 取组装工具，按 `needs.runtime.outputs.runtimeCommit` 与
+   `needs.content.outputs.contentCommit` 重新 checkout 两条线**实际被测的
+   精确 commit**；下载 runtime/content 两份 manifest + receipt；
+2. 跑 `tools/tests/owner-ci-artifact-negative.mjs`（fixture 在临时目录）；
+3. `artifact.mjs assemble`：复核两份 receipt 后组装
+   `system.zip` + `system-manifest.json` + `system-receipt.json`，
+   `--run-url` 写入本次真实 run URL；
+4. `artifact.mjs verify`：zip ↔ manifest ↔ receipt ↔ 两个源 commit 全链路
+   复核，并从源树重建 zip 比对字节；
+5. 上传私有 `brp-system-artifact`（zip + manifest + receipt），
+   `retention-days: 30`，`if-no-files-found: error`。
+
+CI 上传 manifest/receipt artifacts 以及全绿后的 BRP system artifact：
+不自动 Release、不推回（所有 checkout 都 `persist-credentials: false`），
+system artifact 也不是全局 vendor tarball。
 
 ## 本地验收（已执行的口径；不需要 commit）
 
@@ -130,11 +209,11 @@ CI 只上传 manifest/receipt artifacts：不自动 Release、不推回
 
 ```bash
 # 0) 被测 ref 的临时 checkout（detached，用完即删）
-git worktree add --detach /tmp/os-main 268211ebb73d39b7157d3fd4efc3f191b57e109a
+git worktree add --detach /tmp/os-runtime "$(git rev-parse HEAD)"
 git worktree add --detach /tmp/os-m8   95d984dbc64a0d5631f736bda7bb613ce98128cf
 
 # 1) 运行集：语义测试在被测树内跑
-cd /tmp/os-main
+cd /tmp/os-runtime
 node tools/check-zh-cn.mjs
 node tools/tests/base-pack-determinism.mjs
 node tools/tests/coc-sanity-regressions.mjs
@@ -143,8 +222,8 @@ node <工作副本>/tools/tests/owner-ci-verify-negative.mjs   # owner 工具从
 
 # 2) 运行集出证（工具从工作副本调用，root 指向被测 checkout）
 node <工作副本>/tools/owner-ci/manifest.mjs collect \
-  --kind runtime --commit 268211ebb73d39b7157d3fd4efc3f191b57e109a \
-  --root /tmp/os-main \
+  --kind runtime --commit "$(git -C /tmp/os-runtime rev-parse HEAD)" \
+  --root /tmp/os-runtime \
   --out tools/owner-ci/artifacts/runtime-manifest.json \
   --receipt tools/owner-ci/artifacts/runtime-receipt.json \
   --command "node tools/check-zh-cn.mjs" ...
@@ -164,12 +243,29 @@ node <工作副本>/tools/owner-ci/manifest.mjs collect \
   --out tools/owner-ci/artifacts/content-manifest.json \
   --receipt tools/owner-ci/artifacts/content-receipt.json \
   --command "node tools/base-pack/build.mjs" ...
+
+# 5) 组装 + 复核系统产物（本地证据只落 /tmp，不进 tracked dist 树）
+node <工作副本>/tools/tests/owner-ci-artifact-negative.mjs
+node <工作副本>/tools/owner-ci/artifact.mjs assemble \
+  --runtime-root /tmp/os-runtime --content-root /tmp/os-m8 \
+  --runtime-manifest <runtime-manifest.json> --runtime-receipt <runtime-receipt.json> \
+  --content-manifest <content-manifest.json> --content-receipt <content-receipt.json> \
+  --out-dir /tmp/octopus-system-artifact
+node <工作副本>/tools/owner-ci/artifact.mjs verify \
+  --artifact /tmp/octopus-system-artifact/system.zip \
+  --manifest /tmp/octopus-system-artifact/system-manifest.json \
+  --receipt /tmp/octopus-system-artifact/system-receipt.json \
+  --runtime-root /tmp/os-runtime --content-root /tmp/os-m8 \
+  --runtime-manifest <runtime-manifest.json> --runtime-receipt <runtime-receipt.json> \
+  --content-manifest <content-manifest.json> --content-receipt <content-receipt.json>
 ```
 
 出证产物落在 `tools/owner-ci/artifacts/`（runtime/content 各一对），当前以
-**未提交改动**状态保存。receipt 的 `runUrl` 为 `null`：本地没有 CI run，
+**未提交改动**状态保存；系统产物证据落在 `/tmp/octopus-system-artifact/`
+（`system.zip` + `system-manifest.json` + `system-receipt.json`），不写入
+tracked 的 dist 目录。receipt 的 `runUrl` 为 `null`：本地没有 CI run，
 不得声称已有 CI。临时 checkout 用完即删：
-`git worktree remove /tmp/os-main && git worktree remove /tmp/os-m8 && git worktree prune`。
+`git worktree remove /tmp/os-runtime && git worktree remove /tmp/os-m8 && git worktree prune`。
 
 ## 内容升级流程（显式，不做静默升级）
 
@@ -183,6 +279,11 @@ node <工作副本>/tools/owner-ci/manifest.mjs collect \
 
 ## 已知边界
 
+- system artifact 只覆盖源仓可证的两轴文件集（当前 329 + 362）；上一版前端
+  BRP 产物里的 `modules/arcane-investigator-options/` 187 个嵌套派生文件没有
+  源仓 commit 证明，默认排除。前端后续消费应按 zip sha256 与 manifest 里的
+  runtime/content commit + setHash 绑定，不从 `web/packages` 或 live 目录重建。
+  本工具不引入 runtimeHost、不新增 Runtime SDK 依赖，也不做内容迁移。
 - `tools/tests/coc-rules-regressions.mjs` 在主仓 main 上要求分发仓 checkout
   的扩展产物与主仓 facts 一致；已发布的分发仓（pinned expansionRef）仍是旧
   doc 形态，runtime job 按文档化流程先重建再测试，并把漂移写进 job summary。
