@@ -23,8 +23,7 @@
     }
   ],
   "esmodules": [
-    "module/brp.mjs",
-    "module/setup/load.mjs"
+    "module/brp.mjs"
   ],
   "styles": [
     "css/brp.css",
