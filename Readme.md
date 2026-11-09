@@ -354,8 +354,14 @@ content set) and emits a content manifest + receipt. Content drift on main is
 never silently treated as an upgrade — bumping the pin (with a recomputed set
 hash) is the explicit upgrade path. `workflow_dispatch` accepts
 `runtimeRef` / `contentRef` to re-verify any historical published combination.
-Manifests/receipts are uploaded as artifacts only: no auto-Release, no push
-back. Rules, commands, file-set rules and receipts: [docs/owner-ci.md](docs/owner-ci.md).
+Manifests/receipts and the assembled BRP system artifact are uploaded as
+workflow artifacts on every run; nothing is pushed back to the repo. A
+`release-*` tag pushed from `main` additionally runs the **release-publish**
+job, which re-verifies that the artifact bytes belong to the tagged commit and
+uploads `system.zip` / `system-manifest.json` / `system-receipt.json` as a
+GitHub Release (A-class coordinate, D2/D8). Tags off the `main` ancestry and
+non-`release-*` tags fail closed without publishing. Rules, commands, file-set
+rules and receipts: [docs/owner-ci.md](docs/owner-ci.md).
 
 ---
 
@@ -603,6 +609,10 @@ manifest + receipt；**content job** 用 `actions/checkout` 钉住
 `tools/owner-ci/content-pin.json` 里的已发布内容基线（当前是旧 M8 内容集）
 出 content manifest + receipt。main 上的内容漂移不会被悄悄当成升级——显式
 改 pin（并重算集合 hash）才是升级路径。`workflow_dispatch` 可指定
-`runtimeRef` / `contentRef` 复核任意历史已发布组合。manifest/receipt 只作为
-artifacts 上传：不自动 Release、不推回。规则、命令、file set 与 receipt 口径
-见 [docs/owner-ci.md](docs/owner-ci.md)。
+`runtimeRef` / `contentRef` 复核任意历史已发布组合。manifest/receipt 与组装出的
+BRP system artifact 在每次 run 都作为 workflow artifact 上传，不推回仓库；
+自 `main` 推 `release-*` tag 时会额外跑 **release-publish** job，复核产物字节
+确实属于该 tag 的 commit 后，把 `system.zip` / `system-manifest.json` /
+`system-receipt.json` 上传为 GitHub Release（A 类坐标，D2/D8）。不在 main 祖先线
+上的 tag 与非 `release-*` tag 一律 fail-closed，不出件。规则、命令、file set 与
+receipt 口径见 [docs/owner-ci.md](docs/owner-ci.md)。

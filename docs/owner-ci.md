@@ -3,8 +3,10 @@
 本文描述 `octopus-system` 源仓的 owner CI：两条互相独立的验收线，分别对应
 **BRP 运行集**与**旧 M8 内容集**，各自出 manifest + receipt。两线全绿后，第三个
 job 用这两份 receipt 组装前端可直接消费的 **BRP system artifact**
-（`system.zip`、manifest、receipt 三件套），只作为 workflow run 的私有 artifact
-上传，不建 Release。工作流在 `.github/workflows/owner-ci.yml`，出证工具在
+（`system.zip`、manifest、receipt 三件套），作为 workflow run 的私有 artifact
+上传；第四个 job `release-publish` 只在 `release-*` tag push（且 tag commit 在
+main 祖先线上）时把同一份三件上传成 **GitHub Release**（A 类出件坐标，D2/D8）。
+工作流在 `.github/workflows/owner-ci.yml`，出证工具在
 `tools/owner-ci/manifest.mjs`，产物组装/复核工具在 `tools/owner-ci/artifact.mjs`。
 
 ## 为什么要分两条线
@@ -141,7 +143,7 @@ node tools/owner-ci/artifact.mjs verify \
 漂移、manifest 字节漂移、内容树漂移、未知派生目录、缺失入口点、符号链接直调
 共 18 项断言）。
 
-## CI 三个 job
+## CI 四个 job
 
 **runtime job**（被测 ref：push/PR = 触发时的当前源；dispatch 可用
 `inputs.runtimeRef` 复核历史）：
@@ -197,9 +199,46 @@ runtime/content 两路历史复核都不依赖被测树携带这些工具。
 5. 上传私有 `brp-system-artifact`（zip + manifest + receipt），
    `retention-days: 30`，`if-no-files-found: error`。
 
-CI 上传 manifest/receipt artifacts 以及全绿后的 BRP system artifact：
-不自动 Release、不推回（所有 checkout 都 `persist-credentials: false`），
-system artifact 也不是全局 vendor tarball。
+CI 上传 manifest/receipt artifacts 以及全绿后的 BRP system artifact；分支/PR/
+dispatch 到此为止：不自动 Release、不推回（所有 checkout 都
+`persist-credentials: false`）。system artifact 也不是全局 vendor tarball。
+
+**release-publish job**（`needs: [runtime, content, system-artifact]`，仅在
+`push` 事件、`github.ref_type == 'tag'`、`system-artifact` 成功时启动）：
+
+1. **D8 门（fail-closed）**：`github.ref_name` 必须匹配 `release-*`；
+   `git rev-parse <ref>^{commit}` 剥壳得到 tag commit（annotated tag 的 ref
+   可能指向 tag 对象，必须剥壳）；`git merge-base --is-ancestor <tagCommit>
+   refs/remotes/origin/main` 必须成立。任一不满足即失败——分支产物不得变成
+   坐标，main 之外的 tag 也不得出件。
+2. 按 `needs.runtime.outputs.runtimeCommit` / `needs.content.outputs.contentCommit`
+   重新 checkout 两个源 commit；下载同 run 的 `brp-system-artifact` 三件与两轴
+   manifest/receipt。
+3. `artifact.mjs verify` 全链路复核（zip ↔ manifest ↔ receipt ↔ 两轴源 commit，
+   并从源树重建 zip 比字节），再要求 `src` HEAD、manifest 的
+   `binding.runtimeCommit` 都等于 tag commit——release 里的字节必须是这个
+   tag 那棵树的确定性产物，不是另一次重新打包。
+4. 生成 release notes：run URL、三件 sha256、两轴 commit + setHash。
+5. 同一 release 身份只对应一份字节：**已发布**的同名 release 已存在即失败
+   （不覆盖、不原地替换，修复出新 tag）；同 tag 的**遗留草稿**（上一次 run
+   中断的残留，用户不可见）会被丢弃后重建。
+6. 先 `gh release create --draft --verify-tag` 上传固定名三件
+   `system.zip` / `system-manifest.json` / `system-receipt.json`，复核草稿的
+   asset 名单与大小，最后 `gh release edit --draft=false` 发布。三件齐全前
+   release 对用户不可见，中途失败只留草稿，不会出现「已发布但缺件」的坐标。
+
+权限：workflow 级 `permissions: contents: read` 不动，只有 `release-publish`
+带 job 级 `contents: write` + `actions: read`，写权限用的是 `github.token`
+（`GH_TOKEN` 环境变量注入，不落盘到 git config，也没有 PAT/App secret）。
+tag push 的 `concurrency` 为 `cancel-in-progress: false`：release 是用户可见的
+对外写动作，新 run 不得取消一个正在创建 release 的 run。发布前的工作流 YAML
+若不在 tag 所指的 commit 上，GitHub 不会为 tag push 启动 workflow——因此
+低版本的 tag 不会自动补出件，需要另出 tag。
+
+annotated tag 的 `github.sha` 可能是 tag 对象 id 而不是它指向的 commit；workflow
+里的 checkout ref 统一走 `env.WF_REF`（分支/PR/dispatch = `github.sha`，tag push
+= `github.ref`，由 git 自行剥壳），D8 门也用 `rev-parse <ref>^{commit}` 取值，两处
+口径一致。
 
 ## 本地验收（已执行的口径；不需要 commit）
 
