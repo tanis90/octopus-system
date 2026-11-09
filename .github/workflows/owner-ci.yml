@@ -12,14 +12,22 @@
 #   system-artifact job —— needs 两条线都 success 才启动；按两条线实际被测的
 #     精确 commit 重新 checkout，复核两份 receipt 后组装 BRP system artifact
 #     （system.zip + manifest + receipt），再从源树重建 zip 做字节复核。
+#   release-publish job —— D2/D8：A 类出件坐标 = GitHub Release，且只认自 main
+#     切出的 release-* tag。仅当 push 的是 `release-*` tag、tag commit 位于
+#     origin/main 祖先线、且三件已由 system-artifact 出证时才启动；下载同 run
+#     的三件，按两轴源 commit 重建复核后 `gh release create` 上传为固定名 asset。
 #
 # 产物：两个验收 job 各自上传 manifest/receipt artifacts；全绿后第三个 job 上传
-# 私有 brp-system-artifact（retention 30d）。不自动 Release、不推回
-# （persist-credentials: false）。manifest 的 runUrl 只在全绿后由 collect 写入实际
-# run URL；本地出证 runUrl 为 null，system artifact 的 receipt 同样不伪造 CI。
+# 私有 brp-system-artifact（retention 30d）。不推回分支/tag（所有 checkout 都
+# persist-credentials: false）；唯一的写动作是 release-publish job 用 job 级
+# `contents: write` 的 GITHUB_TOKEN 创建 release，且已有 release 绝不被覆盖
+# （同一 release 身份只对应一份字节，修复必须出新 tag）。manifest 的 runUrl 只在
+# 全绿后由 collect 写入实际 run URL；本地出证 runUrl 为 null，system artifact 的
+# receipt 同样不伪造 CI。
 #
 # owner-meta 模式：出证工具（tools/owner-ci/manifest.mjs、artifact.mjs）、负例
-# 脚本与 pin 都从 owner-meta（github.sha = workflow 自身源树）调用，root 指向
+# 脚本与 pin 都从 owner-meta（env.WF_REF = workflow 自身源树，分支/PR/dispatch
+# 即 github.sha）调用，root 指向
 # 被测 checkout。因此被测 ref 可以是任何历史 commit（不含 owner CI 工具），
 # runtime/content 两路历史复核都不依赖被测树携带这些工具。receipt 的 setHash 与
 # artifactHash 是同一集合 hash 的双字段（后者供前端 strict ci.binds.artifactHash
@@ -30,6 +38,10 @@ name: owner-ci
 on:
   push:
     branches: ["**"]
+    # D8：A 类出件的坐标只认自 main 切出的 release-* tag。分支过滤（branches）
+    # 与 tag 过滤（tags）互不叠加：分支 push 的触发面与改造前完全一致，tag
+    # push 只是新增了 release-* 这一窄口；其他 tag 仍不触发本 workflow。
+    tags: ["release-*"]
   pull_request:
   workflow_dispatch:
     inputs:
@@ -47,12 +59,20 @@ on:
 permissions:
   contents: read
 
+# 分支/PR/dispatch 保持「同 ref 新 run 取消旧 run」的既有行为；tag push 例外：
+# release 是用户可见的对外写动作，新 run 不得取消一个正在创建 release 的 run
+# （否则可能留下半套 asset）。tag 的 group 名本身不同，且 cancel-in-progress 为 false。
 concurrency:
   group: owner-ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
 env:
   EXPAND_DIR: ${{ github.workspace }}/arcane-investigator-options
+  # owner-meta / 被测源要 checkout 的 ref。
+  # 分支/PR/dispatch 与改造前完全一致（github.sha）；tag push 改用 github.ref：
+  # annotated tag 的 github.sha 可能是 tag 对象 id 而不是 commit，而 refs/tags/*
+  # 由 git 自行剥壳到 commit，两者在被测树内容上没有区别。
+  WF_REF: ${{ github.event_name == 'push' && github.ref_type == 'tag' && github.ref || github.sha }}
 
 jobs:
   runtime:
@@ -61,13 +81,13 @@ jobs:
     outputs:
       runtimeCommit: ${{ steps.commit.outputs.runtimeCommit }}
     steps:
-      # owner-meta = 当前 workflow 源（github.sha，不随 runtimeRef 漂移）。
+      # owner-meta = 当前 workflow 源（env.WF_REF，不随 runtimeRef 漂移）。
       # 出证工具、负例脚本与 pin 都从这里调用：被测 ref 可以是不含 owner CI
       # 工具的历史树（如 268211e），工具存在性绝不寄托在被测 commit 上。
       - name: checkout owner-ci tooling (workflow source)
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ env.WF_REF }}
           path: owner-meta
           sparse-checkout: |
             tools/owner-ci
@@ -78,7 +98,7 @@ jobs:
       - name: checkout runtime source (tested ref)
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.runtimeRef || github.sha }}
+          ref: ${{ inputs.runtimeRef || env.WF_REF }}
           path: src
           persist-credentials: false
 
@@ -197,7 +217,7 @@ jobs:
       - name: checkout owner-ci tooling (workflow source, never runtimeRef)
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ env.WF_REF }}
           path: owner-meta
           sparse-checkout: |
             tools/owner-ci
@@ -306,7 +326,8 @@ jobs:
 
   # 只有 runtime/content 两条验收线都绿（且各自 receipt 已上传）才允许组装。
   # 组装工具从 owner-meta 调用，两个 root 分别停在两条线实际被测的 commit；
-  # 产物只作为本 workflow run 的私有 artifact 上传，不建 Release、不推回。
+  # 产物只作为本 workflow run 的私有 artifact 上传；本 job 不建 Release、不推回
+  # （对外发布由下面的 release-publish 在 tag 上单独做）。
   system-artifact:
     name: assemble + verify BRP system artifact
     runs-on: ubuntu-latest
@@ -316,7 +337,7 @@ jobs:
       - name: checkout owner-ci tooling (workflow source)
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ env.WF_REF }}
           path: owner-meta
           sparse-checkout: |
             tools/owner-ci
@@ -394,3 +415,266 @@ jobs:
             ${{ runner.temp }}/octopus-system-artifact/system-receipt.json
           if-no-files-found: error
           retention-days: 30
+
+  # D2：A 类出件的坐标介质 = GitHub Release（tag 寻址，从 GitHub 本身拉，
+  # 不需要 OSS 凭证）。D8：坐标语义 = main 上的 tag，所以本 job 只认
+  # `release-*` tag 且 tag commit 必须在 origin/main 祖先线上；分支 push 走到
+  # 这里会被 ref_type 门直接挡掉（分支产物只留在 run artifacts 供开发用）。
+  #
+  # 出件的字节与 system-artifact job 完全一致：下载同 run 的三件，按两轴源
+  # commit 重建复核，并额外要求「被测 runtime commit == tag commit」，因此
+  # release 里的 zip 就是 tag 那棵树的确定性产物，而不是另一次重新打包。
+  # 本 job 是全 workflow 唯一的写动作：job 级 contents: write 的 GITHUB_TOKEN；
+  # 已发布的 release 一律拒绝覆盖（同一 release 身份只对应一份字节），先建草稿
+  # 上传三件并复核后才发布，中途失败只留用户不可见的草稿。
+  release-publish:
+    name: publish BRP system artifact to GitHub Release (tag @ main only)
+    runs-on: ubuntu-latest
+    needs: [runtime, content, system-artifact]
+    # 只认 push tag：workflow_dispatch 也能在 tag ref 上手动触发，但「坐标」必须
+    # 由 tag push 产生，手动 dispatch 不得替代发布动作。
+    if: github.event_name == 'push' && github.ref_type == 'tag' && needs.system-artifact.result == 'success'
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      # 全历史 checkout：D8 血统校验要用 merge-base 对 origin/main 做祖先判断。
+      # 凭证不落盘：先做只读校验，写 release 时只靠 GH_TOKEN 环境变量。
+      - name: checkout owner-ci tooling + full history (workflow source)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          path: owner-meta
+          sparse-checkout: |
+            tools/owner-ci
+          sparse-checkout-cone-mode: false
+          fetch-depth: 0
+          persist-credentials: false
+
+      # D8 门（fail-closed）：tag 形状 + tag commit 的 main 血统。
+      # 用 `git rev-parse <ref>^{commit}` 而不是 github.sha：annotated tag 的
+      # ref 可能指向 tag 对象，剥壳后才是一定是 commit 的那个值。
+      - name: D8 gate (release-* tag whose commit is on main ancestry)
+        id: gate
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_REF_TYPE}" != "tag" ]; then
+            echo "::error::release-publish 只允许 tag 触发（当前 ref_type=${GITHUB_REF_TYPE}）；分支产物不得变成坐标"
+            exit 1
+          fi
+          case "${GITHUB_REF_NAME}" in
+            release-*) : ;;
+            *)
+              echo "::error::tag ${GITHUB_REF_NAME} 不匹配 release-*，不出件（D8）"
+              exit 1
+              ;;
+          esac
+          TAG_COMMIT="$(git -C "$GITHUB_WORKSPACE/owner-meta" rev-parse --verify "${GITHUB_REF}^{commit}")"
+          if ! git -C "$GITHUB_WORKSPACE/owner-meta" rev-parse --verify --quiet refs/remotes/origin/main >/dev/null; then
+            echo "::error::checkout 里没有 origin/main，无法做 D8 血统校验"
+            exit 1
+          fi
+          MAIN_TIP="$(git -C "$GITHUB_WORKSPACE/owner-meta" rev-parse refs/remotes/origin/main)"
+          if ! git -C "$GITHUB_WORKSPACE/owner-meta" merge-base --is-ancestor "$TAG_COMMIT" refs/remotes/origin/main; then
+            echo "::error::tag ${GITHUB_REF_NAME} 的 commit ${TAG_COMMIT} 不在 origin/main 祖先线上（D8：坐标只认自 main 切出的 tag；main tip=${MAIN_TIP}）"
+            exit 1
+          fi
+          echo "tagName=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          echo "tagCommit=${TAG_COMMIT}" >> "$GITHUB_OUTPUT"
+          echo "mainTip=${MAIN_TIP}" >> "$GITHUB_OUTPUT"
+          {
+            echo "### D8 血统校验"
+            echo ""
+            echo "- tag: \`${GITHUB_REF_NAME}\`"
+            echo "- tag commit: \`${TAG_COMMIT}\`"
+            echo "- origin/main tip: \`${MAIN_TIP}\`"
+            echo "- \`git merge-base --is-ancestor\` = 通过"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: checkout runtime source (exact tested commit)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.runtime.outputs.runtimeCommit }}
+          path: src
+          persist-credentials: false
+
+      - name: checkout content source (exact tested commit)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.content.outputs.contentCommit }}
+          path: content-src
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: download the three system artifact files
+        uses: actions/download-artifact@v4
+        with:
+          name: brp-system-artifact
+          path: ${{ runner.temp }}/release-artifact
+
+      - name: download runtime manifest + receipt
+        uses: actions/download-artifact@v4
+        with:
+          name: runtime-manifest
+          path: artifacts/runtime
+
+      - name: download content manifest + receipt
+        uses: actions/download-artifact@v4
+        with:
+          name: content-manifest
+          path: artifacts/content
+
+      # 出件前后都复核：zip ↔ manifest ↔ receipt ↔ 两轴源 commit，并从源树
+      # 重建 zip 比对字节；再要求被测 runtime commit 就是 tag commit，
+      # 否则 release 里的字节不属于这个 tag。
+      - name: verify released bytes are exactly the tag commit's bytes
+        run: |
+          set -euo pipefail
+          ART="$RUNNER_TEMP/release-artifact"
+          node "$GITHUB_WORKSPACE/owner-meta/tools/owner-ci/artifact.mjs" verify \
+            --artifact "$ART/system.zip" \
+            --manifest "$ART/system-manifest.json" \
+            --receipt "$ART/system-receipt.json" \
+            --runtime-root "$GITHUB_WORKSPACE/src" \
+            --content-root "$GITHUB_WORKSPACE/content-src" \
+            --runtime-manifest "$GITHUB_WORKSPACE/artifacts/runtime/runtime-manifest.json" \
+            --runtime-receipt "$GITHUB_WORKSPACE/artifacts/runtime/runtime-receipt.json" \
+            --content-manifest "$GITHUB_WORKSPACE/artifacts/content/content-manifest.json" \
+            --content-receipt "$GITHUB_WORKSPACE/artifacts/content/content-receipt.json"
+          TAG_COMMIT="${{ steps.gate.outputs.tagCommit }}"
+          SRC_HEAD="$(git -C "$GITHUB_WORKSPACE/src" rev-parse HEAD)"
+          MANIFEST_COMMIT="$(node -p "require('$ART/system-manifest.json').binding.runtimeCommit")"
+          if [ "$SRC_HEAD" != "$TAG_COMMIT" ] || [ "$MANIFEST_COMMIT" != "$TAG_COMMIT" ]; then
+            echo "::error::出件 commit 与 tag commit 不一致（tag=$TAG_COMMIT src=$SRC_HEAD manifest=$MANIFEST_COMMIT），拒绝发布"
+            exit 1
+          fi
+
+      - name: release notes (run URL + three asset sha256 + both axis identities)
+        working-directory: ${{ runner.temp }}/release-artifact
+        run: |
+          set -euo pipefail
+          MANIFEST="system-manifest.json"
+          RECEIPT="system-receipt.json"
+          ZIP_SHA="$(sha256sum system.zip | awk '{print $1}')"
+          MANIFEST_SHA="$(sha256sum "$MANIFEST" | awk '{print $1}')"
+          RECEIPT_SHA="$(sha256sum "$RECEIPT" | awk '{print $1}')"
+          ZIP_SIZE="$(wc -c < system.zip | tr -d ' ')"
+          RUNTIME_COMMIT="$(node -p "require('./$MANIFEST').binding.runtimeCommit")"
+          CONTENT_COMMIT="$(node -p "require('./$MANIFEST').binding.contentCommit")"
+          RUNTIME_SET_HASH="$(node -p "require('./$MANIFEST').binding.runtimeSetHash")"
+          CONTENT_SET_HASH="$(node -p "require('./$MANIFEST').binding.contentSetHash")"
+          FILE_COUNT="$(node -p "require('./$MANIFEST').artifact.fileCount")"
+          SYSTEM_VERSION="$(node -p "require('./$MANIFEST').system.version")"
+          SYSTEM_ID="$(node -p "require('./$MANIFEST').system.id")"
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          {
+            echo "# ${GITHUB_REF_NAME} · ${SYSTEM_ID} system artifact"
+            echo ""
+            echo "由 owner CI 从 git + 公开钉值确定性组装（recipe \`octopus-system-artifact-zip/1\`，"
+            echo "store 无压缩 / 路径 code-unit 升序 / 固定 1980-01-01 时间戳 / 0644）。"
+            echo "system.json version: \`${SYSTEM_VERSION}\`（宿主显示版本，不是 release 身份）。"
+            echo ""
+            echo "- run: ${RUN_URL}"
+            echo "- tag commit: \`${{ steps.gate.outputs.tagCommit }}\`（自 main 切出，D8 血统已校验）"
+            echo "- origin/main tip: \`${{ steps.gate.outputs.mainTip }}\`"
+            echo ""
+            echo "| asset | sha256 | size | files |"
+            echo "| --- | --- | --- | --- |"
+            echo "| system.zip | \`${ZIP_SHA}\` | ${ZIP_SIZE} B | ${FILE_COUNT} |"
+            echo "| system-manifest.json | \`${MANIFEST_SHA}\` | - | - |"
+            echo "| system-receipt.json | \`${RECEIPT_SHA}\` | - | - |"
+            echo ""
+            echo "| axis | commit | setHash (\`octopus-owner-ci-set-hash/1\`) |"
+            echo "| --- | --- | --- |"
+            echo "| runtime | \`${RUNTIME_COMMIT}\` | \`${RUNTIME_SET_HASH}\` |"
+            echo "| content | \`${CONTENT_COMMIT}\` | \`${CONTENT_SET_HASH}\` |"
+            echo ""
+            echo "采纳侧请按 (tag, zip sha256, 两轴 commit + setHash) 绑定；"
+            echo "同一 release 身份只对应这份字节，修复必须出新 tag。"
+          } > "$RUNNER_TEMP/release-notes.md"
+          cat "$RUNNER_TEMP/release-notes.md" >> "$GITHUB_STEP_SUMMARY"
+
+      # 同一 release 身份只对应一份字节：
+      #   - 已发布的 release 已存在 → 直接失败（不覆盖、不原地替换；修复出新 tag）；
+      #   - 同 tag 的**草稿**（上一次 run 中断的残留，用户不可见）→ 删掉重来。
+      # 只有明确的 404 才当作「没有 release」；其他 API 失败一律 fail-closed。
+      - name: guard existing release (published = hard fail, leftover draft = discard)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.gate.outputs.tagName }}"
+          set +e
+          API_OUT="$(gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${TAG}" 2>&1)"
+          API_STATUS=$?
+          set -e
+          if [ "$API_STATUS" -ne 0 ]; then
+            if printf '%s' "$API_OUT" | grep -qi "HTTP 404"; then
+              echo "no existing release for ${TAG}"
+              exit 0
+            fi
+            echo "::error::查询 ${TAG} 的 release 失败（非 404），拒绝继续：${API_OUT}"
+            exit 1
+          fi
+          IS_DRAFT="$(printf '%s' "$API_OUT" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(String(JSON.parse(s).draft)))')"
+          if [ "$IS_DRAFT" = "true" ]; then
+            echo "::warning::丢弃同 tag 的遗留草稿 ${TAG}（未发布、用户不可见），按本次出证字节重建"
+            gh release delete "$TAG" --repo "$GITHUB_REPOSITORY" --yes
+          else
+            echo "::error::release ${TAG} 已发布：同一 release 身份只对应一份字节，禁止覆盖；修复请出新 tag"
+            exit 1
+          fi
+
+      # 先建草稿再发布：三件上传完成、复核通过之前，release 对用户不可见；
+      # 中途失败只会留下草稿，不会出现「已发布但缺件」的坐标。
+      - name: create draft GitHub release with the three fixed-name assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        working-directory: ${{ runner.temp }}/release-artifact
+        run: |
+          set -euo pipefail
+          gh release create "${{ steps.gate.outputs.tagName }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
+            --draft \
+            --title "BRP system artifact ${{ steps.gate.outputs.tagName }}" \
+            --notes-file "$RUNNER_TEMP/release-notes.md" \
+            system.zip system-manifest.json system-receipt.json
+
+      # 发布前复核草稿的 asset 名单与大小（sha256 已在 notes 里，字节来自
+      # 上一步验过的本地文件；这里防的是上传截断/漏传）。
+      - name: verify draft assets (names + sizes) before publishing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        working-directory: ${{ runner.temp }}/release-artifact
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.gate.outputs.tagName }}"
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | sort > "$RUNNER_TEMP/assets.txt"
+          printf 'system-manifest.json\nsystem-receipt.json\nsystem.zip\n' > "$RUNNER_TEMP/expected.txt"
+          if ! diff -u "$RUNNER_TEMP/expected.txt" "$RUNNER_TEMP/assets.txt"; then
+            echo "::error::草稿 release 的 asset 名单与固定三件不符"
+            exit 1
+          fi
+          for f in system.zip system-manifest.json system-receipt.json; do
+            GOT="$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets \
+              --jq ".assets[] | select(.name == \"$f\") | .size")"
+            WANT="$(wc -c < "$f" | tr -d ' ')"
+            if [ "$GOT" != "$WANT" ]; then
+              echo "::error::asset $f 大小不符：release=$GOT 本地=$WANT"
+              exit 1
+            fi
+          done
+
+      - name: publish the draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release edit "${{ steps.gate.outputs.tagName }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --draft=false
+          echo "published: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${{ steps.gate.outputs.tagName }}" >> "$GITHUB_STEP_SUMMARY"

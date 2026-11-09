@@ -37,13 +37,13 @@
 - artifact 轴：`node tools/tests/owner-ci-artifact-negative.mjs`；再跑 `artifact.mjs assemble` 和 `artifact.mjs verify`（带两轴 root 与 owner manifest/receipt），verify 必须报 `rebuild: byte-identical`。
 - 本地出证时 `manifest.mjs collect/verify` 的 `--root` 指向被测 checkout；工具本身可从 owner-meta/工作副本调用。只有真实 CI run 才写 runUrl。
 - 本仓没有 `tools/run-headless.mjs`。Readme 里的 `MT_SYSTEM_ID=brp ... tools/run-headless.mjs` 是在 `mt-foundry-compat` 把本目录放进 `web/packages/brp/` 后的前端集成验证，不作为 owner 语义证据。
-- 参考入口：`Readme.md`（开发/回归/owner CI 说明）、`.github/workflows/owner-ci.yml`（三个 job 的真源）、`tools/owner-ci/`（manifest/artifact/pin）、`system.json`（宿主接口与内容注册）、`docs/owner-ci.md`（规则与本地验收）。
+- 参考入口：`Readme.md`（开发/回归/owner CI 说明）、`.github/workflows/owner-ci.yml`（四个 job 的真源）、`tools/owner-ci/`（manifest/artifact/pin）、`system.json`（宿主接口与内容注册）、`docs/owner-ci.md`（规则与本地验收）。
 
 ## 交接与证据清单
 
-- owner CI 必须三 job 全绿：runtime 语义 + runtime manifest/receipt；content 验证 + content manifest/receipt；assemble + verify 出 `system.zip`、`system-manifest.json`、`system-receipt.json`。任一链路红都不得产出或消费 artifact。
+- owner CI 的验收三 job（runtime 语义 + runtime manifest/receipt；content 验证 + content manifest/receipt；assemble + verify 出 `system.zip`、`system-manifest.json`、`system-receipt.json`）必须全绿。任一链路红都不得产出或消费 artifact，也不得进入发布 job。
 - 交接/PR 除 receipt 的 testedCommit 外，必须另行注明 sourceCommit，并同时给出 runUrl、两轴 setHash 与 zip sha256；缺任一项视为证据不完整，不得只用“CI 绿了”代替。
-- CI 只上传私有 artifact，不自动 Release、不推回；出证产物不写入 tracked dist 树，旧 artifact 保留供回滚。
+- 分支/PR/dispatch 只上传私有 artifact，不推回；出证产物不写入 tracked dist 树，旧 artifact 保留供回滚。唯一对外写动作是 `release-publish`：仅 `release-*` tag push、且 tag commit 在 main 祖先线上时，把同一份三件上传为 GitHub Release（D2 坐标，D8 血统）；已存在的 release 不得覆盖，修复必须出新 tag。非 main 血统或非 `release-*` 的 tag 一律 fail-closed，不出件。
 - `system.json` 是产物内唯一身份锚：entry、license、host generation 以它为准；manifest 只允许派生并复核，不另立常量或第二份身份表。
 - 历史 PR/旧基线状态不写入本文件；以当前 workflow、tools 与 pin 为准。
 
