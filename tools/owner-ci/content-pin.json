@@ -1,12 +1,12 @@
 {
   "kind": "octopus-owner-ci-content-pin/1",
-  "contentRef": "95d984dbc64a0d5631f736bda7bb613ce98128cf",
-  "contentRefNote": "迁移前旧 M8 内容集基线（91 技能 / 156 职业）。public owner 已收缩为核心 60/9 且移除扩展构建链；CI 的 content job 在 checkout 后先跑 core 60/9 + extension 0 的 fail-closed 门，因此本旧基线会被明确拒绝，直到迁移提交获批后按 docs/owner-ci.md 的「内容升级流程」把本文件重钉到新的不可变 commit 并重算 contentSetHashSha256。未提交工作树不得写入临时/自造 pin。",
+  "contentRef": "a7fe01f9248b756ba338b5c9fd6f7a184f826ec4",
+  "contentRefNote": "公开 owner 收缩后的核心内容集基线（60 技能 / 9 职业，184 个 packs* 文件）。contentRef 是不可变 commit（迁移 + 基线修复提交），与 contentSetHashSha256 由 tools/owner-ci/manifest.mjs set-hash --kind content 同步计算；内容升级必须显式改这里并用 set-hash 重算，main 上的内容漂移不得被当成升级。",
   "contentSetScope": [
     "packs/",
     "packs-index/",
     "packs-json/"
   ],
   "contentSetHashAlgo": "sha256 over \"<path>\\n<size>\\n<sha256hex>\\n\" of entries sorted by path (code-unit order), git ls-tree -r --full-tree <contentRef>",
-  "contentSetHashSha256": "9bf07932e3bcbc68418294927a996e1161d914f393de44cb8a9f3419d87cad08"
+  "contentSetHashSha256": "f6b0594334a0bafb45776e9a1ad30a562d6f3e8a34174dbd13c130afb6b46354"
 }
