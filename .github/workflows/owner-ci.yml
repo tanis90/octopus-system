@@ -2,11 +2,13 @@
 #
 # 两条独立的验收线，绝不合并：
 #   runtime job —— 对被测 commit（push/PR = 当前源；workflow_dispatch 可指定 runtimeRef）
-#     跑源仓已有的语义测试（i18n / base pack 确定性 / CoC SAN / CoC 规则+内容+卡牌契约），
+#     跑源仓已有的语义测试（i18n / base pack 确定性 / CoC SAN / CoC 核心内容与规则契约），
 #     并生成 runtime manifest + receipt。
 #   content job —— 用 actions/checkout 钉住 tools/owner-ci/content-pin.json 里的
-#     已发布内容基线（旧 M8 内容集；workflow_dispatch 可用 inputs.contentRef 复核任意
-#     历史组合），跑内容/包构建与确定性测试，并生成 content manifest + receipt。
+#     已发布内容基线（workflow_dispatch 可用 inputs.contentRef 复核任意历史组合），
+#     跑内容/包构建与确定性测试，并生成 content manifest + receipt。
+#     内容基线必须先通过「核心 60/9 + 扩展 0」fail-closed 门；旧 91/156 基线会被
+#     明确拒绝，直到迁移后的新 commit 被显式重钉（见 content-pin.json 的 note）。
 #     main 上的内容漂移不会被悄悄当成升级：内容升级必须显式修改 content-pin.json
 #     （含重新计算的集合 hash），否则 content job 按红处理。
 #   system-artifact job —— needs 两条线都 success 才启动；按两条线实际被测的
@@ -67,7 +69,6 @@ concurrency:
   cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
 env:
-  EXPAND_DIR: ${{ github.workspace }}/arcane-investigator-options
   # owner-meta / 被测源要 checkout 的 ref。
   # 分支/PR/dispatch 与改造前完全一致（github.sha）；tag push 改用 github.ref：
   # annotated tag 的 github.sha 可能是 tag 对象 id 而不是 commit，而 refs/tags/*
@@ -106,51 +107,37 @@ jobs:
         id: commit
         run: echo "runtimeCommit=$(git -C "$GITHUB_WORKSPACE/src" rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      - name: read content/expansion pins (from owner-meta)
-        id: pins
-        run: |
-          PIN="owner-meta/tools/owner-ci/content-pin.json"
-          if [ -f "$PIN" ]; then
-            echo "expansionRef=$(node -p "require('./$PIN').expansionRef")" >> "$GITHUB_OUTPUT"
-            echo "contentRef=$(node -p "require('./$PIN').contentRef")" >> "$GITHUB_OUTPUT"
-            echo "contentSetHash=$(node -p "require('./$PIN').contentSetHashSha256")" >> "$GITHUB_OUTPUT"
-          else
-            echo "expansionRef=" >> "$GITHUB_OUTPUT"
-            echo "contentRef=" >> "$GITHUB_OUTPUT"
-            echo "contentSetHash=" >> "$GITHUB_OUTPUT"
-            echo "::warning::workflow 源树里没有 tools/owner-ci/content-pin.json；分发仓步骤跳过，content job 需要显式 inputs.contentRef"
-          fi
-
-      - name: checkout expansion distribution repo (pinned)
-        if: steps.pins.outputs.expansionRef != ''
-        uses: actions/checkout@v4
-        with:
-          repository: tanis90/arcane-investigator-options
-          ref: ${{ steps.pins.outputs.expansionRef }}
-          path: arcane-investigator-options
-          persist-credentials: false
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      # 文档化的开发流程：扩展产物由主仓 facts 构建进分发仓 checkout。
-      # 重建后 git status 的差异 = 已发布分发仓相对主仓 facts 的漂移，只报告不阻塞。
-      - name: rebuild expansion into distribution checkout + drift note
-        if: steps.pins.outputs.expansionRef != ''
+      # 核心内容 fail-closed 门：公开 owner 只接受 60 技能 / 9 职业 / 4 个
+      # system pack，且不得携带扩展构建链或扩展包目录。测试脚本会再次断言，
+      # 这里在跑完整回归前先给出明确失败点。
+      - name: assert core 60/9 and extension-free source
         working-directory: src
         run: |
-          node tools/coc-pack/build.mjs
-          DRIFT="$(git -C "$EXPAND_DIR" status --porcelain | wc -l)"
-          {
-            echo "### 分发仓漂移（informational）"
-            echo ""
-            echo "pinned expansionRef \`$(git -C "$EXPAND_DIR" rev-parse HEAD)\` 相对主仓 facts 重建后，$DRIFT 个路径有差异："
-            echo '```'
-            git -C "$EXPAND_DIR" status --porcelain | head -20
-            echo '```'
-            echo "如需对齐，请在 arcane-investigator-options 仓重新构建发布；本报告不阻塞 owner-ci。"
-          } >> "$GITHUB_STEP_SUMMARY"
+          node --input-type=module <<'NODE'
+          import { existsSync, readFileSync, readdirSync } from "node:fs";
+          const read = (path) => JSON.parse(readFileSync(path, "utf8"));
+          const skills = read("packs-json/coc-skills.json");
+          const professions = read("packs-json/coc-professions.json");
+          const system = read("system.json");
+          const names = (system.packs ?? []).map((pack) => pack.name).sort();
+          const fail = (message) => { console.error(`::error::${message}`); process.exit(1); };
+          if (skills.length !== 60) fail(`coc-skills 必须正好 60 条，实际 ${skills.length}`);
+          if (professions.length !== 9) fail(`coc-professions 必须正好 9 条，实际 ${professions.length}`);
+          if (JSON.stringify(names) !== JSON.stringify(["coc-professions", "coc-skills", "octopus-professions", "octopus-skills"])) {
+            fail(`system.json pack 必须正好是 2 个 octopus + 2 个 CoC 核心包，实际 ${names.join(", ")}`);
+          }
+          for (const dir of ["packs", "packs-index", "packs-json"]) {
+            const leaked = readdirSync(dir).filter((name) => name.startsWith("arcane-investigator-"));
+            if (leaked.length) fail(`${dir} 仍有扩展产物：${leaked.join(", ")}`);
+          }
+          if (existsSync("tools/coc-pack/import-sealdice-occupations.mjs")) fail("SealDice 导入器仍在公开 owner");
+          if (existsSync("tools/coc-pack/leveldb.mjs")) fail("扩展 LevelDB 构建器仍在公开 owner");
+          console.log("core 60/9 + extension 0: OK");
+          NODE
 
       - name: zh-CN i18n consistency
         working-directory: src
@@ -164,12 +151,9 @@ jobs:
         working-directory: src
         run: node tools/tests/coc-sanity-regressions.mjs
 
-      - name: CoC rules + pack + card regressions
-        if: steps.pins.outputs.expansionRef != ''
+      - name: CoC rules + core pack regressions
         working-directory: src
         run: node tools/tests/coc-rules-regressions.mjs
-        env:
-          ARCANE_INVESTIGATOR_OPTIONS_DIR: ${{ env.EXPAND_DIR }}
 
       # 负例脚本从 owner-meta 调用（fixture 在临时目录，与被测树无关）。
       - name: owner-ci verifier negative tests
@@ -259,6 +243,34 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      # 内容基线必须是收缩后的核心 60/9。旧 91/156 基线在这里 fail-closed：
+      # 迁移提交获批后，按 docs/owner-ci.md 的「内容升级流程」重钉 contentRef
+      # 与 contentSetHashSha256，本门才会放行。
+      - name: assert pinned content is core 60/9 and extension-free
+        working-directory: content-src
+        run: |
+          node --input-type=module <<'NODE'
+          import { existsSync, readFileSync, readdirSync } from "node:fs";
+          const read = (path) => JSON.parse(readFileSync(path, "utf8"));
+          const skills = read("packs-json/coc-skills.json");
+          const professions = read("packs-json/coc-professions.json");
+          const system = read("system.json");
+          const names = (system.packs ?? []).map((pack) => pack.name).sort();
+          const fail = (message) => { console.error(`::error::${message}`); process.exit(1); };
+          if (skills.length !== 60) fail(`pinned coc-skills 必须正好 60 条，实际 ${skills.length}`);
+          if (professions.length !== 9) fail(`pinned coc-professions 必须正好 9 条，实际 ${professions.length}`);
+          if (JSON.stringify(names) !== JSON.stringify(["coc-professions", "coc-skills", "octopus-professions", "octopus-skills"])) {
+            fail(`pinned system.json 必须正好是 2 个 octopus + 2 个 CoC 核心包，实际 ${names.join(", ")}`);
+          }
+          for (const dir of ["packs", "packs-index", "packs-json"]) {
+            const leaked = readdirSync(dir).filter((name) => name.startsWith("arcane-investigator-"));
+            if (leaked.length) fail(`pinned ${dir} 仍有扩展产物：${leaked.join(", ")}`);
+          }
+          if (existsSync("tools/coc-pack/import-sealdice-occupations.mjs")) fail("pinned content 仍含 SealDice 导入器");
+          if (existsSync("tools/coc-pack/leveldb.mjs")) fail("pinned content 仍含扩展 LevelDB 构建器");
+          console.log("pinned content core 60/9 + extension 0: OK");
+          NODE
 
       # 内容/包构建 + 确定性测试（跑被测 commit 自带的脚本）。
       # git diff --exit-code 是确定性口径：重建后的字节必须与已提交产物逐字节一致。

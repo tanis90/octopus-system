@@ -3378,7 +3378,7 @@
     "enName": "Art/Craft (Writing)",
     "contentSource": "coc",
     "coc": {
-     "factId": "sealdice.skill.art-craft-writing",
+     "factId": "coc7.skill.art-craft-writing",
      "key": "art-craft-writing",
      "pack": "core",
      "specKey": "writing",

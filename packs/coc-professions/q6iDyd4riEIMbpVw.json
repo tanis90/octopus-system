@@ -70,9 +70,6 @@
         "brpids": [
          "i.skill.coc.firearms-handgun",
          "i.skill.coc.firearms-rifle-shotgun"
-        ],
-        "expandPackBrpids": [
-         "i.skill.coc.firearms-bow"
         ]
        }
       ]
