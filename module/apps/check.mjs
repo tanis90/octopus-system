@@ -247,7 +247,7 @@ export class BRPCheck {
         } else {
           skill = BRPCheck.weaponSkill(particActor, weapon, config.skillId)
           config.label = skill?.name ?? weapon.name ?? ""
-          config.rawScore = (skill?.system?.total ?? 0) + (options.actor.system.skillcategory[skill?.system?.category] ?? 0)
+          config.rawScore = (skill?.system?.total ?? 0) + (options.actor.system.skillcategory?.[skill?.system?.category] ?? 0)
           config.targetScore = config.rawScore
           config.skillId = skill?._id ?? config.skillId
         }
@@ -275,8 +275,8 @@ export class BRPCheck {
         } else {
           skill = particActor.items.get(config.skillId)
           config.label = skill.name ?? ""
-          config.rawScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
-          config.targetScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
+          config.rawScore = skill.system.total + (options.actor.system.skillcategory?.[skill.system.category] ?? 0)
+          config.targetScore = skill.system.total + (options.actor.system.skillcategory?.[skill.system.category] ?? 0)
         }
         if (weapon.system.hands === "1-2H") {
           config.handOptions = Object.assign(config.handOptions, await BRPCombatRoll.getHandOptions(weapon));

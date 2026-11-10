@@ -32,8 +32,9 @@
 ## 验证与 CI
 
 - 本源仓没有 `package.json`、没有 `go.mod`：`npm test`、`go test` 均不适用；不要新增或假设 npm scripts，验证入口是 Node 脚本和 `.github/workflows/owner-ci.yml`。
-- runtime 语义（与 owner CI 同款）：`node tools/check-zh-cn.mjs`；`node tools/tests/base-pack-determinism.mjs`；`node tools/tests/coc-sanity-regressions.mjs`；`node tools/tests/coc-rules-regressions.mjs`（需按 pin 的 `expansionRef` 准备 `ARCANE_INVESTIGATOR_OPTIONS_DIR`）；`node tools/tests/owner-ci-verify-negative.mjs`。
-- content 轴：`node tools/base-pack/build.mjs`；`node tools/coc-pack/build.mjs`；`node tools/tests/base-pack-determinism.mjs`；`node tools/tests/coc-rules-regressions.mjs`；`node tools/tests/coc-sanity-regressions.mjs`；最后 `git diff --exit-code` 证明重建字节等于已提交字节。
+- runtime 语义（与 owner CI 同款）：`node tools/check-zh-cn.mjs`；`node tools/tests/base-pack-determinism.mjs`；`node tools/tests/coc-sanity-regressions.mjs`；`node tools/tests/coc-rules-regressions.mjs`（核心 60/9 + 扩展 0，不需要外部扩展 checkout）；`node tools/tests/owner-ci-verify-negative.mjs`。
+- content 轴：`node tools/base-pack/build.mjs`；`node tools/coc-pack/build.mjs`；`node tools/tests/base-pack-determinism.mjs`；`node tools/tests/coc-rules-regressions.mjs`；`node tools/tests/coc-sanity-regressions.mjs`；最后 `git diff --exit-code` 证明重建字节等于已提交字节。content job 先断言核心 60/9、`system.json` 四个 pack、扩展目录/构建链缺席；旧 91/156 pin 必须显式重钉后才能通过。
+- 公开 owner 的内容边界：只保留核心 `coc-skills` 60 / `coc-professions` 9、`content/coc/` 的核心事实与核心 provenance、规则实现、兼容文档、SAN/Luck 设计与 `sanity-provenance.json`；全量职业/技能源、扩展专用 provenance、SealDice 导入链、LevelDB 扩展构建器和扩展引用（含 `expansionRef`）不进入本仓。核心 packs 必须由真实 facts 构建，不得用空源、占位 artifact 或假 receipt 充数。
 - artifact 轴：`node tools/tests/owner-ci-artifact-negative.mjs`；再跑 `artifact.mjs assemble` 和 `artifact.mjs verify`（带两轴 root 与 owner manifest/receipt），verify 必须报 `rebuild: byte-identical`。
 - 本地出证时 `manifest.mjs collect/verify` 的 `--root` 指向被测 checkout；工具本身可从 owner-meta/工作副本调用。只有真实 CI run 才写 runUrl。
 - 本仓没有 `tools/run-headless.mjs`。Readme 里的 `MT_SYSTEM_ID=brp ... tools/run-headless.mjs` 是在 `mt-foundry-compat` 把本目录放进 `web/packages/brp/` 后的前端集成验证，不作为 owner 语义证据。

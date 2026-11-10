@@ -35,7 +35,7 @@ export const COC_SKILL_CATEGORIES = Object.freeze([
   Object.freeze({ id: OTHER_CATEGORY, key: OTHER_CATEGORY, label: '其他' }),
 ])
 
-// Mirrors every skill in content/coc/skills.json (60 core + 31 expansion)
+// Mirrors every skill in content/coc/skills.json (the 60 public core skills)
 // plus the two octopus-equipment firearm specialisms. Unknown ids fall to
 // `other` so a user-created skill never borrows a category by accident.
 const SKILL_CATEGORY_BY_BRPID = Object.freeze({

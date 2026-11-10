@@ -1,49 +1,28 @@
-// CoC 7e content pack build (M1 core skills + M2 occupations, split into two packs).
+// CoC 7e core content pack build (skills + occupations).
 // Source of truth: content/coc/skills.json and content/coc/professions.json
-// (facts + provenance). Prose in the packs is written for this project.
+// (core facts + core provenance). Prose in the packs is written for this project.
 //
-// One fact source, two pack sets:
-//   core   -> packs-json/coc-skills.json, packs-index/coc-skills.json,
-//             packs/coc-skills/<id>.json, and the same trio for coc-professions;
-//             registered in system.json, always available.
-//   expand -> a sibling distribution repository (default
-//             ../arcane-investigator-options, override with --out <dir> or
-//             ARCANE_INVESTIGATOR_OPTIONS_OUT): packs-json/packs-index for diff
-//             and a real LevelDB WAL at packs/<pack>/000001.log. The expansion
-//             is declared by that repository's module.json, never by
-//             system.json, so it exists only while the module is enabled.
+// The public repository owns only the two core packs:
+//   core -> packs-json/coc-skills.json, packs-index/coc-skills.json,
+//           packs/coc-skills/<id>.json, and the same trio for coc-professions;
+//           registered in system.json, always available.
+// Extension-only facts, their importer and their distribution build live outside
+// this public repository and are never emitted or declared here.
 //
-// Deterministic: document ids derive from the stable ASCII brpid only; the
-// expansion is emitted in _id order with fixed WAL sequence numbers and no
-// timestamps.
+// Deterministic: document ids derive from the stable ASCII brpid only.
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { join, dirname, resolve } from "node:path";
+import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isSupportedPointFormulas, isAsciiId } from "../../module/rules/creation.mjs";
-import { makePackLog } from "./leveldb.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "../..");
 const read = (p) => JSON.parse(readFileSync(join(ROOT, p), "utf8"));
 
-const outArg = (() => {
-  const args = process.argv.slice(2);
-  for (let i = 0; i < args.length; i += 1) {
-    if (args[i] === "--out" || args[i] === "--expand-out") {
-      const value = args[i + 1];
-      if (!value) {
-        console.error(`${args[i]} 需要一个输出目录`);
-        process.exit(1);
-      }
-      return value;
-    }
-    if (args[i].startsWith("--out=")) return args[i].slice("--out=".length);
-    if (args[i].startsWith("--expand-out=")) return args[i].slice("--expand-out=".length);
-  }
-  return null;
-})();
-const EXPAND_DIR = resolve(outArg ?? process.env.ARCANE_INVESTIGATOR_OPTIONS_OUT ?? join(ROOT, "../arcane-investigator-options"));
+const CORE_SKILL_COUNT = 60;
+const CORE_PROFESSION_COUNT = 9;
+const corePack = (entry) => entry.pack;
 
 const facts = read("content/coc/skills.json");
 const occupations = read("content/coc/professions.json");
@@ -64,30 +43,11 @@ const BRPID_RE = /^i\.skill\.coc\.[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const PROF_BRPID_RE = /^i\.profession\.coc\.[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const SPEC_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ALLOWED_ZERO = new Set(["credit-rating", "cthulhu-mythos"]);
-const PACK_IDS = ["core", "expand"];
-
-// Pack locations. The expansion is emitted into the separate distribution
-// repository; this repository keeps only the core packs and the fact source.
-const TARGETS = {
-  core: {
-    base: ROOT,
-    skills: { key: "coc-skills", label: "克苏鲁的呼唤 · 核心技能（CoC 7e）" },
-    professions: { key: "coc-professions", label: "克苏鲁的呼唤 · 核心职业（CoC 7e）" },
-  },
-  expand: {
-    base: EXPAND_DIR,
-    leveldb: true,
-    skills: { key: "arcane-investigator-skills", label: "章鱼调查员扩展 · 技能" },
-    professions: { key: "arcane-investigator-professions", label: "章鱼调查员扩展 · 职业" },
-  },
-};
-const MODULE_MANIFEST = join(EXPAND_DIR, "module.json");
 
 const sourceRefs = (entry) => entry.sourceRefs ?? facts.defaultSourceRefs ?? [];
 const isCombat = (entry) => entry.key === "dodge"
   || entry.parentKey === "fighting"
   || entry.parentKey === "firearms";
-const packOf = (entry) => entry.pack;
 
 const errors = [];
 const seenBrpid = new Set();
@@ -95,10 +55,11 @@ const seenName = new Set();
 const seenKey = new Set();
 const seenSpec = new Set();
 
-// One fact source, one identity space: brpids, keys, names and specialism
-// identities must be unique across BOTH packs, never just within one.
+// One core fact source, one identity space: brpids, keys, names and specialism
+// identities must be unique. Anything tagged as an extension pack is rejected:
+// this repository builds only the core packs.
 for (const entry of facts.skills) {
-  if (!PACK_IDS.includes(packOf(entry))) errors.push(`技能 pack 必须是 core/expand，实际 ${packOf(entry)}: ${entry.key}`);
+  if (corePack(entry) !== "core") errors.push(`技能只能属于 core pack，实际 ${corePack(entry)}: ${entry.key}`);
   if (!BRPID_RE.test(entry.brpid ?? "")) errors.push(`非 ASCII/格式错误的 brpid: ${entry.brpid}`);
   if (!SPEC_RE.test(entry.key ?? "")) errors.push(`非 ASCII key: ${entry.key}`);
   if (seenBrpid.has(entry.brpid)) errors.push(`重复 brpid: ${entry.brpid}`);
@@ -137,17 +98,20 @@ for (const pending of facts.pendingSpecialisms ?? []) {
   if (!pending.reason) errors.push(`pending 专精缺少原因: ${pending.factId}`);
 }
 
-// The declared split must describe the file exactly: no pack left empty, no
-// skill in two packs, and the recorded counts must be the real ones.
+// The declared split must describe the file exactly: the core count must be the
+// real one, and the public owner must not carry extension records.
 const declaredSplit = facts.packSplit ?? {};
 const actualSkillCounts = {
-  core: facts.skills.filter((entry) => packOf(entry) === "core").length,
-  expand: facts.skills.filter((entry) => packOf(entry) === "expand").length,
+  core: facts.skills.filter((entry) => corePack(entry) === "core").length,
 };
-for (const pack of PACK_IDS) {
-  if ((declaredSplit.counts?.[pack] ?? null) !== actualSkillCounts[pack]) {
-    errors.push(`packSplit.counts.${pack} 与实际 ${actualSkillCounts[pack]} 不符`);
-  }
+if (declaredSplit.counts?.core !== actualSkillCounts.core) {
+  errors.push(`packSplit.counts.core 与实际 ${actualSkillCounts.core} 不符`);
+}
+if (actualSkillCounts.core !== CORE_SKILL_COUNT) {
+  errors.push(`核心技能必须正好 ${CORE_SKILL_COUNT} 条，实际 ${actualSkillCounts.core}`);
+}
+if (facts.skills.length !== actualSkillCounts.core) {
+  errors.push(`事实源含有 ${facts.skills.length - actualSkillCounts.core} 条非核心技能`);
 }
 
 if (errors.length) {
@@ -170,7 +134,7 @@ const skillDoc = (entry) => {
         coc: {
           factId: entry.factId,
           key: entry.key,
-          pack: packOf(entry),
+          pack: corePack(entry),
           specKey: entry.specKey ?? null,
           parentKey: entry.parentKey ?? null,
           sourceRefs: sourceRefs(entry),
@@ -181,7 +145,7 @@ const skillDoc = (entry) => {
       skillName: entry.mainName || entry.name,
       specialization: entry.specialism ? entry.name : "",
       base: String(base),
-      basic: packOf(entry) === "core",
+      basic: true,
       adjustments: { base: 0, personal: 0, occupation: 0, archetype: 0, experiencePackage: 0, experience: 0 },
       properties: {
         push: true,
@@ -201,21 +165,13 @@ const skillDoc = (entry) => {
   };
 };
 
-const byDocId = (left, right) => (left._id < right._id ? -1 : left._id > right._id ? 1 : 0);
-const skillsByPack = {
-  core: facts.skills.filter((entry) => packOf(entry) === "core").map(skillDoc),
-  // The distribution repository is rebuilt from source. Sorting by _id keeps
-  // every expansion artifact (JSON, index, WAL) in a stable order independent
-  // of fact-file editing history.
-  expand: facts.skills.filter((entry) => packOf(entry) === "expand").map(skillDoc).sort(byDocId),
-};
-const docs = [...skillsByPack.core, ...skillsByPack.expand];
+const coreSkillDocs = facts.skills.map(skillDoc);
+const docs = coreSkillDocs;
 
 const skillByKey = new Map(facts.skills.map((entry) => [entry.key, entry]));
-const skillPackOf = (key) => packOf(skillByKey.get(key));
 const skillDocId = (key) => docId(skillByKey.get(key).brpid);
 
-// Hard isolation guard: no octopus brpid may ever be emitted into either pack.
+// Hard isolation guard: no octopus brpid may ever be emitted into a core pack.
 const octopusBrpids = new Set();
 const octopusSkillsPath = join(ROOT, "packs-json/octopus-skills.json");
 if (existsSync(octopusSkillsPath)) {
@@ -249,14 +205,13 @@ const skillRef = (key, where) => {
   return { brpid: skillByKey.get(key).brpid, uuid: skillDocId(key) };
 };
 
-// A family spanning both packs resolves differently depending on who asks:
-// a core record must stay self-contained (core members only, expand members
-// reported separately), while an expansion record may use every member.
-const familyMembers = (familyKey, where, ownerPack) => {
+// A core record must stay self-contained: every member of a family it offers is
+// already part of the core skill pack, so no extension lookup is possible.
+const familyMembers = (familyKey, where) => {
   const family = families[familyKey];
   if (!family) {
     profErrors.push(`${where}: 未知技能族 ${familyKey}`);
-    return { native: [], expand: [] };
+    return [];
   }
   if (!isAsciiId(family.parentKey)) profErrors.push(`${where}: 技能族 ${familyKey} 的 parentKey 非 ASCII`);
   if (!(family.concrete ?? []).length) profErrors.push(`${where}: 技能族 ${familyKey} 没有具体专精`);
@@ -274,26 +229,20 @@ const familyMembers = (familyKey, where, ownerPack) => {
     if (!(family.baseSourceRefs ?? []).length) profErrors.push(`${where}: 技能族 ${familyKey} 缺少基础值来源`);
   }
   const native = [];
-  const expand = [];
   for (const key of family.concrete ?? []) {
     const ref = skillRef(key, `${where}/${familyKey}`);
-    if (!ref) continue;
-    if (ownerPack === "core" && skillPackOf(key) === "expand") expand.push(ref);
-    else native.push(ref);
+    if (ref) native.push(ref);
   }
-  return { native, expand };
+  return native;
 };
 
 const professions = [];
 for (const entry of occupations.professions) {
   const where = `occupation ${entry.slug}`;
-  const ownerPack = packOf(entry);
-  if (!PACK_IDS.includes(ownerPack)) profErrors.push(`${where}: pack 必须是 core/expand，实际 ${ownerPack}`);
+  if (entry.pack !== "core") profErrors.push(`${where}: 职业只能属于 core pack，实际 ${entry.pack}`);
   const profBrpid = entry.brpid ?? `i.profession.coc.${entry.slug}`;
   if (!isAsciiId(entry.slug)) profErrors.push(`${where}: slug 非 ASCII`);
   if (profBrpid !== `i.profession.coc.${entry.slug}`) profErrors.push(`${where}: brpid 与 slug 不一致`);
-  // The legacy profession brpid prefix stays: existing documents must not be
-  // re-keyed just because the record moved into the expansion pack.
   if (!PROF_BRPID_RE.test(profBrpid)) profErrors.push(`${where}: brpid 非 ASCII/格式错误 ${profBrpid}`);
   if (seenSlug.has(entry.slug)) profErrors.push(`${where}: 重复 slug`);
   if (seenProfBrpid.has(profBrpid)) profErrors.push(`${where}: 重复 brpid`);
@@ -349,11 +298,7 @@ for (const entry of occupations.professions) {
     if (fixedKeys.has(key)) profErrors.push(`${where}: 固定技能重复 ${key}`);
     fixedKeys.add(key);
     const ref = skillRef(key, where);
-    if (!ref) continue;
-    if (ownerPack === "core" && skillPackOf(key) === "expand") {
-      profErrors.push(`${where}: 核心职业不得引用扩展技能 ${key}`);
-    }
-    fixedRefs.push(ref);
+    if (ref) fixedRefs.push(ref);
   }
 
   for (const slot of entry.specialismSlots ?? []) {
@@ -392,29 +337,19 @@ for (const entry of occupations.professions) {
     for (const option of group.options ?? []) {
       if (option.kind === "skill") {
         const ref = skillRef(option.skill, `${where}/${group.key}`);
-        if (ownerPack === "core" && skillPackOf(option.skill) === "expand") {
-          profErrors.push(`${where}: 核心职业不得引用扩展技能 ${option.skill}`);
-        }
         resolvedOptions.push({ kind: "skill", skill: option.skill, brpids: ref ? [ref.brpid] : [] });
         if (ref) addRef(ref, refs);
       } else if (option.kind === "family") {
-        const members = familyMembers(option.family, `${where}/${group.key}`, ownerPack);
-        const resolved = {
+        const members = familyMembers(option.family, `${where}/${group.key}`);
+        resolvedOptions.push({
           kind: "family",
           family: option.family,
           parentKey: families[option.family]?.parentKey ?? null,
           base: families[option.family]?.base ?? null,
           requiresExplicitBase: families[option.family]?.requiresExplicitBase === true,
-          brpids: members.native.map((ref) => ref.brpid),
-        };
-        // A core record stays self-contained. Members that live in the
-        // expansion pack are still reported, so a module-aware builder can
-        // offer them without the core pack depending on the module.
-        if (members.expand.length) {
-          resolved.expandPackBrpids = members.expand.map((ref) => ref.brpid);
-        }
-        resolvedOptions.push(resolved);
-        for (const ref of members.native) addRef(ref, refs);
+          brpids: members.map((ref) => ref.brpid),
+        });
+        for (const ref of members) addRef(ref, refs);
       } else if (option.kind === "any") {
         anyPick = true;
         resolvedOptions.push({ kind: "any", brpids: [] });
@@ -452,7 +387,7 @@ for (const entry of occupations.professions) {
         coc: {
           factId: entry.factId,
           slug: entry.slug,
-          pack: ownerPack,
+          pack: "core",
           creditMin,
           creditMax,
           pointFormula: pointFormulas ? pointFormulas[0] : entry.pointFormula,
@@ -503,13 +438,15 @@ for (const entry of professions) {
 const declaredProfessionSplit = occupations.packSplit ?? {};
 const actualProfessionCounts = {
   core: professions.filter((doc) => doc.flags.brp.coc.pack === "core").length,
-  expand: professions.filter((doc) => doc.flags.brp.coc.pack === "expand").length,
 };
-for (const pack of PACK_IDS) {
-  if ((declaredProfessionSplit.counts?.[pack] ?? null) !== actualProfessionCounts[pack]) {
-    profErrors.push(`professions.packSplit.counts.${pack} 与实际 ${actualProfessionCounts[pack]} 不符`);
-  }
-  if (actualProfessionCounts[pack] === 0) profErrors.push(`${pack} 职业包为空`);
+if (declaredProfessionSplit.counts?.core !== actualProfessionCounts.core) {
+  profErrors.push(`professions.packSplit.counts.core 与实际 ${actualProfessionCounts.core} 不符`);
+}
+if (actualProfessionCounts.core !== CORE_PROFESSION_COUNT) {
+  profErrors.push(`核心职业必须正好 ${CORE_PROFESSION_COUNT} 条，实际 ${actualProfessionCounts.core}`);
+}
+if (occupations.professions.length !== actualProfessionCounts.core) {
+  profErrors.push(`事实源含有 ${occupations.professions.length - actualProfessionCounts.core} 条非核心职业`);
 }
 
 if (profErrors.length) {
@@ -519,89 +456,45 @@ if (profErrors.length) {
 }
 
 // ---------------------------------------------------------------- writers
-const writePack = (base, key, packDocs, { leveldb = false } = {}) => {
-  // The expansion is emitted in _id order; the core packs keep the order they
-  // have always shipped with so their committed bytes do not move.
-  const ordered = leveldb ? [...packDocs].sort(byDocId) : packDocs;
+const writePack = (base, key, packDocs) => {
   mkdirSync(join(base, "packs-json"), { recursive: true });
   mkdirSync(join(base, "packs-index"), { recursive: true });
-  writeFileSync(join(base, `packs-json/${key}.json`), JSON.stringify(ordered, null, 1) + "\n");
-  const index = ordered.map(({ _id, name, type, flags }) => ({ _id, name, type, img: null, sort: 0, flags: { brp: { brpidFlag: flags.brp.brpidFlag } } }));
+  writeFileSync(join(base, `packs-json/${key}.json`), JSON.stringify(packDocs, null, 1) + "\n");
+  const index = packDocs.map(({ _id, name, type, flags }) => ({ _id, name, type, img: null, sort: 0, flags: { brp: { brpidFlag: flags.brp.brpidFlag } } }));
   writeFileSync(join(base, `packs-index/${key}.json`), JSON.stringify(index, null, 1) + "\n");
   const dir = join(base, `packs/${key}`);
   rmSync(dir, { recursive: true, force: true });
   mkdirSync(dir, { recursive: true });
-  if (leveldb) {
-    // Real LevelDB WAL: one WriteBatch, one record per document. A single
-    // 000001.log is what Foundry itself would leave after a fresh pack write.
-    writeFileSync(join(dir, "000001.log"), makePackLog(ordered));
-  } else {
-    for (const doc of ordered) writeFileSync(join(dir, `${doc._id}.json`), JSON.stringify(doc, null, 1) + "\n");
-  }
+  for (const doc of packDocs) writeFileSync(join(dir, `${doc._id}.json`), JSON.stringify(doc, null, 1) + "\n");
   return { name: key, path: `packs/${key}`, type: "Item", system: "brp" };
 };
 
-const docsByPack = {
-  core: { skills: skillsByPack.core, professions: professions.filter((doc) => doc.flags.brp.coc.pack === "core") },
-  expand: { skills: skillsByPack.expand, professions: professions.filter((doc) => doc.flags.brp.coc.pack === "expand").sort(byDocId) },
+const coreProfessionDocs = professions.filter((doc) => doc.flags.brp.coc.pack === "core");
+const entries = {
+  skills: { ...writePack(ROOT, "coc-skills", coreSkillDocs), label: "克苏鲁的呼唤 · 核心技能（CoC 7e）" },
+  professions: { ...writePack(ROOT, "coc-professions", coreProfessionDocs), label: "克苏鲁的呼唤 · 核心职业（CoC 7e）" },
 };
 
-const entries = {};
-for (const pack of PACK_IDS) {
-  const target = TARGETS[pack];
-  const skillsEntry = writePack(target.base, target.skills.key, docsByPack[pack].skills, target);
-  const professionsEntry = writePack(target.base, target.professions.key, docsByPack[pack].professions, target);
-  entries[pack] = {
-    skills: { ...skillsEntry, label: target.skills.label },
-    professions: { ...professionsEntry, label: target.professions.label },
-  };
-}
-
-// system.json stays exactly the four shipped packs. The expansion is declared
-// by its module manifest only: enabling the module is what adds it, and
-// removing the module has to fall back to the core list.
+// system.json stays exactly the four shipped packs: two octopus packs and the
+// two core CoC packs. No extension pack may be declared here.
 const sysPath = join(ROOT, "system.json");
 const sys = JSON.parse(readFileSync(sysPath, "utf8"));
 sys.packs = (sys.packs ?? []).filter((pack) => !String(pack.name).startsWith("arcane-investigator-"));
-for (const entry of [entries.core.skills, entries.core.professions]) {
+for (const entry of [entries.skills, entries.professions]) {
   const existing = sys.packs.find((pack) => pack.name === entry.name);
   if (existing) Object.assign(existing, entry);
   else sys.packs.push(entry);
 }
+const expectedPacks = ["octopus-skills", "octopus-professions", "coc-skills", "coc-professions"];
+const actualPacks = sys.packs.map((pack) => pack.name);
+if (actualPacks.length !== expectedPacks.length || expectedPacks.some((name) => !actualPacks.includes(name))) {
+  console.error(`system.json pack 注册必须正好是 ${expectedPacks.join(", ")}，实际 ${actualPacks.join(", ")}`);
+  process.exit(1);
+}
 writeFileSync(sysPath, JSON.stringify(sys, null, 2) + "\n");
 
-// The module manifest lives in the distribution repository and is
-// hand-authored (id, license, README); its pack declarations must match what
-// this build emitted, otherwise the module would point at folders that do not
-// exist.
-if (existsSync(MODULE_MANIFEST)) {
-  const manifest = JSON.parse(readFileSync(MODULE_MANIFEST, "utf8"));
-  const declared = new Map((manifest.packs ?? []).map((pack) => [pack.name, pack]));
-  const problems = [];
-  if (manifest.id !== "arcane-investigator-options") problems.push(`module id ${manifest.id} != arcane-investigator-options`);
-  if (manifest.version !== "0.1.0") problems.push(`module version ${manifest.version} != 0.1.0`);
-  for (const entry of [entries.expand.skills, entries.expand.professions]) {
-    const pack = declared.get(entry.name);
-    if (!pack) problems.push(`${entry.name}: module.json 未声明`);
-    else {
-      if (pack.path !== entry.path) problems.push(`${entry.name}: path ${pack.path} != ${entry.path}`);
-      if (pack.type !== "Item" || pack.system !== "brp") problems.push(`${entry.name}: type/system ${pack.type}/${pack.system}`);
-    }
-  }
-  if ((manifest.esmodules ?? []).length) problems.push("扩展模块不应声明 esmodules");
-  if (problems.length) {
-    console.error(`扩展模块清单与构建产物不一致 ${problems.length} 条：`);
-    problems.slice(0, 8).forEach((problem) => console.error(`  - ${problem}`));
-    process.exit(1);
-  }
-} else {
-  console.warn(`警告：${MODULE_MANIFEST} 不存在，扩展数据已生成但未校验模块清单`);
-}
-
-console.log(`扩展输出目录 ${EXPAND_DIR}`);
-console.log(`CoC 核心技能包 ${docsByPack.core.skills.length} 文档（专精 ${docsByPack.core.skills.filter((doc) => doc.system.specialization).length}）`);
-console.log(`CoC 扩展技能包 ${docsByPack.expand.skills.length} 文档（专精 ${docsByPack.expand.skills.filter((doc) => doc.system.specialization).length}）`);
+console.log(`CoC 核心技能包 ${coreSkillDocs.length} 文档（专精 ${coreSkillDocs.filter((doc) => doc.system.specialization).length}）`);
 console.log(`pending 未证实专精 ${(facts.pendingSpecialisms ?? []).length} 条已排除，未写入固定值`);
 console.log(`octopus 技能 brpid 冲突 ${collisions.length}`);
-console.log(`CoC 核心职业包 ${docsByPack.core.professions.length} 文档；扩展职业包 ${docsByPack.expand.professions.length} 文档`);
-console.log(`选择组 核心 ${docsByPack.core.professions.reduce((n, doc) => n + doc.system.groups.length, 0)} / 扩展 ${docsByPack.expand.professions.reduce((n, doc) => n + doc.system.groups.length, 0)}`);
+console.log(`CoC 核心职业包 ${coreProfessionDocs.length} 文档`);
+console.log(`选择组 核心 ${coreProfessionDocs.reduce((n, doc) => n + doc.system.groups.length, 0)}`);

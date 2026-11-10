@@ -47,26 +47,6 @@
          "i.skill.coc.art-craft-photography",
          "i.skill.coc.art-craft-technical-drawing",
          "i.skill.coc.art-craft-writing"
-        ],
-        "expandPackBrpids": [
-         "i.skill.coc.art-craft-acrobatics",
-         "i.skill.coc.art-craft-barber",
-         "i.skill.coc.art-craft-calligraphy",
-         "i.skill.coc.art-craft-comedy",
-         "i.skill.coc.art-craft-cooking",
-         "i.skill.coc.art-craft-dancing",
-         "i.skill.coc.art-craft-farming",
-         "i.skill.coc.art-craft-fitter",
-         "i.skill.coc.art-craft-forgery",
-         "i.skill.coc.art-craft-game",
-         "i.skill.coc.art-craft-music",
-         "i.skill.coc.art-craft-plumbing",
-         "i.skill.coc.art-craft-shorthand",
-         "i.skill.coc.art-craft-singing",
-         "i.skill.coc.art-craft-tailoring",
-         "i.skill.coc.art-craft-typing",
-         "i.skill.coc.art-craft-welding",
-         "i.skill.coc.art-craft-woodworking"
         ]
        }
       ]

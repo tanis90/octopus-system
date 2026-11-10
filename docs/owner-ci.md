@@ -1,7 +1,7 @@
 # Owner CI（源仓自有验收）
 
 本文描述 `octopus-system` 源仓的 owner CI：两条互相独立的验收线，分别对应
-**BRP 运行集**与**旧 M8 内容集**，各自出 manifest + receipt。两线全绿后，第三个
+**BRP 运行集**与**内容集（当前收缩为核心 60/9）**，各自出 manifest + receipt。两线全绿后，第三个
 job 用这两份 receipt 组装前端可直接消费的 **BRP system artifact**
 （`system.zip`、manifest、receipt 三件套），作为 workflow run 的私有 artifact
 上传；第四个 job `release-publish` 只在 `release-*` tag push（且 tag commit 在
@@ -13,9 +13,11 @@ main 祖先线上）时把同一份三件上传成 **GitHub Release**（A 类出
 
 - **运行集（runtime）**：`module/`、`templates/`、`lang/`、`css/` 等被前端
   兼容层随运行时一起带走的源文件。它的 provenance 锚点是**当前源 main**。
-- **内容集（content）**：`packs/`、`packs-index/`、`packs-json/` 的已发布
-  基线。它的 provenance 锚点是**已发布组合**（当前钉在旧 M8 内容集
-  `95d984dbc64a0d5631f736bda7bb613ce98128cf`），不是 main。
+- **内容集（content）**：`packs/`、`packs-index/`、`packs-json/` 的内容
+  基线。它的 provenance 锚点是**显式钉住的 commit**，不是 main。公开 owner
+  收缩后只允许核心 60 技能 / 9 职业；content job 在构建前先跑 core-60/9 +
+  extension-0 fail-closed 门。迁移提交获批前 `contentRef` 仍是旧 91/156
+  基线，因此该门会按红处理，直至按下方「内容升级流程」重钉。
 
 两者锚点不同，所以不能用一个 commit、也不能用同一次 checkout 验收。
 main 上的内容漂移不会被 CI 悄悄当成升级：content job 永远测试
@@ -26,14 +28,14 @@ main 上的内容漂移不会被 CI 悄悄当成升级：content job 永远测�
 
 两个集合都从 `git ls-tree -r --full-tree <testedCommit>` 推导：
 
-| kind | 集合 | 268211e / 95d984d 实测 |
+| kind | 集合 | 当前源码实测 |
 | --- | --- | --- |
-| `runtime` | 全部 tracked 文件，剔除内容产物目录 `packs/`、`packs-index/`、`packs-json/`，以及 owner CI 自有文件 `.github/`、`tools/owner-ci/`、`tools/tests/owner-ci-verify-negative.mjs`、`tools/tests/owner-ci-artifact-negative.mjs`、`docs/owner-ci.md` | 329 文件 |
-| `content` | 位于 `packs/`、`packs-index/`、`packs-json/` 之下的 tracked 文件 | 362 文件 |
-| `system-artifact` | `runtime ∪ content`（system root 布局，见下节） | 691 文件（329 + 362） |
+| `runtime` | 全部 tracked 文件，剔除内容产物目录 `packs/`、`packs-index/`、`packs-json/`，以及 owner CI 自有文件 `.github/`、`tools/owner-ci/`、`tools/tests/owner-ci-verify-negative.mjs`、`tools/tests/owner-ci-artifact-negative.mjs`、`docs/owner-ci.md` | 327 文件 |
+| `content` | 位于 `packs/`、`packs-index/`、`packs-json/` 之下的 tracked 文件（核心 60/9 + octopus） | 184 文件 |
+| `system-artifact` | `runtime ∪ content`（system root 布局，见下节） | 511 文件（327 + 184） |
 
 owner CI 自身的排除项是精确路径/目录：这些文件合入源仓与否不改变部署运行面
-的集合口径（329 不会因 CI 工具/文档合入而变成别的数字）。真实仓文件的修改
+的集合口径（327 不会因 CI 工具/文档合入而变成别的数字）。真实仓文件的修改
 不被排除项掩盖——例如 `Readme.md`、`CHANGELOG.md` 的改动仍留在 runtime 集合
 里，按漂移对待。
 
@@ -112,8 +114,7 @@ node tools/owner-ci/artifact.mjs verify \
 产物口径：
 
 - **两轴不合并**：`axes.runtime.commit` 是实际被测的 runtime 源 commit（默认
-  触发 run 的当前源），`axes.content.commit` 是 `content-pin.json` 钉住的
-  M8 基线 `95d984dbc64a0d5631f736bda7bb613ce98128cf`。两个 commit、
+  触发 run 的当前源），`axes.content.commit` 是 `content-pin.json` 钉住的内容 commit。两个 commit、
   两个 `octopus-owner-ci-set-hash/1` setHash、逐文件 `path/size/sha256` 都
   原样写入 manifest；不会用 main 的内容或旧 worktree 替换任一轴。manifest 的
   扁平 `binding` 再汇总 `runtimeCommit` / `contentCommit` / 两轴 setHash /
@@ -123,7 +124,7 @@ node tools/owner-ci/artifact.mjs verify \
   UTF-8 文件名。同一 run 内两次构建的 zip、manifest 逐字节一致；manifest 只含
   跨 run 可复现的源事实（不含 runUrl / owner receipt hash），run 级绑定只在
   receipt。
-- **文件集**：当前为 329 runtime + 362 content = **691 文件**。默认拒绝
+- **文件集**：迁移后为 327 runtime + 184 content = **511 文件**。默认拒绝
   `modules/arcane-investigator-options/`：上一版前端产物里的 187 个嵌套派生
   文件没有源仓 commit 证明，不进入本 artifact（`forbiddenPrefixes` 记录该口径）。
 - **system.json 门**：必须位于 runtime 集合；`id`（默认须为 `brp`）、`version`、
@@ -148,10 +149,9 @@ node tools/owner-ci/artifact.mjs verify \
 **runtime job**（被测 ref：push/PR = 触发时的当前源；dispatch 可用
 `inputs.runtimeRef` 复核历史）：
 
-1. checkout 被测源 + 按 pin checkout 分发仓
-   `tanis90/arcane-investigator-options`；
-2. 按文档化流程把扩展从主仓 facts 重建进分发仓 checkout，并把重建差异
-   写进 job summary（informational，不阻塞）；
+1. checkout 被测源（不再 checkout 任何扩展分发仓）；
+2. 先跑 core-60/9 + extension-0 fail-closed 门（`system.json` 四个 pack、
+   `packs*` 无 `arcane-investigator-*`、无 SealDice 导入器/LevelDB 构建器）；
 3. 跑源仓语义测试（在被测 `src` 树内执行其自带的脚本）：
    ```bash
    node tools/check-zh-cn.mjs
@@ -172,7 +172,8 @@ runtime/content 两路历史复核都不依赖被测树携带这些工具。
 基线）：
 
 1. checkout 钉住的内容 commit（`actions/checkout` 的 `ref`）；
-2. 跑该 commit 自带的内容/包构建与确定性测试：
+2. 断言该 commit 是核心 60/9 且扩展 0（旧 91/156 pin 在此 fail closed）；
+3. 跑该 commit 自带的内容/包构建与确定性测试：
    ```bash
    node tools/base-pack/build.mjs
    node tools/coc-pack/build.mjs
@@ -181,7 +182,7 @@ runtime/content 两路历史复核都不依赖被测树携带这些工具。
    node tools/tests/coc-sanity-regressions.mjs
    git diff --exit-code   # 重建 == 已提交字节（确定性口径）
    ```
-3. 全绿后 collect（带 `--expect-set-hash` 对照 pin 里的基线 hash）+ verify，
+4. 全绿后 collect（带 `--expect-set-hash` 对照 pin 里的基线 hash）+ verify，
    上传 artifact。
 
 **system-artifact job**（`needs: [runtime, content]`，只有两线都 `success`
@@ -249,14 +250,15 @@ annotated tag 的 `github.sha` 可能是 tag 对象 id 而不是它指向的 com
 ```bash
 # 0) 被测 ref 的临时 checkout（detached，用完即删）
 git worktree add --detach /tmp/os-runtime "$(git rev-parse HEAD)"
-git worktree add --detach /tmp/os-m8   95d984dbc64a0d5631f736bda7bb613ce98128cf
+# 内容集使用迁移提交获批后的新 commit；获批前旧的 91/156 基线会被 core-60/9 门拒绝
+git worktree add --detach /tmp/os-content <new-content-commit>
 
 # 1) 运行集：语义测试在被测树内跑
 cd /tmp/os-runtime
 node tools/check-zh-cn.mjs
 node tools/tests/base-pack-determinism.mjs
 node tools/tests/coc-sanity-regressions.mjs
-node tools/tests/coc-rules-regressions.mjs   # 先按 pin 的 expansionRef 重建分发仓 checkout
+node tools/tests/coc-rules-regressions.mjs   # 核心 60/9 + 扩展 0，无需扩展 checkout
 node <工作副本>/tools/tests/owner-ci-verify-negative.mjs   # owner 工具从工作副本调用
 
 # 2) 运行集出证（工具从工作副本调用，root 指向被测 checkout）
@@ -268,7 +270,7 @@ node <工作副本>/tools/owner-ci/manifest.mjs collect \
   --command "node tools/check-zh-cn.mjs" ...
 
 # 3) 内容集：双构建 + 确定性 + 语义测试在被测树内跑
-cd /tmp/os-m8
+cd /tmp/os-content
 node tools/base-pack/build.mjs && node tools/coc-pack/build.mjs && git diff --exit-code
 node tools/tests/base-pack-determinism.mjs
 node tools/tests/coc-rules-regressions.mjs
@@ -276,8 +278,8 @@ node tools/tests/coc-sanity-regressions.mjs
 
 # 4) 内容集出证（--expect-set-hash 对照 pin）+ 两路 verify
 node <工作副本>/tools/owner-ci/manifest.mjs collect \
-  --kind content --commit 95d984dbc64a0d5631f736bda7bb613ce98128cf \
-  --root /tmp/os-m8 \
+  --kind content --commit <new-content-commit> \
+  --root /tmp/os-content \
   --expect-set-hash $(node -p "require('./tools/owner-ci/content-pin.json').contentSetHashSha256") \
   --out tools/owner-ci/artifacts/content-manifest.json \
   --receipt tools/owner-ci/artifacts/content-receipt.json \
@@ -318,15 +320,15 @@ tracked 的 dist 目录。receipt 的 `runUrl` 为 `null`：本地没有 CI run�
 
 ## 已知边界
 
-- system artifact 只覆盖源仓可证的两轴文件集（当前 329 + 362）；上一版前端
+- system artifact 只覆盖源仓可证的两轴文件集（迁移后 327 + 184）；上一版前端
   BRP 产物里的 `modules/arcane-investigator-options/` 187 个嵌套派生文件没有
   源仓 commit 证明，默认排除。前端后续消费应按 zip sha256 与 manifest 里的
   runtime/content commit + setHash 绑定，不从 `web/packages` 或 live 目录重建。
   本工具不引入 runtimeHost、不新增 Runtime SDK 依赖，也不做内容迁移。
-- `tools/tests/coc-rules-regressions.mjs` 在主仓 main 上要求分发仓 checkout
-  的扩展产物与主仓 facts 一致；已发布的分发仓（pinned expansionRef）仍是旧
-  doc 形态，runtime job 按文档化流程先重建再测试，并把漂移写进 job summary。
-  让已发布分发仓对齐主仓是分发仓自己的发布动作，不在 owner CI 内代劳。
+- `tools/tests/coc-rules-regressions.mjs` 只验收公开 owner 的核心 60/9 与
+  扩展 0；它不再读取任何扩展分发仓或 `expansionRef`。content job 在
+  `contentRef` 重钉前会因 core-60/9 门失败，这是预期的 fail-closed 状态，不是
+  可以用旧基线绕过的绿。
 - 需要 Foundry 运行时的探针（`rules-regressions.mjs`、`coc-paper-runtime.mjs`、
   `coc-window-controls.mjs`、`sanity-regressions.mjs`）依赖 compat 仓无头环境，
   不进源仓 CI；本仓 CI 覆盖的卡牌语义来自纯规则模块
