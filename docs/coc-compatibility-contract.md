@@ -528,12 +528,12 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 
 ### 创伤与治疗
 
-- 伤害直接写 `system.health.value`（夹到 ≥0），状态存 `flags.brp.coc.wounds`；
-  **不建 BRP wound 条目、不累加 `health.daily`、不走命中部位**。世界若仍开着
+- 伤害直接写 `system.attribs.hp.value`（夹到 ≥0），状态存 `flags.brp.coc.wounds`；
+  **不建 BRP wound 条目、不累加日伤账、不走命中部位**。世界若仍开着
   `useHPL`，CoC 路径忽略并记录 `hplIgnored`，且角色准备的命中部位/护甲 HPL 分支与建卡
   hit-location 生成对 CoC actor 全部短路（否则位置状态会覆盖伤口 flags）。
-- `updateVitals`（重掷属性）会同时把 `flags.brp.coc.wounds` 复位为满血无伤，避免
-  “满血 + 濒死/死亡”的错配。
+- `updateVitals` 只按 `attribs.hp/mp` 的 `auto` 标记把当前值置为上限，不写
+  `flags.brp.coc.wounds`；伤口状态仍由伤害/治疗路径维护。
 - 单次伤害 ≥ `ceil(maxHP/2)` → 重伤，立刻真实 CON 检定，失败昏迷；
   单次伤害 ≥ maxHP → 当场死亡；0 HP 且无重伤 → 仅昏迷。
 - 重伤且 0 HP → 濒死：每轮结束 CON（`cocDyingRound`，Combat.nextRound 由 activeGM
@@ -808,8 +808,8 @@ M4 原生链负责；上述验收不扩张为真实 Keycloak、生产部署或�
   与纯函数 `cocUnopposedAttackResolvesOnItsOwnBand`。
 - `resolve()` 返回体补 `reason`（原先只有嵌套 `outcome.reason`）。
 - 世界仍开着 BRP `useHPL` 时，CoC 角色的命中部位分支/护甲 HPL 分支/建卡 hit-location 全部
-  短路（原先会有位置状态覆盖伤口 flags 或对缺失 hit-location 解引用）；`updateVitals`
-  重掷时同时重置 `flags.brp.coc.wounds`，不留“满血 + 濒死”的错配。
+  短路（原先会有位置状态覆盖伤口 flags 或对缺失 hit-location 解引用）；CoC 伤害/治疗统一
+  读写 `system.attribs.hp`，不再从 `system.health` 读取。
 - CoC 难度选项改为 required band（`average/hard/extreme` 三档），不再显示 BRP 的 ×2/×0.4。
 - XP 门按规则集分派：CoC 不吃 `diff/diffVal` 跳过、Mythos（`noXP`）永不勾选；octopus 原样。
 - M4：SAN 卡目标改为当前 SAN；成对损失与 INT/发作骰全部是真实 `Roll`；INT 失败不建发作。

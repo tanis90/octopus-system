@@ -2326,6 +2326,104 @@ check("cocCombatCategoryBonusFallsBackToZero", await (async () => {
   return failures.length ? failures : true;
 })(), "expected 55 without a category map and 65 with firearms +10");
 
+// CoC HP is the native `system.attribs.hp` resource. The damage/treatment path
+// must read that field (never a legacy `system.health`) and a major wound's CON
+// check must use the native derived `characteristics.con`. Host globals were
+// installed by the preceding check; this one overrides game/Roll and drives the
+// production BRPDamage/BRPCheck methods.
+const nativeHpResult = await (async () => {
+  const nativeActor = {
+    id: "native-npc", name: "靶标", type: "npc", isOwner: true,
+    system: {
+      characteristics: {
+        str: { value: 60, total: 60 }, con: { value: 55, total: 55 },
+        siz: { value: 65, total: 65 }, dex: { value: 55, total: 55 },
+        app: { value: 45, total: 45 }, int: { value: 60, total: 60 },
+        pow: { value: 50, total: 50 }, edu: { value: 70, total: 70 },
+      },
+      attribs: { hp: { auto: true, value: 12, max: 12 }, mp: { auto: true, value: 10, max: 10 } },
+    },
+    flags: { brp: { coc: { wounds: {} } } },
+    async update(patch) {
+      for (const [path, value] of Object.entries(patch)) {
+        const parts = path.split(".");
+        let node = this;
+        for (let i = 0; i < parts.length - 1; i += 1) node = node[parts[i]] ??= {};
+        node[parts[parts.length - 1]] = value;
+      }
+      return this;
+    },
+  };
+  globalThis.game = {
+    settings: { get: (namespace, key) => (namespace === "brp" && key === "ruleset" ? "coc7" : false), register() {} },
+    i18n: { localize: (key) => key, format: (key) => key },
+    user: { id: "gm1", isGM: true, targets: new Set() },
+    users: { activeGM: { id: "gm1" } },
+    actors: { get: () => nativeActor }, messages: { get: () => null },
+    items: { get: () => null }, socket: { emit() {} },
+  };
+  class StubRoll {
+    constructor(formula) { this.formula = formula; this.total = 1; this.dice = []; }
+    async evaluate() { this.dice = [{ values: [1] }]; this.total = 1; return this; }
+  }
+  globalThis.Roll = StubRoll;
+  const { BRPCheck } = await import(pathToFileURL(join(ROOT, "module/apps/check.mjs")).href);
+  const { BRPDamage } = await import(pathToFileURL(join(ROOT, "module/combat/damage.mjs")).href);
+  const failures = [];
+  const expect = (label, actual, wanted) => {
+    if (actual !== wanted) failures.push(`${label}: ${JSON.stringify(actual)} != ${JSON.stringify(wanted)}`);
+  };
+
+  const damage = await BRPDamage.applyCoCDamage(nativeActor, {
+    damage: 11, conCheck: true, source: { kind: "regression" },
+  });
+  expect("hpAfter", damage.hpAfter, 1);
+  expect("state.hpMax", damage.state?.hpMax, 12);
+  expect("state.hpValue", damage.state?.hpValue, 1);
+  expect("state.lastDamage", damage.state?.lastDamage, 11);
+  expect("state.majorWound", damage.state?.majorWound, true);
+  expect("state.unconscious", damage.state?.unconscious, false);
+  expect("conCheck.target", damage.conCheck?.target, 55);
+  expect("conCheck.rollVal", damage.conCheck?.rollVal, 1);
+  expect("conCheck.passed", damage.conCheck?.passed, true);
+  expect("attribs.hp.value", nativeActor.system.attribs.hp.value, 1);
+  expect("no legacy health", "health" in nativeActor.system, false);
+
+  const state = BRPCheck.cocState(nativeActor);
+  expect("cocState.hpValue", state?.hpValue, 1);
+  expect("cocState.hpMax", state?.hpMax, 12);
+  expect("cocState.majorWound", state?.majorWound, true);
+  expect("cocState.unconscious", state?.unconscious, false);
+
+  const aid = await BRPDamage.cocFirstAid(nativeActor, { band: "regular", rank: 2 });
+  expect("firstAid.hpAfter", aid.healing?.hpAfter, 2);
+  expect("firstAid.attribs.hp.value", nativeActor.system.attribs.hp.value, 2);
+  expect("firstAid.keepsMajorWound", nativeActor.flags.brp.coc.wounds.majorWound, true);
+
+  const medicineActor = {
+    ...nativeActor,
+    id: "native-npc-medicine",
+    system: JSON.parse(JSON.stringify(nativeActor.system)),
+    flags: { brp: { coc: { wounds: { initialised: true, hpValue: 1, hpMax: 12, majorWound: true, dying: false, dead: false, unconscious: false } } } },
+    async update(patch) {
+      for (const [path, value] of Object.entries(patch)) {
+        const parts = path.split(".");
+        let node = this;
+        for (let i = 0; i < parts.length - 1; i += 1) node = node[parts[i]] ??= {};
+        node[parts[parts.length - 1]] = value;
+      }
+      return this;
+    },
+  };
+  medicineActor.system.attribs.hp.value = 1;
+  const medicine = await BRPDamage.cocMedicine(medicineActor, { band: "regular", rank: 2 });
+  expect("medicine.hpAfter", medicine.healing?.hpAfter, 2);
+  expect("medicine.attribs.hp.value", medicineActor.system.attribs.hp.value, 2);
+
+  return failures.length ? failures : true;
+})();
+check("cocNativeHpDamageAndTreatment", nativeHpResult === true, nativeHpResult);
+
 const digest = (path) => createHash("sha256").update(readFileSync(join(ROOT, path))).digest("hex");
 const result = {
   checks: Object.keys(checks).length,
