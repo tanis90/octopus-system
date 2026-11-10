@@ -2021,9 +2021,10 @@ export class BRPCheck {
   // Current wound state for a UI (does not write anything).
   static cocState(actor) {
     const wounds = actor?.flags?.brp?.coc?.wounds ?? {}
+    const { hpValue, hpMax } = BRPDamage._cocHp(actor)
     const state = Rules.for('coc').wounds?.woundState?.({
-      hpValue: actor?.system?.health?.value ?? 0,
-      hpMax: actor?.system?.health?.max ?? 0,
+      hpValue,
+      hpMax,
       majorWound: wounds.majorWound === true,
       dying: wounds.dying === true,
       dead: wounds.dead === true,

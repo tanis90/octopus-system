@@ -454,6 +454,16 @@ export class BRPDamage {
     return actor?.flags?.brp?.coc?.wounds ?? {}
   }
 
+  // CoC HP is the native attribs.hp resource. A CoC actor has no
+  // system.health; reading it silently turned every wound into hpMax 0.
+  static _cocHp(actor) {
+    const hp = actor?.system?.attribs?.hp ?? {}
+    return {
+      hpMax: Math.max(0, Math.floor(Number(hp.max) || 0)),
+      hpValue: Math.max(0, Math.floor(Number(hp.value) || 0)),
+    }
+  }
+
   // A client may write its own actor; any GM that is not the deterministic
   // active GM relays to it. This is the single-writer rule for cross-owner
   // damage, not a second source of randomness.
@@ -476,7 +486,8 @@ export class BRPDamage {
   }
 
   static async _cocConCheck(actor, reason) {
-    const target = Number(actor.system?.stats?.con?.total ?? 0)
+    const con = actor?.system?.characteristics?.con ?? {}
+    const target = Number(con.total ?? con.value ?? 0)
     const { roll, rollVal } = await BRPDamage._cocD100()
     const band = Rules.active().check.successBand({ rollVal, targetScore: target }).band
     const passed = Rules.active().combat.bandRank(band) >= 2
@@ -493,8 +504,7 @@ export class BRPDamage {
     const amount = Math.max(0, Math.floor(Number(damage) || 0))
     if (amount < 1) { return { applied: false, reason: 'no-damage', state: wounds } }
 
-    const hpMax = Math.max(0, Math.floor(Number(actor.system?.health?.max) || 0))
-    const hpValue = Math.max(0, Math.floor(Number(actor.system?.health?.value) || 0))
+    const { hpMax, hpValue } = BRPDamage._cocHp(actor)
     const result = Rules.active().wounds.applyDamage({
       hpValue, hpMax, damage: amount, majorWound: wounds.majorWound === true,
     })
@@ -555,8 +565,9 @@ export class BRPDamage {
       conCheck: { rollVal: con.rollVal, band: con.band, passed: con.passed, target: con.target, reason },
       at: Date.now(),
     }
+    const { hpValue } = BRPDamage._cocHp(actor)
     await actor.update({
-      'system.attribs.hp.value': next.dead ? 0 : Math.max(0, Number(actor.system?.health?.value) || 0),
+      'system.attribs.hp.value': next.dead ? 0 : hpValue,
       'flags.brp.coc.wounds': state,
     })
     return { ...next, conCheck: con, state, applied: true }
@@ -570,8 +581,7 @@ export class BRPDamage {
     if (wounds.dead === true) { return { applied: false, reason: 'already-dead', state: wounds } }
     const effect = Rules.active().wounds.firstAid({ band, rank, dying: wounds.dying === true, unconscious: wounds.unconscious === true })
     if (!effect.healed) { return { applied: false, effect, state: wounds } }
-    const hpMax = Math.max(0, Math.floor(Number(actor.system?.health?.max) || 0))
-    const hpValue = Math.max(0, Math.floor(Number(actor.system?.health?.value) || 0))
+    const { hpMax, hpValue } = BRPDamage._cocHp(actor)
     const heal = Rules.active().wounds.applyHealing({ hpValue, hpMax, amount: effect.hp })
     const state = {
       ...wounds,
@@ -600,8 +610,7 @@ export class BRPDamage {
     const roll = new Roll(effect.formula)
     await roll.evaluate()
     const amount = Math.max(0, Math.floor(Number(roll.total) || 0))
-    const hpMax = Math.max(0, Math.floor(Number(actor.system?.health?.max) || 0))
-    const hpValue = Math.max(0, Math.floor(Number(actor.system?.health?.value) || 0))
+    const { hpMax, hpValue } = BRPDamage._cocHp(actor)
     const heal = Rules.active().wounds.applyHealing({ hpValue, hpMax, amount })
     const state = {
       ...wounds,
@@ -629,8 +638,7 @@ export class BRPDamage {
     const roll = new Roll(effect.formula)
     await roll.evaluate()
     const amount = Math.max(0, Math.floor(Number(roll.total) || 0))
-    const hpMax = Math.max(0, Math.floor(Number(actor.system?.health?.max) || 0))
-    const hpValue = Math.max(0, Math.floor(Number(actor.system?.health?.value) || 0))
+    const { hpMax, hpValue } = BRPDamage._cocHp(actor)
     const heal = Rules.active().wounds.applyHealing({ hpValue, hpMax, amount })
     const cleared = Rules.active().wounds.majorWoundCleared({ hpValue: heal.hpAfter, hpMax, extremeSuccess: effect.clearsMajorWound })
     const state = {
@@ -656,8 +664,7 @@ export class BRPDamage {
     if (wounds.dead === true) { return { applied: false, reason: 'already-dead', state: wounds } }
     const effect = Rules.active().wounds.naturalHeal({ majorWound: wounds.majorWound === true })
     if (effect.hp < 1) { return { applied: false, effect, state: wounds } }
-    const hpMax = Math.max(0, Math.floor(Number(actor.system?.health?.max) || 0))
-    const hpValue = Math.max(0, Math.floor(Number(actor.system?.health?.value) || 0))
+    const { hpMax, hpValue } = BRPDamage._cocHp(actor)
     const heal = Rules.active().wounds.applyHealing({ hpValue, hpMax, amount: effect.hp })
     const state = { ...wounds, initialised: true, hpValue: heal.hpAfter, unconscious: heal.hpAfter <= 0 }
     await actor.update({ 'system.attribs.hp.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
