@@ -643,6 +643,13 @@
     "statistics": "特征",
     "status": "状态",
     "statusShort": "状态",
+    "cocStatus": {
+      "criticalWounds": "重伤",
+      "unconscious": "昏迷",
+      "dying": "濒死",
+      "dead": "死亡",
+      "prone": "倒地"
+    },
     "stealthPen": "潜行修正",
     "stopPersonality": "该角色已拥有一项{type}",
     "stopGroupSkill": "无法向角色卡添加技能组技能",

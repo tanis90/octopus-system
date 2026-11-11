@@ -1,8 +1,47 @@
 import { BRPactorItemDrop } from './actor-itemDrop.mjs'
 import { BRPID } from '../brpid/brpid.mjs';
 import { Rules } from '../rules/index.mjs';
+import {
+  applyCocStatus,
+  canonicalCocStatusId,
+  cocStatusActive,
+  cocStatusIds,
+} from './coc-status.mjs';
 
 export class BRPActor extends Actor {
+  // The host HUD reads `actor.statuses`; native CoC conditions and the wounds
+  // audit trail are projected here so a card toggle, a damage write and an
+  // ActiveEffect are all visible through the same read surface.
+  get statuses() {
+    let host = null
+    try { host = super.statuses } catch { host = null }
+    const statuses = new Set(host ?? [])
+    for (const id of cocStatusIds(this)) statuses.add(id)
+    return statuses
+  }
+
+  // Token HUD entry. CoC statuses go through the single owner writer; every
+  // other status keeps the host's own toggle implementation.
+  async toggleStatusEffect(statusId, options = {}) {
+    const id = canonicalCocStatusId(statusId)
+    if (id) {
+      const active = options?.active === undefined
+        ? !cocStatusActive(this, id)
+        : options.active === true
+      return applyCocStatus(this, id, active)
+    }
+    if (typeof super.toggleStatusEffect === 'function') {
+      return super.toggleStatusEffect(statusId, options)
+    }
+    return undefined
+  }
+
+  // Explicit card/keeper entry for the same writer (episode chain seams stay
+  // injectable for tests and integrations).
+  async setCocStatus(statusId, active, options = {}) {
+    return applyCocStatus(this, statusId, active, options)
+  }
+
   prepareBaseData() {
     this.system.brpidFlagItems = {}
     for (const item of this.items) {

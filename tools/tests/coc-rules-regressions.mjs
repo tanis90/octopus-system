@@ -2424,6 +2424,378 @@ const nativeHpResult = await (async () => {
 })();
 check("cocNativeHpDamageAndTreatment", nativeHpResult === true, nativeHpResult);
 
+// --- 9) Native + legacy weapon resolution and CM score ---
+const weaponResolutionResult = await (async () => {
+  const { resolveWeaponSkill, weaponSkillReferences, weaponSkillScore, weaponAttackScore } = await import(
+    pathToFileURL(join(ROOT, "module/rules/coc-weapon-skill.mjs")).href
+  );
+  const { BRPCheck } = await import(pathToFileURL(join(ROOT, "module/apps/check.mjs")).href);
+  const failures = [];
+  const expect = (label, actual, wanted) => {
+    if (actual !== wanted) failures.push(`${label}: ${JSON.stringify(actual)} != ${JSON.stringify(wanted)}`);
+  };
+  const collection = (items) => ({
+    get: (id) => items.find((item) => (item._id ?? item.id) === id),
+    contents: items,
+    *[Symbol.iterator]() { yield* items; },
+  });
+  const skill = (id, name, total, extra = {}) => ({
+    _id: id, id, name, type: "skill",
+    system: { skillName: name, total, ...extra.system },
+    flags: { brp: { ...(extra.flags?.brp ?? {}) } },
+  });
+  const melee = skill("skill-melee", "近战（格斗）", 50, {
+    system: { base: "0", adjustments: { personal: 50 } },
+  });
+  const handgun = skill("skill-handgun", "枪械（手枪）", 45, {
+    flags: { brp: { brpidFlag: { id: "i.skill.coc.firearms-handgun" }, coc: { specKey: "handgun" } } },
+  });
+  const wrongSpecSkill = skill("skill-rifle", "枪械（步枪/霰弹枪）", 40, {
+    system: { category: "firearms" },
+    flags: { brp: { brpidFlag: { id: "i.skill.coc.firearms-handgun" }, coc: { specKey: "rifle" } } },
+  });
+  const legacySkill = skill("skill-legacy", "旧手枪", 55, {
+    system: { category: "firearms" },
+    flags: { brp: { brpidFlag: { id: "i.skill.coc.firearms-handgun" }, coc: { specKey: "handgun" } } },
+  });
+  const dagger = {
+    _id: "weapon-dagger", id: "weapon-dagger", name: "匕首", type: "weapon",
+    system: { skill: { main: { id: "skill-melee", name: "近战（格斗）" }, alternativ: { id: "", name: "" } }, npcVal: null, mal: 0, properties: {}, range: { normal: { damage: "1D4" } } },
+    flags: {},
+  };
+  const nameOnlyWeapon = {
+    _id: "weapon-name-only", id: "weapon-name-only", name: "名字匕首", type: "weapon",
+    system: { skill: { main: { id: "stale-item-id", name: "近战（格斗）" }, alternativ: { id: "", name: "" } }, npcVal: null, mal: 0, properties: {}, range: {} },
+    flags: {},
+  };
+  const revolver = {
+    _id: "weapon-revolver", id: "weapon-revolver", name: "左轮手枪", type: "weapon",
+    system: { skill: { main: { id: "skill-handgun", name: "枪械（手枪）" }, alternativ: { id: "", name: "" } }, npcVal: null, mal: 100, properties: { rngd: true }, range: { normal: { damage: "1D10" } } },
+    flags: {},
+  };
+  const legacyWeapon = {
+    _id: "weapon-legacy", id: "weapon-legacy", name: "旧式手枪", type: "weapon",
+    system: { skill1: "i.skill.coc.firearms-handgun", skill2: "none", sourceID: "skill-legacy", npcVal: null, mal: 100, properties: {}, range: { normal: { damage: "1D10" } } },
+    flags: { brp: { coc: { weapon: { skillSpec: "handgun" } } } },
+  };
+  const wrongSpecWeapon = {
+    _id: "weapon-wrong", id: "weapon-wrong", name: "错专精手枪", type: "weapon",
+    system: { skill1: "i.skill.coc.firearms-handgun", skill2: "none", npcVal: null, mal: 100, properties: {}, range: {} },
+    flags: { brp: { coc: { weapon: { skillSpec: "rifle" } } } },
+  };
+  const naturalWeapon = {
+    _id: "weapon-natural", id: "weapon-natural", name: "天生攻击", type: "weapon",
+    system: { npcVal: 60, skill1: "none", skill2: "none", mal: 0, properties: {}, range: {} },
+    flags: {},
+  };
+  const npcLegacySkill = skill("skill-npc-legacy", "近战（格斗）", 50, {
+    flags: { brp: { brpidFlag: { id: "i.skill.coc.fighting-brawl" }, coc: { specKey: "brawl" } } },
+  });
+  const npcLegacyWeapon = {
+    _id: "weapon-npc-legacy", id: "weapon-npc-legacy", name: "旧档天生武器", type: "weapon",
+    system: { skill1: "i.skill.coc.fighting-brawl", skill2: "none", npcVal: 0, mal: 0, properties: {}, range: {} },
+    flags: { brp: { coc: { weapon: { skillSpec: "brawl" } } } },
+  };
+  const emptyWeapon = {
+    _id: "weapon-empty", id: "weapon-empty", name: "无来源武器", type: "weapon",
+    system: { skill: { main: { id: "", name: "" }, alternativ: { id: "", name: "" } }, skill1: "none", skill2: "none", sourceID: "", npcVal: 0, mal: 0, properties: {}, range: {} },
+    flags: {},
+  };
+  const npc = {
+    id: "cultist", name: "邪教徒", type: "npc", img: "cultist.png",
+    prototypeToken: { randomImg: false }, system: {},
+    items: collection([melee, dagger, wrongSpecSkill, naturalWeapon, emptyWeapon]),
+  };
+  const pc = {
+    id: "investigator", name: "调查员", type: "character", img: "pc.png",
+    prototypeToken: { randomImg: false }, system: { skillcategory: { firearms: 10 } },
+    items: collection([handgun, legacySkill, revolver, legacyWeapon, wrongSpecWeapon, emptyWeapon]),
+  };
+  const legacyNpc = {
+    id: "legacy-cultist", name: "旧档邪教徒", type: "npc", img: "legacy-npc.png",
+    prototypeToken: { randomImg: false }, system: {},
+    items: collection([npcLegacySkill, npcLegacyWeapon]),
+  };
+  const legacyActor = {
+    id: "legacy-investigator", name: "旧档调查员", type: "character", img: "legacy.png",
+    prototypeToken: { randomImg: false }, system: { skillcategory: { firearms: 10 } },
+    items: collection([legacySkill, legacyWeapon, wrongSpecWeapon, emptyWeapon]),
+  };
+  const notifications = [];
+  globalThis.CONST = { CHAT_MESSAGE_STYLES: { OTHER: 0 } };
+  globalThis.ui = { notifications: { error: (message) => notifications.push(String(message)), warn() {} } };
+  globalThis.game = {
+    settings: { get: (namespace, key) => (namespace === "brp" && key === "ruleset" ? "coc7" : false), register() {} },
+    i18n: { localize: (key) => key, format: (key) => key },
+    user: { id: "gm1", isGM: true, targets: new Set() },
+    users: { activeGM: { id: "gm1" } },
+    actors: {
+      get: (id) => [npc, pc, legacyActor, legacyNpc].find((actor) => actor.id === id) ?? null,
+      tokens: {},
+    },
+    messages: { get: () => null },
+    items: { get: () => null },
+    socket: { emit() {} },
+  };
+
+  // The public entry and the native card share the exact resolver and return
+  // the real live Item, not a copied name or cached score.
+  expect("publicNativeItemIdentity", BRPCheck.weaponSkill(npc, dagger) === melee, true);
+  expect("sharedNativeItemIdentity", resolveWeaponSkill(npc, dagger) === melee, true);
+  expect("nativeNameFallback", resolveWeaponSkill(npc, nameOnlyWeapon) === melee, true);
+  expect("publicLegacySourceId", BRPCheck.weaponSkill(legacyActor, legacyWeapon, "skill-legacy") === legacySkill, true);
+  expect("legacySpecWins", resolveWeaponSkill(legacyActor, legacyWeapon) === legacySkill, true);
+  expect("legacyWrongSpecRejected", resolveWeaponSkill(legacyActor, wrongSpecWeapon, "skill-handgun"), null);
+  expect("legacyWrongSpecScoreMissing", weaponAttackScore(legacyActor, wrongSpecWeapon, { skillId: "skill-handgun" }).error, "weapon-skill-missing");
+  expect("nativeNoCategoryBonus", weaponSkillScore(npc, dagger, { skillcategory: { firearms: 99 } }).categoryBonus, 0);
+
+  const cm = async (actor, weapon, extra = {}) => BRPCheck.normaliseRequest({
+    rollType: "CM", cardType: "CB", actor, itemId: weapon._id, skillId: false, ...extra,
+  });
+    const npcDagger = await cm(npc, dagger);
+  expect("cmNativeNpcScore", npcDagger?.targetScore, 50);
+  expect("cmNativeNpcLabel", npcDagger?.label, "近战（格斗）");
+  expect("cmNativeNpcSkill", npcDagger?.skillId, "skill-melee");
+  const pcRevolver = await cm(pc, revolver);
+  expect("cmNativePcScore", pcRevolver?.targetScore, 45);
+  const legacyPc = await cm(legacyActor, legacyWeapon);
+  expect("cmLegacyPcScoreWithCategory", legacyPc?.targetScore, 65);
+  const npcNatural = await cm(npc, naturalWeapon);
+  expect("cmLegacyNpcNaturalScore", npcNatural?.targetScore, 60);
+  expect("cmLegacyNpcNaturalSkillNull", npcNatural?.skillId, false);
+  const npcLegacy = await cm(legacyNpc, npcLegacyWeapon);
+  expect("cmLegacyNpcSkillFallback", npcLegacy?.targetScore, 50);
+  expect("cmLegacyNpcSkillUsed", npcLegacy?.skillId, "skill-npc-legacy");
+  const beforeNotifications = notifications.length;
+  const missing = await cm(pc, emptyWeapon);
+  expect("cmUnresolvedReturnsFalse", missing, false);
+  expect("cmUnresolvedNotifies", notifications.length, beforeNotifications + 1);
+  expect("cmUnresolvedDoesNotDefaultToZero", notifications[notifications.length - 1], "BRP.weaponNeedsSkill");
+
+  const { buildCocNpcAttackRow } = await import(
+    pathToFileURL(join(ROOT, "module/actor/sheets/coc/npc-view-data.mjs")).href
+  );
+  const nativeRow = buildCocNpcAttackRow(dagger, npc);
+  expect("nativeNpcCardUsesSkill", nativeRow.attackMode, "sk");
+  expect("nativeNpcCardHit", nativeRow.hitValue, 50);
+  const naturalRow = buildCocNpcAttackRow(naturalWeapon, npc);
+  expect("legacyNpcCardUsesNatural", naturalRow.attackMode, "cm");
+  expect("legacyNpcCardHit", naturalRow.hitValue, 60);
+  const legacyRow = buildCocNpcAttackRow(npcLegacyWeapon, legacyNpc);
+  expect("legacyNpcCardSkillFallback", legacyRow.attackMode, "sk");
+  expect("legacyNpcCardSkillHit", legacyRow.hitValue, 50);
+
+  return failures.length ? failures : true;
+})();
+check("cocWeaponResolutionNativeAndLegacy", weaponResolutionResult === true, weaponResolutionResult);
+
+// --- 10) One status mapping: card <-> HUD, damage/recovery, madness, refresh ---
+const statusResult = await (async () => {
+  const {
+    applyCocStatus, cocConditionValue, cocStatusActive, cocStatusIds, cocWoundConditionWrites,
+  } = await import(pathToFileURL(join(ROOT, "module/actor/coc-status.mjs")).href);
+  const { BRPDamage } = await import(pathToFileURL(join(ROOT, "module/combat/damage.mjs")).href);
+  const failures = [];
+  const expect = (label, actual, wanted) => {
+    if (actual !== wanted) failures.push(`${label}: ${JSON.stringify(actual)} != ${JSON.stringify(wanted)}`);
+  };
+  const setPath = (target, path, value) => {
+    const parts = path.split(".");
+    let node = target;
+    for (let i = 0; i < parts.length - 1; i += 1) node = node[parts[i]] ??= {};
+    node[parts[parts.length - 1]] = value;
+  };
+  const defaultConditions = () => ({
+    criticalWounds: { value: false }, unconscious: { value: false }, dying: { value: false },
+    dead: { value: false }, prone: { value: false },
+    tempoInsane: { value: false, realTime: false, duration: 0 }, indefInsane: { value: false },
+  });
+  const makeActor = ({ id = "status-actor", type = "character", conditions = defaultConditions(), wounds = {}, sanity = null, effects = [], hp = { value: 10, max: 10 } } = {}) => {
+    const actor = {
+      id, type, name: id, isOwner: true,
+      system: { conditions, attribs: { hp: { ...hp } }, characteristics: { con: { value: 55, total: 55 } } },
+      flags: { brp: { coc: { wounds, ...(sanity ? { sanity } : {}) } } },
+      effects,
+      async update(patch) {
+        for (const [path, value] of Object.entries(patch)) setPath(this, path, value);
+        return this;
+      },
+    };
+    return actor;
+  };
+  const makeEffect = (parent, data) => {
+    const effect = {
+      id: `effect-${parent.effects.length + 1}`,
+      ...data,
+      statuses: new Set(data.statuses ?? []),
+      disabled: data.disabled === true,
+      async update(patch) { Object.assign(this, patch); return this; },
+      async delete() { parent.effects = parent.effects.filter((entry) => entry !== this); },
+    };
+    parent.effects.push(effect);
+    return effect;
+  };
+  globalThis.ActiveEffect = {
+    async createDocuments(data, { parent }) {
+      return data.map((entry) => makeEffect(parent, entry));
+    },
+  };
+
+  // Card -> HUD read surface.
+  const cardActor = makeActor({ conditions: { ...defaultConditions(), criticalWounds: { value: true }, dying: { value: true }, tempoInsane: { value: true, realTime: false, duration: 3 } } });
+  const cardIds = cocStatusIds(cardActor);
+  expect("cardToHudMajor", cardIds.has("criticalWounds"), true);
+  expect("cardToHudDying", cardIds.has("dying"), true);
+  expect("cardToHudTempInsaneAlias", cardIds.has("tempInsane"), true);
+  expect("cardReadsCondition", cocConditionValue(cardActor, "criticalWounds"), true);
+
+  // HUD -> card and wounds flags: one write updates both representations.
+  const hudActor = makeActor();
+  const on = await applyCocStatus(hudActor, "dying", true);
+  expect("hudToCardDyingCondition", hudActor.system.conditions.dying.value, true);
+  expect("hudToCardDyingWound", hudActor.flags.brp.coc.wounds.dying, true);
+  expect("hudToCardApplied", on.applied, true);
+  await applyCocStatus(hudActor, "dying", false);
+  expect("hudToCardDyingOffCondition", hudActor.system.conditions.dying.value, false);
+  expect("hudToCardDyingOffWound", hudActor.flags.brp.coc.wounds.dying, false);
+
+  // Real damage and recovery write the same native conditions as the card.
+  const patient = makeActor({ hp: { value: 5, max: 10 }, wounds: { initialised: true, hpValue: 5, hpMax: 10 } });
+  globalThis.game = {
+    settings: { get: (namespace, key) => (namespace === "brp" && key === "ruleset" ? "coc7" : false), register() {} },
+    i18n: { localize: (key) => key, format: (key) => key },
+    user: { id: "gm1", isGM: true, targets: new Set() },
+    users: { activeGM: { id: "gm1" } },
+    actors: { get: () => patient, tokens: {} }, messages: { get: () => null },
+    items: { get: () => null }, socket: { emit() {} },
+  };
+  class StubRoll {
+    constructor(formula) { this.formula = formula; this.total = 1; this.dice = []; }
+    async evaluate() { this.dice = [{ values: [1] }]; this.total = 1; return this; }
+  }
+  globalThis.Roll = StubRoll;
+  const hit = await BRPDamage.applyCoCDamage(patient, { damage: 6, conCheck: false, source: { kind: "status-regression" } });
+  expect("damageDyingFlag", hit.state?.dying, true);
+  expect("damageConditionMajor", patient.system.conditions.criticalWounds.value, true);
+  expect("damageConditionDying", patient.system.conditions.dying.value, true);
+  expect("damageConditionUnconscious", patient.system.conditions.unconscious.value, true);
+  expect("damageConditionDead", patient.system.conditions.dead.value, false);
+  expect("damageStatusRead", cocStatusActive(patient, "dying"), true);
+  const aid = await BRPDamage.cocFirstAid(patient, { band: "regular", rank: 2 });
+  expect("recoveryDyingEnds", aid.state?.dying, false);
+  expect("recoveryConditionDyingEnds", patient.system.conditions.dying.value, false);
+  // First Aid stabilises a dying patient but does not rouse them; Medicine does.
+  expect("recoveryFirstAidKeepsUnconscious", patient.system.conditions.unconscious.value, true);
+  expect("recoveryKeepsMajorWound", patient.system.conditions.criticalWounds.value, true);
+  expect("recoveryKeepsMajorStatus", cocStatusActive(patient, "criticalWounds"), true);
+  const medicine = await BRPDamage.cocMedicine(patient, { band: "regular", rank: 2 });
+  expect("recoveryMedicineUnconsciousEnds", medicine.state?.unconscious, false);
+  expect("recoveryMedicineConditionUnconsciousEnds", patient.system.conditions.unconscious.value, false);
+
+  // Instant death is terminal: first aid must not revive or clear conditions.
+  const dead = makeActor({ hp: { value: 10, max: 10 } });
+  globalThis.game.actors.get = () => dead;
+  await BRPDamage.applyCoCDamage(dead, { damage: 10, conCheck: false });
+  expect("deathFlag", dead.flags.brp.coc.wounds.dead, true);
+  expect("deathCondition", dead.system.conditions.dead.value, true);
+  const revive = await BRPDamage.cocFirstAid(dead, { band: "extreme", rank: 4 });
+  expect("deathNoFirstAid", revive.applied, false);
+  expect("deathConditionStays", dead.system.conditions.dead.value, true);
+  const deadToggle = await applyCocStatus(dead, "dead", false);
+  expect("deathToggleRefused", deadToggle.error, "death-is-terminal");
+  expect("deathToggleKeepsCondition", dead.system.conditions.dead.value, true);
+  expect("deathToggleKeepsFlag", dead.flags.brp.coc.wounds.dead, true);
+
+  // A real episode ends through the existing sanity chain, not a boolean copy.
+  const episodeEffect = makeEffect(makeActor(), { name: "临时疯狂", statuses: ["tempInsane"] });
+  const episode = makeActor({
+    conditions: { ...defaultConditions(), tempoInsane: { value: true, realTime: false, duration: 4 } },
+    sanity: { insanity: { temporary: { active: true, hours: 4, dayId: "d1" }, indefinite: null, permanent: false } },
+    effects: [episodeEffect],
+  });
+  // Re-parent the effect to the actor that will be updated.
+  episode.effects[0].delete = async () => { episode.effects = []; };
+  let temporaryCalls = 0;
+  const ended = await applyCocStatus(episode, "tempInsane", false, {
+    endTemporary: async (actor, { reason }) => {
+      temporaryCalls += 1;
+      expect("episodeEndReason", reason, "status-toggle");
+      actor.flags.brp.coc.sanity.insanity.temporary = { ...actor.flags.brp.coc.sanity.insanity.temporary, active: false, endReason: reason };
+      actor.system.conditions.tempoInsane = { ...actor.system.conditions.tempoInsane, value: false, duration: 0 };
+      for (const effect of actor.effects) await effect.delete();
+      return { ended: true, reason };
+    },
+  });
+  expect("episodeChainCalled", temporaryCalls, 1);
+  expect("episodeEnded", ended.ended, true);
+  expect("episodeConditionCleared", episode.system.conditions.tempoInsane.value, false);
+  expect("episodeEffectCleared", episode.effects.length, 0);
+  expect("episodeFlagsCleared", episode.flags.brp.coc.sanity.insanity.temporary.active, false);
+
+  // Manual marker without an episode toggles both ways and creates no episode.
+  const manual = makeActor();
+  await applyCocStatus(manual, "tempInsane", true);
+  expect("manualConditionOn", manual.system.conditions.tempoInsane.value, true);
+  expect("manualEffectOn", manual.effects.some((effect) => effect.statuses.has("tempInsane")), true);
+  expect("manualNoEpisode", manual.flags.brp.coc.sanity?.insanity?.temporary ?? null, null);
+  await applyCocStatus(manual, "tempInsane", false);
+  expect("manualConditionOff", manual.system.conditions.tempoInsane.value, false);
+  expect("manualEffectOff", manual.effects.length, 0);
+
+  // Permanent insanity is never created from the HUD; clearing stays explicit.
+  const perma = makeActor();
+  const refused = await applyCocStatus(perma, "permaInsane", true);
+  expect("permaCreateRefused", refused.error, "permanent-insanity-requires-sanity");
+  expect("permaNoEffect", perma.effects.length, 0);
+  const permanent = makeActor({ sanity: { insanity: { temporary: null, indefinite: null, permanent: true } }, effects: [] });
+  makeEffect(permanent, { name: "永久疯狂", statuses: ["permaInsane"] });
+  let clearCalls = 0;
+  const cleared = await applyCocStatus(permanent, "permaInsane", false, {
+    clearPermanent: async (actor, { reason }) => {
+      clearCalls += 1;
+      actor.flags.brp.coc.sanity.insanity.permanent = false;
+      for (const effect of actor.effects) await effect.delete();
+      return { cleared: true, reason };
+    },
+  });
+  expect("permaClearCalled", clearCalls, 1);
+  expect("permaCleared", cleared.cleared, true);
+  expect("permaEffectCleared", permanent.effects.length, 0);
+
+  // A refresh re-reads conditions + effects + wounds without a second store.
+  const reader = makeActor({
+    conditions: { ...defaultConditions(), prone: { value: true }, dead: { value: false } },
+    wounds: { majorWound: true, dying: false, dead: false, unconscious: false },
+    sanity: { insanity: { temporary: null, indefinite: { active: true }, permanent: false } },
+    effects: [],
+  });
+  const refreshed = cocStatusIds(reader);
+  expect("refreshWoundsFromFlags", refreshed.has("criticalWounds"), true);
+  expect("refreshProneFromCondition", refreshed.has("prone"), true);
+  expect("refreshIndefiniteFromSanity", refreshed.has("indefiniteInsane"), true);
+  expect("refreshNoDead", refreshed.has("dead"), false);
+
+  // BRPActor is the host-facing surface: statuses projects conditions/wounds
+  // and toggleStatusEffect routes aliases through the same writer.
+  const { BRPActor } = await import(pathToFileURL(join(ROOT, "module/actor/actor.mjs")).href);
+  const hostActor = makeActor({ conditions: { ...defaultConditions(), criticalWounds: { value: true } }, wounds: { majorWound: true } });
+  const host = Object.assign(Object.create(BRPActor.prototype), hostActor);
+  expect("actorStatusesWoundsProjection", host.statuses.has("criticalWounds"), true);
+  await host.toggleStatusEffect("tempoInsane", { active: true });
+  expect("actorToggleAliasCondition", host.system.conditions.tempoInsane.value, true);
+  expect("actorToggleAliasStatus", host.statuses.has("tempInsane"), true);
+  await host.toggleStatusEffect("tempoInsane", { active: false });
+  expect("actorToggleAliasOff", host.statuses.has("tempInsane"), false);
+
+  // The damage helper is the same patch table used above.
+  const patch = cocWoundConditionWrites({ majorWound: true, dying: true, unconscious: true, dead: false });
+  expect("woundPatchMajor", patch["system.conditions.criticalWounds.value"], true);
+  expect("woundPatchDead", patch["system.conditions.dead.value"], false);
+
+  return failures.length ? failures : true;
+})();
+check("cocStatusUnifiedReadWrite", statusResult === true, statusResult);
+
 const digest = (path) => createHash("sha256").update(readFileSync(join(ROOT, path))).digest("hex");
 const result = {
   checks: Object.keys(checks).length,

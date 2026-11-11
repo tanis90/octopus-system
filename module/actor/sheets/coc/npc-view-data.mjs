@@ -12,6 +12,7 @@ import {
   cocWeaponSpecialLabel,
   resolveCocWeaponSkill,
 } from './view-data.mjs'
+import { cocConditionValue, cocStatusActive } from '../../coc-status.mjs'
 
 export const COC_NPC_STAT_IDS = Object.freeze(['str', 'con', 'siz', 'dex', 'app', 'int', 'pow', 'edu'])
 
@@ -108,36 +109,26 @@ const toItems = (source) => {
   return []
 }
 
-const hasEffectStatus = (effects, id) => toItems(effects).some((effect) => {
-  if (!effect || effect.disabled === true) return false
-  const statuses = effect.statuses
-  if (typeof statuses?.has === 'function') return statuses.has(id)
-  if (Array.isArray(statuses)) return statuses.includes(id)
-  return false
-})
-
 /**
- * Live CoC status badges. Wounds come from the persisted flags plus the values
- * derived by the Actor prepare pass; insanity comes from the persisted sanity
- * state or a real ActiveEffect status. Nothing is shown when it is not true.
+ * Live CoC status badges. Conditions, ActiveEffect statuses and the damage
+ * audit trail all project through the owner status module, so the card and the
+ * Token HUD cannot disagree after a refresh.
  * @param {object} actor
  * @returns {Array<{id: string, label: string}>}
  */
 export function buildCocNpcStatusBadges(actor) {
-  const conditions = actor?.system?.conditions ?? {}
-  const effects = actor?.effects
   const badges = []
-  if (conditions.tempoInsane?.value === true || hasEffectStatus(effects, 'tempInsane')) {
+  if (cocStatusActive(actor, 'tempInsane')) {
     badges.push({ id: 'temporary', label: '临时疯狂' })
   }
-  if (conditions.indefInsane?.value === true || hasEffectStatus(effects, 'indefiniteInsane')) {
+  if (cocStatusActive(actor, 'indefiniteInsane')) {
     badges.push({ id: 'indefinite', label: '不定疯狂' })
   }
-  if (hasEffectStatus(effects, 'permaInsane')) badges.push({ id: 'permanent', label: '永久疯狂' })
-  if (conditions.criticalWounds?.value === true) badges.push({ id: 'major', label: '重伤' })
-  if (conditions.unconscious?.value === true) badges.push({ id: 'unconscious', label: '昏迷' })
-  if (conditions.dying?.value === true) badges.push({ id: 'dying', label: '濒死' })
-  if (conditions.dead?.value === true) badges.push({ id: 'dead', label: '死亡' })
+  if (cocStatusActive(actor, 'permaInsane')) badges.push({ id: 'permanent', label: '永久疯狂' })
+  if (cocStatusActive(actor, 'criticalWounds')) badges.push({ id: 'major', label: '重伤' })
+  if (cocStatusActive(actor, 'unconscious')) badges.push({ id: 'unconscious', label: '昏迷' })
+  if (cocStatusActive(actor, 'dying')) badges.push({ id: 'dying', label: '濒死' })
+  if (cocStatusActive(actor, 'dead')) badges.push({ id: 'dead', label: '死亡' })
   return badges
 }
 
@@ -230,6 +221,10 @@ const COC_SKILL_ADJUSTMENTS = ['base', 'personal', 'occupation', 'archetype', 'e
 const cocSkillTotal = (skill) => {
   if (!skill) return null
   const system = skill.system ?? {}
+  // BRPActor.prepareDerivedData already owns the live total. Only compute the
+  // sum when an imported/partial Item has no prepared value.
+  const stored = numberOrNull(system.total)
+  if (stored !== null) return stored
   return numberOr(system.base) + COC_SKILL_ADJUSTMENTS
     .reduce((total, key) => total + numberOr(system.adjustments?.[key]), 0)
 }
@@ -237,8 +232,11 @@ const cocSkillTotal = (skill) => {
 export function buildCocNpcAttackRow(weapon, actor) {
   const system = weapon?.system ?? {}
   const skill = resolveCocWeaponSkill(weapon, actor)
-  const skillTotal = cocSkillTotal(skill)
-  const attackMode = skill && skillTotal !== null ? 'sk' : 'none'
+  const naturalValue = numberOrNull(system.npcVal)
+  const usesNatural = naturalValue !== null && naturalValue > 0
+  const skillTotal = usesNatural ? null : cocSkillTotal(skill)
+  const attackMode = usesNatural ? 'cm' : (skill && skillTotal !== null ? 'sk' : 'none')
+  const hitValue = usesNatural ? naturalValue : skillTotal
   const damage = text(system.range?.normal?.damage)
   const range = text(system.range?.normal?.value) || (system.properties?.rngd === true ? '' : 'S')
   const rof = text(system.usesPerRound?.normal)
@@ -250,14 +248,14 @@ export function buildCocNpcAttackRow(weapon, actor) {
     name: text(weapon?.name),
     img: text(weapon?.img),
     description: text(system.description?.value),
-    npcVal: 0,
+    npcVal: usesNatural ? naturalValue : 0,
     skillId: skill ? itemIdOf(skill) : null,
     skillName: skill ? text(skill.name) : null,
     skillTotal,
     attackMode,
     attackable: attackMode !== 'none',
-    hitValue: skillTotal,
-    hitLabel: skillTotal === null ? '—' : `${skillTotal}%`,
+    hitValue,
+    hitLabel: hitValue === null ? '—' : `${hitValue}%`,
     damage,
     dmg1: damage,
     damageRollable: damage !== '',
@@ -487,7 +485,7 @@ export function buildCocNpcView(actor, options = {}) {
   const conditions = [
     ['criticalWounds', '重伤'], ['unconscious', '昏迷'], ['dying', '濒死'], ['dead', '死亡'],
     ['prone', '倒地'], ['tempoInsane', '临时疯狂'], ['indefInsane', '长期疯狂'],
-  ].map(([id, label]) => ({ id, label, active: system.conditions?.[id]?.value === true }))
+  ].map(([id, label]) => ({ id, label, active: cocConditionValue(actor, id) }))
   return {
     header: buildCocNpcHeader(actor, options),
     identity: {

@@ -506,8 +506,11 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 
 ### 武器与伤害
 
-- 武器技能按 `system.skill1/skill2` 的 brpid（+ 专精 `specKey`）实时解析到角色技能
-  `system.total`，不按显示名、不缓存命中值。
+- 武器技能统一由 `module/rules/coc-weapon-skill.mjs` 实时解析：原生
+  `system.skill.main/alternativ.id/name`、旧档 `system.skill1/skill2` 的 brpid（+ 专精
+  `specKey`）与 `sourceID` 共用同一真源，角色卡、公开 `BRPCheck.weaponSkill` 与 CM 不再分叉。
+  技能读取实时 `system.total`；NPC `npcVal>0` 保持旧自然攻击，否则使用可解析技能，
+  无命中来源返回 `weapon-skill-missing`，不缓存命中值、不伪造 0%。
 - 徒手：独立 `flags.brp.coc.weapon = {kind:'melee', dbMode:'full', impaling:false}`
   标记；伤害 1D3 + 全额 DB。BRP 的 `special:'crush'` 不是 CoC 规则来源。
 - DB 口径：近战全额、投掷/弓半骰、火器无 DB；双手不改变 DB（BRP 规则不用于 CoC）。
@@ -528,10 +531,11 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 
 ### 创伤与治疗
 
-- 伤害直接写 `system.attribs.hp.value`（夹到 ≥0），状态存 `flags.brp.coc.wounds`；
-  **不建 BRP wound 条目、不累加日伤账、不走命中部位**。世界若仍开着
-  `useHPL`，CoC 路径忽略并记录 `hplIgnored`，且角色准备的命中部位/护甲 HPL 分支与建卡
-  hit-location 生成对 CoC actor 全部短路（否则位置状态会覆盖伤口 flags）。
+- 伤害直接写 `system.attribs.hp.value`（夹到 ≥0），并在同一次 `actor.update` 同步
+  `flags.brp.coc.wounds` 与原生 `system.conditions`；**不建 BRP wound 条目、不累加日伤账、
+  不走命中部位**。世界若仍开着 `useHPL`，CoC 路径忽略并记录 `hplIgnored`，且角色准备的
+  命中部位/护甲 HPL 分支与建卡 hit-location 生成对 CoC actor 全部短路（否则位置状态会覆盖
+  伤口 flags）。
 - `updateVitals` 只按 `attribs.hp/mp` 的 `auto` 标记把当前值置为上限，不写
   `flags.brp.coc.wounds`；伤口状态仍由伤害/治疗路径维护。
 - 单次伤害 ≥ `ceil(maxHP/2)` → 重伤，立刻真实 CON 检定，失败昏迷；
@@ -542,8 +546,11 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 - 急救 +1 HP、唤醒非濒死昏迷、稳定濒死；医学 +1D3（≥1 小时 + 器械），并给濒死者
   周末恢复资格；周末 CON 成功 +1D3、极难 +2D3，极难或 HP 回到半血解除重伤；
   无重伤每天 +1 HP。
-- 角色/NPC 的 `dead/unconscious/dying/majorWound` 由 flags + 当前 HP 派生；
-  octopus 的 `HP<1 → dead`、`HP<3 → unconscious` 原逻辑保留在非 CoC 分支。
+- 角色/NPC 的 `dead/unconscious/dying/majorWound` 由原生 conditions、flags 与当前 HP
+  共同投影到 `BRPActor.statuses`；卡面和 Token HUD 都经 `module/actor/coc-status.mjs`
+  的同一写入口切换。真实疯狂 episode 结束仍委托 `BRPSanity/BRPMadness`，死亡不能靠
+  HUD 直接清除，永久疯狂不能由 HUD 直接新建；octopus 的 `HP<1 → dead`、
+  `HP<3 → unconscious` 原逻辑保留在非 CoC 分支。
 
 ### 原生/前端可调用面
 

@@ -17,6 +17,7 @@ import { BRPSystemSocket } from '../apps/socket.mjs';
 import { BRPSanity, bindSanityCheck } from '../apps/sanity.mjs';
 import { BRPWorldTime } from '../apps/worldTime.mjs';
 import { Rules } from '../rules/index.mjs';
+import { COC_STATUS_EFFECTS } from '../actor/coc-status.mjs';
 
 export default function Init() {
   bindSanityCheck(BRPCheck);
@@ -88,14 +89,18 @@ export default function Init() {
   CONFIG.ui.combat = BRPCombatTracker;
   CONFIG.ActiveEffect.documentClass = BRPActiveEffect;
 
-  //Sanity chain: the system's status effects. Temporary, indefinite and
-  //permanent insanity are separate statuses; permanent is terminal, the other
-  //two can coexist.
-  CONFIG.statusEffects.push(
-    { id: BRPMadness.TEMP_INSANE_ID, name: game.i18n.localize('BRP.madness.tempInsane'), icon: 'systems/brp/assets/Icons/drama-masks.svg' },
-    { id: BRPMadness.INDEFINITE_INSANE_ID, name: game.i18n.localize('BRP.madness.indefiniteInsane'), icon: 'systems/brp/assets/Icons/drama-masks.svg' },
-    { id: BRPMadness.PERMA_INSANE_ID, name: game.i18n.localize('BRP.madness.permaInsane'), icon: 'systems/brp/assets/Icons/inner-self.svg' }
-  )
+  //Sanity/wound chain: the system's status effects. Wounds and the three
+  //insanity states are one vocabulary shared by the card and the Token HUD.
+  //Missing ids only are added; a host default (dead/unconscious/prone) keeps
+  //its own icon and label.
+  for (const entry of COC_STATUS_EFFECTS) {
+    if (CONFIG.statusEffects.some((effect) => effect.id === entry.id)) continue
+    CONFIG.statusEffects.push({
+      id: entry.id,
+      name: game.i18n.localize(entry.nameKey),
+      icon: entry.icon,
+    })
+  }
 
   //An episode effect can end outside its card (Times Up, effects-tab delete or
   //disable). Mark the card ended too; world-time expiry is enforced below.

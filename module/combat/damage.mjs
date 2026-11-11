@@ -2,6 +2,7 @@ import { BRPUtilities } from '../apps/utilities.mjs';
 import { BRPactorDetails } from "../apps/actorDetails.mjs";
 import BRPDialog from '../setup/brp-dialog.mjs';
 import { Rules } from '../rules/index.mjs';
+import { cocWoundConditionWrites } from '../actor/coc-status.mjs';
 
 export class BRPDamage {
 
@@ -541,6 +542,7 @@ export class BRPDamage {
     await actor.update({
       'system.attribs.hp.value': result.hpAfter,
       'flags.brp.coc.wounds': state,
+      ...cocWoundConditionWrites(state),
     })
     return { ...result, applied: true, conCheck: con, state, hplIgnored }
   }
@@ -569,6 +571,7 @@ export class BRPDamage {
     await actor.update({
       'system.attribs.hp.value': next.dead ? 0 : hpValue,
       'flags.brp.coc.wounds': state,
+      ...cocWoundConditionWrites(state),
     })
     return { ...next, conCheck: con, state, applied: true }
   }
@@ -594,7 +597,11 @@ export class BRPDamage {
       stabilized: effect.stabilizes || wounds.stabilized === true,
       firstAid: { band, rank, healer, healed: heal.applied, at: Date.now() },
     }
-    await actor.update({ 'system.attribs.hp.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
+    await actor.update({
+      'system.attribs.hp.value': heal.hpAfter,
+      'flags.brp.coc.wounds': state,
+      ...cocWoundConditionWrites(state),
+    })
     return { applied: true, effect, healing: heal, state }
   }
 
@@ -622,7 +629,11 @@ export class BRPDamage {
       weeklyHealing: effect.grantsWeeklyHealing || wounds.weeklyHealing === true,
       medicine: { band, rank, healer, formula: effect.formula, healed: heal.applied, at: Date.now() },
     }
-    await actor.update({ 'system.attribs.hp.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
+    await actor.update({
+      'system.attribs.hp.value': heal.hpAfter,
+      'flags.brp.coc.wounds': state,
+      ...cocWoundConditionWrites(state),
+    })
     return { applied: true, effect, roll, healing: heal, state }
   }
 
@@ -651,7 +662,11 @@ export class BRPDamage {
       weeklyHealing: false,
       weekly: { band, rank, formula: effect.formula, healed: heal.applied, clearedMajorWound: cleared, at: Date.now() },
     }
-    await actor.update({ 'system.attribs.hp.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
+    await actor.update({
+      'system.attribs.hp.value': heal.hpAfter,
+      'flags.brp.coc.wounds': state,
+      ...cocWoundConditionWrites(state),
+    })
     return { applied: true, effect, roll, healing: heal, state }
   }
 
@@ -667,7 +682,11 @@ export class BRPDamage {
     const { hpMax, hpValue } = BRPDamage._cocHp(actor)
     const heal = Rules.active().wounds.applyHealing({ hpValue, hpMax, amount: effect.hp })
     const state = { ...wounds, initialised: true, hpValue: heal.hpAfter, unconscious: heal.hpAfter <= 0 }
-    await actor.update({ 'system.attribs.hp.value': heal.hpAfter, 'flags.brp.coc.wounds': state })
+    await actor.update({
+      'system.attribs.hp.value': heal.hpAfter,
+      'flags.brp.coc.wounds': state,
+      ...cocWoundConditionWrites(state),
+    })
     return { applied: true, effect, healing: heal, state }
   }
 

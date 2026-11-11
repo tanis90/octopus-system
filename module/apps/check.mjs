@@ -11,6 +11,11 @@ import { BRPSanity, bindSanityCheck } from "./sanity.mjs"
 import { BRPLuck } from "./luck.mjs"
 import BRPDialog from '../setup/brp-dialog.mjs';
 import { Rules } from '../rules/index.mjs';
+import {
+  resolveWeaponSkill as resolveWeaponSkillItem,
+  weaponAttackScore,
+  weaponSkillReferences,
+} from '../rules/coc-weapon-skill.mjs';
 
 export class BRPCheck {
 
@@ -46,22 +51,26 @@ export class BRPCheck {
   }
 
 
-  // Resolve the skill a weapon attacks with. CoC identity is the stored skill
-  // brpid (plus specKey when the weapon names one) - never the display name,
-  // and never a cached hit score. Octopus keeps the sheet's resolved skillId.
+  // Resolve the skill a weapon attacks with. Native CoC stores the live Item
+  // in `system.skill.main`, legacy worlds store a skill brpid in
+  // `skill1/skill2` and an Item id in `sourceID`. The shared rules module is
+  // the single resolver for the card, CM and the public adapter; the specialism
+  // marker still narrows a legacy brpid, and it is never a cached score.
   static weaponSkill(actor, weapon, skillId = false) {
-    if (!actor || !weapon) { return null }
-    if (!Rules.for('coc').combat?.skillRefFromBrpid) { return actor.items.get(skillId) ?? null }
-    const refs = [weapon.system?.skill1, weapon.system?.skill2]
-      .filter((brpid) => brpid && brpid !== 'none' && String(brpid).startsWith('i.skill.coc.'))
-    const marker = weapon.flags?.brp?.coc?.weapon ?? null
-    for (const brpid of refs) {
-      const found = [...actor.items].find((item) => item.type === 'skill'
-        && item.flags?.brp?.brpidFlag?.id === brpid
-        && (!marker?.skillSpec || item.flags?.brp?.coc?.specKey === marker.skillSpec))
-      if (found) { return found }
-    }
-    return actor.items.get(skillId) ?? null
+    return resolveWeaponSkillItem(actor, weapon, skillId)
+  }
+
+  // Attack score for the CM/declare paths. Positive legacy npcVal means the old
+  // natural attack; otherwise the live skill total (plus its legacy category
+  // correction) is used. An unresolved weapon is an error, not a silent 0.
+  static weaponAttackScore(actor, weapon, {
+    skillId = false, naturalValue = null,
+  } = {}) {
+    return weaponAttackScore(actor, weapon, {
+      skillId,
+      naturalValue,
+      skillcategory: actor?.system?.skillcategory ?? null,
+    })
   }
 
   //Check the request and build out the config
@@ -241,15 +250,21 @@ export class BRPCheck {
       case 'CM':
         weapon = particActor.items.get(config.itemId)
         config.label = weapon.name ?? ""
-        if (particActor.type === 'npc') {
-          config.rawScore = weapon.system.npcVal
-          config.targetScore = weapon.system.npcVal
-        } else {
-          skill = BRPCheck.weaponSkill(particActor, weapon, config.skillId)
+        {
+          const attack = BRPCheck.weaponAttackScore(particActor, weapon, {
+            skillId: config.skillId,
+            naturalValue: particActor.type === 'npc' ? weapon.system?.npcVal : null,
+          })
+          if (attack.error) {
+            ui.notifications.error(game.i18n.localize('BRP.weaponNeedsSkill'))
+            return false
+          }
+          skill = attack.skill
+          config.rawScore = attack.score
+          config.targetScore = attack.score
           config.label = skill?.name ?? weapon.name ?? ""
-          config.rawScore = (skill?.system?.total ?? 0) + (options.actor.system.skillcategory?.[skill?.system?.category] ?? 0)
-          config.targetScore = config.rawScore
           config.skillId = skill?._id ?? config.skillId
+          config.skillBrpid = skill?.flags?.brp?.brpidFlag?.id ?? null
         }
         config.malfunction = weapon.system.mal
         // CoC closes the attack: which defence the target declared and the
@@ -257,7 +272,6 @@ export class BRPCheck {
         if (Rules.for('coc').combat?.weaponProfile) {
           config.weaponProfile = Rules.for('coc').combat.weaponProfile(weapon)
           config.weaponId = weapon._id
-          config.skillBrpid = skill?.flags?.brp?.brpidFlag?.id ?? null
         }
         break
       case 'AR':
@@ -269,14 +283,20 @@ export class BRPCheck {
       case 'QC':
         weapon = particActor.items.get(config.itemId)
         config.label = weapon.name ?? ""
-        if (particActor.type === 'npc') {
-          config.rawScore = weapon.system.npcVal
-          config.targetScore = weapon.system.npcVal
-        } else {
-          skill = particActor.items.get(config.skillId)
-          config.label = skill.name ?? ""
-          config.rawScore = skill.system.total + (options.actor.system.skillcategory?.[skill.system.category] ?? 0)
-          config.targetScore = skill.system.total + (options.actor.system.skillcategory?.[skill.system.category] ?? 0)
+        {
+          const attack = BRPCheck.weaponAttackScore(particActor, weapon, {
+            skillId: config.skillId,
+            naturalValue: particActor.type === 'npc' ? weapon.system?.npcVal : null,
+          })
+          if (attack.error) {
+            ui.notifications.error(game.i18n.localize('BRP.weaponNeedsSkill'))
+            return false
+          }
+          skill = attack.skill
+          config.rawScore = attack.score
+          config.targetScore = attack.score
+          config.label = skill?.name ?? weapon.name ?? ""
+          config.skillId = skill?._id ?? config.skillId
         }
         if (weapon.system.hands === "1-2H") {
           config.handOptions = Object.assign(config.handOptions, await BRPCombatRoll.getHandOptions(weapon));
@@ -1326,11 +1346,19 @@ export class BRPCheck {
     if (!game.user?.isGM && actor.isOwner !== true) { return { error: 'not-authorised' } }
     const weapon = actor.items.get(options.itemId)
     if (!weapon) { return { error: 'weapon-missing' } }
-    // A PC weapon must resolve to a real skill by brpid; an unverified
-    // specialism has no base value and must not silently attack at 0.
-    if (actor.type !== 'npc') {
-      const skill = BRPCheck.weaponSkill(actor, weapon, options.skillId ?? weapon.system?.skill1)
-      if (!skill) { return { error: 'weapon-skill-missing', brpid: weapon.system?.skill1 ?? null } }
+    // Resolve the attack score up front so an unverified weapon fails here
+    // instead of silently rolling at 0. Positive legacy npcVal stays a natural
+    // NPC attack; native and legacy skills use their live total.
+    const attack = BRPCheck.weaponAttackScore(actor, weapon, {
+      skillId: options.skillId ?? false,
+      naturalValue: actor.type === 'npc' ? weapon.system?.npcVal : null,
+    })
+    if (attack.error) {
+      return {
+        error: 'weapon-skill-missing',
+        brpid: weapon.system?.skill1 ?? null,
+        reference: attack.reference ?? weaponSkillReferences(weapon)[0] ?? null,
+      }
     }
     const combat = Rules.for('coc').combat
     const profile = combat.weaponProfile(weapon)
@@ -1365,7 +1393,7 @@ export class BRPCheck {
       rollType: 'CM',
       cardType: 'CB',
       itemId: options.itemId,
-      skillId: options.skillId ?? weapon.system?.skill1 ?? false,
+      skillId: attack.skill?._id ?? options.skillId ?? false,
       shiftKey: true,
       actor,
       token: actor.token ?? null,
@@ -1400,21 +1428,26 @@ export class BRPCheck {
     if (!game.user?.isGM && actor.isOwner !== true) { return { error: 'not-authorised' } }
     const weapon = actor.items.get(options.itemId)
     if (!weapon) { return { error: 'weapon-missing' } }
-    // Same gate as cocAttack: a PC weapon must resolve to a real skill by
-    // brpid, so an unverified specialism cannot silently attack at 0.
-    let skill = null
-    if (actor.type !== 'npc') {
-      skill = BRPCheck.weaponSkill(actor, weapon, weapon.system?.skill1)
-      if (!skill) { return { error: 'weapon-skill-missing', brpid: weapon.system?.skill1 ?? null } }
+    // Same resolution as CM: positive legacy npcVal is the old natural attack,
+    // otherwise the live skill total wins. No skill and no npcVal is an error,
+    // never a silent 0.
+    const attack = BRPCheck.weaponAttackScore(actor, weapon, {
+      skillId: options.skillId ?? false,
+      naturalValue: actor.type === 'npc' ? weapon.system?.npcVal : null,
+    })
+    if (attack.error) {
+      return {
+        error: 'weapon-skill-missing',
+        brpid: weapon.system?.skill1 ?? null,
+        reference: attack.reference ?? weaponSkillReferences(weapon)[0] ?? null,
+      }
     }
+    const skill = attack.skill
     const combat = Rules.for('coc').combat
     const profile = combat.weaponProfile(weapon)
     const bonus = Math.max(0, Math.floor(Number(options.bonusDice ?? 0)))
     const penalty = Math.max(0, Math.floor(Number(options.penaltyDice ?? 0)))
-    const category = Number(actor.system?.skillcategory?.[skill?.system?.category] ?? 0)
-    const rawScore = actor.type === 'npc'
-      ? Number(weapon.system?.npcVal ?? 0)
-      : Number(skill?.system?.total ?? 0) + category
+    const rawScore = attack.score
     const config = {
       rollType: 'CM',
       cardType: 'CD',
@@ -1630,9 +1663,18 @@ export class BRPCheck {
       if (!weapon) { return { error: 'fightback-weapon-missing' } }
       profile = combat.weaponProfile(weapon)
       if (profile.ranged) { return { error: 'fightback-needs-melee-weapon', kind: profile.kind } }
-      if (actor.type !== 'npc' && !BRPCheck.weaponSkill(actor, weapon, weapon.system?.skill1)) {
-        return { error: 'weapon-skill-missing', brpid: weapon.system?.skill1 ?? null }
+      const attack = BRPCheck.weaponAttackScore(actor, weapon, {
+        skillId: options.skillId ?? false,
+        naturalValue: actor.type === 'npc' ? weapon.system?.npcVal : null,
+      })
+      if (attack.error) {
+        return {
+          error: 'weapon-skill-missing',
+          brpid: weapon.system?.skill1 ?? null,
+          reference: attack.reference ?? weaponSkillReferences(weapon)[0] ?? null,
+        }
       }
+      skillId = attack.skill?._id ?? skillId
       rollType = 'CM'
     } else if (choice === 'dodge' || choice === 'cover') {
       if (!dodgeItem) { return { error: 'dodge-skill-missing' } }

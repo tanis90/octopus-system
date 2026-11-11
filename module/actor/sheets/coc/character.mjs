@@ -14,6 +14,7 @@ import {
   resolveCocWeaponSkill,
 } from './view-data.mjs'
 import { buildPaperBooks, buildPaperEffects, buildPaperMonetary, paperConditionValue } from './paper-view.mjs'
+import { cocStatusActive } from '../../coc-status.mjs'
 import {
   paperClearConditions,
   paperCreateEffect,
@@ -51,17 +52,14 @@ const BACKGROUND_STORIES = {
 }
 
 function statusBadges(actor) {
-  const conditions = actor.system.conditions ?? {}
-  const statuses = actor.effects?.contents ?? []
-  const hasStatus = (id) => statuses.some((effect) => !effect.disabled && effect.statuses?.has?.(id))
   const badges = []
-  if (conditions.tempoInsane?.value === true || hasStatus('tempInsane')) badges.push({ id: 'temporary', label: '临时疯狂', detail: '' })
-  if (conditions.indefInsane?.value === true || hasStatus('indefiniteInsane')) badges.push({ id: 'indefinite', label: '不定疯狂', detail: '' })
-  if (hasStatus('permaInsane')) badges.push({ id: 'permanent', label: '永久疯狂', detail: '' })
-  if (conditions.criticalWounds?.value === true) badges.push({ id: 'major', label: '重伤', detail: '' })
-  if (conditions.unconscious?.value === true) badges.push({ id: 'unconscious', label: '昏迷', detail: '' })
-  if (conditions.dying?.value === true) badges.push({ id: 'dying', label: '濒死', detail: '' })
-  if (conditions.dead?.value === true) badges.push({ id: 'dead', label: '死亡', detail: '' })
+  if (cocStatusActive(actor, 'tempInsane')) badges.push({ id: 'temporary', label: '临时疯狂', detail: '' })
+  if (cocStatusActive(actor, 'indefiniteInsane')) badges.push({ id: 'indefinite', label: '不定疯狂', detail: '' })
+  if (cocStatusActive(actor, 'permaInsane')) badges.push({ id: 'permanent', label: '永久疯狂', detail: '' })
+  if (cocStatusActive(actor, 'criticalWounds')) badges.push({ id: 'major', label: '重伤', detail: '' })
+  if (cocStatusActive(actor, 'unconscious')) badges.push({ id: 'unconscious', label: '昏迷', detail: '' })
+  if (cocStatusActive(actor, 'dying')) badges.push({ id: 'dying', label: '濒死', detail: '' })
+  if (cocStatusActive(actor, 'dead')) badges.push({ id: 'dead', label: '死亡', detail: '' })
   return badges
 }
 

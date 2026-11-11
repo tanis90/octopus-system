@@ -1,3 +1,5 @@
+import { cocConditionValue } from '../../coc-status.mjs'
+
 const text = (value) => typeof value === 'string' ? value.trim() : ''
 
 export function buildPaperEffects(actor) {
@@ -35,7 +37,7 @@ export function buildPaperMonetary(actor, skills = []) {
 }
 
 export function paperConditionValue(actor, id) {
-  return actor?.system?.conditions?.[id]?.value === true
+  return cocConditionValue(actor, id)
 }
 
 export function paperFormulaAverage(formula) {
