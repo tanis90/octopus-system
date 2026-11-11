@@ -132,7 +132,8 @@ export class BRPItem extends Item {
       case 'weapon':
         rollType = "CM"
         itemId = item._id
-        skillId = actor.items.get(itemId).system.sourceID
+        skillId = BRPCheck.weaponSkill(actor, actor.items.get(itemId))?._id
+          ?? actor.items.get(itemId).system.sourceID
         break
       case 'reputation':
         rollType = "PA"

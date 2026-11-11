@@ -1,4 +1,9 @@
 import { paperFormulaAverage } from './paper-view.mjs'
+import {
+  applyCocStatus,
+  cocConditionValue,
+  cocStatusIdOfCondition,
+} from '../../coc-status.mjs'
 
 const paperCanEdit = (sheet) => sheet.isEditable && (sheet.actor.type === 'character'
   ? sheet.actor.system.lock !== true
@@ -45,13 +50,22 @@ export async function paperOpenItem(event, target) {
   await item?.sheet?.render(true)
 }
 
+const setConditionStatus = async (actor, conditionId, active) => {
+  const statusId = cocStatusIdOfCondition(conditionId)
+  if (!statusId) return
+  if (typeof actor.toggleStatusEffect === 'function') {
+    await actor.toggleStatusEffect(statusId, { active })
+    return
+  }
+  await applyCocStatus(actor, statusId, active)
+}
+
 export async function paperToggleCondition(event, target) {
   event.preventDefault()
   if (!this.isEditable) return
   const id = target.dataset.condition
   if (!id || !(id in (this.actor.system.conditions ?? {}))) return
-  const value = this.actor.system.conditions[id]?.value === true
-  await this.actor.update({ [`system.conditions.${id}.value`]: !value })
+  await setConditionStatus(this.actor, id, !cocConditionValue(this.actor, id))
 }
 
 export async function paperToggleEffect(event, target) {
@@ -151,9 +165,8 @@ export async function paperDeleteMacro(event, target) {
 export async function paperClearConditions(event) {
   event.preventDefault()
   if (!paperCanEdit(this)) return
-  const updates = {}
-  for (const [id, condition] of Object.entries(this.actor.system.conditions ?? {})) {
-    if (condition && Object.prototype.hasOwnProperty.call(condition, 'value')) updates[`system.conditions.${id}.value`] = false
+  for (const id of Object.keys(this.actor.system.conditions ?? {})) {
+    if (!cocConditionValue(this.actor, id)) continue
+    await setConditionStatus(this.actor, id, false)
   }
-  if (Object.keys(updates).length) await this.actor.update(updates)
 }

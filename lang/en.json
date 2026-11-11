@@ -643,6 +643,13 @@
     "statistics": "Characteristics",
     "status": "Status",
     "statusShort": "St",
+    "cocStatus": {
+      "criticalWounds": "Major Wound",
+      "unconscious": "Unconscious",
+      "dying": "Dying",
+      "dead": "Dead",
+      "prone": "Prone"
+    },
     "stealthPen": "Stealth Modifier",
     "stopPersonality": "This character already has a {type}",
     "stopGroupSkill": "You can not add a Group Skill to the sheet",

@@ -6,6 +6,8 @@
 // `flags.brp.brpidFlag.id`. Display names are never used to classify a skill,
 // and the mapping never writes back to an Item or Actor.
 
+import { resolveWeaponSkill } from '../../../rules/coc-weapon-skill.mjs'
+
 const OTHER_CATEGORY = 'other'
 
 // Presentation-only labels. The stored `system.equipStatus` value stays raw;
@@ -300,25 +302,16 @@ export function buildCocSkillGroups(items) {
 }
 
 /**
- * Resolve the live actor skill a weapon attacks with. A weapon that declares
- * `flags.brp.coc.weapon.skillSpec` only matches the skill specialism, so both
- * the card projection and the roll handlers share one lookup instead of
- * matching the bare brpid and ignoring the specialisation.
+ * Resolve the live actor skill a weapon attacks with. This is the card-side
+ * name of the shared rules resolver: native `skill.main`/`alternativ`,
+ * legacy `skill1/skill2` (with the specialism marker) and `sourceID` all
+ * resolve identically here, in CM and in the public adapter.
  * @param {object} weapon weapon Item
  * @param {object} actor owning Actor
  * @returns {object|null} skill Item
  */
 export function resolveCocWeaponSkill(weapon, actor) {
-  const reference = weapon?.system?.skill?.main ?? {}
-  const referenceId = text(reference.id)
-  const referenceName = text(reference.name)
-  if (!referenceId && !referenceName) return null
-  const skills = toItems(actor?.items).filter((item) => item?.type === 'skill')
-  if (referenceId) {
-    const byId = skills.find((item) => itemIdOf(item) === referenceId)
-    if (byId) return byId
-  }
-  return skills.find((item) => text(item?.system?.skillName) === referenceName || text(item?.name) === referenceName) ?? null
+  return resolveWeaponSkill(actor, weapon)
 }
 
 const joinSegments = (...values) => values
