@@ -13,7 +13,7 @@
 ## 发布身份与证据
 
 - runtime 与 content 是两个独立轴，各自必须有完整 commit、file set、`octopus-owner-ci-set-hash/1` setHash 和 receipt；不得合并成单一“系统版本”。
-- 轴身份只认不可变引用：tag 优先，否则完整 40 位 commit。禁 `main`/`latest`/短 hash/branch 名/日期；`system.json` 的 `version`（当前 `0.3.1-dev`）是宿主显示版本，不是不可变 release 身份。
+- 轴证据只认不可变引用：正式 tag 或完整 40 位 commit。禁 `main`/`latest`/短 hash/branch 名/日期；`system.json` 的 `version`（当前 `0.3.1-dev`）是宿主显示版本，不是不可变 release 身份。完整 commit 和 runUrl 可作证据或诊断输入，但前端 A 类正式消费必须有 `source.ownerArtifact.release.tag`，不得以 commit/runUrl/本地 artifact 代替正式 Release。
 - runtime set = `git ls-tree -r --full-tree <runtimeCommit>` 剔除 `packs/`、`packs-index/`、`packs-json/` 与 owner-only 路径（`.github/`、`tools/owner-ci/`、两个 owner 负例脚本、`docs/owner-ci.md`）；content set = 各自固定 contentCommit 中 `packs*` 下 tracked 文件。精确规则以 `tools/owner-ci/manifest.mjs` 为准，不得口算或自造。
 - content 升级必须显式改 `tools/owner-ci/content-pin.json` 的 `contentRef`，并用 `manifest.mjs set-hash` 重算 `contentSetHashSha256`；main 的内容漂移不得被当成升级，content job 也不得偷偷跟随 runtime commit。
 - 真实 run 的 receipt 必须记录实际执行命令、`result`、`manifestSha256`、setHash 与 runUrl；本地出证 `runUrl: null`，不得伪造 CI URL。
@@ -44,7 +44,8 @@
 
 - owner CI 的验收三 job（runtime 语义 + runtime manifest/receipt；content 验证 + content manifest/receipt；assemble + verify 出 `system.zip`、`system-manifest.json`、`system-receipt.json`）必须全绿。任一链路红都不得产出或消费 artifact，也不得进入发布 job。
 - 交接/PR 除 receipt 的 testedCommit 外，必须另行注明 sourceCommit，并同时给出 runUrl、两轴 setHash 与 zip sha256；缺任一项视为证据不完整，不得只用“CI 绿了”代替。
-- 分支/PR/dispatch 只上传私有 artifact，不推回；出证产物不写入 tracked dist 树，旧 artifact 保留供回滚。唯一对外写动作是 `release-publish`：仅 `release-*` tag push、且 tag commit 在 main 祖先线上时，把同一份三件上传为 GitHub Release（D2 坐标，D8 血统）；已存在的 release 不得覆盖，修复必须出新 tag。非 main 血统或非 `release-*` 的 tag 一律 fail-closed，不出件。
+- 默认生产分支 `main` 必须受保护，改动只经 PR + required CI 合入，禁止直推、force-push 和删除。分支/PR/dispatch 只上传私有 artifact，不推回；出证产物不写入 tracked dist 树，旧 artifact 保留供回滚。唯一对外写动作是 `release-publish`：仅 `release-*` tag push、且 tag commit 在 main 祖先线上时，把同一份三件上传为 GitHub Release（D2 坐标，D8 血统）；已存在的 release 不得覆盖，修复必须出新 tag。非 main 血统或非 `release-*` 的 tag 一律 fail-closed，不出件。
+- 前端集成 receipt 只上传为旁路验证证据，不回写 unit manifest 的验证状态，不改变 `manifestHash` 或 release lock。一组依赖只由前端 CI 组装和验证一次，再经 PR 合并到 main 自动部署；不得通过 receipt 回写制造第二轮组装。
 - `system.json` 是产物内唯一身份锚：entry、license、host generation 以它为准；manifest 只允许派生并复核，不另立常量或第二份身份表。
 - 历史 PR/旧基线状态不写入本文件；以当前 workflow、tools 与 pin 为准。
 
