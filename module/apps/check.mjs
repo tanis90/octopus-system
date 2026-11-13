@@ -226,6 +226,14 @@ export class BRPCheck {
         config.rawScore = particActor.system.attribs.san.value
         config.targetScore = particActor.system.attribs.san.value
         break
+      case 'LK':
+        //Luck check: plain d100 against current Luck (the sheet buttons pass
+        //label/rawScore/targetScore explicitly). Callers may omit the scores and
+        //let the engine read the live attribs instead.
+        config.label = options.label || game.i18n.localize('BRP.luck.label')
+        config.rawScore = Number(options.rawScore ?? particActor.system.attribs?.lck?.value ?? 0) || 0
+        config.targetScore = Number(options.targetScore ?? config.rawScore) || 0
+        break
       case 'DM':
       case 'IM':
         weapon = particActor.items.get(config.itemId)

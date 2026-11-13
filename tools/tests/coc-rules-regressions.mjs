@@ -2326,6 +2326,55 @@ check("cocCombatCategoryBonusFallsBackToZero", await (async () => {
   return failures.length ? failures : true;
 })(), "expected 55 without a category map and 65 with firearms +10");
 
+// The sheet luck buttons (_onCocLuckRoll) drive rollType 'LK' through this same
+// normaliseRequest: it must not fall into the invalid-roll default. Explicit
+// label/scores pass through; omitted scores read the live attribs.lck. Host
+// globals were installed by the preceding check.
+check("cocLuckCheckNormalise", await (async () => {
+  const { BRPCheck } = await import(pathToFileURL(join(ROOT, "module/apps/check.mjs")).href);
+  const luckActor = {
+    id: "actor-luck", name: "调查员", img: "actor.png", type: "character",
+    prototypeToken: { randomImg: false },
+    system: { attribs: { lck: { value: 55, max: 99 } } },
+    items: { get: () => undefined, *[Symbol.iterator]() {} },
+  };
+  const failures = [];
+  // normaliseRequest resolves the participant through game.actors.get — point it at
+  // the luck actors (the shared stub from the preceding check serves another actor).
+  game.actors = { get: (id) => (id === "actor-luck-npc" ? npcActor : luckActor) };
+  const explicit = await BRPCheck.normaliseRequest({
+    rollType: "LK", cardType: "NO", label: "幸运", rawScore: 40, targetScore: 40,
+    shiftKey: true, actor: luckActor,
+  });
+  if (explicit === false) failures.push("explicit: normaliseRequest returned false (invalid-roll default)");
+  else {
+    if (explicit.label !== "幸运") failures.push(`explicit: label=${explicit.label}`);
+    if (explicit.rawScore !== 40 || explicit.targetScore !== 40) {
+      failures.push(`explicit: raw=${explicit.rawScore} target=${explicit.targetScore} expected 40/40`);
+    }
+    if (explicit.rollType !== "LK") failures.push(`explicit: rollType=${explicit.rollType}`);
+  }
+  const derived = await BRPCheck.normaliseRequest({
+    rollType: "LK", cardType: "NO", shiftKey: true, actor: luckActor,
+  });
+  if (derived === false) failures.push("derived: normaliseRequest returned false");
+  else if (derived.rawScore !== 55 || derived.targetScore !== 55) {
+    failures.push(`derived: raw=${derived.rawScore} target=${derived.targetScore} expected 55/55 (attribs.lck)`);
+  }
+  const npcActor = {
+    id: "actor-luck-npc", name: "凡夫", img: "actor.png", type: "npc",
+    prototypeToken: { randomImg: false },
+    system: { attribs: { lck: { value: 30, max: 99 } } },
+    items: { get: () => undefined, *[Symbol.iterator]() {} },
+  };
+  const npcCard = await BRPCheck.normaliseRequest({
+    rollType: "LK", cardType: "NO", label: "幸运", rawScore: 30, targetScore: 30,
+    shiftKey: true, actor: npcActor,
+  });
+  if (npcCard === false) failures.push("npc: normaliseRequest returned false");
+  return failures.length ? failures : true;
+})(), "rollType LK normalises like the sheet luck button expects (explicit + derived scores)");
+
 // CoC HP is the native `system.attribs.hp` resource. The damage/treatment path
 // must read that field (never a legacy `system.health`) and a major wound's CON
 // check must use the native derived `characteristics.con`. Host globals were
