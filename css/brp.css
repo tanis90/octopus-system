@@ -1838,7 +1838,7 @@ form .file-form-group-stacked {
 
 .gr-card.brp-seal-card {
   background: var(--av-bg-raised, #faf7ee);
-  border: 1px solid var(--av-border, #16130f);
+  border: var(--av-line, 2px) solid var(--av-border, #16130f);
   border-radius: 0;
   box-shadow: none;
   padding: 2px 12px 6px;
@@ -1877,14 +1877,14 @@ form .file-form-group-stacked {
   align-items: center;
   gap: 8px;
   padding-bottom: 7px;
-  border-bottom: 1px solid var(--av-border, #16130f);
+  border-bottom: var(--av-line, 2px) solid var(--av-border, #16130f);
 }
 
 .brp-seal-card .brp-seal-head .open-actor {
   width: 26px;
   height: 26px;
   flex: 0 0 26px;
-  border: 1px solid var(--av-border, #16130f);
+  border: var(--av-line, 2px) solid var(--av-border, #16130f);
   border-radius: 0;
   object-fit: cover;
 }
