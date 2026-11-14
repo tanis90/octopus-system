@@ -548,9 +548,13 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
   无重伤每天 +1 HP。
 - 角色/NPC 的 `dead/unconscious/dying/majorWound` 由原生 conditions、flags 与当前 HP
   共同投影到 `BRPActor.statuses`；卡面和 Token HUD 都经 `module/actor/coc-status.mjs`
-  的同一写入口切换。真实疯狂 episode 结束仍委托 `BRPSanity/BRPMadness`，死亡不能靠
-  HUD 直接清除，永久疯狂不能由 HUD 直接新建；octopus 的 `HP<1 → dead`、
-  `HP<3 → unconscious` 原逻辑保留在非 CoC 分支。
+  的同一写入口切换。`dead` 的手动勾选只写原生 condition（卡面标记），**不进**
+  `flags.brp.coc.wounds` 伤害审计；读投影对二者取或，所以显示不变。规则判定的死亡
+  （`wounds.dead`）仍是终态：HUD/卡面切换被拒（`death-is-terminal`），只有 KP 走
+  `reviveCocActor`（`BRPActor#reviveCoc`，`{reason}`）单次写入撤销——清
+  `dead/dying/unconscious`、HP 恢复至 1、保留 `majorWound` 并记 `lastRevive{at,by,reason}`。
+  真实疯狂 episode 结束仍委托 `BRPSanity/BRPMadness`，永久疯狂不能由 HUD 直接新建；
+  octopus 的 `HP<1 → dead`、`HP<3 → unconscious` 原逻辑保留在非 CoC 分支。
 
 ### 原生/前端可调用面
 

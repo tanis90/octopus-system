@@ -2641,7 +2641,7 @@ check("cocWeaponResolutionNativeAndLegacy", weaponResolutionResult === true, wea
 // --- 10) One status mapping: card <-> HUD, damage/recovery, madness, refresh ---
 const statusResult = await (async () => {
   const {
-    applyCocStatus, cocConditionValue, cocStatusActive, cocStatusIds, cocWoundConditionWrites,
+    applyCocStatus, cocConditionValue, cocStatusActive, cocStatusIds, cocWoundConditionWrites, reviveCocActor,
   } = await import(pathToFileURL(join(ROOT, "module/actor/coc-status.mjs")).href);
   const { BRPDamage } = await import(pathToFileURL(join(ROOT, "module/combat/damage.mjs")).href);
   const failures = [];
@@ -2755,6 +2755,92 @@ const statusResult = await (async () => {
   expect("deathToggleKeepsCondition", dead.system.conditions.dead.value, true);
   expect("deathToggleKeepsFlag", dead.flags.brp.coc.wounds.dead, true);
 
+  // A manual death marker is sheet state only: it must be reversible and must
+  // never enter the wounds audit trail the damage chain reads.
+  const manualDeath = makeActor({ hp: { value: 10, max: 10 } });
+  const manualOn = await applyCocStatus(manualDeath, "dead", true);
+  expect("manualDeathApplied", manualOn.applied, true);
+  expect("manualDeathCondition", manualDeath.system.conditions.dead.value, true);
+  expect("manualDeathNoAuditFlag", manualDeath.flags.brp.coc.wounds?.dead ?? false, false);
+  expect("manualDeathReadsActive", cocConditionValue(manualDeath, "dead"), true);
+  expect("manualDeathStatusActive", cocStatusActive(manualDeath, "dead"), true);
+  const manualOff = await applyCocStatus(manualDeath, "dead", false);
+  expect("manualDeathOffApplied", manualOff.applied, true);
+  expect("manualDeathOffCondition", manualDeath.system.conditions.dead.value, false);
+  expect("manualDeathOffNoAuditFlag", manualDeath.flags.brp.coc.wounds?.dead ?? false, false);
+
+  // The damage chain only trusts the audit trail, so a manual marker neither
+  // blocks a new blow nor becomes a recorded death.
+  globalThis.game.actors.get = () => manualDeath;
+  const manualHit = await BRPDamage.applyCoCDamage(manualDeath, { damage: 1, conCheck: false });
+  expect("manualDeathDamageApplies", manualHit.applied, true);
+  expect("manualDeathNotAudited", manualDeath.flags.brp.coc.wounds.dead, false);
+
+  // Keeper undo of a rules-declared death: one write clears the trail, syncs the
+  // conditions, restores 1 HP and records who undid it.
+  const gmRevive = await reviveCocActor(dead, { reason: "keeper-undo" });
+  expect("reviveApplied", gmRevive.applied, true);
+  expect("reviveWoundsDead", dead.flags.brp.coc.wounds.dead, false);
+  expect("reviveWoundsDying", dead.flags.brp.coc.wounds.dying, false);
+  expect("reviveWoundsUnconscious", dead.flags.brp.coc.wounds.unconscious, false);
+  expect("reviveConditionDead", dead.system.conditions.dead.value, false);
+  expect("reviveConditionDying", dead.system.conditions.dying.value, false);
+  expect("reviveConditionUnconscious", dead.system.conditions.unconscious.value, false);
+  expect("reviveConditionMajor", dead.system.conditions.criticalWounds.value, true);
+  expect("reviveHp", dead.system.attribs.hp.value, 1);
+  expect("reviveHpState", dead.flags.brp.coc.wounds.hpValue, 1);
+  expect("reviveHpMaxKept", dead.flags.brp.coc.wounds.hpMax, 10);
+  expect("reviveKeepsMajorWound", dead.flags.brp.coc.wounds.majorWound, true);
+  expect("reviveAuditBy", dead.flags.brp.coc.wounds.lastRevive?.by, "gm1");
+  expect("reviveAuditReason", dead.flags.brp.coc.wounds.lastRevive?.reason, "keeper-undo");
+  expect("reviveAuditAt", typeof dead.flags.brp.coc.wounds.lastRevive?.at, "string");
+  expect("reviveAlreadyUndone", (await reviveCocActor(dead, { reason: "again" })).error, "not-dead");
+
+  // The keeper entry is GM-only; a player cannot undo death from the card.
+  const gmUser = globalThis.game.user;
+  globalThis.game.user = { id: "player1", isGM: false };
+  const playerRevive = await reviveCocActor(makeActor({ wounds: { dead: true, unconscious: true } }), { reason: "sheet-toggle" });
+  expect("revivePlayerRefused", playerRevive.applied, false);
+  expect("revivePlayerError", playerRevive.error, "gm-only");
+  globalThis.game.user = gmUser;
+
+  // Reviving a living actor is a no-op with an explicit error code.
+  const aliveRevive = await reviveCocActor(makeActor(), { reason: "sheet-toggle" });
+  expect("reviveNotDead", aliveRevive.applied, false);
+  expect("reviveNotDeadError", aliveRevive.error, "not-dead");
+
+  // Pre-fix stuck data (wounds.dead with no lastRevive) unlocks the same way.
+  const legacyStuck = makeActor({
+    hp: { value: 0, max: 10 },
+    wounds: {
+      initialised: true, dead: true, dying: false, unconscious: true, majorWound: true,
+      hpValue: 0, hpMax: 10,
+    },
+  });
+  const legacyRevive = await reviveCocActor(legacyStuck, { reason: "legacy-unstick" });
+  expect("legacyStuckReviveApplied", legacyRevive.applied, true);
+  expect("legacyStuckWoundsCleared", legacyStuck.flags.brp.coc.wounds.dead, false);
+  expect("legacyStuckConditionCleared", legacyStuck.system.conditions.dead.value, false);
+  expect("legacyStuckHp", legacyStuck.system.attribs.hp.value, 1);
+  expect("legacyStuckAudit", legacyStuck.flags.brp.coc.wounds.lastRevive?.reason, "legacy-unstick");
+
+  // A test/host environment without a chat layer (or a failing post) must not
+  // fail the revive: the flags are the audit record.
+  const chatHost = globalThis.ChatMessage;
+  delete globalThis.ChatMessage;
+  const noChatRevive = await reviveCocActor(makeActor({ wounds: { dead: true, unconscious: true } }), { reason: "no-chat" });
+  expect("reviveWithoutChatApplies", noChatRevive.applied, true);
+  globalThis.ChatMessage = { getSpeaker: () => ({}), create: async () => { throw new Error("chat down"); } };
+  const failedChatRevive = await reviveCocActor(makeActor({ wounds: { dead: true, unconscious: true } }), { reason: "chat-fails" });
+  expect("reviveWithFailingChatApplies", failedChatRevive.applied, true);
+  globalThis.ChatMessage = chatHost;
+
+  // HP max 0 is floored to 1 so a revive never writes HP above the maximum.
+  const noMaxRevive = await reviveCocActor(makeActor({ hp: { value: 0, max: 0 }, wounds: { dead: true } }), { reason: "no-max" });
+  expect("reviveNoMaxApplies", noMaxRevive.applied, true);
+  expect("reviveNoMaxHp", noMaxRevive.hpValue, 1);
+  expect("reviveNoMaxHpMax", noMaxRevive.hpMax, 1);
+
   // A real episode ends through the existing sanity chain, not a boolean copy.
   const episodeEffect = makeEffect(makeActor(), { name: "临时疯狂", statuses: ["tempInsane"] });
   const episode = makeActor({
@@ -2835,6 +2921,19 @@ const statusResult = await (async () => {
   expect("actorToggleAliasStatus", host.statuses.has("tempInsane"), true);
   await host.toggleStatusEffect("tempoInsane", { active: false });
   expect("actorToggleAliasOff", host.statuses.has("tempInsane"), false);
+
+  // BRPActor#reviveCoc is the same keeper entry, so HUD/macro consumers reach
+  // one implementation instead of re-deriving the unwritten fields.
+  host.flags.brp.coc.wounds = { dead: true, dying: true, unconscious: true, majorWound: true, hpValue: 0, hpMax: 10 };
+  host.system.conditions = { ...defaultConditions(), dead: { value: true }, dying: { value: true }, unconscious: { value: true }, criticalWounds: { value: true } };
+  host.system.attribs.hp = { value: 0, max: 10 };
+  const hostRevive = await host.reviveCoc({ reason: "hud-macro" });
+  expect("actorReviveDelegates", hostRevive.applied, true);
+  expect("actorReviveClearsDead", host.flags.brp.coc.wounds.dead, false);
+  expect("actorReviveCondition", host.system.conditions.dead.value, false);
+  expect("actorReviveHp", host.system.attribs.hp.value, 1);
+  expect("actorReviveReason", host.flags.brp.coc.wounds.lastRevive?.reason, "hud-macro");
+  expect("actorReviveStatusOff", host.statuses.has("dead"), false);
 
   // The damage helper is the same patch table used above.
   const patch = cocWoundConditionWrites({ majorWound: true, dying: true, unconscious: true, dead: false });
