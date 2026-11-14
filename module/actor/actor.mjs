@@ -6,6 +6,7 @@ import {
   canonicalCocStatusId,
   cocStatusActive,
   cocStatusIds,
+  reviveCocActor,
 } from './coc-status.mjs';
 
 export class BRPActor extends Actor {
@@ -40,6 +41,12 @@ export class BRPActor extends Actor {
   // injectable for tests and integrations).
   async setCocStatus(statusId, active, options = {}) {
     return applyCocStatus(this, statusId, active, options)
+  }
+
+  // Keeper-only undo for a death the damage chain declared. Exposed on the actor
+  // so the sheet, the HUD path and future macros all reach one implementation.
+  async reviveCoc(options = {}) {
+    return reviveCocActor(this, options)
   }
 
   prepareBaseData() {

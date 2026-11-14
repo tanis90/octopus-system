@@ -434,7 +434,8 @@ export function buildCocNpcNote(actor) {
 /**
  * Wound flags after a direct HP edit on the card. Uses the real CoC wound
  * rules passed by the caller; this function only opens the edit as an input to
- * them. A dead actor stays dead (the rules define no revival), dying ends once
+ * them. A recorded death survives a direct HP edit — undoing it is the keeper
+ * action `reviveCocActor`, never a side effect of typing HP — dying ends once
  * HP is positive, a major wound ends at the real half-maximum threshold and
  * unconsciousness caused by reaching zero HP is cleared when HP returns.
  * @param {{wounds?: object, hpValue: number, hpMax: number, previousHpValue?: number}} edit

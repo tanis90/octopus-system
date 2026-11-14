@@ -256,12 +256,76 @@ async function setWoundStatus(actor, statusId, active) {
   if (statusId === 'dead' && active === false && cocWounds(actor).dead === true) {
     return { applied: false, error: 'death-is-terminal', statusId, conditionId, active: true }
   }
+  // A manual death marker is sheet state, not an audit entry: writing
+  // wounds.dead here would make a misclick indistinguishable from a death the
+  // damage chain declared, and the toggle could never be undone again. The read
+  // projection ORs conditions and wounds, so the card still shows the marker,
+  // while the damage/healing chain (which only reads the wounds trail) is never
+  // driven by it. A death the chain did declare stays terminal; the keeper undo
+  // is reviveCocActor.
+  if (statusId === 'dead') {
+    await actor.update(conditionPatch(conditionId, active))
+    return { applied: true, statusId, conditionId, active: !!active, wounds: false, manual: true }
+  }
   const patch = { [`system.conditions.${conditionId}.value`]: !!active }
   if (woundField) {
     patch['flags.brp.coc.wounds'] = { ...cocWounds(actor), [woundField]: !!active }
   }
   await actor.update(patch)
   return { applied: true, statusId, conditionId, active: !!active, wounds: !!woundField }
+}
+
+/**
+ * Keeper undo for death. A death the damage chain declared is terminal for the
+ * sheet toggle (see setWoundStatus) and for every healing entry, so the only way
+ * back is this explicit keeper action: one update clears the wounds audit trail
+ * and the mirrored conditions, restores 1 HP and records who did it and why.
+ * `majorWound` is kept — reviving does not heal the wound that caused the death.
+ * The public chat card is best-effort; the flags are the audit record, so a
+ * host without a chat layer (or a failed post) must not fail the revive.
+ * @param {object} actor
+ * @param {{reason?: string}} [options]
+ * @returns {Promise<object>} write result
+ */
+export async function reviveCocActor(actor, { reason } = {}) {
+  if (!actor) return { applied: false, error: 'actor-missing' }
+  if (globalThis.game?.user?.isGM !== true) return { applied: false, error: 'gm-only' }
+  const wounds = cocWounds(actor)
+  const conditionDead = actor?.system?.conditions?.dead?.value === true
+  if (wounds.dead !== true && conditionDead !== true) return { applied: false, error: 'not-dead' }
+  // A revive must leave a playable character. A missing or broken HP max is
+  // floored at 1 for the audit state, so `hpValue: 1` is never above the max.
+  const hpMax = Math.max(1, Math.floor(Number(actor?.system?.attribs?.hp?.max) || 0))
+  const hpValue = Math.min(1, hpMax)
+  const lastRevive = {
+    at: new Date().toISOString(),
+    by: text(globalThis.game?.user?.id) || null,
+    reason: text(reason) || null,
+  }
+  const state = {
+    ...wounds,
+    dead: false,
+    dying: false,
+    unconscious: false,
+    hpValue,
+    hpMax,
+    lastRevive,
+  }
+  await actor.update({
+    'system.attribs.hp.value': hpValue,
+    'flags.brp.coc.wounds': state,
+    ...cocWoundConditionWrites(state),
+  })
+  try {
+    const ChatMessageClass = globalThis.ChatMessage
+    if (typeof ChatMessageClass?.create === 'function') {
+      await ChatMessageClass.create({
+        speaker: ChatMessageClass.getSpeaker?.({ actor }),
+        content: `<div class="coc-damage"><b>KP 撤销了「${actor.name}」的死亡状态</b><span>HP 恢复至 ${hpValue}</span></div>`,
+      })
+    }
+  } catch { /* the revive already happened; the audit trail is the record */ }
+  return { applied: true, statusId: 'dead', active: false, hpValue, hpMax, state, lastRevive }
 }
 
 async function endThroughChain(method, actor, reason, options) {
@@ -324,9 +388,12 @@ async function setMadnessStatus(actor, statusId, active, options) {
 
 /**
  * The one write entry for a CoC status. Wound statuses write the native
- * condition plus the matching `flags.brp.coc.wounds` field; madness statuses
- * use the episode chain when a real episode is active and a plain marker when
- * it is not. Permanent insanity is never created here.
+ * condition plus the matching `flags.brp.coc.wounds` field; `dead` is the one
+ * exception and writes the condition only, because a manual marker is sheet
+ * state and must not enter the damage audit trail (reviveCocActor undoes a
+ * death the chain declared). Madness statuses use the episode chain when a real
+ * episode is active and a plain marker when it is not. Permanent insanity is
+ * never created here.
  * @param {object} actor
  * @param {string} statusId status id or condition alias
  * @param {boolean} active desired state
@@ -355,4 +422,5 @@ export const CoCStatus = Object.freeze({
   cocStatusIds,
   cocWoundConditionWrites,
   applyCocStatus,
+  reviveCocActor,
 })

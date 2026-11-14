@@ -1,8 +1,10 @@
 import { paperFormulaAverage } from './paper-view.mjs'
+import BRPDialog from '../../../setup/brp-dialog.mjs'
 import {
   applyCocStatus,
   cocConditionValue,
   cocStatusIdOfCondition,
+  reviveCocActor,
 } from '../../coc-status.mjs'
 
 const paperCanEdit = (sheet) => sheet.isEditable && (sheet.actor.type === 'character'
@@ -52,12 +54,33 @@ export async function paperOpenItem(event, target) {
 
 const setConditionStatus = async (actor, conditionId, active) => {
   const statusId = cocStatusIdOfCondition(conditionId)
-  if (!statusId) return
+  if (!statusId) return { applied: false, error: 'not-a-coc-status', conditionId }
   if (typeof actor.toggleStatusEffect === 'function') {
-    await actor.toggleStatusEffect(statusId, { active })
+    return actor.toggleStatusEffect(statusId, { active })
+  }
+  return applyCocStatus(actor, statusId, active)
+}
+
+const notifyStatusError = (result) => {
+  if (result?.applied !== false || !result?.error) return
+  if (result.error === 'death-is-terminal') {
+    ui.notifications.warn('死亡由规则判定，只有 KP 可以撤销。')
     return
   }
-  await applyCocStatus(actor, statusId, active)
+  ui.notifications.warn(`状态写入被拒绝（${result.error}）。`)
+}
+
+// A rules-declared death is terminal for the toggle, so the keeper gets an
+// explicit undo instead of a silent no-op; a manual death marker never reaches
+// this branch because it only touches the condition.
+const confirmRevive = async (actor) => {
+  const confirmed = await BRPDialog.confirm({
+    window: { title: '撤销死亡' },
+    content: '该角色已被规则判定死亡。撤销死亡并恢复 1 点 HP？',
+  })
+  if (!confirmed) return
+  const result = await reviveCocActor(actor, { reason: 'sheet-toggle' })
+  if (result?.applied !== true) notifyStatusError(result)
 }
 
 export async function paperToggleCondition(event, target) {
@@ -65,7 +88,13 @@ export async function paperToggleCondition(event, target) {
   if (!this.isEditable) return
   const id = target.dataset.condition
   if (!id || !(id in (this.actor.system.conditions ?? {}))) return
-  await setConditionStatus(this.actor, id, !cocConditionValue(this.actor, id))
+  const result = await setConditionStatus(this.actor, id, !cocConditionValue(this.actor, id))
+  if (result?.applied !== false || !result?.error) return
+  if (result.error === 'death-is-terminal' && game.user?.isGM === true) {
+    await confirmRevive(this.actor)
+    return
+  }
+  notifyStatusError(result)
 }
 
 export async function paperToggleEffect(event, target) {
@@ -165,8 +194,18 @@ export async function paperDeleteMacro(event, target) {
 export async function paperClearConditions(event) {
   event.preventDefault()
   if (!paperCanEdit(this)) return
+  const refused = []
   for (const id of Object.keys(this.actor.system.conditions ?? {})) {
     if (!cocConditionValue(this.actor, id)) continue
-    await setConditionStatus(this.actor, id, false)
+    const result = await setConditionStatus(this.actor, id, false)
+    if (result?.applied === false && result?.error) refused.push(result)
   }
+  if (!refused.length) return
+  // One notice per pass: a terminal death must not scroll the log once per
+  // condition, and a keeper needs the pointer to the button that can undo it.
+  if (refused.some((entry) => entry.error === 'death-is-terminal')) {
+    ui.notifications.warn('规则判定的死亡需在死亡按钮上由 KP 撤销。')
+    return
+  }
+  notifyStatusError(refused[0])
 }
