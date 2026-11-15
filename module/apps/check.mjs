@@ -1324,7 +1324,7 @@ export class BRPCheck {
     if (attack.error) {
       return {
         error: 'weapon-skill-missing',
-        brpid: weapon.flags?.brp?.coc?.weapon?.skillBrpid ?? null,
+        brpid: attack.skill?.flags?.brp?.brpidFlag?.id ?? null,
         reference: attack.reference ?? weaponSkillReferences(weapon)[0] ?? null,
       }
     }
@@ -1402,7 +1402,7 @@ export class BRPCheck {
     if (attack.error) {
       return {
         error: 'weapon-skill-missing',
-        brpid: weapon.flags?.brp?.coc?.weapon?.skillBrpid ?? null,
+        brpid: attack.skill?.flags?.brp?.brpidFlag?.id ?? null,
         reference: attack.reference ?? weaponSkillReferences(weapon)[0] ?? null,
       }
     }
@@ -1631,7 +1631,7 @@ export class BRPCheck {
       if (attack.error) {
         return {
           error: 'weapon-skill-missing',
-          brpid: weapon.flags?.brp?.coc?.weapon?.skillBrpid ?? null,
+          brpid: attack.skill?.flags?.brp?.brpidFlag?.id ?? null,
           reference: attack.reference ?? weaponSkillReferences(weapon)[0] ?? null,
         }
       }
