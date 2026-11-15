@@ -18,7 +18,7 @@ main 祖先线上）时把同一份三件上传成 **GitHub Release**（A 类出
   只允许核心 60 技能 / 9 个 `occupation` 职业；content job 在构建前先跑
   core-60/9 + extension-0 fail-closed 门。`contentRef` 已重钉到 CoC7 名册
   基线 `455caa3baa2ce34ebc8430a6628df278466df452`（73 个内容文件）。
-  该 workflow 内仍是旧四包硬断言，尚未同步本次名册收缩（见「已知边界」）。
+  workflow 的两处 core 门硬断言已同步为两包名册（octopus 两包退役）。
 
 两者锚点不同，所以不能用一个 commit、也不能用同一次 checkout 验收。
 main 上的内容漂移不会被 CI 悄悄当成升级：content job 永远测试
@@ -152,11 +152,8 @@ node tools/owner-ci/artifact.mjs verify \
 
 1. checkout 被测源（不再 checkout 任何扩展分发仓）；
 2. 先跑 core-60/9 + extension-0 fail-closed 门（`system.json` 两个 pack：
-   `coc-skills` / `coc-professions`、`packs*` 无 `arcane-investigator-*`、
-   无 SealDice 导入器/LevelDB 构建器）；
-   > 已知偏差：`.github/workflows/owner-ci.yml` 的这一步仍硬断言旧四包
-   > 名单（`octopus-skills` / `octopus-professions` 仍在）。该文件受保护，
-   > 尚未同步 CoC7 名册收缩，属发布流跟进项；本地验证不受影响。
+   `coc-skills` / `coc-professions`（octopus 两包已退役，硬断言已同步）、
+   `packs*` 无 `arcane-investigator-*`、无 SealDice 导入器/LevelDB 构建器）；
 3. 跑源仓语义测试（在被测 `src` 树内执行其自带的脚本）：
    ```bash
    node tools/check-zh-cn.mjs
@@ -332,8 +329,7 @@ tracked 的 dist 目录。receipt 的 `runUrl` 为 `null`：本地没有 CI run�
   本工具不引入 runtimeHost、不新增 Runtime SDK 依赖，也不做内容迁移。
 - `tools/tests/coc-rules-regressions.mjs` 只验收公开 owner 的核心 60/9 与
   扩展 0；它不再读取任何扩展分发仓或 `expansionRef`。content pin 已重钉到
-  CoC7 名册基线，但 workflow 内的旧四包硬断言尚未同步，content job 仍会因该项
-  fail closed；修复需改受保护的 workflow 文件，不能用旧基线绕过。
+  CoC7 名册基线，workflow 内的两处 core 门硬断言已同步为两包名册。
 - 类型名册：Item 13 型 / Actor 4 型（`template.json`）；octopus 两个内容包、
   其内容源与 `tools/base-pack/extract.mjs` 已删除，`tools/base-pack/build.mjs`
   只做退役守卫与注册面断言。

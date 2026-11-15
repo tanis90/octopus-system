@@ -111,8 +111,9 @@ jobs:
         with:
           node-version: 22
 
-      # 核心内容 fail-closed 门：公开 owner 只接受 60 技能 / 9 职业 / 4 个
-      # system pack，且不得携带扩展构建链或扩展包目录。测试脚本会再次断言，
+      # 核心内容 fail-closed 门：公开 owner 只接受 60 技能 / 9 职业 / 2 个
+      # system pack（coc-skills / coc-professions；octopus 两包已退役），
+      # 且不得携带扩展构建链或扩展包目录。测试脚本会再次断言，
       # 这里在跑完整回归前先给出明确失败点。
       - name: assert core 60/9 and extension-free source
         working-directory: src
@@ -127,8 +128,8 @@ jobs:
           const fail = (message) => { console.error(`::error::${message}`); process.exit(1); };
           if (skills.length !== 60) fail(`coc-skills 必须正好 60 条，实际 ${skills.length}`);
           if (professions.length !== 9) fail(`coc-professions 必须正好 9 条，实际 ${professions.length}`);
-          if (JSON.stringify(names) !== JSON.stringify(["coc-professions", "coc-skills", "octopus-professions", "octopus-skills"])) {
-            fail(`system.json pack 必须正好是 2 个 octopus + 2 个 CoC 核心包，实际 ${names.join(", ")}`);
+          if (JSON.stringify(names) !== JSON.stringify(["coc-professions", "coc-skills"])) {
+            fail(`system.json pack 必须正好是 2 个 CoC 核心包（octopus 两包已退役），实际 ${names.join(", ")}`);
           }
           for (const dir of ["packs", "packs-index", "packs-json"]) {
             const leaked = readdirSync(dir).filter((name) => name.startsWith("arcane-investigator-"));
@@ -260,8 +261,8 @@ jobs:
           const fail = (message) => { console.error(`::error::${message}`); process.exit(1); };
           if (skills.length !== 60) fail(`pinned coc-skills 必须正好 60 条，实际 ${skills.length}`);
           if (professions.length !== 9) fail(`pinned coc-professions 必须正好 9 条，实际 ${professions.length}`);
-          if (JSON.stringify(names) !== JSON.stringify(["coc-professions", "coc-skills", "octopus-professions", "octopus-skills"])) {
-            fail(`pinned system.json 必须正好是 2 个 octopus + 2 个 CoC 核心包，实际 ${names.join(", ")}`);
+          if (JSON.stringify(names) !== JSON.stringify(["coc-professions", "coc-skills"])) {
+            fail(`pinned system.json 必须正好是 2 个 CoC 核心包（octopus 两包已退役），实际 ${names.join(", ")}`);
           }
           for (const dir of ["packs", "packs-index", "packs-json"]) {
             const leaked = readdirSync(dir).filter((name) => name.startsWith("arcane-investigator-"));

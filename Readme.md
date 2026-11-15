@@ -556,9 +556,8 @@ SealDice 导入器、扩展 LevelDB 打包器、扩展引用（含 `expansionRef
   `tools/base-pack/build.mjs` 的退役守卫强制）。
 - `tools/owner-ci/content-pin.json` 已移除 `expansionRef`，`contentRef` 已重钉到
   CoC7 名册内容基线 `455caa3baa2ce34ebc8430a6628df278466df452`，并重算
-  `contentSetHashSha256`（73 个内容文件）。owner CI workflow 内仍保留旧四包硬
-  断言，尚未同步本次两包名册；该文件受保护，属发布流跟进项（见
-  `docs/owner-ci.md`）。
+  `contentSetHashSha256`（73 个内容文件）。owner CI workflow 的两处核心门
+  硬断言已同步为两包名册（`coc-skills` / `coc-professions`，octopus 两包退役）。
 
 回归检查：
 
@@ -574,9 +573,8 @@ node tools/tests/base-pack-determinism.mjs
 不合并：**runtime job** 对被测 commit 跑源仓自有语义测试并出 runtime
 manifest + receipt；**content job** 用 `actions/checkout` 钉住
 `tools/owner-ci/content-pin.json` 里的内容基线并出 content manifest + receipt。
-pin 现指向 CoC7 名册基线（`455caa3b`，73 个内容文件）；workflow 既有的 content
-门仍硬编码旧四包名册，需先更新该受保护文件才能验收本名册；pin 本身已按新基线
-重算集合 hash。`workflow_dispatch` 可指定
+pin 现指向 CoC7 名册基线（`455caa3b`，73 个内容文件），workflow 的 core 门
+硬断言已同步为两包名册。`workflow_dispatch` 可指定
 `runtimeRef` / `contentRef` 复核任意历史已发布组合。manifest/receipt 与组装出的
 BRP system artifact 在每次 run 都作为 workflow artifact 上传，不推回仓库；
 自 `main` 推 `release-*` tag 时会额外跑 **release-publish** job，复核产物字节
