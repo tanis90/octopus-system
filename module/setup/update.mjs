@@ -5,6 +5,76 @@
  *                                                      version stored in item stats.
  * @returns {Promise}      A Promise which resolves once the migration is completed
  */
+import {
+  planSkillMigration,
+  skillSourceSystem,
+} from '../rules/coc-skill-fields.mjs'
+
+const CANONICAL_SKILL_PREFIXES = Object.freeze([
+  'system.adjustments.',
+  'system.properties.',
+  'system.flags.',
+  'system.base',
+])
+
+// Split a migration plan into schema-safe canonical writes and legacy cleanup.
+// Core Foundry can reject unknown legacy fields on a data model; the cleanup is
+// applied separately so a rejection can never roll back the canonical values.
+const splitSkillUpdates = (updates = {}) => {
+  const canonical = {}
+  const legacy = {}
+  for (const [path, value] of Object.entries(updates)) {
+    if (CANONICAL_SKILL_PREFIXES.some((prefix) => path.startsWith(prefix))) canonical[path] = value
+    else legacy[path] = value
+  }
+  return { canonical, legacy }
+}
+
+// One-shot, idempotent migration of the legacy flat skill growth fields onto the
+// canonical surface. Only `type === 'skill'` documents are touched; every other
+// item type keeps its own fields. Canonical values are never overwritten and
+// every legacy key found is zeroed (or deleted if the model rejects it) so a
+// stale reader cannot double count. Safe to run repeatedly.
+export async function migrateSkillFields({ actors = null, items = null } = {}) {
+  const skillItems = []
+  for (const actor of actors ?? game.actors ?? []) {
+    for (const item of actor?.items ?? []) {
+      if (item?.type === 'skill') skillItems.push(item)
+    }
+  }
+  for (const item of items ?? game.items ?? []) {
+    if (item?.type === 'skill') skillItems.push(item)
+  }
+  let changed = 0
+  let failed = 0
+  for (const item of skillItems) {
+    const plan = planSkillMigration(skillSourceSystem(item))
+    if (!plan.changed) continue
+    const { canonical, legacy } = splitSkillUpdates(plan.updates)
+    try {
+      if (Object.keys(canonical).length) await item.update(canonical)
+      if (Object.keys(legacy).length) {
+        try {
+          await item.update(legacy)
+        } catch (error) {
+          // Unknown legacy field on this schema: delete it from the raw source
+          // instead of leaving a fallback value behind.
+          const deletions = {}
+          for (const path of Object.keys(legacy)) {
+            deletions[path.replace(/^system\./, 'system.-=')] = null
+          }
+          await item.update(deletions)
+        }
+      }
+      changed += 1
+    } catch (error) {
+      failed += 1
+      console.warn(`BRP: skill field migration failed for ${item?.name ?? item?.id ?? '?'}`, error)
+    }
+  }
+  return { scanned: skillItems.length, changed, failed }
+}
+
 export async function updateWorld({ bypassVersionCheck = false } = {}) {
   const currentVersion = game.settings.get("brp", "gameVersion");
   const targetVersion = game.system.version;
@@ -19,6 +89,16 @@ export async function updateWorld({ bypassVersionCheck = false } = {}) {
       }
       await v13153()
     }
+
+  //Skill growth fields: one-shot, idempotent, type=skill only.
+  try {
+    const skillFields = await migrateSkillFields()
+    if (skillFields.changed || skillFields.failed) {
+      console.log("BRP skill field migration", skillFields)
+    }
+  } catch (error) {
+    console.error('BRP skill field migration failed', error)
+  }
 
   await game.settings.set("brp", "gameVersion", targetVersion);
 }

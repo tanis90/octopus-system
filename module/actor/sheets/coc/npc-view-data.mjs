@@ -6,6 +6,7 @@
 // pass: that method writes derived fields onto live Item documents. Everything
 // here is computed from the live Actor/Item values without mutating them.
 
+import { skillSourceSystem, skillTotal, skillTotalInfo } from '../../../rules/coc-skill-fields.mjs'
 import {
   buildCocSanityView,
   cocEquipStatusLabel,
@@ -199,24 +200,14 @@ const dbLabelOf = (value) => {
   return DB_LABELS[key] ?? text(value)
 }
 
-const COC_SKILL_ADJUSTMENTS = ['base', 'personal', 'occupation', 'archetype', 'experiencePackage', 'experience']
-
-const cocSkillTotal = (skill) => {
-  if (!skill) return null
-  const system = skill.system ?? {}
-  // BRPActor.prepareDerivedData already owns the live total. Only compute the
-  // sum when an imported/partial Item has no prepared value.
-  const stored = numberOrNull(system.total)
-  if (stored !== null) return stored
-  return numberOr(system.base) + COC_SKILL_ADJUSTMENTS
-    .reduce((total, key) => total + numberOr(system.adjustments?.[key]), 0)
-}
+const cocSkillTotal = (skill) => (skill ? skillTotal(skillSourceSystem(skill)) : null)
 
 export function buildCocNpcAttackRow(weapon, actor) {
   const system = weapon?.system ?? {}
   const skill = resolveCocWeaponSkill(weapon, actor)
-  const skillTotal = cocSkillTotal(skill)
-  const attackMode = skill && skillTotal !== null ? 'sk' : 'none'
+  const skillScore = skill ? skillTotalInfo(skillSourceSystem(skill)) : null
+  const skillTotal = skillScore?.valid ? skillScore.total : null
+  const attackMode = skillTotal !== null ? 'sk' : 'none'
   const hitValue = skillTotal
   const damage = text(system.range?.normal?.damage)
   const range = text(system.range?.normal?.value) || (system.properties?.rngd === true ? '' : 'S')
@@ -394,7 +385,8 @@ export function buildCocNpcNote(actor) {
 /**
  * Wound flags after a direct HP edit on the card. Uses the real CoC wound
  * rules passed by the caller; this function only opens the edit as an input to
- * them. A dead actor stays dead (the rules define no revival), dying ends once
+ * them. A recorded death survives a direct HP edit — undoing it is the keeper
+ * action `reviveCocActor`, never a side effect of typing HP — dying ends once
  * HP is positive, a major wound ends at the real half-maximum threshold and
  * unconsciousness caused by reaching zero HP is cleared when HP returns.
  * @param {{wounds?: object, hpValue: number, hpMax: number, previousHpValue?: number}} edit

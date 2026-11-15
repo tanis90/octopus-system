@@ -16,6 +16,11 @@ import {
   weaponAttackScore,
   weaponSkillReferences,
 } from '../rules/coc-weapon-skill.mjs';
+import {
+  skillNoXP,
+  skillTickUpdate,
+  skillTotal,
+} from '../rules/coc-skill-fields.mjs';
 
 export class BRPCheck {
 
@@ -43,10 +48,31 @@ export class BRPCheck {
   //CB = Combat Roll
 
 
+  // The last SN start refusal (pending settlement). Diagnostic only: the card
+  // reads `game.brp.sanity.pending` for the real recovery state.
+  static lastSanityGuard = null;
+
   //Start to prepare the config
   static async _trigger(options = {}) {
     let config = await BRPCheck.normaliseRequest(options)
     if (config === false) { return false }
+    // CoC: one in-flight settlement per actor. Refuse before the dialog and
+    // before any new d100/loss die: a second SN must not roll a fresh set that
+    // has nowhere to settle.
+    if (config.rollType === 'SN' && Rules.for('coc').sanity?.core) {
+      const guardActor = await BRPactorDetails._getParticipant(config.particId, config.particType)
+      const guard = guardActor ? BRPSanity.canStart(guardActor) : null
+      if (guard && guard.allowed === false) {
+        BRPCheck.lastSanityGuard = {
+          actorId: guardActor.id,
+          reason: guard.reason,
+          settleId: guard.settleId ?? null,
+        }
+        ui.notifications?.warn?.(game.i18n.localize('BRP.coc.settlementPending'))
+        return false
+      }
+    }
+    BRPCheck.lastSanityGuard = null
     return BRPCheck.startCheck(config)
   }
 
@@ -177,8 +203,11 @@ export class BRPCheck {
         skill = particActor.items.get(config.skillId)
         config.label = skill.name ?? ""
         config.skillBrpid = skill.flags?.brp?.brpidFlag?.id ?? null
-        config.rawScore = skill.system.total
-        config.targetScore = skill.system.total
+        // Skill scores come from the canonical resolver (base + adjustments),
+        // never from a persisted `total`; a legacy flat-score document reads the
+        // same way instead of producing NaN.
+        config.rawScore = skill.type === 'skill' ? skillTotal(skill.system) : skill.system.total
+        config.targetScore = config.rawScore
         if (skill.type === 'spell') {
           config.description = String(skill.system.description?.value ?? "").replace(/(<([^>]+)>)/g, "");
         }
@@ -811,20 +840,42 @@ export class BRPCheck {
     return
   }
 
-  //CoC SAN settlement. The roll itself already happened on this client; the write
-  //is not ours to make unless we are the active GM. Non-writers hand the decided
-  //loss to the single writer and read the result back from the card flags.
+  //CoC SAN settlement. The roll itself already happened on this client and the
+  //card exists. The writer is decided by ownership inside BRPSanity: an owned PC
+  //is written by its card owner's client (GM online or offline is irrelevant);
+  //a keeper/other player only leaves the pending card; an unowned NPC keeps the
+  //active-GM relay. `settleId` makes the whole settlement idempotent.
   static async _settleCoCSanity(config, actor) {
+    const cardMessageId = config.pendingMessageId ?? null
+    const settleId = BRPSanity.settleIdFor(cardMessageId)
+    //Projection first: the rolled loss is visible as pending even if the writer
+    //never runs, so a refresh shows "loss N · unsettled" instead of a settled SAN.
+    const card = await BRPSanity.beginCardSettlement({
+      cardMessageId,
+      actor,
+      loss: config.sanLoss,
+      settleId,
+    })
+    config.settleId = settleId
+    config.sanityCardPending = card?.written === true
     const result = await BRPSanity.settle({
       actor,
       loss: config.sanLoss,
-      cardMessageId: config.pendingMessageId ?? null,
+      cardMessageId,
+      settleId,
       reason: 'sanity-roll',
     })
+    if (result?.pending) {
+      //The card keeps the pending record and the owner's client retries it; this
+      //client must not write the actor, and an owned PC is never relayed to GM.
+      config.sanityPending = { settleId: result.settleId ?? settleId, by: result.by ?? null, loss: config.sanLoss }
+      config.reown = true
+      return result
+    }
     if (result?.queued) {
-      // The GM applies the loss and rewrites the card; this client must not also
-      // write, or two clients would both settle the same roll.
-      config.sanityQueued = { by: result.by, loss: result.loss }
+      //The GM applies the loss and rewrites the card; this client must not also
+      //write, or two clients would both settle the same roll.
+      config.sanityQueued = { by: result.by, loss: result.loss, settleId: result.settleId ?? settleId }
       config.reown = true
       return result
     }
@@ -839,6 +890,13 @@ export class BRPCheck {
     config.sanLoss = result.loss
     config.sanAfter = result.sanAfter
     config.permaInsane = result.permanent === true
+    config.sanitySettlement = {
+      settleId: result.settleId ?? settleId,
+      status: 'applied',
+      loss: result.loss,
+      sanBefore: result.sanBefore,
+      sanAfter: result.sanAfter,
+    }
     config.sanity = {
       value: result.sanAfter,
       singleLoss: result.singleLoss,
@@ -1107,8 +1165,10 @@ export class BRPCheck {
           if (!actor || actor.type !== 'character') { continue }
           item = await actor.items.get(i.skillId)
           if (!item) { continue }
-          //CoC: the Mythos skill can never be improved, so it never gets a tick.
-          if (Rules.for('coc').check.xpSkipsNoXP === true && item.system?.noXP === true) { continue }
+          //Canonical no-growth marker (`properties.noxpgain`), legacy `noXP`
+          //read as a fallback. The Mythos skill can never be improved.
+          const noXP = skillNoXP(item.system)
+          if (Rules.for('coc').check.xpSkipsNoXP === true && noXP) { continue }
           //CoC: the decision core owns the tick condition - a success, no Luck
           //spent on it, no noXP marker, and only skill rolls.
           if (growth?.canTick) {
@@ -1117,13 +1177,15 @@ export class BRPCheck {
               resultLevel: Number(i.resultLevel),
               band: i.band ?? null,
               luckSpent: Number(i.luckSpent ?? 0),
-              noXP: item.system?.noXP === true,
+              noXP,
               actorType: actor.type,
             })
             if (decision?.allowed !== true) { continue }
           }
           if (item.type === 'skill') {
-            await item.update({ 'system.improve': true })
+            //Canonical growth surface: only `flags.developement` is written,
+            //so an un-migrated `system.improve` can never disagree with it.
+            await item.update(skillTickUpdate(true))
           }
         }
         break
@@ -1276,6 +1338,25 @@ export class BRPCheck {
 
   static _cocActorRef(actor) {
     return { actorId: actor.id, actorType: actor.token ? 'token' : 'actor' }
+  }
+
+  // Printed damage bonus for a CoC actor. The native schema stores it in
+  // `attribs.db` (auto-derived from STR+SIZ or keeper-entered); BRP-era actors
+  // kept `system.dmgBonus`. Reading only the legacy slot silently dropped the
+  // bonus (unarmed stayed 1D3 with STR+SIZ 130); the rules module owns the
+  // precedence and the half-DB rule.
+  static cocDamageBonus(actor) {
+    let derived = null
+    try {
+      derived = Rules.for('coc').deriveSecondary({ actorData: actor, systemData: actor?.system })?.dmgBonus ?? null
+    } catch {
+      derived = null
+    }
+    return Rules.for('coc').combat.resolveDamageBonus({
+      db: actor?.system?.attribs?.db ?? null,
+      derived,
+      legacy: actor?.system?.dmgBonus ?? null,
+    })
   }
 
   // Cross-owner writes go through Foundry's deterministic active GM; an owner
@@ -1437,9 +1518,10 @@ export class BRPCheck {
     const tier = combat.damageTier
       ? combat.damageTier({ rank: Number(config.bandRank ?? 0), role: 'attacker' })
       : null
+    const db = BRPCheck.cocDamageBonus(actor)
     const dbFormula = combat.damageBonusFor({
-      dbFull: actor.system?.dmgBonus?.full,
-      dbHalf: actor.system?.dmgBonus?.half,
+      dbFull: db.full,
+      dbHalf: db.half,
       mode: profile?.dbMode ?? 'none',
     })
     const weaponFormula = profile.formula ?? weapon.system?.dmg1 ?? '1D3'
@@ -1789,9 +1871,10 @@ export class BRPCheck {
           ?? profile.formula
           ?? winnerWeapon?.system?.dmg1
           ?? '1D3'
+        const winnerDb = BRPCheck.cocDamageBonus(winnerActor)
         const dbFormula = combat.damageBonusFor({
-          dbFull: winnerActor.system?.dmgBonus?.full,
-          dbHalf: winnerActor.system?.dmgBonus?.half,
+          dbFull: winnerDb.full,
+          dbHalf: winnerDb.half,
           mode: profile?.dbMode ?? 'none',
         })
         let formula

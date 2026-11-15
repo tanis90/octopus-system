@@ -14,6 +14,7 @@ import {
   resolveCocWeaponSkill,
 } from './view-data.mjs'
 import { buildPaperBooks, buildPaperEffects, buildPaperMonetary, paperConditionValue } from './paper-view.mjs'
+import { skillNoXP, skillSourceSystem, skillTickUpdate, skillTicked, skillXp, skillXpUpdate } from '../../../rules/coc-skill-fields.mjs'
 import { cocStatusActive } from '../../coc-status.mjs'
 import {
   paperClearConditions,
@@ -257,7 +258,7 @@ export class CocCharacterSheet extends BRPCharacterSheet {
         favorites: paperFavoriteItems(actor).map((item) => ({ ...item, action: item.type === 'skill' ? 'cocSkillRoll' : item.type === 'weapon' ? 'cocWeaponSkill' : 'paperOpenItem' })),
         favoritesExpanded: this._favoritesExpanded !== false,
         development,
-        growthSkills: skills.filter((skill) => skill.improve === true || items.find((item) => item.id === skill.id)?.system.improve === true),
+        growthSkills: skills.filter((skill) => skill.improve === true && skill.noXP !== true),
         growthLog: actor.flags?.brp?.coc?.growthLog ?? [],
         growthModule: actor.flags?.brp?.coc?.growthModule ?? '默认模组',
         keySummary,
@@ -275,6 +276,7 @@ export class CocCharacterSheet extends BRPCharacterSheet {
       isCoCUse: !this.isEditable || this.actor.system.lock === true,
       isCoCEdit: this.isEditable && this.actor.system.lock !== true,
       canEditSheet: this.isEditable && this.actor.system.lock !== true,
+      canInterlude: this.document.isOwner === true || game.user.isGM === true,
     })
   }
 
@@ -291,8 +293,19 @@ export class CocCharacterSheet extends BRPCharacterSheet {
     event.preventDefault()
     if (!this.isEditable || this.actor.system.lock === true) return
     const item = this.actor.items.get(target.closest('.item')?.dataset.itemId)
-    if (!item || item.type !== 'skill' || item.system.noXP === true) return
-    await item.update({ 'system.improve': item.system.improve !== true })
+    const source = item ? skillSourceSystem(item) : null
+    if (!item || item.type !== 'skill') return
+    const next = !skillTicked(source ?? {})
+    // `noxpgain` forbids a NEW tick, but an imported dirty tick stays removable.
+    if (next && skillNoXP(source ?? {})) return
+    await item.update(skillTickUpdate(next))
+    // Clear a stale legacy tick separately so a schema rejection cannot undo
+    // the canonical flag write.
+    if (!next && Object.prototype.hasOwnProperty.call(source ?? {}, 'improve')) {
+      try {
+        await item.update({ 'system.improve': false })
+      } catch { /* migration deletes an unknown legacy field */ }
+    }
   }
 
   static async _onCocGrowthModule(event) {
@@ -312,12 +325,13 @@ export class CocCharacterSheet extends BRPCharacterSheet {
     if (!entry || entry.undone) return
     const item = this.actor.items.get(entry.skillId)
     const gain = Number(entry.gain ?? (Number(entry.after) - Number(entry.before))) || 0
-    const xp = Number(item?.system.xp ?? 0)
+    const xp = item ? skillXp(skillSourceSystem(item)) : 0
     if (!item || xp < gain) {
       ui.notifications.warn('技能此后已被其他调整修改，不能按原成长记录撤销。')
       return
     }
-    await item.update({ 'system.xp': xp - gain })
+    await item.update(skillXpUpdate(xp - gain))
+    this.actor.prepareData()
     log[index] = { ...entry, undone: true }
     await this.actor.update({ 'flags.brp.coc.growthLog': log })
   }
@@ -556,7 +570,7 @@ export class CocCharacterSheet extends BRPCharacterSheet {
 
   static async _onCocInterlude(event) {
     event.preventDefault()
-    if (!this.isEditable || this.actor.system.lock === true) return
+    if (!this.isEditable) return
     const { CocInterludeSheet } = await import('./interlude.mjs')
     new CocInterludeSheet({ document: this.document }).render(true)
   }

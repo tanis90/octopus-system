@@ -9,6 +9,7 @@
           {{else}}<h1 class="name">{{cocHeader.name}}</h1>{{/if}}
           <div class="subtitle"><span>{{cocHeader.profession}}</span><span>{{cocHeader.age}} 岁</span><span>{{cocHeader.sex}}</span><span>居住地：{{cocHeader.residence}}</span><span>玩家：{{cocHeader.playername}}</span></div>
         </div>
+        {{#if canInterlude}}<button type="button" class="small-button coc-interlude" data-action="cocInterlude">幕间结算</button>{{/if}}
       </div>
       <div class="vitals">
         <div class="vital hp" style="--pct:{{cocHeader.hp.percent}}%"><div class="vital-top"><span class="vital-label">生命</span><span class="vital-value">{{#if isCoCEdit}}<input name="system.attribs.hp.value" type="number" value="{{cocHeader.hp.value}}" data-dtype="Number"> <small>/ {{cocHeader.hp.max}}</small>{{else}}{{cocHeader.hp.value}}<small> / {{cocHeader.hp.max}}</small>{{/if}}</span></div><span class="vital-track"><i style="width:{{cocHeader.hp.percent}}%"></i></span></div>

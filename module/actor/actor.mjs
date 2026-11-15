@@ -1,11 +1,13 @@
 import { BRPactorItemDrop } from './actor-itemDrop.mjs'
 import { BRPID } from '../brpid/brpid.mjs';
 import { Rules } from '../rules/index.mjs';
+import { skillTotal } from '../rules/coc-skill-fields.mjs';
 import {
   applyCocStatus,
   canonicalCocStatusId,
   cocStatusActive,
   cocStatusIds,
+  reviveCocActor,
 } from './coc-status.mjs';
 
 export class BRPActor extends Actor {
@@ -42,6 +44,12 @@ export class BRPActor extends Actor {
     return applyCocStatus(this, statusId, active, options)
   }
 
+  // Keeper-only undo for a death the damage chain declared. Exposed on the actor
+  // so the sheet, the HUD path and future macros all reach one implementation.
+  async reviveCoc(options = {}) {
+    return reviveCocActor(this, options)
+  }
+
   prepareBaseData() {
     this.system.brpidFlagItems = {}
     for (const item of this.items) {
@@ -61,12 +69,10 @@ export class BRPActor extends Actor {
     this._prepCocNativeDerived()
     for (const item of this.items) {
       if (item.type !== 'skill') continue
-      const system = item.system ?? {}
-      const adjustments = system.adjustments ?? {}
-      item.system.total = Number(system.base ?? 0)
-        + Number(adjustments.base ?? 0) + Number(adjustments.personal ?? 0)
-        + Number(adjustments.occupation ?? 0) + Number(adjustments.archetype ?? 0)
-        + Number(adjustments.experiencePackage ?? 0) + Number(adjustments.experience ?? 0)
+      // Derived-only total. Legacy flat adjustments (`xp`, `profession`,
+      // `personal`, ...) are read as fallbacks by the pure resolver so an
+      // un-migrated actor keeps its score instead of collapsing to NaN/0.
+      item.system.total = skillTotal(item.system)
     }
     this._prepSanity()
     this._prepLuck()
@@ -128,7 +134,9 @@ export class BRPActor extends Actor {
       || item.flags.brp?.coc?.key === 'cthulhu-mythos'
       || item.system?.skillName === '克苏鲁神话'
     ))
-    return Math.max(0, Math.min(100, Number(skill?.system?.total) || 0))
+    // Experience already gained still counts even when noxpgain forbids future
+    // ticks: Mythos base 0 + adjustments.experience 10 is 10, so SAN max is 89.
+    return Math.max(0, Math.min(100, skillTotal(skill?.system ?? {})))
   }
 
   async initSanity() {

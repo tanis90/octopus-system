@@ -786,6 +786,7 @@
       "advanceDayHint": "推进世界时间 1 天",
       "timeAdvanced": "世界时间已推进 {hours} 小时",
       "timeAdvanceFailed": "只有 activeGM 能推进世界时间",
+      "settlementPending": "该调查员还有未结算的理智检定；请先结算或重试，再掷新的检定",
       "madness": {
         "durationHours": "{hours} 小时",
         "boutRounds": "{rounds} 轮",

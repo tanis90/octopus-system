@@ -7,6 +7,14 @@
 // and the mapping never writes back to an Item or Actor.
 
 import { resolveWeaponSkill } from '../../../rules/coc-weapon-skill.mjs'
+import {
+  skillAdjustments,
+  skillNoXP,
+  skillSourceSystem,
+  skillTicked,
+  skillTotal,
+  skillTotalInfo,
+} from '../../../rules/coc-skill-fields.mjs'
 
 const OTHER_CATEGORY = 'other'
 
@@ -206,29 +214,21 @@ const toItems = (source) => {
   return []
 }
 
-const skillBreakdownOf = (system) => ({
-  base: numberOr(system?.base),
-  adjustmentBase: numberOr(system?.adjustments?.base),
-  occupation: numberOr(system?.adjustments?.occupation),
-  personal: numberOr(system?.adjustments?.personal),
-  archetype: numberOr(system?.adjustments?.archetype),
-  experiencePackage: numberOr(system?.adjustments?.experiencePackage),
-  experience: numberOr(system?.adjustments?.experience),
-})
-
-const sumBreakdown = (breakdown) => breakdown.base + breakdown.adjustmentBase
-  + breakdown.occupation + breakdown.personal + breakdown.archetype
-  + breakdown.experiencePackage + breakdown.experience
-
-const hasBreakdownValue = (system) => numberOrNull(system?.base) !== null
-  || Object.values(system?.adjustments ?? {}).some((value) => numberOrNull(value) !== null)
-
-const skillTotalOf = (item) => {
-  const stored = numberOrNull(item?.system?.total)
-  if (stored !== null) return stored
-  if (!hasBreakdownValue(item?.system)) return null
-  return sumBreakdown(skillBreakdownOf(item?.system))
+const skillBreakdownOf = (system) => {
+  const source = system ?? {}
+  const adjustments = skillAdjustments(source)
+  return {
+    base: numberOr(source.base),
+    adjustmentBase: adjustments.base,
+    occupation: adjustments.occupation,
+    personal: adjustments.personal,
+    archetype: adjustments.archetype,
+    experiencePackage: adjustments.experiencePackage,
+    experience: adjustments.experience,
+  }
 }
+
+const skillTotalOf = (item) => skillTotal(skillSourceSystem(item))
 
 /**
  * Stable category id for a skill Item (or a brpid string).
@@ -243,11 +243,11 @@ export function cocSkillCategoryOf(item) {
 }
 
 const skillRowOf = (item) => {
-  const system = item?.system ?? {}
+  const system = skillSourceSystem(item)
   const specKey = text(system.specialization) || null
   const parentKey = null
   const breakdown = skillBreakdownOf(system)
-  const total = skillTotalOf(item) ?? 0
+  const total = skillTotal(system)
   breakdown.total = total
   const breakdownText = [
     ['基础', breakdown.base], ['基础调整', breakdown.adjustmentBase], ['职业', breakdown.occupation],
@@ -263,7 +263,8 @@ const skillRowOf = (item) => {
     half: Math.floor(total / 2),
     fifth: Math.floor(total / 5),
     specialism: system.specialism === true || specKey !== null,
-    improve: system.improve === true,
+    improve: skillTicked(system),
+    noXP: skillNoXP(system),
     uncommon: brpidOf(item) === 'i.skill.coc.cthulhu-mythos',
     specKey,
     parentKey,
@@ -403,7 +404,8 @@ export function buildCocSanityView(sanity) {
 export function buildCocWeaponView(item, actor) {
   const system = item?.system ?? {}
   const skill = resolveCocWeaponSkill(item, actor)
-  const skillTotal = skill ? skillTotalOf(skill) : null
+  const skillScore = skill ? skillTotalInfo(skillSourceSystem(skill)) : null
+  const skillTotal = skillScore?.valid ? skillScore.total : null
   const ammoCapacity = numberOr(system.ammo)
   const ammoCurrent = numberOr(system.bullets, ammoCapacity)
   const malfunction = numberOr(system.malfunction)

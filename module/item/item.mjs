@@ -1,6 +1,7 @@
 import { BRPCheck } from "../apps/check.mjs"
 import { isCtrlKey } from '../apps/helper.mjs'
 import { BRPID } from '../brpid/brpid.mjs';
+import { skillTotal } from '../rules/coc-skill-fields.mjs'
 
 const ITEM_ICONS = Object.freeze({
   item: 'systems/brp/assets/Icons/knapsack.svg',
@@ -34,6 +35,14 @@ export class BRPItem extends Item {
   prepareDerivedData() {
     const itemData = this;
     const systemData = itemData.system;
+
+    // Skills: `total` is derived only (base + adjustments), never persisted.
+    // A standalone item (compendium preview, drop preview) has no actor prepare
+    // to fill it in, and an old document may still carry a legacy score, so the
+    // canonical resolver is the only source of truth here.
+    if (itemData.type === 'skill' && systemData) {
+      systemData.total = skillTotal(systemData)
+    }
 
     //Set Resource Labels
     if (game.settings.get('brp', 'ppLabelLong')) {

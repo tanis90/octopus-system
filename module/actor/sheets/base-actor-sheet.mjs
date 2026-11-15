@@ -12,6 +12,28 @@ import { BRPCharDev } from "../../apps/charDev.mjs";
 import { BRPSanity } from "../../apps/sanity.mjs";
 import { Rules } from "../../rules/index.mjs";
 
+// CoC native skill fields live in `system.adjustments.*`; the legacy flat names
+// are input aliases from the paper card, never write targets.
+const COC_SKILL_INLINE_PATHS = Object.freeze({
+  base: 'system.base',
+  profession: 'system.adjustments.occupation',
+  personal: 'system.adjustments.personal',
+  xp: 'system.adjustments.experience',
+  effects: 'system.adjustments.base',
+  culture: 'system.adjustments.experiencePackage',
+  personality: 'system.adjustments.archetype',
+})
+
+const activeRulesetIsCoc = () => {
+  try { return Rules.activeId() === 'coc' } catch { return false }
+}
+
+const finiteInlineNumber = (value) => {
+  const raw = String(value ?? '').trim()
+  const parsed = raw === '' ? 0 : Number(raw)
+  return Number.isFinite(parsed) ? parsed : null
+}
+
 export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
   constructor(options = {}) {
     super(options);
@@ -656,11 +678,23 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
     const element = event.currentTarget;
     const li = $(event.currentTarget).closest(".item");
     const item = this.actor.items.get(li.data("itemId"));
+    if (!item) return;
     let field = event.target.dataset.field;
     let newScore = event.target.value;
-    if (['base', 'quantity', 'adjustments.base', 'adjustments.personal', 'adjustments.occupation',
-      'adjustments.archetype', 'adjustments.experiencePackage', 'adjustments.experience'].includes(field)) {
-      newScore = Number(newScore)
+    const cocSkillPath = item.type === 'skill' && activeRulesetIsCoc()
+      ? COC_SKILL_INLINE_PATHS[field]
+      : null;
+    if (cocSkillPath) {
+      const parsed = finiteInlineNumber(newScore);
+      if (parsed === null) return;
+      newScore = parsed;
+      field = cocSkillPath;
+    } else if (['base', 'quantity', 'adjustments.base', 'adjustments.personal', 'adjustments.occupation',
+        'adjustments.archetype', 'adjustments.experiencePackage', 'adjustments.experience',
+        'currHP', 'npcVal', 'hpCurr', 'ammoCurr', 'av1', 'ppCurr', 'pSCurr'].includes(field)) {
+      const parsed = finiteInlineNumber(newScore);
+      if (parsed === null) return;
+      newScore = parsed;
       field = 'system.' + field;
     } else if (['displayName', 'ap', 'bap', 'apRnd', 'bapRnd', 'att', 'dmg1'].includes(field)) {
       field = 'system.' + field;
@@ -670,6 +704,7 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       return
     }
     await item.update({ [field]: newScore });
+    if (item.type === 'skill' && activeRulesetIsCoc()) this.actor.prepareData();
     this.actor.render(false);
     return;
   }

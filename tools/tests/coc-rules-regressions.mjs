@@ -34,6 +34,10 @@ import { createHash } from "node:crypto";
 import { Rules } from "../../module/rules/index.mjs";
 import { BRPRules } from "../../module/rules/brp.mjs";
 import { CoCSanity } from "../../module/rules/coc-sanity.mjs";
+import {
+  skillNoXP, skillTicked, skillXp, skillTotal, skillTotalInfo, skillAdjustments,
+  normalizeSkillSystem, planSkillMigration, skillNoXPUpdate, skillTickUpdate, skillXpUpdate,
+} from "../../module/rules/coc-skill-fields.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), "utf8"));
@@ -572,6 +576,20 @@ check("cocHalfDamageBonus", coc.combat.halfDamageBonus("+1D6") === "1D3"
   && coc.combat.damageBonusFor({ dbFull: "+1D6", dbHalf: "1D3", mode: "half" }) === "1D3"
   && coc.combat.damageBonusFor({ dbFull: "+1D6", dbHalf: "1D3", mode: "none" }) === "0",
   { one: coc.combat.halfDamageBonus("+1D6"), three: coc.combat.halfDamageBonus("+3D6"), minusOne: coc.combat.halfDamageBonus("-1") });
+check("cocResolveDamageBonusPrecedence", (() => {
+  const resolve = (input) => coc.combat.resolveDamageBonus(input);
+  const autoFresh = resolve({ db: { auto: true, value: null }, derived: { full: "+1D4", half: "1D2" } });
+  // A stale prepared value never beats the live derivation of an auto slot.
+  const autoStale = resolve({ db: { auto: true, value: "+0" }, derived: { full: "+1D4", half: "1D2" } });
+  const keeper = resolve({ db: { auto: false, value: "+1D6" }, derived: { full: "+0", half: "0" } });
+  const legacy = resolve({ legacy: { full: "+1D4", half: "1D2" } });
+  const nothing = resolve({});
+  return autoFresh.full === "+1D4" && autoFresh.half === "1D2" && autoFresh.source === "derived"
+    && autoStale.full === "+1D4" && autoStale.half === "1D2"
+    && keeper.full === "+1D6" && keeper.half === "1D3" && keeper.source === "keeper"
+    && legacy.full === "+1D4" && legacy.half === "1D2" && legacy.source === "legacy"
+    && nothing.full === "0" && nothing.half === "0" && nothing.source === "none";
+})(), null);
 check("cocDerivedHalfDbIsHalved", (() => {
   const derived = coc.deriveSecondary({
     actorData: {},
@@ -828,6 +846,179 @@ check("cocM4GrowthContract", coc.growth.canTick({ rollType: "SK", resultLevel: 2
     cocLuck: coc.growth.canTick({ rollType: "SK", resultLevel: 2, luckSpent: 3 }),
     octopusFixed: runtimeOctopus.growth.allowFixedTier });
 
+// ---------------------------------------------------------------------------
+// M5 skill field contract: canonical write surface, legacy read compatibility,
+// derived-only total, no double counting, NaN discipline and the one-shot
+// migration planner.
+// ---------------------------------------------------------------------------
+const applyDotted = (target, updates = {}) => {
+  for (const [path, value] of Object.entries(updates)) {
+    // The planner emits document paths (`system.…`); the test applies them to a
+    // bare system object.
+    const parts = path.split(".");
+    const body = parts[0] === "system" ? parts.slice(1) : parts;
+    let node = target;
+    for (const part of body.slice(0, -1)) {
+      if (!node[part] || typeof node[part] !== "object") node[part] = {};
+      node = node[part];
+    }
+    node[body[body.length - 1]] = value;
+  }
+  return target;
+};
+
+check("cocSkillFieldsCanonical", (() => {
+  const system = {
+    base: "25",
+    adjustments: { base: 0, personal: 10, occupation: 20, archetype: 0, experiencePackage: 0, experience: 5 },
+    properties: { noxpgain: true },
+    flags: { developement: true },
+  };
+  const info = skillTotalInfo(system);
+  return skillTotal(system) === 60 && skillXp(system) === 5
+    && skillNoXP(system) === true && skillTicked(system) === true
+    && skillAdjustments(system).occupation === 20
+    && info.total === 60 && info.valid === true && info.invalid.length === 0;
+})(), null);
+
+check("cocSkillFieldsLegacyReadCompat", (() => {
+  const system = {
+    base: "25", xp: 5, personal: 10, profession: 20, personality: 0, culture: 0,
+    noXP: true, improve: true,
+  };
+  return skillTotal(system) === 60 && skillXp(system) === 5
+    && skillNoXP(system) === true && skillTicked(system) === true
+    && skillAdjustments(system).occupation === 20
+    && skillAdjustments(system).experience === 5;
+})(), null);
+
+check("cocSkillFieldsCanonicalWinsWithoutDoubleCount", (() => {
+  // Both shapes present: canonical is authoritative and legacy is never added.
+  const system = {
+    base: "25",
+    adjustments: { personal: 3, occupation: 0, experience: 7 },
+    xp: 5, personal: 10, profession: 20,
+  };
+  const adjustments = skillAdjustments(system);
+  return skillTotal(system) === 35 && skillXp(system) === 7
+    && adjustments.personal === 3 && adjustments.occupation === 0;
+})(), null);
+
+check("cocSkillFieldsNeitherShape", (() => {
+  const empty = skillTotalInfo({});
+  const zero = skillTotalInfo({ base: "0" });
+  return empty.total === 0 && empty.valid === false
+    && zero.total === 0 && zero.valid === true
+    && skillTotal({ base: undefined, adjustments: { experience: 4 } }) === 4;
+})(), null);
+
+check("cocSkillFieldsNaNNeverLeaks", (() => {
+  const nan = skillTotalInfo({ base: "abc", adjustments: { personal: "oops" } });
+  return Number.isFinite(nan.total) && nan.total === 0 && nan.valid === false
+    && nan.invalid.includes("base") && nan.invalid.includes("adjustments.personal")
+    && Number.isFinite(skillTotal({ base: null, adjustments: { experience: "7" } }))
+    && skillTotal({ base: null, adjustments: { experience: "7" } }) === 7;
+})(), null);
+
+check("cocSkillFieldsNoXPKeepsExperience", (() => {
+  // Mythos: base 0 + experience 10 stays 10 even though future growth is banned.
+  const mythos = { base: "0", adjustments: { experience: 10 }, properties: { noxpgain: true } };
+  return skillTotal(mythos) === 10 && skillXp(mythos) === 10 && skillNoXP(mythos) === true
+    && Rules.for("coc").sanity.prepare({ pow: 40, starting: 40, mythosPercent: skillTotal(mythos) }).max === 89;
+})(), null);
+
+check("cocSkillFieldsWriteHelpersAreCanonicalOnly", (() => {
+  const noxp = skillNoXPUpdate(true);
+  const tick = skillTickUpdate(false);
+  const xp = skillXpUpdate(7.9);
+  const normalized = normalizeSkillSystem({
+    base: 25, xp: 5, personal: 10, profession: 20, personality: 10, culture: 5,
+    occupation: true, prsnlty: true, cultural: true, improve: true,
+  });
+  const keys = [...Object.keys(noxp), ...Object.keys(tick), ...Object.keys(xp)];
+  return keys.every((key) => /^system\.(properties\.noxpgain|flags\.developement|adjustments\.experience)$/.test(key))
+    && noxp["system.properties.noxpgain"] === true
+    && tick["system.flags.developement"] === false
+    && xp["system.adjustments.experience"] === 7
+    && normalized.base === "25"
+    && normalized.adjustments.experience === 5
+    && normalized.adjustments.occupation === 20
+    && normalized.adjustments.personal === 10
+    && normalized.adjustments.archetype === 10
+    && normalized.adjustments.experiencePackage === 5
+    && normalized.properties.noxpgain === false
+    && normalized.flags.developement === true
+    && normalized.flags.occupation === true
+    && normalized.flags.archetype === true
+    && normalized.flags.experiencePackage === true
+    && !("xp" in normalized) && !("total" in normalized);
+})(), null);
+
+check("cocSkillFieldsMigrationIsIdempotent", (() => {
+  const raw = {
+    base: "25", total: 73,
+    xp: 5, improve: true, oppimprove: true,
+    personal: 10, profession: 20, personality: 10, culture: 5, effects: 3,
+    occupation: true, prsnlty: true, cultural: true,
+  };
+  const first = planSkillMigration(raw);
+  const writes = first.updates;
+  // Canonical values land in their buckets, every legacy key that carried a
+  // value is zeroed, and the derived total is cleared.
+  const canonicalOk = writes["system.adjustments.experience"] === 5
+    && writes["system.adjustments.personal"] === 10
+    && writes["system.adjustments.occupation"] === 20
+    && writes["system.adjustments.archetype"] === 10
+    && writes["system.adjustments.experiencePackage"] === 5
+    && writes["system.flags.developement"] === true
+    && writes["system.flags.occupation"] === true
+    && writes["system.flags.archetype"] === true
+    && writes["system.flags.experiencePackage"] === true;
+  const zeroOk = ["xp", "personal", "profession", "personality", "culture", "effects", "total"]
+    .every((key) => writes[`system.${key}`] === 0)
+    && ["improve", "oppimprove", "occupation", "prsnlty", "cultural"]
+      .every((key) => writes[`system.${key}`] === false);
+  const applied = applyDotted(JSON.parse(JSON.stringify(raw)), writes);
+  const second = planSkillMigration(applied);
+  // Canonical present + legacy zeroed => a second run is a no-op.
+  return first.changed === true && canonicalOk && zeroOk && second.changed === false
+    && Object.keys(second.updates).length === 0
+    && skillTotal(applied) === 75; // 25 base + 10 personal + 20 occupation + 10 archetype + 5 package + 5 experience
+})(), null);
+
+check("cocSkillFieldsMigrationClearsDirtyNoXPTick", (() => {
+  const raw = { base: "0", xp: 10, noXP: true, improve: true };
+  const plan = planSkillMigration(raw);
+  const applied = applyDotted(JSON.parse(JSON.stringify(raw)), plan.updates);
+  return plan.updates["system.properties.noxpgain"] === true
+    && plan.updates["system.flags.developement"] === false
+    && plan.updates["system.adjustments.experience"] === 10
+    && plan.updates["system.noXP"] === false
+    && plan.updates["system.improve"] === false
+    && skillTotal(applied) === 10
+    && skillNoXP(applied) === true
+    && skillTicked(applied) === false
+    && planSkillMigration(applied).changed === false;
+})(), null);
+
+check("cocSkillFieldsMigrationNeverOverwritesCanonical", (() => {
+  const raw = {
+    base: "25",
+    adjustments: { experience: 7, occupation: 3 },
+    xp: 5, profession: 20,
+  };
+  const plan = planSkillMigration(raw);
+  const applied = applyDotted(JSON.parse(JSON.stringify(raw)), plan.updates);
+  return plan.changed === true
+    && plan.updates["system.adjustments.experience"] === undefined
+    && plan.updates["system.adjustments.occupation"] === undefined
+    && plan.updates["system.xp"] === 0
+    && plan.updates["system.profession"] === 0
+    && skillTotal(applied) === 35
+    && skillXp(applied) === 7;
+})(), null);
+
+
 check("cocM4MadnessTables", coc.madness.boutTable.length === 10
   && new Set(coc.madness.boutTable.map((entry) => entry.id)).size === 10
   && coc.madness.manifestationDie === "1D10" && coc.madness.durationDie === "1D10"
@@ -856,6 +1047,52 @@ check("cocM4IntegrationUsesRealRollAndNoSecondRestPath", (() => {
     && /game\.settings\.register\('brp', "worldTime"/.test(settingsSource)
     && /scope: "world"/.test(settingsSource);
 })(), null);
+
+// M5 fixed writer: the owner path must be an API + flags contract, not a new
+// transport or schema. This locks the public surface (settleOwned/retry/pending,
+// the coc-sn settleId, the flag-only settlement records, the ownership inputs)
+// and the "no new socket message / no backend schema" boundary.
+check("cocM5FixedWriterOwnerContract", (() => {
+  const sanity = readFileSync(join(ROOT, "module/apps/sanity.mjs"), "utf8");
+  const checkSource = readFileSync(join(ROOT, "module/apps/check.mjs"), "utf8");
+  const socket = readFileSync(join(ROOT, "module/apps/socket.mjs"), "utf8");
+  const init = readFileSync(join(ROOT, "module/hooks/init.mjs"), "utf8");
+  const cocSocketTypes = [...socket.matchAll(/case '(cocSan[A-Za-z]+)':/g)]
+    .map((match) => match[1]).sort();
+  return /static async settleOwned\(/.test(sanity)
+    && /static async retry\(/.test(sanity)
+    && /static async pending\(/.test(sanity)
+    && /static ownershipOf\(/.test(sanity)
+    && /`coc-sn:\$\{id\}`/.test(sanity)
+    && /flags\.mtcompat/.test(sanity)
+    && /actor\.ownership/.test(sanity)
+    && /'flags\.brp\.coc\.sanity\.settlements'/.test(sanity)
+    && /'flags\.brp\.coc\.sanity\.pendingSettlementId'/.test(sanity)
+    && !/flags\.brp\.coc\.sanity\.settlements'?\]?\s*[:=]\s*system\./.test(sanity)
+    && /settleOwned:\s*\(options\)/.test(init)
+    && /retry:\s*\(options\)/.test(init)
+    && /pending:\s*\(options\)/.test(init)
+    && /BRPSanity\.canStart\(/.test(checkSource)
+    && /return BRPCheck\.startCheck\(config\)/.test(checkSource)
+    // Projection repair stays narrow: authority is derived from the message
+    // author/active GM, the socket handler is the same message type, and the
+    // repair entry refuses anything the actor has not applied.
+    && /static cardRepairAuthority\(/.test(sanity)
+    && /static async repairCardFromRecord\(/.test(sanity)
+    && /action === 'cardRepair'/.test(socket)
+    && /settlement-not-applied/.test(sanity)
+    && /updatedAtClient: Date\.now\(\)/.test(sanity)
+    && /updatedAtClient: numberOrNull\(record\.updatedAtClient\)/.test(sanity)
+    // Native damage bonus: the combat path reads the rules resolver, never the
+    // BRP-era slot directly.
+    && /static cocDamageBonus\(/.test(checkSource)
+    && (checkSource.match(/BRPCheck\.cocDamageBonus\(/g) ?? []).length >= 2
+    && /resolveDamageBonus\(/.test(checkSource)
+    && !/dbFull:\s*\w+\.system\?\.dmgBonus/.test(checkSource)
+    && /resolveDamageBonus/.test(readFileSync(join(ROOT, "module/rules/coc-combat.mjs"), "utf8"))
+    && cocSocketTypes.join(",") === "cocSanAction,cocSanSettle";
+})(), null);
+
 
 check("cocM4I18nFacts", (() => {
   const en = readJson("lang/en.json");
@@ -2385,6 +2622,121 @@ check("cocLuckCheckNormalise", await (async () => {
   return failures.length ? failures : true;
 })(), "rollType LK normalises like the sheet luck button expects (explicit + derived scores)");
 
+// Native CoC damage bonus: the printed DB lives in `attribs.db` (auto-derived
+// from STR+SIZ or keeper-entered), not in the BRP-era `system.dmgBonus`. The
+// declare path must read the real slot: unarmed is 1D3 + full DB, so STR+SIZ 130
+// is 1D3+1D4, an extreme hit is 3+4=7, and a firearm still adds no DB.
+const nativeDbResult = await (async () => {
+  const { BRPCheck } = await import(pathToFileURL(join(ROOT, "module/apps/check.mjs")).href);
+  const failures = [];
+  const expect = (label, actual, wanted) => {
+    if (JSON.stringify(actual) !== JSON.stringify(wanted)) {
+      failures.push(`${label}: ${JSON.stringify(actual)} != ${JSON.stringify(wanted)}`);
+    }
+  };
+
+  const rollQueue = [];
+  class QueueRoll {
+    constructor(formula) { this.formula = formula; this.total = 0; this.dice = []; }
+    async evaluate() {
+      if (!rollQueue.length) { throw new Error(`unexpected roll ${this.formula}`); }
+      this.total = rollQueue.shift();
+      this.dice = [{ values: [this.total] }];
+      return this;
+    }
+  }
+  globalThis.Roll = QueueRoll;
+  globalThis.CONST = { CHAT_MESSAGE_STYLES: { OTHER: 0 } };
+  globalThis.ChatMessage = {
+    getSpeaker: () => ({}),
+    create: async (data) => ({ _id: "declare-card", flags: data.flags }),
+  };
+
+  const brawl = {
+    _id: "brawl", id: "brawl", name: "斗殴", type: "skill",
+    system: { total: 60, base: 25, skillName: "斗殴" },
+    flags: { brp: { brpidFlag: { id: "i.skill.coc.fighting-brawl" }, coc: { key: "fighting-brawl" } } },
+  };
+  const weapon = (id, name, damage, properties, unarmed) => ({
+    _id: id, id, name, type: "weapon",
+    system: {
+      dmg1: damage,
+      skill: { main: { name: brawl.name, id: brawl._id }, alternativ: { name: "", id: "" } },
+      range: {
+        normal: { value: "", damage },
+        long: { value: "", damage: "" },
+        extreme: { value: "", damage: "" },
+      },
+      properties,
+      mal: null,
+    },
+    flags: { brp: { unarmed } },
+  });
+  const unarmed = weapon("unarmed", "徒手（斗殴）", "1D3", { addb: true }, true);
+  const pistol = weapon("pistol", ".38 左轮", "1D10", { rngd: true, addb: true }, false);
+
+  const actor = {
+    id: "pc-db-130", name: "壮汉", type: "character", img: "actor.png", isOwner: true,
+    prototypeToken: { randomImg: false },
+    system: {
+      characteristics: { str: { value: 65 }, siz: { value: 65 }, int: { value: 60 } },
+      attribs: { db: { auto: true, value: null } },
+    },
+    items: {
+      get: (id) => [brawl, unarmed, pistol].find((item) => item._id === id),
+      *[Symbol.iterator]() { yield brawl; yield unarmed; yield pistol; },
+    },
+  };
+  globalThis.game = {
+    settings: { get: (namespace, key) => (namespace === "brp" && key === "ruleset" ? "coc" : false), register() {} },
+    i18n: { localize: (key) => key, format: (key) => key },
+    user: { id: "owner1", isGM: false, targets: new Set() },
+    users: { activeGM: null },
+    actors: { get: (id) => (id === actor.id ? actor : null) },
+    messages: { get: () => null },
+    items: { get: () => null },
+    socket: { emit() {} },
+  };
+  globalThis.ui = { notifications: { error() {}, warn() {} } };
+
+  // Resolution precedence: auto slot -> live derivation; keeper value wins and
+  // is halved by the same rule; legacy BRP slot still reads back.
+  const auto = BRPCheck.cocDamageBonus(actor);
+  expect("auto.full", auto.full, "+1D4");
+  expect("auto.half", auto.half, "1D2");
+  expect("auto.source", auto.source, "derived");
+  const keeper = BRPCheck.cocDamageBonus({
+    system: { attribs: { db: { auto: false, value: "+1D6" } }, characteristics: actor.system.characteristics },
+  });
+  expect("keeper.full", keeper.full, "+1D6");
+  expect("keeper.half", keeper.half, "1D3");
+  const legacy = BRPCheck.cocDamageBonus({ system: { dmgBonus: { full: "+1D4", half: "1D2" } } });
+  expect("legacy.full", legacy.full, "+1D4");
+  expect("legacy.half", legacy.half, "1D2");
+
+  rollQueue.push(40, 7); // d100 regular, damage roll 1D3+1D4 = 7
+  const regular = await BRPCheck.cocDeclareAttack({ actor, itemId: unarmed._id });
+  expect("unarmed.regular.error", regular.error ?? null, null);
+  expect("unarmed.regular.formula", regular.damageFormula, "1D3+1D4");
+  expect("unarmed.regular.total", regular.damageTotal, 7);
+  expect("unarmed.regular.tier", regular.damageTier, "regular");
+
+  rollQueue.push(1, 7); // d100 critical -> extreme: max(1D3)+max(1D4) = 7
+  const extreme = await BRPCheck.cocDeclareAttack({ actor, itemId: unarmed._id });
+  expect("unarmed.extreme.formula", extreme.damageFormula, "7");
+  expect("unarmed.extreme.total", extreme.damageTotal, 7);
+  expect("unarmed.extreme.tier", extreme.damageTier, "extreme");
+
+  rollQueue.push(40, 6); // firearm: addb never adds DB in CoC
+  const gun = await BRPCheck.cocDeclareAttack({ actor, itemId: pistol._id });
+  expect("pistol.formula", gun.damageFormula, "1D10");
+  expect("pistol.total", gun.damageTotal, 6);
+
+  if (rollQueue.length) { failures.push(`unconsumed rolls: ${JSON.stringify(rollQueue)}`); }
+  return failures.length ? failures : true;
+})();
+check("cocDeclareAttackUnarmedUsesNativeDamageBonus", nativeDbResult === true, nativeDbResult);
+
 // CoC HP is the native `system.attribs.hp` resource. The damage/treatment path
 // must read that field (never a legacy `system.health`) and a major wound's CON
 // check must use the native derived `characteristics.con`. Host globals were
@@ -2507,6 +2859,7 @@ const weaponResolutionResult = await (async () => {
     system: { base: "0", adjustments: { personal: 50 } },
   });
   const handgun = skill("skill-handgun", "枪械（手枪）", 45, {
+    system: { base: "45" },
     flags: { brp: { brpidFlag: { id: "i.skill.coc.firearms-handgun" }, coc: { specKey: "handgun" } } },
   });
   const dagger = {
@@ -2601,7 +2954,7 @@ check("cocWeaponResolutionNativeAndLegacy", weaponResolutionResult === true, wea
 // --- 10) One status mapping: card <-> HUD, damage/recovery, madness, refresh ---
 const statusResult = await (async () => {
   const {
-    applyCocStatus, cocConditionValue, cocStatusActive, cocStatusIds, cocWoundConditionWrites,
+    applyCocStatus, cocConditionValue, cocStatusActive, cocStatusIds, cocWoundConditionWrites, reviveCocActor,
   } = await import(pathToFileURL(join(ROOT, "module/actor/coc-status.mjs")).href);
   const { BRPDamage } = await import(pathToFileURL(join(ROOT, "module/combat/damage.mjs")).href);
   const failures = [];
@@ -2715,6 +3068,92 @@ const statusResult = await (async () => {
   expect("deathToggleKeepsCondition", dead.system.conditions.dead.value, true);
   expect("deathToggleKeepsFlag", dead.flags.brp.coc.wounds.dead, true);
 
+  // A manual death marker is sheet state only: it must be reversible and must
+  // never enter the wounds audit trail the damage chain reads.
+  const manualDeath = makeActor({ hp: { value: 10, max: 10 } });
+  const manualOn = await applyCocStatus(manualDeath, "dead", true);
+  expect("manualDeathApplied", manualOn.applied, true);
+  expect("manualDeathCondition", manualDeath.system.conditions.dead.value, true);
+  expect("manualDeathNoAuditFlag", manualDeath.flags.brp.coc.wounds?.dead ?? false, false);
+  expect("manualDeathReadsActive", cocConditionValue(manualDeath, "dead"), true);
+  expect("manualDeathStatusActive", cocStatusActive(manualDeath, "dead"), true);
+  const manualOff = await applyCocStatus(manualDeath, "dead", false);
+  expect("manualDeathOffApplied", manualOff.applied, true);
+  expect("manualDeathOffCondition", manualDeath.system.conditions.dead.value, false);
+  expect("manualDeathOffNoAuditFlag", manualDeath.flags.brp.coc.wounds?.dead ?? false, false);
+
+  // The damage chain only trusts the audit trail, so a manual marker neither
+  // blocks a new blow nor becomes a recorded death.
+  globalThis.game.actors.get = () => manualDeath;
+  const manualHit = await BRPDamage.applyCoCDamage(manualDeath, { damage: 1, conCheck: false });
+  expect("manualDeathDamageApplies", manualHit.applied, true);
+  expect("manualDeathNotAudited", manualDeath.flags.brp.coc.wounds.dead, false);
+
+  // Keeper undo of a rules-declared death: one write clears the trail, syncs the
+  // conditions, restores 1 HP and records who undid it.
+  const gmRevive = await reviveCocActor(dead, { reason: "keeper-undo" });
+  expect("reviveApplied", gmRevive.applied, true);
+  expect("reviveWoundsDead", dead.flags.brp.coc.wounds.dead, false);
+  expect("reviveWoundsDying", dead.flags.brp.coc.wounds.dying, false);
+  expect("reviveWoundsUnconscious", dead.flags.brp.coc.wounds.unconscious, false);
+  expect("reviveConditionDead", dead.system.conditions.dead.value, false);
+  expect("reviveConditionDying", dead.system.conditions.dying.value, false);
+  expect("reviveConditionUnconscious", dead.system.conditions.unconscious.value, false);
+  expect("reviveConditionMajor", dead.system.conditions.criticalWounds.value, true);
+  expect("reviveHp", dead.system.attribs.hp.value, 1);
+  expect("reviveHpState", dead.flags.brp.coc.wounds.hpValue, 1);
+  expect("reviveHpMaxKept", dead.flags.brp.coc.wounds.hpMax, 10);
+  expect("reviveKeepsMajorWound", dead.flags.brp.coc.wounds.majorWound, true);
+  expect("reviveAuditBy", dead.flags.brp.coc.wounds.lastRevive?.by, "gm1");
+  expect("reviveAuditReason", dead.flags.brp.coc.wounds.lastRevive?.reason, "keeper-undo");
+  expect("reviveAuditAt", typeof dead.flags.brp.coc.wounds.lastRevive?.at, "string");
+  expect("reviveAlreadyUndone", (await reviveCocActor(dead, { reason: "again" })).error, "not-dead");
+
+  // The keeper entry is GM-only; a player cannot undo death from the card.
+  const gmUser = globalThis.game.user;
+  globalThis.game.user = { id: "player1", isGM: false };
+  const playerRevive = await reviveCocActor(makeActor({ wounds: { dead: true, unconscious: true } }), { reason: "sheet-toggle" });
+  expect("revivePlayerRefused", playerRevive.applied, false);
+  expect("revivePlayerError", playerRevive.error, "gm-only");
+  globalThis.game.user = gmUser;
+
+  // Reviving a living actor is a no-op with an explicit error code.
+  const aliveRevive = await reviveCocActor(makeActor(), { reason: "sheet-toggle" });
+  expect("reviveNotDead", aliveRevive.applied, false);
+  expect("reviveNotDeadError", aliveRevive.error, "not-dead");
+
+  // Pre-fix stuck data (wounds.dead with no lastRevive) unlocks the same way.
+  const legacyStuck = makeActor({
+    hp: { value: 0, max: 10 },
+    wounds: {
+      initialised: true, dead: true, dying: false, unconscious: true, majorWound: true,
+      hpValue: 0, hpMax: 10,
+    },
+  });
+  const legacyRevive = await reviveCocActor(legacyStuck, { reason: "legacy-unstick" });
+  expect("legacyStuckReviveApplied", legacyRevive.applied, true);
+  expect("legacyStuckWoundsCleared", legacyStuck.flags.brp.coc.wounds.dead, false);
+  expect("legacyStuckConditionCleared", legacyStuck.system.conditions.dead.value, false);
+  expect("legacyStuckHp", legacyStuck.system.attribs.hp.value, 1);
+  expect("legacyStuckAudit", legacyStuck.flags.brp.coc.wounds.lastRevive?.reason, "legacy-unstick");
+
+  // A test/host environment without a chat layer (or a failing post) must not
+  // fail the revive: the flags are the audit record.
+  const chatHost = globalThis.ChatMessage;
+  delete globalThis.ChatMessage;
+  const noChatRevive = await reviveCocActor(makeActor({ wounds: { dead: true, unconscious: true } }), { reason: "no-chat" });
+  expect("reviveWithoutChatApplies", noChatRevive.applied, true);
+  globalThis.ChatMessage = { getSpeaker: () => ({}), create: async () => { throw new Error("chat down"); } };
+  const failedChatRevive = await reviveCocActor(makeActor({ wounds: { dead: true, unconscious: true } }), { reason: "chat-fails" });
+  expect("reviveWithFailingChatApplies", failedChatRevive.applied, true);
+  globalThis.ChatMessage = chatHost;
+
+  // HP max 0 is floored to 1 so a revive never writes HP above the maximum.
+  const noMaxRevive = await reviveCocActor(makeActor({ hp: { value: 0, max: 0 }, wounds: { dead: true } }), { reason: "no-max" });
+  expect("reviveNoMaxApplies", noMaxRevive.applied, true);
+  expect("reviveNoMaxHp", noMaxRevive.hpValue, 1);
+  expect("reviveNoMaxHpMax", noMaxRevive.hpMax, 1);
+
   // A real episode ends through the existing sanity chain, not a boolean copy.
   const episodeEffect = makeEffect(makeActor(), { name: "临时疯狂", statuses: ["tempInsane"] });
   const episode = makeActor({
@@ -2795,6 +3234,19 @@ const statusResult = await (async () => {
   expect("actorToggleAliasStatus", host.statuses.has("tempInsane"), true);
   await host.toggleStatusEffect("tempoInsane", { active: false });
   expect("actorToggleAliasOff", host.statuses.has("tempInsane"), false);
+
+  // BRPActor#reviveCoc is the same keeper entry, so HUD/macro consumers reach
+  // one implementation instead of re-deriving the unwritten fields.
+  host.flags.brp.coc.wounds = { dead: true, dying: true, unconscious: true, majorWound: true, hpValue: 0, hpMax: 10 };
+  host.system.conditions = { ...defaultConditions(), dead: { value: true }, dying: { value: true }, unconscious: { value: true }, criticalWounds: { value: true } };
+  host.system.attribs.hp = { value: 0, max: 10 };
+  const hostRevive = await host.reviveCoc({ reason: "hud-macro" });
+  expect("actorReviveDelegates", hostRevive.applied, true);
+  expect("actorReviveClearsDead", host.flags.brp.coc.wounds.dead, false);
+  expect("actorReviveCondition", host.system.conditions.dead.value, false);
+  expect("actorReviveHp", host.system.attribs.hp.value, 1);
+  expect("actorReviveReason", host.flags.brp.coc.wounds.lastRevive?.reason, "hud-macro");
+  expect("actorReviveStatusOff", host.statuses.has("dead"), false);
 
   // The damage helper is the same patch table used above.
   const patch = cocWoundConditionWrites({ majorWound: true, dying: true, unconscious: true, dead: false });

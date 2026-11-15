@@ -523,8 +523,14 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
   `specKey`）与 `sourceID` 共用同一真源，角色卡、公开 `BRPCheck.weaponSkill` 与 CM 不再分叉。
   技能读取实时 `system.total`；NPC `npcVal>0` 保持旧自然攻击，否则使用可解析技能，
   无命中来源返回 `weapon-skill-missing`，不缓存命中值、不伪造 0%。
-- 徒手：独立 `flags.brp.coc.weapon = {kind:'melee', dbMode:'full', impaling:false}`
-  标记；伤害 1D3 + 全额 DB。BRP 的 `special:'crush'` 不是 CoC 规则来源。
+- 徒手：独立 `flags.brp.unarmed = true` 标记；伤害 1D3 + 全额 DB。BRP 的
+  `special:'crush'` 不是 CoC 规则来源。
+- DB 来源：原生 CoC 只把印刷 DB 放在 `system.attribs.db`（`auto:true` 由 STR+SIZ
+  推导，`auto:false` 为 keeper 手填）；旧 BRP 档的 `system.dmgBonus.full/half` 只作
+  兼容回退。`module/apps/check.mjs` 的 `cocDamageBonus` 走
+  `CoCCombatRules.resolveDamageBonus`：keeper 手填优先并按同一规则折半，auto 槽优先
+  实时推导（旧 prepare 值不会盖过 STR+SIZ），半骰始终属于所选全额。曾只读
+  `system.dmgBonus`，导致 STR+SIZ 130 的徒手只有 1D3；现恢复 1D3+1D4、极难 7。
 - DB 口径：近战全额、投掷/弓半骰、火器无 DB；双手不改变 DB（BRP 规则不用于 CoC）。
 - 极难伤害：钝击 = 武器满骰 + DB 满骰；穿刺 = 武器满骰 + DB + 追加武器骰。
   `maximize` 在 compat 被忽略，因此满骰由纯函数 `maxOfFormula` 计算。
@@ -560,9 +566,13 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
   无重伤每天 +1 HP。
 - 角色/NPC 的 `dead/unconscious/dying/majorWound` 由原生 conditions、flags 与当前 HP
   共同投影到 `BRPActor.statuses`；卡面和 Token HUD 都经 `module/actor/coc-status.mjs`
-  的同一写入口切换。真实疯狂 episode 结束仍委托 `BRPSanity/BRPMadness`，死亡不能靠
-  HUD 直接清除，永久疯狂不能由 HUD 直接新建；octopus 的 `HP<1 → dead`、
-  `HP<3 → unconscious` 原逻辑保留在非 CoC 分支。
+  的同一写入口切换。`dead` 的手动勾选只写原生 condition（卡面标记），**不进**
+  `flags.brp.coc.wounds` 伤害审计；读投影对二者取或，所以显示不变。规则判定的死亡
+  （`wounds.dead`）仍是终态：HUD/卡面切换被拒（`death-is-terminal`），只有 KP 走
+  `reviveCocActor`（`BRPActor#reviveCoc`，`{reason}`）单次写入撤销——清
+  `dead/dying/unconscious`、HP 恢复至 1、保留 `majorWound` 并记 `lastRevive{at,by,reason}`。
+  真实疯狂 episode 结束仍委托 `BRPSanity/BRPMadness`，永久疯狂不能由 HUD 直接新建；
+  octopus 的 `HP<1 → dead`、`HP<3 → unconscious` 原逻辑保留在非 CoC 分支。
 
 ### 原生/前端可调用面
 
@@ -639,19 +649,67 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
   妄想；永久是终态。
 - 不定疯狂的恢复数量/周期没有可核对的一手公开文本：只返回 `keeper-review` 标记，不编表。
 
-### 单写者、串行与权限
+### 固定写者、串行与幂等
 
-- 所有 SAN 结算、keeper 动作都在 `game.users.activeGM` 上执行；非写者把已决定的损失通过
-  `system.brp` socket 的 `cocSanSettle` 转给写者，返回 `{queued:true}`，本端不写 actor/effect/card。
-- 写者把整个读-改-写放进一条 Promise 链（`settleNow`），并发/连续结算不会对同一份旧 SAN
-  各写一次。
+- 写者由**归属**决定，不由 GM 角色决定。有归属 PC（`flags.mtcompat.ownerId` /
+  `creatorId`，或原生 `ownership[<userId>] = OWNER`；两种形状等价）只由卡主自己的
+  客户端写：卡主掷 SN 时本地 `settleOwned()` 结算，GM 在线/离线都不改变结果，也不先
+  relay 给 GM。GM 的隐式全 actor OWNER 不算归属，不会把无主 NPC 变成有主 PC。
+- GM（或其他非卡主玩家）对有归属 PC 只留 `pending` 卡，返回
+  `{pending:true, error:'card-owner-required'}`，等卡主 `retry()`；不为有主 PC 转
+  activeGM，也不发 socket 消息。
+- 无主 NPC / 无归属 Actor 保持既有 activeGM 单写者链：非写者把已决定的损失通过
+  `system.brp` socket 的 `cocSanSettle` 转给写者（payload 增加 `settleId`），返回
+  `{queued:true}`，本端不写 actor/effect/card；`settleNow` 对有主 PC 返回
+  `{error:'card-owner-required'}`，不会替卡主写。
+- 写者把整个读-改-写放进一条 Promise 链（`_serialize`），并发/连续结算不会对同一份
+  旧 SAN 各写一次。
 - relay 携带 `origin`：写者只接受该 actor 的 OWNER 或 GM；其他玩家来源返回
   `{error:'not-authorised'}`，缺来源返回 `{error:'origin-missing'}`。玩家 relay 的
   `dayId` 一律置空，不能靠声明新游戏日重置第五阈值。
 - keeper 动作（新的一天、结束临时/不定、清除永久、Luck 恢复、推进时钟）通过
   `cocSanAction` 时要求 origin 是 GM；玩家端直接调用返回 `{error:'not-active-gm'}`。
 - 单损、`dayId`、`dayStartSan`、`dayStartSource`、`dailyLoss`、`singleLoss`、三态 insanity
-  都写入 `system.sanity.*` 并保留在 actor 上；`flags.brp.coc.sanityLog` 保留最近 20 条审计。
+  都写入 `system.attribs.san.*` / `flags.brp.coc.sanity.*`；`flags.brp.coc.sanityLog` 保留
+  最近 20 条审计，条目带 `settleId`。
+
+### 结算幂等、pending 与重试（M5）
+
+- `settleId = "coc-sn:<cardMessageId>"` 是一次 SN 卡的幂等键，不是授权令牌：写者只由
+  归属决定。显式 `settleId` 必须与 `cardMessageId` 推导值一致，否则
+  `{error:'settle-id-mismatch'}`。
+- SN 开始前检查 pending：Actor 上有 `pendingSettlementId` 或该 Actor 有未 `applied` 的
+  SN 卡，`_trigger` 直接返回 `false`（不弹难度框、不掷新 d100/损失骰、不建新卡），并把
+  原因写到 `BRPCheck.lastSanityGuard`。`_trigger` 成功时仍返回 `messageId` 字符串。
+- 初始聊天卡在写 Actor 之前先写 `sanitySettlement.status="pending"`（含实际损失与
+  `sanBefore`）；卡写失败不阻断 Actor 结算。
+- Actor 是权威：`flags.brp.coc.sanity.settlements`（最近 20 条，与 `sanityLog` 同界）
+  记录 `{settleId, status, loss, sanBefore, sanAfter, decision, ...}`；
+  `pendingSettlementId` 指向在途记录。同一 settleId 再次进入时：`applied` 直接返回
+  `{applied:true, duplicate:true}`，不掷骰、不扣减、不写 Actor。
+- 双时钟：`updatedAt` 仍是 `BRPWorldTime.now()` 世界秒（规则时钟，只有它参与判定）；
+  每条 settlement（pending / applied / 终态拒绝）与它的卡投影、审计条目另带
+  `updatedAtClient = Date.now()` 毫秒墙钟，供手机卡判断「刚结算」并显示短暂 `-N`。
+  修复卡不刷新该字段，duplicate 返回原值；前端**不得**用 `updatedAt` 或世界秒比较
+  `Date.now()`（手机 `recent` 恒 false 的原因）。
+- 中断恢复：decision、INT 结果与每一个已掷出的 1D10 小时/发作/轮骰都在掷出后立即写回
+  在途记录，`retry` 只补掷**未持久化**的骰；d100、损失骰与已记录结果永不重掷。
+  `retry` 不调用 `_trigger`，损失取卡上 `sanLoss`。
+- 顺序幂等：同一 Actor 同时只允许一笔在途 SN（`pendingSettlementId` 不同 →
+  `{error:'settlement-pending'}`）。本轮**不**宣称多设备严格同时写同一 Actor 的分布式
+  一致性；需要时另立后端条件写/版本前置。
+- 聊天卡是投影，且**只有消息作者或 GM 能改聊天卡**（核心 Foundry 与 compat shim 同款，
+  本仓不放宽全站写守卫）：卡主自己能改自己掷出的卡；GM 代掷的有主 PC 卡由卡主结算
+  Actor 后把投影修复交给作者 / activeGM。`retry` 直接写成功返回
+  `{repaired:true, repairedNow}`；无权限时经既有 `cocSanSettle` 通道发
+  `{action:'cardRepair'}` 给 activeGM（只重写该卡、绝不结算/扣减，无新增消息类型），
+  返回 `{repaired:false, repairRelayed:true, repairBy:{mode:'active-gm', by, authorId}}`；
+  连 activeGM 都不在时返回 `{repairBy:{mode:'message-author', by:<作者 id>}}`，**不静默
+  pending**。`repairCardFromRecord` 只接受：origin 是 GM 或该 Actor 归属者、Actor 已有
+  该 settleId 的 `applied` 记录、卡属于该 Actor 且 settleId 一致，否则 fail closed。
+- 卡上标 `applied` 但 Actor 记录已滚出 20 条窗口时，`retry` 以卡为准返回 duplicate，
+  绝不二次扣减。Actor 已 applied 的旧卡不算在途：`pending().pending=false`，
+  `pending().staleCards`/`cards[].settledOnActor` 标出待修卡，`canStart` 不再被它阻塞。
 
 ### Luck
 
@@ -676,6 +734,41 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
   技能可超过 100，不设自造上限。
 - 角色卡 dev 页在 CoC 下隐藏 fixed 档与 POW 成长控件；octopus 保持原五列/POW 行为。
 
+### 技能成长字段（M5 收口）
+
+唯一写入口径（`module/rules/coc-skill-fields.mjs`）：
+
+| 语义 | 唯一字段 | 禁止再写 |
+| --- | --- | --- |
+| 禁止未来成长 | `system.properties.noxpgain` | `system.noXP` |
+| 待成长勾选 | `system.flags.developement` | `system.improve` / `system.oppimprove` |
+| 已得成长点 | `system.adjustments.experience` | `system.xp` |
+| 分项 | `system.adjustments.base/personal/occupation/archetype/experiencePackage` | `system.personal/profession/personality/culture/occupation/prsnlty/cultural` |
+| 总分 | `system.total`（**仅派生**，不落库） | — |
+
+- `total = base + adjustments.base + personal + occupation + archetype +
+  experiencePackage + experience`；`skillTotal`/`skillTotalInfo` 接管 NaN：任何
+  缺失/非数字读作 0，`valid:false` 表示“整条记录没有分数数据”。
+- 读兼容旧 `system.noXP`/`improve`/`xp` 与旧扁平分项；**规范值优先，旧值只作回退，
+  绝不相加**。`skillXp` 规范 `adjustments.experience` 为 0 也算有效。
+- `noxpgain=true` 只禁止**新**成长（勾选、清单、结算）：不解冻、不抹掉已有
+  `adjustments.experience`；神话 `base 0 + experience 10` 仍是 total 10、SAN 上限 89。
+  撤销勾选（Luck 买成功）只清 `flags.developement`，不动已得经验。
+- 自动勾选（`BRPCheck.tickXP`）、Luck 撤销（`BRPLuck._untickGrowth`）、幕末结算
+  （`BRPCharDev.xpCheck`）对 `type=skill` 只写上述规范字段；非 skill 类型保持各自旧字段。
+  结算前的成长判定用派生分数；分数无效时返回 `{error:'skill-score-invalid'}` 且**不掷骰**，
+  不再出现 `NaN→0` 的假成功。
+- 原生 Item Sheet（`module/item/sheets/skill.mjs`）按规范值投影旧版布局的显示槽，保存时
+  把 `system.xp/profession/personal/personality/culture` 映射回 `adjustments.*`；`noXP`
+  开关写 `properties.noxpgain`。未迁移文档打开不再因缺 `baseFormula`/`groupSkills` 抛错。
+- 拖入（`module/actor/actor-itemDrop.mjs`）把旧技能规范化后再建卡：旧扁平键删除、布尔
+  来源标记进 `flags.occupation/archetype/experiencePackage`，`system.total` 不写入。
+- 一次性迁移（`module/setup/update.mjs#migrateSkillFields`，world update 时调用）：
+  `xp→adjustments.experience`、`noXP→properties.noxpgain`、`improve→flags.developement`、
+  旧扁平分项→`adjustments.*`（**不覆盖**已有规范值），随后把旧字段清零（模型拒绝未知
+  字段时改用 `-=` 删除）。只处理 `type=skill`，幂等：已迁移文档不产生任何写入。
+
+
 ### 时间
 
 - `game.time.worldTime` 在 compat shim 刷新后归 0，不能作为唯一时长来源。
@@ -689,18 +782,25 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 
 ### 原生/前端可调用面
 
-`game.brp.sanity`（`module/hooks/init.mjs`）全部接受纯数据；跨所有者写自动走 activeGM：
+`game.brp.sanity`（`module/hooks/init.mjs`）全部接受纯数据；有主 PC 由卡主客户端写，
+无主 NPC 跨所有者写走 activeGM：
 
 | 方法 | 参数 | 返回 |
 | --- | --- | --- |
 | `state(actor)` | actor | 当前 SAN、day 窗口、临时/不定/永久三态 + statuses + worldTime |
-| `settle(options)` | `{actor 或 actorId/actorType, loss, cardMessageId?, dayId?, reason?}` | 写者：完整结算记录；非写者：`{queued:true, by, loss}` |
+| `settle(options)` | `{actor 或 actorId/actorType, loss, cardMessageId?, settleId?, dayId?, reason?}` | 卡主：完整结算记录（`applied:true`）；非卡主：`{pending:true, error:'card-owner-required', settleId, by, loss}`；无主 NPC 非写者：`{queued:true, by, loss, settleId}` |
+| `settleOwned(options)` | `{actor, loss, cardMessageId?, settleId?}` | 仅卡主/`creatorId` 本人：与 `settle` 同一条规则核心的结算记录；非卡主 `{error:'not-card-owner'}`；无主 `{error:'actor-unowned'}` |
+| `retry(options)` | `{cardMessageId 或 messageId}` | 从卡读已决定的损失重入结算；Actor 已 applied 只修卡：本端可写 `{duplicate:true, repaired:true, repairedNow}`，否则 `{repaired:false, repairRelayed, repairBy:{mode, by, authorId}}`（见下）；非卡主 `{pending:true}`；不调用 `_trigger`、不重掷 d100/损失 |
+| `pending(options)` | `{actor 或 actorId/actorType}` | `{pending, settleId, writer:'owner'/'owner-remote'/'active-gm', record, settlements, cards:[{messageId, settleId, status, loss, sanBefore, sanAfter, authorId, settledOnActor}], staleCards}`；`pending=false` 且 `staleCards` 非空表示 SAN 已写、只剩卡投影待修 |
 | `intCheck(options)` | `{actor, roll}` | 失败/低于阈值不建发作；成功且单损 ≥5 才建临时发作（主 SAN 卡路径已由 `settle` 内联完成 INT，不需要二次调用） |
 | `endTemporary` / `endIndefinite` / `clearPermanent` | `{actor, reason}` | 结束/清除结果 + `state`；后两者必须给 reason |
 | `newDay` | `{actor}` | `{started, dayId, dayStartSan, worldTime}` |
 | `luckRecovery` | `{actor}` | 真实 1D100/2D10+10 或 1D10+5、上限 99、session |
 | `advanceTime` | `{hours,days,minutes,seconds}` | `{advanced, worldTime, dayIndex, crossedDay, expired}` |
 | `expire` | — | 到期临时发作列表 |
+
+`BRPCheck._trigger` 对 SN 保持返回 `messageId` 字符串；pending 拒绝时返回 `false`
+（原因见 `BRPCheck.lastSanityGuard`）。
 
 `game.brp.clock`：`now()`、`dayId()`、`advance(options)`。
 `game.brp.BRPSystemSocket`：`cocSanSettle` / `cocSanAction` 的 socket 入口（测试与 API 用）。
@@ -780,10 +880,17 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 ## 验证口径
 
 - `node tools/tests/coc-rules-regressions.mjs`：核心数据/构建/规则/配点/战斗/
-  创伤/M4 适配器契约。CoC7 名册替换后实测 **150/150**：精确 60 技能 / 9 职业、
+  创伤/M4 适配器契约。CoC7 名册替换后实测 **163/163**：精确 60 技能 / 9 职业、
   `system.json` 两个 pack、octopus 包与扩展包/导入器/LevelDB 构建器/
   `expandPackBrpids` 全缺席、核心职业只用核心包建卡、作家文学槽与确定性 ID
-  均由断言覆盖。历史计数（M4 107、M5 124、
+  均由断言覆盖；M5 增加 `cocM5FixedWriterOwnerContract` 锁住 settleOwned/retry/
+  pending、`coc-sn:` settleId、flags-only 结算记录、归属输入、卡修复的窄权限与
+  「无新增 socket 消息类型」边界；`cocResolveDamageBonusPrecedence` 锁 DB 来源优先级；
+  `cocDeclareAttackUnarmedUsesNativeDamageBonus` 用真实 `cocDeclareAttack` 断言
+  STR+SIZ 130 徒手 = `1D3+1D4`、极难 = 7、火器不加 DB；`cocSkillFields*` 锁
+  canonical/legacy/两者/皆无、规范值不双算、NaN、`noxpgain` 与已有 experience
+  共存、写助手只出规范路径、迁移幂等且不覆盖规范值。
+  历史计数（M4 107、M5 124、
   M6 132、M7 137、M8 149、拆包 167）只作记录，不描述当前公开 owner。
 - `node tools/tests/base-pack-determinism.mjs`：octopus 基础包退役后，该探针验证
   退役守卫的连续构建、与已提交产物一致，以及 octopus 源/产物缺席。
@@ -792,7 +899,21 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 - compat 前端/真实栈的扩展装载、模块注册与 31/148 扩展文档属于已迁出的内容闭包，
   不再由本源仓验收；本源仓只对核心 60/9 与规则实现负责。
 - `node tools/tests/coc-sanity-regressions.mjs`：M4 SAN/疯狂/Luck/成长纯核 **45 项**
-  （在 38 项基础上新增阈值口径、Luck 全负例、恢复上限、成长边界、显式结束原因、永久终态）。
+  （在 38 项基础上新增阈值口径、Luck 全负例、恢复上限、成长边界、显式结束原因、永久终态），
+  加上 M5 固定写者/幂等/卡修复/技能字段的 app 级探针 **30 项**，共 **75 项**。M5 部分用最小
+  Foundry 面（含作者/GM 才能改消息的写守卫）跑真实
+  `module/apps/{sanity,check,socket}.mjs`：卡主 GM 离线本地写、GM 在线不换写者、
+  GM 对 PC 只留 pending、pending 拒新 SN（不掷新骰、不建卡）、卡主重试不重掷 d100/损失、
+  同 settleId 幂等、Actor 已写而卡写失败只修卡、keeper 作者的卡经 `cardRepair` 由
+  activeGM 修复（Actor 不再扣减、卡变 applied）、无 activeGM 时明确
+  `repairBy.mode='message-author'` 且旧卡不再阻塞新 SN、`cardRepair` 对非归属者/
+  未结算 settleId fail closed、`updatedAtClient` 墙钟与 `updatedAt` 世界秒并存、
+  decision/后续骰恢复、两种归属形状、非卡主拒绝、无主 NPC 保留 activeGM relay、
+  永久态结算收口、记录 20 条上界。技能字段部分：Item prepare 的 total 无 NaN、
+  神话 `base 0 + experience 10` → SAN max 89、自动勾选/ Luck 撤销/幕末结算只写
+  `flags.developement`/`adjustments.experience`、`noxpgain` 拒绝新勾选且保留已有经验、
+  无效分数拒绝掷骰、拖入旧技能规范化、迁移只处理 skill 且第二次零写入、
+  旧档/原生/扩展技能同一 total 口径。
 - `tools/tests/rules-regressions.mjs`：无头原生链 **163 项**（M3 的 114 项全部保留；
   M4 新增 47 项，覆盖真实 SN 卡、INT 成败、日阈值、三态并存、permanent、relay 权限、
   并发单写、Luck UI+结算双门、恢复两分支、成长勾选/结算/autoXP=2、dev UI、世界时钟/
@@ -848,6 +969,26 @@ M4 原生链负责；上述验收不扩张为真实 Keycloak、生产部署或�
 - M4：Luck 恢复用 `luck.cap=99` 而非创建快照 `max` 夹值，起始值不是上限；每次恢复写 session。
 - M4：`brp.worldTime`/`brp.cocDaySeq` world settings 持久化；ready hydrate、updateWorldTime
   镜像、keeper 推进小时/天；临时发作的 effect start/expires 与状态使用同一时钟。
+- M5：SAN 写者由归属决定：`flags.mtcompat.ownerId/creatorId` 与原生 `ownership` OWNER
+  两种形状统一在 `BRPSanity.ownershipOf`，卡主自己的客户端本地结算，GM 在线与否不影响；
+  GM 的隐式全 actor OWNER 不算归属。
+- M5：GM（或其他非卡主）对有主 PC 只留 `sanitySettlement.status="pending"` 卡并返回
+  `{pending:true}`，不发 socket、不转 activeGM；无主 NPC 仍走 `cocSanSettle` relay，
+  payload 增加 `settleId`（没有新增 socket 消息类型）。
+- M5：`settleId=coc-sn:<messageId>` 顺序幂等：SN 开始前 pending 即拒新 SN；Actor
+  `settlements` 记录 decision 与每个已掷后续骰，`retry` 只补掷未持久化的骰，Actor 已
+  applied 时只修聊天卡；同一 Actor 在途记录不同 settleId 返回 `{error:'settlement-pending'}`。
+- M5：`beginCardSettlement` 先写 pending 卡投影再写 Actor；卡写失败不阻断结算，卡上
+  `applied` 但 Actor 记录滚出 20 条窗口时 `retry` 以卡为准、不二次扣减。
+- M5 修：结算记录是 `updatedAt`（世界秒）+ `updatedAtClient`（客户端 `Date.now()` 毫秒）
+  双时钟；手机 recent 只用后者。此前只有世界秒，`Date.now()` 比较恒为 false。
+- M5 修：keeper 代掷的有主 PC 卡由 keeper 作者持有，卡主不能改他人消息（核心 Foundry 与
+  compat shim 同款）。`retry` 不再吞成 `card-write-failed`：作者/activeGM 可写时直接修，
+  否则经既有 `cocSanSettle` 发 `{action:'cardRepair'}` 由 activeGM 只重写该卡（不结算、
+  不扣减、无新增消息类型）；无 activeGM 时返回 `repairBy.mode='message-author'`。Actor 已
+  applied 的旧卡不再算在途（`pending=false`、`staleCards` 标出），不会静默阻塞新 SN。
+- M5 修：战斗 DB 读原生 `system.attribs.db`（+ 旧 `system.dmgBonus` 回退）而不是不存在的
+  `system.dmgBonus`；STR+SIZ 130 徒手恢复 `1D3+1D4`、极难 7，火器/投掷 DB 口径不变。
 
 ## 未验证 / 不冒充
 
