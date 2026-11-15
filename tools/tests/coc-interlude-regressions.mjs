@@ -500,6 +500,10 @@ expect("inlineGarbageIsIgnored", await inline("xp", "not-a-number"), null);
 expectTrue("inlineRepreparesDerivedTotal", prepared >= 8, prepared);
 expectTrue("inlineRerenders", rendered >= 8, rendered);
 
+const paperCss = read("css/coc-paper.css");
+expectTrue("skillTableUsesFixedLayout", /\.brp\.coc-card \[data-coc-skill-list\] \{ table-layout: fixed; \}/.test(paperCss));
+expect("skillTableColumnWidths", Array.from({ length: 7 }, (_, index) => Number(paperCss.match(new RegExp(`th:nth-child\\(${index + 1}\\) \\{ width: (\\d+)%`))?.[1])), [38, 12, 12, 10, 8, 10, 10]);
+
 const result = {
   checks: checks.length,
   failed: failures.length,

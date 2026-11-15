@@ -107,6 +107,14 @@
 .brp.coc-card .check input { width: 15px; height: 15px; margin: 0; accent-color: var(--accent); }
 .brp.coc-card .table-scroll { max-width: 100%; overflow-x: auto; }
 .brp.coc-card table { width: 100%; border-collapse: collapse; border: 1px solid var(--ink); background: var(--raised); }
+.brp.coc-card [data-coc-skill-list] { table-layout: fixed; }
+.brp.coc-card [data-coc-skill-list] th:nth-child(1) { width: 38%; }
+.brp.coc-card [data-coc-skill-list] th:nth-child(2) { width: 12%; }
+.brp.coc-card [data-coc-skill-list] th:nth-child(3) { width: 12%; }
+.brp.coc-card [data-coc-skill-list] th:nth-child(4) { width: 10%; }
+.brp.coc-card [data-coc-skill-list] th:nth-child(5) { width: 8%; }
+.brp.coc-card [data-coc-skill-list] th:nth-child(6) { width: 10%; }
+.brp.coc-card [data-coc-skill-list] th:nth-child(7) { width: 10%; }
 .brp.coc-card th { padding: 7px 8px; color: var(--paper); background: var(--ink); font-size: 12px; text-align: center; }
 .brp.coc-card th:first-child, .brp.coc-card td:first-child { text-align: left; }
 .brp.coc-card td { height: 30px; padding: 5px 8px; border-bottom: 1px solid var(--faint-line); text-align: center; font-family: var(--num); }
