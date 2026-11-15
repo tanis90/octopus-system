@@ -219,12 +219,12 @@ const skillBreakdownOf = (system) => {
   const adjustments = skillAdjustments(source)
   return {
     base: numberOr(source.base),
-    profession: adjustments.occupation,
+    adjustmentBase: adjustments.base,
+    occupation: adjustments.occupation,
     personal: adjustments.personal,
-    xp: adjustments.experience,
-    effects: adjustments.base,
-    personality: adjustments.archetype,
-    culture: adjustments.experiencePackage,
+    archetype: adjustments.archetype,
+    experiencePackage: adjustments.experiencePackage,
+    experience: adjustments.experience,
   }
 }
 
@@ -250,8 +250,9 @@ const skillRowOf = (item) => {
   const total = skillTotal(system)
   breakdown.total = total
   const breakdownText = [
-    ['基础', breakdown.base], ['职业', breakdown.profession], ['兴趣', breakdown.personal],
-    ['成长', breakdown.xp], ['效果', breakdown.effects], ['人格', breakdown.personality], ['文化', breakdown.culture],
+    ['基础', breakdown.base], ['基础调整', breakdown.adjustmentBase], ['职业', breakdown.occupation],
+    ['兴趣', breakdown.personal], ['原型', breakdown.archetype],
+    ['经验包', breakdown.experiencePackage], ['成长', breakdown.experience],
   ].filter(([, value]) => value !== 0).map(([label, value]) => `${label} ${value}`)
   return {
     id: itemIdOf(item),
@@ -305,9 +306,8 @@ export function buildCocSkillGroups(items) {
 
 /**
  * Resolve the live actor skill a weapon attacks with. This is the card-side
- * name of the shared rules resolver: native `skill.main`/`alternativ`,
- * legacy `skill1/skill2` (with the specialism marker) and `sourceID` all
- * resolve identically here, in CM and in the public adapter.
+ * name of the shared rules resolver: the CoC7 native `skill.main` channel
+ * resolves identically here, in CM and in the public adapter.
  * @param {object} weapon weapon Item
  * @param {object} actor owning Actor
  * @returns {object|null} skill Item
@@ -458,23 +458,19 @@ export function buildCocWeaponView(item, actor) {
 }
 
 /**
- * Armour card for the item tab.
- * @param {object} item armour Item
+ * Armour card for the item tab. CoC7 armour Items only carry a description;
+ * the protective value lives on the Actor's `attribs.armor`.
+ * @param {object} item armor Item
  * @returns {object}
  */
 export function buildCocArmourView(item) {
   const system = item?.system ?? {}
-  const equipStatus = text(system.equipStatus) || 'carried'
   return {
     id: itemIdOf(item),
     name: text(item?.name),
     img: text(item?.img),
-    description: text(system.description),
-    av1: numberOr(system.av1),
-    coverage: text(system.coverage),
+    description: text(system.description?.value),
     quantity: numberOr(system.quantity, 1),
-    equipStatus,
-    equipStatusLabel: cocEquipStatusLabel(equipStatus),
   }
 }
 
@@ -607,12 +603,12 @@ export function buildCocBackground(actor) {
   const hasFields = fields.some((field) => field.value !== '')
   const legacy = hasFields ? '' : backgroundText(system.backstory)
 
-  const professionItem = items.find((item) => item?.type === 'profession') ?? null
+  const professionItem = items.find((item) => item?.type === 'occupation') ?? null
   const professionCoc = flagCocOf(professionItem)
   const professionName = text(professionItem?.name) || text(system.infos?.occupation)
 
-  const creditMin = numberOrNull(professionCoc.creditMin)
-  const creditMax = numberOrNull(professionCoc.creditMax)
+  const creditMin = numberOrNull(professionItem?.system?.creditRating?.min) ?? numberOrNull(professionCoc.creditMin)
+  const creditMax = numberOrNull(professionItem?.system?.creditRating?.max) ?? numberOrNull(professionCoc.creditMax)
   const creditSkill = items.find((item) => item?.type === 'skill' && (
     brpidOf(item) === 'i.skill.coc.credit-rating'
     || text(flagCocOf(item).key) === 'credit-rating'

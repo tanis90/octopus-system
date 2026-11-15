@@ -1285,31 +1285,24 @@
   "TYPES": {
     "Actor": {
       "character": "角色",
-      "npc": "NPC"
+      "npc": "NPC",
+      "vehicle": "载具",
+      "creature": "生物"
     },
     "Item": {
-      "gear": "装备",
+      "item": "物品",
       "skill": "技能",
-      "hit-location": "命中部位",
-      "personality": "人格",
-      "profession": "职业",
-      "power": "异能",
-      "magic": "魔法",
-      "mutation": "变异",
-      "psychic": "灵能",
-      "sorcery": "巫术",
-      "super": "超能力",
-      "failing": " 缺陷",
-      "powerMod": "异能修正",
-      "armour": "护甲",
+      "talent": "天赋",
       "weapon": "武器",
-      "wound": "创伤",
-      "allegiance": "效忠",
-      "passion": "激情",
-      "persTrait": "人格特质",
-      "reputation": "声望",
-      "skillcat": "技能分类",
-      "culture": "文化"
+      "armor": "护甲",
+      "book": "书籍",
+      "occupation": "职业",
+      "spell": "法术",
+      "setup": "设置",
+      "status": "状态",
+      "archetype": "原型",
+      "experience-package": "经验包",
+      "chase": "追逐"
     },
     "RegionBehavior": {
       "ChaosiumCanvasInterfaceAmbientLightToggle": "CCI：灯光切换",

@@ -40,12 +40,6 @@ export class BRPCharDev {
         results = await BRPCharDev.xpCheck(actor, token, i._id, rollType, false);
         success.push(results)
       }
-      if (i.type === "persTrait") {
-        if (i.system.oppimprove) {
-          results = await BRPCharDev.xpCheck(actor, token, i._id, rollType, true);
-          success.push(results)
-        }
-      }
     }
     await BRPCharDev.xpOutput(success, partic)
     return;
@@ -83,12 +77,6 @@ export class BRPCharDev {
     }
     let name = item.name
     let score = isSkill ? info.total : Number(item.system.total)
-    //Exclude system.effects from the legacy improvement score (skills already
-    //exclude them: the canonical total has no effects bucket).
-    if (!isSkill && ['magic', 'psychic'].includes(item.type)) {
-      score = score - (Number(item.system.effects) || 0)
-    }
-
     if (opp) {
       score = Number(item.system.opptotal)
       name = item.system.oppName
@@ -147,7 +135,6 @@ export class BRPCharDev {
         'system.oppimprove': false,
         'system.xp': (Number(item.system.xp) || 0) - improvVal
       })
-
     }
     return ({
       name: name,

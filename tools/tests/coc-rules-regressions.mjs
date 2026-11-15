@@ -4,8 +4,8 @@
 //   node tools/tests/coc-rules-regressions.mjs
 //
 // Covers:
-//   1. deterministic core pack build (60 skills + 9 profession entries) and
-//      byte-unchanged octopus artifacts
+//   1. deterministic core pack build (60 skills + 9 occupation entries) and
+//      the retired octopus line staying absent
 //   2. core-only fact/pack contract: exact counts, specialism identity,
 //      pending exclusion, source isolation, no fixed 0 for unverified skills,
 //      and a hard assertion that no extension pack or build chain is present
@@ -42,16 +42,6 @@ import {
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), "utf8"));
 // Same derivation the build uses: document ids come from the stable brpid.
-const cocDocId = (seed) => {
-  let out = "";
-  let i = 0;
-  while (out.length < 16) {
-    const byte = createHash("sha256").update("coc:" + seed + ":" + i).digest()[0];
-    out += "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[byte % 62];
-    i += 1;
-  }
-  return out;
-};
 const checks = {};
 const errors = [];
 const check = (name, ok, detail) => {
@@ -87,7 +77,7 @@ const compareTrees = (left, right, dirs) => {
   return diffs;
 };
 
-// --- 1) deterministic core build and octopus isolation ---
+// --- 1) deterministic core build and retired-line isolation ---
 const CORE_DIRS = ["packs-json", "packs-index", "packs"];
 const temp = mkdtempSync(join(tmpdir(), "octopus-coc-build-"));
 try {
@@ -119,11 +109,13 @@ try {
     && !readdirSync(join(temp, "packs-json")).some((name) => name.startsWith("arcane-investigator-")),
     readdirSync(join(temp, "packs-json")));
 
-  const octopusTemp = compareTrees(join(temp, "packs-json"), join(ROOT, "packs-json"), ["."]);
-  const octopusIndex = compareTrees(join(temp, "packs-index"), join(ROOT, "packs-index"), ["."]);
-  const octopusPacks = compareTrees(join(temp, "packs"), join(ROOT, "packs"), ["."]);
-  check("octopusArtifactsByteUnchanged", octopusTemp.length === 0 && octopusIndex.length === 0 && octopusPacks.length === 0,
-    { packsJson: octopusTemp.slice(0, 4), packsIndex: octopusIndex.slice(0, 4), packs: octopusPacks.slice(0, 4) });
+  const retiredLeftovers = [];
+  for (const dir of CORE_DIRS) {
+    for (const name of readdirSync(join(ROOT, dir))) {
+      if (name.startsWith("octopus-")) retiredLeftovers.push(`${dir}/${name}`);
+    }
+  }
+  check("octopusLineIsRetired", retiredLeftovers.length === 0, retiredLeftovers);
 } finally {
   rmSync(temp, { recursive: true, force: true });
 }
@@ -134,7 +126,6 @@ const provenance = readJson("content/coc/provenance.json");
 const cocDocs = readJson("packs-json/coc-skills.json");
 const cocIndex = readJson("packs-index/coc-skills.json");
 const allSkillDocs = [...cocDocs];
-const octopusDocs = readJson("packs-json/octopus-skills.json");
 const docsByKey = new Map(allSkillDocs.map((doc) => [doc.flags.brp.coc.key, doc]));
 const factsByKey = new Map(facts.skills.map((fact) => [fact.key, fact]));
 
@@ -186,17 +177,17 @@ check("systemPackRegistration", (() => {
   const sys = readJson("system.json");
   const pack = sys.packs?.find((entry) => entry.name === "coc-skills");
   return pack?.path === "packs/coc-skills" && pack?.type === "Item" && pack?.system === "brp"
-    && sys.packs.some((entry) => entry.name === "octopus-skills")
-    && sys.packs.some((entry) => entry.name === "octopus-professions");
+;
 })());
 
-check("systemHasExactlyFourCorePacks", (() => {
-  // Two octopus packs + two CoC core packs. No extension pack is declared and
-  // no extension name appears anywhere in system.json.
+check("systemHasExactlyTwoCorePacks", (() => {
+  // The two CoC core packs are the only registered packs. No octopus or
+  // extension pack is declared anywhere in system.json.
   const sys = readJson("system.json");
   const names = (sys.packs ?? []).map((entry) => entry.name).sort();
-  return JSON.stringify(names) === JSON.stringify(["coc-professions", "coc-skills", "octopus-professions", "octopus-skills"])
-    && !JSON.stringify(sys).includes("arcane-investigator");
+  return JSON.stringify(names) === JSON.stringify(["coc-professions", "coc-skills"])
+    && !JSON.stringify(sys).includes("arcane-investigator")
+    && !names.some((name) => name.startsWith("octopus-"));
 })());
 
 check("extensionBuildChainIsAbsent", !existsSync(join(ROOT, "tools/coc-pack/import-sealdice-occupations.mjs"))
@@ -327,10 +318,6 @@ check("skillFamiliesConcreteCoversEveryPublishedSpecialism", (() => {
   return bad.length ? bad : true;
 })(), null);
 
-check("octopusPackHasNoCocContent", octopusDocs.every((doc) => doc.flags.brp.contentSource !== "coc"
-  && !String(doc.flags.brp.brpidFlag.id).startsWith("i.skill.coc.")),
-  octopusDocs.filter((doc) => String(doc.flags.brp.brpidFlag.id).startsWith("i.skill.coc.")).map((doc) => doc.flags.brp.brpidFlag.id));
-check("noCocBrpidCollisionWithOctopus", !allSkillDocs.some((doc) => octopusDocs.some((oct) => oct.flags.brp.brpidFlag.id === doc.flags.brp.brpidFlag.id)));
 check("provenanceHasOfficialSourcesAndExclusions", provenance.sources.length >= 8
   && provenance.sources.every((source) => source.url.startsWith("https://"))
   && provenance.licenseBoundary.excluded.some((line) => line.includes("No official PDF")));
@@ -1122,9 +1109,10 @@ check("cocM4I18nFacts", (() => {
     && typeof en.BRP?.coc?.madness?.durationHours === "string";
 })(), { ids: coc.madness.boutTable.map((entry) => entry.id) });
 
-// Native CoC actor schema: the real world pack (CoC7 8.16) stores investigator
-// and NPC data under characteristics/attribs/description/infos; vehicles keep
-// their own stats/crew/description. There is no BRP stats/health block.
+// Native CoC actor/item schema: the real world pack (CoC7 8.16) stores
+// investigator/NPC data under characteristics/attribs/description/infos;
+// vehicles keep their own stats/crew/description. The Item roster is the CoC7
+// one, with no BRP-only type left in template.json.
 check("cocNativeTemplateContract", (() => {
   const template = readJson("template.json");
   const actor = template.Actor ?? {};
@@ -1132,14 +1120,21 @@ check("cocNativeTemplateContract", (() => {
   const shared = actor.templates?.coc ?? {};
   const character = actor.character ?? {};
   const npc = actor.npc ?? {};
+  const creature = actor.creature ?? {};
   const vehicle = actor.vehicle ?? {};
   const characteristics = shared.characteristics ?? {};
   const attribs = shared.attribs ?? {};
   const talent = item.talent ?? {};
   const generic = item.item ?? {};
   const noLegacyVitals = (data) => !Object.hasOwn(data, "stats") && !Object.hasOwn(data, "health");
+  const itemTypes = (item.types ?? []).slice().sort();
+  const expectedItemTypes = ["armor", "archetype", "book", "chase", "experience-package",
+    "item", "occupation", "setup", "skill", "spell", "status", "talent", "weapon"].sort();
+  const retired = ["gear", "armour", "profession", "hit-location", "personality", "power", "magic",
+    "mutation", "psychic", "sorcery", "super", "failing", "powerMod", "wound", "allegiance",
+    "passion", "persTrait", "reputation", "skillcat", "culture"];
   return Array.isArray(actor.types)
-    && ["character", "npc", "vehicle"].every((type) => actor.types.includes(type))
+    && ["character", "npc", "vehicle", "creature"].every((type) => actor.types.includes(type))
     && !Object.hasOwn(actor.templates ?? {}, "base")
     && Object.keys(characteristics).join(",") === "str,con,siz,dex,app,int,pow,edu"
     && !Object.hasOwn(characteristics, "cha")
@@ -1151,8 +1146,9 @@ check("cocNativeTemplateContract", (() => {
     && attribs.san.dailyLimit === 0 && attribs.lck.value === null
     && attribs.db.auto === true && attribs.build.auto === true
     && attribs.armor.notes === false && attribs.armor.value === null
-    && noLegacyVitals(shared) && noLegacyVitals(character) && noLegacyVitals(npc)
-    && character.templates?.includes("coc") && npc.templates?.includes("coc")
+    && noLegacyVitals(shared) && noLegacyVitals(character) && noLegacyVitals(npc) && noLegacyVitals(creature)
+    && character.templates?.includes("coc") && npc.templates?.includes("coc") && creature.templates?.includes("coc")
+    && JSON.stringify(creature) === JSON.stringify(npc)
     && Object.hasOwn(shared, "description") && Object.hasOwn(shared, "conditions")
     && Object.hasOwn(character, "infos") && Object.hasOwn(character, "biography")
     && Object.hasOwn(npc, "infos") && Object.hasOwn(npc, "special")
@@ -1163,19 +1159,34 @@ check("cocNativeTemplateContract", (() => {
     && Object.hasOwn(vehicle.stats, "armor") && Object.hasOwn(vehicle.stats, "hp")
     && vehicle.crew.total === "" && typeof vehicle.crew.count === "object"
     && vehicle.description.value === "" && vehicle.description.keeper === ""
-    && Array.isArray(item.types) && item.types.includes("talent") && item.types.includes("item")
+    && JSON.stringify(itemTypes) === JSON.stringify(expectedItemTypes)
+    && retired.every((type) => !item.types.includes(type) && !Object.hasOwn(item, type))
     && talent.description?.value === "" && talent.description?.keeper === "" && talent.description?.notes === ""
     && talent.source === "" && talent.type?.physical === false && talent.type?.other === false
     && Array.isArray(talent.adjustments)
     && generic.description?.value === "" && generic.description?.keeper === ""
-    && generic.quantity === 1 && generic.weight === 0 && typeof generic.price === "object";
+    && generic.quantity === 1 && generic.weight === 0 && typeof generic.price === "object"
+    && item.armor.description?.value === "" && item.armor.description?.keeper === ""
+    && item.book.difficultyLevel === "regular" && item.book.study?.units === "CoC7.weeks"
+    && item.book.gains?.cthulhuMythos?.initial === 0 && item.book.type?.mythos === false
+    && item.occupation.creditRating?.min === null && item.occupation.creditRating?.max === null
+    && Object.keys(item.occupation.occupationSkillPoints ?? {}).join(",") === "str,con,siz,dex,app,int,pow,edu"
+    && item.occupation.occupationSkillPoints.str.multiplier === null
+    && Array.isArray(item.occupation.groups) && Array.isArray(item.occupation.itemKeys)
+    && item.spell.costs?.magicPoints === "0" && item.spell.type?.summon === false
+    && Array.isArray(item.spell.costList)
+    && item.setup.enableCharacterisitics === true && item.setup.characteristics?.points?.value === 460
+    && item.status.type?.phobia === false && item.status.type?.mania === false
+    && item.archetype.bonusPoints === 100 && item.archetype.coreCharacteristicsFormula?.enabled === true
+    && item["experience-package"].points === 0 && Array.isArray(item["experience-package"].immunity)
+    && item.chase.startingRange === 2 && item.chase.showTokenMovement === true
+    && Array.isArray(item.chase.participants);
 })(), (() => {
   const template = readJson("template.json");
   return {
     actorTypes: template.Actor?.types,
-    actorTemplates: Object.keys(template.Actor?.templates ?? {}),
-    itemTalent: template.Item?.talent ? "registered" : "missing",
-    itemGeneric: template.Item?.item ? "registered" : "missing",
+    itemTypes: template.Item?.types,
+    creature: template.Actor?.creature ? "registered" : "missing",
   };
 })());
 
@@ -1243,9 +1254,7 @@ check("professionPackRegistration", (() => {
   const sys = readJson("system.json");
   const pack = sys.packs?.find((entry) => entry.name === "coc-professions");
   return pack?.path === "packs/coc-professions" && pack?.type === "Item" && pack?.system === "brp"
-    && sys.packs.some((entry) => entry.name === "coc-skills")
-    && sys.packs.some((entry) => entry.name === "octopus-skills")
-    && sys.packs.some((entry) => entry.name === "octopus-professions");
+    && sys.packs.some((entry) => entry.name === "coc-skills");
 })());
 
 const ASCII_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -1572,11 +1581,14 @@ check("coreCardwrightProvenanceRecordsUpstreamAndBoundary", (() => {
 check("professionNeverUsesWealthBandAsCreditRating", allProfDocs.every((doc) => {
   const coc = doc.flags.brp.coc;
   const fact = professionFacts.professions.find((entry) => entry.slug === coc.slug);
-  return doc.system.minWealth === 0 && doc.system.maxWealth === 0
+  return doc.type === "occupation"
+    && doc.system.creditRating?.min === fact?.creditMin
+    && doc.system.creditRating?.max === fact?.creditMax
+    && doc.system.minWealth === undefined && doc.system.maxWealth === undefined
     && coc.wealthNotApplicable === true
     && Number.isInteger(coc.creditMin) && Number.isInteger(coc.creditMax)
     && coc.creditMin === fact?.creditMin && coc.creditMax === fact?.creditMax;
-}), allProfDocs.map((doc) => [doc.flags.brp.coc.slug, doc.system.minWealth, doc.system.maxWealth]));
+}), allProfDocs.map((doc) => [doc.flags.brp.coc.slug, doc.type, doc.system.creditRating, doc.system.minWealth]));
 
 check("professionSkillRefsResolveWithinCorePacks", (() => {
   // A core profession must be usable with only the core packs loaded, so every
@@ -1586,13 +1598,10 @@ check("professionSkillRefsResolveWithinCorePacks", (() => {
   for (const doc of allProfDocs) {
     const slug = doc.flags.brp.coc.slug;
     if (doc.flags.brp.coc.pack !== "core") bad.push(`${slug}: pack ${doc.flags.brp.coc.pack}`);
-    for (const ref of [...doc.system.skills, ...doc.system.groups.flatMap((group) => group.skills)]) {
-      if (!coreSkillBrpids.has(ref.brpid)) bad.push(`${slug}→${ref.brpid}`);
-      if (ref.uuid !== cocDocId(ref.brpid)) bad.push(`${slug}→${ref.brpid}: uuid`);
+    for (const brpid of [...doc.system.itemKeys, ...doc.system.groups.flatMap((group) => group.itemKeys)]) {
+      if (!coreSkillBrpids.has(brpid)) bad.push(`${slug}→${brpid}`);
     }
-    for (const ref of doc.system.skills) {
-      if (octopusDocs.some((oct) => oct.flags.brp.brpidFlag.id === ref.brpid)) bad.push(`octopus ref ${ref.brpid}`);
-    }
+
   }
   return bad.length ? bad : true;
 })(), []);
@@ -1613,19 +1622,20 @@ check("coreFamiliesStaySelfContained", (() => {
         }
       }
     }
-    for (const ref of [...doc.system.skills, ...doc.system.groups.flatMap((group) => group.skills)]) {
-      if (!coreSkillBrpids.has(ref.brpid)) bad.push(`${doc.flags.brp.coc.slug}: core ref ${ref.brpid}`);
+    for (const brpid of [...doc.system.itemKeys, ...doc.system.groups.flatMap((group) => group.itemKeys)]) {
+      if (!coreSkillBrpids.has(brpid)) bad.push(`${doc.flags.brp.coc.slug}: core ref ${brpid}`);
     }
   }
   return bad.length ? bad : true;
-})(), profDocs.map((doc) => [doc.flags.brp.coc.slug, doc.system.skills.map((ref) => ref.brpid)]));
+})(), profDocs.map((doc) => [doc.flags.brp.coc.slug, doc.system.itemKeys]));
 
 check("professionGroupsCarryPickCountsAndSpecialismSlotsStayOut", allProfDocs.every((doc) => {
   const groups = doc.system.groups;
   return groups.every((group) => Number.isInteger(group.options) && group.options >= 1
-    && group.skills.length >= group.options)
-    && doc.system.powers.length === 0;
-}), allProfDocs.map((doc) => [doc.flags.brp.coc.slug, doc.system.groups.map((group) => [group.options, group.skills.length])]));
+    && Array.isArray(group.itemKeys) && group.itemKeys.length >= group.options
+    && Array.isArray(group.itemDocuments) && group.itemDocuments.length === 0)
+    && doc.system.powers === undefined;
+}), allProfDocs.map((doc) => [doc.flags.brp.coc.slug, doc.system.groups.map((group) => [group.options, group.itemKeys.length])]));
 
 check("professionChoiceGroupsCarryResolvedSkillIds", (() => {
   const skillBrpids = new Set(allSkillDocs.map((doc) => doc.flags.brp.brpidFlag.id));
@@ -1654,7 +1664,7 @@ check("professionChoiceGroupsCarryResolvedSkillIds", (() => {
       }
       if (group.options.every((option) => option.kind !== "any")) {
         const native = doc.system.groups.some((nativeGroup) => nativeGroup.options === group.choose
-          && nativeGroup.skills.length === new Set(group.options.flatMap((option) => option.brpids)).size);
+          && nativeGroup.itemKeys.length === new Set(group.options.flatMap((option) => option.brpids)).size);
         if (!native) bad.push(`${doc.flags.brp.coc.slug}/${group.key}: not mirrored natively`);
       }
     }
@@ -1685,7 +1695,6 @@ check("professionSpecialismSlotsCarryVerifiedFamilyBase", (() => {
 
 check("professionBrpidAsciiUniqueAndCocScoped", allProfDocs.every((doc) => /^i\.profession\.coc\.[a-z0-9]+(?:-[a-z0-9]+)*$/.test(doc.flags.brp.brpidFlag.id))
   && new Set(allProfDocs.map((doc) => doc.flags.brp.brpidFlag.id)).size === allProfDocs.length
-  && !allProfDocs.some((doc) => octopusDocs.some((oct) => oct.flags.brp.brpidFlag.id === doc.flags.brp.brpidFlag.id))
   && !JSON.stringify(allProfDocs).includes('"\"app\""'),
   allProfDocs.map((doc) => doc.flags.brp.brpidFlag.id));
 
@@ -1797,7 +1806,7 @@ check("multiFormulaNormalizationBackwardCompatible", (() => {
   catch (thrown) { return thrown.code; } })());
 
 check("pointFormulaRoundsDownAndReadsNativeStatObjects", evaluatePointFormula("EDU*2+MAX(DEX,STR)*2", { edu: 59, dex: 61, str: 30 }) === 240
-  && evaluatePointFormula("EDU*4", { edu: { base: 50, redist: 5, culture: 0 } }) === 220
+  && evaluatePointFormula("EDU*4", { edu: { total: 55 } }) === 220
   && evaluatePointFormula("EDU*2+DEX*2", { edu: { total: 60 }, dex: { total: 45 } }) === 210
   && evaluatePointFormula("EDU*2+APP*2", { edu: 60, cha: 40 }) === 200,
   {
@@ -2501,12 +2510,12 @@ check("cocCombatCategoryBonusFallsBackToZero", await (async () => {
 
   const skill = {
     _id: "skill1", name: "手枪", type: "skill",
-    system: { total: 55, category: "firearms" },
+    system: { skillName: "手枪", total: 55 },
     flags: { brp: { brpidFlag: { id: "i.skill.coc.firearms-handgun" }, coc: { specKey: "handgun" } } },
   };
   const weapon = {
     _id: "weapon1", name: ".38 左轮", type: "weapon",
-    system: { skill1: "i.skill.coc.firearms-handgun", mal: 100, hands: "1H", properties: {}, range: {} },
+    system: { skill: { main: { id: "skill1", name: "手枪" }, alternativ: { id: "", name: "" } }, malfunction: 100, properties: {}, range: {} },
     flags: {},
   };
   const items = {
@@ -2540,7 +2549,8 @@ check("cocCombatCategoryBonusFallsBackToZero", await (async () => {
   const cases = [
     { label: "missing-map", system: {}, expected: 55 },
     { label: "empty-map", system: { skillcategory: {} }, expected: 55 },
-    { label: "category-bonus", system: { skillcategory: { firearms: 10 } }, expected: 65 },
+    // Native CoC skills carry no BRP category, so a stale map is never added.
+    { label: "category-bonus", system: { skillcategory: { firearms: 10 } }, expected: 55 },
   ];
   const failures = [];
   for (const entry of cases) {
@@ -2825,7 +2835,7 @@ const nativeHpResult = await (async () => {
 })();
 check("cocNativeHpDamageAndTreatment", nativeHpResult === true, nativeHpResult);
 
-// --- 9) Native + legacy weapon resolution and CM score ---
+// --- 9) Native weapon resolution and CM score ---
 const weaponResolutionResult = await (async () => {
   const { resolveWeaponSkill, weaponSkillReferences, weaponSkillScore, weaponAttackScore } = await import(
     pathToFileURL(join(ROOT, "module/rules/coc-weapon-skill.mjs")).href
@@ -2852,77 +2862,40 @@ const weaponResolutionResult = await (async () => {
     system: { base: "45" },
     flags: { brp: { brpidFlag: { id: "i.skill.coc.firearms-handgun" }, coc: { specKey: "handgun" } } },
   });
-  const wrongSpecSkill = skill("skill-rifle", "枪械（步枪/霰弹枪）", 40, {
-    system: { base: "40", category: "firearms" },
-    flags: { brp: { brpidFlag: { id: "i.skill.coc.firearms-handgun" }, coc: { specKey: "rifle" } } },
-  });
-  const legacySkill = skill("skill-legacy", "旧手枪", 55, {
-    system: { base: "55", category: "firearms" },
-    flags: { brp: { brpidFlag: { id: "i.skill.coc.firearms-handgun" }, coc: { specKey: "handgun" } } },
-  });
   const dagger = {
     _id: "weapon-dagger", id: "weapon-dagger", name: "匕首", type: "weapon",
-    system: { skill: { main: { id: "skill-melee", name: "近战（格斗）" }, alternativ: { id: "", name: "" } }, npcVal: null, mal: 0, properties: {}, range: { normal: { damage: "1D4" } } },
+    system: { skill: { main: { id: "skill-melee", name: "近战（格斗）" }, alternativ: { id: "", name: "" } }, malfunction: 0, properties: {}, range: { normal: { damage: "1D4" } } },
     flags: {},
   };
   const nameOnlyWeapon = {
     _id: "weapon-name-only", id: "weapon-name-only", name: "名字匕首", type: "weapon",
-    system: { skill: { main: { id: "stale-item-id", name: "近战（格斗）" }, alternativ: { id: "", name: "" } }, npcVal: null, mal: 0, properties: {}, range: {} },
+    system: { skill: { main: { id: "stale-item-id", name: "近战（格斗）" }, alternativ: { id: "", name: "" } }, malfunction: 0, properties: {}, range: {} },
     flags: {},
   };
   const revolver = {
     _id: "weapon-revolver", id: "weapon-revolver", name: "左轮手枪", type: "weapon",
-    system: { skill: { main: { id: "skill-handgun", name: "枪械（手枪）" }, alternativ: { id: "", name: "" } }, npcVal: null, mal: 100, properties: { rngd: true }, range: { normal: { damage: "1D10" } } },
+    system: { skill: { main: { id: "skill-handgun", name: "枪械（手枪）" }, alternativ: { id: "", name: "" } }, malfunction: 100, properties: { rngd: true }, range: { normal: { damage: "1D10" } } },
     flags: {},
   };
-  const legacyWeapon = {
-    _id: "weapon-legacy", id: "weapon-legacy", name: "旧式手枪", type: "weapon",
-    system: { skill1: "i.skill.coc.firearms-handgun", skill2: "none", sourceID: "skill-legacy", npcVal: null, mal: 100, properties: {}, range: { normal: { damage: "1D10" } } },
-    flags: { brp: { coc: { weapon: { skillSpec: "handgun" } } } },
-  };
-  const wrongSpecWeapon = {
-    _id: "weapon-wrong", id: "weapon-wrong", name: "错专精手枪", type: "weapon",
-    system: { skill1: "i.skill.coc.firearms-handgun", skill2: "none", npcVal: null, mal: 100, properties: {}, range: {} },
-    flags: { brp: { coc: { weapon: { skillSpec: "rifle" } } } },
-  };
-  const naturalWeapon = {
-    _id: "weapon-natural", id: "weapon-natural", name: "天生攻击", type: "weapon",
-    system: { npcVal: 60, skill1: "none", skill2: "none", mal: 0, properties: {}, range: {} },
+  const legacyChannelWeapon = {
+    _id: "weapon-legacy", id: "weapon-legacy", name: "旧通道手枪", type: "weapon",
+    system: { skill1: "i.skill.coc.firearms-handgun", skill2: "none", sourceID: "skill-handgun", npcVal: 60, skill: { main: { id: "", name: "" }, alternativ: { id: "", name: "" } }, malfunction: 0, properties: {}, range: {} },
     flags: {},
-  };
-  const npcLegacySkill = skill("skill-npc-legacy", "近战（格斗）", 50, {
-    system: { base: "50" },
-    flags: { brp: { brpidFlag: { id: "i.skill.coc.fighting-brawl" }, coc: { specKey: "brawl" } } },
-  });
-  const npcLegacyWeapon = {
-    _id: "weapon-npc-legacy", id: "weapon-npc-legacy", name: "旧档天生武器", type: "weapon",
-    system: { skill1: "i.skill.coc.fighting-brawl", skill2: "none", npcVal: 0, mal: 0, properties: {}, range: {} },
-    flags: { brp: { coc: { weapon: { skillSpec: "brawl" } } } },
   };
   const emptyWeapon = {
     _id: "weapon-empty", id: "weapon-empty", name: "无来源武器", type: "weapon",
-    system: { skill: { main: { id: "", name: "" }, alternativ: { id: "", name: "" } }, skill1: "none", skill2: "none", sourceID: "", npcVal: 0, mal: 0, properties: {}, range: {} },
+    system: { skill: { main: { id: "", name: "" }, alternativ: { id: "", name: "" } }, malfunction: 0, properties: {}, range: {} },
     flags: {},
   };
   const npc = {
     id: "cultist", name: "邪教徒", type: "npc", img: "cultist.png",
     prototypeToken: { randomImg: false }, system: {},
-    items: collection([melee, dagger, wrongSpecSkill, naturalWeapon, emptyWeapon]),
+    items: collection([melee, dagger, nameOnlyWeapon, legacyChannelWeapon, emptyWeapon]),
   };
   const pc = {
     id: "investigator", name: "调查员", type: "character", img: "pc.png",
     prototypeToken: { randomImg: false }, system: { skillcategory: { firearms: 10 } },
-    items: collection([handgun, legacySkill, revolver, legacyWeapon, wrongSpecWeapon, emptyWeapon]),
-  };
-  const legacyNpc = {
-    id: "legacy-cultist", name: "旧档邪教徒", type: "npc", img: "legacy-npc.png",
-    prototypeToken: { randomImg: false }, system: {},
-    items: collection([npcLegacySkill, npcLegacyWeapon]),
-  };
-  const legacyActor = {
-    id: "legacy-investigator", name: "旧档调查员", type: "character", img: "legacy.png",
-    prototypeToken: { randomImg: false }, system: { skillcategory: { firearms: 10 } },
-    items: collection([legacySkill, legacyWeapon, wrongSpecWeapon, emptyWeapon]),
+    items: collection([handgun, revolver, emptyWeapon]),
   };
   const notifications = [];
   globalThis.CONST = { CHAT_MESSAGE_STYLES: { OTHER: 0 } };
@@ -2932,43 +2905,32 @@ const weaponResolutionResult = await (async () => {
     i18n: { localize: (key) => key, format: (key) => key },
     user: { id: "gm1", isGM: true, targets: new Set() },
     users: { activeGM: { id: "gm1" } },
-    actors: {
-      get: (id) => [npc, pc, legacyActor, legacyNpc].find((actor) => actor.id === id) ?? null,
-      tokens: {},
-    },
+    actors: { get: (id) => [npc, pc].find((actor) => actor.id === id) ?? null, tokens: {} },
     messages: { get: () => null },
     items: { get: () => null },
     socket: { emit() {} },
   };
 
-  // The public entry and the native card share the exact resolver and return
-  // the real live Item, not a copied name or cached score.
+  // Only skill.main resolves; skill1/skill2/sourceID/npcVal are never read.
+  expect("weaponReferencesUseMainOnly", JSON.stringify(weaponSkillReferences(revolver)),
+    JSON.stringify([{ kind: "native-id", id: "skill-handgun", source: "skill.main.id" },
+      { kind: "native-name", name: "枪械（手枪）", source: "skill.main.name" }]));
   expect("publicNativeItemIdentity", BRPCheck.weaponSkill(npc, dagger) === melee, true);
   expect("sharedNativeItemIdentity", resolveWeaponSkill(npc, dagger) === melee, true);
   expect("nativeNameFallback", resolveWeaponSkill(npc, nameOnlyWeapon) === melee, true);
-  expect("publicLegacySourceId", BRPCheck.weaponSkill(legacyActor, legacyWeapon, "skill-legacy") === legacySkill, true);
-  expect("legacySpecWins", resolveWeaponSkill(legacyActor, legacyWeapon) === legacySkill, true);
-  expect("legacyWrongSpecRejected", resolveWeaponSkill(legacyActor, wrongSpecWeapon, "skill-handgun"), null);
-  expect("legacyWrongSpecScoreMissing", weaponAttackScore(legacyActor, wrongSpecWeapon, { skillId: "skill-handgun" }).error, "weapon-skill-missing");
+  expect("legacyChannelsIgnored", resolveWeaponSkill(npc, legacyChannelWeapon), null);
+  expect("legacyChannelsScoreMissing", weaponAttackScore(npc, legacyChannelWeapon).error, "weapon-skill-missing");
   expect("nativeNoCategoryBonus", weaponSkillScore(npc, dagger, { skillcategory: { firearms: 99 } }).categoryBonus, 0);
 
-  const cm = async (actor, weapon, extra = {}) => BRPCheck.normaliseRequest({
-    rollType: "CM", cardType: "CB", actor, itemId: weapon._id, skillId: false, ...extra,
+  const cm = async (actor, weapon) => BRPCheck.normaliseRequest({
+    rollType: "CM", cardType: "CB", actor, itemId: weapon._id, skillId: false,
   });
-    const npcDagger = await cm(npc, dagger);
+  const npcDagger = await cm(npc, dagger);
   expect("cmNativeNpcScore", npcDagger?.targetScore, 50);
   expect("cmNativeNpcLabel", npcDagger?.label, "近战（格斗）");
   expect("cmNativeNpcSkill", npcDagger?.skillId, "skill-melee");
   const pcRevolver = await cm(pc, revolver);
   expect("cmNativePcScore", pcRevolver?.targetScore, 45);
-  const legacyPc = await cm(legacyActor, legacyWeapon);
-  expect("cmLegacyPcScoreWithCategory", legacyPc?.targetScore, 65);
-  const npcNatural = await cm(npc, naturalWeapon);
-  expect("cmLegacyNpcNaturalScore", npcNatural?.targetScore, 60);
-  expect("cmLegacyNpcNaturalSkillNull", npcNatural?.skillId, false);
-  const npcLegacy = await cm(legacyNpc, npcLegacyWeapon);
-  expect("cmLegacyNpcSkillFallback", npcLegacy?.targetScore, 50);
-  expect("cmLegacyNpcSkillUsed", npcLegacy?.skillId, "skill-npc-legacy");
   const beforeNotifications = notifications.length;
   const missing = await cm(pc, emptyWeapon);
   expect("cmUnresolvedReturnsFalse", missing, false);
@@ -2981,12 +2943,9 @@ const weaponResolutionResult = await (async () => {
   const nativeRow = buildCocNpcAttackRow(dagger, npc);
   expect("nativeNpcCardUsesSkill", nativeRow.attackMode, "sk");
   expect("nativeNpcCardHit", nativeRow.hitValue, 50);
-  const naturalRow = buildCocNpcAttackRow(naturalWeapon, npc);
-  expect("legacyNpcCardUsesNatural", naturalRow.attackMode, "cm");
-  expect("legacyNpcCardHit", naturalRow.hitValue, 60);
-  const legacyRow = buildCocNpcAttackRow(npcLegacyWeapon, legacyNpc);
-  expect("legacyNpcCardSkillFallback", legacyRow.attackMode, "sk");
-  expect("legacyNpcCardSkillHit", legacyRow.hitValue, 50);
+  const legacyRow = buildCocNpcAttackRow(legacyChannelWeapon, npc);
+  expect("legacyNpcCardUnresolved", legacyRow.attackMode, "none");
+  expect("legacyNpcCardNoNpcVal", Object.hasOwn(legacyRow, "npcVal"), false);
 
   return failures.length ? failures : true;
 })();
@@ -3309,8 +3268,6 @@ const result = {
     cocSkillsIndex: digest("packs-index/coc-skills.json"),
     cocProfessionsJson: digest("packs-json/coc-professions.json"),
     cocProfessionsIndex: digest("packs-index/coc-professions.json"),
-    octopusSkillsJson: digest("packs-json/octopus-skills.json"),
-    octopusProfessionsJson: digest("packs-json/octopus-professions.json"),
   },
 };
 console.log(JSON.stringify(result, null, 2));

@@ -2,7 +2,7 @@
  {
   "_id": "JpkZqagpPRadBcgY",
   "name": "作家",
-  "type": "profession",
+  "type": "occupation",
   "img": null,
   "sort": 0,
   "flags": {
@@ -18,7 +18,7 @@
  {
   "_id": "SqhdUdPMj8ksoIkp",
   "name": "纨绔子弟",
-  "type": "profession",
+  "type": "occupation",
   "img": null,
   "sort": 0,
   "flags": {
@@ -34,7 +34,7 @@
  {
   "_id": "EKX3pk0E6rT1ecJP",
   "name": "调查记者",
-  "type": "profession",
+  "type": "occupation",
   "img": null,
   "sort": 0,
   "flags": {
@@ -50,7 +50,7 @@
  {
   "_id": "T4x1XBuQk5LnhCKr",
   "name": "私家侦探",
-  "type": "profession",
+  "type": "occupation",
   "img": null,
   "sort": 0,
   "flags": {
@@ -66,7 +66,7 @@
  {
   "_id": "IDB0huTGTiLCTVwV",
   "name": "教授",
-  "type": "profession",
+  "type": "occupation",
   "img": null,
   "sort": 0,
   "flags": {
@@ -82,7 +82,7 @@
  {
   "_id": "4QZJRizl3CVAL8YX",
   "name": "自定义调查员",
-  "type": "profession",
+  "type": "occupation",
   "img": null,
   "sort": 0,
   "flags": {
@@ -98,7 +98,7 @@
  {
   "_id": "Urzd6Xfcx7SNpkXc",
   "name": "医生（医学博士）",
-  "type": "profession",
+  "type": "occupation",
   "img": null,
   "sort": 0,
   "flags": {
@@ -114,7 +114,7 @@
  {
   "_id": "q6iDyd4riEIMbpVw",
   "name": "警探",
-  "type": "profession",
+  "type": "occupation",
   "img": null,
   "sort": 0,
   "flags": {
@@ -130,7 +130,7 @@
  {
   "_id": "LrIG0aMnxmceiQ6X",
   "name": "古董商",
-  "type": "profession",
+  "type": "occupation",
   "img": null,
   "sort": 0,
   "flags": {

@@ -1087,33 +1087,26 @@
     }
   },
   "TYPES": {
-        "Actor": {
-      "character": "Character",
-      "npc": "NPC"
+    "Actor": {
+      "character": "Personaje",
+      "npc": "PNJ",
+      "vehicle": "Vehículo",
+      "creature": "Criatura"
     },
-    "Item":{
-      "gear": "Equipment",
-      "skill": "Skill",
-      "hit-location": "Hit Location",
-      "personality": "Personality",
-      "profession": "Profession",
-      "power": "Power",
-      "magic": "Magic",
-      "mutation": "Mutation",
-      "psychic": "Psychic Ability",
-      "sorcery": "Sorcery",
-      "super": "Super",
-      "failing":" Failing",
-      "powerMod": "Power Modifier",
-      "armour": "Armor",
-      "weapon": "Weapon",
-      "wound": "Wound",
-      "allegiance": "Allegiance",
-      "passion": "Passion",
-      "persTrait": "Personality Trait",
-      "reputation": "Reputation",
-      "skillcat": "Skill Category",
-      "culture": "Culture"
+    "Item": {
+      "item": "Objeto",
+      "skill": "Habilidad",
+      "talent": "Talento",
+      "weapon": "Arma",
+      "armor": "Armadura",
+      "book": "Libro",
+      "occupation": "Profesión",
+      "spell": "Hechizo",
+      "setup": "Configuración",
+      "status": "Estado",
+      "archetype": "Arquetipo",
+      "experience-package": "Paquete de experiencia",
+      "chase": "Persecución"
     },
     "RegionBehavior": {
       "ChaosiumCanvasInterfaceAmbientLightToggle": "CCI: Alternar Luz",

@@ -1285,31 +1285,24 @@
   "TYPES": {
     "Actor": {
       "character": "Character",
-      "npc": "NPC"
+      "npc": "NPC",
+      "vehicle": "Vehicle",
+      "creature": "Creature"
     },
-    "Item":{
-      "gear": "Equipment",
+    "Item": {
+      "item": "Item",
       "skill": "Skill",
-      "hit-location": "Hit Location",
-      "personality": "Personality",
-      "profession": "Profession",
-      "power": "Power",
-      "magic": "Magic",
-      "mutation": "Mutation",
-      "psychic": "Psychic Ability",
-      "sorcery": "Sorcery",
-      "super": "Super",
-      "failing":" Failing",
-      "powerMod": "Power Modifier",
-      "armour": "Armor",
+      "talent": "Talent",
       "weapon": "Weapon",
-      "wound": "Wound",
-      "allegiance": "Allegiance",
-      "passion": "Passion",
-      "persTrait": "Personality Trait",
-      "reputation": "Reputation",
-      "skillcat": "Skill Category",
-      "culture": "Culture"
+      "armor": "Armor",
+      "book": "Book",
+      "occupation": "Occupation",
+      "spell": "Spell",
+      "setup": "Setup",
+      "status": "Status",
+      "archetype": "Archetype",
+      "experience-package": "Experience Package",
+      "chase": "Chase"
     },
     "RegionBehavior": {
       "ChaosiumCanvasInterfaceAmbientLightToggle": "CCI: Light Toggle",

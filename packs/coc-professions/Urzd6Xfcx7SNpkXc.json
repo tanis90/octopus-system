@@ -1,7 +1,7 @@
 {
  "_id": "Urzd6Xfcx7SNpkXc",
  "name": "医生（医学博士）",
- "type": "profession",
+ "type": "occupation",
  "flags": {
   "brp": {
    "brpidFlag": {
@@ -50,36 +50,74 @@
   }
  },
  "system": {
-  "skills": [
-   {
-    "brpid": "i.skill.coc.first-aid",
-    "uuid": "mFYJcDBHmADhKRNW"
+  "description": {
+   "value": "以诊断与治疗为业的内科或外科医师，熟悉药物、病房与病历。职业点 EDU × 4；信用评级 30–80。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–80（只能用职业点，且必须落在区间内）",
+   "keeper": ""
+  },
+  "source": "coc-roll20-occupations, coc-wiki-skills",
+  "type": {
+   "classic": false,
+   "lovecraftian": false,
+   "modern": false,
+   "pulp": false
+  },
+  "occupationSkillPoints": {
+   "str": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.language-other-latin",
-    "uuid": "YY2QWZ0T7f8A76NE"
+   "con": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.medicine",
-    "uuid": "lciqRkvUQH0jYqq2"
+   "siz": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.psychology",
-    "uuid": "n8ACQitSLni4geaF"
+   "dex": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.science-biology",
-    "uuid": "ojfHa6wDmmM5s0ey"
+   "app": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.science-pharmacy",
-    "uuid": "FYszZeEWTX2DBFSd"
+   "int": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "pow": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "edu": {
+    "multiplier": 4,
+    "selected": true,
+    "optional": false
    }
+  },
+  "creditRating": {
+   "min": 30,
+   "max": 80
+  },
+  "itemDocuments": [],
+  "itemKeys": [
+   "i.skill.coc.first-aid",
+   "i.skill.coc.language-other-latin",
+   "i.skill.coc.medicine",
+   "i.skill.coc.psychology",
+   "i.skill.coc.science-biology",
+   "i.skill.coc.science-pharmacy"
   ],
   "groups": [],
-  "powers": [],
-  "minWealth": 0,
-  "maxWealth": 0,
-  "description": "以诊断与治疗为业的内科或外科医师，熟悉药物、病房与病历。职业点 EDU × 4；信用评级 30–80。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–80（只能用职业点，且必须落在区间内）"
+  "personal": 0,
+  "personalText": ""
  }
 }

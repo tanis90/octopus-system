@@ -1,0 +1,31 @@
+<section class='item tab details {{tab.cssClass}}' data-group='primary' data-tab='details'>
+  <div class="base-grid">
+    <div class="item-title">作者</div>
+    <div class="stat-input"><input name="system.author" type="text" value="{{system.author}}" /></div>
+    <div class="item-title">年代</div>
+    <div class="stat-input"><input name="system.date" type="text" value="{{system.date}}" /></div>
+    <div class="item-title">语言</div>
+    <div class="stat-input"><input name="system.language" type="text" value="{{system.language}}" /></div>
+    <div class="item-title">阅读难度</div>
+    <div class="stat-input"><input name="system.difficultyLevel" type="text" value="{{system.difficultyLevel}}" /></div>
+    <div class="item-title">神话值</div>
+    <div class="stat-input"><input name="system.mythosRating" type="number" value="{{system.mythosRating}}" /></div>
+    <div class="item-title">理智损失</div>
+    <div class="stat-input"><input name="system.sanityLoss" type="text" value="{{system.sanityLoss}}" /></div>
+    <div class="item-title">研读时间</div>
+    <div class="stat-input"><input name="system.study.necessary" type="number" value="{{system.study.necessary}}" /></div>
+    <div class="stat-input"><input name="system.study.units" type="text" value="{{system.study.units}}" /></div>
+    <div class="item-title">神话增益 %</div>
+    <div class="stat-input"><input name="system.gains.cthulhuMythos.initial" type="number" value="{{system.gains.cthulhuMythos.initial}}" /></div>
+    <div class="item-title">神秘学增益</div>
+    <div class="stat-input"><input name="system.gains.occult" type="number" value="{{system.gains.occult}}" /></div>
+    <div class="item-title">内容</div>
+    <div class="stat-input"><input name="system.content" type="text" value="{{system.content}}" /></div>
+  </div>
+  <div class="item-title">类型</div>
+  <div class="options-grid">
+    <label><input type="checkbox" name="system.type.mythos" {{checked system.type.mythos}} /> 神话</label>
+    <label><input type="checkbox" name="system.type.occult" {{checked system.type.occult}} /> 神秘学</label>
+    <label><input type="checkbox" name="system.type.other" {{checked system.type.other}} /> 其他</label>
+  </div>
+</section>

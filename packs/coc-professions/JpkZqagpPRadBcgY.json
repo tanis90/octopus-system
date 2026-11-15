@@ -1,7 +1,7 @@
 {
  "_id": "JpkZqagpPRadBcgY",
  "name": "作家",
- "type": "profession",
+ "type": "occupation",
  "flags": {
   "brp": {
    "brpidFlag": {
@@ -100,55 +100,89 @@
   }
  },
  "system": {
-  "skills": [
-   {
-    "brpid": "i.skill.coc.history",
-    "uuid": "ZsbrYPHoyqIA6fGF"
+  "description": {
+   "value": "以写作、编辑或评论为生，靠文字与人脉维持生活。职业点 EDU × 4；信用评级 9–30。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）",
+   "keeper": ""
+  },
+  "source": "coc-roll20-occupations",
+  "type": {
+   "classic": false,
+   "lovecraftian": false,
+   "modern": false,
+   "pulp": false
+  },
+  "occupationSkillPoints": {
+   "str": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.library-use",
-    "uuid": "7BNMWqPVJyA0sReg"
+   "con": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.psychology",
-    "uuid": "n8ACQitSLni4geaF"
+   "siz": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.language-own",
-    "uuid": "7WwKSOQFVJeDC4hr"
+   "dex": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "app": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "int": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "pow": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "edu": {
+    "multiplier": 4,
+    "selected": true,
+    "optional": false
    }
+  },
+  "creditRating": {
+   "min": 9,
+   "max": 30
+  },
+  "itemDocuments": [],
+  "itemKeys": [
+   "i.skill.coc.history",
+   "i.skill.coc.library-use",
+   "i.skill.coc.psychology",
+   "i.skill.coc.language-own"
   ],
   "groups": [
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.natural-world",
-      "uuid": "EFVIz8qOdZvW2Rej"
-     },
-     {
-      "brpid": "i.skill.coc.occult",
-      "uuid": "bOIhegZL1iqyb8S1"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.natural-world",
+     "i.skill.coc.occult"
     ]
    },
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.language-other-greek",
-      "uuid": "zxbzRO9P1dqY9jzD"
-     },
-     {
-      "brpid": "i.skill.coc.language-other-latin",
-      "uuid": "YY2QWZ0T7f8A76NE"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.language-other-greek",
+     "i.skill.coc.language-other-latin"
     ]
    }
   ],
-  "powers": [],
-  "minWealth": 0,
-  "maxWealth": 0,
-  "description": "以写作、编辑或评论为生，靠文字与人脉维持生活。职业点 EDU × 4；信用评级 9–30。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+  "personal": 0,
+  "personalText": ""
  }
 }

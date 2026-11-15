@@ -1,7 +1,7 @@
 {
  "_id": "SqhdUdPMj8ksoIkp",
  "name": "纨绔子弟",
- "type": "profession",
+ "type": "occupation",
  "flags": {
   "brp": {
    "brpidFlag": {
@@ -136,89 +136,107 @@
   }
  },
  "system": {
-  "skills": [
-   {
-    "brpid": "i.skill.coc.ride",
-    "uuid": "okghi72jSCDGA3Hz"
+  "description": {
+   "value": "家底殷实、以兴趣安排生活的闲人，靠人脉与金钱打开门路。职业点 EDU × 2 + APP × 2；信用评级 50–99。\n\n职业点：EDU*2+APP*2（引擎按白名单公式求值）\n\n信用评级：50–99（只能用职业点，且必须落在区间内）",
+   "keeper": ""
+  },
+  "source": "coc-roll20-occupations",
+  "type": {
+   "classic": false,
+   "lovecraftian": false,
+   "modern": false,
+   "pulp": false
+  },
+  "occupationSkillPoints": {
+   "str": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "con": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "siz": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "dex": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "app": {
+    "multiplier": 2,
+    "selected": true,
+    "optional": false
+   },
+   "int": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "pow": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "edu": {
+    "multiplier": 2,
+    "selected": true,
+    "optional": false
    }
+  },
+  "creditRating": {
+   "min": 50,
+   "max": 99
+  },
+  "itemDocuments": [],
+  "itemKeys": [
+   "i.skill.coc.ride"
   ],
   "groups": [
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.firearms-handgun",
-      "uuid": "1GMNDl2j6zfGXyI3"
-     },
-     {
-      "brpid": "i.skill.coc.firearms-rifle-shotgun",
-      "uuid": "icEnsbSORKp1qZtF"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.firearms-handgun",
+     "i.skill.coc.firearms-rifle-shotgun"
     ]
    },
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.charm",
-      "uuid": "ebCHph0biyJ2AG3j"
-     },
-     {
-      "brpid": "i.skill.coc.fast-talk",
-      "uuid": "AwLPg18IRN57w0fB"
-     },
-     {
-      "brpid": "i.skill.coc.intimidate",
-      "uuid": "mhG3if5iht465aSn"
-     },
-     {
-      "brpid": "i.skill.coc.persuade",
-      "uuid": "7zQTHnGe7rHoRnjC"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.charm",
+     "i.skill.coc.fast-talk",
+     "i.skill.coc.intimidate",
+     "i.skill.coc.persuade"
     ]
    },
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.art-craft-acting",
-      "uuid": "fwjXSgaOTh0oh0fj"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-painting",
-      "uuid": "yRoJ2aGTZ6XAmQbg"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-photography",
-      "uuid": "9vt3o8IIdMi9HXZ5"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-technical-drawing",
-      "uuid": "9dh2bNvAxHd55Jrw"
-     },
-     {
-      "brpid": "i.skill.coc.art-craft-writing",
-      "uuid": "f7bsCdzSlFXbREZB"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.art-craft-acting",
+     "i.skill.coc.art-craft-painting",
+     "i.skill.coc.art-craft-photography",
+     "i.skill.coc.art-craft-technical-drawing",
+     "i.skill.coc.art-craft-writing"
     ]
    },
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.language-other-greek",
-      "uuid": "zxbzRO9P1dqY9jzD"
-     },
-     {
-      "brpid": "i.skill.coc.language-other-latin",
-      "uuid": "YY2QWZ0T7f8A76NE"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.language-other-greek",
+     "i.skill.coc.language-other-latin"
     ]
    }
   ],
-  "powers": [],
-  "minWealth": 0,
-  "maxWealth": 0,
-  "description": "家底殷实、以兴趣安排生活的闲人，靠人脉与金钱打开门路。职业点 EDU × 2 + APP × 2；信用评级 50–99。\n\n职业点：EDU*2+APP*2（引擎按白名单公式求值）\n\n信用评级：50–99（只能用职业点，且必须落在区间内）"
+  "personal": 0,
+  "personalText": ""
  }
 }

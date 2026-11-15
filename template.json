@@ -3,7 +3,8 @@
     "types": [
       "character",
       "npc",
-      "vehicle"
+      "vehicle",
+      "creature"
     ],
     "templates": {
       "coc": {
@@ -230,71 +231,69 @@
       "properties": {
         "armed": false
       }
+    },
+    "creature": {
+      "templates": [
+        "coc"
+      ],
+      "special": {
+        "attacksPerRound": "1",
+        "sanLoss": {
+          "checkPassed": null,
+          "checkFailled": null
+        },
+        "movement": [],
+        "macros": []
+      },
+      "biography": {
+        "personalDescription": {
+          "value": ""
+        }
+      },
+      "infos": {
+        "type": "",
+        "occupation": "",
+        "organization": "",
+        "age": ""
+      },
+      "flags": {
+        "locked": true,
+        "displayFormula": false,
+        "panelSkills": true,
+        "panelCombat": true,
+        "panelInventory": true,
+        "panelInventoryItems": true,
+        "panelInventoryBooks": true,
+        "panelInventorySpells": true,
+        "panelInventoryTalents": true,
+        "panelInventoryWeapons": true,
+        "panelInventoryArmor": true,
+        "panelInventoryStatuses": true,
+        "panelLuckSpend": false,
+        "panelNotes": true,
+        "panelMacros": true,
+        "panelEffects": false,
+        "panelKeeper": true
+      }
     }
   },
   "Item": {
     "types": [
-      "gear",
+      "item",
       "skill",
-      "hit-location",
-      "personality",
-      "profession",
-      "power",
-      "magic",
-      "mutation",
-      "psychic",
-      "sorcery",
-      "super",
-      "failing",
-      "powerMod",
-      "armour",
-      "weapon",
-      "wound",
-      "allegiance",
-      "passion",
-      "persTrait",
-      "reputation",
-      "skillcat",
-      "culture",
       "talent",
-      "item"
+      "weapon",
+      "armor",
+      "book",
+      "occupation",
+      "spell",
+      "setup",
+      "status",
+      "archetype",
+      "experience-package",
+      "chase"
     ],
-    "templates": {
-      "base": {
-        "description": "",
-        "gmDescription": ""
-      }
-    },
-    "gear": {
-      "templates": [
-        "base"
-      ],
-      "quantity": 1,
-      "enc": 0,
-      "price": "",
-      "cost": 0,
-      "equipStatus": "carried",
-      "pSCurr": 0,
-      "pSMax": 0
-    },
-    "talent": {
-      "description": {
-        "value": "",
-        "keeper": "",
-        "notes": ""
-      },
-      "source": "",
-      "type": {
-        "physical": false,
-        "mental": false,
-        "combat": false,
-        "miscellaneous": false,
-        "basic": false,
-        "insane": false,
-        "other": false
-      },
-      "adjustments": []
-    },
+    "templates": {},
     "item": {
       "description": {
         "value": "",
@@ -340,180 +339,23 @@
         "occupation": false
       }
     },
-    "hit-location": {
-      "displayName": "",
-      "creatureType": "",
-      "lowRoll": 0,
-      "highRoll": 0,
-      "fractionHP": 1,
-      "fractionENC": 1,
-      "map": 0,
-      "hide": true,
-      "locType": "limb",
-      "bleeding": false,
-      "dead": false,
-      "severed": false,
-      "incapacitated": false,
-      "currHP": 0,
-      "maxHP": 0,
-      "wounds": [],
-      "adj": 0,
-      "apRnd": "0",
-      "bapRnd": "0",
-      "ap": 0,
-      "bap": 0
-    },
-    "personality": {
-      "templates": [
-        "base"
-      ],
-      "skills": [],
-      "groups": []
-    },
-    "profession": {
-      "templates": [
-        "base"
-      ],
-      "skills": [],
-      "groups": [],
-      "powers": [],
-      "minWealth": 0,
-      "maxWealth": 0
-    },
-    "power": {
-      "templates": [
-        "base"
-      ],
-      "level": 0,
-      "category": ""
-    },
-    "magic": {
-      "templates": [
-        "base"
-      ],
-      "base": 0,
-      "xp": 0,
-      "profession": 0,
-      "personality": 0,
-      "culture": 0,
-      "personal": 0,
-      "effects": 0,
-      "category": "",
-      "impact": "other",
-      "range": "",
-      "duration": "",
-      "pppl": "1",
-      "damage": "",
-      "prsnlty": false,
-      "occupation": false,
-      "cultural": false,
-      "mem": false,
-      "improve": false
-    },
-    "mutation": {
-      "templates": [
-        "base"
-      ],
-      "impact": "adv",
-      "minorOnly": false,
-      "minor": true
-    },
-    "psychic": {
-      "templates": [
-        "base"
-      ],
-      "base": 0,
-      "xp": 0,
-      "profession": 0,
-      "personality": 0,
-      "culture": 0,
-      "personal": 0,
-      "effects": 0,
-      "category": "",
-      "impact": "other",
-      "range": "",
-      "duration": "",
-      "pppl": "1",
-      "damage": "",
-      "prsnlty": false,
-      "occupation": false,
-      "cultural": false,
-      "improve": false
-    },
-    "sorcery": {
-      "templates": [
-        "base"
-      ],
-      "mem": false,
-      "range": "",
-      "pppl": "1",
-      "powCost": "0",
-      "maxLvl": 1,
-      "currLvl": 1,
-      "memLvl": 1,
-      "var": false
-    },
-    "super": {
-      "templates": [
-        "base"
-      ],
-      "powerMod": [],
-      "category": "",
-      "cpc": "1",
-      "cpcSpent": 0,
-      "level": 1,
-      "range": "",
-      "duration": "",
-      "pppl": "1",
-      "specialism": false,
-      "specName": "",
-      "mainName": "",
-      "chosen": false
-    },
-    "failing": {
-      "templates": [
-        "base"
-      ],
-      "shortDesc": "",
-      "cpcMod": 0
-    },
-    "powerMod": {
-      "templates": [
-        "base"
-      ],
-      "shortDesc": "",
-      "cpcMod": 0,
-      "perLvl": false
-    },
-    "armour": {
-      "templates": [
-        "base"
-      ],
-      "av1": 0,
-      "av2": 0,
-      "avr1": "",
-      "avr2": "",
-      "armVar": false,
-      "armBal": false,
-      "burden": "",
-      "enc": 0,
-      "mnplmod": 0,
-      "percmod": 0,
-      "physmod": 0,
-      "stealthmod": 0,
-      "sizRng": 0,
-      "time": 1,
-      "quantity": 1,
-      "ppMax": 0,
-      "ppCurr": 0,
-      "price": "",
-      "cost": 0,
-      "hitlocID": "",
-      "equipStatus": "carried",
-      "HPL": false,
-      "coverage": "",
-      "pSCurr": 0,
-      "pSMax": 0
+    "talent": {
+      "description": {
+        "value": "",
+        "keeper": "",
+        "notes": ""
+      },
+      "source": "",
+      "type": {
+        "physical": false,
+        "mental": false,
+        "combat": false,
+        "miscellaneous": false,
+        "basic": false,
+        "insane": false,
+        "other": false
+      },
+      "adjustments": []
     },
     "weapon": {
       "range": {
@@ -575,110 +417,261 @@
       },
       "price": {}
     },
-    "wound": {
-      "value": 1,
-      "treated": false,
-      "created": false,
-      "locId": ""
+    "armor": {
+      "description": {
+        "value": "",
+        "keeper": ""
+      }
     },
-    "allegiance": {
-      "templates": [
-        "base"
-      ],
-      "allegPoints": 0,
-      "opposeAlleg": "",
-      "allegTitle": "",
-      "improve": false,
-      "allegEnemy": false,
-      "allegAllied": false,
-      "allegApoth": false,
-      "benefits": "",
-      "xp": 0
-    },
-    "passion": {
-      "templates": [
-        "base"
-      ],
-      "base": 0,
-      "improve": false,
-      "xp": 0
-    },
-    "persTrait": {
-      "templates": [
-        "base"
-      ],
-      "traitType": "trait",
-      "oppName": "",
-      "base": 0,
-      "improve": false,
-      "oppimprove": false,
-      "xp": 0,
-      "basic": false
-    },
-    "reputation": {
-      "templates": [
-        "base"
-      ],
-      "base": 0
-    },
-    "skillcat": {
-      "templates": [
-        "base"
-      ],
-      "attrib": {
-        "str": "0",
-        "con": "0",
-        "int": "0",
-        "siz": "0",
-        "pow": "0",
-        "dex": "0",
-        "cha": "0",
-        "edu": "0"
+    "book": {
+      "author": "",
+      "content": "",
+      "date": "",
+      "description": {
+        "value": "",
+        "keeper": ""
       },
-      "stat": "none",
-      "mod": 0
+      "difficultyLevel": "regular",
+      "gains": {
+        "cthulhuMythos": {
+          "final": 0,
+          "initial": 0
+        },
+        "occult": 0,
+        "others": []
+      },
+      "language": "",
+      "mythosRating": 0,
+      "sanityLoss": "0",
+      "itemDocuments": [],
+      "itemKeys": [],
+      "study": {
+        "necessary": 0,
+        "units": "CoC7.weeks"
+      },
+      "type": {
+        "mythos": false,
+        "occult": false,
+        "other": false
+      }
     },
-    "culture": {
-      "templates": [
-        "base"
-      ],
-      "skills": [],
-      "groups": [],
-      "move": 0,
-      "stats": {
+    "occupation": {
+      "description": {
+        "value": "",
+        "keeper": ""
+      },
+      "source": "",
+      "type": {
+        "classic": false,
+        "lovecraftian": false,
+        "modern": false,
+        "pulp": false
+      },
+      "occupationSkillPoints": {
         "str": {
-          "formula": "3d6",
-          "mod": 0
+          "multiplier": null,
+          "selected": false,
+          "optional": false
         },
         "con": {
-          "formula": "3d6",
-          "mod": 0
-        },
-        "int": {
-          "formula": "2d6+6",
-          "mod": 0
+          "multiplier": null,
+          "selected": false,
+          "optional": false
         },
         "siz": {
-          "formula": "2d6+6",
-          "mod": 0
-        },
-        "pow": {
-          "formula": "3d6",
-          "mod": 0
+          "multiplier": null,
+          "selected": false,
+          "optional": false
         },
         "dex": {
-          "formula": "3d6",
-          "mod": 0
+          "multiplier": null,
+          "selected": false,
+          "optional": false
         },
-        "cha": {
-          "formula": "3d6",
-          "mod": 0
+        "app": {
+          "multiplier": null,
+          "selected": false,
+          "optional": false
+        },
+        "int": {
+          "multiplier": null,
+          "selected": false,
+          "optional": false
+        },
+        "pow": {
+          "multiplier": null,
+          "selected": false,
+          "optional": false
         },
         "edu": {
-          "formula": "2d6+6",
-          "mod": 0
+          "multiplier": null,
+          "selected": false,
+          "optional": false
         }
+      },
+      "creditRating": {
+        "min": null,
+        "max": null
+      },
+      "itemDocuments": [],
+      "itemKeys": [],
+      "groups": [],
+      "personal": 0,
+      "personalText": ""
+    },
+    "spell": {
+      "castingTime": "",
+      "costs": {
+        "hitPoints": "0",
+        "magicPoints": "0",
+        "others": "",
+        "sanity": "0",
+        "power": "0"
+      },
+      "costList": [],
+      "description": {
+        "value": "",
+        "keeper": "",
+        "alternativeNames": ""
+      },
+      "source": "",
+      "type": {
+        "bind": false,
+        "call": false,
+        "combat": false,
+        "contact": false,
+        "dismiss": false,
+        "enchantment": false,
+        "gate": false,
+        "summon": false
       }
+    },
+    "setup": {
+      "description": {
+        "value": "",
+        "keeper": ""
+      },
+      "characteristics": {
+        "points": {
+          "enabled": false,
+          "value": 460
+        },
+        "rolls": {
+          "enabled": true,
+          "enableIndividualRolls": true,
+          "str": "(3D6)*5",
+          "con": "(3D6)*5",
+          "siz": "(2D6+6)*5",
+          "dex": "(3D6)*5",
+          "app": "(3D6)*5",
+          "int": "(2D6+6)*5",
+          "pow": "(3D6)*5",
+          "edu": "(2D6+6)*5",
+          "luck": "(3D6)*5"
+        },
+        "values": {
+          "str": null,
+          "con": null,
+          "siz": null,
+          "dex": null,
+          "app": null,
+          "int": null,
+          "pow": null,
+          "edu": null,
+          "luck": null
+        }
+      },
+      "monetary": {
+        "format": "decimalLeft",
+        "symbol": "$",
+        "values": []
+      },
+      "source": "",
+      "enableCharacterisitics": true,
+      "itemDocuments": [],
+      "itemKeys": [],
+      "bioSections": [],
+      "backstory": ""
+    },
+    "status": {
+      "source": "",
+      "description": {
+        "value": "",
+        "notes": "",
+        "keeper": ""
+      },
+      "type": {
+        "mania": false,
+        "phobia": false
+      }
+    },
+    "archetype": {
+      "description": {
+        "value": "",
+        "keeper": ""
+      },
+      "source": "",
+      "bonusPoints": 100,
+      "coreCharacteristics": {
+        "str": false,
+        "con": false,
+        "siz": false,
+        "dex": false,
+        "app": false,
+        "int": false,
+        "pow": false,
+        "edu": false
+      },
+      "coreCharacteristicsFormula": {
+        "enabled": true,
+        "value": "(1D6+13)*5"
+      },
+      "suggestedOccupations": "",
+      "suggestedTraits": "",
+      "talents": 2,
+      "itemDocuments": [],
+      "itemKeys": []
+    },
+    "experience-package": {
+      "description": {
+        "value": "",
+        "keeper": ""
+      },
+      "age": "",
+      "properties": {
+        "cthulhuGain": false,
+        "sanityLoss": false,
+        "sanitySame": false
+      },
+      "cthulhuGain": "",
+      "sanityLoss": "",
+      "backgroundQty": 1,
+      "backgroundInjury": false,
+      "backgroundStatus": false,
+      "backgroundEncounter": false,
+      "immunity": [],
+      "addSpells": false,
+      "points": 0,
+      "itemDocuments": [],
+      "itemKeys": [],
+      "groups": []
+    },
+    "chase": {
+      "description": {
+        "keeper": ""
+      },
+      "locations": {
+        "total": 0,
+        "list": []
+      },
+      "includeEscaped": false,
+      "includeLatecomers": false,
+      "showTokenMovement": true,
+      "startingRange": 2,
+      "startingIndex": 0,
+      "started": false,
+      "vehicle": false,
+      "participants": []
     }
   }
 }

@@ -1,0 +1,26 @@
+<section class='item tab details {{tab.cssClass}}' data-group='primary' data-tab='details'>
+  <div class="base-grid">
+    <div class="item-title">施法时间</div>
+    <div class="stat-input"><input name="system.castingTime" type="text" value="{{system.castingTime}}" /></div>
+    <div class="item-title">来源</div>
+    <div class="stat-input"><input name="system.source" type="text" value="{{system.source}}" /></div>
+    <div class="item-title">HP 消耗</div>
+    <div class="stat-input"><input name="system.costs.hitPoints" type="text" value="{{system.costs.hitPoints}}" /></div>
+    <div class="item-title">MP 消耗</div>
+    <div class="stat-input"><input name="system.costs.magicPoints" type="text" value="{{system.costs.magicPoints}}" /></div>
+    <div class="item-title">SAN 消耗</div>
+    <div class="stat-input"><input name="system.costs.sanity" type="text" value="{{system.costs.sanity}}" /></div>
+    <div class="item-title">POW 消耗</div>
+    <div class="stat-input"><input name="system.costs.power" type="text" value="{{system.costs.power}}" /></div>
+    <div class="item-title">其他消耗</div>
+    <div class="stat-input"><input name="system.costs.others" type="text" value="{{system.costs.others}}" /></div>
+    <div class="item-title">别名</div>
+    <div class="stat-input"><input name="system.description.alternativeNames" type="text" value="{{system.description.alternativeNames}}" /></div>
+  </div>
+  <div class="item-title">类型</div>
+  <div class="options-grid">
+    {{#each spellTypes as |spellType|}}
+      <label><input type="checkbox" name="system.type.{{spellType.key}}" {{checked spellType.checked}} /> {{spellType.key}}</label>
+    {{/each}}
+  </div>
+</section>

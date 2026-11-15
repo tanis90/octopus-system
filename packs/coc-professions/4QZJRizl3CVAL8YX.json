@@ -1,7 +1,7 @@
 {
  "_id": "4QZJRizl3CVAL8YX",
  "name": "自定义调查员",
- "type": "profession",
+ "type": "occupation",
  "flags": {
   "brp": {
    "brpidFlag": {
@@ -51,11 +51,67 @@
   }
  },
  "system": {
-  "skills": [],
+  "description": {
+   "value": "玩家自定的调查员：任意选定 8 项技能，由守密人审核信用评级（0–99），并自行撰写背景。职业点公式从五条白名单公式中选一条，没有第六条自创公式。\n\n职业点：EDU*4 或 EDU*2+DEX*2 或 EDU*2+APP*2 或 EDU*2+STR*2 或 EDU*2+POW*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：0–99（只能用职业点，且必须落在区间内）",
+   "keeper": ""
+  },
+  "source": "coc-wiki-skills",
+  "type": {
+   "classic": false,
+   "lovecraftian": false,
+   "modern": false,
+   "pulp": false
+  },
+  "occupationSkillPoints": {
+   "str": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "con": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "siz": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "dex": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "app": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "int": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "pow": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "edu": {
+    "multiplier": 4,
+    "selected": true,
+    "optional": false
+   }
+  },
+  "creditRating": {
+   "min": 0,
+   "max": 99
+  },
+  "itemDocuments": [],
+  "itemKeys": [],
   "groups": [],
-  "powers": [],
-  "minWealth": 0,
-  "maxWealth": 0,
-  "description": "玩家自定的调查员：任意选定 8 项技能，由守密人审核信用评级（0–99），并自行撰写背景。职业点公式从五条白名单公式中选一条，没有第六条自创公式。\n\n职业点：EDU*4 或 EDU*2+DEX*2 或 EDU*2+APP*2 或 EDU*2+STR*2 或 EDU*2+POW*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：0–99（只能用职业点，且必须落在区间内）"
+  "personal": 0,
+  "personalText": ""
  }
 }

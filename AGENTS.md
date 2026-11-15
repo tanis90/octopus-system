@@ -7,7 +7,7 @@
 - owner 负责：规则语义（`module/rules/`、检定/战斗/SAN/Luck/创建等）、系统接口（`system.json`、`template.json`、入口/语言/样式/文档类型）、内容闭包（`content/` → `packs*`）和 CI 验证。
 - 前端只负责依赖身份、结构校验与宿主集成：安装/加载 system、核对 artifact 的 commit/setHash/zip hash、跑宿主侧测试。前端不得替 owner 验全量规则语义，不得从 `web/packages/brp` 的重建物冒充 owner artifact，也不得把前端 `live-file-set-v1` 台账 hash 当作 owner hash。
 - 正常顺序：owner 源码/内容改动并通过本地验证 → owner CI 两轴全绿并产出 artifact → 前端 pin/adopt 该 artifact。前端不得先改 pin 再等 owner 补证。
-- `octopus` 与 `coc7` 共用 `brp` system（同 id、同宿主入口），但不是同一 ruleset、不是同一战役：规则分支、starter/内容包、迁移语义分线维护，不得互相覆盖。
+- `octopus` 只保留为导入/战役标识：规则解析归一到 `coc`，octopus/UGE 内容包已退役。当前只维护 CoC 7e 一条内容线，不得再新增 octopus pack 或按旧 BRP 名册建模。
 - ruleset 是创建战役时固定的分类，不随 system 发版改变。除非确实破坏后端 API/数据契约，不修改后端或迁移战役；宿主代际变化须另立规则与发布线。UI 偏好、卡面审美、前端交互不进 release 身份。
 
 ## 发布身份与证据
@@ -33,8 +33,9 @@
 
 - 本源仓没有 `package.json`、没有 `go.mod`：`npm test`、`go test` 均不适用；不要新增或假设 npm scripts，验证入口是 Node 脚本和 `.github/workflows/owner-ci.yml`。
 - runtime 语义（与 owner CI 同款）：`node tools/check-zh-cn.mjs`；`node tools/tests/base-pack-determinism.mjs`；`node tools/tests/coc-sanity-regressions.mjs`；`node tools/tests/coc-rules-regressions.mjs`（核心 60/9 + 扩展 0，不需要外部扩展 checkout）；`node tools/tests/owner-ci-verify-negative.mjs`。
-- content 轴：`node tools/base-pack/build.mjs`；`node tools/coc-pack/build.mjs`；`node tools/tests/base-pack-determinism.mjs`；`node tools/tests/coc-rules-regressions.mjs`；`node tools/tests/coc-sanity-regressions.mjs`；最后 `git diff --exit-code` 证明重建字节等于已提交字节。content job 先断言核心 60/9、`system.json` 四个 pack、扩展目录/构建链缺席；旧 91/156 pin 必须显式重钉后才能通过。
-- 公开 owner 的内容边界：只保留核心 `coc-skills` 60 / `coc-professions` 9、`content/coc/` 的核心事实与核心 provenance、规则实现、兼容文档、SAN/Luck 设计与 `sanity-provenance.json`；全量职业/技能源、扩展专用 provenance、SealDice 导入链、LevelDB 扩展构建器和扩展引用（含 `expansionRef`）不进入本仓。核心 packs 必须由真实 facts 构建，不得用空源、占位 artifact 或假 receipt 充数。
+- content 轴：`node tools/base-pack/build.mjs`；`node tools/coc-pack/build.mjs`；`node tools/tests/base-pack-determinism.mjs`；`node tools/tests/coc-rules-regressions.mjs`；`node tools/tests/coc-sanity-regressions.mjs`；最后 `git diff --exit-code` 证明重建字节等于已提交字节。content job 先断言核心 60/9、`system.json` 两个 pack（`coc-skills` / `coc-professions`）、扩展目录/构建链缺席；`.github/workflows/owner-ci.yml` 的两处 core 门硬断言已同步为两包名册。
+- 类型名册：Item = `item`/`skill`/`talent`/`weapon`/`armor`/`book`/`occupation`/`spell`/`setup`/`status`/`archetype`/`experience-package`/`chase`（13）；Actor = `character`/`npc`/`vehicle`/`creature`（4）。`template.json` 是唯一名册源；增删类型必须同步 sheet 注册、`templates/` 与 `lang/*.json` 的 `TYPES`，并跑本节验证。
+- 公开 owner 的内容边界：只保留核心 `coc-skills` 60 / `coc-professions` 9（`occupation` 原生字段）、`content/coc/` 的核心事实与核心 provenance、规则实现、兼容文档、SAN/Luck 设计与 `sanity-provenance.json`；全量职业/技能源、扩展专用 provenance、SealDice 导入链、LevelDB 扩展构建器和扩展引用（含 `expansionRef`）不进入本仓。核心 packs 必须由真实 facts 构建，不得用空源、占位 artifact 或假 receipt 充数。
 - artifact 轴：`node tools/tests/owner-ci-artifact-negative.mjs`；再跑 `artifact.mjs assemble` 和 `artifact.mjs verify`（带两轴 root 与 owner manifest/receipt），verify 必须报 `rebuild: byte-identical`。
 - 本地出证时 `manifest.mjs collect/verify` 的 `--root` 指向被测 checkout；工具本身可从 owner-meta/工作副本调用。只有真实 CI run 才写 runUrl。
 - 本仓没有 `tools/run-headless.mjs`。Readme 里的 `MT_SYSTEM_ID=brp ... tools/run-headless.mjs` 是在 `mt-foundry-compat` 把本目录放进 `web/packages/brp/` 后的前端集成验证，不作为 owner 语义证据。
@@ -53,5 +54,5 @@
 
 - 禁止复制 Foundry 实现、未授权内容或他人模板/HTML/CSS/实现；只映射有许可的数值/名称并记录来源。
 - 禁止伪造缺件（空文件、占位 pack、假入口、假 receipt、假 runUrl），或用 `0.3.1-dev` 冒充已发布版本。
-- 禁止跨线全局资产倾轧：runtime/content 两轴、octopus/coc 两条 ruleset、不同 release 之间不得共享并覆盖同名产物；共享 system 不等于共享发布身份。
+- 禁止跨线全局资产倾轧：runtime/content 两轴、不同 release 之间不得共享并覆盖同名产物；共享 system 不等于共享发布身份。
 - 禁止绕过 owner CI 直接发布；禁止把前端重建、开发快照或未出证的 zip 当 owner artifact。

@@ -87,8 +87,6 @@ const statValue = (stats, name) => {
       value = raw
     } else if (Number.isFinite(Number(raw.total))) {
       value = Number(raw.total)
-    } else if (['base', 'redist', 'culture'].some((field) => raw[field] !== undefined)) {
-      value = Number(raw.base ?? 0) + Number(raw.redist ?? 0) + Number(raw.culture ?? 0)
     } else {
       throw new CreationRuleError('stat-invalid', `属性 ${name} 不是可用数值`, { name, raw })
     }

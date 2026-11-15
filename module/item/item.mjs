@@ -3,56 +3,26 @@ import { isCtrlKey } from '../apps/helper.mjs'
 import { BRPID } from '../brpid/brpid.mjs';
 import { skillTotal } from '../rules/coc-skill-fields.mjs'
 
+const ITEM_ICONS = Object.freeze({
+  item: 'systems/brp/assets/Icons/knapsack.svg',
+  skill: 'systems/brp/assets/Icons/skills.svg',
+  talent: 'systems/brp/assets/Icons/shining-heart.svg',
+  weapon: 'systems/brp/assets/Icons/saber-and-pistol.svg',
+  armor: 'systems/brp/assets/Icons/lamellar.svg',
+  book: 'systems/brp/assets/Icons/scroll-unfurled.svg',
+  occupation: 'systems/brp/assets/Icons/blacksmith.svg',
+  spell: 'systems/brp/assets/Icons/bolt-spell-cast.svg',
+  setup: 'systems/brp/assets/Icons/classical-knowledge.svg',
+  status: 'systems/brp/assets/Icons/inverse-aura.svg',
+  archetype: 'systems/brp/assets/Icons/inner-self.svg',
+  'experience-package': 'systems/brp/assets/Icons/deadly-strike.svg',
+  chase: 'systems/brp/assets/Icons/cowled.svg',
+});
+
 export class BRPItem extends Item {
   constructor(data, context) {
     if (typeof data.img === 'undefined') {
-      if (data.type === 'powerMod') {
-        data.img = 'systems/brp/assets/Icons/broken-shield.svg'
-      } else if (data.type === 'failing') {
-        data.img = 'systems/brp/assets/Icons/drama-masks.svg'
-      } else if (data.type === 'hit-location') {
-        data.img = 'systems/brp/assets/Icons/arm-bandage.svg'
-      } else if (data.type === 'magic') {
-        data.img = 'systems/brp/assets/Icons/scroll-unfurled.svg'
-      } else if (data.type === 'mutation') {
-        data.img = 'systems/brp/assets/Icons/dna1.svg'
-      } else if (data.type === 'personality') {
-        data.img = 'systems/brp/assets/Icons/inner-self.svg'
-      } else if (data.type === 'power') {
-        data.img = 'systems/brp/assets/Icons/lightning-helix.svg'
-      } else if (data.type === 'profession') {
-        data.img = 'systems/brp/assets/Icons/blacksmith.svg'
-      } else if (data.type === 'psychic') {
-        data.img = 'systems/brp/assets/Icons/suspicious.svg'
-      } else if (data.type === 'skill') {
-        data.img = 'systems/brp/assets/Icons/skills.svg'
-      } else if (data.type === 'sorcery') {
-        data.img = 'systems/brp/assets/Icons/bolt-spell-cast.svg'
-      } else if (data.type === 'powerMod') {
-        data.img = 'systems/brp/assets/Icons/broken-shield.svg'
-      } else if (data.type === 'super') {
-        data.img = 'systems/brp/assets/Icons/deadly-strike.svg'
-      } else if (data.type === 'armour') {
-        data.img = 'systems/brp/assets/Icons/lamellar.svg'
-      } else if (data.type === 'gear') {
-        data.img = 'systems/brp/assets/Icons/knapsack.svg'
-      } else if (data.type === 'weapon') {
-        data.img = 'systems/brp/assets/Icons/saber-and-pistol.svg'
-      } else if (data.type === 'wound') {
-        data.img = 'systems/brp/assets/Icons/drop.svg'
-      } else if (data.type === 'allegiance') {
-        data.img = 'systems/brp/assets/Icons/all-seeing-eye.svg'
-      } else if (data.type === 'passion') {
-        data.img = 'systems/brp/assets/Icons/shining-heart.svg'
-      } else if (data.type === 'persTrait') {
-        data.img = 'systems/brp/assets/Icons/scales.svg'
-      } else if (data.type === 'reputation') {
-        data.img = 'systems/brp/assets/Icons/throne-king.svg'
-      } else if (data.type === 'skillcat') {
-        data.img = 'systems/brp/assets/Icons/classical-knowledge.svg'
-      } else if (data.type === 'culture') {
-        data.img = 'systems/brp/assets/Icons/earth-africa-europe.svg'
-      }
+      data.img = ITEM_ICONS[data.type]
     }
     super(data, context)
   }
@@ -115,40 +85,16 @@ export class BRPItem extends Item {
     }
     switch (item.type) {
       case 'skill':
-      case 'magic':
-      case 'psychic':
         rollType = "SK"
         skillId = item._id
         if (ctrlKey) { cardType = 'OP' }
         if (altKey) { cardType = 'GR' }
         if (altKey & ctrlKey) { cardType='CO' }
         break
-      case 'allegiance':
-        rollType = "AL"
-        skillId = item._id
-        break
-      case 'passion':
-        rollType = "PA"
-        if (ctrlKey) { cardType = 'OP' }
-        skillId = item._id
-        break
-      case 'persTrait':
-        rollType = "PT"
-        if (ctrlKey) { cardType = 'OP' }
-        if (altKey) { opp = 'true' }
-        skillId = item._id
-        break
       case 'weapon':
         rollType = "CM"
         itemId = item._id
-        skillId = BRPCheck.weaponSkill(actor, actor.items.get(itemId))?._id
-          ?? actor.items.get(itemId).system.sourceID
-        break
-      case 'reputation':
-        rollType = "PA"
-        if (ctrlKey) { cardType = 'OP' }
-        if (altKey) { cardType = 'GR' }
-        skillId = item._id
+        skillId = BRPCheck.weaponSkill(actor, actor.items.get(itemId))?._id ?? null
         break
       default:
         item.sheet.render(true);
@@ -189,14 +135,6 @@ export class BRPItem extends Item {
       }
     }
     return created
-  }
-
-  static async createDialog(data={}, createOptions={}, { types, ...options }={}) {
-    //Enter the document types you want to remove from the side bar create option - 'base' is removed in the super
-    const invalid = ["wound"];
-    if (!types) types = this.TYPES.filter(type => !invalid.includes(type));
-    else types = types.filter(type => !invalid.includes(type));
-    return super.createDialog(data, createOptions, { types, ...options });
   }
 
   async _preDelete(options, user) {

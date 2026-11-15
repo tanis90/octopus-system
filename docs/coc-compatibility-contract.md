@@ -1,13 +1,18 @@
 # CoC 7e 兼容契约（核心 60/9 内容闭包 + 规则实现；全量职业/技能源已迁出公开 owner）
 
-状态：实验性兼容契约（2026-11-10 内容收缩后）。公开 owner 只保留核心
-`coc-skills` **60** 条技能（22 条专精）与 `coc-professions` **9** 个入口
-（8 个核心职业 + 产品定义的自定义调查员）；全量职业/技能事实源、扩展专用
-provenance、SealDice 导入器、扩展 LevelDB 打包器与扩展引用（含 `expansionRef`）
-已迁出本仓。规则实现、本兼容契约、SAN/Luck 设计与
+状态：实验性兼容契约（2026-11-15 CoC7 名册替换后）。公开 owner 只保留核心
+`coc-skills` **60** 条技能（22 条专精）与 `coc-professions` **9** 条
+`occupation` 文档（8 个核心职业 + 产品定义的自定义调查员）；全量职业/技能
+事实源、扩展专用 provenance、SealDice 导入器、扩展 LevelDB 打包器与扩展引用
+（含 `expansionRef`）已迁出本仓。规则实现、本兼容契约、SAN/Luck 设计与
 `content/coc/sanity-provenance.json` 保留。
 
-本文件保留 M1-M7 的规则语义与证据分级，以及 M3 战斗/创伤、M4 SAN/疯狂/Luck/
+> 2026-11 名册替换：Item 名册为 13 型、Actor 名册为 4 型（见 `AGENTS.md`）；
+> `coc-professions` 文档类型为 `occupation`。octopus 两包及其内容源已退役，
+> `octopus` 仅保留为归一到 `coc` 的导入标识。下文 M1–M8 中出现的 octopus 包、
+> 57 技能/6 分类、旧 Item 型名与批次计数均为历史记录，不再描述当前树。
+
+本文件保留 M1-M8 的规则语义与证据分级，以及 M3 战斗/创伤、M4 SAN/疯狂/Luck/
 成长/世界时钟的完整契约。M8 的批量职业/技能数据与扩展分发形态属于已迁出的
 内容闭包，本文件不再把它们当作当前公开 owner 的事实源；相关历史只留在兼容
 记录中，具体数据不随公开仓分发。这不是“完整 CoC 已上线”的声明，也不覆盖真实
@@ -20,19 +25,22 @@ M4 完成原生 SAN/疯狂、Luck 消费与恢复、技能成长和持久化 CoC
 M5/M6/M7 的规则语义与证据分级仍保留在本文件后续章节。M8 的批量职业/技能
 数据、187 条 deferred 记录及其专属 provenance，以及拆包后的扩展分发仓
 （`arcane-investigator-skills` 31 / `arcane-investigator-professions` 148）
-已随全量内容源迁出公开 owner；当前公开事实源只保留核心 **60 技能 / 9 职业入口**，
-`system.json` 正好四个包。历史计数（91 技能 / 50 专精、156 转录职业 + 1 自定义）
+已随全量内容源迁出公开 owner；当前公开事实源只保留核心 **60 技能 / 9 条
+`occupation` 职业**，`system.json` 正好两个包（`coc-skills` /
+`coc-professions`）。历史计数（91 技能 / 50 专精、156 转录职业 + 1 自定义）
 只用于说明迁移前的合并面，不再描述公开 owner 的当前产物。
 
 ## 目标
 
-在保留 MIT BRP 底座与既有 octopus/UGE 行为的前提下，提供可验证的 CoC 7e 基础片：
+在 MIT BRP 代码底座上，按 FVTT CoC 7e 的数据结构与规则提供可验证的基础切片：
 
-- 独立核心技能数据包 `coc-skills` 与职业包 `coc-professions`，与 octopus 包物理隔离。
+- 两个核心数据包 `coc-skills` 与 `coc-professions`；octopus/UGE 两包已退役，
+  不存在并行的内容线。
 - 集中式规则接口：派生属性、成功等级、成长、starter 选择。
 - 共享纯函数车卡规则（职业点公式、兴趣点、信用评级、专精身份、配点校验）。
 - 原生 `BRPCheck` 仍走真实检定链；CoC 只替换判级阈值。
-- 新角色 starter 按规则集/内容来源隔离；旧 Actor、导入和 NPC 不迁移。
+- 新角色 starter 只附加 `contentSource: "coc"` 的核心技能；旧 Actor、导入和
+  NPC 不迁移。
 - M3：原生攻击→闪避/反击/扑掩体→真实伤害→创伤/急救/医学/恢复全链，骰子为真实
   `Roll`，状态写入 `flags.brp.coc.wounds`，跨所有者写走 `activeGM` relay。
 - M4：原生理智检定→真实成对损失→单次 ≥5 的真实 INT 检定→1D10 小时/1D10 轮发作；
@@ -42,8 +50,9 @@ M5/M6/M7 的规则语义与证据分级仍保留在本文件后续章节。M8 �
   只保留其中进入核心闭包的技能与古董商职业，其余扩展职业已迁出。
 - M8：SealDice 批量职业/技能数据、deferred 记录与专属 provenance 已迁出公开
   owner；本仓不再保存该来源条目或扩展构建器。
-- 核心闭包：`coc-skills` 60 / `coc-professions` 9，`system.json` 正好四个包；
-  扩展包不注册、不构建、不随本仓分发。
+- 核心闭包：`coc-skills` 60 / `coc-professions` 9（`occupation`），
+  `system.json` 正好两个包；扩展包与已退役的 octopus 包都不注册、不构建、
+  不随本仓分发。
 
 ## 允许来源
 
@@ -173,14 +182,15 @@ M7 追加（**唯一职业/技能来源，secondary**）：
 
 ## 隔离与不迁移
 
-- 隐藏 world setting `brp.ruleset`，默认 `octopus`。外部 catalog/settingsSeed 值
-  `coc7` 显式映射到内部 `coc` 适配器；`coc` 也接受；未知值回落 `octopus`，不会
-  被当作 CoC。
-- CoC starter 只取 `flags.brp.contentSource === "coc"` 的技能；octopus 只取未标记/octopus 内容。
-- CoC 不附挂 `skillcat`；octopus 保持 57 技能 + 6 分类。
-- Brawl：octopus 用 `i.skill.brawl`，CoC 用 `i.skill.coc.fighting-brawl`。
+- 隐藏 world setting `brp.ruleset` 的生效规则只有 `coc`；外部值 `coc7` 与
+  `octopus` 都映射到 `coc`，未知值也回落到 `coc`。octopus/UGE 规则分支与
+  内容包都已退役。
+- CoC starter 只取 `flags.brp.contentSource === "coc"` 的技能；没有 octopus
+  技能或分类可混入。
+- CoC 不附挂 `skillcat`（octopus 的 57 技能 + 6 分类已随包退役）。
+- Brawl 使用 `i.skill.coc.fighting-brawl`。
 - `fromCompendium`、旧 Actor、世界导入不迁移；NPC 不跑 character starter。
-- 既有 PC 双态、徒手武器、`cha` canonical 修复保留。
+- 既有 PC 双态、徒手武器、`app` canonical 修复保留。
 
 ## M1 未覆盖
 
@@ -195,8 +205,9 @@ M7 追加（**唯一职业/技能来源，secondary**）：
 
 ### 覆盖范围
 
-- 职业包 `coc-professions` 首批 10 条（M5 后 15 条，M6 后 19 条，M7 后共 38 条），
-  独立于 `octopus-professions`：Archaeologist、Author、Cat Burglar、Dilettante、Explorer、
+- 职业包 `coc-professions` 首批 10 条（M5 后 15 条，M6 后 19 条，M7 后共 38 条；
+  收缩后为 9 条 `occupation`），当时独立于仍在的 `octopus-professions`
+  （该包已于 2026-11 退役）：Archaeologist、Author、Cat Burglar、Dilettante、Explorer、
   Investigative Journalist、Nurse、Private Investigator、Professor、Soldier
   （M5/M6/M7 各批见下文事实）。M7 起后续职业事实源为 `coc-cardwright`，首批 10 条仍保留
   原 Roll20/secondary 记录，不改写成一手。
@@ -282,7 +293,7 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
   族来源登记在 `professions.json` 的 `skillFamilies.*.baseSourceRefs`。
 - `skillFamilies.concrete` 与已发布专精双向一致：包里有而族里没有 = 选项永远选不到，
   族里有而包里没有 = 引用悬空，构建与回归都拒绝。
-- UGE/octopus 技能集不变（仍 57 条），CoC 专精不写入 octopus 包。
+- 当时 UGE/octopus 技能集仍为 57 条；该包及其内容源已于 2026-11 退役。
 
 ### 第二批职业（职业 10 → 15）
 
@@ -472,8 +483,9 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 
 ### M7 验证与来源
 
-- 源仓 `tools/tests/coc-rules-regressions.mjs` **137/137**；确定性构建通过，
-  `coc-skills` / `coc-professions` / packs 连续构建一致，octopus 包字节不变。
+- 源仓 `tools/tests/coc-rules-regressions.mjs` **137/137**（M7 时点）；确定性构建
+  通过，`coc-skills` / `coc-professions` / packs 连续构建一致。当时 octopus 包
+  仍在且字节不变，该包已于 2026-11 退役。
 - 证据全部为 **secondary**：本批 19 条与 4 条保留记录均以 `coc-cardwright` 为
   `sourceRefs`，不再引用公开职业页拼接；README 的上游声明只作审计线索。
 - compat 前端已同步本批并完成真实栈 550/550（dev HS256），证据记在 compat 仓
@@ -832,10 +844,10 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 | 包 | 位置 | 条目 | 注册 |
 | --- | --- | --- | --- |
 | `coc-skills` | 仓库根 `packs-json` / `packs-index` / `packs` | **60** 技能（22 专精） | `system.json` |
-| `coc-professions` | 同上 | **9** 个入口 | `system.json` |
+| `coc-professions` | 同上 | **9** 条 `occupation` 文档 | `system.json` |
 
-- `system.json` 正好四个包：`octopus-skills`、`octopus-professions`、
-  `coc-skills`、`coc-professions`。
+- `system.json` 正好两个包：`coc-skills`、`coc-professions`
+  （`octopus-skills` / `octopus-professions` 已于 2026-11 退役）。
 - 核心职业 = 古董商、作家、纨绔子弟、医生（医学博士）、调查记者、警探、私家侦探、
   教授 + 自定义调查员。作家的「艺术/手艺（文学）」是 `specialismSlots` 开放槽，
   不虚构 `art-craft-literature` 文档。
@@ -868,19 +880,22 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 ## 验证口径
 
 - `node tools/tests/coc-rules-regressions.mjs`：核心数据/构建/规则/配点/战斗/
-  创伤/M4 适配器契约。收缩后实测 **165/165**：精确 60 技能 / 9 职业、`system.json`
-  四个 pack、扩展包/导入器/LevelDB 构建器/`expandPackBrpids` 全缺席、核心职业只用
-  核心包建卡、作家文学槽与确定性 ID 均由断言覆盖；M5 增加 `cocM5FixedWriterOwnerContract`
-  锁住 settleOwned/retry/pending、`coc-sn:` settleId、flags-only 结算记录、归属输入、
-  卡修复的窄权限与「无新增 socket 消息类型」边界；`cocResolveDamageBonusPrecedence`
-  锁 DB 来源优先级；`cocDeclareAttackUnarmedUsesNativeDamageBonus` 用真实
-  `cocDeclareAttack` 断言 STR+SIZ 130 徒手 = `1D3+1D4`、极难 = 7、火器不加 DB；
-  `cocSkillFields*` 锁 canonical/legacy/两者/皆无、规范值不双算、NaN、`noxpgain` 与
-  已有 experience 共存、写助手只出规范路径、迁移幂等且不覆盖规范值。
+  创伤/M4 适配器契约。CoC7 名册替换后实测 **163/163**：精确 60 技能 / 9 职业、
+  `system.json` 两个 pack、octopus 包与扩展包/导入器/LevelDB 构建器/
+  `expandPackBrpids` 全缺席、核心职业只用核心包建卡、作家文学槽与确定性 ID
+  均由断言覆盖；M5 增加 `cocM5FixedWriterOwnerContract` 锁住 settleOwned/retry/
+  pending、`coc-sn:` settleId、flags-only 结算记录、归属输入、卡修复的窄权限与
+  「无新增 socket 消息类型」边界；`cocResolveDamageBonusPrecedence` 锁 DB 来源优先级；
+  `cocDeclareAttackUnarmedUsesNativeDamageBonus` 用真实 `cocDeclareAttack` 断言
+  STR+SIZ 130 徒手 = `1D3+1D4`、极难 = 7、火器不加 DB；`cocSkillFields*` 锁
+  canonical/legacy/两者/皆无、规范值不双算、NaN、`noxpgain` 与已有 experience
+  共存、写助手只出规范路径、迁移幂等且不覆盖规范值。
   历史计数（M4 107、M5 124、
   M6 132、M7 137、M8 149、拆包 167）只作记录，不描述当前公开 owner。
-- `node tools/tests/base-pack-determinism.mjs`：octopus 基础包连续构建与提交产物一致。
-- `coc-skills` 与 `coc-professions` 连续构建 byte-identical；octopus 包字节不变。
+- `node tools/tests/base-pack-determinism.mjs`：octopus 基础包退役后，该探针验证
+  退役守卫的连续构建、与已提交产物一致，以及 octopus 源/产物缺席。
+- `coc-skills` 与 `coc-professions` 连续构建 byte-identical；octopus 产物与
+  内容源均缺席。
 - compat 前端/真实栈的扩展装载、模块注册与 31/148 扩展文档属于已迁出的内容闭包，
   不再由本源仓验收；本源仓只对核心 60/9 与规则实现负责。
 - `node tools/tests/coc-sanity-regressions.mjs`：M4 SAN/疯狂/Luck/成长纯核 **45 项**
@@ -910,8 +925,10 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
   `MT_SYSTEM_ID=brp MT_SPIKE_EVAL=... node --experimental-vm-modules tools/run-headless.mjs`
   在包含 `game` 的 compat 镜像里执行。直接 `node tools/tests/rules-regressions.mjs` 会在
   解析阶段报 `Illegal return statement`，这是文件形态而非测试失败。
-- `node tools/tests/base-pack-determinism.mjs`：octopus 基础包连续构建与提交产物一致。
-- `coc-skills` 与 `coc-professions` 连续构建 byte-identical；octopus 包字节不变。
+- `node tools/tests/base-pack-determinism.mjs`：退役守卫连续构建，且与已提交
+  产物一致、octopus 源/产物缺席。
+- `coc-skills` 与 `coc-professions` 连续构建 byte-identical；octopus 包字节与
+  内容源均不存在。
 - M4 源仓切片当时只在临时副本（compat 检出 + 本仓 `module`/`templates`/`lang`/
   `template.json`/`system.json` 镜像到 `web/packages/brp`）中运行，**未**改 compat 工作树、
   未同步 vendor；临时镜像里 `npm test`（static + unit + headless）exit 0。这是**阶段一**。
