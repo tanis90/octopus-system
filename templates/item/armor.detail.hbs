@@ -1,0 +1,14 @@
+<section class='item tab details {{tab.cssClass}}' data-group='primary' data-tab='details'>
+  <div class="bold">{{localize 'BRP.description'}}</div>
+  <div class="description-doc">
+    {{#if editable}}
+      <prose-mirror name="system.description.value" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description.value}}"
+        collaborate="true" toggled="true">
+        {{{enrichedDescription}}}
+      </prose-mirror>
+    {{else}}
+      {{{enrichedDescription}}}
+    {{/if}}
+  </div>
+  <div class="item-title">护甲值记录在角色的 attribs.armor 上；本物品只保留描述。</div>
+</section>

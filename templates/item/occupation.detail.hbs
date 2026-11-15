@@ -1,0 +1,30 @@
+<section class='item tab details {{tab.cssClass}}' data-group='primary' data-tab='details'>
+  <div class="base-grid">
+    <div class="item-title">来源</div>
+    <div class="stat-input"><input name="system.source" type="text" value="{{system.source}}" /></div>
+    <div class="item-title">信用评级下限</div>
+    <div class="stat-input"><input name="system.creditRating.min" type="number" value="{{system.creditRating.min}}" /></div>
+    <div class="item-title">信用评级上限</div>
+    <div class="stat-input"><input name="system.creditRating.max" type="number" value="{{system.creditRating.max}}" /></div>
+    <div class="item-title">兴趣点</div>
+    <div class="stat-input"><input name="system.personal" type="number" value="{{system.personal}}" /></div>
+    <div class="item-title">个人描述</div>
+    <div class="stat-input"><input name="system.personalText" type="text" value="{{system.personalText}}" /></div>
+  </div>
+  <div class="item-title">职业技能点</div>
+  <div class="base-grid">
+    {{#each attributes as |attribute|}}
+      <div class="item-title">{{attribute.label}}</div>
+      <div class="stat-input"><input name="system.occupationSkillPoints.{{attribute.key}}.multiplier" type="number" value="{{attribute.multiplier}}" /></div>
+      <label><input type="checkbox" name="system.occupationSkillPoints.{{attribute.key}}.selected" {{checked attribute.selected}} /> 选用</label>
+      <label><input type="checkbox" name="system.occupationSkillPoints.{{attribute.key}}.optional" {{checked attribute.optional}} /> 可选</label>
+    {{/each}}
+  </div>
+  <div class="item-title">类型</div>
+  <div class="options-grid">
+    <label><input type="checkbox" name="system.type.classic" {{checked system.type.classic}} /> 经典</label>
+    <label><input type="checkbox" name="system.type.lovecraftian" {{checked system.type.lovecraftian}} /> 洛夫克拉夫特式</label>
+    <label><input type="checkbox" name="system.type.modern" {{checked system.type.modern}} /> 现代</label>
+    <label><input type="checkbox" name="system.type.pulp" {{checked system.type.pulp}} /> 通俗</label>
+  </div>
+</section>

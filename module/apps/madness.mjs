@@ -10,7 +10,7 @@ import { BRPWorldTime } from './worldTime.mjs'
 export class BRPMadness {
 
   //Six self-written manifestation tiers (d6); index 5 (phobia) and index 6
-  // (mania) offer the keeper a prefilled persTrait creation window on the
+  // (mania) offer the keeper a prefilled status creation window on the
   // episode card - nothing is created automatically
   static MANIFESTATION_KEYS = ['paralysis', 'flight', 'hysteria', 'violence', 'phobia', 'mania']
 
@@ -504,7 +504,7 @@ export class BRPMadness {
     }
   }
 
-  //Phobia/mania tier entry point: open the prefilled persTrait creation window
+  //Phobia/mania tier entry point: open the prefilled status creation window
   //for the character that suffered the episode (keeper confirms - no auto-create)
   static async addTrait(data) {
     const msg = await BRPMadness._getMadnessMessage(data.targetChatId)
@@ -540,16 +540,23 @@ export class BRPMadness {
     })
   }
 
-  //Create the persTrait the keeper confirmed from the madness card
+  //Create the CoC7 status the keeper confirmed from the madness card. A phobia
+  //or mania is a status Item; the percentile score lives in the description so
+  //the native status schema stays authoritative.
   static async createMadnessTrait(actor, usage = {}) {
-    const traitType = BRPMadness.TRAIT_TIERS.includes(usage.traitType) ? usage.traitType : 'trait'
+    const traitType = BRPMadness.TRAIT_TIERS.includes(usage.traitType) ? usage.traitType : 'phobia'
+    const base = Math.max(0, Math.min(100, Math.floor(Number(usage.base) || 0)))
     const [item] = await Item.createDocuments([{
       name: usage.name || game.i18n.localize(`BRP.traitTypes.${traitType}`),
-      type: 'persTrait',
+      type: 'status',
       system: {
-        traitType,
-        base: Math.max(0, Math.min(100, Math.floor(Number(usage.base) || 0))),
-        oppName: String(usage.oppName ?? '')
+        source: '',
+        description: {
+          value: `${game.i18n.localize('BRP.traitTypes.' + traitType)}：${base}%`,
+          notes: String(usage.oppName ?? ''),
+          keeper: ''
+        },
+        type: { mania: traitType === 'mania', phobia: traitType === 'phobia' }
       }
     }], { parent: actor })
     //Follow the actor-sheet creation flow: tag the item with a BRPID flag

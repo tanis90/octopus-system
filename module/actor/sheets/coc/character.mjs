@@ -206,7 +206,7 @@ export class CocCharacterSheet extends BRPCharacterSheet {
     const header = headerData(actor)
     const mythos = skills.find((skill) => skill.brpid === 'i.skill.coc.cthulhu-mythos')?.total ?? 0
     header.san.mythosPercent = mythos
-    const gears = items.filter((item) => ['gear', 'item', 'talent'].includes(item.type)).map((item) => ({
+    const gears = items.filter((item) => ['item', 'talent'].includes(item.type)).map((item) => ({
       ...buildCocGearView(item), isTalent: item.type === 'talent',
     }))
     const keyConnections = actor.flags?.brp?.coc?.keyConnections ?? []
@@ -238,11 +238,11 @@ export class CocCharacterSheet extends BRPCharacterSheet {
     return Object.assign(context, {
       cocHeader: header,
       cocSkillCount: skills.length,
-      cocItemCount: items.filter((item) => ['weapon', 'armour', 'gear', 'item', 'talent'].includes(item.type)).length,
+      cocItemCount: items.filter((item) => ['weapon', 'armor', 'item', 'talent'].includes(item.type)).length,
       skillGroups,
       quickGroups: skillGroups.map((group) => ({ ...group, skills: group.skills.filter((skill) => skill.total > skill.base) })).filter((group) => group.skills.length),
       weapons,
-      armours: items.filter((item) => item.type === 'armour').map(buildCocArmourView),
+      armours: items.filter((item) => item.type === 'armor').map(buildCocArmourView),
       gears,
       cocEquipStatusOptions: COC_EQUIP_STATUS_OPTIONS,
       background,

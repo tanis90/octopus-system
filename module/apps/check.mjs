@@ -51,24 +51,17 @@ export class BRPCheck {
   }
 
 
-  // Resolve the skill a weapon attacks with. Native CoC stores the live Item
-  // in `system.skill.main`, legacy worlds store a skill brpid in
-  // `skill1/skill2` and an Item id in `sourceID`. The shared rules module is
-  // the single resolver for the card, CM and the public adapter; the specialism
-  // marker still narrows a legacy brpid, and it is never a cached score.
-  static weaponSkill(actor, weapon, skillId = false) {
-    return resolveWeaponSkillItem(actor, weapon, skillId)
+  // Resolve the skill a weapon attacks with. CoC7 stores the live Item in
+  // `system.skill.main`; that single channel is shared by the card, CM and the
+  // public adapter.
+  static weaponSkill(actor, weapon) {
+    return resolveWeaponSkillItem(actor, weapon)
   }
 
-  // Attack score for the CM/declare paths. Positive legacy npcVal means the old
-  // natural attack; otherwise the live skill total (plus its legacy category
-  // correction) is used. An unresolved weapon is an error, not a silent 0.
-  static weaponAttackScore(actor, weapon, {
-    skillId = false, naturalValue = null,
-  } = {}) {
+  // Attack score for the CM/declare paths. The live skill total is the score;
+  // an unresolved weapon is an error, not a silent 0.
+  static weaponAttackScore(actor, weapon) {
     return weaponAttackScore(actor, weapon, {
-      skillId,
-      naturalValue,
       skillcategory: actor?.system?.skillcategory ?? null,
     })
   }
@@ -159,9 +152,6 @@ export class BRPCheck {
       dmgCritForm: "",
       dmgSpecForm: "",
       dmgNormForm: "",
-      firstAid: false,
-      woundList: {},
-      woundTreated: "",
       healing: 0,
       healingLabel: "",
       sanLossSuccess: options.sanLossSuccess ?? "1",
@@ -189,13 +179,8 @@ export class BRPCheck {
         config.skillBrpid = skill.flags?.brp?.brpidFlag?.id ?? null
         config.rawScore = skill.system.total
         config.targetScore = skill.system.total
-        if (["magic", "mutation", "psychic", "sorcery", "super", "failing"].includes(skill.type)) {
-          config.description = (skill.system.description?.value ?? skill.system.description ?? "").replace(/(<([^>]+)>)/g, "");
-        }
-
-        //Check for First Aid
-        if (game.settings.get('brp', 'firstAidBRPID') != "" && game.settings.get('brp', 'firstAidBRPID') === skill.flags?.brp?.brpidFlag?.id) {
-          await BRPCheck.firstAid(config)
+        if (skill.type === 'spell') {
+          config.description = String(skill.system.description?.value ?? "").replace(/(<([^>]+)>)/g, "");
         }
 
         break
@@ -259,10 +244,7 @@ export class BRPCheck {
         weapon = particActor.items.get(config.itemId)
         config.label = weapon.name ?? ""
         {
-          const attack = BRPCheck.weaponAttackScore(particActor, weapon, {
-            skillId: config.skillId,
-            naturalValue: particActor.type === 'npc' ? weapon.system?.npcVal : null,
-          })
+          const attack = BRPCheck.weaponAttackScore(particActor, weapon)
           if (attack.error) {
             ui.notifications.error(game.i18n.localize('BRP.weaponNeedsSkill'))
             return false
@@ -292,10 +274,7 @@ export class BRPCheck {
         weapon = particActor.items.get(config.itemId)
         config.label = weapon.name ?? ""
         {
-          const attack = BRPCheck.weaponAttackScore(particActor, weapon, {
-            skillId: config.skillId,
-            naturalValue: particActor.type === 'npc' ? weapon.system?.npcVal : null,
-          })
+          const attack = BRPCheck.weaponAttackScore(particActor, weapon)
           if (attack.error) {
             ui.notifications.error(game.i18n.localize('BRP.weaponNeedsSkill'))
             return false
@@ -378,9 +357,6 @@ export class BRPCheck {
         }
         if (config.askRange) {
           config.rangeUsed = usage.range
-        }
-        if (config.firstAid) {
-          config.woundTreated = usage.wound
         }
         if (config.rollType === 'SN') {
           //Loss pair: a pure-formula preset wins unless the keeper customised it
@@ -774,13 +750,6 @@ export class BRPCheck {
       config.dmgNorm = Number(normRoll.total)
     }
 
-    //If First Aid Roll
-    if (config.firstAid) {
-      let healing = []
-      healing = await BRPDamage.applyHealing(config.woundTreated, config.resultLevel)
-      config.healing = healing.value
-      config.healingLabel = healing.formula
-    }
     return
   }
 
@@ -985,9 +954,7 @@ export class BRPCheck {
           label: options.label,
           diff: options.diff,
           difficultyOptions,
-          addStatOptions,
-          firstAid: options.firstAid,
-          woundList: options.woundList
+          addStatOptions
         }
         break
     }
@@ -1155,12 +1122,8 @@ export class BRPCheck {
             })
             if (decision?.allowed !== true) { continue }
           }
-          if (item.type != 'reputation') {
-            if (item.type === 'persTrait' && i.opp === 'true') {
-              await item.update({ 'system.oppimprove': true })
-            } else {
-              await item.update({ 'system.improve': true })
-            }
+          if (item.type === 'skill') {
+            await item.update({ 'system.improve': true })
           }
         }
         break
@@ -1355,16 +1318,13 @@ export class BRPCheck {
     const weapon = actor.items.get(options.itemId)
     if (!weapon) { return { error: 'weapon-missing' } }
     // Resolve the attack score up front so an unverified weapon fails here
-    // instead of silently rolling at 0. Positive legacy npcVal stays a natural
-    // NPC attack; native and legacy skills use their live total.
-    const attack = BRPCheck.weaponAttackScore(actor, weapon, {
-      skillId: options.skillId ?? false,
-      naturalValue: actor.type === 'npc' ? weapon.system?.npcVal : null,
-    })
+    // instead of silently rolling at 0. The CoC7 native skill.main channel is
+    // the only source of the attack score.
+    const attack = BRPCheck.weaponAttackScore(actor, weapon)
     if (attack.error) {
       return {
         error: 'weapon-skill-missing',
-        brpid: weapon.system?.skill1 ?? null,
+        brpid: weapon.flags?.brp?.coc?.weapon?.skillBrpid ?? null,
         reference: attack.reference ?? weaponSkillReferences(weapon)[0] ?? null,
       }
     }
@@ -1436,17 +1396,13 @@ export class BRPCheck {
     if (!game.user?.isGM && actor.isOwner !== true) { return { error: 'not-authorised' } }
     const weapon = actor.items.get(options.itemId)
     if (!weapon) { return { error: 'weapon-missing' } }
-    // Same resolution as CM: positive legacy npcVal is the old natural attack,
-    // otherwise the live skill total wins. No skill and no npcVal is an error,
+    // Same resolution as CM: the live skill total wins; no skill is an error,
     // never a silent 0.
-    const attack = BRPCheck.weaponAttackScore(actor, weapon, {
-      skillId: options.skillId ?? false,
-      naturalValue: actor.type === 'npc' ? weapon.system?.npcVal : null,
-    })
+    const attack = BRPCheck.weaponAttackScore(actor, weapon)
     if (attack.error) {
       return {
         error: 'weapon-skill-missing',
-        brpid: weapon.system?.skill1 ?? null,
+        brpid: weapon.flags?.brp?.coc?.weapon?.skillBrpid ?? null,
         reference: attack.reference ?? weaponSkillReferences(weapon)[0] ?? null,
       }
     }
@@ -1671,14 +1627,11 @@ export class BRPCheck {
       if (!weapon) { return { error: 'fightback-weapon-missing' } }
       profile = combat.weaponProfile(weapon)
       if (profile.ranged) { return { error: 'fightback-needs-melee-weapon', kind: profile.kind } }
-      const attack = BRPCheck.weaponAttackScore(actor, weapon, {
-        skillId: options.skillId ?? false,
-        naturalValue: actor.type === 'npc' ? weapon.system?.npcVal : null,
-      })
+      const attack = BRPCheck.weaponAttackScore(actor, weapon)
       if (attack.error) {
         return {
           error: 'weapon-skill-missing',
-          brpid: weapon.system?.skill1 ?? null,
+          brpid: weapon.flags?.brp?.coc?.weapon?.skillBrpid ?? null,
           reference: attack.reference ?? weaponSkillReferences(weapon)[0] ?? null,
         }
       }
@@ -2117,64 +2070,6 @@ export class BRPCheck {
   }
 
   //First Aid Roll
-  static async firstAid(config) {
-
-    //DO NOT PROCESS YET - still a work in progress
-    return
-
-    //If not Coop, Combined or Normal Roll then don't trigger first aid
-    if (!['GR', 'CO', 'NO'].includes(config.cardType)) {
-      return
-    }
-
-    //If Cooperatie or Combined Roll and not first partipant then don't trigger first aid
-    if (['GR', 'CO'].includes(config.cardType)) {
-      let checkData = {
-        cardType: config.cardType,
-        chatCard: [{
-          particId: config.particId
-        }]
-      }
-      let checkMsgId = await BRPCheck.checkNewMsg(checkData)
-      if (checkMsgId != false) {
-        return
-      }
-    }
-
-    let actor = await BRPactorDetails._getParticipant(config.particId, config.particType)
-    let target = await BRPactorDetails._getParticipant(config.targetId, config.targetType)
-    //If there is target selected then use them, otherwise the actor making the roll
-    let partic = actor
-    if (target) { partic = target }
-
-    //Get wounds depending on whether this is a character or NPC
-    if (partic.type === 'character') {
-      let wounds = await partic.items.filter(itm => itm.type === 'wound').filter(wnd => !wnd.system.treated)
-      if (wounds.length === 0) { return }
-      config.firstAid = true
-      wounds.sort(function (a, b) {
-        let x = a.system.value;
-        let y = b.system.value;
-        if (x < y) { return 1 };
-        if (x > y) { return -1 };
-        return 0;
-      });
-      for (let wound of wounds) {
-        let wndLoc = partic.items.get(wound.system.locId)
-        let label = ""
-        if (wndLoc) {
-          label = partic.name + ": " + wndLoc.system.displayName + " (" + wound.system.value + ")"
-        } else {
-          label = partic.name + ": " + game.i18n.localize('BRP.general') + " (" + wound.system.value + ")"
-        }
-        config.woundList = Object.assign(config.woundList, { [wound.uuid]: label })
-      }
-
-    }
-
-
-    return
-  }
 
 
 

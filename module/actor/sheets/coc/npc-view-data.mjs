@@ -41,28 +41,11 @@ export const COC_NPC_COMMON_SKILL_BRPIDS = Object.freeze([
 
 export const COC_NPC_COMMON_SKILL_LIMIT = 6
 
-export const COC_NPC_POWER_TYPES = Object.freeze(['power', 'magic', 'mutation', 'psychic', 'sorcery', 'super', 'talent'])
+export const COC_NPC_POWER_TYPES = Object.freeze(['spell', 'talent'])
 
 const POWER_TYPE_LABELS = Object.freeze({
-  power: '异能',
-  magic: '魔法',
-  mutation: '变异',
-  psychic: '灵能',
-  sorcery: '巫术',
-  super: '超能力',
+  spell: '法术',
   talent: '天赋',
-})
-
-const POWER_LEVEL_LABELS = Object.freeze({
-  normal: '普通',
-  epic: '史诗',
-  heroic: '英雄',
-  superhuman: '超人',
-})
-
-const MUTATION_IMPACT_LABELS = Object.freeze({
-  adv: '优势',
-  dis: '劣势',
 })
 
 const DB_LABELS = Object.freeze({
@@ -232,11 +215,9 @@ const cocSkillTotal = (skill) => {
 export function buildCocNpcAttackRow(weapon, actor) {
   const system = weapon?.system ?? {}
   const skill = resolveCocWeaponSkill(weapon, actor)
-  const naturalValue = numberOrNull(system.npcVal)
-  const usesNatural = naturalValue !== null && naturalValue > 0
-  const skillTotal = usesNatural ? null : cocSkillTotal(skill)
-  const attackMode = usesNatural ? 'cm' : (skill && skillTotal !== null ? 'sk' : 'none')
-  const hitValue = usesNatural ? naturalValue : skillTotal
+  const skillTotal = cocSkillTotal(skill)
+  const attackMode = skill && skillTotal !== null ? 'sk' : 'none'
+  const hitValue = skillTotal
   const damage = text(system.range?.normal?.damage)
   const range = text(system.range?.normal?.value) || (system.properties?.rngd === true ? '' : 'S')
   const rof = text(system.usesPerRound?.normal)
@@ -248,7 +229,6 @@ export function buildCocNpcAttackRow(weapon, actor) {
     name: text(weapon?.name),
     img: text(weapon?.img),
     description: text(system.description?.value),
-    npcVal: usesNatural ? naturalValue : 0,
     skillId: skill ? itemIdOf(skill) : null,
     skillName: skill ? text(skill.name) : null,
     skillTotal,
@@ -333,9 +313,9 @@ const pushMeta = (meta, key, label, value) => {
 }
 
 /**
- * Real special-ability Items. Only magic/psychic expose a live SK action;
- * every other type is text (name, real fields, description) with no invented
- * "use" control. Descriptions are enriched by the sheet, not here.
+ * Real spell/talent Items. Spells expose their casting time and real costs as
+ * text; no invented "use" control is added. Descriptions are enriched by the
+ * sheet, not here.
  * @param {Array|Iterable|{contents?: Array}} items
  */
 export function buildCocNpcPowers(items) {
@@ -345,33 +325,17 @@ export function buildCocNpcPowers(items) {
       const system = item.system ?? {}
       const type = item.type
       const meta = []
-      let total = null
-      let rollable = false
-      if (type === 'magic' || type === 'psychic') {
-        total = numberOrNull(system.total) ?? (numberOr(system.base) + numberOr(system.effects))
-        rollable = total !== null
-        pushMeta(meta, 'base', '基础', system.base)
-        pushMeta(meta, 'cost', '消耗', system.pppl)
-        pushMeta(meta, 'range', '射程', system.range)
-        pushMeta(meta, 'duration', '持续', system.duration)
-        if (system.impact === 'damage') pushMeta(meta, 'damage', '伤害', system.damage)
-        if (system.impact === 'healing') pushMeta(meta, 'healing', '治疗', system.damage)
-      } else if (type === 'power') {
-        const level = text(system.level)
-        if (level) pushMeta(meta, 'level', '等级', POWER_LEVEL_LABELS[level] ?? level)
-      } else if (type === 'mutation') {
-        const impact = text(system.impact)
-        if (impact) pushMeta(meta, 'impact', '影响', MUTATION_IMPACT_LABELS[impact] ?? impact)
-        pushMeta(meta, 'severity', '程度', system.minor === true ? '轻度' : '重度')
-      } else if (type === 'sorcery') {
-        pushMeta(meta, 'level', '等级', `${numberOr(system.currLvl, 1)}/${numberOr(system.maxLvl, 1)}`)
-        pushMeta(meta, 'range', '射程', system.range)
-        pushMeta(meta, 'cost', '消耗', system.powCost)
-      } else if (type === 'super') {
-        pushMeta(meta, 'level', '等级', system.level)
-        pushMeta(meta, 'range', '射程', system.range)
-        pushMeta(meta, 'duration', '持续', system.duration)
-        pushMeta(meta, 'cost', '消耗', system.pppl)
+      if (type === 'spell') {
+        const costs = system.costs ?? {}
+        pushMeta(meta, 'castingTime', '施法时间', system.castingTime)
+        pushMeta(meta, 'hp', 'HP', costs.hitPoints)
+        pushMeta(meta, 'mp', 'MP', costs.magicPoints)
+        pushMeta(meta, 'san', 'SAN', costs.sanity)
+        pushMeta(meta, 'pow', 'POW', costs.power)
+        pushMeta(meta, 'others', '其他', costs.others)
+        pushMeta(meta, 'source', '来源', system.source)
+      } else if (type === 'talent') {
+        pushMeta(meta, 'source', '来源', system.source)
       }
       return {
         id: itemIdOf(item),
@@ -379,11 +343,7 @@ export function buildCocNpcPowers(items) {
         img: text(item.img),
         type,
         typeLabel: POWER_TYPE_LABELS[type] ?? type,
-        description: type === 'talent' ? text(system.description?.value) : text(system.description),
-        base: numberOr(system.base),
-        total,
-        rollable,
-        rollLabel: total === null ? '—' : `${total}%`,
+        description: text(system.description?.value),
         meta,
       }
     })
@@ -400,8 +360,8 @@ const equipmentRowOf = (item, typeLabel, meta) => {
     typeLabel,
     description: text(system.description?.value ?? system.description),
     quantity: numberOr(system.quantity, 1),
-    equipStatus: item?.type === 'item' ? '' : text(system.equipStatus) || 'carried',
-    equipStatusLabel: item?.type === 'item' ? '' : cocEquipStatusLabel(system.equipStatus),
+    equipStatus: '',
+    equipStatusLabel: '',
     meta,
   }
 }
@@ -410,13 +370,9 @@ export function buildCocNpcEquipment(items) {
   const armours = []
   const gears = []
   for (const item of toItems(items)) {
-    if (item?.type === 'armour') {
-      const system = item.system ?? {}
-      const meta = []
-      pushMeta(meta, 'av', '护甲', numberOr(system.av1))
-      pushMeta(meta, 'coverage', '覆盖', system.coverage)
-      armours.push(equipmentRowOf(item, '护具', meta))
-    } else if (item?.type === 'gear' || item?.type === 'item') {
+    if (item?.type === 'armor') {
+      armours.push(equipmentRowOf(item, '护甲', []))
+    } else if (item?.type === 'item' || item?.type === 'talent') {
       gears.push(equipmentRowOf(item, '装备', []))
     }
   }

@@ -138,60 +138,6 @@ export class BRPSelectLists {
     return options
   }
 
-  //Powers Category List
-  static async getPowerCatOptions() {
-    let options = {
-      "magic": game.i18n.localize("BRP.magic"),
-      "mutation": game.i18n.localize("BRP.mutation"),
-      "psychic": game.i18n.localize("BRP.psychic"),
-      "sorcery": game.i18n.localize("BRP.sorcery"),
-      "super": game.i18n.localize("BRP.super")
-    };
-    return options;
-  }
-
-  //Power Level List
-  static async getPowerLvlOptions() {
-    let options = {
-      "normal": game.i18n.localize("BRP.normal"),
-      "epic": game.i18n.localize("BRP.epic"),
-      "heroic": game.i18n.localize("BRP.heroic"),
-      "superhuman": game.i18n.localize("BRP.superhuman"),
-    };
-    return options;
-  }
-
-  //Spell Category List
-  static async getSpellCatOptions() {
-    let options = {
-      "damage": game.i18n.localize("BRP.damage"),
-      "healing": game.i18n.localize("BRP.healing"),
-      "other": game.i18n.localize("BRP.other"),
-    };
-    return options;
-  }
-
-  //Mutation Category List
-  static async getMutationCatOptions() {
-    let options = {
-      "adv": game.i18n.localize("BRP.adv"),
-      "dis": game.i18n.localize("BRP.dis"),
-    };
-    return options;
-  }
-
-  //Armour Burden List
-  static async getArmourBurdenOptions() {
-    let options = {
-      "none": game.i18n.localize("BRP.none"),
-      "light": game.i18n.localize("BRP.light"),
-      "moderate": game.i18n.localize("BRP.moderate"),
-      "cumbersome": game.i18n.localize("BRP.cumbersome"),
-    };
-    return options;
-  }
-
-  //Price Categories List
   static async getPriceOptions() {
     let options = {
       "none": game.i18n.localize("BRP.none"),
@@ -205,28 +151,9 @@ export class BRPSelectLists {
     return options;
   }
 
-  //Hit Loc Options
-  static getHitLocOptions(actor) {
-    let options = {}
-    let newOption = {}
-    for (let i of actor.items) {
-      if (i.type === 'hit-location') {
-        if (game.settings.get('brp', 'useHPL') && i.system.locType != 'general') {
-          newOption = { [i.id]: i.system.displayName, };
-          options = Object.assign(options, newOption)
-        } else if (!game.settings.get('brp', 'useHPL') && i.system.locType === 'general') {
-          newOption = { [i.id]: i.name, };
-          options = Object.assign(options, newOption)
-        }
-      }
-    }
-    return options
-  }
-
-  //Equipped List
   static async getEquippedOptions(type) {
     let options = {};
-    if (type === 'armour') {
+    if (type === 'armor') {
       options = {
         "carried": game.i18n.localize("BRP.carried"),
         "worn": game.i18n.localize("BRP.worn"),
@@ -332,18 +259,6 @@ export class BRPSelectLists {
   }
 
   //Hit Location List
-  static async getHitLocType() {
-    let options = {
-      "limb": game.i18n.localize("BRP.limb"),
-      "abdomen": game.i18n.localize("BRP.abdomen"),
-      "chest": game.i18n.localize("BRP.chest"),
-      "head": game.i18n.localize("BRP.head"),
-      "general": game.i18n.localize("BRP.general"),
-    };
-    return options;
-  }
-
-  //Success Level List
   static async getSuccessOptions() {
     //CoC damage asks for the attack's own tier: extreme or regular.
     if (Rules.activeId() === 'coc') {

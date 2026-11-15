@@ -23,7 +23,6 @@ export class BRPItemSheetV2 extends api.HandlebarsApplicationMixin(sheets.ItemSh
     actions: {
       onEditImage: this._onEditImage,
       editBRPid: this._onEditBRPid,
-      itemToggle: this._onItemToggle,
     }
   }
 
@@ -89,34 +88,67 @@ export class BRPItemSheetV2 extends api.HandlebarsApplicationMixin(sheets.ItemSh
     if (event.detail > 1) return; // Ignore repeated clicks
     new BRPIDEditor({ document: this.document }, {}).render(true, { focus: true })
   }
-
-  // Toggle something on the item
-  static _onItemToggle(event, target) {
-    event.preventDefault();
-    let checkProp = {};
-    const prop = target.dataset.property
-    if (['armVar', 'armBal', 'HPL', 'minorOnly', 'basic','noXP', 'specialism', 'variable', 'group', 'chosen', 'combat', 'var', 'parry','burst', 'stun', 'choke',
-      'entangle', 'fire', 'pierce', 'sonic', 'poison', 'explosive', 'emp', 'disease', 'spclDmg','cold','acid','constrict'].includes(prop) && !game.user.isGM) {
-        return
-    };
-
-
-    if (['allegEnemy', 'allegApoth', 'allegAllied', 'improve', 'armVar', 'armBal', 'HPL', 'dead', 'severed', 'bleeding', 'mem', 'minorOnly', 'minor', 'oppimprove',
-       'perLvl', 'noXP', 'specialism', 'variable', 'group', 'chosen', 'basic', 'combat','var', 'parry','burst', 'stun', 'choke', 'entangle', 'fire', 'pierce', 'sonic',
-       'poison', 'explosive', 'emp', 'disease', 'spclDmg', 'cold','acid','constrict', 'treated'].includes(prop)) {
-      checkProp = { [`system.${prop}`]: !this.item.system[prop] }
-    } else { return }
-
-    if (prop === 'var' & this.item.type === 'sorcery') {
-      if (this.item.system.var) {
-        checkProp = {
-          'system.var': false,
-          'system.currLvl': this.item.system.maxLvl,
-          'system.memLvl': this.item.system.maxLvl,
-        }
-      }
-    }
-    this.item.update(checkProp)
-  }
 }
 
+export class BRPCoCItemSheet extends BRPItemSheetV2 {
+  // CoC7-native types only carry a description plus their own system fields.
+  // This shell renders one details tab and the native description object
+  // (`system.description.value`), so a new type never falls back to the BRP
+  // string/`gmDescription` template.
+  static DEFAULT_OPTIONS = {
+    ...BRPItemSheetV2.DEFAULT_OPTIONS,
+    classes: ['brp', 'sheet', 'item', 'coc-item'],
+    position: {
+      width: 560,
+      height: 660
+    },
+    actions: {
+      onEditImage: this._onEditImage,
+    }
+  }
+
+  static PARTS = {
+    header: { template: 'systems/brp/templates/item/item.header.hbs' },
+    tabs: { template: 'systems/brp/templates/global/parts/tab-navigation.hbs' },
+    description: { template: 'systems/brp/templates/item/coc7.description.hbs' },
+  }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options)
+    context.headerDisplay = false
+    context.tabs = this._getTabs(this.options.parts ?? Object.keys(this.constructor.PARTS))
+    return context
+  }
+
+  async _preparePartContext(partId, context) {
+    if (partId === 'details') context.tab = context.tabs[partId]
+    if (partId === 'description') {
+      context.tab = context.tabs[partId]
+      context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+        this.item.system.description?.value ?? '',
+        {
+          secrets: this.document.isOwner,
+          rollData: this.document.getRollData(),
+          relativeTo: this.document,
+        }
+      )
+    }
+    return context
+  }
+
+  _getTabs(parts) {
+    const tabGroup = 'primary'
+    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'description'
+    return parts.reduce((tabs, partId) => {
+      if (partId === 'header' || partId === 'tabs') return tabs
+      tabs[partId] = {
+        cssClass: this.tabGroups[tabGroup] === partId ? 'active' : '',
+        group: tabGroup,
+        id: partId,
+        icon: '',
+        label: 'BRP.' + partId,
+      }
+      return tabs
+    }, {})
+  }
+}

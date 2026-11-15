@@ -49,30 +49,12 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       luckRecovery: this._onLuckRecovery,
       weaponRoll: this._onWeaponRoll,
       damageRoll: this._onDamageRoll,
-      armourRoll: this._onArmourRoll,
-      passionRoll: this._onPassionRoll,
-      allegianceRoll: this._onAllegianceRoll,
-      personalityRoll: this._onPersTraitRoll,
-      reputationRoll: this._onReputationRoll,
       viewDoc: this._viewDoc,
       deleteDoc: this._deleteDoc,
       createDoc: this._onItemCreate,
-      hplHeal: this._onHPLHeal,
-      deleteCulture: this._deleteCulture,
-      deleteProfession: this._deleteProfession,
-      deletePersonality: this._deletePersonality,
       addDamage: this._addDamage,
-      healWound: this._healWound,
       attribute: this._onAttribute,
-      restoreFatigue: this._onRestoreFatigue,
-      restorePower: this._onRestorePower,
       skillCalc: this._onSkillCalc,
-      treatWound: this._treatWound,
-      viewWound: this._viewWound,
-      healing: this._onHealing,
-      armourToggle: this._onArmourToggle,
-      armourLocToggle: this._onArmourLocToggle,
-      impactRoll: this._onImpactRoll,
       redistStat: this._onRedisttibuteStats,
       xpRolls: this._onXPRolls,
       powImprove: this._onPowImprove,
@@ -253,16 +235,7 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
     })
 
     //And in certain circumstances render the new item sheet
-    if (docData.type === 'hit-location') {
-      await newItem.update({
-        'system.displayName': newItem.name
-      })
-    }
-
-    //And in certain circumstances render the new item sheet
-    if (!['wound'].includes(docData.type)) {
-      newItem.sheet.render(true);
-    }
+    newItem.sheet.render(true);
   }
 
 
@@ -513,31 +486,6 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
     BRPRollType._onReputationRoll(event, target.dataset, this.document)
   }
 
-  //Magic Spell Impact Roll
-  static async _onImpactRoll(event, target) {
-    await BRPRollType._onImpactRoll(event, target.dataset, this.document)
-  }
-
-  //Resest HPL Action
-  static async _onHPLHeal (event, target) {
-    await BRPActorSheetV2._resetHPL(this.actor)
-  }
-
-  //Delete Culture
-  static async _deleteCulture (event, target) {
-    await BRPactorItemDrop.cultureDelete(event, this.actor)
-  }
-
-  //Delete Profession
-  static async _deleteProfession (event, target) {
-    await BRPactorItemDrop.professionDelete(event, this.actor)
-  }
-
-  //Delete Personality
-  static async _deletePersonality (event, target) {
-    await BRPactorItemDrop.personalityDelete(event, this.actor)
-  }
-
   //Add Damage
   static async _addDamage(event, target) {
     //CoC keeps HP in the document itself; the BRP wound-item dialog would
@@ -547,25 +495,6 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
       return
     }
     await BRPDamage.addDamage(target,this.actor, this.token, 0)
-  }
-
-  //Heal a Wound
-  static async _healWound(event, target) {
-    await BRPDamage.treatWound(event, this.actor)
-  }
-
-  //Restore All Fatigue
-  static async _onRestoreFatigue (event, target) {
-    if (event.detail === 2) {  //Only perform on double click
-      await BRPUtilities.updateAttribute(this.actor, this.token, "fatigue", "restore")
-    }
-  }
-
-  //Restore All Power
-  static async _onRestorePower (event, target) {
-    if (event.detail === 2) {  //Only perform on double click
-      await BRPUtilities.updateAttribute(this.actor, this.token, "power", "restore")
-    }
   }
 
   //Start Attribute modify
@@ -589,67 +518,20 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
     await BRPActor.charBaseSkillScores(this.actor);
   }
 
-  //Item Toggle
-  static async _onItemToggle(event, target) {
-    const element = target;
-    const li = $(target).closest("li");
-    const item = this.actor.items.get(li.data("itemId"));
-    const prop = element.dataset.property;
-    let checkProp = {};
-    if (['hide', 'improve', 'oppimprove', 'mem', 'injured', 'bleeding', 'incapacitated', 'severed', 'dead', 'unconscious'].includes(prop)) {
-      checkProp = { [`system.${prop}`]: !item.system[prop] }
-    } else if (prop === 'equipStatus') {
-      if (item.system.equipStatus === 'carried' && item.type === 'armour') {
-        checkProp = { 'system.equipStatus': "worn" }
-      } else if (item.system.equipStatus === 'carried' && item.type != 'armour') {
-        checkProp = { 'system.equipStatus': "packed" }
-      } else if (item.system.equipStatus === 'worn') {
-        checkProp = { 'system.equipStatus': "packed" }
-      } else if (item.system.equipStatus === 'packed') {
-        checkProp = { 'system.equipStatus': "stored" }
-      } else if (item.system.equipStatus === 'stored') {
-        checkProp = { 'system.equipStatus': "carried" }
-      }
-    } else { return }
-
-    await item.update(checkProp);
-    this.actor.render(false);
-    return;
-  }
-
-  static async _resetHPL(actor) {
-    if (game.settings.get('brp', 'useHPL') || game.settings.get('brp', 'beastiary')) {
-      let hitLocs = await actor.items.filter(itm => itm.type === 'hit-location').map(itm => {
-        return { _id: itm.id, 'system.currHP': itm.system.maxHP }
-      })
-      await Item.updateDocuments(hitLocs, { parent: actor })
-    }
-  }
-
   // View Embedded Document (CTRL+click to delete)
   static async _viewDoc(event, target) {
     const doc = this._getEmbeddedDocument(target);
     if (!doc) {return}
-    let ctrlKey = isCtrlKey(event ?? false);
-    if (!target.classList.contains('improvtab')) {
-      if (ctrlKey) {
-        if (!['profession','culture','personality'].includes(doc.type)) {
-          const confirmation = await BRPDialog.confirm({
-            window: { title: game.i18n.localize("BRP.deleteItem") },
-            content: game.i18n.localize("BRP.deleteConfirm") + "<br><strong> " + doc.name + "</strong>"
-          })
-          if (confirmation) {
-            await doc.delete();
-          }
-          return
-        }
+    const ctrlKey = isCtrlKey(event ?? false);
+    if (ctrlKey) {
+      const confirmation = await BRPDialog.confirm({
+        window: { title: game.i18n.localize("BRP.deleteItem") },
+        content: game.i18n.localize("BRP.deleteConfirm") + "<br><strong> " + doc.name + "</strong>"
+      })
+      if (confirmation) {
+        await doc.delete();
       }
-    }
-    if (event.altKey) {
-      if (['magic','mutation','psychic','sorcery','super','failing'].includes (doc.type)) {
-        BRPUtilities.sendToChat(event, this.document, "itemId")
-        return
-      }
+      return
     }
     doc.sheet.render(true);
   }
@@ -675,75 +557,6 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
           : this.actor.items.get(docRow?.dataset.parentId);
       return parent.effects.get(docRow?.dataset.effectId);
     } else return console.warn('Could not find document class');
-  }
-
-  //Treat a Wound
-  static async _treatWound(event, target) {
-    let treatType = target.dataset.healing
-    await BRPDamage.treatWound(event, this.actor, "itemId", treatType);
-  }
-
-  //View Wound
-  static async _viewWound(event, target) {
-    let hitloc = this.actor.items.get(target.dataset.itemId);
-    let wound = this.actor.items.get(target.dataset.woundId)
-    let ctrlKey = isCtrlKey(event ?? false);
-    if (ctrlKey) {
-      const confirmation = await BRPDialog.confirm({
-        window: { title: game.i18n.localize("BRP.deleteItem") },
-        content: game.i18n.localize("BRP.deleteConfirm") + "<br><strong> " + wound.name + "</strong>"
-       })
-      if (confirmation) {
-        await wound.delete();
-      }
-      return
-    } else if (event.altKey) {
-      await BRPDamage.treatWound(event, this.actor, "woundId", "")
-      return
-    }
-    wound.sheet.render(true);
-  }
-
-  //Healing Options
-  static async _onHealing (event, target) {
-    let prop = target.dataset.prop
-    if (!prop) return
-    switch (prop) {
-      case 'natural':
-        BRPDamage.naturalHeal(event, this.actor)
-        break;
-      case 'all':
-        BRPDamage.allHeal(event, this.actor)
-        break;
-      case 'reset':
-        BRPDamage.resetDaily(event, this.actor)
-        break;
-    }
-  }
-
-  //Collapse/Expand Armour on all Hit Locs
-  static async _onArmourToggle(event, target) {
-    if (!game.settings.get('brp', 'useHPL')) { return }
-    let expand = event.shiftKey
-    let changes = []
-    let hitLocs = this.actor.items.filter(itm => itm.type === "hit-location").map(itm => {
-      return { id: itm.id }
-    })
-    for (let hitLoc of hitLocs) {
-      changes.push({
-        _id: hitLoc.id,
-        'system.hide': expand
-      })
-    }
-    await Item.updateDocuments(changes, { parent: this.actor });
-  }
-
-  //Collaspe expand armour on hit locations
-  static async _onArmourLocToggle(event, target) {
-    if (!game.settings.get('brp', 'useHPL')) { return }
-    let hitLocId = target.dataset.itemId
-    let hitLoc = this.actor.items.get(hitLocId)
-    await hitLoc.update({'system.hide': !hitLoc.system.hide})
   }
 
   //Redistribute Characteristics
@@ -845,8 +658,8 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
     const item = this.actor.items.get(li.data("itemId"));
     let field = event.target.dataset.field;
     let newScore = event.target.value;
-    if (['base', 'personality', 'profession', 'culture', 'personal','xp','effects', 'currHP', 'quantity',
-        'npcVal', 'allegPoints', 'hpCurr', 'ammoCurr','av1','ppCurr','pSCurr'].includes(field)) {
+    if (['base', 'quantity', 'adjustments.base', 'adjustments.personal', 'adjustments.occupation',
+      'adjustments.archetype', 'adjustments.experiencePackage', 'adjustments.experience'].includes(field)) {
       newScore = Number(newScore)
       field = 'system.' + field;
     } else if (['displayName', 'ap', 'bap', 'apRnd', 'bapRnd', 'att', 'dmg1'].includes(field)) {

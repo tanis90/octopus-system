@@ -56,7 +56,7 @@ export class BRPActor extends Actor {
   }
 
   prepareDerivedData() {
-    if (this.type !== 'character' && this.type !== 'npc') return
+    if (!['character', 'npc', 'creature'].includes(this.type)) return
     this._prepCocNativeStats()
     this._prepCocNativeDerived()
     for (const item of this.items) {
@@ -132,7 +132,7 @@ export class BRPActor extends Actor {
   }
 
   async initSanity() {
-    if (this.type !== 'character' && this.type !== 'npc') return false
+    if (!['character', 'npc', 'creature'].includes(this.type)) return false
     if (this._sanitySnapshotted()) return false
     const pow = Number(this.system.characteristics?.pow?.value) || 0
     if (!(pow > 0)) return false
@@ -161,7 +161,7 @@ export class BRPActor extends Actor {
   }
 
   async initLuck() {
-    if (this.type !== 'character' && this.type !== 'npc') return false
+    if (!['character', 'npc', 'creature'].includes(this.type)) return false
     if (this._luckSnapshotted()) return false
     const initial = Rules.for('coc').luck.initial({})
     const roll = new Roll(initial.formula)
@@ -229,7 +229,7 @@ export class BRPActor extends Actor {
         bar2: { attribute: 'attribs.san' },
         sight: { enabled: true, range: 30, visionMode: 'basic' },
       }, data.prototypeToken || {})
-    } else if (isNew && data.type === 'npc') {
+    } else if (isNew && (data.type === 'npc' || data.type === 'creature')) {
       data.prototypeToken = foundry.utils.mergeObject({
         lockRotation: true,
         bar1: { attribute: 'attribs.hp' },

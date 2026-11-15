@@ -127,7 +127,7 @@ export class CocNpcSheet extends BRPNPCSheetV2 {
     }))
     for (const power of view.powers) {
       power.descriptionHtml = await enrich(power.description)
-      power.isSpell = ['magic', 'psychic', 'sorcery'].includes(power.type)
+      power.isSpell = power.type === 'spell'
     }
     view.macros = await Promise.all((this.actor.system.special?.macros ?? []).map(async (entry) => {
       const macro = entry.uuid ? await fromUuid(entry.uuid).catch(() => null) : null

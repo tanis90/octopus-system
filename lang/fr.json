@@ -852,7 +852,6 @@
       "summary": "Définir un identifiant de groupe qui peut être utilisé pour trouver la version la plus à jour de ce {type}. L'ID système doit utiliser la traduction anglaise du {type} pour supporter la localisation dans toutes les langues.",
       "title": "Modifier l'ID système (BRPID)"
     },
-
     "ChaosiumCanvasInterface": {
       "Actions": {
         "Hide": "Cacher",
@@ -1089,33 +1088,26 @@
     }
   },
   "TYPES": {
-        "Actor": {
-      "character": "Character",
-      "npc": "NPC"
+    "Actor": {
+      "character": "Personnage",
+      "npc": "PNJ",
+      "vehicle": "Véhicule",
+      "creature": "Créature"
     },
-    "Item":{
-      "gear": "Equipment",
-      "skill": "Skill",
-      "hit-location": "Hit Location",
-      "personality": "Personality",
-      "profession": "Profession",
-      "power": "Power",
-      "magic": "Magic",
-      "mutation": "Mutation",
-      "psychic": "Psychic Ability",
-      "sorcery": "Sorcery",
-      "super": "Super",
-      "failing":" Failing",
-      "powerMod": "Power Modifier",
-      "armour": "Armor",
-      "weapon": "Weapon",
-      "wound": "Wound",
-      "allegiance": "Allegiance",
-      "passion": "Passion",
-      "persTrait": "Personality Trait",
-      "reputation": "Reputation",
-      "skillcat": "Skill Category",
-      "culture": "Culture"
+    "Item": {
+      "item": "Objet",
+      "skill": "Compétence",
+      "talent": "Talent",
+      "weapon": "Arme",
+      "armor": "Armure",
+      "book": "Livre",
+      "occupation": "Profession",
+      "spell": "Sort",
+      "setup": "Configuration",
+      "status": "Statut",
+      "archetype": "Archétype",
+      "experience-package": "Paquet d'expérience",
+      "chase": "Poursuite"
     },
     "RegionBehavior": {
       "ChaosiumCanvasInterfaceAmbientLightToggle": "CCI: Basculer le lumière",

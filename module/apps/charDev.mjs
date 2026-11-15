@@ -30,12 +30,6 @@ export class BRPCharDev {
         results = await BRPCharDev.xpCheck(actor, token, i._id, rollType, false);
         success.push(results)
       }
-      if (i.type === "persTrait") {
-        if (i.system.oppimprove) {
-          results = await BRPCharDev.xpCheck(actor, token, i._id, rollType, true);
-          success.push(results)
-        }
-      }
     }
     await BRPCharDev.xpOutput(success, partic)
     return;
@@ -62,18 +56,8 @@ export class BRPCharDev {
     let item = partic.items.get(itemId)
     let name = item.name
     let score = item.system.total
-    //Exclude system.effects from the improvement score
-    if (['skill', 'magic', 'psychic'].includes(item.type)) {
-      score = score - item.system.effects
-    }
-
-    if (opp) {
-      score = item.system.opptotal
-      name = item.system.oppName
-    }
 
     if (!opp && !item.system.improve) { return }
-    if (opp && !item.system.oppimprove) { return }
     // CoC: Mythos (and any noXP skill) can never be improved by a development
     // check, even if an imported/legacy document left the improve flag set.
     if (Rules.active().check.xpSkipsNoXP === true && item.system?.noXP === true) { return }
@@ -103,10 +87,7 @@ export class BRPCharDev {
         'system.xp': item.system.xp + improvVal
       })
     } else {
-      await item.update({
-        'system.oppimprove': false,
-        'system.xp': item.system.xp - improvVal
-      })
+      await item.update({ 'system.oppimprove': false })
 
     }
     return ({
