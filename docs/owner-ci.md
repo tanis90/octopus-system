@@ -15,9 +15,10 @@ main 祖先线上）时把同一份三件上传成 **GitHub Release**（A 类出
   兼容层随运行时一起带走的源文件。它的 provenance 锚点是**当前源 main**。
 - **内容集（content）**：`packs/`、`packs-index/`、`packs-json/` 的内容
   基线。它的 provenance 锚点是**显式钉住的 commit**，不是 main。公开 owner
-  收缩后只允许核心 60 技能 / 9 职业；content job 在构建前先跑 core-60/9 +
-  extension-0 fail-closed 门。迁移提交获批前 `contentRef` 仍是旧 91/156
-  基线，因此该门会按红处理，直至按下方「内容升级流程」重钉。
+  只允许核心 60 技能 / 9 个 `occupation` 职业；content job 在构建前先跑
+  core-60/9 + extension-0 fail-closed 门。`contentRef` 已重钉到 CoC7 名册
+  基线 `455caa3baa2ce34ebc8430a6628df278466df452`（73 个内容文件）。
+  该 workflow 内仍是旧四包硬断言，尚未同步本次名册收缩（见「已知边界」）。
 
 两者锚点不同，所以不能用一个 commit、也不能用同一次 checkout 验收。
 main 上的内容漂移不会被 CI 悄悄当成升级：content job 永远测试
@@ -30,12 +31,12 @@ main 上的内容漂移不会被 CI 悄悄当成升级：content job 永远测�
 
 | kind | 集合 | 当前源码实测 |
 | --- | --- | --- |
-| `runtime` | 全部 tracked 文件，剔除内容产物目录 `packs/`、`packs-index/`、`packs-json/`，以及 owner CI 自有文件 `.github/`、`tools/owner-ci/`、`tools/tests/owner-ci-verify-negative.mjs`、`tools/tests/owner-ci-artifact-negative.mjs`、`docs/owner-ci.md` | 327 文件 |
-| `content` | 位于 `packs/`、`packs-index/`、`packs-json/` 之下的 tracked 文件（核心 60/9 + octopus） | 184 文件 |
-| `system-artifact` | `runtime ∪ content`（system root 布局，见下节） | 511 文件（327 + 184） |
+| `runtime` | 全部 tracked 文件，剔除内容产物目录 `packs/`、`packs-index/`、`packs-json/`，以及 owner CI 自有文件 `.github/`、`tools/owner-ci/`、`tools/tests/owner-ci-verify-negative.mjs`、`tools/tests/owner-ci-artifact-negative.mjs`、`docs/owner-ci.md` | 269 文件 |
+| `content` | 位于 `packs/`、`packs-index/`、`packs-json/` 之下的 tracked 文件（核心 60 技能 + 9 `occupation`；octopus 已退役） | 73 文件 |
+| `system-artifact` | `runtime ∪ content`（system root 布局，见下节） | 342 文件（269 + 73） |
 
 owner CI 自身的排除项是精确路径/目录：这些文件合入源仓与否不改变部署运行面
-的集合口径（327 不会因 CI 工具/文档合入而变成别的数字）。真实仓文件的修改
+的集合口径（269 不会因 CI 工具/文档合入而变成别的数字）。真实仓文件的修改
 不被排除项掩盖——例如 `Readme.md`、`CHANGELOG.md` 的改动仍留在 runtime 集合
 里，按漂移对待。
 
@@ -124,7 +125,7 @@ node tools/owner-ci/artifact.mjs verify \
   UTF-8 文件名。同一 run 内两次构建的 zip、manifest 逐字节一致；manifest 只含
   跨 run 可复现的源事实（不含 runUrl / owner receipt hash），run 级绑定只在
   receipt。
-- **文件集**：迁移后为 327 runtime + 184 content = **511 文件**。默认拒绝
+- **文件集**：当前为 269 runtime + 73 content = **342 文件**。默认拒绝
   `modules/arcane-investigator-options/`：上一版前端产物里的 187 个嵌套派生
   文件没有源仓 commit 证明，不进入本 artifact（`forbiddenPrefixes` 记录该口径）。
 - **system.json 门**：必须位于 runtime 集合；`id`（默认须为 `brp`）、`version`、
@@ -150,8 +151,12 @@ node tools/owner-ci/artifact.mjs verify \
 `inputs.runtimeRef` 复核历史）：
 
 1. checkout 被测源（不再 checkout 任何扩展分发仓）；
-2. 先跑 core-60/9 + extension-0 fail-closed 门（`system.json` 四个 pack、
-   `packs*` 无 `arcane-investigator-*`、无 SealDice 导入器/LevelDB 构建器）；
+2. 先跑 core-60/9 + extension-0 fail-closed 门（`system.json` 两个 pack：
+   `coc-skills` / `coc-professions`、`packs*` 无 `arcane-investigator-*`、
+   无 SealDice 导入器/LevelDB 构建器）；
+   > 已知偏差：`.github/workflows/owner-ci.yml` 的这一步仍硬断言旧四包
+   > 名单（`octopus-skills` / `octopus-professions` 仍在）。该文件受保护，
+   > 尚未同步 CoC7 名册收缩，属发布流跟进项；本地验证不受影响。
 3. 跑源仓语义测试（在被测 `src` 树内执行其自带的脚本）：
    ```bash
    node tools/check-zh-cn.mjs
@@ -172,7 +177,7 @@ runtime/content 两路历史复核都不依赖被测树携带这些工具。
 基线）：
 
 1. checkout 钉住的内容 commit（`actions/checkout` 的 `ref`）；
-2. 断言该 commit 是核心 60/9 且扩展 0（旧 91/156 pin 在此 fail closed）；
+2. 断言该 commit 是核心 60/9 且扩展 0（content pin 已重钉到 `455caa3b`）；
 3. 跑该 commit 自带的内容/包构建与确定性测试：
    ```bash
    node tools/base-pack/build.mjs
@@ -250,8 +255,8 @@ annotated tag 的 `github.sha` 可能是 tag 对象 id 而不是它指向的 com
 ```bash
 # 0) 被测 ref 的临时 checkout（detached，用完即删）
 git worktree add --detach /tmp/os-runtime "$(git rev-parse HEAD)"
-# 内容集使用迁移提交获批后的新 commit；获批前旧的 91/156 基线会被 core-60/9 门拒绝
-git worktree add --detach /tmp/os-content <new-content-commit>
+# 内容集使用 content-pin.json 钉住的当前基线（455caa3b）
+git worktree add --detach /tmp/os-content 455caa3baa2ce34ebc8430a6628df278466df452
 
 # 1) 运行集：语义测试在被测树内跑
 cd /tmp/os-runtime
@@ -320,15 +325,18 @@ tracked 的 dist 目录。receipt 的 `runUrl` 为 `null`：本地没有 CI run�
 
 ## 已知边界
 
-- system artifact 只覆盖源仓可证的两轴文件集（迁移后 327 + 184）；上一版前端
+- system artifact 只覆盖源仓可证的两轴文件集（当前 269 + 73 = 342）；上一版前端
   BRP 产物里的 `modules/arcane-investigator-options/` 187 个嵌套派生文件没有
   源仓 commit 证明，默认排除。前端后续消费应按 zip sha256 与 manifest 里的
   runtime/content commit + setHash 绑定，不从 `web/packages` 或 live 目录重建。
   本工具不引入 runtimeHost、不新增 Runtime SDK 依赖，也不做内容迁移。
 - `tools/tests/coc-rules-regressions.mjs` 只验收公开 owner 的核心 60/9 与
-  扩展 0；它不再读取任何扩展分发仓或 `expansionRef`。content job 在
-  `contentRef` 重钉前会因 core-60/9 门失败，这是预期的 fail-closed 状态，不是
-  可以用旧基线绕过的绿。
+  扩展 0；它不再读取任何扩展分发仓或 `expansionRef`。content pin 已重钉到
+  CoC7 名册基线，但 workflow 内的旧四包硬断言尚未同步，content job 仍会因该项
+  fail closed；修复需改受保护的 workflow 文件，不能用旧基线绕过。
+- 类型名册：Item 13 型 / Actor 4 型（`template.json`）；octopus 两个内容包、
+  其内容源与 `tools/base-pack/extract.mjs` 已删除，`tools/base-pack/build.mjs`
+  只做退役守卫与注册面断言。
 - 需要 Foundry 运行时的探针（`rules-regressions.mjs`、`coc-paper-runtime.mjs`、
   `coc-window-controls.mjs`、`sanity-regressions.mjs`）依赖 compat 仓无头环境，
   不进源仓 CI；本仓 CI 覆盖的卡牌语义来自纯规则模块

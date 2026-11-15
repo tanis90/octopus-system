@@ -57,6 +57,24 @@ an affectionate nod to tentacled horror without touching anyone's trademark.**
 >
 > ![Chaosium ORC credit](https://github.com/Genii-Locorum/brp/assets/121451824/ca848b0d-40a6-4fd1-ab73-81c48e243b99)
 
+## Current state (2026-11)
+
+- The runtime data schema and rules are FVTT **CoC 7e**. `brp` remains the
+  package id and `octopus` / `coc7` remain import/container identifiers; the
+  rules resolver normalizes both to `coc`.
+- Item roster in `template.json` (13): `item`, `skill`, `talent`, `weapon`,
+  `armor`, `book`, `occupation`, `spell`, `setup`, `status`, `archetype`,
+  `experience-package`, `chase`. Actor roster (4): `character`, `npc`,
+  `vehicle`, `creature` (same shape as `npc`).
+- Content: `coc-skills` (60 documents / 22 specialisms) and `coc-professions`
+  (9 `occupation` documents). `system.json` registers exactly these two packs.
+  The UGE/octopus packs, their content sources and their extract tooling are
+  retired; `tools/base-pack/build.mjs` remains only as a retirement guard.
+- The M1/M2/M5/M7 sections below are historical snapshots. Where they mention
+  octopus packs, the `octopus` default ruleset or old BRP Item types, they
+  describe states that no longer exist; see `docs/base-pack.md` for the current
+  pack contract.
+
 ## Roadmap — the "Cthulhu d100" layer
 
 Six subsystems layered onto the BRP d100 skeleton (integration-point analysis
@@ -66,14 +84,14 @@ in the `mt-foundry-compat` repo, branch `research/rules-brp`,
 1. [x] Full Sanity chain (POW×5 snapshot / TIS threshold / paired-loss checks /
    temporary madness with in-card d6 manifestation + d8 duration / permanent insanity)
 2. [x] Luck points (POW×5 snapshot, spend-to-lower on check cards; no reroll by design)
-3. [x] Occupation base content (44 UGE professions, ORC-clean; quotas = power-level pools + INT×10 — point-budget validators land with the character builder)
+3. [x] CoC 7e core occupations (9 `occupation` Items; credit range and point-formula rules are enforced by `module/rules/creation.mjs`)
 4. [ ] Skill advancement (reworked dev-phase gain semantics)
 5. [ ] Keeper tooling (batch checks / party panel)
-6. [x] Phobias & manias (persTrait traitType; madness-card pre-filled creation entry)
+6. [x] Phobias & manias (`status` Items with `system.type.phobia`/`system.type.mania`; madness-card pre-filled creation entry)
 
-Base content pack: UGE skills (57, zh) + professions (44, zh) + skill categories, dual-format (compat packs-json / real-Foundry folder packs), ORC notice included (ORC-NOTICE.md); starter auto-attach verified E2E.
+Core content packs: `coc-skills` (60, 22 specialisms) + `coc-professions` (9 `occupation` documents), dual-format (compat packs-json / real-Foundry folder packs); `system.json` registers only these two packs. ORC notice included (ORC-NOTICE.md).
 
-Localization: Simplified Chinese ships complete (1057/1057 keys, terminology aligned
+Localization: Simplified Chinese ships complete (1155/1155 keys, terminology aligned
 with authoritative CoC zh conventions); see lang/zh-CN.json.
 
 ## Development
@@ -102,33 +120,37 @@ This tree is an unreleased fix snapshot on top of `v0.3.0` (system version
   Edit/Use toggle at the far left of the window header drives the existing lock
   action and normal-list/dev-grid view. The duplicate body lock is removed;
   existing unlocked actors stay unlocked and NPCs are unchanged.
-- Stats: the canonical characteristic key is `cha` (template/schema). The d100
-  creator and card adapter must write/read `cha`; there is no `app` alias or
-  migration. Invalid test cards written with `app` are rebuilt.
+- Stats: the canonical characteristic key is `app` (template/schema). The d100
+  creator and card adapter write/read `app`; there is no `cha` alias or
+  migration.
 - Character creation: new characters get one real `徒手（斗殴）` weapon linked to
-  `i.skill.brawl` (`1D3`, full Damage Modifier, Crushing, Short, 1H, no Parry).
+  `i.skill.coc.fighting-brawl` (`1D3`, full Damage Modifier, Crushing, Short,
+  1H, no Parry).
   Attacks read Brawl's live total; no hit score is persisted. With starter skills
   off only Brawl is added. Existing actors, imports and NPCs are not migrated.
-- Base pack: profession ref UUIDs are reproduced from the committed seed with a
-  deterministic fallback; consecutive builds are byte-identical.
+- Content packs: `coc-professions` documents are native `occupation` Items carrying
+  `system.creditRating`, `system.occupationSkillPoints`, `itemKeys` and `groups`;
+  consecutive builds are byte-identical and the retired octopus artifacts are absent.
 
 ### CoC 7e M1 (experimental)
 
-An opt-in CoC layer now sits beside the octopus/UGE rules without replacing it.
-`brp.ruleset` is a hidden world setting and defaults to `octopus`. The external
-`coc7` value used by the backend catalog/settingsSeed maps explicitly to the
-internal `coc` adapter; `coc` is also accepted. Unknown values fall back to
-`octopus`, never CoC. This is a core slice, not a complete CoC implementation.
+> Historical snapshot. The runtime has since moved to CoC 7e only; see
+> **Current state** above. `Rules.for('octopus')` now normalizes to `coc`, and
+> the octopus/UGE packs are retired.
+
+M1 introduced the CoC rules slice as an opt-in layer beside octopus/UGE. At that
+time `brp.ruleset` defaulted to `octopus`; the external `coc7` value used by
+the backend catalog/settingsSeed mapped to the internal `coc` adapter.
 
 - `content/coc/skills.json` + `packs-json/coc-skills.json` + `packs/coc-skills/`:
   the public owner ships only the **60 core skills** (22 specialisms) in the
   `coc-skills` pack. Seven unverified specialisms stay
   `pending-official-source` with no fixed value. Extension-only skills and their
-  importer/build chain were moved out of this public repository. Octopus pack
-  bytes are unchanged.
+  importer/build chain were moved out of this public repository. The octopus
+  packs mentioned at this milestone have since been retired.
 - `module/rules/`: centralized rules interface. CoC derives HP/MP/SAN/Luck/
   Build/DB/MOV, uses its own success bands and +1D10 growth, and maps APP to the
-  native `cha` field. EDU is enabled. Dodge (½ DEX) and mother tongue (EDU) use
+  native `app` field. EDU is enabled. Dodge (½ DEX) and mother tongue (EDU) use
   native `variable`/`baseFormula`.
 - Native `BRPCheck` remains the real check path; it delegates only the grade.
   Starter skills and skill categories are source-scoped: CoC gets no octopus
@@ -151,13 +173,14 @@ simply does not exist as a buildable default.
   custom investigator) in their own `coc-professions` pack, registered in
   `system.json`. Every record carries `flags.brp.contentSource = "coc"` and
   `flags.brp.coc` with `slug`, `creditMin`, `creditMax` and `pointFormula`.
-  Extension-only occupations were moved out of this public repository. Octopus
-  pack bytes are unchanged.
+  Extension-only occupations were moved out of this public repository. The
+  octopus packs mentioned at this milestone have since been retired.
 - Facts are recorded as **secondary evidence** in `content/coc/provenance.json`
   (Roll20 compendium occupation pages, themselves sourced from Free Basic Rules),
   with per-occupation formula and credit range pinned.
-- Credit rating is an occupation constraint, never the UGE wealth band:
-  `minWealth`/`maxWealth` stay `0` and `wealthNotApplicable` marks why.
+- Credit rating is an occupation constraint, not a UGE wealth band: it is written
+  to the native `system.creditRating.{min,max}` on the `occupation` Item; the
+  old `minWealth`/`maxWealth` fields no longer exist.
 - `module/rules/creation.mjs` is a framework-free pure module the character
   builder imports directly:
   - `evaluatePointFormula(formula, stats)` — whitelist/AST evaluation of
@@ -259,22 +282,25 @@ rules, compatibility documentation, SAN/Luck design and
 | --- | --- |
 | `coc-skills` | **60** documents (22 specialisms), `packs` + `packs-index` + `packs-json` |
 | `coc-professions` | **9** entries (8 occupations + custom investigator) |
-| `system.json` packs | exactly **4**: `octopus-skills`, `octopus-professions`, `coc-skills`, `coc-professions` |
+| `system.json` packs | exactly **2**: `coc-skills`, `coc-professions` |
 | Extension packs / importer / `expansionRef` | **0** in this repository |
 | `content/coc/` | core facts only (`skills.json`, `professions.json`, core provenance, sanity provenance) |
 
 - `node tools/coc-pack/build.mjs` builds only the two core packs and rejects any
   non-core fact, non-core profession, or non-core pack in `system.json`.
 - `node tools/tests/coc-rules-regressions.mjs` asserts the exact 60/9 counts,
-  the four-pack registration and the absence of extension artifacts, importers
-  and `expandPackBrpids` pointers. It is **147/147** after the migration.
-- Consecutive builds are byte-identical; the octopus/UGE artifacts stay
-  byte-unchanged.
+  the two-pack registration, the absence of the retired octopus packs and of
+  extension artifacts/importers/`expandPackBrpids` pointers. It is **150/150**
+  after the CoC7 roster replacement.
+- Consecutive builds are byte-identical; the octopus/UGE artifacts and their
+  content sources are absent (retirement guard in `tools/base-pack/build.mjs`).
 - `tools/owner-ci/content-pin.json` no longer carries `expansionRef`. Its
-  `contentRef` is still the historical 91/156 baseline because the migration
-  commit has not been approved yet; the content job's core-60/9 gate fails
-  closed on it until the new immutable commit is pinned with a freshly computed
-  `contentSetHashSha256` (see `docs/owner-ci.md`).
+  `contentRef` is pinned to the CoC7-roster content baseline
+  `455caa3baa2ce34ebc8430a6628df278466df452` with a recomputed
+  `contentSetHashSha256` (73 content files). The owner CI workflow still keeps a
+  hard-coded four-pack assertion that has not been synced to this two-pack
+  roster; it is a protected file and a release-flow follow-up (see
+  `docs/owner-ci.md`).
 
 Regression checks:
 
@@ -291,10 +317,11 @@ candidate in two separate lines, never merged: the **runtime job** runs the
 source repo's own semantic suites at the tested commit and emits a runtime
 manifest + receipt; the **content job** checks out the content baseline pinned in
 `tools/owner-ci/content-pin.json` and emits a content manifest + receipt. The
-pin still names the legacy 91/156 baseline until the migration commit is
-approved; a fail-closed core-60/9 gate rejects it, so the content job cannot
-silently bless the old expansion set. Bumping the pin (with a recomputed set
-hash) is the explicit upgrade path. `workflow_dispatch` accepts
+pin currently names the CoC7-roster baseline (`455caa3b`, 73 content files).
+The workflow's existing gate still hard-codes the old four-pack list, so the
+content job needs that protected file updated before it can verify this roster;
+the pin (with a recomputed set hash) is otherwise already on the current
+baseline. `workflow_dispatch` accepts
 `runtimeRef` / `contentRef` to re-verify any historical published combination.
 Manifests/receipts and the assembled BRP system artifact are uploaded as
 workflow artifacts on every run; nothing is pushed back to the repo. A
@@ -340,6 +367,21 @@ rules and receipts: [docs/owner-ci.md](docs/owner-ci.md).
 - **规则文本**：将来内置的 SRD 衍生文本将按 ORC 要求随附许可文本与 Licensed
   Content 声明；当前版本尚未内置任何 SRD 文本。
 
+## 当前状态（2026-11）
+
+- 运行时数据结构与规则为 FVTT **CoC 7e**。`brp` 仍是包 id，`octopus` / `coc7`
+  只保留为导入/容器标识，规则解析一并归一到 `coc`。
+- `template.json` 的 Item 名册（13）：`item`、`skill`、`talent`、`weapon`、
+  `armor`、`book`、`occupation`、`spell`、`setup`、`status`、`archetype`、
+  `experience-package`、`chase`。Actor 名册（4）：`character`、`npc`、
+  `vehicle`、`creature`（与 `npc` 同结构）。
+- 内容：`coc-skills` 60 条（22 条专精）+ `coc-professions` 9 条
+  `occupation` 文档；`system.json` 只注册这两个包。UGE/octopus 包、内容源与
+  提取工具已退役；`tools/base-pack/build.mjs` 只保留为退役守卫。
+- 下文 M1/M2/M5/M7 是历史快照；其中提到 octopus 包、octopus 默认规则集或旧
+  BRP Item 类型的地方描述的是已不存在的状态。现行内容包契约见
+  `docs/base-pack.md`。
+
 ## 路线图（克苏鲁D100 专属层）
 
 在 BRP d100 骨架上叠加六件套（挂点评估见 mt-foundry-compat 仓 `research/rules-brp`
@@ -370,9 +412,9 @@ dev 包处理，不要当成原版 `0.3.0` 交付。
 - 角色卡：新建 PC 默认使用态（`system.lock=true`）；窗头最左侧一个原生
   编辑/使用切换，复用既有 lock 动作，正常技能列表/开发网格随之切换；正文重复锁
   入口已移除。既有未锁角色保持原状，NPC 不变。
-- 属性：canonical 属性键是 `cha`（模板 schema）。d100 车卡器与 CardAdapter 必须
-  读写 `cha`；不提供 `app` 别名或迁移，错写 `app` 的测试卡直接重建。
-- 角色创建：新角色默认附挂 1 条真实「徒手（斗殴）」武器，关联 `i.skill.brawl`
+- 属性：canonical 属性键是 `app`（模板 schema）。d100 车卡器与 CardAdapter
+  读写 `app`；不提供 `cha` 别名或迁移。
+- 角色创建：新角色默认附挂 1 条真实「徒手（斗殴）」武器，关联 `i.skill.coc.fighting-brawl`
   （`1D3`、full Damage Modifier、Crushing、Short、1H、不能 Parry）；攻击读取斗殴
   技能实时 total，不落库固化命中率。starter skills 关闭时只补斗殴。既有角色、
   导入与 NPC 不迁移。
@@ -383,20 +425,22 @@ dev 包处理，不要当成原版 `0.3.0` 交付。
 
 ### CoC 7e M1（实验）
 
-CoC 规则作为可选项与 octopus/UGE 并存，不替换原行为。隐藏 world setting
-`brp.ruleset` 缺省为 `octopus`；后端 catalog/settingsSeed 使用的外部值 `coc7`
-显式映射到内部 `coc` 适配器，`coc` 也继续可用；未知值回落 `octopus`，不会当成
-CoC。本期只是核心纵向切片，不是完整 CoC。
+> 历史快照。运行时现已归一到 CoC 7e；`Rules.for('octopus')` 归一为 `coc`，
+> octopus/UGE 包已退役。
+
+M1 引入 CoC 规则纵向切片时，规则层仍与 octopus/UGE 并存，隐藏 world setting
+`brp.ruleset` 当时缺省为 `octopus`；后端 catalog/settingsSeed 的外部值 `coc7`
+映射到内部 `coc` 适配器。
 
 - `content/coc/skills.json` + `packs-json/coc-skills.json` + `packs/coc-skills/`：
   公开 owner 只保留 **60 条核心技能**（22 条专精）。7 条未证实专精标为
   `pending-official-source`，不写固定值、不写入包。扩展技能、专属事实源与构建链
-  已迁出公开仓。octopus 包字节不变。
+  已迁出公开仓；该里程碑提到的 octopus 包现已退役。
 - `module/rules/`：集中式规则接口。CoC 派生 HP/MP/SAN/Luck/Build/DB/MOV，
-  使用 CoC 成功等级与 +1D10 成长，APP 映射原生 `cha`，EDU 启用。闪避（½ DEX）
+  使用 CoC 成功等级与 +1D10 成长，APP 保留原生 `app` 键，EDU 启用。闪避（½ DEX）
   与母语（EDU）走原生 `variable`/`baseFormula`。
-- 验收口径：当前收缩后的源仓 `coc-rules-regressions` 为 **147/147**（核心
-  60/9 + 扩展 0）；M1/M2/M5 的历史计数仅作记录。基础包连续构建
+- 验收口径：CoC7 名册替换后的源仓 `coc-rules-regressions` 为 **150/150**（核心
+  60/9、两个 pack、扩展 0）；M1/M2/M5 的历史计数仅作记录。内容包连续构建
   byte-identical；前端卡面、runtime profile、隔离栈真实 REST/WS+浏览器验收与清理
   证据记在 compat 仓的 `PROGRESS.md` 与 `docs/coc-compatibility-contract.md`。
 - 原生 `BRPCheck` 仍是真实检定链，只委托判级。starter 技能与技能分类按内容
@@ -417,11 +461,11 @@ CoC。本期只是核心纵向切片，不是完整 CoC。
   调查记者、私家侦探、教授、医生（医学博士）、警探、古董商，以及产品定义的自定义
   调查员），已注册进 `system.json`。每条带 `flags.brp.contentSource="coc"` 与
   `flags.brp.coc`（`slug`/`creditMin`/`creditMax`/`pointFormula`）。
-  扩展职业与专属事实源已迁出公开仓。octopus 包字节不变。
+  扩展职业与专属事实源已迁出公开仓；该里程碑提到的 octopus 包现已退役。
 - 事实以**次级证据**记入 `content/coc/provenance.json`（Roll20 职业页，页面自身
   标注来源为 Free Basic Rules），逐职业钉住公式与信用区间。
-- 信用评级是职业约束，不是 UGE 财富档：`minWealth`/`maxWealth` 保持 `0`，并用
-  `wealthNotApplicable` 标出原因。
+- 信用评级是职业约束，不是 UGE 财富档：写在 `occupation` Item 的原生
+  `system.creditRating.{min,max}`；旧 `minWealth`/`maxWealth` 字段已删除。
 - `module/rules/creation.mjs`：无框架依赖的纯函数模块，车卡器直接 import：
   - `evaluatePointFormula(formula, stats)`：白名单/AST 求值 `EDU*4`、
     `EDU*2+DEX*2`、`EDU*2+APP*2`、`EDU*2+STR*2`、
@@ -499,19 +543,22 @@ SealDice 导入器、扩展 LevelDB 打包器、扩展引用（含 `expansionRef
 | --- | --- |
 | `coc-skills` | **60** 条文档（22 条专精），`packs` + `packs-index` + `packs-json` |
 | `coc-professions` | **9** 条入口（8 个职业 + 自定义调查员） |
-| `system.json` packs | 正好 **4** 个：`octopus-skills`、`octopus-professions`、`coc-skills`、`coc-professions` |
+| `system.json` packs | 正好 **2** 个：`coc-skills`、`coc-professions` |
 | 扩展包 / 导入器 / `expansionRef` | 本仓 **0** |
 | `content/coc/` | 只保留核心事实（`skills.json`、`professions.json`、核心 provenance、sanity provenance） |
 
 - `node tools/coc-pack/build.mjs` 只构建两个核心包；任何非核心技能/职业或
   `system.json` 中的非核心 pack 都会构建失败。
-- `node tools/tests/coc-rules-regressions.mjs` 断言精确 60/9、四个 pack 注册、
-  扩展产物/导入器/`expandPackBrpids` 指针全部缺席；迁移后为 **147/147**。
-- 连续构建 byte-identical，octopus/UGE 产物字节不变。
-- `tools/owner-ci/content-pin.json` 已移除 `expansionRef`。`contentRef` 仍是
-  历史 91/156 基线（迁移提交尚未获批），content job 的 core-60/9 门会 fail
-  closed；新 commit 获批后须按 `docs/owner-ci.md` 重钉不可变 commit 并重算
-  `contentSetHashSha256`。
+- `node tools/tests/coc-rules-regressions.mjs` 断言精确 60/9、两个 pack 注册、
+  已退役 octopus 包以及扩展产物/导入器/`expandPackBrpids` 指针全部缺席；
+  CoC7 名册替换后为 **150/150**。
+- 连续构建 byte-identical；octopus/UGE 产物与内容源均缺席（由
+  `tools/base-pack/build.mjs` 的退役守卫强制）。
+- `tools/owner-ci/content-pin.json` 已移除 `expansionRef`，`contentRef` 已重钉到
+  CoC7 名册内容基线 `455caa3baa2ce34ebc8430a6628df278466df452`，并重算
+  `contentSetHashSha256`（73 个内容文件）。owner CI workflow 内仍保留旧四包硬
+  断言，尚未同步本次两包名册；该文件受保护，属发布流跟进项（见
+  `docs/owner-ci.md`）。
 
 回归检查：
 
@@ -527,9 +574,9 @@ node tools/tests/base-pack-determinism.mjs
 不合并：**runtime job** 对被测 commit 跑源仓自有语义测试并出 runtime
 manifest + receipt；**content job** 用 `actions/checkout` 钉住
 `tools/owner-ci/content-pin.json` 里的内容基线并出 content manifest + receipt。
-迁移提交获批前 pin 仍指向旧 91/156 基线，content job 的 core-60/9 fail-closed 门
-会拒绝它，不会把旧扩展集悄悄当成本次内容；显式改 pin（并重算集合 hash）才是
-升级路径。`workflow_dispatch` 可指定
+pin 现指向 CoC7 名册基线（`455caa3b`，73 个内容文件）；workflow 既有的 content
+门仍硬编码旧四包名册，需先更新该受保护文件才能验收本名册；pin 本身已按新基线
+重算集合 hash。`workflow_dispatch` 可指定
 `runtimeRef` / `contentRef` 复核任意历史已发布组合。manifest/receipt 与组装出的
 BRP system artifact 在每次 run 都作为 workflow artifact 上传，不推回仓库；
 自 `main` 推 `release-*` tag 时会额外跑 **release-publish** job，复核产物字节
