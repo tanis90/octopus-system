@@ -50,11 +50,16 @@ export default function Init() {
       dyingRound: (options) => BRPCheck.cocDyingRound(options),
     },
     //Native CoC M4 SAN / madness / Luck / growth entry points. Plain data in,
-    //no chat DOM required; every settlement routes to the single active-GM
-    //writer and returns `{queued:true}` when this client is not it.
+    //no chat DOM required. An owned PC is settled by its card owner's client
+    //(settleOwned, GM online or offline); a keeper/other player only records a
+    //pending card (settle/pending) for the owner to retry; an unowned NPC keeps
+    //the active-GM relay and returns `{queued:true}` when this client is not it.
     sanity: {
       state: (actor) => BRPSanity.state(actor),
       settle: (options) => BRPSanity.settle(options),
+      settleOwned: (options) => BRPSanity.settleOwned(options),
+      retry: (options) => BRPSanity.retry(options),
+      pending: (options) => BRPSanity.pending(options),
       intCheck: (options) => BRPSanity.completeIntCheck(options),
       endTemporary: (options) => BRPSanity.endTemporary(options),
       endIndefinite: (options) => BRPSanity.endIndefinite(options),

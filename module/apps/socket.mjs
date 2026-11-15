@@ -83,18 +83,34 @@ export class BRPSystemSocket {
     return BRPDamage[fn](actor, rest)
   }
 
-  // CoC SAN settlement relayed to the single writer. The player's roll already
-  // happened on their client; the decided loss is applied here, once, against
-  // the writer's fresh read of the actor. `origin` is kept so the writer can
-  // refuse a settlement for an investigator the sender neither owns nor keeps.
+  // CoC SAN settlement relayed to the active-GM writer. Only an unowned NPC
+  // takes this path now: an owned PC is written by its card owner's client, so
+  // `settleNow` refuses it here. `origin` is kept so the writer can refuse a
+  // settlement for an actor the sender neither owns nor keeps, and `settleId`
+  // keeps the relayed settlement idempotent with the owner-side path.
+  //
+  // `action: 'cardRepair'` is the one projection-only use: the sender's actor
+  // already holds an applied settlement for `settleId` and only the chat card is
+  // behind, because the card was authored by this GM. It never settles, never
+  // deducts and never widens a write guard; the handler only rewrites that one
+  // card. No new socket type is introduced.
   static async cocSanSettle(value = {}) {
     if (!BRPSanity.isWriter()) { return { error: 'not-active-gm' } }
     const actor = await actorFrom(value.actorId, value.actorType)
     if (!actor) { return { error: 'actor-missing' } }
+    if (value.action === 'cardRepair') {
+      return BRPSanity.repairCardFromRecord({
+        actor,
+        cardMessageId: value.cardMessageId ?? null,
+        settleId: value.settleId ?? null,
+        origin: value.origin ?? null,
+      })
+    }
     return BRPSanity.settleNow({
       actor,
       loss: value.loss,
       cardMessageId: value.cardMessageId ?? null,
+      settleId: value.settleId ?? null,
       dayId: value.dayId ?? null,
       reason: value.reason ?? 'sanity-roll',
       origin: value.origin ?? null,

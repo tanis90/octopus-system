@@ -93,6 +93,48 @@ export function damageBonusFor({ dbFull = '0', dbHalf = '0', mode = 'none' } = {
   }
 }
 
+// Resolve the printed damage bonus from the slots an actor actually has. The
+// native CoC actor keeps it in `attribs.db` (`auto: true` = derive from STR+SIZ,
+// `auto: false` = keeper-entered); BRP-era actors kept `system.dmgBonus`.
+//  - a keeper-entered value wins and is halved by the same rule;
+//  - an auto slot prefers the live derivation, so a stale prepared value cannot
+//    leave the DB behind the characteristics;
+//  - the half always belongs to the chosen full (a stored half is used only when
+//    it belongs to that same formula).
+// `source` is audit material: keeper | derived | legacy | none.
+export function resolveDamageBonus({ db = null, derived = null, legacy = null } = {}) {
+  const text = (value) => (value === null || value === undefined ? '' : String(value).trim())
+  const slot = text(db?.value)
+  const derivedFull = text(derived?.full)
+  const derivedHalf = text(derived?.half)
+  const legacyFull = text(legacy?.full)
+  const legacyHalf = text(legacy?.half)
+  const native = db !== null && db !== undefined
+  const keeper = native && db.auto === false ? slot : ''
+  const auto = native && db.auto === true
+  // A native actor has the slot, so the live derivation is the truest value even
+  // before prepareData rewrote it. Without the slot there is no native schema:
+  // an old actor's stored dmgBonus is more trustworthy than a derivation from
+  // characteristics it may not even have in that shape.
+  const full = keeper
+    || (auto ? (derivedFull || slot) : (slot || (native ? derivedFull : '')))
+    || legacyFull
+    || derivedFull
+    || '0'
+  const half = keeper
+    ? halfDamageBonus(full)
+    : full === derivedFull && derivedHalf
+      ? derivedHalf
+      : full === legacyFull && legacyHalf
+        ? legacyHalf
+        : halfDamageBonus(full)
+  const source = keeper ? 'keeper'
+    : full === derivedFull ? 'derived'
+      : full === legacyFull ? 'legacy'
+        : 'none'
+  return Object.freeze({ full, half, source })
+}
+
 const DB_MODE_BY_FIELD = Object.freeze({
   full: 'full',
   oneh: 'full',
@@ -397,6 +439,7 @@ export const CoCCombatRules = Object.freeze({
   combineFormulas,
   halfDamageBonus,
   damageBonusFor,
+  resolveDamageBonus,
   weaponProfile,
   damageFormula,
   damageTier,

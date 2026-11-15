@@ -3,8 +3,27 @@ import { SkillsSelectDialog } from "../apps/skill-selection.mjs"
 import { BRPUtilities } from '../apps/utilities.mjs';
 import BRPDialog from '../setup/brp-dialog.mjs';
 import { Rules } from '../rules/index.mjs';
+import { LEGACY_SKILL_KEYS, normalizeSkillSystem } from '../rules/coc-skill-fields.mjs';
 
 export class BRPactorItemDrop {
+
+  //A dropped skill is stored canonically: legacy flat score/marker keys are
+  //remapped onto adjustments `properties`/`flags` and removed, and the derived
+  //`total` is never written. Non-skill items are returned untouched.
+  static _canonicalSkillData(nItm) {
+    if (nItm?.type !== 'skill') { return nItm }
+    const source = nItm.system ?? {}
+    const normalized = normalizeSkillSystem(source)
+    const system = { ...source }
+    for (const key of LEGACY_SKILL_KEYS) { delete system[key] }
+    delete system.total
+    system.base = normalized.base
+    system.adjustments = { ...(system.adjustments ?? {}), ...normalized.adjustments }
+    system.properties = normalized.properties
+    system.flags = normalized.flags
+    nItm.system = system
+    return nItm
+  }
 
   // Change default on Drop Item Create routine for requirements (single items and folder drop)-----------------------------------------------------------------
   static async _BRPonDropItemCreate(actor, itemData) {
@@ -23,6 +42,7 @@ export class BRPactorItemDrop {
         if (nativeSkill && nItm.flags?.brp?.coc?.key) {
           nItm.system.base = String(await this._calcBase(nItm, actor))
         }
+        if (nativeSkill) { this._canonicalSkillData(nItm) }
         newItemData.push(nItm)
         continue
       }
@@ -59,6 +79,7 @@ export class BRPactorItemDrop {
         //When dropping get the base score
         if (nItm.type === 'skill') {
           nItm.system.base = await this._calcBase(nItm, actor)
+          this._canonicalSkillData(nItm)
         }
 
         //When dropping a weapon check to see if character has the skills and if not add them to the character sheet
@@ -92,14 +113,14 @@ export class BRPactorItemDrop {
               newSkill = (await game.system.api.brpid.fromBRPIDBest({ brpid: nItm.system.skill1 }))[0]
               if (newSkill) {
                 newSkill.system.base = await this._calcBase(newSkill, actor)
-                newItemData.push(newSkill)
+                newItemData.push(this._canonicalSkillData(newSkill))
               }
             }
             if (skill2Test === 0 && nItm.system.skill2 != 'none') {
               newSkill = (await game.system.api.brpid.fromBRPIDBest({ brpid: nItm.system.skill2 }))[0]
               if (newSkill) {
                 newSkill.system.base = await this._calcBase(newSkill, actor)
-                newItemData.push(newSkill)
+                newItemData.push(this._canonicalSkillData(newSkill))
               }
             }
           }
@@ -385,16 +406,27 @@ export class BRPactorItemDrop {
       //If existing skill on actor then push to updateItems otherwise calculate base and push to addItems
       let actItem = (await actor.items.filter(dItm => dItm.getFlag('brp', 'brpidFlag')?.id).filter(cItm => cItm.flags.brp.brpidFlag.id === nItm.flags.brp.brpidFlag.id))[0]
       if (actItem) {
+        //Canonical growth buckets: a profession/culture/personality drop fills
+        //adjustments + source flags, never the legacy flat `occupation`/
+        //`culture`/`personality` skill fields.
         if (itm.type === 'personality') {
-          updateItems.push({ _id: actItem._id, 'system.personality': nItm.system.personality, 'system.prsnlty': nItm.system.prsnlty })
+          updateItems.push({
+            _id: actItem._id,
+            'system.adjustments.archetype': Number(nItm.system.personality) || 0,
+            'system.flags.archetype': nItm.system.prsnlty === true,
+          })
         } else if (itm.type === 'profession') {
-          updateItems.push({ _id: actItem._id, 'system.occupation': nItm.system.occupation })
+          updateItems.push({ _id: actItem._id, 'system.flags.occupation': nItm.system.occupation === true })
         } else if (itm.type === 'culture') {
-          updateItems.push({ _id: actItem._id, 'system.culture': nItm.system.culture, 'system.cultural': nItm.system.cultural })
+          updateItems.push({
+            _id: actItem._id,
+            'system.adjustments.experiencePackage': Number(nItm.system.culture) || 0,
+            'system.flags.experiencePackage': nItm.system.cultural === true,
+          })
         }
       } else {
         nItm.system.base = await this._calcBase(nItm, actor)
-        addItems.push(nItm)
+        addItems.push(this._canonicalSkillData(nItm))
       }
     }
 
@@ -441,7 +473,13 @@ export class BRPactorItemDrop {
     //Reset all actor personality points on skills to zero
     let changes = []
     for (let itm of actor.items) {
-      if (['skill', 'magic', 'psychic'].includes(itm.type)) {
+      if (itm.type === 'skill') {
+        changes.push({
+          _id: itm.id,
+          'system.adjustments.archetype': 0,
+          'system.flags.archetype': false,
+        })
+      } else if (itm.type === 'magic' || itm.type === 'psychic') {
         changes.push({
           _id: itm.id,
           'system.personality': 0,
@@ -464,7 +502,13 @@ export class BRPactorItemDrop {
     //Reset all actor profession skills to zero
     let changes = []
     for (let itm of actor.items) {
-      if (['skill', 'magic', 'psychic'].includes(itm.type)) {
+      if (itm.type === 'skill') {
+        changes.push({
+          _id: itm.id,
+          'system.adjustments.occupation': 0,
+          'system.flags.occupation': false,
+        })
+      } else if (itm.type === 'magic' || itm.type === 'psychic') {
         changes.push({
           _id: itm.id,
           'system.profession': 0,
@@ -488,7 +532,13 @@ export class BRPactorItemDrop {
     //Reset all actor culture skills to zero
     let changes = []
     for (let itm of actor.items) {
-      if (['skill', 'magic', 'psychic'].includes(itm.type)) {
+      if (itm.type === 'skill') {
+        changes.push({
+          _id: itm.id,
+          'system.adjustments.experiencePackage': 0,
+          'system.flags.experiencePackage': false,
+        })
+      } else if (itm.type === 'magic' || itm.type === 'psychic') {
         changes.push({
           _id: itm.id,
           'system.culture': 0,

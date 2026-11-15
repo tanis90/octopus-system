@@ -1,5 +1,7 @@
 import { buildCocSkillGroups } from './view-data.mjs'
 import { settleCocInterlude } from './interlude-settlement.mjs'
+import { cocInterludeSelectable, initialCocInterludeSelection } from './interlude-plan.mjs'
+import { skillSourceSystem, skillTicked, skillTotal } from '../../../rules/coc-skill-fields.mjs'
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -7,9 +9,7 @@ export class CocInterludeSheet extends HandlebarsApplicationMixin(ApplicationV2)
   constructor(options = {}) {
     super(options)
     this.actor = this.options.document
-    this.selectedIds = [...this.actor.items]
-      .filter((item) => item.type === 'skill' && item.system?.improve === true && item.system?.noXP !== true)
-      .map((item) => item.id)
+    this.selectedIds = initialCocInterludeSelection(this.actor.items)
     this.result = null
     this.busy = false
     this.manualIds = []
@@ -35,14 +35,22 @@ export class CocInterludeSheet extends HandlebarsApplicationMixin(ApplicationV2)
 
   async _prepareContext() {
     const items = [...this.actor.items]
-    const selected = this.selectedIds.map((id) => items.find((item) => item.id === id)).filter(Boolean)
-    const available = items.filter((item) => item.type === 'skill' && item.system?.noXP !== true && !this.selectedIds.includes(item.id))
+    const selected = this.selectedIds
+      .map((id) => items.find((item) => item.id === id))
+      .filter(Boolean)
+      .map((item) => ({
+        id: item.id,
+        name: item.name,
+        total: skillTotal(skillSourceSystem(item)),
+      }))
+    const available = items.filter((item) => cocInterludeSelectable(item) && !this.selectedIds.includes(item.id))
     return {
       selected,
       groups: buildCocSkillGroups(available),
       result: this.result,
       busy: this.busy,
-      canConfirm: this.selectedIds.length > 0 || items.some((item) => item.system?.improve === true && !this.selectedIds.includes(item.id)),
+      canConfirm: this.selectedIds.length > 0 || items.some((item) => cocInterludeSelectable(item)
+        && skillTicked(skillSourceSystem(item)) && !this.selectedIds.includes(item.id)),
     }
   }
 
@@ -50,7 +58,7 @@ export class CocInterludeSheet extends HandlebarsApplicationMixin(ApplicationV2)
     event.preventDefault()
     const itemId = target.closest('.item')?.dataset.itemId
     const item = this.actor.items.get(itemId)
-    if (!item || item.type !== 'skill' || item.system?.noXP === true) return
+    if (!cocInterludeSelectable(item)) return
     if (!this.selectedIds.includes(itemId)) this.selectedIds.push(itemId)
     if (!this.manualIds.includes(itemId)) this.manualIds.push(itemId)
     await this.render()

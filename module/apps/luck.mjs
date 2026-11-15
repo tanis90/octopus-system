@@ -2,6 +2,7 @@ import { BRPCheck } from './check.mjs'
 import { BRPactorDetails } from './actorDetails.mjs'
 import BRPDialog from '../setup/brp-dialog.mjs'
 import { Rules } from '../rules/index.mjs'
+import { skillTickUpdate, skillTicked } from '../rules/coc-skill-fields.mjs'
 
 //Luck spending (CthulhuD100 extension layer) - the settlement core is
 //deliberately DOM-free: applyLuck settles a spend against the actor's budget
@@ -252,6 +253,14 @@ export class BRPLuck {
       const actor = await BRPactorDetails._getParticipant(entry.particId, entry.particType)
       const item = actor?.items?.get(entry.skillId)
       if (!item) { return }
+      if (item.type === 'skill') {
+        // Canonical growth surface: clearing the tick is a legitimate reversal
+        // and writes only `flags.developement`.
+        if (skillTicked(item.system)) {
+          await item.update(skillTickUpdate(false))
+        }
+        return
+      }
       if (item.system?.improve === true) {
         await item.update({ 'system.improve': false })
       }

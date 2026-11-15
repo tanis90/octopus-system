@@ -786,6 +786,7 @@
       "advanceDayHint": "Advance the world clock by one day",
       "timeAdvanced": "World clock advanced by {hours} hours",
       "timeAdvanceFailed": "The world clock can only be advanced by the active GM",
+      "settlementPending": "This investigator still has an unsettled Sanity roll; settle or retry it before rolling again",
       "madness": {
         "durationHours": "{hours} hours",
         "boutRounds": "{rounds} rounds",

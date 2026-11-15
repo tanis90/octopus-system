@@ -2,6 +2,14 @@ import { BRPactorDetails } from './actorDetails.mjs'
 import { OPCard } from "../cards/opposed-card.mjs"
 import { BRPUtilities } from './utilities.mjs'
 import { Rules } from '../rules/index.mjs'
+import {
+  skillNoXP,
+  skillTickUpdate,
+  skillTicked,
+  skillTotalInfo,
+  skillXp,
+  skillXpUpdate,
+} from '../rules/coc-skill-fields.mjs'
 
 export class BRPCharDev {
 
@@ -26,7 +34,9 @@ export class BRPCharDev {
     let results = {}
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
     for (let i of partic.items) {
-      if (i.system.improve) {
+      //Skills use the canonical tick flag; other item types keep the legacy one.
+      const ticked = i.type === 'skill' ? skillTicked(i.system) : i.system?.improve === true
+      if (ticked) {
         results = await BRPCharDev.xpCheck(actor, token, i._id, rollType, false);
         success.push(results)
       }
@@ -47,7 +57,9 @@ export class BRPCharDev {
     let results = {}
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
     let item = partic.items.get(itemId)
-    if (opp === 'false' && !item.system.improve) { return }
+    if (!item) { return }
+    const ticked = item.type === 'skill' ? skillTicked(item.system) : item.system?.improve === true
+    if (opp === 'false' && !ticked) { return }
     if (opp === 'true' && !item.system.oppimprove) { return }
     results = await BRPCharDev.xpCheck(actor, token, itemId, rollType, opp);
     success.push(results)
@@ -60,37 +72,59 @@ export class BRPCharDev {
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
     let improvVal = 0
     let item = partic.items.get(itemId)
+    if (!item) { return { error: 'item-missing', itemId } }
+    const isSkill = item.type === 'skill'
+    // Canonical score for skills (base + adjustments). `valid: false` means the
+    // document carries no score data at all; rolling against that would coerce
+    // NaN to 0 and "succeed" on every die, so refuse instead.
+    const info = isSkill ? skillTotalInfo(item.system) : null
+    if (isSkill && !info.valid) {
+      return { error: 'skill-score-invalid', itemId, name: item.name, invalid: info.invalid }
+    }
     let name = item.name
-    let score = item.system.total
-    //Exclude system.effects from the improvement score
-    if (['skill', 'magic', 'psychic'].includes(item.type)) {
-      score = score - item.system.effects
+    let score = isSkill ? info.total : Number(item.system.total)
+    //Exclude system.effects from the legacy improvement score (skills already
+    //exclude them: the canonical total has no effects bucket).
+    if (!isSkill && ['magic', 'psychic'].includes(item.type)) {
+      score = score - (Number(item.system.effects) || 0)
     }
 
     if (opp) {
-      score = item.system.opptotal
+      score = Number(item.system.opptotal)
       name = item.system.oppName
     }
+    if (!Number.isFinite(score)) {
+      return { error: 'skill-score-invalid', itemId, name }
+    }
 
-    if (!opp && !item.system.improve) { return }
-    if (opp && !item.system.oppimprove) { return }
-    // CoC: Mythos (and any noXP skill) can never be improved by a development
-    // check, even if an imported/legacy document left the improve flag set.
-    if (Rules.active().check.xpSkipsNoXP === true && item.system?.noXP === true) { return }
+    const ticked = isSkill ? skillTicked(item.system) : (opp ? !!item.system.oppimprove : !!item.system.improve)
+    if (!opp && !ticked) { return { error: 'not-ticked', itemId, name } }
+    if (opp && !item.system.oppimprove) { return { error: 'not-ticked', itemId, name } }
+    // No future growth for a noxpgain skill - even if an imported document left
+    // a tick behind. Experience already gained is untouched; the dirty tick is
+    // cleared so the skill cannot keep appearing as settleable.
+    if (isSkill && skillNoXP(item.system)) {
+      if (skillTicked(item.system)) {
+        await item.update(skillTickUpdate(false))
+      }
+      return { error: 'no-xp', itemId, name }
+    }
     const rules = Rules.active()
     // CoC has no fixed improvement tier: the "fixed" button settles as 1D10 too,
     // so a client that still sends it cannot mint a constant +3.
     const effectiveType = rules.growth.allowFixedTier === false ? 'formula' : type
     let result = await BRPCharDev.xpRoll(score, rules.growth.bonus(actor))
+    if (result?.error) { return { ...result, itemId, name, score } }
     if (result.level === 1) {
       if (effectiveType === 'fixed') {
-        improvVal = game.settings.get('brp', 'xpFixed')
+        improvVal = Number(game.settings.get('brp', 'xpFixed')) || 0
       } else {
         let roll = new Roll(rules.growth.formula({
           xpFormula: game.settings.get('brp', 'xpFormula')
         }))
         await roll.evaluate();
-        improvVal = roll.total
+        improvVal = Number(roll.total)
+        if (!Number.isFinite(improvVal)) { improvVal = 0 }
         if (game.settings.get('brp', 'xpRollDice') && game.modules.get('dice-so-nice')?.active) {
           game.dice3d.showForRoll(roll, game.user, true, null, false)  //Roll,user,sync,whispher,blind
         }
@@ -98,14 +132,20 @@ export class BRPCharDev {
     }
 
     if (!opp) {
-      await item.update({
-        'system.improve': false,
-        'system.xp': item.system.xp + improvVal
-      })
+      if (isSkill) {
+        // Canonical settlement: clear the tick and add the gained points to
+        // adjustments.experience. `system.xp`/`system.improve` are never written.
+        await item.update({ ...skillTickUpdate(false), ...skillXpUpdate(skillXp(item.system) + improvVal) })
+      } else {
+        await item.update({
+          'system.improve': false,
+          'system.xp': (Number(item.system.xp) || 0) + improvVal
+        })
+      }
     } else {
       await item.update({
         'system.oppimprove': false,
-        'system.xp': item.system.xp - improvVal
+        'system.xp': (Number(item.system.xp) || 0) - improvVal
       })
 
     }
@@ -122,10 +162,16 @@ export class BRPCharDev {
 
   //XP Check Dice Roll & return success level
   static async xpRoll(target, bonus) {
+    const score = Number(target)
+    // A non-finite target must not fall through `growth.check` as 0: that turns
+    // every die into a success and invents a gained point.
+    if (!Number.isFinite(score)) {
+      return { level: 0, diceRoll: null, rollResult: null, error: 'skill-score-invalid' }
+    }
     let resultLevel = 0
     let roll = new Roll('1D100')
     await roll.evaluate();
-    if (Rules.active().growth.check({ roll: Number(roll.total), targetScore: target, bonus })) {
+    if (Rules.active().growth.check({ roll: Number(roll.total), targetScore: score, bonus })) {
       resultLevel = 1
     }
     //If Game Settings and Dice So Nice then show dice roll

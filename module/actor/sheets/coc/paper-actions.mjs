@@ -1,5 +1,6 @@
 import { paperFormulaAverage } from './paper-view.mjs'
 import BRPDialog from '../../../setup/brp-dialog.mjs'
+import { skillSourceSystem, skillTotal } from '../../../rules/coc-skill-fields.mjs'
 import {
   applyCocStatus,
   cocConditionValue,
@@ -28,7 +29,7 @@ export function paperFavoriteItems(actor) {
     id: item.id,
     name: item.name,
     type: item.type,
-    total: item.type === 'skill' ? item.system.total : null,
+    total: item.type === 'skill' ? skillTotal(skillSourceSystem(item)) : null,
   }))
 }
 

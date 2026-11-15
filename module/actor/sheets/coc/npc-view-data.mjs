@@ -6,6 +6,7 @@
 // pass: that method writes derived fields onto live Item documents. Everything
 // here is computed from the live Actor/Item values without mutating them.
 
+import { skillSourceSystem, skillTotal, skillTotalInfo } from '../../../rules/coc-skill-fields.mjs'
 import {
   buildCocSanityView,
   cocEquipStatusLabel,
@@ -216,26 +217,16 @@ const dbLabelOf = (value) => {
   return DB_LABELS[key] ?? text(value)
 }
 
-const COC_SKILL_ADJUSTMENTS = ['base', 'personal', 'occupation', 'archetype', 'experiencePackage', 'experience']
-
-const cocSkillTotal = (skill) => {
-  if (!skill) return null
-  const system = skill.system ?? {}
-  // BRPActor.prepareDerivedData already owns the live total. Only compute the
-  // sum when an imported/partial Item has no prepared value.
-  const stored = numberOrNull(system.total)
-  if (stored !== null) return stored
-  return numberOr(system.base) + COC_SKILL_ADJUSTMENTS
-    .reduce((total, key) => total + numberOr(system.adjustments?.[key]), 0)
-}
+const cocSkillTotal = (skill) => (skill ? skillTotal(skillSourceSystem(skill)) : null)
 
 export function buildCocNpcAttackRow(weapon, actor) {
   const system = weapon?.system ?? {}
   const skill = resolveCocWeaponSkill(weapon, actor)
   const naturalValue = numberOrNull(system.npcVal)
   const usesNatural = naturalValue !== null && naturalValue > 0
-  const skillTotal = usesNatural ? null : cocSkillTotal(skill)
-  const attackMode = usesNatural ? 'cm' : (skill && skillTotal !== null ? 'sk' : 'none')
+  const skillScore = !usesNatural && skill ? skillTotalInfo(skillSourceSystem(skill)) : null
+  const skillTotal = skillScore?.valid ? skillScore.total : null
+  const attackMode = usesNatural ? 'cm' : (skillTotal !== null ? 'sk' : 'none')
   const hitValue = usesNatural ? naturalValue : skillTotal
   const damage = text(system.range?.normal?.damage)
   const range = text(system.range?.normal?.value) || (system.properties?.rngd === true ? '' : 'S')

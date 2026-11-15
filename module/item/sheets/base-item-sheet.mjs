@@ -1,4 +1,10 @@
 import { BRPIDEditor } from "../../brpid/brpid-editor.mjs";
+import {
+  skillNoXP,
+  skillNoXPUpdate,
+  skillTickUpdate,
+  skillTicked,
+} from "../../rules/coc-skill-fields.mjs";
 
 const { api, sheets } = foundry.applications;
 
@@ -104,7 +110,16 @@ export class BRPItemSheetV2 extends api.HandlebarsApplicationMixin(sheets.ItemSh
     if (['allegEnemy', 'allegApoth', 'allegAllied', 'improve', 'armVar', 'armBal', 'HPL', 'dead', 'severed', 'bleeding', 'mem', 'minorOnly', 'minor', 'oppimprove',
        'perLvl', 'noXP', 'specialism', 'variable', 'group', 'chosen', 'basic', 'combat','var', 'parry','burst', 'stun', 'choke', 'entangle', 'fire', 'pierce', 'sonic',
        'poison', 'explosive', 'emp', 'disease', 'spclDmg', 'cold','acid','constrict', 'treated'].includes(prop)) {
-      checkProp = { [`system.${prop}`]: !this.item.system[prop] }
+      //Skills: growth markers live on the canonical paths. The legacy layout
+      //still renders `noXP`, so state is read canonically and written only to
+      //`properties.noxpgain` / `flags.developement`.
+      if (this.item.type === 'skill' && prop === 'noXP') {
+        checkProp = skillNoXPUpdate(!skillNoXP(this.item.system))
+      } else if (this.item.type === 'skill' && prop === 'improve') {
+        checkProp = skillTickUpdate(!skillTicked(this.item.system))
+      } else {
+        checkProp = { [`system.${prop}`]: !this.item.system[prop] }
+      }
     } else { return }
 
     if (prop === 'var' & this.item.type === 'sorcery') {
