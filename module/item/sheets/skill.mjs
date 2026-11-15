@@ -1,6 +1,13 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { BRPUtilities } from '../../apps/utilities.mjs'
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
+import {
+  skillNoXP,
+  skillTicked,
+  skillTotal,
+  skillXp,
+  skillAdjustments,
+} from '../../rules/coc-skill-fields.mjs'
 import { BRPItemSheetV2 } from "./base-item-sheet.mjs";
 
 export class BRPSkillSheet extends BRPItemSheetV2 {
@@ -47,18 +54,37 @@ export class BRPSkillSheet extends BRPItemSheetV2 {
     context.catOptions = await BRPSelectLists.getCategoryOptions();
     context.wpnOptions = await BRPSelectLists.getWpnCategoryOptions();
     context.funcOptions = await BRPSelectLists.getFunctionalOptions();
-    context.stat1 = game.i18n.localize(CONFIG.BRP.statsAbbreviations[this.item.system.baseFormula[1].stat]);
-    context.stat2 = game.i18n.localize(CONFIG.BRP.statsAbbreviations[this.item.system.baseFormula[2].stat]);
-    context.catName = game.i18n.localize("BRP." + this.item.system.category.split('.')[2]);
-    context.wpnType = game.i18n.localize("BRP." + this.item.system.subType);
-    context.funcDisp = game.i18n.localize("BRP." + this.item.system.baseFormula.Func);
-    itemData.system.total = itemData.system.base + itemData.system.xp + itemData.system.effects + itemData.system.personality + itemData.system.profession + itemData.system.personal + itemData.system.culture;
+    //Native CoC skills have no BRP `baseFormula`/`category`/`subType`; the
+    //legacy layout still renders those rows, so they read as empty instead of
+    //throwing on the first native skill the keeper opens.
+    const baseFormula = this.item.system.baseFormula ?? {}
+    const statLabel = (stat) => (stat ? game.i18n.localize(CONFIG.BRP.statsAbbreviations[stat] ?? `BRP.Stats${stat}Abbr`) : '')
+    context.stat1 = statLabel(baseFormula[1]?.stat);
+    context.stat2 = statLabel(baseFormula[2]?.stat);
+    const category = String(this.item.system.category ?? '')
+    context.catName = category.split('.').length > 2 ? game.i18n.localize("BRP." + category.split('.')[2]) : ''
+    context.wpnType = this.item.system.subType ? game.i18n.localize("BRP." + this.item.system.subType) : ''
+    context.funcDisp = baseFormula.Func ? game.i18n.localize("BRP." + baseFormula.Func) : '';
+    //The skill sheet is shared with the legacy BRP layout, so the canonical
+    //growth fields are projected onto the flat slots it renders. `total` is
+    //derived (never read from a persisted value) and cannot become NaN.
+    const skillSystem = itemData.system
+    const adjustments = skillAdjustments(skillSystem)
+    skillSystem.base = skillSystem.base ?? '0'
+    skillSystem.xp = skillXp(skillSystem)
+    skillSystem.profession = adjustments.occupation
+    skillSystem.personal = adjustments.personal
+    skillSystem.personality = adjustments.archetype
+    skillSystem.culture = adjustments.experiencePackage
+    skillSystem.noXP = skillNoXP(skillSystem)
+    skillSystem.improve = skillTicked(skillSystem)
+    skillSystem.total = skillTotal(skillSystem)
     //Ensure mainName is populated
     if (this.item.system.mainName === "") {
       this.item.update({ 'system.mainName': this.item.name });
     }
     const grpSkill = [];
-    for (let skill of itemData.system.groupSkills) {
+    for (let skill of itemData.system.groupSkills ?? []) {
       let tempSkill = (await game.system.api.brpid.fromBRPIDBest({ brpid: skill.brpid }))[0]
       if (tempSkill) {
         grpSkill.push({ uuid: skill.uuid, brpid: skill.brpid, name: tempSkill.name, category: tempSkill.system.category, variable: tempSkill.system.variable, base: tempSkill.system.base, group: tempSkill.system.group })
@@ -170,6 +196,23 @@ export class BRPSkillSheet extends BRPItemSheetV2 {
     } else {
       formData.object.name = skillName
     }
+    //The legacy BRP layout submits flat score names. They are the canonical
+    //adjustment buckets under different labels; map them here so saving the
+    //sheet can never write `system.xp`/`system.profession`/... again.
+    const legacyScorePaths = {
+      'system.xp': 'system.adjustments.experience',
+      'system.profession': 'system.adjustments.occupation',
+      'system.personal': 'system.adjustments.personal',
+      'system.personality': 'system.adjustments.archetype',
+      'system.culture': 'system.adjustments.experiencePackage',
+    }
+    for (const [from, to] of Object.entries(legacyScorePaths)) {
+      if (!(from in formData.object)) { continue }
+      const value = Number(formData.object[from])
+      delete formData.object[from]
+      formData.object[to] = Number.isFinite(value) ? Math.trunc(value) : 0
+    }
+    delete formData.object['system.total']
     const system = foundry.utils.expandObject(formData.object)?.system
     if (typeof system != 'undefined') {
       if (system.groups) {

@@ -364,7 +364,29 @@ dev 包处理，不要当成原版 `0.3.0` 交付。
   XP。非 HPL 的 NPC 当前 HP 走原生“掷/平均属性 → updateVitals 置满”或 keeper
   手改，wound 只属于 character/HPL 模型，不是 NPC 的 HP 模型。
 - SAN：keeper「新的一天」清零 `dailyLoss`；`tempInsane` 被删除、禁用或世界时间
-  到期时，发作卡同步结束并重渲染。
+  到期时，发作卡同步结束并重渲染。SAN 写者改由归属决定（`flags.mtcompat.ownerId/
+  creatorId` 或原生 `ownership` OWNER）：有主 PC 由卡主自己的客户端结算，GM 离线
+  不再丢失写回、GM 在线也不会变成写者；GM 对有主 PC 只留 pending 卡，卡主用
+  `game.brp.sanity.retry` 结算；无主 NPC 仍走 activeGM relay。新增
+  `settleOwned/retry/pending` 与 `settleId="coc-sn:<messageId>"` 顺序幂等，智能
+  检定/发作骰结果先落 Actor 再继续，重试不重掷；pending 拒绝新 SN。
+- SAN 记录双时钟：`updatedAt` 仍是世界秒，另写 `updatedAtClient = Date.now()`
+  毫秒（settlement/卡投影/审计同步），手机 `recent` 不再拿世界秒比墙钟而恒为 false。
+  卡修复按消息权限：作者/activeGM 可直接改；keeper 代掷的卡由卡主结算 Actor 后经既有
+  `cocSanSettle` 的 `cardRepair` 交给 activeGM 只重写该卡（不结算、不扣减、无新消息
+  类型），无 GM 在线时返回 `repairBy` 指明作者修复，不静默 pending；Actor 已 applied
+  的旧卡不再阻塞新 SN。
+- 战斗 DB：命中伤害改读原生 `system.attribs.db`（STR+SIZ 推导或 keeper 手填），
+  `system.dmgBonus` 仅作旧档回退；STR+SIZ 130 徒手恢复 `1D3+1D4`（极难 7），
+  投掷半骰与火器无 DB 不变。
+- 技能成长字段收口：唯一写入口径为 `properties.noxpgain`（禁止未来成长）、
+  `flags.developement`（待成长）、`adjustments.experience`（已得成长点），
+  `total` 仅由 base + adjustments 派生（不落库、不出 NaN）；旧 `noXP/improve/xp`
+  与旧扁平分项只作读回退且不与规范值相加。`noxpgain` 只禁新勾选/清单/结算，
+  神话 `base 0 + experience 10` 仍是 total 10、SAN 上限 89，撤销勾选保留已得经验。
+  自动勾选、Luck 撤销、幕末结算与原生 Item Sheet 只写规范字段；成长分数无效时
+  拒绝掷骰（不再 `NaN→0` 假成功）。拖入旧技能先规范化；world 更新时的
+  `migrateSkillFields` 只迁移 `type=skill`、不覆盖规范值、迁后清零旧字段且幂等。
 - Luck：检定卡消费串行；所有客户端把聊天卡操作路由到 Foundry 确定性的
   `activeGM` 单写者。
 - 角色卡：新建 PC 默认使用态（`system.lock=true`）；窗头最左侧一个原生

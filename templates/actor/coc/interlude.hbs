@@ -12,7 +12,7 @@
   <div class="coc-interlude-count">本幕清单（{{selected.length}}）</div>
   <ol class="coc-interlude-selected">
     {{#each selected as |skill|}}
-    <li class="item" data-item-id="{{skill.id}}" data-document-class="Item"><span>{{skill.name}}</span><b>{{skill.system.total}}%</b><button type="button" data-action="remove" aria-label="移除 {{skill.name}}">×</button></li>
+    <li class="item" data-item-id="{{skill.id}}" data-document-class="Item"><span>{{skill.name}}</span><b>{{skill.total}}%</b><button type="button" data-action="remove" aria-label="移除 {{skill.name}}">×</button></li>
     {{else}}
     <li class="coc-interlude-empty">暂无可结算技能</li>
     {{/each}}
