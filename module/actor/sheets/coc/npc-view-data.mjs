@@ -344,6 +344,10 @@ export function buildCocNpcPowers(items) {
         type,
         typeLabel: POWER_TYPE_LABELS[type] ?? type,
         description: text(system.description?.value),
+        base: 0,
+        total: null,
+        rollable: false,
+        rollLabel: '—',
         meta,
       }
     })
