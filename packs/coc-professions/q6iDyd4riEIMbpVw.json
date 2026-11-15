@@ -1,7 +1,7 @@
 {
  "_id": "q6iDyd4riEIMbpVw",
  "name": "警探",
- "type": "profession",
+ "type": "occupation",
  "flags": {
   "brp": {
    "brpidFlag": {
@@ -126,76 +126,99 @@
   }
  },
  "system": {
-  "skills": [
-   {
-    "brpid": "i.skill.coc.law",
-    "uuid": "lfaJ9sfEpwhlrVph"
+  "description": {
+   "value": "便衣办案的警队侦查员，靠案卷、线人与现场权限接近普通市民看不到的事。职业点 EDU × 2 + DEX × 2，或 EDU × 2 + STR × 2（建卡时二选一）；信用评级 20–50。\n\n职业点：EDU*2+DEX*2 或 EDU*2+STR*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：20–50（只能用职业点，且必须落在区间内）",
+   "keeper": ""
+  },
+  "source": "coc-roll20-occupations, coc-wiki-skills",
+  "type": {
+   "classic": false,
+   "lovecraftian": false,
+   "modern": false,
+   "pulp": false
+  },
+  "occupationSkillPoints": {
+   "str": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.listen",
-    "uuid": "fHdlJ2r8hzJAHBnx"
+   "con": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.psychology",
-    "uuid": "n8ACQitSLni4geaF"
+   "siz": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.spot-hidden",
-    "uuid": "ehKcuxiTWOk0GDgA"
+   "dex": {
+    "multiplier": 2,
+    "selected": true,
+    "optional": false
+   },
+   "app": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "int": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "pow": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "edu": {
+    "multiplier": 2,
+    "selected": true,
+    "optional": false
    }
+  },
+  "creditRating": {
+   "min": 20,
+   "max": 50
+  },
+  "itemDocuments": [],
+  "itemKeys": [
+   "i.skill.coc.law",
+   "i.skill.coc.listen",
+   "i.skill.coc.psychology",
+   "i.skill.coc.spot-hidden"
   ],
   "groups": [
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.art-craft-acting",
-      "uuid": "fwjXSgaOTh0oh0fj"
-     },
-     {
-      "brpid": "i.skill.coc.disguise",
-      "uuid": "FcXGDagoFY3CsOZi"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.art-craft-acting",
+     "i.skill.coc.disguise"
     ]
    },
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.firearms-handgun",
-      "uuid": "1GMNDl2j6zfGXyI3"
-     },
-     {
-      "brpid": "i.skill.coc.firearms-rifle-shotgun",
-      "uuid": "icEnsbSORKp1qZtF"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.firearms-handgun",
+     "i.skill.coc.firearms-rifle-shotgun"
     ]
    },
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.charm",
-      "uuid": "ebCHph0biyJ2AG3j"
-     },
-     {
-      "brpid": "i.skill.coc.fast-talk",
-      "uuid": "AwLPg18IRN57w0fB"
-     },
-     {
-      "brpid": "i.skill.coc.intimidate",
-      "uuid": "mhG3if5iht465aSn"
-     },
-     {
-      "brpid": "i.skill.coc.persuade",
-      "uuid": "7zQTHnGe7rHoRnjC"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.charm",
+     "i.skill.coc.fast-talk",
+     "i.skill.coc.intimidate",
+     "i.skill.coc.persuade"
     ]
    }
   ],
-  "powers": [],
-  "minWealth": 0,
-  "maxWealth": 0,
-  "description": "便衣办案的警队侦查员，靠案卷、线人与现场权限接近普通市民看不到的事。职业点 EDU × 2 + DEX × 2，或 EDU × 2 + STR × 2（建卡时二选一）；信用评级 20–50。\n\n职业点：EDU*2+DEX*2 或 EDU*2+STR*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：20–50（只能用职业点，且必须落在区间内）"
+  "personal": 0,
+  "personalText": ""
  }
 }

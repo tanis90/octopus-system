@@ -1,7 +1,7 @@
 {
  "_id": "LrIG0aMnxmceiQ6X",
  "name": "古董商",
- "type": "profession",
+ "type": "occupation",
  "flags": {
   "brp": {
    "brpidFlag": {
@@ -108,79 +108,95 @@
   }
  },
  "system": {
-  "skills": [
-   {
-    "brpid": "i.skill.coc.accounting",
-    "uuid": "OprgKpztxOCjv9MA"
+  "description": {
+   "value": "买卖古董、家具与旧物的商人，擅长断代与估价，也知道哪些东西不该追问来历。职业点 EDU × 4；信用评级 30–50。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–50（只能用职业点，且必须落在区间内）",
+   "keeper": ""
+  },
+  "source": "coc-cardwright",
+  "type": {
+   "classic": false,
+   "lovecraftian": false,
+   "modern": false,
+   "pulp": false
+  },
+  "occupationSkillPoints": {
+   "str": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.appraise",
-    "uuid": "VvQ3kwJkRmfwdxZr"
+   "con": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.drive-auto",
-    "uuid": "oNzu3fHKqOJ5FVVq"
+   "siz": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.history",
-    "uuid": "ZsbrYPHoyqIA6fGF"
+   "dex": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.library-use",
-    "uuid": "7BNMWqPVJyA0sReg"
+   "app": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.navigate",
-    "uuid": "XFTLEmt7ULlfiVWT"
+   "int": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "pow": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "edu": {
+    "multiplier": 4,
+    "selected": true,
+    "optional": false
    }
+  },
+  "creditRating": {
+   "min": 30,
+   "max": 50
+  },
+  "itemDocuments": [],
+  "itemKeys": [
+   "i.skill.coc.accounting",
+   "i.skill.coc.appraise",
+   "i.skill.coc.drive-auto",
+   "i.skill.coc.history",
+   "i.skill.coc.library-use",
+   "i.skill.coc.navigate"
   ],
   "groups": [
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.charm",
-      "uuid": "ebCHph0biyJ2AG3j"
-     },
-     {
-      "brpid": "i.skill.coc.fast-talk",
-      "uuid": "AwLPg18IRN57w0fB"
-     },
-     {
-      "brpid": "i.skill.coc.intimidate",
-      "uuid": "mhG3if5iht465aSn"
-     },
-     {
-      "brpid": "i.skill.coc.persuade",
-      "uuid": "7zQTHnGe7rHoRnjC"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.charm",
+     "i.skill.coc.fast-talk",
+     "i.skill.coc.intimidate",
+     "i.skill.coc.persuade"
     ]
    },
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.charm",
-      "uuid": "ebCHph0biyJ2AG3j"
-     },
-     {
-      "brpid": "i.skill.coc.fast-talk",
-      "uuid": "AwLPg18IRN57w0fB"
-     },
-     {
-      "brpid": "i.skill.coc.intimidate",
-      "uuid": "mhG3if5iht465aSn"
-     },
-     {
-      "brpid": "i.skill.coc.persuade",
-      "uuid": "7zQTHnGe7rHoRnjC"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.charm",
+     "i.skill.coc.fast-talk",
+     "i.skill.coc.intimidate",
+     "i.skill.coc.persuade"
     ]
    }
   ],
-  "powers": [],
-  "minWealth": 0,
-  "maxWealth": 0,
-  "description": "买卖古董、家具与旧物的商人，擅长断代与估价，也知道哪些东西不该追问来历。职业点 EDU × 4；信用评级 30–50。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–50（只能用职业点，且必须落在区间内）"
+  "personal": 0,
+  "personalText": ""
  }
 }

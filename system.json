@@ -86,20 +86,6 @@
   "url": "https://github.com/tanis90/octopus-system",
   "packs": [
     {
-      "name": "octopus-skills",
-      "label": "章鱼料理 · 技能（UGE）",
-      "path": "packs/octopus-skills",
-      "type": "Item",
-      "system": "brp"
-    },
-    {
-      "name": "octopus-professions",
-      "label": "章鱼料理 · 职业（UGE）",
-      "path": "packs/octopus-professions",
-      "type": "Item",
-      "system": "brp"
-    },
-    {
       "name": "coc-skills",
       "label": "克苏鲁的呼唤 · 核心技能（CoC 7e）",
       "path": "packs/coc-skills",

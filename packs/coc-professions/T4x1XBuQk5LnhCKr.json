@@ -1,7 +1,7 @@
 {
  "_id": "T4x1XBuQk5LnhCKr",
  "name": "私家侦探",
- "type": "profession",
+ "type": "occupation",
  "flags": {
   "brp": {
    "brpidFlag": {
@@ -88,58 +88,85 @@
   }
  },
  "system": {
-  "skills": [
-   {
-    "brpid": "i.skill.coc.art-craft-photography",
-    "uuid": "9vt3o8IIdMi9HXZ5"
+  "description": {
+   "value": "受雇跟踪、取证、查访，替委托人弄清真相。职业点 EDU × 2 + STR × 2，或 EDU × 2 + DEX × 2（建卡时二选一）；信用评级 9–30。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）",
+   "keeper": ""
+  },
+  "source": "coc-roll20-occupations",
+  "type": {
+   "classic": false,
+   "lovecraftian": false,
+   "modern": false,
+   "pulp": false
+  },
+  "occupationSkillPoints": {
+   "str": {
+    "multiplier": 2,
+    "selected": true,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.disguise",
-    "uuid": "FcXGDagoFY3CsOZi"
+   "con": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.law",
-    "uuid": "lfaJ9sfEpwhlrVph"
+   "siz": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.library-use",
-    "uuid": "7BNMWqPVJyA0sReg"
+   "dex": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.psychology",
-    "uuid": "n8ACQitSLni4geaF"
+   "app": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.spot-hidden",
-    "uuid": "ehKcuxiTWOk0GDgA"
+   "int": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "pow": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "edu": {
+    "multiplier": 2,
+    "selected": true,
+    "optional": false
    }
+  },
+  "creditRating": {
+   "min": 9,
+   "max": 30
+  },
+  "itemDocuments": [],
+  "itemKeys": [
+   "i.skill.coc.art-craft-photography",
+   "i.skill.coc.disguise",
+   "i.skill.coc.law",
+   "i.skill.coc.library-use",
+   "i.skill.coc.psychology",
+   "i.skill.coc.spot-hidden"
   ],
   "groups": [
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.charm",
-      "uuid": "ebCHph0biyJ2AG3j"
-     },
-     {
-      "brpid": "i.skill.coc.fast-talk",
-      "uuid": "AwLPg18IRN57w0fB"
-     },
-     {
-      "brpid": "i.skill.coc.intimidate",
-      "uuid": "mhG3if5iht465aSn"
-     },
-     {
-      "brpid": "i.skill.coc.persuade",
-      "uuid": "7zQTHnGe7rHoRnjC"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.charm",
+     "i.skill.coc.fast-talk",
+     "i.skill.coc.intimidate",
+     "i.skill.coc.persuade"
     ]
    }
   ],
-  "powers": [],
-  "minWealth": 0,
-  "maxWealth": 0,
-  "description": "受雇跟踪、取证、查访，替委托人弄清真相。职业点 EDU × 2 + STR × 2，或 EDU × 2 + DEX × 2（建卡时二选一）；信用评级 9–30。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+  "personal": 0,
+  "personalText": ""
  }
 }

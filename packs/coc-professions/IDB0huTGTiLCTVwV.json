@@ -1,7 +1,7 @@
 {
  "_id": "IDB0huTGTiLCTVwV",
  "name": "教授",
- "type": "profession",
+ "type": "occupation",
  "flags": {
   "brp": {
    "brpidFlag": {
@@ -64,38 +64,80 @@
   }
  },
  "system": {
-  "skills": [
-   {
-    "brpid": "i.skill.coc.library-use",
-    "uuid": "7BNMWqPVJyA0sReg"
+  "description": {
+   "value": "在高校或研究机构授课、著书、带学生做课题。职业点 EDU × 4；信用评级 20–70。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：20–70（只能用职业点，且必须落在区间内）",
+   "keeper": ""
+  },
+  "source": "coc-roll20-occupations",
+  "type": {
+   "classic": false,
+   "lovecraftian": false,
+   "modern": false,
+   "pulp": false
+  },
+  "occupationSkillPoints": {
+   "str": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.psychology",
-    "uuid": "n8ACQitSLni4geaF"
+   "con": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
    },
-   {
-    "brpid": "i.skill.coc.language-own",
-    "uuid": "7WwKSOQFVJeDC4hr"
+   "siz": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "dex": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "app": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "int": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "pow": {
+    "multiplier": null,
+    "selected": false,
+    "optional": false
+   },
+   "edu": {
+    "multiplier": 4,
+    "selected": true,
+    "optional": false
    }
+  },
+  "creditRating": {
+   "min": 20,
+   "max": 70
+  },
+  "itemDocuments": [],
+  "itemKeys": [
+   "i.skill.coc.library-use",
+   "i.skill.coc.psychology",
+   "i.skill.coc.language-own"
   ],
   "groups": [
    {
     "options": 1,
-    "skills": [
-     {
-      "brpid": "i.skill.coc.language-other-greek",
-      "uuid": "zxbzRO9P1dqY9jzD"
-     },
-     {
-      "brpid": "i.skill.coc.language-other-latin",
-      "uuid": "YY2QWZ0T7f8A76NE"
-     }
+    "itemDocuments": [],
+    "itemKeys": [
+     "i.skill.coc.language-other-greek",
+     "i.skill.coc.language-other-latin"
     ]
    }
   ],
-  "powers": [],
-  "minWealth": 0,
-  "maxWealth": 0,
-  "description": "在高校或研究机构授课、著书、带学生做课题。职业点 EDU × 4；信用评级 20–70。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：20–70（只能用职业点，且必须落在区间内）"
+  "personal": 0,
+  "personalText": ""
  }
 }

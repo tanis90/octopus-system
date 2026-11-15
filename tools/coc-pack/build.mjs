@@ -171,21 +171,6 @@ const docs = coreSkillDocs;
 const skillByKey = new Map(facts.skills.map((entry) => [entry.key, entry]));
 const skillDocId = (key) => docId(skillByKey.get(key).brpid);
 
-// Hard isolation guard: no octopus brpid may ever be emitted into a core pack.
-const octopusBrpids = new Set();
-const octopusSkillsPath = join(ROOT, "packs-json/octopus-skills.json");
-if (existsSync(octopusSkillsPath)) {
-  for (const doc of JSON.parse(readFileSync(octopusSkillsPath, "utf8"))) {
-    const id = doc?.flags?.brp?.brpidFlag?.id;
-    if (id) octopusBrpids.add(id);
-  }
-}
-const collisions = docs.filter((doc) => octopusBrpids.has(doc.flags.brp.brpidFlag.id));
-if (collisions.length) {
-  console.error(`CoC 与 octopus 的 brpid 冲突 ${collisions.length} 条：${collisions.map((d) => d.flags.brp.brpidFlag.id).join(", ")}`);
-  process.exit(1);
-}
-
 // ---------------------------------------------------------------- occupations
 // Every record must carry a verified point formula and credit-rating range, and
 // resolvable skill references. Anything missing is a hard build failure: a
@@ -235,6 +220,17 @@ const familyMembers = (familyKey, where) => {
   }
   return native;
 };
+
+const occupationPoints = (formula) => {
+  const points = Object.fromEntries(['str', 'con', 'siz', 'dex', 'app', 'int', 'pow', 'edu']
+    .map((key) => [key, { multiplier: null, selected: false, optional: false }]))
+  for (const match of String(formula ?? '').matchAll(/([A-Z]{3})\*(\d+)/g)) {
+    const key = match[1].toLowerCase()
+    if (!points[key]) continue
+    points[key] = { multiplier: Number(match[2]), selected: true, optional: false }
+  }
+  return points
+}
 
 const professions = [];
 for (const entry of occupations.professions) {
@@ -375,10 +371,11 @@ for (const entry of occupations.professions) {
   // frontend can offer the choice. `pointFormula` stays the first option for
   // backward compatibility with single-formula readers.
   const pointFormulas = entry.pointFormulas ? entry.pointFormulas.slice() : undefined;
+  const canonicalFormula = pointFormulas ? pointFormulas[0] : entry.pointFormula
   professions.push({
     _id: docId(`profession-${profBrpid}`),
     name: entry.name,
-    type: "profession",
+    type: "occupation",
     flags: {
       brp: {
         brpidFlag: { id: profBrpid, lang: "zh-CN", priority: 1 },
@@ -415,24 +412,29 @@ for (const entry of occupations.professions) {
       },
     },
     system: {
-      skills: fixedRefs,
-      groups,
-      powers: [],
-      minWealth: 0,
-      maxWealth: 0,
-      description: [
-        entry.description,
-        `职业点：${(pointFormulas ?? [entry.pointFormula]).join(" 或 ")}（引擎按白名单公式求值${pointFormulas ? "，建卡时选定一条" : ""}）`,
-        `信用评级：${creditMin}–${creditMax}（只能用职业点，且必须落在区间内）`,
-      ].join("\n\n"),
+      description: {
+        value: [
+          entry.description,
+          `职业点：${(pointFormulas ?? [entry.pointFormula]).join(" 或 ")}（引擎按白名单公式求值${pointFormulas ? "，建卡时选定一条" : ""}）`,
+          `信用评级：${creditMin}–${creditMax}（只能用职业点，且必须落在区间内）`,
+        ].join("\n\n"),
+        keeper: "",
+      },
+      source: (entry.sourceRefs ?? []).join(", "),
+      type: { classic: false, lovecraftian: false, modern: false, pulp: false },
+      occupationSkillPoints: occupationPoints(canonicalFormula),
+      creditRating: { min: creditMin, max: creditMax },
+      itemDocuments: [],
+      itemKeys: fixedRefs.map((ref) => ref.brpid),
+      groups: groups.map((group) => ({
+        options: group.options,
+        itemDocuments: [],
+        itemKeys: group.skills.map((ref) => ref.brpid),
+      })),
+      personal: 0,
+      personalText: "",
     },
   });
-}
-
-for (const entry of professions) {
-  if (octopusBrpids.has(entry.flags.brp.brpidFlag.id)) {
-    profErrors.push(`职业 brpid 与 octopus 冲突: ${entry.flags.brp.brpidFlag.id}`);
-  }
 }
 
 const declaredProfessionSplit = occupations.packSplit ?? {};
@@ -475,8 +477,8 @@ const entries = {
   professions: { ...writePack(ROOT, "coc-professions", coreProfessionDocs), label: "克苏鲁的呼唤 · 核心职业（CoC 7e）" },
 };
 
-// system.json stays exactly the four shipped packs: two octopus packs and the
-// two core CoC packs. No extension pack may be declared here.
+// system.json stays exactly the two shipped core CoC packs. The retired
+// octopus line and every extension pack must not be declared here.
 const sysPath = join(ROOT, "system.json");
 const sys = JSON.parse(readFileSync(sysPath, "utf8"));
 sys.packs = (sys.packs ?? []).filter((pack) => !String(pack.name).startsWith("arcane-investigator-"));
@@ -485,7 +487,7 @@ for (const entry of [entries.skills, entries.professions]) {
   if (existing) Object.assign(existing, entry);
   else sys.packs.push(entry);
 }
-const expectedPacks = ["octopus-skills", "octopus-professions", "coc-skills", "coc-professions"];
+const expectedPacks = ["coc-skills", "coc-professions"];
 const actualPacks = sys.packs.map((pack) => pack.name);
 if (actualPacks.length !== expectedPacks.length || expectedPacks.some((name) => !actualPacks.includes(name))) {
   console.error(`system.json pack 注册必须正好是 ${expectedPacks.join(", ")}，实际 ${actualPacks.join(", ")}`);
@@ -495,6 +497,5 @@ writeFileSync(sysPath, JSON.stringify(sys, null, 2) + "\n");
 
 console.log(`CoC 核心技能包 ${coreSkillDocs.length} 文档（专精 ${coreSkillDocs.filter((doc) => doc.system.specialization).length}）`);
 console.log(`pending 未证实专精 ${(facts.pendingSpecialisms ?? []).length} 条已排除，未写入固定值`);
-console.log(`octopus 技能 brpid 冲突 ${collisions.length}`);
 console.log(`CoC 核心职业包 ${coreProfessionDocs.length} 文档`);
 console.log(`选择组 核心 ${coreProfessionDocs.reduce((n, doc) => n + doc.system.groups.length, 0)}`);

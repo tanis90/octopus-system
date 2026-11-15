@@ -2,7 +2,7 @@
  {
   "_id": "JpkZqagpPRadBcgY",
   "name": "作家",
-  "type": "profession",
+  "type": "occupation",
   "flags": {
    "brp": {
     "brpidFlag": {
@@ -101,62 +101,96 @@
    }
   },
   "system": {
-   "skills": [
-    {
-     "brpid": "i.skill.coc.history",
-     "uuid": "ZsbrYPHoyqIA6fGF"
+   "description": {
+    "value": "以写作、编辑或评论为生，靠文字与人脉维持生活。职业点 EDU × 4；信用评级 9–30。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）",
+    "keeper": ""
+   },
+   "source": "coc-roll20-occupations",
+   "type": {
+    "classic": false,
+    "lovecraftian": false,
+    "modern": false,
+    "pulp": false
+   },
+   "occupationSkillPoints": {
+    "str": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.library-use",
-     "uuid": "7BNMWqPVJyA0sReg"
+    "con": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.psychology",
-     "uuid": "n8ACQitSLni4geaF"
+    "siz": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.language-own",
-     "uuid": "7WwKSOQFVJeDC4hr"
+    "dex": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "app": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "int": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "pow": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "edu": {
+     "multiplier": 4,
+     "selected": true,
+     "optional": false
     }
+   },
+   "creditRating": {
+    "min": 9,
+    "max": 30
+   },
+   "itemDocuments": [],
+   "itemKeys": [
+    "i.skill.coc.history",
+    "i.skill.coc.library-use",
+    "i.skill.coc.psychology",
+    "i.skill.coc.language-own"
    ],
    "groups": [
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.natural-world",
-       "uuid": "EFVIz8qOdZvW2Rej"
-      },
-      {
-       "brpid": "i.skill.coc.occult",
-       "uuid": "bOIhegZL1iqyb8S1"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.natural-world",
+      "i.skill.coc.occult"
      ]
     },
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.language-other-greek",
-       "uuid": "zxbzRO9P1dqY9jzD"
-      },
-      {
-       "brpid": "i.skill.coc.language-other-latin",
-       "uuid": "YY2QWZ0T7f8A76NE"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.language-other-greek",
+      "i.skill.coc.language-other-latin"
      ]
     }
    ],
-   "powers": [],
-   "minWealth": 0,
-   "maxWealth": 0,
-   "description": "以写作、编辑或评论为生，靠文字与人脉维持生活。职业点 EDU × 4；信用评级 9–30。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+   "personal": 0,
+   "personalText": ""
   }
  },
  {
   "_id": "SqhdUdPMj8ksoIkp",
   "name": "纨绔子弟",
-  "type": "profession",
+  "type": "occupation",
   "flags": {
    "brp": {
     "brpidFlag": {
@@ -291,96 +325,114 @@
    }
   },
   "system": {
-   "skills": [
-    {
-     "brpid": "i.skill.coc.ride",
-     "uuid": "okghi72jSCDGA3Hz"
+   "description": {
+    "value": "家底殷实、以兴趣安排生活的闲人，靠人脉与金钱打开门路。职业点 EDU × 2 + APP × 2；信用评级 50–99。\n\n职业点：EDU*2+APP*2（引擎按白名单公式求值）\n\n信用评级：50–99（只能用职业点，且必须落在区间内）",
+    "keeper": ""
+   },
+   "source": "coc-roll20-occupations",
+   "type": {
+    "classic": false,
+    "lovecraftian": false,
+    "modern": false,
+    "pulp": false
+   },
+   "occupationSkillPoints": {
+    "str": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "con": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "siz": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "dex": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "app": {
+     "multiplier": 2,
+     "selected": true,
+     "optional": false
+    },
+    "int": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "pow": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "edu": {
+     "multiplier": 2,
+     "selected": true,
+     "optional": false
     }
+   },
+   "creditRating": {
+    "min": 50,
+    "max": 99
+   },
+   "itemDocuments": [],
+   "itemKeys": [
+    "i.skill.coc.ride"
    ],
    "groups": [
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.firearms-handgun",
-       "uuid": "1GMNDl2j6zfGXyI3"
-      },
-      {
-       "brpid": "i.skill.coc.firearms-rifle-shotgun",
-       "uuid": "icEnsbSORKp1qZtF"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.firearms-handgun",
+      "i.skill.coc.firearms-rifle-shotgun"
      ]
     },
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.charm",
-       "uuid": "ebCHph0biyJ2AG3j"
-      },
-      {
-       "brpid": "i.skill.coc.fast-talk",
-       "uuid": "AwLPg18IRN57w0fB"
-      },
-      {
-       "brpid": "i.skill.coc.intimidate",
-       "uuid": "mhG3if5iht465aSn"
-      },
-      {
-       "brpid": "i.skill.coc.persuade",
-       "uuid": "7zQTHnGe7rHoRnjC"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.charm",
+      "i.skill.coc.fast-talk",
+      "i.skill.coc.intimidate",
+      "i.skill.coc.persuade"
      ]
     },
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.art-craft-acting",
-       "uuid": "fwjXSgaOTh0oh0fj"
-      },
-      {
-       "brpid": "i.skill.coc.art-craft-painting",
-       "uuid": "yRoJ2aGTZ6XAmQbg"
-      },
-      {
-       "brpid": "i.skill.coc.art-craft-photography",
-       "uuid": "9vt3o8IIdMi9HXZ5"
-      },
-      {
-       "brpid": "i.skill.coc.art-craft-technical-drawing",
-       "uuid": "9dh2bNvAxHd55Jrw"
-      },
-      {
-       "brpid": "i.skill.coc.art-craft-writing",
-       "uuid": "f7bsCdzSlFXbREZB"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.art-craft-acting",
+      "i.skill.coc.art-craft-painting",
+      "i.skill.coc.art-craft-photography",
+      "i.skill.coc.art-craft-technical-drawing",
+      "i.skill.coc.art-craft-writing"
      ]
     },
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.language-other-greek",
-       "uuid": "zxbzRO9P1dqY9jzD"
-      },
-      {
-       "brpid": "i.skill.coc.language-other-latin",
-       "uuid": "YY2QWZ0T7f8A76NE"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.language-other-greek",
+      "i.skill.coc.language-other-latin"
      ]
     }
    ],
-   "powers": [],
-   "minWealth": 0,
-   "maxWealth": 0,
-   "description": "家底殷实、以兴趣安排生活的闲人，靠人脉与金钱打开门路。职业点 EDU × 2 + APP × 2；信用评级 50–99。\n\n职业点：EDU*2+APP*2（引擎按白名单公式求值）\n\n信用评级：50–99（只能用职业点，且必须落在区间内）"
+   "personal": 0,
+   "personalText": ""
   }
  },
  {
   "_id": "EKX3pk0E6rT1ecJP",
   "name": "调查记者",
-  "type": "profession",
+  "type": "occupation",
   "flags": {
    "brp": {
     "brpidFlag": {
@@ -482,82 +534,101 @@
    }
   },
   "system": {
-   "skills": [
-    {
-     "brpid": "i.skill.coc.history",
-     "uuid": "ZsbrYPHoyqIA6fGF"
+   "description": {
+    "value": "追查线索、访谈当事人，把事件写成可发表的报道。职业点 EDU × 4；信用评级 9–30。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）",
+    "keeper": ""
+   },
+   "source": "coc-roll20-occupations",
+   "type": {
+    "classic": false,
+    "lovecraftian": false,
+    "modern": false,
+    "pulp": false
+   },
+   "occupationSkillPoints": {
+    "str": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.library-use",
-     "uuid": "7BNMWqPVJyA0sReg"
+    "con": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.psychology",
-     "uuid": "n8ACQitSLni4geaF"
+    "siz": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.language-own",
-     "uuid": "7WwKSOQFVJeDC4hr"
+    "dex": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "app": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "int": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "pow": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "edu": {
+     "multiplier": 4,
+     "selected": true,
+     "optional": false
     }
+   },
+   "creditRating": {
+    "min": 9,
+    "max": 30
+   },
+   "itemDocuments": [],
+   "itemKeys": [
+    "i.skill.coc.history",
+    "i.skill.coc.library-use",
+    "i.skill.coc.psychology",
+    "i.skill.coc.language-own"
    ],
    "groups": [
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.art-craft-acting",
-       "uuid": "fwjXSgaOTh0oh0fj"
-      },
-      {
-       "brpid": "i.skill.coc.art-craft-painting",
-       "uuid": "yRoJ2aGTZ6XAmQbg"
-      },
-      {
-       "brpid": "i.skill.coc.art-craft-photography",
-       "uuid": "9vt3o8IIdMi9HXZ5"
-      },
-      {
-       "brpid": "i.skill.coc.art-craft-technical-drawing",
-       "uuid": "9dh2bNvAxHd55Jrw"
-      },
-      {
-       "brpid": "i.skill.coc.art-craft-writing",
-       "uuid": "f7bsCdzSlFXbREZB"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.art-craft-acting",
+      "i.skill.coc.art-craft-painting",
+      "i.skill.coc.art-craft-photography",
+      "i.skill.coc.art-craft-technical-drawing",
+      "i.skill.coc.art-craft-writing"
      ]
     },
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.charm",
-       "uuid": "ebCHph0biyJ2AG3j"
-      },
-      {
-       "brpid": "i.skill.coc.fast-talk",
-       "uuid": "AwLPg18IRN57w0fB"
-      },
-      {
-       "brpid": "i.skill.coc.intimidate",
-       "uuid": "mhG3if5iht465aSn"
-      },
-      {
-       "brpid": "i.skill.coc.persuade",
-       "uuid": "7zQTHnGe7rHoRnjC"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.charm",
+      "i.skill.coc.fast-talk",
+      "i.skill.coc.intimidate",
+      "i.skill.coc.persuade"
      ]
     }
    ],
-   "powers": [],
-   "minWealth": 0,
-   "maxWealth": 0,
-   "description": "追查线索、访谈当事人，把事件写成可发表的报道。职业点 EDU × 4；信用评级 9–30。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+   "personal": 0,
+   "personalText": ""
   }
  },
  {
   "_id": "T4x1XBuQk5LnhCKr",
   "name": "私家侦探",
-  "type": "profession",
+  "type": "occupation",
   "flags": {
    "brp": {
     "brpidFlag": {
@@ -644,65 +715,92 @@
    }
   },
   "system": {
-   "skills": [
-    {
-     "brpid": "i.skill.coc.art-craft-photography",
-     "uuid": "9vt3o8IIdMi9HXZ5"
+   "description": {
+    "value": "受雇跟踪、取证、查访，替委托人弄清真相。职业点 EDU × 2 + STR × 2，或 EDU × 2 + DEX × 2（建卡时二选一）；信用评级 9–30。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）",
+    "keeper": ""
+   },
+   "source": "coc-roll20-occupations",
+   "type": {
+    "classic": false,
+    "lovecraftian": false,
+    "modern": false,
+    "pulp": false
+   },
+   "occupationSkillPoints": {
+    "str": {
+     "multiplier": 2,
+     "selected": true,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.disguise",
-     "uuid": "FcXGDagoFY3CsOZi"
+    "con": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.law",
-     "uuid": "lfaJ9sfEpwhlrVph"
+    "siz": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.library-use",
-     "uuid": "7BNMWqPVJyA0sReg"
+    "dex": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.psychology",
-     "uuid": "n8ACQitSLni4geaF"
+    "app": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.spot-hidden",
-     "uuid": "ehKcuxiTWOk0GDgA"
+    "int": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "pow": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "edu": {
+     "multiplier": 2,
+     "selected": true,
+     "optional": false
     }
+   },
+   "creditRating": {
+    "min": 9,
+    "max": 30
+   },
+   "itemDocuments": [],
+   "itemKeys": [
+    "i.skill.coc.art-craft-photography",
+    "i.skill.coc.disguise",
+    "i.skill.coc.law",
+    "i.skill.coc.library-use",
+    "i.skill.coc.psychology",
+    "i.skill.coc.spot-hidden"
    ],
    "groups": [
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.charm",
-       "uuid": "ebCHph0biyJ2AG3j"
-      },
-      {
-       "brpid": "i.skill.coc.fast-talk",
-       "uuid": "AwLPg18IRN57w0fB"
-      },
-      {
-       "brpid": "i.skill.coc.intimidate",
-       "uuid": "mhG3if5iht465aSn"
-      },
-      {
-       "brpid": "i.skill.coc.persuade",
-       "uuid": "7zQTHnGe7rHoRnjC"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.charm",
+      "i.skill.coc.fast-talk",
+      "i.skill.coc.intimidate",
+      "i.skill.coc.persuade"
      ]
     }
    ],
-   "powers": [],
-   "minWealth": 0,
-   "maxWealth": 0,
-   "description": "受雇跟踪、取证、查访，替委托人弄清真相。职业点 EDU × 2 + STR × 2，或 EDU × 2 + DEX × 2（建卡时二选一）；信用评级 9–30。\n\n职业点：EDU*2+STR*2 或 EDU*2+DEX*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：9–30（只能用职业点，且必须落在区间内）"
+   "personal": 0,
+   "personalText": ""
   }
  },
  {
   "_id": "IDB0huTGTiLCTVwV",
   "name": "教授",
-  "type": "profession",
+  "type": "occupation",
   "flags": {
    "brp": {
     "brpidFlag": {
@@ -765,45 +863,87 @@
    }
   },
   "system": {
-   "skills": [
-    {
-     "brpid": "i.skill.coc.library-use",
-     "uuid": "7BNMWqPVJyA0sReg"
+   "description": {
+    "value": "在高校或研究机构授课、著书、带学生做课题。职业点 EDU × 4；信用评级 20–70。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：20–70（只能用职业点，且必须落在区间内）",
+    "keeper": ""
+   },
+   "source": "coc-roll20-occupations",
+   "type": {
+    "classic": false,
+    "lovecraftian": false,
+    "modern": false,
+    "pulp": false
+   },
+   "occupationSkillPoints": {
+    "str": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.psychology",
-     "uuid": "n8ACQitSLni4geaF"
+    "con": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.language-own",
-     "uuid": "7WwKSOQFVJeDC4hr"
+    "siz": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "dex": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "app": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "int": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "pow": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "edu": {
+     "multiplier": 4,
+     "selected": true,
+     "optional": false
     }
+   },
+   "creditRating": {
+    "min": 20,
+    "max": 70
+   },
+   "itemDocuments": [],
+   "itemKeys": [
+    "i.skill.coc.library-use",
+    "i.skill.coc.psychology",
+    "i.skill.coc.language-own"
    ],
    "groups": [
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.language-other-greek",
-       "uuid": "zxbzRO9P1dqY9jzD"
-      },
-      {
-       "brpid": "i.skill.coc.language-other-latin",
-       "uuid": "YY2QWZ0T7f8A76NE"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.language-other-greek",
+      "i.skill.coc.language-other-latin"
      ]
     }
    ],
-   "powers": [],
-   "minWealth": 0,
-   "maxWealth": 0,
-   "description": "在高校或研究机构授课、著书、带学生做课题。职业点 EDU × 4；信用评级 20–70。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：20–70（只能用职业点，且必须落在区间内）"
+   "personal": 0,
+   "personalText": ""
   }
  },
  {
   "_id": "4QZJRizl3CVAL8YX",
   "name": "自定义调查员",
-  "type": "profession",
+  "type": "occupation",
   "flags": {
    "brp": {
     "brpidFlag": {
@@ -853,18 +993,74 @@
    }
   },
   "system": {
-   "skills": [],
+   "description": {
+    "value": "玩家自定的调查员：任意选定 8 项技能，由守密人审核信用评级（0–99），并自行撰写背景。职业点公式从五条白名单公式中选一条，没有第六条自创公式。\n\n职业点：EDU*4 或 EDU*2+DEX*2 或 EDU*2+APP*2 或 EDU*2+STR*2 或 EDU*2+POW*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：0–99（只能用职业点，且必须落在区间内）",
+    "keeper": ""
+   },
+   "source": "coc-wiki-skills",
+   "type": {
+    "classic": false,
+    "lovecraftian": false,
+    "modern": false,
+    "pulp": false
+   },
+   "occupationSkillPoints": {
+    "str": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "con": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "siz": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "dex": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "app": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "int": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "pow": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "edu": {
+     "multiplier": 4,
+     "selected": true,
+     "optional": false
+    }
+   },
+   "creditRating": {
+    "min": 0,
+    "max": 99
+   },
+   "itemDocuments": [],
+   "itemKeys": [],
    "groups": [],
-   "powers": [],
-   "minWealth": 0,
-   "maxWealth": 0,
-   "description": "玩家自定的调查员：任意选定 8 项技能，由守密人审核信用评级（0–99），并自行撰写背景。职业点公式从五条白名单公式中选一条，没有第六条自创公式。\n\n职业点：EDU*4 或 EDU*2+DEX*2 或 EDU*2+APP*2 或 EDU*2+STR*2 或 EDU*2+POW*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：0–99（只能用职业点，且必须落在区间内）"
+   "personal": 0,
+   "personalText": ""
   }
  },
  {
   "_id": "Urzd6Xfcx7SNpkXc",
   "name": "医生（医学博士）",
-  "type": "profession",
+  "type": "occupation",
   "flags": {
    "brp": {
     "brpidFlag": {
@@ -913,43 +1109,81 @@
    }
   },
   "system": {
-   "skills": [
-    {
-     "brpid": "i.skill.coc.first-aid",
-     "uuid": "mFYJcDBHmADhKRNW"
+   "description": {
+    "value": "以诊断与治疗为业的内科或外科医师，熟悉药物、病房与病历。职业点 EDU × 4；信用评级 30–80。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–80（只能用职业点，且必须落在区间内）",
+    "keeper": ""
+   },
+   "source": "coc-roll20-occupations, coc-wiki-skills",
+   "type": {
+    "classic": false,
+    "lovecraftian": false,
+    "modern": false,
+    "pulp": false
+   },
+   "occupationSkillPoints": {
+    "str": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.language-other-latin",
-     "uuid": "YY2QWZ0T7f8A76NE"
+    "con": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.medicine",
-     "uuid": "lciqRkvUQH0jYqq2"
+    "siz": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.psychology",
-     "uuid": "n8ACQitSLni4geaF"
+    "dex": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.science-biology",
-     "uuid": "ojfHa6wDmmM5s0ey"
+    "app": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.science-pharmacy",
-     "uuid": "FYszZeEWTX2DBFSd"
+    "int": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "pow": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "edu": {
+     "multiplier": 4,
+     "selected": true,
+     "optional": false
     }
+   },
+   "creditRating": {
+    "min": 30,
+    "max": 80
+   },
+   "itemDocuments": [],
+   "itemKeys": [
+    "i.skill.coc.first-aid",
+    "i.skill.coc.language-other-latin",
+    "i.skill.coc.medicine",
+    "i.skill.coc.psychology",
+    "i.skill.coc.science-biology",
+    "i.skill.coc.science-pharmacy"
    ],
    "groups": [],
-   "powers": [],
-   "minWealth": 0,
-   "maxWealth": 0,
-   "description": "以诊断与治疗为业的内科或外科医师，熟悉药物、病房与病历。职业点 EDU × 4；信用评级 30–80。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–80（只能用职业点，且必须落在区间内）"
+   "personal": 0,
+   "personalText": ""
   }
  },
  {
   "_id": "q6iDyd4riEIMbpVw",
   "name": "警探",
-  "type": "profession",
+  "type": "occupation",
   "flags": {
    "brp": {
     "brpidFlag": {
@@ -1074,83 +1308,106 @@
    }
   },
   "system": {
-   "skills": [
-    {
-     "brpid": "i.skill.coc.law",
-     "uuid": "lfaJ9sfEpwhlrVph"
+   "description": {
+    "value": "便衣办案的警队侦查员，靠案卷、线人与现场权限接近普通市民看不到的事。职业点 EDU × 2 + DEX × 2，或 EDU × 2 + STR × 2（建卡时二选一）；信用评级 20–50。\n\n职业点：EDU*2+DEX*2 或 EDU*2+STR*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：20–50（只能用职业点，且必须落在区间内）",
+    "keeper": ""
+   },
+   "source": "coc-roll20-occupations, coc-wiki-skills",
+   "type": {
+    "classic": false,
+    "lovecraftian": false,
+    "modern": false,
+    "pulp": false
+   },
+   "occupationSkillPoints": {
+    "str": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.listen",
-     "uuid": "fHdlJ2r8hzJAHBnx"
+    "con": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.psychology",
-     "uuid": "n8ACQitSLni4geaF"
+    "siz": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.spot-hidden",
-     "uuid": "ehKcuxiTWOk0GDgA"
+    "dex": {
+     "multiplier": 2,
+     "selected": true,
+     "optional": false
+    },
+    "app": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "int": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "pow": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "edu": {
+     "multiplier": 2,
+     "selected": true,
+     "optional": false
     }
+   },
+   "creditRating": {
+    "min": 20,
+    "max": 50
+   },
+   "itemDocuments": [],
+   "itemKeys": [
+    "i.skill.coc.law",
+    "i.skill.coc.listen",
+    "i.skill.coc.psychology",
+    "i.skill.coc.spot-hidden"
    ],
    "groups": [
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.art-craft-acting",
-       "uuid": "fwjXSgaOTh0oh0fj"
-      },
-      {
-       "brpid": "i.skill.coc.disguise",
-       "uuid": "FcXGDagoFY3CsOZi"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.art-craft-acting",
+      "i.skill.coc.disguise"
      ]
     },
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.firearms-handgun",
-       "uuid": "1GMNDl2j6zfGXyI3"
-      },
-      {
-       "brpid": "i.skill.coc.firearms-rifle-shotgun",
-       "uuid": "icEnsbSORKp1qZtF"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.firearms-handgun",
+      "i.skill.coc.firearms-rifle-shotgun"
      ]
     },
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.charm",
-       "uuid": "ebCHph0biyJ2AG3j"
-      },
-      {
-       "brpid": "i.skill.coc.fast-talk",
-       "uuid": "AwLPg18IRN57w0fB"
-      },
-      {
-       "brpid": "i.skill.coc.intimidate",
-       "uuid": "mhG3if5iht465aSn"
-      },
-      {
-       "brpid": "i.skill.coc.persuade",
-       "uuid": "7zQTHnGe7rHoRnjC"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.charm",
+      "i.skill.coc.fast-talk",
+      "i.skill.coc.intimidate",
+      "i.skill.coc.persuade"
      ]
     }
    ],
-   "powers": [],
-   "minWealth": 0,
-   "maxWealth": 0,
-   "description": "便衣办案的警队侦查员，靠案卷、线人与现场权限接近普通市民看不到的事。职业点 EDU × 2 + DEX × 2，或 EDU × 2 + STR × 2（建卡时二选一）；信用评级 20–50。\n\n职业点：EDU*2+DEX*2 或 EDU*2+STR*2（引擎按白名单公式求值，建卡时选定一条）\n\n信用评级：20–50（只能用职业点，且必须落在区间内）"
+   "personal": 0,
+   "personalText": ""
   }
  },
  {
   "_id": "LrIG0aMnxmceiQ6X",
   "name": "古董商",
-  "type": "profession",
+  "type": "occupation",
   "flags": {
    "brp": {
     "brpidFlag": {
@@ -1257,80 +1514,96 @@
    }
   },
   "system": {
-   "skills": [
-    {
-     "brpid": "i.skill.coc.accounting",
-     "uuid": "OprgKpztxOCjv9MA"
+   "description": {
+    "value": "买卖古董、家具与旧物的商人，擅长断代与估价，也知道哪些东西不该追问来历。职业点 EDU × 4；信用评级 30–50。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–50（只能用职业点，且必须落在区间内）",
+    "keeper": ""
+   },
+   "source": "coc-cardwright",
+   "type": {
+    "classic": false,
+    "lovecraftian": false,
+    "modern": false,
+    "pulp": false
+   },
+   "occupationSkillPoints": {
+    "str": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.appraise",
-     "uuid": "VvQ3kwJkRmfwdxZr"
+    "con": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.drive-auto",
-     "uuid": "oNzu3fHKqOJ5FVVq"
+    "siz": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.history",
-     "uuid": "ZsbrYPHoyqIA6fGF"
+    "dex": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.library-use",
-     "uuid": "7BNMWqPVJyA0sReg"
+    "app": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
     },
-    {
-     "brpid": "i.skill.coc.navigate",
-     "uuid": "XFTLEmt7ULlfiVWT"
+    "int": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "pow": {
+     "multiplier": null,
+     "selected": false,
+     "optional": false
+    },
+    "edu": {
+     "multiplier": 4,
+     "selected": true,
+     "optional": false
     }
+   },
+   "creditRating": {
+    "min": 30,
+    "max": 50
+   },
+   "itemDocuments": [],
+   "itemKeys": [
+    "i.skill.coc.accounting",
+    "i.skill.coc.appraise",
+    "i.skill.coc.drive-auto",
+    "i.skill.coc.history",
+    "i.skill.coc.library-use",
+    "i.skill.coc.navigate"
    ],
    "groups": [
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.charm",
-       "uuid": "ebCHph0biyJ2AG3j"
-      },
-      {
-       "brpid": "i.skill.coc.fast-talk",
-       "uuid": "AwLPg18IRN57w0fB"
-      },
-      {
-       "brpid": "i.skill.coc.intimidate",
-       "uuid": "mhG3if5iht465aSn"
-      },
-      {
-       "brpid": "i.skill.coc.persuade",
-       "uuid": "7zQTHnGe7rHoRnjC"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.charm",
+      "i.skill.coc.fast-talk",
+      "i.skill.coc.intimidate",
+      "i.skill.coc.persuade"
      ]
     },
     {
      "options": 1,
-     "skills": [
-      {
-       "brpid": "i.skill.coc.charm",
-       "uuid": "ebCHph0biyJ2AG3j"
-      },
-      {
-       "brpid": "i.skill.coc.fast-talk",
-       "uuid": "AwLPg18IRN57w0fB"
-      },
-      {
-       "brpid": "i.skill.coc.intimidate",
-       "uuid": "mhG3if5iht465aSn"
-      },
-      {
-       "brpid": "i.skill.coc.persuade",
-       "uuid": "7zQTHnGe7rHoRnjC"
-      }
+     "itemDocuments": [],
+     "itemKeys": [
+      "i.skill.coc.charm",
+      "i.skill.coc.fast-talk",
+      "i.skill.coc.intimidate",
+      "i.skill.coc.persuade"
      ]
     }
    ],
-   "powers": [],
-   "minWealth": 0,
-   "maxWealth": 0,
-   "description": "买卖古董、家具与旧物的商人，擅长断代与估价，也知道哪些东西不该追问来历。职业点 EDU × 4；信用评级 30–50。\n\n职业点：EDU*4（引擎按白名单公式求值）\n\n信用评级：30–50（只能用职业点，且必须落在区间内）"
+   "personal": 0,
+   "personalText": ""
   }
  }
 ]
