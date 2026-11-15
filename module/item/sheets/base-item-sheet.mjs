@@ -104,6 +104,7 @@ export class BRPCoCItemSheet extends BRPItemSheetV2 {
     },
     actions: {
       onEditImage: this._onEditImage,
+      editBRPid: this._onEditBRPid,
     }
   }
 
