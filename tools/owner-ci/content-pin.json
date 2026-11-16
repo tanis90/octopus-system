@@ -1,12 +1,12 @@
 {
   "kind": "octopus-owner-ci-content-pin/1",
-  "contentRef": "455caa3baa2ce34ebc8430a6628df278466df452",
-  "contentRefNote": "CoC7 名册替换后的核心内容集基线（coc-skills 60 / coc-professions 9 occupation 原生；octopus 两包退役）。contentRef 是不可变 commit，与 contentSetHashSha256 由 tools/owner-ci/manifest.mjs set-hash --kind content 同步计算；内容升级必须显式改这里并用 set-hash 重算。",
+  "contentRef": "d540c7234936781f4b66578880558f9e8ec1273f",
+  "contentRefNote": "9 条核心职业 summary 入包后的核心内容集基线（coc-skills 60 / coc-professions 9 occupation 原生；summary 由 facts 显式编写并映射到 flags.brp.coc.summary；octopus 两包退役）。contentRef 是不可变 commit，与 contentSetHashSha256 由 tools/owner-ci/manifest.mjs set-hash --kind content 同步计算；内容升级必须显式改这里并用 set-hash 重算。",
   "contentSetScope": [
     "packs/",
     "packs-index/",
     "packs-json/"
   ],
   "contentSetHashAlgo": "sha256 over \"<path>\\n<size>\\n<sha256hex>\\n\" of entries sorted by path (code-unit order), git ls-tree -r --full-tree <contentRef>",
-  "contentSetHashSha256": "625ee106561f00f0aa5051cf9c129bf5ecfd17961bb2d23d43be267ccbd80b4f"
+  "contentSetHashSha256": "d65d95cb71332f0da4371195a93a5d15b32f4f0c2d5d93044502392f57303bef"
 }
