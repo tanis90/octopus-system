@@ -15,6 +15,7 @@
     "factId": "coc7.occupation.investigative-journalist",
     "slug": "investigative-journalist",
     "pack": "core",
+    "summary": "追查线索、访谈当事人，把事件写成可发表的报道。",
     "creditMin": 9,
     "creditMax": 30,
     "pointFormula": "EDU*4",

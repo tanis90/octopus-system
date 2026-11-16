@@ -1257,6 +1257,84 @@ check("professionPackRegistration", (() => {
     && sys.packs.some((entry) => entry.name === "coc-skills");
 })());
 
+// The summary is authored per profession in the fact source, never derived by
+// truncating `description`. These locks fail if either the copy or the mapping
+// into the generated document drifts.
+const EXPECTED_PROFESSION_SUMMARIES = {
+  author: "以写作、编辑或评论为生，靠文字与人脉维持生活。",
+  dilettante: "家底殷实、以兴趣安排生活的闲人，靠人脉与金钱打开门路。",
+  "investigative-journalist": "追查线索、访谈当事人，把事件写成可发表的报道。",
+  "private-investigator": "受雇跟踪、取证、查访，替委托人弄清真相。",
+  professor: "在高校或研究机构授课、著书、带学生做课题。",
+  "custom-investigator": "由你定义这位调查员的经历与所长。",
+  "doctor-of-medicine": "持有医学博士学位的执业医师，以诊断、治疗与病房工作为生。",
+  "police-detective": "便衣办案的警队侦查员，靠案卷、线人与现场权限接触常人看不到的内情。",
+  antiquarian: "经营古董、家具与旧物买卖的商人，长于断代估价，也懂得哪些来历不该追问。",
+};
+
+const EXPECTED_PROFESSION_DESCRIPTIONS = {
+  author: "以写作、编辑或评论为生，靠文字与人脉维持生活。职业点 EDU × 4；信用评级 9–30。",
+  dilettante: "家底殷实、以兴趣安排生活的闲人，靠人脉与金钱打开门路。职业点 EDU × 2 + APP × 2；信用评级 50–99。",
+  "investigative-journalist": "追查线索、访谈当事人，把事件写成可发表的报道。职业点 EDU × 4；信用评级 9–30。",
+  "private-investigator": "受雇跟踪、取证、查访，替委托人弄清真相。职业点 EDU × 2 + STR × 2，或 EDU × 2 + DEX × 2（建卡时二选一）；信用评级 9–30。",
+  professor: "在高校或研究机构授课、著书、带学生做课题。职业点 EDU × 4；信用评级 20–70。",
+  "custom-investigator": "玩家自定的调查员：任意选定 8 项技能，由守密人审核信用评级（0–99），并自行撰写背景。职业点公式从五条白名单公式中选一条，没有第六条自创公式。",
+  "doctor-of-medicine": "以诊断与治疗为业的内科或外科医师，熟悉药物、病房与病历。职业点 EDU × 4；信用评级 30–80。",
+  "police-detective": "便衣办案的警队侦查员，靠案卷、线人与现场权限接近普通市民看不到的事。职业点 EDU × 2 + DEX × 2，或 EDU × 2 + STR × 2（建卡时二选一）；信用评级 20–50。",
+  antiquarian: "买卖古董、家具与旧物的商人，擅长断代与估价，也知道哪些东西不该追问来历。职业点 EDU × 4；信用评级 30–50。",
+};
+
+const SUMMARY_MARKDOWN_RE = /\*\*|__|`|~~|\[[^\]]*\]\([^)]*\)|(?:^|\s)#{1,6}\s|(?:^|\s)[-*+]\s|(?:^|\s)\|/;
+const SUMMARY_RULE_WORDS = /职业点|信用评级|八项|EDU|CR|公式|技能清单/;
+
+check("professionSummariesAreExplicitAndMirrored", (() => {
+  const bad = [];
+  if (Object.keys(EXPECTED_PROFESSION_SUMMARIES).length !== CORE_PROFESSION_COUNT) bad.push("summary lock size");
+  for (const entry of professionFacts.professions) {
+    const doc = profBySlug.get(entry.slug);
+    if (!doc) { bad.push(`${entry.slug}: missing doc`); continue; }
+    if (typeof entry.summary !== "string") bad.push(`${entry.slug}: no fact summary`);
+    if (entry.summary !== EXPECTED_PROFESSION_SUMMARIES[entry.slug]) bad.push(`${entry.slug}: summary copy drift`);
+    if (doc.flags.brp.coc.summary !== entry.summary) bad.push(`${entry.slug}: generated summary ${JSON.stringify(doc.flags.brp.coc.summary)} != fact`);
+    if (doc.flags.brp.coc.summary === doc.system.description.value) bad.push(`${entry.slug}: summary copies full description`);
+  }
+  return bad.length ? bad : true;
+})(), professionFacts.professions.map((entry) => [entry.slug, entry.summary]));
+
+check("professionSummaryFormat", allProfDocs.every((doc) => {
+  const summary = doc.flags.brp.coc.summary;
+  return typeof summary === "string" && summary.length > 0
+    && summary === summary.trim()
+    && !/[\r\n]/.test(summary)
+    && summary.endsWith("。")
+    && !/[<>]/.test(summary)
+    && !SUMMARY_MARKDOWN_RE.test(summary);
+}), allProfDocs.map((doc) => [doc.flags.brp.coc.slug, doc.flags.brp.coc.summary]));
+
+check("professionSummariesAvoidRuleVocabulary", allProfDocs.every((doc) => !SUMMARY_RULE_WORDS.test(doc.flags.brp.coc.summary)),
+  allProfDocs.filter((doc) => SUMMARY_RULE_WORDS.test(doc.flags.brp.coc.summary))
+    .map((doc) => [doc.flags.brp.coc.slug, doc.flags.brp.coc.summary]));
+
+check("professionDescriptionFirstParagraphUnchanged", (() => {
+  const bad = [];
+  for (const entry of professionFacts.professions) {
+    const doc = profBySlug.get(entry.slug);
+    const first = doc?.system?.description?.value?.split("\n\n")[0];
+    if (first !== entry.description) bad.push(`${entry.slug}: generated first paragraph != fact description`);
+    if (entry.description !== EXPECTED_PROFESSION_DESCRIPTIONS[entry.slug]) bad.push(`${entry.slug}: fact description drift`);
+  }
+  return bad.length ? bad : true;
+})(), professionFacts.professions.map((entry) => [entry.slug, entry.description]));
+
+check("customInvestigatorSummaryIsDefinedByThePlayer", (() => {
+  const custom = profBySlug.get("custom-investigator");
+  const summary = custom?.flags?.brp?.coc?.summary;
+  return summary === "由你定义这位调查员的经历与所长。"
+    && summary === EXPECTED_PROFESSION_SUMMARIES["custom-investigator"]
+    && !SUMMARY_RULE_WORDS.test(summary)
+    && !/印刷|出版|职业名|八项/.test(summary);
+})(), profBySlug.get("custom-investigator")?.flags?.brp?.coc?.summary);
+
 const ASCII_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const EXPECTED_OCCUPATIONS = {

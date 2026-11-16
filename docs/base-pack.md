@@ -68,6 +68,7 @@ octopus 的 `octopus-skills` / `octopus-professions` 以及任何扩展包都不
     "enName": "<英文名>",
     "contentSource": "coc",
     "coc": { "factId": "...", "slug": "...", "pack": "core",
+             "summary": "一句玩家可见的简介。",
              "creditMin": 9, "creditMax": 30,
              "pointFormula": "EDU*4", "pointFormulas": ["..."],
              "evidence": "secondary", "sourceRefs": ["..."],
@@ -103,6 +104,8 @@ octopus 的 `octopus-skills` / `octopus-professions` 以及任何扩展包都不
   建卡时必须显式选定一条。
 - 原生 `itemKeys` / `groups[].itemKeys` 存技能 brpid；无法枚举的“任意技能”
   组只保留在 `flags.brp.coc.choiceGroups`，不伪造原生选项。
+- `flags.brp.coc.summary` 是源职业数据里逐条写好的单行简介，构建器只校验格式并
+  原样映射，不从 `system.description` 截断；`description` 首段保持源文不变。
 - 专精槽、证据强度、固定技能 key 等构建期事实保留在 `flags.brp.coc`，
   供车卡器读取；不写第二份身份表。
 

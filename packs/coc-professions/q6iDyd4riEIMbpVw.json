@@ -15,6 +15,7 @@
     "factId": "coc7.occupation.police-detective",
     "slug": "police-detective",
     "pack": "core",
+    "summary": "便衣办案的警队侦查员，靠案卷、线人与现场权限接触常人看不到的内情。",
     "creditMin": 20,
     "creditMax": 50,
     "pointFormula": "EDU*2+DEX*2",
