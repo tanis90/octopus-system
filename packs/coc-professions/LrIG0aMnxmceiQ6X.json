@@ -15,6 +15,7 @@
     "factId": "coc7.occupation.antiquarian",
     "slug": "antiquarian",
     "pack": "core",
+    "summary": "经营古董、家具与旧物买卖的商人，长于断代估价，也懂得哪些来历不该追问。",
     "creditMin": 30,
     "creditMax": 50,
     "pointFormula": "EDU*4",

@@ -15,6 +15,7 @@
     "factId": "custom.occupation.custom-investigator",
     "slug": "custom-investigator",
     "pack": "core",
+    "summary": "由你定义这位调查员的经历与所长。",
     "creditMin": 0,
     "creditMax": 99,
     "pointFormula": "EDU*4",

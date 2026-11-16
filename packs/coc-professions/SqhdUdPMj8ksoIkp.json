@@ -15,6 +15,7 @@
     "factId": "coc7.occupation.dilettante",
     "slug": "dilettante",
     "pack": "core",
+    "summary": "家底殷实、以兴趣安排生活的闲人，靠人脉与金钱打开门路。",
     "creditMin": 50,
     "creditMax": 99,
     "pointFormula": "EDU*2+APP*2",

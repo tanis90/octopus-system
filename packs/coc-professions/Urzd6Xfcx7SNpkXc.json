@@ -15,6 +15,7 @@
     "factId": "coc7.occupation.doctor-of-medicine",
     "slug": "doctor-of-medicine",
     "pack": "core",
+    "summary": "持有医学博士学位的执业医师，以诊断、治疗与病房工作为生。",
     "creditMin": 30,
     "creditMax": 80,
     "pointFormula": "EDU*4",

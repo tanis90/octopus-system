@@ -43,6 +43,10 @@ const BRPID_RE = /^i\.skill\.coc\.[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const PROF_BRPID_RE = /^i\.profession\.coc\.[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const SPEC_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ALLOWED_ZERO = new Set(["credit-rating", "cthulhu-mythos"]);
+// A profession summary is player-facing prose, not markup: one line, no HTML or
+// Markdown, and it must end as a complete Chinese sentence.
+const SUMMARY_HTML_RE = /[<>]/;
+const SUMMARY_MARKDOWN_RE = /\*\*|__|`|~~|\[[^\]]*\]\([^)]*\)|(?:^|\s)#{1,6}\s|(?:^|\s)[-*+]\s|(?:^|\s)\|/;
 
 const sourceRefs = (entry) => entry.sourceRefs ?? facts.defaultSourceRefs ?? [];
 const isCombat = (entry) => entry.key === "dodge"
@@ -251,6 +255,16 @@ for (const entry of occupations.professions) {
 
   if (!entry.name || !entry.enName) profErrors.push(`${where}: 缺少显示名`);
   if (!entry.description) profErrors.push(`${where}: 缺少描述`);
+  if (typeof entry.summary !== "string" || !entry.summary.trim()) {
+    profErrors.push(`${where}: 缺少非空 summary`);
+  } else {
+    if (entry.summary !== entry.summary.trim()) profErrors.push(`${where}: summary 首尾不得有空白`);
+    if (/[\r\n]/.test(entry.summary)) profErrors.push(`${where}: summary 必须是单行`);
+    if (!entry.summary.trim().endsWith("。")) profErrors.push(`${where}: summary 必须以句号收尾`);
+    if (SUMMARY_HTML_RE.test(entry.summary) || SUMMARY_MARKDOWN_RE.test(entry.summary)) {
+      profErrors.push(`${where}: summary 不得包含 HTML/Markdown`);
+    }
+  }
 
   // Point formulas: same closed whitelist the runtime evaluator enforces. A
   // record carries either `pointFormula` (one) or `pointFormulas` (either/or,
@@ -385,6 +399,7 @@ for (const entry of occupations.professions) {
           factId: entry.factId,
           slug: entry.slug,
           pack: "core",
+          summary: entry.summary,
           creditMin,
           creditMax,
           pointFormula: pointFormulas ? pointFormulas[0] : entry.pointFormula,

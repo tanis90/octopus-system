@@ -129,6 +129,7 @@
       "sourceRefs": [
         "coc-roll20-occupations"
       ],
+      "summary": "以写作、编辑或评论为生，靠文字与人脉维持生活。",
       "description": "以写作、编辑或评论为生，靠文字与人脉维持生活。职业点 EDU × 4；信用评级 9–30。",
       "fixedSkills": [
         "history",
@@ -197,6 +198,7 @@
       "sourceRefs": [
         "coc-roll20-occupations"
       ],
+      "summary": "家底殷实、以兴趣安排生活的闲人，靠人脉与金钱打开门路。",
       "description": "家底殷实、以兴趣安排生活的闲人，靠人脉与金钱打开门路。职业点 EDU × 2 + APP × 2；信用评级 50–99。",
       "fixedSkills": [
         "ride"
@@ -285,6 +287,7 @@
       "sourceRefs": [
         "coc-roll20-occupations"
       ],
+      "summary": "追查线索、访谈当事人，把事件写成可发表的报道。",
       "description": "追查线索、访谈当事人，把事件写成可发表的报道。职业点 EDU × 4；信用评级 9–30。",
       "fixedSkills": [
         "history",
@@ -357,6 +360,7 @@
       "sourceRefs": [
         "coc-roll20-occupations"
       ],
+      "summary": "受雇跟踪、取证、查访，替委托人弄清真相。",
       "description": "受雇跟踪、取证、查访，替委托人弄清真相。职业点 EDU × 2 + STR × 2，或 EDU × 2 + DEX × 2（建卡时二选一）；信用评级 9–30。",
       "fixedSkills": [
         "art-craft-photography",
@@ -417,6 +421,7 @@
       "sourceRefs": [
         "coc-roll20-occupations"
       ],
+      "summary": "在高校或研究机构授课、著书、带学生做课题。",
       "description": "在高校或研究机构授课、著书、带学生做课题。职业点 EDU × 4；信用评级 20–70。",
       "fixedSkills": [
         "library-use",
@@ -469,6 +474,7 @@
       "sourceRefs": [
         "coc-wiki-skills"
       ],
+      "summary": "由你定义这位调查员的经历与所长。",
       "description": "玩家自定的调查员：任意选定 8 项技能，由守密人审核信用评级（0–99），并自行撰写背景。职业点公式从五条白名单公式中选一条，没有第六条自创公式。",
       "fixedSkills": [],
       "specialismSlots": [],
@@ -502,6 +508,7 @@
         "coc-roll20-occupations",
         "coc-wiki-skills"
       ],
+      "summary": "持有医学博士学位的执业医师，以诊断、治疗与病房工作为生。",
       "description": "以诊断与治疗为业的内科或外科医师，熟悉药物、病房与病历。职业点 EDU × 4；信用评级 30–80。",
       "fixedSkills": [
         "first-aid",
@@ -543,6 +550,7 @@
         "coc-roll20-occupations",
         "coc-wiki-skills"
       ],
+      "summary": "便衣办案的警队侦查员，靠案卷、线人与现场权限接触常人看不到的内情。",
       "description": "便衣办案的警队侦查员，靠案卷、线人与现场权限接近普通市民看不到的事。职业点 EDU × 2 + DEX × 2，或 EDU × 2 + STR × 2（建卡时二选一）；信用评级 20–50。",
       "fixedSkills": [
         "law",
@@ -627,6 +635,7 @@
       "sourceRefs": [
         "coc-cardwright"
       ],
+      "summary": "经营古董、家具与旧物买卖的商人，长于断代估价，也懂得哪些来历不该追问。",
       "description": "买卖古董、家具与旧物的商人，擅长断代与估价，也知道哪些东西不该追问来历。职业点 EDU × 4；信用评级 30–50。",
       "fixedSkills": [
         "accounting",

@@ -15,6 +15,7 @@
     "factId": "coc7.occupation.author",
     "slug": "author",
     "pack": "core",
+    "summary": "以写作、编辑或评论为生，靠文字与人脉维持生活。",
     "creditMin": 9,
     "creditMax": 30,
     "pointFormula": "EDU*4",

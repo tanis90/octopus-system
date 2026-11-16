@@ -239,9 +239,11 @@ Dilettante 的 Roll20 页正文为空，仅有属性块（信用 50–99、公�
 ### 文档形态
 
 - `flags.brp.contentSource = "coc"`；`flags.brp.coc` 保存
-  `slug` / `creditMin` / `creditMax` / `pointFormula` / `evidence` /
+  `slug` / `summary` / `creditMin` / `creditMax` / `pointFormula` / `evidence` /
   `sourceRefs` / `fixedSkillKeys` / `specialismSlots` / `choiceGroups`。
   M5 起多公式职业另有 `pointFormulas`（有序数组），单公式职业不带该键。
+  `summary` 是源数据逐条编写、构建器只做校验与映射的玩家可见简介，
+  不从 `description` 截断生成。
 - `system.skills` 与 `system.groups` 只用可解析到 `coc-skills` 文档的引用；
   「任意技能」类选择组无法枚举，保留在 `flags.brp.coc.choiceGroups` 供车卡器展开，
   不悄悄缩小原生选择组。

@@ -15,6 +15,7 @@
     "factId": "coc7.occupation.private-investigator",
     "slug": "private-investigator",
     "pack": "core",
+    "summary": "受雇跟踪、取证、查访，替委托人弄清真相。",
     "creditMin": 9,
     "creditMax": 30,
     "pointFormula": "EDU*2+STR*2",

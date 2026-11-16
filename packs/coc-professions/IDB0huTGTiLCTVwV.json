@@ -15,6 +15,7 @@
     "factId": "coc7.occupation.professor",
     "slug": "professor",
     "pack": "core",
+    "summary": "在高校或研究机构授课、著书、带学生做课题。",
     "creditMin": 20,
     "creditMax": 70,
     "pointFormula": "EDU*4",
