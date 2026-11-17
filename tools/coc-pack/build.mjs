@@ -488,8 +488,8 @@ const writePack = (base, key, packDocs) => {
 
 const coreProfessionDocs = professions.filter((doc) => doc.flags.brp.coc.pack === "core");
 const entries = {
-  skills: { ...writePack(ROOT, "coc-skills", coreSkillDocs), label: "克苏鲁的呼唤 · 核心技能（CoC 7e）" },
-  professions: { ...writePack(ROOT, "coc-professions", coreProfessionDocs), label: "克苏鲁的呼唤 · 核心职业（CoC 7e）" },
+  skills: { ...writePack(ROOT, "coc-skills", coreSkillDocs), label: "核心技能" },
+  professions: { ...writePack(ROOT, "coc-professions", coreProfessionDocs), label: "核心职业" },
 };
 
 // system.json stays exactly the two shipped core CoC packs. The retired
