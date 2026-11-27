@@ -4,6 +4,10 @@
 // The native sheet, the CM pipeline and the public BRPCheck entry point share
 // this resolver, so their answers cannot fork.
 //
+// Name matching priority follows how the name is written: the full Item name
+// (`item.name`, the display name a pack can ship) outranks the parent
+// `system.skillName`, which stays a legacy fallback only.
+//
 // Pure data in, live Item out: no Foundry globals, no writes, no cached score.
 
 const text = (value) => {
@@ -24,8 +28,6 @@ const toItems = (source) => {
   return []
 }
 
-const skillNameOf = (item) => text(item?.system?.skillName) || text(item?.name)
-
 const weaponMarker = (weapon) => (weapon?.flags?.brp?.coc?.weapon
   && typeof weapon.flags.brp.coc.weapon === 'object'
   ? weapon.flags.brp.coc.weapon
@@ -37,15 +39,24 @@ const specKeyOf = (item) => {
   return text(item?.system?.specialization)
 }
 
-const skillMatches = (item, reference, marker) => {
-  if (!item || item.type !== 'skill') return false
-  if (reference.kind === 'native-id') return itemIdOf(item) === reference.id
-  if (reference.kind === 'native-name') {
-    if (skillNameOf(item) !== reference.name) return false
-    return !marker?.skillSpec || specKeyOf(item) === marker.skillSpec
-  }
-  return false
-}
+// A skill Item carries two names: the document name (the full display name,
+// e.g. "射击（步枪/霰弹枪）") and `system.skillName` (the parent name, e.g.
+// "射击"). Pack weapons are built before any live Actor exists, so they cannot
+// carry a live `skill.main.id`; they reference the skill by its full display
+// name. The full name is therefore the primary name channel and the parent
+// name is only the legacy fallback.
+const specMatches = (item, marker) => !marker?.skillSpec || specKeyOf(item) === marker.skillSpec
+
+const matchesFullName = (item, reference, marker) => item.type === 'skill'
+  && text(item?.name) === reference.name
+  && specMatches(item, marker)
+
+// Parent-name matching is the legacy channel: a weapon reference written as
+// "射击" instead of the full "射击（手枪）". A full-name reference is unaffected
+// because the two strings differ.
+const matchesParentName = (item, reference, marker) => item.type === 'skill'
+  && text(item?.system?.skillName) === reference.name
+  && specMatches(item, marker)
 
 /**
  * Ordered references a CoC7 weapon carries: `skill.main.id` then
@@ -65,7 +76,10 @@ export function weaponSkillReferences(weapon) {
 }
 
 /**
- * Resolve the live skill Item a weapon attacks with.
+ * Resolve the live skill Item a weapon attacks with. References are tried in
+ * order (`skill.main.id` then `skill.main.name`); within a name reference every
+ * skill's full display name is tried before any skill's parent `skillName`, so
+ * a full-name reference can never be answered by a parent-name alias.
  * @param {object} actor owning Actor (or plain data with `items`)
  * @param {object} weapon weapon Item
  * @returns {object|null} live skill Item
@@ -76,8 +90,17 @@ export function resolveWeaponSkill(actor, weapon) {
   if (!skills.length) return null
   const marker = weaponMarker(weapon)
   for (const reference of weaponSkillReferences(weapon)) {
-    const found = skills.find((item) => skillMatches(item, reference, marker))
-    if (found) return found
+    if (reference.kind === 'native-id') {
+      const byId = skills.find((item) => itemIdOf(item) === reference.id)
+      if (byId) return byId
+      continue
+    }
+    const byFullName = skills.find((item) => matchesFullName(item, reference, marker))
+    if (byFullName) return byFullName
+    // Legacy parent-name references keep their historic first-match behaviour;
+    // pack content always ships the unambiguous full name.
+    const byParentName = skills.find((item) => matchesParentName(item, reference, marker))
+    if (byParentName) return byParentName
   }
   return null
 }

@@ -3000,6 +3000,73 @@ const weaponResolutionResult = await (async () => {
   expect("legacyChannelsScoreMissing", weaponAttackScore(npc, legacyChannelWeapon).error, "weapon-skill-missing");
   expect("nativeNoCategoryBonus", weaponSkillScore(npc, dagger, { skillcategory: { firearms: 99 } }).categoryBonus, 0);
 
+  // Pack weapons cannot carry a live skill id: they reference the skill by its
+  // full display name, while the skill's own `system.skillName` is only the
+  // parent name. The full name must outrank the parent name.
+  const rifleSkill = skill("skill-rifle", "射击（步枪/霰弹枪）", 25, {
+    system: { base: "25", skillName: "射击", specialization: "射击（步枪/霰弹枪）" },
+    flags: { brp: { brpidFlag: { id: "i.skill.coc.firearms-rifle-shotgun" }, coc: { specKey: "rifle-shotgun" } } },
+  });
+  const smgSkill = skill("skill-smg", "射击（冲锋枪）", 15, {
+    system: { base: "15", skillName: "射击", specialization: "射击（冲锋枪）" },
+    flags: { brp: { brpidFlag: { id: "i.skill.coc.firearms-smg" }, coc: { specKey: "smg" } } },
+  });
+  const packRifle = {
+    _id: "weapon-pack-rifle", id: "weapon-pack-rifle", name: "李-恩菲尔德步枪", type: "weapon",
+    system: {
+      skill1: "i.skill.coc.firearms-rifle-shotgun",
+      skill: { main: { id: "", name: "射击（步枪/霰弹枪）" }, alternativ: { id: "", name: "" } },
+      malfunction: 100, properties: { rngd: true }, range: { normal: { damage: "2D6+4" } },
+    },
+    flags: {},
+  };
+  const packSmg = {
+    _id: "weapon-pack-smg", id: "weapon-pack-smg", name: "汤姆森冲锋枪", type: "weapon",
+    system: {
+      skill1: "i.skill.coc.firearms-smg",
+      skill: { main: { id: "", name: "射击（冲锋枪）" }, alternativ: { id: "", name: "" } },
+      malfunction: 100, properties: { rngd: true }, range: { normal: { damage: "1D10+2" } },
+    },
+    flags: {},
+  };
+  const firearmsOnly = {
+    id: "shooter", name: "射手", type: "character", img: "pc.png",
+    prototypeToken: { randomImg: false }, system: {},
+    items: collection([rifleSkill, smgSkill, packRifle, packSmg]),
+  };
+  expect("fullNameBeatsParentName#rifle", resolveWeaponSkill(firearmsOnly, packRifle) === rifleSkill, true);
+  expect("fullNameBeatsParentName#smg", resolveWeaponSkill(firearmsOnly, packSmg) === smgSkill, true);
+  expect("packFullNameScore#rifle", weaponAttackScore(firearmsOnly, packRifle).score, 25);
+  expect("packFullNameScore#smg", weaponAttackScore(firearmsOnly, packSmg).score, 15);
+  expect("packFullNameMode", weaponAttackScore(firearmsOnly, packRifle).mode, "skill");
+  // A full-name reference never degrades into a parent-name alias: with only
+  // the SMG specialism present, the rifle reference stays unresolved.
+  const smgOnly = {
+    id: "smg-shooter", name: "冲锋枪手", type: "character", img: "pc.png",
+    prototypeToken: { randomImg: false }, system: {},
+    items: collection([smgSkill, packRifle]),
+  };
+  expect("fullNameNoParentAlias", resolveWeaponSkill(smgOnly, packRifle), null);
+  expect("fullNameNoParentAliasError", weaponAttackScore(smgOnly, packRifle).error, "weapon-skill-missing");
+  // The legacy parent name keeps its historic fallback channel (no specKey
+  // marker on the weapon, so the parent name still answers).
+  const parentNameWeapon = {
+    ...packRifle,
+    _id: "weapon-parent-name", id: "weapon-parent-name",
+    system: { ...packRifle.system, skill1: "none", skill: { main: { id: "", name: "射击" }, alternativ: { id: "", name: "" } } },
+  };
+  expect("parentNameLegacyFallback", resolveWeaponSkill(firearmsOnly, parentNameWeapon) === rifleSkill, true);
+  // skill1 alone is still ignored even when the full name would resolve.
+  const skill1OnlyWeapon = {
+    ...packRifle,
+    _id: "weapon-skill1-only", id: "weapon-skill1-only",
+    system: { ...packRifle.system, skill: { main: { id: "", name: "" }, alternativ: { id: "", name: "" } } },
+  };
+  expect("skill1StillIgnored", resolveWeaponSkill(firearmsOnly, skill1OnlyWeapon), null);
+  expect("skill1StillIgnoredError", weaponAttackScore(firearmsOnly, skill1OnlyWeapon).error, "weapon-skill-missing");
+  expect("noBrpidChannelInReferences", JSON.stringify(weaponSkillReferences(packRifle)),
+    JSON.stringify([{ kind: "native-name", name: "射击（步枪/霰弹枪）", source: "skill.main.name" }]));
+
   const cm = async (actor, weapon) => BRPCheck.normaliseRequest({
     rollType: "CM", cardType: "CB", actor, itemId: weapon._id, skillId: false,
   });
@@ -3024,6 +3091,16 @@ const weaponResolutionResult = await (async () => {
   const legacyRow = buildCocNpcAttackRow(legacyChannelWeapon, npc);
   expect("legacyNpcCardUnresolved", legacyRow.attackMode, "none");
   expect("legacyNpcCardNoNpcVal", Object.hasOwn(legacyRow, "npcVal"), false);
+  // The NPC attack row shares the same resolver: a pack weapon naming its skill
+  // by full display name must produce a real attack row, not "none".
+  const packNpc = {
+    id: "pack-npc", name: "持枪邪教徒", type: "npc", img: "npc.png",
+    prototypeToken: { randomImg: false }, system: {},
+    items: collection([rifleSkill, packRifle]),
+  };
+  const packRow = buildCocNpcAttackRow(packRifle, packNpc);
+  expect("packNpcAttackMode", packRow.attackMode, "sk");
+  expect("packNpcAttackHit", packRow.hitValue, 25);
 
   return failures.length ? failures : true;
 })();
